@@ -1,0 +1,105 @@
+{% load i18n %}
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link href="{{ MEDIA_URL }}css/main.css" rel="stylesheet" type="text/css">
+		<link href="{{ MEDIA_URL }}favicon.ico" rel="shortcut icon">
+		<title>{% block alltitle %}{% block title %}{{ title|default:"" }}{% endblock %}{% if title %} | Inkscape{% else %}Inkscape: {% trans "Draw Freely." %}{% endif %}{% endblock %}</title>
+		{% block extra-head %}{% endblock %}
+	</head>
+	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}">
+		<div class="header">
+			<div id="cleartop">
+				<div id="logo">
+					<a href="/"><img src="{% block logo-url %}{{ MEDIA_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
+					<h1><a href="/" tabindex="-1">Inkscape</a></h1>
+					<h2><a href="/" tabindex="-1">Draw Freely.</a></h2>
+				</div>
+				<div id="header-right">
+					<ul id="topdrops" class="coloured-bg">
+						<li id="languages">
+							<p>Language</p>
+							<ul class="topdrop">
+								<li class="en"><a href="/en"><span></span>English</a>
+								<li class="de"><a href="/de"><span></span>Deutsch</a>
+								<li class="fr"><a href="/fr"><span></span>Français</a>
+								<li class="it"><a href="/it"><span></span>Italiano</a>
+								<li class="es"><a href="/es"><span></span>Español</a>
+								<li class="pt"><a href="/pt"><span></span>Português</a>
+								<li class="cs"><a href="/cs"><span></span>Česky</a>
+								<li class="ru"><a href="/ru"><span></span>Россия</a>
+								<li class="ja"><a href="/ja"><span></span>日本</a>
+							</ul>
+						</li>
+						<li id="toplogin">
+						<p>{% trans "Log in / Register" %}</p>
+							<form class="topdrop">
+								<p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
+								<label for="toplogin-username">{% trans "Username" %}</label>
+								<input name="username" id="toplogin-username" type="text">
+								<label for="toplogin-password">{% trans "Password" %}</label>
+								<input name="password" id="toplogin-password" type="password">
+								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/register">{% trans "Register now." %}</a></p>
+								<input id="toplogin-submit" type="submit" value="Log in">
+								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
+								<a href="" id="toplogin-google"></a>
+								<a href="" id="toplogin-facebook"></a>
+								<a href="" id="toplogin-twitter"></a>
+								<a href="" id="toplogin-yahoo"></a>
+								<a href="" id="toplogin-live"></a>
+								<a href="" id="toplogin-wordpress"></a></p>
+							</form>
+						</li>
+					</ul>
+					<form id="topsearch">
+						<input type="text" name="q" id="topsearch-q"><input type="image" id="topsearch-button" src="{{ MEDIA_URL }}images/search-button.png" alt="Search">
+					</form>
+				</div>
+			</div>
+			<div class="nav">
+				{% block header-nav %}
+				<ul>
+					{% for item in nav %}
+					<li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
+						{% for subitem in item %}
+						<li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
+						{% endfor %}
+					</ul></li>
+					{% endfor %}
+					<li id="donate"><a href="/donate">{% trans "Donate" %}</a></li>
+				</ul>
+				{% endblock %}
+			</div>
+		</div>
+		{% block supercontent %}
+		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
+			{% block breadcrumb %}{% if breadcrumb %}
+			<p id="breadcrumb"><a href="/">Home</a>{% for i in breadcrumb.0 %} &gt; <a href="{{ i.href }}">{{ i.title }}</a>{% endfor %} &gt; <a>{{ breadcrumb.1.title }}</a></p>
+			{% endif %}{% endblock %}
+			{% block content %}
+			{% endblock %}
+		</div></div>
+		{% endblock %}
+		{% block footer %}
+		<div class="footer">
+			<div class="nav">
+				{% block footer-nav %}
+				<ul>
+					{% for item in nav %}
+					<li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
+						{% for subitem in item %}
+						<li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
+						{% endfor %}
+					</ul></li>
+					{% endfor %}
+				</ul>
+				{% endblock %}
+			</div>
+			<p>{% trans "Inkscape is Free and Open Source Software licensed under the GPL. This website was designed in Inkscape (of course.)" %}</p>
+		</div>
+		<p id="final-footer">{% blocktrans %}Website designed by <a href="http://skymaiden.com">Hinerangi Courtenay</a> and developed by <a href="http://chrismorgan.info">Chris Morgan</a>{% endblocktrans %}</p>
+		{% endblock %}
+	</body>
+</html>
+

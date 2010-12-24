@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+
+{% block alltitle %}Inkscape: Draw Freely.{% endblock %}
+
+{% block extra-head %}
+		<script>
+			function addClass(n, c) {
+				if (!n.className) n.className = c;
+				else if ((" " + n.className + " ").indexOf(" " + c + " ") < 0) n.className += " " + c;
+			}
+			
+			function removeClass(n, c) {
+				n.className = (" " + n.className + " ").replace(" " + c + " ", " ").replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+			}
+
+			function frontTabGo(e) {
+				if (!e) {
+					e = document.getElementById("summary-" + (location.hash ? location.hash : "overview").replace(/^#/, ''));
+					if (!e) return; e = e.firstChild; if (!e) return;
+				} else {
+					var x = scrollX, y = scrollY;
+					document.location = e.href;
+					window.scroll(x, y);
+				}
+				removeClass(document.getElementById("summary-" + frontTabGo.current).firstChild, 'current');
+				addClass(e, 'current');
+				frontTabGo.current = e.getAttribute('href').replace(/^#/, '');
+				return false;
+			}
+			frontTabGo.current = "overview";
+
+			window.onhashchange = window.onload = function(){frontTabGo();};
+		</script>
+{% endblock %}
+
+{% block supercontent %}
+	<!--<div id="front-banner" class="bottom left buttons-right car">-->
+	<div id="front-banner" class="top right buttons-right one-day-in-farm">
+	<!--<div id="front-banner" class="top right buttons-right light grass">-->
+		<div>
+			<p>Inkscape is a professional quality open-source vector graphics editor, which runs on Windows, Mac OS X and Linux. And it's free!</p>
+			<div>
+				<a id="front-banner-read-more" href="/about" class="button center w140 darkbg">Read more</a>
+				<div id="front-banner-download-box">
+					<a href="/download" class="button w140 center darkbg download"><span>Download</span></a>
+					<span>Latest stable release: 0.48</span>
+				</div>
+			</div>
+		</div>
+		<!--<p id="front-banner-author" class="black right"><a rel="author" href="http://freeter.deviantart.com/art/Grass-inkscape-86884997"><em>Grass</em> by freeter</a></p>-->
+		<p id="front-banner-author"><a rel="author" href="http://rebirthart.deviantart.com/art/One-Day-in-Farm-47515219"><em>One Day in Farm</em> by RebirthArt</a></p>
+	</div>
+	<ul id="summary-sections">
+		<li id="summary-overview"><a href="#overview" class="current" onclick="return frontTabGo(this)"><strong>Overview</strong><span></span>
+			What is Inkscape and how can you get it?</a></li>
+		<li id="summary-features"><a href="#features" onclick="return frontTabGo(this)"><strong>Features</strong><span></span>
+			See what Inkscape is capable of.</a></li>
+		<li id="summary-gallery"><a href="#gallery" onclick="return frontTabGo(this)"><strong>Gallery</strong><span></span>
+			Showcase of creations from the Inkscape community.</a></li>
+		<li id="summary-learning"><a href="#learning" onclick="return frontTabGo(this)"><strong>Learning Resources</strong><span></span>
+			Resources to help you get the most out of Inkscape.</a></li>
+	</ul>
+	<div id="content">
+		<div id="features">
+			<p>Here are some features.</p>
+		</div>
+		<div id="gallery">
+			<p>The image you see above was created with Inkscape.</p>
+		</div>
+		<div id="learning">
+			<p>Learn about Inkscape!</p>
+		</div>
+		<div id="overview">
+			<div class="column1">
+				<h1>Designers</h1>
+				<h2>Blah blah yadda yadda</h2>
+				<p>Pellentesque eu est a nulla placerat dignissim. Morbi a enim in magna semper binendum. Etiam scelerisqe.</p>
+				<ul class="ticks">
+					<li>odio nibh euismod nulla</li>
+					<li>eget auctor orci nibh vel nis</li>
+					<li>liquam erat volutpat</li>
+					<li>mauris vel neque sit amet nunc gravida</li>
+					<li>congue sed sit amet purus</li>
+				</ul>
+				<p>Quisque lacus quam, egestas ac tincidunt a, lacinia vel velit.</p>
+			</div>
+			<div class="column2">
+				<h1>Developers</h1>
+				<h2>Blah blah yadda yadda</h2>
+				<p>Pellentesque eu est a nulla placerat dignissim. Morbi a enim in magna semper binendum. Etiam scelerisqe, nunc ac egestas consequatodio nibh euisomod nulla, eget auctor orci nibh vel nisi. Aliquam erat volutpat.</p>
+				<ul>
+					<li><a href="">mauris vel neque</a></li>
+					<li>sit amet nunc <a href="">gravida congue</a></li>
+					<li><a href="">sed sit amet</a> purus</li>
+				</ul>
+				<p>Aenean facilisis nulla vitae urna tincidunt congue sed ut dui. Morbi malesuada nulla nec purus convallis.</p>
+			</div>
+			<div class="column3">
+				<h1>Recent News</h1>
+				<article>
+					<h2><a href="/news/inkscape-0.48-essentials-for-web-designers">Inkscape 0.48 Essentials for Web Designers</a></h2>
+					<p class="postdate">November 10, 2010</p>
+					<p>Packt Publishing have just released a new book on Inkscape by Bethany Hiitola called "Inkscape 0.48 Essentials for Web Designers".</p>
+					<p class="readmore"><a href="/news/inkscape-0.48-essentials-for-web-designers">Read more...</a></p>
+				</article>
+				<article>
+					<h2><a href="/news/0.48.1-is-delayed">0.48.1 is delayed</a></h2>
+					<p class="postdate">November 5, 2010</p>
+					<p>As you probably have already noticed, release of the first planned point release is delayed. The reason behind this is...</p>
+					<p class="readmore"><a href="/news/0.48.1-is-delayed">Read more...</a></p>
+				</article>
+				<p><a href="/news">More news</a></p>
+			</div>
+			<br>
+		</div>
+		<br>
+	</div>
+{% endblock %}

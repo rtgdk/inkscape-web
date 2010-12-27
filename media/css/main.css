@@ -133,6 +133,7 @@ video {
 #logo img {
   float: left;
   margin: 0;
+  border: 0;
 }
 #logo a:link, #logo a:visited {
   color: #000000;

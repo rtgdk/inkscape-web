@@ -795,6 +795,13 @@ a.button.lighter {
   font-size: 16px;
 }
 
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/main\.scss}line{font-family:\00003717}}
+#page-fake-404 #credits {
+  margin: 4em 0 0;
+  text-align: right;
+  font-style: italic;
+}
+
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/_front\.scss}line{font-family:\000032}}
 #page-front #front-banner {
   margin: 0;

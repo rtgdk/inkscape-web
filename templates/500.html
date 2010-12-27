@@ -1,7 +1,11 @@
 {% extends "base.html" %}
-{% block title %}You broke it!{% endblock %}
+{% load i18n %}
+{% block alltitle %}{% trans "You broke it!" %}{% endblock %}
+{% block logo-url %}{{ MEDIA_URL }}images/linked-image-not-found.png{% endblock %}
 {% block body-pageid %}500{% endblock %}
 {% block content %}
+{% blocktrans %}
 <h1>Ouch!</h1>
-<p>You broke our website! Please email <a href="mailto:me@chrismorgan.info">Chris Morgan (me@chrismorgan.info)</a> and we'll see about fixing it.</p>
+<p>You broke our website! Please email <a href="mailto:me@chrismorgan.info?title=I+broke+the+Inkscape+website">Chris Morgan (me@chrismorgan.info)</a> and we'll see about fixing it.</p>
+{% endblocktrans %}
 {% endblock %}

@@ -1,8 +1,11 @@
 {% extends "base.html" %}
-{% block title %}Try again{% endblock %}
+{% load i18n %}
+{% block title %}{% trans "Try again" %}{% endblock %}
 {% block body-pageid %}fake-404{% endblock %}
 {% block content %}
+{% blocktrans %}
 <h1>You'll have to try harder than that.</h1>
 <p>This was too obvious as a target for a 404. There's no 404 for you at this URL.</p>
-<p style="margin: 4em 0 3em 0; text-align: right; font-style: italic">(This fake 404 page is courtesy of <a href="http://chrismorgan.info">Chris Morgan</a>.)</p>
+<p id="credits">(This fake 404 page is courtesy of <a href="http://chrismorgan.info">Chris Morgan</a>.)</p>
+{% endblocktrans %}
 {% endblock %}

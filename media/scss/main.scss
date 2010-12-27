@@ -714,6 +714,12 @@ a.button {
 	}
 }
 
+#page-fake-404 #credits {
+	margin: 4em 0 0;
+	text-align: right;
+	font-style: italic;
+}
+
 @import 'front';
 @import 'download';
 @import 'features';

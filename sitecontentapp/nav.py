@@ -30,15 +30,15 @@ class root(object):
 
 nav = (
         root('About',                    '/about/', (
-            leaf('Overview',             '/about/overview'),
+            leaf('Overview',             '/about/'),
             leaf('Features',             '/about/features'),
             leaf('Screenshots',          '/screenshots'),
             leaf('Gallery',              '/gallery'),
             leaf('FAQ',                  '/faq'),
             leaf('User testimonials',    '/about/testimonials'),
             )),
-        root('Download',                 '/download', (
-            leaf('Official releases',    '/download'),
+        root('Download',                 '/download/', (
+            leaf('Official releases',    '/download/'),
             leaf('Development versions', '/download/development'),
             leaf('Add-ons',              '/download/addons'),
             leaf('Clip art',             '/download/clipart'),
@@ -58,9 +58,10 @@ nav = (
             #leaf('Filters',              '/resources/filters'),
             #)),
         root('Community',                '/community/', (
-            leaf('Get Involved',         '/community/forums'),
-            leaf('Connect',              '/community/mailing-list'),
-            leaf('Help & support',     '/community/discussion'),
+            leaf('Get Involved',         '/community/get-involved'),
+            leaf('Connect',              '/community/connect'),
+            leaf('Mailing lists',        '/community/mailing-list'),
+            leaf('Help & support',       '/community/help'),
             leaf('Donate',               '/donate'),
             )),
         root('Developers',               '/developers/', (
@@ -83,7 +84,7 @@ def NavigationContextProcessor(request):
     url = request.META['PATH_INFO']
     return {'breadcrumb': get_breadcrumb(url),
             'nav': [r.maybe_current(url) for r in nav],
-            'PAGE_ID': url[1:].replace('/', '-') or 'front'}
+            'PAGE_ID': url[1:].replace('/', '-').rstrip('-') or 'front'}
 
 def get_breadcrumb(url):
     for item in nav:

@@ -91,11 +91,16 @@ ul {
 }
 
 #content {
-	padding: 20px;
+	padding: 20px 20px 50px;
 	background-color: white;
 	background-image: -moz-linear-gradient(top, #eeeeee, white 100px);
 	background-image: -webkit-gradient(linear, left top, left 100, from(#eeeeee), to(white));
-	line-height: 18px;
+	line-height: 20px;
+	.summary {
+		font-size: 14px;
+		line-height: 24px;
+		margin-bottom: 40px;
+	}
 	> div.wrapper {
 		margin: -20px;
 		padding: 20px;
@@ -144,6 +149,10 @@ article {
 		font-size: 10px;
 		color: #4f4f4f;
 	}
+}
+
+video {
+	margin-bottom: 30px;
 }
 
 // Header
@@ -658,40 +667,28 @@ a.button {
 			padding: 10px 40px 10px 10px;
 			margin: -10px -10px;
 		}
-		&.w140 span {
-			background-position: 104px 50%;
-		}
-		&.w210 span {
-			background-position: 174px 50%;
-		}
+		&.w140 span { background-position: 104px 50%; }
+		&.w160 span { background-position: 124px 50%; }
+		&.w210 span { background-position: 174px 50%; }
 	}
-	&.darkbg {
-		border-color: #666666;
-	}
-	&.center {
-		text-align: center;
-	}
-	&.left {
-		text-align: left;
-	}
-	&.w140 {
-		width: 114px;
-	}
-	&.w210 {
-		width: 184px;
-	}
-	&.glow {
-		box-shadow: 0 0 10px #333333;
-	}
-	&.lighter {
-		color: #666666;
-	}
+	&.darkbg { border-color: #666666; }
+	&.center { text-align: center; }
+	&.left   { text-align: left; }
+	&.w140 { width: 114px; }
+	&.w160 { width: 134px; }
+	&.w210 { width: 184px; }
+	&.glow { box-shadow: 0 0 10px #333333; }
+	&.lighter { color: #666666; }
 }
 
+.download-box {
+	text-align: center;
+	&.w160 { width: 160px; }
+	> span { font-size: 11px; }
+}
 
 .with-short-right-sidebar > div.wrapper {
-	// 920-240-6
-	background: url(../images/soft-sidebar-sep.png) transparent 714px 50px no-repeat;
+	background: url(../images/soft-sidebar-sep.png) transparent (960px - 240px - 6px) 70px no-repeat;
 }
 
 #left-column {
@@ -708,7 +705,15 @@ a.button {
 		// Reduce the space before the bullet by another 10px (to almost no space)
 		padding-left: 20px;
 	}
+	.download-box {
+		margin: 20px 0 40px;
+	}
+	h2 {
+		color: $text-colour;
+		font-size: 16px;
+	}
 }
 
 @import 'front';
 @import 'download';
+@import 'features';

@@ -1,0 +1,8 @@
+{% extends "base.html" %}
+{% block contentclasses %} class="with-short-right-sidebar"{% endblock %}
+{% block content %}
+<h1>{% block pagetitle %}{% endblock %}</h1>
+<div id="left-column">{% block left-column %}{% endblock %}</div>
+<div id="right-sidebar">{% block right-sidebar %}{% endblock %}</div>
+<br class="clearer">
+{% endblock %}

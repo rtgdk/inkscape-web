@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block alltitle %}Donate to Inkscape{% endblock %}
+{% block content %}
+<h1>Donate to Inkscape</h1>
+
+<p>The Inkscape Fund is a way to show appreciation to Inkscape developers, and is used for supporting Inkscape in various ways, most particularly to help defray costs of gathering Inkscape developers at important conferences such as <em>Libre Graphics Convention</em> or <em>SCALE</em> that they would not otherwise be able to attend.</p>
+
+<h2>Inkscape Project Donation via Software Freedom Conservancy</h2>
+
+<p>The Inkscape Fund is currently managed by the <a href="http://conservancy.softwarefreedom.org/">Software Freedom Conservancy</a>, Inc., a 501(c)(3) non-profit. All donations made through it are fully tax-deductible to the extent permitted by law. If you have any questions or are otherwise in need of assistance, please visit the SFC site.</p>
+
+<script type="text/javascript">
+	function validateAmount(amount) {
+		if (amount.value.match(/^[0-9]+(\.[0-9]+)?$/)) {
+			return true;
+		} else {
+			alert('You must enter a valid donation.');
+			amount.focus();
+			return false;
+		}
+	}
+</script>
+
+<form action="https://checkout.google.com/cws/v2/Donations/622836985124940/checkoutForm"
+      id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm"
+      onsubmit="return validateAmount(this.item_price_1)">
+	<input name="item_name_1" type="hidden" value="Inkscape Project Donation via Software Freedom Conservancy"/>
+	<input name="item_description_1" type="hidden" value="This donation is to the Software Freedom Conservancy, Inc., a 501(c)(3) non-profit, and will be earmarked for use for the Inkscape Project of the Conservancy."/>
+	<input name="item_quantity_1" type="hidden" value="1"/>
+	<input name="item_currency_1" type="hidden" value="USD"/>
+	<input name="item_is_modifiable_1" type="hidden" value="true"/>
+	<input name="item_min_price_1" type="hidden" value="5.0"/>
+	<input name="item_max_price_1" type="hidden" value="25000.0"/>
+	<input name="_charset_" type="hidden" value="utf-8"/>
+	<table cellpadding="5" cellspacing="0" width="100%">
+		<tr>
+			<td align="right" nowrap="nowrap" width="1%">&#x24; <input id="item_price_1" name="item_price_1" onfocus="this.style.color='black';this.value='';" size="11" style="color:grey;" type="text" value="Enter Amount"/>
+			</td>
+			<td align="left" width="1%">
+				<input alt="Donate" src="https://checkout.google.com/buttons/donateNow.gif?merchant_id=622836985124940&amp;w=115&amp;h=50&amp;style=white&amp;variant=text&amp;loc=en_US" type="image"/>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<p>You can also send cash, cheque or international money order in US funds to:</p>
+
+<p>Inkscape Project<br>
+Software Freedom Conservancy<br>
+1995 Broadway FL 17<br>
+New York, NY 10023-5882</p>
+{% endblock %}

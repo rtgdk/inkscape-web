@@ -712,6 +712,9 @@ a.button {
 		color: $text-colour;
 		font-size: 16px;
 	}
+	> h2:first-child {
+		margin-top: 0;
+	}
 }
 
 #page-fake-404 #credits {

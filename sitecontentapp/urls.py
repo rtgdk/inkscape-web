@@ -11,14 +11,12 @@ def redirect(from_, to):
 
 
 urlpatterns += patterns('django.views.generic.simple',
-    # Possibly common mistakes
-    redirect(r'^downloads/?$',      '/download/'),
-    redirect(r'^downloads/$',       '/download/'),
-    redirect(r'^download$',         '/download/'),
+    # Nice
+    redirect(r'^downloads/$',      '/download/'),
+    redirect(r'^about/overview/$', '/about/'),
 
     # Legacy
     redirect(r'^download.php$',     '/download/'),
-    redirect(r'^about/overview/?$', '/about'),
     redirect(r'^doc/inkscape-man.html$',
         'http://inkscape.modevia.com/inkscape-man.html'),
     redirect(r'^planet/?$',          'http://planet.inkscape.org/'),
@@ -28,5 +26,5 @@ urlpatterns += patterns('django.views.generic.simple',
 )
 
 urlpatterns += patterns('',
-    (r'(?P<url>.*)', 'sitecontentapp.views.load_page'),
+    (r'(?P<url>.*)/$', 'sitecontentapp.views.load_page'),
 )

@@ -25,9 +25,9 @@ if settings.DEBUG:
     del _media_url, serve
 
     urlpatterns += patterns('django.views.generic.simple',
-            (r'^errors/403', 'direct_to_template', {'template': '403.html'}),
-            (r'^errors/404', 'direct_to_template', {'template': '404.html'}),
-            (r'^errors/500', 'direct_to_template', {'template': '500.html'}))
+            (r'^errors/403/', 'direct_to_template', {'template': '403.html'}),
+            (r'^errors/404/', 'direct_to_template', {'template': '404.html'}),
+            (r'^errors/500/', 'direct_to_template', {'template': '500.html'}))
 
 
 urlpatterns += patterns('',

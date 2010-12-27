@@ -794,8 +794,12 @@ a.button.lighter {
   color: #333333;
   font-size: 16px;
 }
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/main\.scss}line{font-family:\00003715}}
+#right-sidebar > h2:first-child {
+  margin-top: 0;
+}
 
-@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/main\.scss}line{font-family:\00003717}}
+@media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/main\.scss}line{font-family:\00003720}}
 #page-fake-404 #credits {
   margin: 4em 0 0;
   text-align: right;
@@ -1108,7 +1112,7 @@ a.button.lighter {
 @media -sass-debug-info{filename{font-family:file\:\/\/\/home\/chris\/vc\/inkscape\/djink\/inkscape\/media\/scss\/_features\.scss}line{font-family:\000032}}
 #page-about-features h3 {
   font-size: 12px;
-  margin: 10px 0 0;
+  margin: 15px 0 0;
   font-weight: bold;
   color: #333333;
 }

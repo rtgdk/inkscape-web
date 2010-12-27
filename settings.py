@@ -102,6 +102,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'inkscape.urls'
 
+APPEND_TRAILING_SLASH = True
+
 TEMPLATE_DIRS = (
     os.path.join(os.path.dirname(__file__), 'templates').replace('\\', '/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".

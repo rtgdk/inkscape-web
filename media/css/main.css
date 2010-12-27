@@ -936,6 +936,9 @@ a.button.lighter {
 #page-about-features #notable-features-container div.last {
   margin-right: 0;
 }
+#page-about-features #notable-features-container h3 {
+  margin-top: 2px;
+}
 #page-about-features #more-things-container {
   clear: left;
   padding-top: 20px;

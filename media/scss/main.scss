@@ -126,10 +126,11 @@ ul {
 }
 
 .readmore {
-	margin-top: -8px;
+	margin-top: -10px;
 	// 0 does nothing, bite into the previous paragraph's surplus margin.
 	text-align: right;
-	font-size: 10px;
+	font-size: 11px;
+	line-height: 11px;
 }
 
 #breadcrumb {
@@ -146,8 +147,8 @@ article {
 	}
 	.postdate {
 		margin-top: 0;
-		font-size: 10px;
-		color: #4f4f4f;
+		font-size: 11px;
+		color: #666666;
 	}
 }
 
@@ -176,6 +177,9 @@ video {
 	border-right: 0 none;
 	padding: 4px;
 	font-size: 12px;
+	text-indent: 6px;
+	background-image: none;
+	box-shadow: inset 0 0 1px #999999;
 }
 
 #logo {
@@ -517,7 +521,7 @@ input {
 			position: absolute;
 			top: 52px;
 			left: 0;
-			box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+			box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
 			border-top: 1px solid $menu-sub-border-top;
 			a {
 				font-size: 13px;

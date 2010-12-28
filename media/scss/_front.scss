@@ -1,7 +1,7 @@
 #page-front {
 	#front-banner {
 		margin: 0;
-		height: 300px + 70px;
+		height: 300px + 65px;
 		background-color: #808080;
 		border-bottom: 1px solid black;
 		background-repeat: no-repeat;
@@ -76,7 +76,7 @@
 			display: block;
 			padding: 3px 25px 2px;
 			font-size: 12px;
-			line-height: 15px;
+			line-height: 0; //15px;
 			&.right {
 				text-align: right;
 			}
@@ -133,7 +133,7 @@
 			font-size: 17px;
 			font-weight: normal;
 			display: block;
-			margin: 0 0 10px -45px;
+			margin: 0 0 14px -45px;
 		}
 
 		#summary-overview {
@@ -171,25 +171,39 @@
 		> br {
 			clear: both;
 		}
-		.column1 {
-			float: left;
-			width: 286px;
+		$width: 920px;
+		$padding: 12px; // padding between column and line
+		$col12-width: 210px;
+		$col3-width: $width - 2 * $col12-width - 4 * $padding - 2; // the 2 is border
+
+		.column1, .column2, .column3 { float: left; height: 360px; }
+		.column1 { padding: 0 $padding 0 0; }
+		.column2 { padding: 0 $padding; }
+		.column3 { padding: 0 0 0 $padding; }
+		.column1, .column2 {
+			width: $col12-width;
+			border-right: 1px solid #b3b3b3; 
+			//width: 286px;
 		}
-		.column2, .column3 {
-			float: left;
-			margin-left: 30px;
-			width: 286px;
-		}
+		.column3 { width: $col3-width; }
+
 		h1 {
 			font-family: $fonts-normal;
 			background-color: $front-block-header-bg; //$colours-1;
 			border-radius: 4px;
 			-moz-border-radius: 4px;
-			font-size: 16px;
-			line-height: 16px;
-			padding: 10px;
+			font-size: 18px;
+			line-height: 18px;
+			padding: 11px 12px;
 			color: $front-block-header-text;
-			font-weight: bold;
+			//font-weight: bold;
+			margin-top: 0;
+			a {
+				display: block;
+				margin: -11px -12px;
+				padding: 11px 12px;
+				color: inherit;
+			}
 		}
 		h2 {
 			color: $link-dark;

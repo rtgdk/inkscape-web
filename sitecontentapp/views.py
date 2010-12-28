@@ -21,7 +21,8 @@ def front_page(request):
 
 def load_page(request, url):
     try:
-        full_path = safe_join(os.path.abspath(settings.CONTENT_PATH), url)
+        full_path = safe_join(os.path.abspath(os.path.join(
+            settings.CONTENT_PATH, request.LANGUAGE_CODE)), url)
     except ValueError:  # They've tried something like ../
         return HttpResponseBadRequest("No cheating.")
 

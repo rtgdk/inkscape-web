@@ -91,10 +91,10 @@ ul.ticks li, ul li.tick {
   margin: 0 4px;
 }
 
-article h2 {
+div.article h2 {
   margin-bottom: 0;
 }
-article .postdate {
+div.article .postdate {
   margin-top: 0;
   font-size: 11px;
   color: #666666;

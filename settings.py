@@ -131,3 +131,10 @@ RST_SETTINGS_OVERRIDES = {
 }
 
 CONTENT_PATH = os.path.join(os.path.dirname(__file__), 'content')
+
+HOST_ROOT = 'djink.chrismorgan.info'
+
+try:
+    from local_settings import *
+except ImportError:
+    pass

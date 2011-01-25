@@ -1,4 +1,5 @@
 {% load i18n %}
+{% load inkscape_i18n %}
 <!DOCTYPE html>
 <html lang="en">
 	<head>
@@ -21,15 +22,15 @@
 						<li id="languages">
 							<p>Language</p>
 							<ul class="topdrop">
-								<li class="en"><a href="/en"><span></span>English</a>
-								<li class="de"><a href="/de"><span></span>Deutsch</a>
-								<li class="fr"><a href="/fr"><span></span>Français</a>
-								<li class="it"><a href="/it"><span></span>Italiano</a>
-								<li class="es"><a href="/es"><span></span>Español</a>
-								<li class="pt"><a href="/pt"><span></span>Português</a>
-								<li class="cs"><a href="/cs"><span></span>Česky</a>
-								<li class="ru"><a href="/ru"><span></span>Русский</a>
-								<li class="ja"><a href="/ja"><span></span>日本</a>
+								<li class="en"><a href="{% langurl 'en' %}"><span></span>English</a>
+								<li class="de"><a href="{% langurl 'de' %}"><span></span>Deutsch</a>
+								<li class="fr"><a href="{% langurl 'fr' %}"><span></span>Français</a>
+								<li class="it"><a href="{% langurl 'it' %}"><span></span>Italiano</a>
+								<li class="es"><a href="{% langurl 'es' %}"><span></span>Español</a>
+								<li class="pt"><a href="{% langurl 'pt' %}"><span></span>Português</a>
+								<li class="cs"><a href="{% langurl 'cs' %}"><span></span>Česky</a>
+								<li class="ru"><a href="{% langurl 'ru' %}"><span></span>Русский</a>
+								<li class="ja"><a href="{% langurl 'ja' %}"><span></span>日本</a>
 							</ul>
 						</li>
 						<li id="toplogin">

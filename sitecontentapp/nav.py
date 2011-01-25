@@ -80,7 +80,7 @@ nav = (
         )
 
 
-def NavigationContextProcessor(request):
+def navigation_context_processor(request):
     url = request.META['PATH_INFO']
     return {'breadcrumb': get_breadcrumb(url),
             'nav': [r.maybe_current(url) for r in nav],

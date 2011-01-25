@@ -1,4 +1,5 @@
 # Django settings for inkscape project.
+from django.conf import global_settings
 import os
 
 _ = lambda s: s
@@ -82,20 +83,16 @@ TEMPLATE_LOADERS = (
 #     'django.template.loaders.eggs.Loader',
 )
 
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    #1.3-dev: "django.core.context_processors.static",
-    "django.contrib.messages.context_processors.messages",
-    'inkscape.sitecontentapp.nav.NavigationContextProcessor',
+TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'inkscape.sitecontentapp.nav.navigation_context_processor',
+    'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.locale.LocaleMiddleware',
+    'inkscape.i18n.LocaleSubdomainMiddleware',
+    #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
@@ -122,6 +119,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
+    'inkscape.i18n',
 )
 
 RST_SETTINGS_OVERRIDES = {
@@ -133,6 +131,15 @@ RST_SETTINGS_OVERRIDES = {
 CONTENT_PATH = os.path.join(os.path.dirname(__file__), 'content')
 
 HOST_ROOT = 'djink.chrismorgan.info'
+
+# Development users: add www.localhost, en.localhost, de.localhost, etc. to
+# your system's HOSTS file and create local_settings.py next to this file with
+# this line in it::
+#
+#     HOST_ROOT = 'localhost:8000'
+#
+# Then i18n should magically start working. If you don't do this, you'll be
+# stuck in English, but it will work.
 
 try:
     from local_settings import *

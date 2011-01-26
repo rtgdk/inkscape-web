@@ -91,6 +91,46 @@ ul.ticks li, ul li.tick {
   margin: 0 4px;
 }
 
+.messages {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+.messages .success {
+  border: 1px solid #77dd77;
+  -moz-box-shadow: 0 0 5px #77dd77;
+  box-shadow: 0 0 5px #77dd77;
+  background-color: #ccffcc;
+  color: #002200;
+}
+.messages .info, .messages .debug {
+  border: 1px solid #dddd77;
+  -moz-box-shadow: 0 0 5px #dddd77;
+  box-shadow: 0 0 5px #dddd77;
+  background-color: #ffffcc;
+  color: #220000;
+}
+.messages .warning {
+  border: 1px solid #ddaa77;
+  -moz-box-shadow: 0 0 5px #ddaa77;
+  box-shadow: 0 0 5px #ddaa77;
+  background-color: #ffe5cc;
+  color: #221100;
+}
+.messages .error {
+  border: 1px solid #dd7777;
+  -moz-box-shadow: 0 0 5px #dd7777;
+  box-shadow: 0 0 5px #dd7777;
+  background-color: #ffcccc;
+  color: #220000;
+}
+.messages li {
+  padding: 6px;
+  margin: 8px 0;
+  -moz-border-radius: 5px;
+  border-radius: 5px;
+}
+
 div.article h2 {
   margin-bottom: 0;
 }

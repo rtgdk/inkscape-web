@@ -78,6 +78,11 @@
 			{% block breadcrumb %}{% if breadcrumb %}
 			<p id="breadcrumb"><a href="/">Home</a>{% for i in breadcrumb.0 %} &gt; <a href="{{ i.href }}">{{ i.title }}</a>{% endfor %} &gt; <a>{{ breadcrumb.1.title }}</a></p>
 			{% endif %}{% endblock %}
+			{% block messages %}{% if messages %}
+			<ul class="messages">{% for message in messages %}
+				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+			{% endfor %}</ul>
+			{% endif %}{% endblock %}
 			{% block content %}
 			{% endblock %}
 		</div></div>

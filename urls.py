@@ -31,5 +31,5 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    (r'', include('inkscape.sitecontentapp.urls')),
+    (r'', include('inkscape.apps.content.urls')),
 )

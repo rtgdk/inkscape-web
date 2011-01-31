@@ -84,7 +84,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'inkscape.sitecontentapp.nav.navigation_context_processor',
+    'inkscape.nav.navigation_context_processor',
     'django.core.context_processors.request',
 )
 

@@ -1,4 +1,5 @@
 from django.conf.urls.defaults import *
+from .views import load_page
 
 urlpatterns = patterns('django.views.generic.simple',
     (r'^$',         'direct_to_template', {'template': 'front.html'}),
@@ -26,5 +27,5 @@ urlpatterns += patterns('django.views.generic.simple',
 )
 
 urlpatterns += patterns('',
-    (r'(?P<url>.*)/$', 'sitecontentapp.views.load_page'),
+    (r'(?P<url>.*)/$', load_page),
 )

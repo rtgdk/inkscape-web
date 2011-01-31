@@ -1,4 +1,7 @@
 """Site navigation rules."""
+from django.utils.translation import ugettext_lazy as _
+
+
 class leaf(object):
     __slots__ = ('title', 'href')
 
@@ -29,53 +32,53 @@ class root(object):
 
 
 nav = (
-        root('About',                    '/about/', (
-            leaf('Overview',             '/about/'),
-            leaf('Features',             '/about/features/'),
-            leaf('Screenshots',          '/screenshots/'),
-            leaf('Gallery',              '/gallery/'),
-            leaf('FAQ',                  '/faq/'),
-            leaf('User testimonials',    '/about/testimonials/'),
+        root(_('About'),                    '/about/', (
+            leaf(_('Overview'),             '/about/'),
+            leaf(_('Features'),             '/about/features/'),
+            leaf(_('Screenshots'),          '/screenshots/'),
+            leaf(_('Gallery'),              '/gallery/'),
+            leaf(_('FAQ'),                  '/faq/'),
+            leaf(_('User testimonials'),    '/about/testimonials/'),
             )),
-        root('Download',                 '/download/', (
-            leaf('Official releases',    '/download/'),
-            leaf('Development versions', '/download/development/'),
-            leaf('Add-ons',              '/download/addons/'),
-            leaf('Clip art',             '/download/clipart/'),
+        root(_('Download'),                 '/download/', (
+            leaf(_('Official releases'),    '/download/'),
+            leaf(_('Development versions'), '/download/development/'),
+            leaf(_('Add-ons'),              '/download/addons/'),
+            leaf(_('Clip art'),             '/download/clipart/'),
             )),
-        root('Learn',                    '/learn/', (
-            leaf('User documentation',   '/learn/documentation/'),
-            leaf('Books',                '/learn/books/'),
-            leaf('Tutorials',            '/learn/tutorials/'),
-            leaf('Manuals',              '/learn/manuals/'),
-            leaf('Wiki',                 '/learn/wiki/'),
+        root(_('Learn'),                    '/learn/', (
+            leaf(_('User documentation'),   '/learn/documentation/'),
+            leaf(_('Books'),                '/learn/books/'),
+            leaf(_('Tutorials'),            '/learn/tutorials/'),
+            leaf(_('Manuals'),              '/learn/manuals/'),
+            leaf(_('Wiki'),                 '/learn/wiki/'),
             )),
         # Resources isn't ready yet.
-        #root('Resources',                '/resources/', (
-            #leaf('Extensions',           '/resources/extensions'),
-            #leaf('Palettes',             '/resources/palettes'),
-            #leaf('Templates',            '/resources/templates'),
-            #leaf('Filters',              '/resources/filters'),
+        #root(_('Resources'),                '/resources/', (
+            #leaf(_('Extensions'),           '/resources/extensions'),
+            #leaf(_('Palettes'),             '/resources/palettes'),
+            #leaf(_('Templates'),            '/resources/templates'),
+            #leaf(_('Filters'),              '/resources/filters'),
             #)),
-        root('Community',                '/community/', (
-            leaf('Get Involved',         '/community/get-involved/'),
-            leaf('Connect',              '/community/connect/'),
-            leaf('Mailing lists',        '/community/mailing-list/'),
-            leaf('Help & support',       '/community/help/'),
-            leaf('Donate',               '/donate/'),
+        root(_('Community'),                '/community/', (
+            leaf(_('Get Involved'),         '/community/get-involved/'),
+            leaf(_('Connect'),              '/community/connect/'),
+            leaf(_('Mailing lists'),        '/community/mailing-list/'),
+            leaf(_('Help & support'),       '/community/help/'),
+            leaf(_('Donate'),               '/donate/'),
             )),
-        root('Developers',               '/developers/', (
-            leaf('Developer docs',       '/developers/docs/'),
-            leaf('Launchpad',            'http://launchpad.net/inkscape'),
-            leaf('Roadmap',              '/developers/roadmap/'),
-            leaf('Bazaar',               '/developers/bazaar/'),
-            leaf('Source code',          '/developers/code/'),
+        root(_('Developers'),               '/developers/', (
+            leaf(_('Developer docs'),       '/developers/docs/'),
+            leaf(_('Launchpad'),            'http://launchpad.net/inkscape'),
+            leaf(_('Roadmap'),              '/developers/roadmap/'),
+            leaf(_('Bazaar'),               '/developers/bazaar/'),
+            leaf(_('Source code'),          '/developers/code/'),
             )),
-        root('News',                     '/news/', (
-            leaf('Releases',             '/news/releases/'),
-            leaf('Contests',             '/news/contests/'),
-            leaf('Events',               '/news/events/'),
-            leaf('Press',                '/news/press/'),
+        root(_('News'),                     '/news/', (
+            leaf(_('Releases'),             '/news/releases/'),
+            leaf(_('Contests'),             '/news/contests/'),
+            leaf(_('Events'),               '/news/events/'),
+            leaf(_('Press'),                '/news/press/'),
             )),
         )
 
@@ -86,10 +89,11 @@ def navigation_context_processor(request):
             'nav': [r.maybe_current(url) for r in nav],
             'PAGE_ID': url[1:].replace('/', '-').rstrip('-') or 'front'}
 
+
 def get_breadcrumb(url):
     for item in nav:
         if item.href == url:
-            return ((),item)
+            return ((), item)
         for subitem in item:
             if subitem.href == url:
                 return ((item,), subitem)

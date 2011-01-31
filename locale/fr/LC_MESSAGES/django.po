@@ -1,0 +1,306 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2011-01-31 05:04-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=n>1;\n"
+
+#: nav.py:35
+msgid "About"
+msgstr ""
+
+#: nav.py:36
+msgid "Overview"
+msgstr ""
+
+#: nav.py:37
+msgid "Features"
+msgstr ""
+
+#: nav.py:38
+msgid "Screenshots"
+msgstr ""
+
+#: nav.py:39
+msgid "Gallery"
+msgstr ""
+
+#: nav.py:40
+msgid "FAQ"
+msgstr ""
+
+#: nav.py:41
+msgid "User testimonials"
+msgstr ""
+
+#: nav.py:43
+msgid "Download"
+msgstr ""
+
+#: nav.py:44
+msgid "Official releases"
+msgstr ""
+
+#: nav.py:45
+msgid "Development versions"
+msgstr ""
+
+#: nav.py:46
+msgid "Add-ons"
+msgstr ""
+
+#: nav.py:47
+msgid "Clip art"
+msgstr ""
+
+#: nav.py:49
+msgid "Learn"
+msgstr ""
+
+#: nav.py:50
+msgid "User documentation"
+msgstr ""
+
+#: nav.py:51
+msgid "Books"
+msgstr ""
+
+#: nav.py:52
+msgid "Tutorials"
+msgstr ""
+
+#: nav.py:53
+msgid "Manuals"
+msgstr ""
+
+#: nav.py:54
+msgid "Wiki"
+msgstr ""
+
+#: nav.py:63
+msgid "Community"
+msgstr ""
+
+#: nav.py:64
+msgid "Get Involved"
+msgstr ""
+
+#: nav.py:65
+msgid "Connect"
+msgstr ""
+
+#: nav.py:66
+msgid "Mailing lists"
+msgstr ""
+
+#: nav.py:67
+msgid "Help & support"
+msgstr ""
+
+#: nav.py:68 templates/base.html:71
+msgid "Donate"
+msgstr ""
+
+#: nav.py:70
+msgid "Developers"
+msgstr ""
+
+#: nav.py:71
+msgid "Developer docs"
+msgstr ""
+
+#: nav.py:72
+msgid "Launchpad"
+msgstr ""
+
+#: nav.py:73
+msgid "Roadmap"
+msgstr ""
+
+#: nav.py:74
+msgid "Bazaar"
+msgstr ""
+
+#: nav.py:75
+msgid "Source code"
+msgstr ""
+
+#: nav.py:77
+msgid "News"
+msgstr ""
+
+#: nav.py:78
+msgid "Releases"
+msgstr ""
+
+#: nav.py:79
+msgid "Contests"
+msgstr ""
+
+#: nav.py:80
+msgid "Events"
+msgstr ""
+
+#: nav.py:81
+msgid "Press"
+msgstr ""
+
+#: settings.py:41
+msgid "English"
+msgstr ""
+
+#: settings.py:42
+msgid "German"
+msgstr ""
+
+#: settings.py:43
+msgid "French"
+msgstr ""
+
+#: settings.py:44
+msgid "Italian"
+msgstr ""
+
+#: settings.py:45
+msgid "Spanish"
+msgstr ""
+
+#: settings.py:46
+msgid "Portuguese"
+msgstr ""
+
+#: settings.py:47
+msgid "Czech"
+msgstr ""
+
+#: settings.py:48
+msgid "Russian"
+msgstr ""
+
+#: settings.py:49
+msgid "Japanese"
+msgstr ""
+
+#: apps/content/views.py:29
+msgid ""
+"This page is not available in English. Here is the English version of this "
+"page. If you would like to help with translating this website, please <a "
+"href=\"\">contact us</a>."
+msgstr ""
+
+#: templates/403.html:3
+msgid "Forbidden"
+msgstr ""
+
+#: templates/403.html:6
+msgid ""
+"\n"
+"<h1>Sorry, you're not allowed to see this.</h1>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything "
+"you like in the Inkscape website. You can't view the contents of this page, "
+"for example.</p>\n"
+msgstr ""
+
+#: templates/404.html:3
+msgid "Not found"
+msgstr ""
+
+#: templates/404.html:7
+msgid ""
+"\n"
+"<h1>Page not found</h1>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future "
+"we might have a funny image here for you to look at but at the moment it's "
+"just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to "
+"work before we made this shiny new website, please tell us and we'll fix it "
+"up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see "
+"what the 404 page looked like. I hope you're satisfied.</p>\n"
+msgstr ""
+
+#: templates/500.html:3
+msgid "You broke it!"
+msgstr ""
+
+#: templates/500.html:7
+msgid ""
+"\n"
+"<h1>Ouch!</h1>\n"
+"<p>You broke our website! Please email <a href=\"mailto:me@chrismorgan.info?"
+"title=I+broke+the+Inkscape+website\">Chris Morgan (me@chrismorgan.info)</a> "
+"and we'll see about fixing it.</p>\n"
+msgstr ""
+
+#: templates/base.html:9
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:37
+msgid "Log in / Register"
+msgstr ""
+
+#: templates/base.html:39
+msgid "Already a member? Log in below."
+msgstr ""
+
+#: templates/base.html:40
+msgid "Username"
+msgstr ""
+
+#: templates/base.html:42
+msgid "Password"
+msgstr ""
+
+#: templates/base.html:44
+msgid "Not a member?"
+msgstr ""
+
+#: templates/base.html:44
+msgid "Register now."
+msgstr ""
+
+#: templates/base.html:46
+msgid "Or log in with"
+msgstr ""
+
+#: templates/base.html:105
+msgid ""
+"Inkscape is Free and Open Source Software licensed under the GPL. This "
+"website was designed in Inkscape (of course.)"
+msgstr ""
+
+#: templates/base.html:107
+msgid ""
+"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"and developed by <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
+msgstr ""
+
+#: templates/fake-404.html:3
+msgid "Try again"
+msgstr ""
+
+#: templates/fake-404.html:6
+msgid ""
+"\n"
+"<h1>You'll have to try harder than that.</h1>\n"
+"<p>This was too obvious as a target for a 404. There's no 404 for you at "
+"this URL.</p>\n"
+"<p id=\"credits\">(This fake 404 page is courtesy of <a href=\"http://"
+"chrismorgan.info\">Chris Morgan</a>.)</p>\n"
+msgstr ""

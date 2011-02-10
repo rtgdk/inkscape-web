@@ -48,6 +48,7 @@ ul.ticks li, ul li.tick {
   background-image: -moz-linear-gradient(top, #eeeeee, white 100px);
   background-image: -webkit-gradient(linear, left top, left 100, from(#eeeeee), to(white));
   line-height: 20px;
+  min-height: 500px;
 }
 #content .summary {
   font-size: 14px;
@@ -57,12 +58,14 @@ ul.ticks li, ul li.tick {
 #content > div.wrapper {
   margin: -20px;
   padding: 20px;
+  min-height: 500px;
 }
 #content h1 {
   font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
   font-size: 28px;
   line-height: 35px;
   font-weight: normal;
+  margin: 18px 0;
 }
 #content h2 {
   color: #000000;
@@ -453,6 +456,8 @@ input[type=submit], input[type=button] {
   height: 52px;
   clear: both;
   text-align: right;
+  z-index: 5;
+  position: relative;
 }
 .header .nav > ul {
   margin: 0;
@@ -484,14 +489,18 @@ input[type=submit], input[type=button] {
   border-right: 1px solid #333333;
   border-left: 1px solid #5a5a5a;
   padding: 17px 23px;
+  outline: 0;
 }
-.header .nav > ul a.current, .header .nav > ul li:hover > a {
+.header .nav > ul a.current, .header .nav > ul li:hover > a, .header .nav > ul li > a:focus {
   background: #333333;
   background-image: -moz-linear-gradient(top, #333333, #4d4d4d);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#4d4d4d));
 }
-.header .nav > ul ul a:hover {
+.header .nav > ul ul a:hover, .header .nav > ul ul a:focus {
   background: #333333;
+}
+.header .nav > ul ul a {
+  outline: 0;
 }
 .header .nav li ul {
   background: #4d4d4d;
@@ -527,11 +536,9 @@ input[type=submit], input[type=button] {
   line-height: 0;
   height: 0;
 }
-.header .nav #hnav-donate a:link, .header .nav #hnav-donate a:visited {
+.header .nav #hnav-donate a {
   color: #ff7e28;
   border-right: 0 none;
-}
-.header .nav #hnav-donate a:hover {
   border-radius: 0 10px 0 0;
   -moz-border-radius: 0 10px 0 0;
 }
@@ -622,8 +629,9 @@ a.button {
   border-radius: 7px;
   -moz-border-radius: 7px;
   color: #333333;
+  outline: 0;
 }
-a.button:hover {
+a.button:hover, a.button:focus, a.button:active {
   text-decoration: none;
   background: white;
   background-image: -moz-linear-gradient(top, white, #c6c6c6);
@@ -749,55 +757,96 @@ div.box {
   margin-right: 0;
 }
 
-#page-front #front-banner {
+#page-front .front-banner {
   margin: 0;
   height: 365px;
   background-color: #808080;
-  border-bottom: 1px solid black;
   background-repeat: no-repeat;
+  opacity: 0;
+  position: relative;
+  transition: opacity 0s ease 0.4s;
+  -moz-transition: opacity 0s ease 0.4s;
+  -webkit-transition: opacity 0s ease 0.4s;
+  margin-top: -365px;
 }
-#page-front #front-banner.car {
+#page-front .front-banner.current {
+  opacity: 1;
+  z-index: 1;
+  transition: opacity 0.4s ease 0s;
+  -moz-transition: opacity 0.4s ease 0s;
+  -webkit-transition: opacity 0.4s ease 0s;
+}
+#page-front .front-banner p {
+  font-size: 18px;
+  line-height: 25px;
+}
+#page-front #front-banner-features {
+  background-image: url("../images/front-banner-features-background.png");
+  background-color: #eeeeee;
+}
+#page-front #front-banner-features > div {
+  padding: 20px 20px 20px 300px;
+  position: absolute;
+}
+#page-front #front-banner-gallery > div {
+  padding: 80px 360px;
+  position: absolute;
+  text-align: center;
+}
+#page-front #front-banner-learning > div {
+  padding: 80px 360px;
+  position: absolute;
+  text-align: center;
+}
+#page-front #front-banners {
+  height: 365px;
+  border-bottom: 1px solid #000000;
+}
+#page-front #front-banner-overview {
+  margin-top: 0;
+}
+#page-front #front-banner-overview.car {
   background-image: url("../images/front-banner-car.png");
 }
-#page-front #front-banner.one-day-in-farm {
+#page-front #front-banner-overview.one-day-in-farm {
   background-image: url("../images/front-banner-one-day-in-farm.png");
   background-color: #000000;
 }
-#page-front #front-banner.grass {
+#page-front #front-banner-overview.grass {
   background-image: url("../images/front-banner-grass.png");
 }
-#page-front #front-banner > div {
+#page-front #front-banner-overview > div {
   width: 410px;
   margin: 30px 30px 0 30px;
   height: 250px;
 }
-#page-front #front-banner.left > div {
+#page-front #front-banner-overview.left > div {
   float: left;
 }
-#page-front #front-banner.right > div {
+#page-front #front-banner-overview.right > div {
   float: right;
 }
-#page-front #front-banner.bottom > div {
+#page-front #front-banner-overview.bottom > div {
   margin-top: 100px;
   height: 180px;
 }
-#page-front #front-banner.top > div {
+#page-front #front-banner-overview.top > div {
   margin-top: 30px;
 }
-#page-front #front-banner #front-banner-read-more {
+#page-front #front-banner-overview #front-banner-read-more {
   float: left;
 }
-#page-front #front-banner.buttons-right #front-banner-read-more {
+#page-front #front-banner-overview.buttons-right #front-banner-read-more {
   margin-left: 100px;
 }
-#page-front #front-banner.buttons-right #front-banner-download-box {
+#page-front #front-banner-overview.buttons-right #front-banner-download-box {
   float: right;
 }
-#page-front #front-banner.buttons-left #front-banner-download-box {
+#page-front #front-banner-overview.buttons-left #front-banner-download-box {
   float: left;
   margin-left: 30px;
 }
-#page-front #front-banner div p {
+#page-front #front-banner-overview div p {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
   -moz-border-radius: 6px;
@@ -806,48 +855,49 @@ div.box {
   padding: 10px;
   margin: 0 0 25px 0;
 }
-#page-front #front-banner #front-banner-download-box {
+#page-front #front-banner-overview #front-banner-download-box {
   text-align: center;
   color: #ffffff;
 }
-#page-front #front-banner #front-banner-download-box > span {
+#page-front #front-banner-overview #front-banner-download-box > span {
   font-size: 11px;
 }
-#page-front #front-banner.light #front-banner-download-box {
+#page-front #front-banner-overview.light #front-banner-download-box {
   color: #000000;
 }
-#page-front #front-banner p#front-banner-author {
+#page-front #front-banner-overview p#front-banner-author {
   clear: both;
   display: block;
   padding: 3px 25px 2px;
   font-size: 12px;
   line-height: 0;
 }
-#page-front #front-banner p#front-banner-author.right {
+#page-front #front-banner-overview p#front-banner-author.right {
   text-align: right;
 }
-#page-front #front-banner p#front-banner-author.white {
+#page-front #front-banner-overview p#front-banner-author.white {
   background-color: rgba(255, 255, 255, 0.7);
 }
-#page-front #front-banner p#front-banner-author.black {
+#page-front #front-banner-overview p#front-banner-author.black {
   background-color: rgba(0, 0, 0, 0.7);
 }
-#page-front #summary-sections {
+#page-front #front-banner-tabs {
   list-style: none;
   padding-left: 0;
   margin: -70px 19px -30px;
-  z-index: 1;
+  z-index: 2;
+  position: relative;
   height: 100px;
   line-height: 16px;
 }
-#page-front #summary-sections li {
+#page-front #front-banner-tabs li {
   float: left;
   width: 230px;
   border-color: black;
   border-style: solid;
   border-width: 1px 0;
 }
-#page-front #summary-sections a {
+#page-front #front-banner-tabs a {
   display: block;
   height: 60px;
   padding: 19px 15px 20px 60px;
@@ -859,13 +909,14 @@ div.box {
   border-color: #5a5a5a #333333 #1a1a1a #5a5a5a;
   text-decoration: none;
   color: white;
+  outline: 0;
 }
-#page-front #summary-sections a:hover, #page-front #summary-sections a.current {
+#page-front #front-banner-tabs a:hover, #page-front #front-banner-tabs a:focus, #page-front #front-banner-tabs a.current {
   background-color: #333333;
   background-image: -moz-linear-gradient(top, #333333, #4d4d4d);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#4d4d4d));
 }
-#page-front #summary-sections span {
+#page-front #front-banner-tabs span {
   background-image: url("../images/front-icons.png");
   background-repeat: no-repeat;
   width: 32px;
@@ -873,38 +924,38 @@ div.box {
   float: left;
   margin-left: -45px;
 }
-#page-front #summary-sections strong {
+#page-front #front-banner-tabs strong {
   font-size: 17px;
   font-weight: normal;
   display: block;
   margin: 0 0 14px -45px;
 }
-#page-front #summary-sections #summary-overview {
+#page-front #front-banner-tabs #front-banner-tab-overview {
   border-left-width: 1px;
   width: 229px;
   border-radius: 5px 0 0 5px;
   -moz-border-radius: 5px 0 0 5px;
 }
-#page-front #summary-sections #summary-learning {
+#page-front #front-banner-tabs #front-banner-tab-learning {
   border-right-width: 1px;
   width: 229px;
   border-radius: 0 5px 5px 0;
   -moz-border-radius: 0 5px 5px 0;
 }
-#page-front #summary-sections #summary-overview a {
+#page-front #front-banner-tabs #front-banner-tab-overview a {
   border-radius: 4px 0 0 4px;
   -moz-border-radius: 4px 0 0 4px;
 }
-#page-front #summary-sections #summary-features span {
+#page-front #front-banner-tabs #front-banner-tab-features span {
   background-position: -32px;
 }
-#page-front #summary-sections #summary-gallery span {
+#page-front #front-banner-tabs #front-banner-tab-gallery span {
   background-position: -64px;
 }
-#page-front #summary-sections #summary-learning span {
+#page-front #front-banner-tabs #front-banner-tab-learning span {
   background-position: -96px;
 }
-#page-front #summary-sections #summary-learning a {
+#page-front #front-banner-tabs #front-banner-tab-learning a {
   border-radius: 0 4px 4px 0;
   -moz-border-radius: 0 4px 4px 0;
 }
@@ -912,6 +963,7 @@ div.box {
   background-image: -moz-linear-gradient(top, #eeeeee, white 132px);
   background-image: -webkit-gradient(linear, left top, left 132, from(#eeeeee), to(white));
   padding-top: 60px;
+  min-height: 0;
 }
 #page-front #content > br {
   clear: both;
@@ -957,18 +1009,6 @@ div.box {
   color: #d55500;
   font-size: 13px;
   font-weight: bold;
-}
-#page-front #content > div {
-  display: none;
-}
-#page-front #content > div:target {
-  display: block;
-}
-#page-front #content > div, #page-front #content > div:target ~ #overview {
-  display: none;
-}
-#page-front #content #overview, #page-front #content > div:target {
-  display: block;
 }
 
 #page-download #left-column div.section {

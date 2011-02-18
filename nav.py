@@ -63,7 +63,7 @@ nav = (
         root(_('Community'),                '/community/', (
             leaf(_('Get Involved'),         '/community/get-involved/'),
             leaf(_('Connect'),              '/community/connect/'),
-            leaf(_('Mailing lists'),        '/community/mailing-list/'),
+            leaf(_('Mailing lists'),        '/community/mailing-lists/'),
             leaf(_('Help & support'),       '/community/help/'),
             leaf(_('Donate'),               '/donate/'),
             )),

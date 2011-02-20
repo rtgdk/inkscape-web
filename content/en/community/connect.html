@@ -1,0 +1,54 @@
+﻿{% extends "base_about.html" %}
+{% block alltitle %}Connect{% endblock %}
+{% block pagetitle %}Connect{% endblock %}
+{% block left-column %}
+<!--PORT: 	http://inkscape.org/discussion.php?lang=en
+			http://wiki.inkscape.org/wiki/index.php/Contact_information
+			Most of the information in "discussion" has been ported here, and a little from "contact".
+-->
+
+<p class="summary">For casual questions or in-depth discussion, the official chat room is the <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Extensible_Messaging_and_Presence_Protocol">Jabber (XMPP)</a> conference room <i><a href="xmpp:inkscape@conference.gristle.org?join">inkscape@conference.gristle.org</a></i>, which is bridged with the channel <i><a href="irc://irc.freenode.org/#inkscape">#inkscape</a></i> on <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Internet_Relay_Chat">IRC</a> for bidirectional communication (however IRC users need to register their nicknames at <a href="http://freenode.net/faq.shtml#nicksetup">Freenode server</a> otherwise they won't be allowed to talk).
+<br>
+While this channel is primarily geared for developer discussion, we do not discourage users from participating too, however please be conscientious of any development discussions going on. If you do not get an immediate answer to your question, folks may just be focusing on other things; try asking again later, or use the <a href="/community/mailing-lists">mailing lists</a> or forums instead.</p>
+
+<!-- FIXME: Add more local IRC and Jabber rooms -->
+<h2>International and Local Communities</h2>
+	<ul>
+		<li><b>English:</b> [<a href="irc://irc.freenode.org/#inkscape">IRC</a>] [<a href="xmpp:room@domain.org">Jabber</a>]</li>
+		<li><b>Spanish:</b> [<a href="irc://irc.freenode.org/#inkscape-es">IRC</a>] [<a href="xmpp:room@domain.org">Jabber</a>]</li>
+	</ul>
+	
+	<p>Please see our <a href="http://wiki.inkscape.org/wiki/index.php/International_and_Local_Communities">International and Local Communities</a> wiki page.</p>
+
+
+<h2>Setting up a Jabber or IRC client</h2>
+	<h3>Jabber</h3>
+		<p>First, you need a Jabber client such as <a href="http://www.pidgin.im/">Pidgin</a>, <a href="http://www.apple.com/es/macosx/what-is-macosx/ichat.html">iChat</a>, <a href="http://www.google.com/talk/">Google Talk</a> or <a href="http://kopete.kde.org/">Kopete</a>. For an extensive list, see <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Comparison_of_instant_messaging_clients#XMPP_clients">Wikipedia list of Jabber clients</a>.</p>
+		<!-- FIXME: myjabber.net is down -->
+		<p>Second, set up an account with a server such as <a href="http://gristle.org">gristle.org</a> or <a href="http://myjabber.net">myjabber.net</a>, then join the conference room <i><a href="xmpp:inkscape@conference.gristle.org?join">inkscape@conference.gristle.org</a></i>.</p>  
+		<p>Also see the tutorial <a href="http://inkscape.gristle.org/gaim.html">Setting up
+Pidgin (formerly Gaim) for inkscape.gristle.org</a>.</p>
+
+	<h3>IRC</h3>
+		<p>First you need a IRC client such as <a href="http://www.bitchx.com/">BitchX</a>, <a href="http://xchat.org/">XChat</a>, <a href="http://www.pidgin.im/">Pidgin</a>, <a href="http://kopete.kde.org/">Kopete</a>, <a href="http://live.gnome.org/Empathy">Empathy</a> or <a href="http://www.miranda-im.org/">Miranda</a>. For an extensive list, see <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Comparison_of_Internet_Relay_Chat_clients">Wikipedia list of IRC clients</a>. Or use the <a href="http://webchat.freenode.net/">webchat</a> which doesn't require any installation.</p>
+
+		<p>Second, register your nickname at <a href="http://freenode.net/faq.shtml#nicksetup">Freenode server</a>, otherwise you won't be allowed to talk.</p>
+
+		<p>And third, start the client and point to Inkscape channel writing ‘<samp>/join #inkscape</samp>’ at the prompt. Some clients accept direct links to channels like this: <i><a href="irc://irc.freenode.org/#inkscape">#inkscape</a></i></p>
+
+		<p>It's recommended to configure your client to use the utf-8 character set if possible. In many clients, this can be done writing ‘<samp>/charset utf-8</samp>’ or ‘<samp>/set term_type utf-8</samp>’ at the prompt.</p>
+
+		
+<h3>Jabber? IRC? Why not both?</h3>
+There is a wide selection of <a href="https://secure.wikimedia.org/wikipedia/en/wiki/Comparison_of_instant_messaging_clients#Multiprotocol_clients">multi-protocol clients</a> which handle both Jabber and IRC protocols, and many others. Using one is useful if you want to manage all your communications from only one software. However don't connect to both networks at the same time and, if you can choose, use Jabber.
+
+<h2>Other IRC channels of interest</h2>
+	<ul>
+		<li>inkscape-web: <i><a href="irc://irc.freenode.org/#inkscape-web">#inkscape-web</a></i> Website related development.</li>
+		<li>cairo: <i><a href="irc://irc.freenode.org/#cairo">#cairo</a></i> The Cairo graphics library.</li>
+		<li>Autopackage: <i><a href="irc://irc.freenode.org/#autopackage">#autopackage</a></i></li>
+		<li>Open Clip Art Library: <i><a href="irc://irc.freenode.org/#openclipart">#openclipart</a></i></li>
+		<li>Scribus: <i><a href="irc://irc.freenode.org/#scribus">#scribus</a></i> A DTP software</li>
+	</ul>
+
+	{% endblock %}

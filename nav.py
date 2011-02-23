@@ -60,11 +60,14 @@ nav = (
             #leaf(_('Templates'),            '/resources/templates'),
             #leaf(_('Filters'),              '/resources/filters'),
             #)),
+		# I've added Contact and Forums&Blogs as proposed sections --Pajarico
         root(_('Community'),                '/community/', (
             leaf(_('Get Involved'),         '/community/get-involved/'),
             leaf(_('Connect'),              '/community/connect/'),
+            leaf(_('Forums & blogs'),       '/community/forums-and-blogs/'),
             leaf(_('Mailing lists'),        '/community/mailing-lists/'),
             leaf(_('Help & support'),       '/community/help/'),
+            leaf(_('Contact'),              '/community/contact/'),
             leaf(_('Donate'),               '/donate/'),
             )),
         root(_('Developers'),               '/developers/', (

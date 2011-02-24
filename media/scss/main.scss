@@ -67,14 +67,6 @@ a:link, a:visited {
 	color: $link-dark;
 }
 
-@if $dark {
-	.coloured-bg a {
-		&:link, &:visited {
-			color: $link-light;
-		}
-	}
-}
-
 a:link:hover, a:link:active {
 	text-decoration: underline;
 }
@@ -308,18 +300,21 @@ video {
 		color: $coloured-bg-text;
 		font-size: 11px;
 		line-height: 11px;
+		&.current {
+			background-color: mix($colours-1, $colours-2, 75%);
+		}
+		&:hover {
+			background-color: $colours-1;
+			text-decoration: none;
+		}
 	}
 	span {
-		background: url('../images/flags.png') no-repeat scroll 0 0 transparent;
+		background: url('../images/flags.png') no-repeat;
 		display: block;
 		margin-left: -28px;
 		float: left;
 		height: 11px;
 		width: 16px;
-	}
-	a:hover {
-		background-color: $colours-2;
-		text-decoration: none;
 	}
 	li:last-child a:hover {
 		border-radius: 0 0 5px 5px;

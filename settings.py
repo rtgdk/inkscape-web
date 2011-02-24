@@ -1,8 +1,7 @@
+# coding: utf-8
 # Django settings for inkscape project.
 from django.conf import global_settings
 import os
-
-_ = lambda s: s
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -38,15 +37,15 @@ TIME_ZONE = 'America/Chicago'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('en', _('English')),
-    ('de', _('German')),
-    ('fr', _('French')),
-    ('it', _('Italian')),
-    ('es', _('Spanish')),
-    ('pt', _('Portuguese')),
-    ('cs', _('Czech')),
-    ('ru', _('Russian')),
-    ('ja', _('Japanese')),
+    ('en', 'English'),    # Guess
+    ('de', 'Deutsch'),    # German
+    ('fr', 'Français'),   # French
+    ('it', 'Italiano'),   # Italian
+    ('es', 'Español'),    # Spanish
+    ('pt', 'Português'),  # Portuguese
+    ('cs', 'Česky'),      # Czech
+    ('ru', 'Русский'),    # Russian
+    ('ja', '日本'),       # Japanese
 )
 
 SITE_ID = 1
@@ -120,6 +119,7 @@ INSTALLED_APPS = (
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'inkscape.i18n',
+    'inkscape.apps.content',
 )
 
 RST_SETTINGS_OVERRIDES = {

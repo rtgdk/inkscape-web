@@ -17,9 +17,8 @@
 				removeClass(document.getElementById("front-banner-tab-" + frontTabGo.current).firstChild, 'current');
 				removeClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
 				frontTabGo.current = e.getAttribute('href').replace(/^#front-banner-/, '');
-				addClass(document.getElementById("front-banner-tab-" + frontTabGo.current).firstChild, 'current');
-				addClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
 				addClass(e, 'current');
+				addClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
 				return false;
 			}
 			frontTabGo.current = "overview";

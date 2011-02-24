@@ -24,10 +24,6 @@ a:link, a:visited {
   color: #d55500;
 }
 
-.coloured-bg a:link, .coloured-bg a:visited {
-  color: #ff7e28;
-}
-
 a:link:hover, a:link:active {
   text-decoration: underline;
 }
@@ -249,17 +245,20 @@ video {
   font-size: 11px;
   line-height: 11px;
 }
+#languages a.current {
+  background-color: #464646;
+}
+#languages a:hover {
+  background-color: #4d4d4d;
+  text-decoration: none;
+}
 #languages span {
-  background: url("../images/flags.png") no-repeat scroll 0 0 transparent;
+  background: url("../images/flags.png") no-repeat;
   display: block;
   margin-left: -28px;
   float: left;
   height: 11px;
   width: 16px;
-}
-#languages a:hover {
-  background-color: #333333;
-  text-decoration: none;
 }
 #languages li:last-child a:hover {
   border-radius: 0 0 5px 5px;

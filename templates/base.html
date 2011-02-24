@@ -1,7 +1,7 @@
 {% load i18n %}
 {% load inkscape_i18n %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ LANGUAGE_CODE }}">
 	<head>
 		<meta charset="utf-8">
 		<link href="{{ MEDIA_URL }}css/main.css" rel="stylesheet" type="text/css">
@@ -15,22 +15,16 @@
 				<div id="logo">
 					<a href="/"><img src="{% block logo-url %}{{ MEDIA_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
 					<h1><a href="/" tabindex="-1">Inkscape</a></h1>
-					<h2><a href="/" tabindex="-1">Draw Freely.</a></h2>
+					<h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
 				</div>
 				<div id="header-right">
-					<ul id="topdrops" class="coloured-bg">
+					<ul id="topdrops">
 						<li id="languages">
 							<p>Language</p>
 							<ul class="topdrop">
-								<li class="en"><a href="{% langurl 'en' %}"><span></span>English</a>
-								<li class="de"><a href="{% langurl 'de' %}"><span></span>Deutsch</a>
-								<li class="fr"><a href="{% langurl 'fr' %}"><span></span>Français</a>
-								<li class="it"><a href="{% langurl 'it' %}"><span></span>Italiano</a>
-								<li class="es"><a href="{% langurl 'es' %}"><span></span>Español</a>
-								<li class="pt"><a href="{% langurl 'pt' %}"><span></span>Português</a>
-								<li class="cs"><a href="{% langurl 'cs' %}"><span></span>Česky</a>
-								<li class="ru"><a href="{% langurl 'ru' %}"><span></span>Русский</a>
-								<li class="ja"><a href="{% langurl 'ja' %}"><span></span>日本</a>
+								{% for lang in LANGUAGES %}
+								<li class="{{ lang.0 }}"><a href="{% langurl lang.0 %}"{% if LANGUAGE_CODE = lang.0 %} class="current"{% endif %}><span></span>{{ lang.1 }}</a>
+								{% endfor %}
 							</ul>
 						</li>
 						<li id="toplogin">
@@ -75,9 +69,9 @@
 		</div>
 		{% block supercontent %}
 		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
-			{% block breadcrumb %}{% if breadcrumb %}
+			{% block breadcrumb %}{% if breadcrumb or breadcrumb_override %}{% with breadcrumb_override|default:breadcrumb as breadcrumb %}
 			<p id="breadcrumb"><a href="/">Home</a>{% for i in breadcrumb.0 %} &gt; <a href="{{ i.href }}">{{ i.title }}</a>{% endfor %} &gt; <a>{{ breadcrumb.1.title }}</a></p>
-			{% endif %}{% endblock %}
+			{% endwith %}{% endif %}{% endblock %}
 			{% block messages %}{% if messages %}
 			<ul class="messages">{% for message in messages %}
 				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>

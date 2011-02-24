@@ -17,6 +17,7 @@ urlpatterns += patterns('django.views.generic.simple',
     redirect(r'^about/overview/$', '/about/'),
 
     # Legacy
+    redirect(r'^books/(index.php)?$', '/learn/books/'),
     redirect(r'^download.php$',     '/download/'),
     redirect(r'^doc/inkscape-man.html$',
         'http://inkscape.modevia.com/inkscape-man.html'),

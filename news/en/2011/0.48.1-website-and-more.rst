@@ -1,0 +1,22 @@
+Title: 0.48.1, website and more
+Author: prokoudine
+Category: General
+Date: 2011-01-05
+
+We hope you had a great holiday season. Now that you are back, we have some
+news for you.
+
+We had a server error that prevented us from posting anything most of December,
+but now it's fixed and we are back on track. The usual news posting resumes,
+and the website now also has an initial Books_ section. In fact there is a
+whole new website coming, based on design_ by Hinerangi Courtenay.
+
+The other good news is that 0.48.1 is done, and we are waiting for Ted to cut
+the release so that packagers could start packaging. We are also determined to
+make at least one more point release before it's time for 0.49. Stay tuned for
+more news!
+
+.. _Books: /learn/books/
+
+.. _design:
+   http://duckgoesoink.deviantart.com/art/Inkscape-org-redesign-188788814

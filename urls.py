@@ -31,5 +31,6 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
+    (r'^news/', include('inkscape.apps.news.urls')),
     (r'', include('inkscape.apps.content.urls')),
 )

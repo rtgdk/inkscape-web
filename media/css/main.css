@@ -1134,3 +1134,49 @@ div.box {
 #page-community-get-involved #donate h3 {
   background-image: url(../images/donate.png);
 }
+
+#page-news-full .postdate {
+  margin: -16px 0 30px;
+}
+#page-news-full .article-share {
+  margin: -47px 0 0;
+  padding: 0;
+  list-style: none;
+  float: right;
+}
+#page-news-full .article-share li {
+  float: right;
+}
+#page-news-full .article-body {
+  margin-bottom: 50px;
+  min-height: 250px;
+}
+#page-news-full .article-body > p:first-child, #page-news-full .article-body > .document > p:first-child {
+  font-size: 14px;
+  line-height: 24px;
+  margin-bottom: 24px;
+}
+#page-news-full .article-actions {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+#page-news-full .article-actions li {
+  float: left;
+  margin: 0 30px 0 0;
+  font-size: 11px;
+}
+#page-news-full .article-actions a {
+  padding: 4px 4px 4px 28px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+}
+#page-news-full .article-actions .action-subscribe {
+  background-image: url(../images/action-subscribe.png);
+}
+#page-news-full .article-actions .action-email {
+  background-image: url(../images/action-email.png);
+}
+#page-news-full .article-actions .action-printer {
+  background-image: url(../images/action-printer.png);
+}

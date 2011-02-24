@@ -120,6 +120,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'inkscape.i18n',
     'inkscape.apps.content',
+    'inkscape.apps.news',
 )
 
 RST_SETTINGS_OVERRIDES = {
@@ -129,6 +130,7 @@ RST_SETTINGS_OVERRIDES = {
 }
 
 CONTENT_PATH = os.path.join(os.path.dirname(__file__), 'content')
+NEWS_PATH = os.path.join(os.path.dirname(__file__), 'news')
 
 HOST_ROOT = 'djink.chrismorgan.info'
 

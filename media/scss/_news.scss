@@ -1,0 +1,51 @@
+#page-news-full {
+	.postdate {
+		margin: -16px 0 30px;
+	}
+
+	.article-share {
+		margin: -47px 0 0;
+		padding: 0;
+		list-style: none;
+		float: right;
+		li {
+			float: right;
+		}
+	}
+
+	.article-body {
+		& > p:first-child, & > .document > p:first-child {
+			// See .summary
+			font-size: 14px;
+			line-height: 24px;
+			margin-bottom: 24px;
+		}
+		margin-bottom: 50px;
+		min-height: 250px;
+	}
+
+	.article-actions {
+		margin: 0;
+		padding: 0;
+		list-style: none;
+		li {
+			float: left;
+			margin: 0 30px 0 0;
+			font-size: 11px;
+		}
+		a {
+			padding: 4px 4px 4px 28px;
+			background-position: 4px 50%;
+			background-repeat: no-repeat;
+		}
+		.action-subscribe { background-image: url(../images/action-subscribe.png); }
+		.action-email { background-image: url(../images/action-email.png); }
+		.action-printer { background-image: url(../images/action-printer.png); }
+	}
+
+	// This makes it match the design more closely, but I don't think it looks
+	// so good. The whitespace gets oppressive and the page height just
+	// needlessly expanded.
+	//
+	// #content > div.wrapper { min-height: 600px; }
+}

@@ -80,7 +80,8 @@ class LocaleSubdomainMiddleware(object):
         else:
             # Perhaps log that it was accessed from a different site and so was
             # stuck in English?
-            pass
+            translation.activate(settings.LANGUAGE_CODE)
+            request.LANGUAGE_CODE = translation.get_language()
 
     def _request_autodetect(self, request):
         # Auto select and redirect

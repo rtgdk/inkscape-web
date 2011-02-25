@@ -1182,15 +1182,13 @@ div.box {
 }
 
 #page-learn-books #left-column .book {
-  margin-bottom: 30px;
-  border-radius: 7px;
-  -moz-border-radius: 7px;
-  padding: 15px 15px 15px 30px;
-  background-color: #e6e6e6;
+  margin-bottom: 50px;
+  padding-left: 150px;
 }
 #page-learn-books #left-column .book-cover {
-  float: right;
-  margin: -34px 10px 25px 25px;
+  float: left;
+  margin: -34px 10px 25px -150px;
+  border: 1px solid #aaaaaa;
 }
 #page-learn-books #left-column .book-metadata {
   list-style-type: none;

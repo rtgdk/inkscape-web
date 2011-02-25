@@ -1,19 +1,39 @@
 #page-learn-books #left-column {
-	.book {
-		// Variant 1: plain spacing. Not easy enough to get the difference. Could be better with an hr-style bottom bg
-		//margin-bottom: 50px;
 
-		// Variant 2: boxes. Perhaps a tad messier stylistically, but much easier to take in book-sized chunks.
-		margin-bottom: 30px;
-		border-radius: 7px;
-		-moz-border-radius: 7px;
-		padding: 15px 15px 15px 30px;
-		background-color: #e6e6e6;
-	}
+	$variant: 1;
 
-	.book-cover {
-		float: right;
-		margin: -34px 10px 25px 25px;
+	@if $variant == 1 {
+		// Variant 1: plain spacing. Not quite easy enough to get the difference.
+		// Could be better with an hr-style background between books.
+		// Includes book cover on the left to aid with visual separation of the books.
+		.book {
+			margin-bottom: 50px;
+			padding-left: 150px;
+		}
+		.book-cover {
+			float: left;
+			margin: -34px 10px 25px -150px;
+			border: 1px solid #aaaaaa;
+		}
+	} @else {
+		.book {
+			// Variant 2: boxes. Perhaps a tad messier stylistically, but much
+			// easier to take in book-sized chunks.
+			// Also includes book cover on the right.
+			margin-bottom: 30px;
+			border-radius: 7px;
+			-moz-border-radius: 7px;
+			padding: 15px 15px 15px 30px;
+			background-color: #e6e6e6;
+		}
+		.book-cover {
+			float: right;
+			margin: -34px 10px 25px 25px;
+		}
+		.book-cover-default {
+			// No need to display the "no image" picture here
+			display: none;
+		}
 	}
 
 	.book-metadata {

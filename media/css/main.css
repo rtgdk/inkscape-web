@@ -1180,3 +1180,31 @@ div.box {
 #page-news-full .article-actions .action-printer {
   background-image: url(../images/action-printer.png);
 }
+
+#page-learn-books #left-column .book {
+  margin-bottom: 30px;
+  border-radius: 7px;
+  -moz-border-radius: 7px;
+  padding: 15px 15px 15px 30px;
+  background-color: #e6e6e6;
+}
+#page-learn-books #left-column .book-cover {
+  float: right;
+  margin: -34px 10px 25px 25px;
+}
+#page-learn-books #left-column .book-metadata {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+#page-learn-books #left-column .book-metadata strong {
+  display: inline-block;
+  min-width: 8em;
+  padding-right: 1em;
+  text-indent: 0;
+  margin-right: -4px;
+}
+#page-learn-books #left-column .book-metadata li {
+  text-indent: -9em;
+  padding-left: 9em;
+}

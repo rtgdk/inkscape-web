@@ -8,9 +8,8 @@ from django.contrib import messages
 import os
 import datetime
 from docutils.core import publish_parts
-from .datatypes import Article
+from .datatypes import Article, ParsedFile
 from ...nav import leaf
-from .fileparser import ParsedFile
 
 
 def archive_all(request):

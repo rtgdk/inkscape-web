@@ -1,0 +1,16 @@
+Title: 0.48 release preparations
+Author: prokoudine
+Category: General
+Date: 2010-07-05
+
+We are quickly approaching release of final 0.48 version. The plan is to make
+sure everything unfinished we wanted disabled is already disabled and most
+nasty bugs are gone. Then we shall release tarballs with source code and start
+working on binary builds for Windows and Mac.
+
+In the mean time we are just a week away from midterm evaluations for our
+Google Summer of Code students. As a quick reminder, this year we have five
+students: two working on performance, one implementing PowerStroke live path
+effect, one reworking the way Inkscape makes difference between saving and
+exporting, and another student rewriting internals. We'll let you know how
+respective projects progress after the evaluations.

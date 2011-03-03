@@ -699,6 +699,52 @@ a.button.lighter {
   margin-top: 18px;
 }
 
+hr {
+  margin: 30px 0;
+  color: #d2d2d2;
+  background-color: #d2d2d2;
+  border: 0;
+  height: 1px;
+  width: 100%;
+}
+
+.pager {
+  margin: 50px 0 0;
+  padding: 0;
+  list-style-type: none;
+}
+.pager li {
+  float: left;
+  margin: 0 10px 0 0;
+  font-size: 11px;
+  line-height: 11px;
+  color: #5d5d5d;
+}
+.pager a {
+  border: 1px solid #d6d6d6;
+  background-color: #ffffff;
+  padding: 4px 8px;
+  color: #5d5d5d;
+}
+.pager a.current {
+  border: 1px solid #8d8d8d;
+  background-color: #d6d6d6;
+  cursor: default;
+}
+.pager a.current:hover, .pager a.current:active {
+  border-color: #8d8d8d;
+}
+.pager a:hover, .pager a:active {
+  text-decoration: none;
+  border-color: #333333;
+}
+.pager a.previous {
+  margin-right: 5px;
+}
+.pager a.next {
+  margin-left: 5px;
+}
+
 #right-sidebar {
   float: right;
   width: 200px;
@@ -1179,6 +1225,37 @@ div.box {
 }
 #page-news-full .article-actions .action-printer {
   background-image: url(../images/action-printer.png);
+}
+#page-news-full #content h1 {
+  width: 480px;
+}
+
+#page-news-archive .postdate {
+  margin: 6px 0 18px;
+}
+#page-news-archive .readmore {
+  margin-top: 20px;
+  text-align: left;
+}
+#page-news-archive #right-sidebar h2 {
+  margin-top: 35px;
+}
+#page-news-archive #right-sidebar .article-actions {
+  margin: 80px 0 0;
+  padding: 0;
+  list-style: none;
+}
+#page-news-archive #right-sidebar .article-actions li {
+  margin: 0 0 0 -5px;
+  font-size: 11px;
+}
+#page-news-archive #right-sidebar .article-actions a {
+  padding: 4px 4px 4px 28px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+}
+#page-news-archive #right-sidebar .article-actions .action-subscribe {
+  background-image: url(../images/action-subscribe.png);
 }
 
 #page-learn-books #left-column .book {

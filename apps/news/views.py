@@ -1,74 +1,107 @@
-from django.http import Http404, HttpResponseBadRequest
+from django.http import Http404
 from django.views.generic.simple import direct_to_template
-from django.conf import settings
 from django.utils.safestring import mark_safe
-from django.utils._os import safe_join
 from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
-import os
-import datetime
-from docutils.core import publish_parts
-from .datatypes import Article, ParsedFile
+from django.core.paginator import Paginator, EmptyPage, InvalidPage
+from .manager import news_manager
 from ...nav import leaf
+
+PAGE_SIZE = 4
 
 
 def archive_all(request):
-    raise Http404('All news')
+    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
+            for a in news_manager.articles
+            if 'en' in a or request.LANGUAGE_CODE in a]
+
+    return _archive(request, articles)
 
 
 def archive_year(request, year):
-    raise Http404('Annual news for %s' % year)
+    try:
+        year = int(year)
+    except ValueError:
+        pass
+    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
+            for a in news_manager.articles_by_year.get(year, {}).values()
+            if 'en' in a or request.LANGUAGE_CODE in a]
+
+    return _archive(request, articles, ((leaf(_('News'), '/news/'),),
+        leaf(year, '')), _('%s News') % year, _('Inkscape News in %s') % year)
+
+
+def _archive(request, articles, breadcrumb=None, title=None, page_title=None):
+    articles.sort(key=lambda x: x.date, reverse=True)
+    if title is None and page_title is None:
+        title = _('News')
+        page_title = _('Inkscape News')
+    elif title is None:
+        title = _('News')
+    elif page_title is None:
+        page_title = title
+
+    try:
+        page_num = int(request.GET.get('page', 1))
+    except ValueError:
+        page_num = 1
+
+    paginator = Paginator(articles, PAGE_SIZE)
+
+    try:
+        page = paginator.page(page_num)
+    except (EmptyPage, InvalidPage):
+        page = paginator.page(paginator.num_pages)
+
+    kwargs = {
+        'articles': page,
+        'title': title,
+        'page_title': page_title,
+        'categories': [dict(name=name, count=count)
+            for name, count in news_manager.categories],
+        'archives': sorted(news_manager.articles_by_year.keys(), reverse=True),
+        }
+
+    if breadcrumb:
+        kwargs['breadcrumb_override'] = breadcrumb
+    return direct_to_template(request, 'news_archive.html', kwargs)
 
 
 def article(request, year, slug):
     try:
-        return _load_article(request, request.LANGUAGE_CODE,
-                year, slug)
-    except Http404:
-        return _load_article(request, 'en', year, slug,
-        # Translators: replace "the current language" with the language name
+        article, local_lang = news_manager.get_article(year, slug,
+                request.LANGUAGE_CODE)
+    except KeyError:
+        raise Http404('No such news item.')
+
+    if not local_lang:
+        messages.info(request,
+                # Translators: replace "the current language" with the language
+                # name
                 mark_safe(_('This page is not available in English. Here is '
                     'the English version of this page. If you would like to '
                     'help with translating this website, please '
                     '<a href="">contact us</a>.')))
 
+    return direct_to_template(request, 'news_full.html', {
+        'title': article.title,
+        'article': article,
+        'breadcrumb_override': ((leaf(_('News'), '/news/'),
+    leaf(year, '/news/%s/' % year)), leaf(article.title, '')),
+        'categories': [dict(name=name, count=count)
+            for name, count in news_manager.categories],
+        'archives': news_manager.articles_by_year.keys(),
+        })
 
-def _load_article(request, language, year, slug, message=None):
-    url = '%s/%s' % (year, slug)
-    year = int(year)
-    try:
-        full_path = safe_join(os.path.abspath(os.path.join(
-            settings.NEWS_PATH, language)), url) + '.rst'
-    except ValueError:  # They've tried something like ../
-        return HttpResponseBadRequest("No cheating.")
-
-    if os.path.exists(full_path):
-        if message:
-            messages.info(request, message)
-        article = ParsedFile(full_path)
-        title = article['Title']
-        author = article['Author']
-        category = article['Category']
-        try:
-            date = datetime.date(*map(int, article['Date'].split('-')))
-        except (ValueError, TypeError):
-            raise ValueError('Invalid date %r in %r (should be yyyy-mm-dd)' % (article['Date'], full_path))
-
-        parts = publish_parts(source=article.body,
-                settings_overrides=getattr(settings, 'RST_SETTINGS_OVERRIDES',
-                    {}),
-                writer_name='html')
-
-        article = Article(title, author, date, slug, category,
-                mark_safe(parts['body']))
-        return direct_to_template(request, 'news_full.html', {
-            'title': title,
-            'article': article,
-            'breadcrumb_override': ((leaf(_('News'), '/news/'),
-        leaf(year, '/news/%s/' % year)), leaf(title, ''))
-            })
-    else:
-        raise Http404('No content at %r' % full_path)
 
 def category(request, slug):
-    raise Http404('Unable to do this yet.')
+    friendly_name = news_manager.category_slugs[slug]
+    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
+            for a in news_manager.articles_by_category.get(friendly_name,
+                {}).values()
+            if 'en' in a or request.LANGUAGE_CODE in a]
+
+    return _archive(request, articles,
+            breadcrumb=((leaf(_('News'), '/news/'),), leaf(friendly_name, '')),
+            title=_('News: %s') % friendly_name,
+            page_title=_('Inkscape News: %s') % friendly_name)

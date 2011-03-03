@@ -10,7 +10,9 @@
 		<li><a name="fb_share" type="button_count" href="http://www.facebook.com/sharer.php">Share</a><script src="http://static.ak.fbcdn.net/connect.php/js/FB.Share" type="text/javascript"></script></li>
 		<li><a href="http://twitter.com/share" class="twitter-share-button" data-count="horizontal">Tweet</a><script type="text/javascript" src="http://platform.twitter.com/widgets.js"></script></li>
 	</ul>
-	<p class="postdate">{% blocktrans with article.date|date:'F j, Y' as date and article.author_url as author_url and article.author as author and article.category_url as category_url and article.category as category %}Published {{ date }} by <a href="{{ author_url }}">{{ author }}</a> in <a href="{{ category_url }}">{{ category }}</a>{% endblocktrans %}</p>
+	{% url content:users article.author|slugify as author_url %}
+	{% url news:category article.category|slugify as category_url %}
+	<p class="postdate">{% blocktrans with article.date|date:'F j, Y' as date and article.author as author and article.category as category %}Published {{ date }} by <a href="{{ author_url }}">{{ author }}</a> in <a href="{{ category_url }}">{{ category }}</a>{% endblocktrans %}</p>
 	<div class="article-body">
 		{{ article.body }}
 	</div>
@@ -25,7 +27,7 @@
 	<h2>Categories</h2>
 	<ul>
 		{% for cat in categories %}
-		<li><a href="{% url news:category cat|slugify %}">{# {{ cat.url }}"> #}{{ cat.name }}</a> ({{ cat.count }})</li>
+		<li><a href="{% url news:category cat.name|slugify %}">{{ cat.name }}</a> ({{ cat.count }})</li>
 		{% endfor %}
 	</ul>
 	{% endif %}
@@ -33,8 +35,8 @@
 	{% if archives %}
 	<h2>Archives</h2>
 	<ul>
-		{% for item in archives %}
-		<li><a href="{{ item.url }}">{{ item.text }}</a></li>
+		{% for year in archives %}
+		<li><a href="{% url news:year year %}">{{ year }}</a></li>
 		{% endfor %}
 	</ul>
 	{% endif %}

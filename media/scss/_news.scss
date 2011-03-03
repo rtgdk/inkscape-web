@@ -43,9 +43,45 @@
 		.action-printer { background-image: url(../images/action-printer.png); }
 	}
 
+	#content h1 {
+		// Due to article-share, we don't have as much width
+		width: 480px;
+	}
+
 	// This makes it match the design more closely, but I don't think it looks
 	// so good. The whitespace gets oppressive and the page height just
 	// needlessly expanded.
 	//
 	// #content > div.wrapper { min-height: 600px; }
+}
+
+#page-news-archive {
+	.postdate {
+		margin: 6px 0 18px;
+	}
+	.readmore {
+		margin-top: 20px;
+		// 0 does nothing, bite into the previous paragraph's surplus margin.
+		text-align: left;
+	}
+	#right-sidebar {
+		h2 {
+			margin-top: 35px;
+		}
+		.article-actions {
+			margin: 80px 0 0;
+			padding: 0;
+			list-style: none;
+			li {
+				margin: 0 0 0 -5px;
+				font-size: 11px;
+			}
+			a {
+				padding: 4px 4px 4px 28px;
+				background-position: 4px 50%;
+				background-repeat: no-repeat;
+			}
+			.action-subscribe { background-image: url(../images/action-subscribe.png); }
+		}
+	}
 }

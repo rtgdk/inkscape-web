@@ -28,5 +28,7 @@ urlpatterns += patterns('django.views.generic.simple',
 )
 
 urlpatterns += patterns('',
+    url(r'^users/(?P<url>.*)/$', load_page, {'prefix': 'users/'},
+        name='users'),
     (r'(?P<url>.*)/$', load_page),
 )

@@ -20,7 +20,10 @@ def front_page(request):
 #    return direct_to_template(request, 'download.html')
 
 
-def load_page(request, url):
+def load_page(request, url, prefix=None):
+    if prefix:
+        url = prefix + url
+    raise Exception(url)
     try:
         return _load_page(request, url, request.LANGUAGE_CODE)
     except Http404:

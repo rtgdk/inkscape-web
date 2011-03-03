@@ -1,10 +1,10 @@
-from django.conf.urls.defaults import patterns
+from django.conf.urls.defaults import patterns, url
 from . import views
 
 urlpatterns = patterns('',
-    (r'^$', views.archive_all),
-    (r'^(?P<year>\d+)/$', views.archive_year),
-    (r'^(?P<year>\d+)/(?P<slug>[\w.-]+)/$', views.article),
-    (r'^category/(?P<slug>[\w.-]+)/$', views.category),
+    url(r'^$', views.archive_all, name='all'),
+    url(r'^(?P<year>\d+)/$', views.archive_year, name='year'),
+    url(r'^(?P<year>\d+)/(?P<slug>[\w.-]+)/$', views.article, name='article'),
+    url(r'^category/(?P<slug>[\w.-]+)/$', views.category, name='category'),
 )
 

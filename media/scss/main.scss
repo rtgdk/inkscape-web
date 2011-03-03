@@ -749,6 +749,52 @@ a.button {
 	> h2:first-child { margin-top: 18px; }
 }
 
+hr {
+	margin: 30px 0;
+	color: #d2d2d2;
+	background-color: #d2d2d2;
+	border: 0;
+	height: 1px;
+	width: 100%;
+}
+
+.pager {
+	margin: 50px 0 0;
+	padding: 0;
+	list-style-type: none;
+	li {
+		float: left;
+		margin: 0 10px 0 0;
+		font-size: 11px;
+		line-height: 11px;
+		color: #5d5d5d;
+	}
+	a {
+		border: 1px solid #d6d6d6;
+		background-color: #ffffff;
+		&.current {
+			border: 1px solid #8d8d8d;
+			background-color: #d6d6d6;
+			cursor: default;
+			&:hover, &:active {
+				border-color: #8d8d8d;
+			}
+		}
+		padding: 4px 8px;
+		color: #5d5d5d;
+		&:hover, &:active {
+			text-decoration: none;
+			border-color: #333333;
+		}
+		&.previous {
+			margin-right: 5px;
+		}
+		&.next {
+			margin-left: 5px;
+		}
+	}
+}
+
 #right-sidebar {
 	float: right;
 	width: 200px;

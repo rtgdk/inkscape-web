@@ -1,7 +1,6 @@
 "inkscape_i18n template tags"
 
 from django import template
-from django.conf import settings
 from .. import langurl
 
 register = template.Library()

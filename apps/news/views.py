@@ -10,27 +10,6 @@ from ...nav import leaf
 PAGE_SIZE = 4
 
 
-def archive_all(request):
-    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
-            for a in news_manager.articles
-            if 'en' in a or request.LANGUAGE_CODE in a]
-
-    return _archive(request, articles)
-
-
-def archive_year(request, year):
-    try:
-        year = int(year)
-    except ValueError:
-        pass
-    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
-            for a in news_manager.articles_by_year.get(year, {}).values()
-            if 'en' in a or request.LANGUAGE_CODE in a]
-
-    return _archive(request, articles, ((leaf(_('News'), '/news/'),),
-        leaf(year, '')), _('%s News') % year, _('Inkscape News in %s') % year)
-
-
 def _archive(request, articles, breadcrumb=None, title=None, page_title=None):
     articles.sort(key=lambda x: x.date, reverse=True)
     if title is None and page_title is None:
@@ -67,6 +46,27 @@ def _archive(request, articles, breadcrumb=None, title=None, page_title=None):
     return direct_to_template(request, 'news_archive.html', kwargs)
 
 
+def archive_all(request):
+    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
+            for a in news_manager.articles
+            if 'en' in a or request.LANGUAGE_CODE in a]
+
+    return _archive(request, articles)
+
+
+def archive_year(request, year):
+    try:
+        year = int(year)
+    except ValueError:
+        pass
+    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
+            for a in news_manager.articles_by_year.get(year, {}).values()
+            if 'en' in a or request.LANGUAGE_CODE in a]
+
+    return _archive(request, articles, ((leaf(_('News'), '/news/'),),
+        leaf(year, '')), _('%s News') % year, _('Inkscape News in %s') % year)
+
+
 def article(request, year, slug):
     try:
         article, local_lang = news_manager.get_article(year, slug,
@@ -95,6 +95,8 @@ def article(request, year, slug):
 
 
 def category(request, slug):
+    if slug not in news_manager.category_slugs:
+        raise Http404('Category with slug %r does not exist' % slug)
     friendly_name = news_manager.category_slugs[slug]
     articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
             for a in news_manager.articles_by_category.get(friendly_name,

@@ -78,10 +78,10 @@ nav = (
             leaf(_('Source code'),          '/developers/code/'),
             )),
         root(_('News'),                     '/news/', (
-            leaf(_('Releases'),             '/news/releases/'),
-            leaf(_('Contests'),             '/news/contests/'),
-            leaf(_('Events'),               '/news/events/'),
-            leaf(_('Press'),                '/news/press/'),
+            leaf(_('Releases'),             '/news/category/releases/'),
+            leaf(_('Contests'),             '/news/category/contests/'),
+            leaf(_('Events'),               '/news/category/events/'),
+            leaf(_('Press'),                '/news/category/press/'),
             )),
         )
 

@@ -1,6 +1,6 @@
 Title: Inkscape 0.48 Essentials for Web Designers
 Author: prokoudine
-Category: General
+Category: Documentation
 Date: 2010-11-10
 
 Packt Publishing have just released a new book on Inkscape by Bethany Hiitola

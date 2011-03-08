@@ -1,6 +1,6 @@
 Title: Win32 and Mac builds are available again
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-03-31
 
 Builds for Windows_ and Mac_ from Bazaar are available again. These are by no

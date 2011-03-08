@@ -1,6 +1,6 @@
 Title: Google Summer of Code projects announced
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-04-27
 
 We are delighted to inform you that five students will be working on Inkscape

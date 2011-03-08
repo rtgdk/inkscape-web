@@ -1,6 +1,6 @@
 Title: Plans for 0.48
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-01-15
 
 We've been talking about moving to shorter release cycles for a while now. So

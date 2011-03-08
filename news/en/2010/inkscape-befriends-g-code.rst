@@ -1,6 +1,6 @@
 Title: Inkscape befriends G-code
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-10-10
 
 Not many people remember this, perhaps, but one of the first extensions ever

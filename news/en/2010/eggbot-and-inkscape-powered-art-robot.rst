@@ -1,6 +1,6 @@
 Title: Eggbot, and Inkscape powered art robot
 Author: prokoudine
-Category: General
+Category: In Press
 Date: 2010-09-23
 
 We'be been tracking all kinds of fancy uses of Inkscape for quite a while, and

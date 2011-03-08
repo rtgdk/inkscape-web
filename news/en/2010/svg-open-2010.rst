@@ -1,6 +1,6 @@
 Title: SVG Open 2010
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-06-05
 
 The annual `SVG Open`_ conference is taking place from August 30 to September 1

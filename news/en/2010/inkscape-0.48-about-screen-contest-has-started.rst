@@ -1,6 +1,6 @@
 Title: Inkscape 0.48 About Screen Contest Has Started
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-03-16
 
 Our dearest user community, we are happy to announce that a traditional About

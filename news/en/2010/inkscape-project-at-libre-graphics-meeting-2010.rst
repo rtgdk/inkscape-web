@@ -1,6 +1,6 @@
 Title: Inkscape project at Libre Graphics Meeting 2010
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-06-03
 
 On May 27-30 annual `Libre Graphics Meeting`_ conference has taken place in

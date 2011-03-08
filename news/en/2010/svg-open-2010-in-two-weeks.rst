@@ -1,6 +1,6 @@
 Title: SVG Open 2010 in two weeks
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-08-16
 
 While release preparations are full-steam (at packaging stage), we'd like to

@@ -1,6 +1,6 @@
 Title: Inkscape is finalist of Open Source Awards 2010
 Author: prokoudine
-Category: General
+Category: In Press
 Date: 2010-09-29
 
 Packt Publishing announced_ finalists of the `Open Source Awards 2010`_, and

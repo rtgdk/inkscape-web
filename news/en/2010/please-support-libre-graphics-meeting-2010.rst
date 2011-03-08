@@ -1,6 +1,6 @@
 Title: Please support Libre Graphics Meeting 2010
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-04-16
 
 Libre Graphics Meeting is an annual working conference for the free software

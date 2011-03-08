@@ -1,6 +1,6 @@
 Title: Google Summer of Code 2010 is over
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-09-09
 
 Google Summer of Code is over now, and we have mixed results. Unfortunately we

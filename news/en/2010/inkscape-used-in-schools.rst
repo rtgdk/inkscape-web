@@ -1,6 +1,6 @@
 Title: Inkscape used in schools
 Author: ScislaC
-Category: General
+Category: In Press
 Date: 2010-02-02
 
 In the Los Altos School District in California, they have a Digital Design

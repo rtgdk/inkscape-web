@@ -1,6 +1,6 @@
 Title: Free Graphics Software at Argentina Gráfica 2010
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-10-19
 
 This week at `Argentina Gráfica 2010`_ conference in Buenos Aires a long time

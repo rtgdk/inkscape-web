@@ -1,6 +1,6 @@
 Title: A new book on Inkscape in German
 Author: prokoudine
-Category: General
+Category: Documentation
 Date: 2010-02-19
 
 A new book on Inkscape in German called `"Inkscape: Professionelle

@@ -1,6 +1,6 @@
 Title: Plans for 0.48.1
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-09-20
 
 We have discussed possibility of releasing the first point version, 0.48.1,

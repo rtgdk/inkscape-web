@@ -1,6 +1,6 @@
 Title: Inkscape in a computer orientation class
 Author: faceman
-Category: General
+Category: In Press
 Date: 2010-09-21
 
 On September 2, 2010, Carl Symons led a one-day beginner's computer orientation

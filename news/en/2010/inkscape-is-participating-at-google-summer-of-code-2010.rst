@@ -1,6 +1,6 @@
 Title: Inkscape is participating at Google Summer of Code 2010
 Author: prokoudine
-Category: General
+Category: Events
 Date: 2010-03-20
 
 It's official now: we are in for Google Summer of Code 2010. In the past years

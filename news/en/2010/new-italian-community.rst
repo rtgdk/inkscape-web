@@ -1,6 +1,6 @@
 Title: New Italian community
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-10-10
 
 As you very well know, we encourage local community to organize themselves.

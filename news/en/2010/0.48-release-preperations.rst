@@ -1,6 +1,6 @@
 Title: 0.48 release preparations
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-07-05
 
 We are quickly approaching release of final 0.48 version. The plan is to make

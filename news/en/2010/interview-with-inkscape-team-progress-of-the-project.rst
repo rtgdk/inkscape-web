@@ -1,6 +1,6 @@
 Title: Interview with Inkscape team, progress of the project
 Author: prokoudine
-Category: General
+Category: In Press
 Date: 2010-08-30
 
 Libre Graphics World published an interview with Inkscape developers and

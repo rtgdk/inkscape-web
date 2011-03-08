@@ -1,6 +1,6 @@
 Title: GSoC2010 and release news
 Author: prokoudine
-Category: General
+Category: Community
 Date: 2010-08-08
 
 The midterm evaluation is long past. Unfortunately we lost two out of five

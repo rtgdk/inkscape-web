@@ -1,7 +1,7 @@
 # coding: utf-8
-# Django settings for inkscape project.
+# Django settings for djink project.
 from django.conf import global_settings
-import os
+from os.path import join, dirname, abspath
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -60,7 +60,7 @@ USE_L10N = True
 
 # Absolute path to the directory that holds media.
 # Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(os.path.abspath(os.path.dirname(__file__)), 'media')
+MEDIA_ROOT = join(abspath(dirname(dirname(__file__))), 'media')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash if there is a path component (optional in other cases).
@@ -83,26 +83,26 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'inkscape.nav.navigation_context_processor',
+    'djink.nav.navigation_context_processor',
     'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'inkscape.i18n.LocaleSubdomainMiddleware',
+    'djink.i18n.LocaleSubdomainMiddleware',
     #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'inkscape.urls'
+ROOT_URLCONF = 'djink.urls'
 
 APPEND_TRAILING_SLASH = True
 
 TEMPLATE_DIRS = (
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\', '/'),
+    join(dirname(__file__), 'templates').replace('\\', '/'),
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -118,10 +118,10 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'inkscape',
-    'inkscape.i18n',
-    'inkscape.apps.content',
-    'inkscape.apps.news',
+    'djink',
+    'djink.i18n',
+    'djink.apps.content',
+    'djink.apps.news',
 )
 
 RST_SETTINGS_OVERRIDES = {
@@ -130,8 +130,8 @@ RST_SETTINGS_OVERRIDES = {
     'initial_header_level': 2,
 }
 
-CONTENT_PATH = os.path.join(os.path.dirname(__file__), 'content')
-NEWS_PATH = os.path.join(os.path.dirname(__file__), 'news')
+CONTENT_PATH = join(dirname(dirname(__file__)), 'content')
+NEWS_PATH = join(dirname(dirname(__file__)), 'news')
 
 HOST_ROOT = 'djink.chrismorgan.info'
 

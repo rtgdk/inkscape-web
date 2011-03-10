@@ -112,7 +112,10 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.sites',
+    # We may need to use this once we get to db-backed stuff, but the language
+    # subdomain stuff will probably be easier managed as a separate field.
+    # Could be messy, the way it uses settings.SITE_ID makes it a bit hard.
+    #'django.contrib.sites',
     'django.contrib.messages',
     # Uncomment the next line to enable the admin:
     'django.contrib.admin',

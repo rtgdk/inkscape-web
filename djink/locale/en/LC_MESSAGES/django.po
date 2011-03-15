@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-01-31 05:15-0600\n"
+"POT-Creation-Date: 2011-03-15 06:24-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -89,120 +89,121 @@ msgstr ""
 msgid "Wiki"
 msgstr ""
 
-#: nav.py:63
+#: nav.py:64
 msgid "Community"
 msgstr ""
 
-#: nav.py:64
+#: nav.py:65
 msgid "Get Involved"
 msgstr ""
 
-#: nav.py:65
+#: nav.py:66
 msgid "Connect"
 msgstr ""
 
-#: nav.py:66
+#: nav.py:67
+msgid "Forums & blogs"
+msgstr ""
+
+#: nav.py:68
 msgid "Mailing lists"
 msgstr ""
 
-#: nav.py:67
+#: nav.py:69
 msgid "Help & support"
 msgstr ""
 
-#: nav.py:68 templates/base.html:71
+#: nav.py:70
+msgid "Contact"
+msgstr ""
+
+#: nav.py:71 templates/base.html:63
 msgid "Donate"
 msgstr ""
 
-#: nav.py:70
+#: nav.py:73
 msgid "Developers"
 msgstr ""
 
-#: nav.py:71
+#: nav.py:74
 msgid "Developer docs"
 msgstr ""
 
-#: nav.py:72
+#: nav.py:75
 msgid "Launchpad"
 msgstr ""
 
-#: nav.py:73
+#: nav.py:76
 msgid "Roadmap"
 msgstr ""
 
-#: nav.py:74
+#: nav.py:77
 msgid "Bazaar"
 msgstr ""
 
-#: nav.py:75
+#: nav.py:78
 msgid "Source code"
 msgstr ""
 
-#: nav.py:77
+#: nav.py:80 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
+#: apps/news/views.py:86 apps/news/views.py:103
 msgid "News"
 msgstr ""
 
-#: nav.py:78
+#: nav.py:81
 msgid "Releases"
 msgstr ""
 
-#: nav.py:79
+#: nav.py:82
 msgid "Contests"
 msgstr ""
 
-#: nav.py:80
+#: nav.py:83
 msgid "Events"
 msgstr ""
 
-#: nav.py:81
+#: nav.py:84
 msgid "Press"
 msgstr ""
 
-#: settings.py:41
-msgid "English"
-msgstr ""
-
-#: settings.py:42
-msgid "German"
-msgstr ""
-
-#: settings.py:43
-msgid "French"
-msgstr ""
-
-#: settings.py:44
-msgid "Italian"
-msgstr ""
-
-#: settings.py:45
-msgid "Spanish"
-msgstr ""
-
-#: settings.py:46
-msgid "Portuguese"
-msgstr ""
-
-#: settings.py:47
-msgid "Czech"
-msgstr ""
-
-#: settings.py:48
-msgid "Russian"
-msgstr ""
-
-#: settings.py:49
-msgid "Japanese"
-msgstr ""
-
-#: apps/content/views.py:29
+#: apps/content/views.py:31 apps/news/views.py:78
 msgid ""
 "This page is not available in English. Here is the English version of this "
 "page. If you would like to help with translating this website, please <a "
 "href=\"\">contact us</a>."
 msgstr ""
 "This page is not available in English. Somehow, though, it is available in "
-"English. I don't know quite what's going on, so please <a href=\"mailto:me@"
-"chrismorgan.info?title=Inkscape+website:+not+available+in+English+but+"
-"available+in+English!?\">contact Chris Morgan</a>."
+"English. I don't know quite what's going on, so please <a href=\"mailto:"
+"me@chrismorgan.info?title=Inkscape+website:+not+available+in+English+but"
+"+available+in+English!?\">contact Chris Morgan</a>."
+
+#: apps/news/feeds.py:19 apps/news/views.py:17
+msgid "Inkscape News"
+msgstr ""
+
+#: apps/news/feeds.py:21
+msgid "News about the Inkscape scalable vector graphics editor"
+msgstr ""
+
+#: apps/news/views.py:63
+#, python-format
+msgid "%s News"
+msgstr ""
+
+#: apps/news/views.py:64
+#, python-format
+msgid "Inkscape News in %s"
+msgstr ""
+
+#: apps/news/views.py:104
+#, python-format
+msgid "News: %s"
+msgstr ""
+
+#: apps/news/views.py:105
+#, python-format
+msgid "Inkscape News: %s"
+msgstr ""
 
 #: templates/403.html:3
 msgid "Forbidden"
@@ -250,45 +251,56 @@ msgid ""
 "and we'll see about fixing it.</p>\n"
 msgstr ""
 
-#: templates/base.html:9
+#: templates/_news_brief.html:6 templates/news_full.html:15
+#, python-format
+msgid ""
+"Published %(date)s by <a href=\"%(author_url)s\">%(author)s</a> in <a href="
+"\"%(category_url)s\">%(category)s</a>"
+msgstr ""
+
+#: templates/_news_brief.html:8
+msgid "Read more..."
+msgstr ""
+
+#: templates/base.html:7 templates/base.html.py:16
 msgid "Draw Freely."
 msgstr ""
 
-#: templates/base.html:37
+#: templates/base.html:29
 msgid "Log in / Register"
 msgstr ""
 
-#: templates/base.html:39
+#: templates/base.html:31
 msgid "Already a member? Log in below."
 msgstr ""
 
-#: templates/base.html:40
+#: templates/base.html:32
 msgid "Username"
 msgstr ""
 
-#: templates/base.html:42
+#: templates/base.html:34
 msgid "Password"
 msgstr ""
 
-#: templates/base.html:44
+#: templates/base.html:36
 msgid "Not a member?"
 msgstr ""
 
-#: templates/base.html:44
+#: templates/base.html:36
 msgid "Register now."
 msgstr ""
 
-#: templates/base.html:46
+#: templates/base.html:38
 msgid "Or log in with"
 msgstr ""
 
-#: templates/base.html:105
+#: templates/base.html:97
 msgid ""
 "Inkscape is Free and Open Source Software licensed under the GPL. This "
 "website was designed in Inkscape (of course.)"
 msgstr ""
 
-#: templates/base.html:107
+#: templates/base.html:99
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "and developed by <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
@@ -306,4 +318,24 @@ msgid ""
 "this URL.</p>\n"
 "<p id=\"credits\">(This fake 404 page is courtesy of <a href=\"http://"
 "chrismorgan.info\">Chris Morgan</a>.)</p>\n"
+msgstr ""
+
+#: templates/news_archive.html:14
+msgid "No news articles were found."
+msgstr ""
+
+#: templates/news_archive.html:23
+msgid "Categories"
+msgstr ""
+
+#: templates/news_archive.html:32
+msgid "Archives"
+msgstr ""
+
+#: templates/paginator.html:5
+msgid "Previous"
+msgstr ""
+
+#: templates/paginator.html:23
+msgid "Next"
 msgstr ""

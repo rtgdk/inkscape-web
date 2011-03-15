@@ -47,11 +47,7 @@ def _archive(request, articles, breadcrumb=None, title=None, page_title=None):
 
 
 def archive_all(request):
-    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
-            for a in news_manager.articles
-            if 'en' in a or request.LANGUAGE_CODE in a]
-
-    return _archive(request, articles)
+    return _archive(request, news_manager.get_articles(request.LANGUAGE_CODE))
 
 
 def archive_year(request, year):
@@ -59,12 +55,13 @@ def archive_year(request, year):
         year = int(year)
     except ValueError:
         pass
-    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
-            for a in news_manager.articles_by_year.get(year, {}).values()
-            if 'en' in a or request.LANGUAGE_CODE in a]
-
-    return _archive(request, articles, ((leaf(_('News'), '/news/'),),
-        leaf(year, '')), _('%s News') % year, _('Inkscape News in %s') % year)
+    return _archive(
+            request=request,
+            articles=news_manager.get_articles(request.LANGUAGE_CODE,
+                news_manager.articles_by_year.get(year, {}).values()),
+            breadcrumb=((leaf(_('News'), '/news/'),), leaf(year, '')),
+            title=_('%s News') % year,
+            page_title=_('Inkscape News in %s') % year)
 
 
 def article(request, year, slug):
@@ -98,12 +95,11 @@ def category(request, slug):
     if slug not in news_manager.category_slugs:
         raise Http404('Category with slug %r does not exist' % slug)
     friendly_name = news_manager.category_slugs[slug]
-    articles = [a['en' if 'en' in a else request.LANGUAGE_CODE]
-            for a in news_manager.articles_by_category.get(friendly_name,
-                {}).values()
-            if 'en' in a or request.LANGUAGE_CODE in a]
 
-    return _archive(request, articles,
+    return _archive(request,
+            articles=news_manager.get_articles(request.LANGUAGE_CODE,
+                news_manager.articles_by_category.get(friendly_name,
+                    {}).values()),
             breadcrumb=((leaf(_('News'), '/news/'),), leaf(friendly_name, '')),
             title=_('News: %s') % friendly_name,
             page_title=_('Inkscape News: %s') % friendly_name)

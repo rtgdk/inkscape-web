@@ -145,4 +145,11 @@ class _NewsManager(object):
             raise KeyError('Article %r from year %r not available in %r or %r'
                     % (slug, year, language, fallback_lang))
 
+    def get_articles(self, language, source=None, fallback_lang='en'):
+        if source is None:
+            source = self.articles
+
+        return [a[language if language in a else fallback_lang]
+            for a in source if fallback_lang in a or language in a]
+
 news_manager = _NewsManager()

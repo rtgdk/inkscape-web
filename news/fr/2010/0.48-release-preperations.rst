@@ -1,0 +1,19 @@
+Title: 0.48 release preparations
+Author: prokoudine
+Category: Community
+Date: 2010-07-05
+
+Nous approchons rapidement de la sortie de la version 0.48. Le
+travail actuel consiste à vérifier que tout ce qui n'a pas été
+finalisé soit désactivé et que les défauts les plus sévères soient
+corrigés. Un fois fait, les fichiers source seront mis à disposition
+et nous commencerons à travailler sur les versions exécutables pour
+Windows et Mac.
+
+En attendant, nous venons tout juste de dépasser les évaluations de
+mi-parcours pour nos étudiants aux Google Summer of Code. Rappel
+rapide, nous avons cette année cinq étudiants : deux travaillent
+sur les performances, un implémente l'effet de chemin Power Stroke,
+un restructure le mécanisme d'enregistrement et d'exportation, et un
+réécrit du code interne. Nous vous tiendrons au courrant des
+évolutions de ces différents projets.

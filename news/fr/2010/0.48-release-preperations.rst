@@ -1,4 +1,4 @@
-Title: 0.48 release preparations
+Title: Préparations pour la sortie d'Inkscape 0.48
 Author: prokoudine
 Category: Community
 Date: 2010-07-05

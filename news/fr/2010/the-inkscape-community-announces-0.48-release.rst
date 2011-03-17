@@ -11,7 +11,7 @@ contrôles numériques pour les paramètres d'intermot, d'interligne, de crénag
 de rotation de caractère...), plusieurs nouvelles extensions pour les
 développeurs web et une première mouture de l'interface adaptative.
 Référez-vous à la `note de version complète`_ pour de plus amples informations,
-profitez des `captures d'écran`_, ou `téléchargez` tout simplement le logiciel
+profitez des `captures d'écran`_, ou `téléchargez`_ tout simplement le logiciel
 pour Windows, Linux ou Mac OS X.
 
 .. _note de version complète: http://wiki.inkscape.org/wiki/index.php/Release_notes/0.48

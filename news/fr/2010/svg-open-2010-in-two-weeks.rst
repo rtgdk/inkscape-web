@@ -13,7 +13,7 @@ de sites web, des graphistes, des spécialistes SIG et des créateurs de
 solutions de visualisation. Cette année, le projet Inkscape sera représenté
 par Tavmjong Bah qui présentera la version 0.48 ainsi que les projets Google
 Summer of Code 2010. La liste complète des conférences est disponible sur le
-`site de l'événement`.
+`site de l'événement`_.
 
 .. _SVG Open: http://svgopen.org/2010/
 .. _site de l'événement: http://svgopen.org/2010/registration.php?section=conference_schedule

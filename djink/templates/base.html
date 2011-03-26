@@ -4,7 +4,7 @@
 		<meta charset="utf-8">
 		<link href="{{ MEDIA_URL }}css/main.css" rel="stylesheet" type="text/css">
 		<link href="{{ MEDIA_URL }}favicon.ico" rel="shortcut icon">
-		<title>{% block alltitle %}{% block title %}{{ title|default:"" }}{% endblock %}{% if title %} | Inkscape{% else %}Inkscape: {% trans "Draw Freely." %}{% endif %}{% endblock %}</title>
+		<title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
 		{% block extra-head %}{% endblock %}
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}">

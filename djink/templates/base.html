@@ -5,6 +5,7 @@
 		<link href="{{ MEDIA_URL }}css/main.css" rel="stylesheet" type="text/css">
 		<link href="{{ MEDIA_URL }}favicon.ico" rel="shortcut icon">
 		<title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		{% block extra-head %}{% endblock %}
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}">

@@ -1269,6 +1269,7 @@ Viewing SVG files like an image archive
 ---------------------------------------
 
 The following may be used to view/preview files:
+
 * Irfanview (http://www.irfanview.com/). Plugin is required, thumbnails
   available, but may display inaccurately.
 * Opera (http://www.opera.com). The browser can be used to open files.

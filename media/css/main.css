@@ -1298,3 +1298,56 @@ hr {
   vertical-align: top;
   padding-top: 4px;
 }
+
+#page-faq #left-column h2 {
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  padding: 15px 15px 15px 40px;
+  line-height: 1;
+}
+#page-faq #left-column h2 a.expandall {
+  border-radius: 6px;
+  color: #666666;
+  float: right;
+  font-size: 11px;
+  line-height: 18px;
+  margin: -48px 0 0;
+  padding: 15px;
+}
+#page-faq #left-column h2 a.expander {
+  display: block;
+  padding: 15px 15px 15px 40px;
+  color: #000000;
+  background: url("../images/expand-section-expanded.png") no-repeat 15px 17px;
+}
+#page-faq #left-column .category.collapsed h2 a.expander {
+  background: url("../images/expand-section-collapsed.png") no-repeat 15px 17px;
+}
+#page-faq #left-column h3 {
+  margin-top: 15px;
+  margin-left: 37px;
+  text-indent: -37px;
+}
+#page-faq #left-column h3 a.expander {
+  margin-left: 3px;
+  padding-left: 34px;
+  background: url("../images/expand-item-expanded.png") no-repeat 12px 5px;
+}
+#page-faq #left-column .question.collapsed h3 a.expander {
+  background: url("../images/expand-item-collapsed.png") no-repeat 12px 5px;
+}
+#page-faq #left-column.collapsible h2 {
+  padding: 0;
+}
+#page-faq #left-column .category-body {
+  overflow: auto;
+  margin-bottom: 50px;
+}
+#page-faq #left-column .category-body .question:first-child h3 {
+  margin-top: 0;
+}
+#page-faq #left-column .question-body {
+  padding-left: 55px;
+  border-bottom: 1px solid #cccccc;
+}

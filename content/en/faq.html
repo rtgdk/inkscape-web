@@ -1,0 +1,1039 @@
+{% extends "base_sidebar.html" %}
+{% block title %}Frequently Asked Questions{% endblock %}
+{% block pagetitle %}Frequently Asked Questions{% endblock %}
+{% block extra-head %}
+		<script src="{{ MEDIA_URL }}js/jquery.ba-hashchange.min.js"></script>
+		<script>
+		$(function(){
+			function hide(item, instant) {
+				if (item.hasClass('collapsed')) return;
+				if (instant) item.children('div').hide();
+				else item.children('div').slideUp();
+				item.removeClass('expanded').addClass('collapsed');
+			}
+			function show(item, instant) {
+				if (item.hasClass('expanded')) return;
+				if (instant) item.children('div').show(0); // .show() isn't working properly?
+				else item.children('div').slideDown();
+				item.removeClass('collapsed').addClass('expanded');
+			}
+			function expandAll(section) {
+				show(section);
+				section.children('.category-body').children('.question').each(function() { show($(this)); });
+			}
+			function toggle() {
+				var root = $(this).parent().parent();
+				if (root.hasClass('collapsed')) show(root);
+				else hide(root);
+				return false;
+			}
+
+			$('.question').each(function(){
+				var h3 = $(this).children('h3');
+				h3.html('<a href="#' + this.id + '" class="expander">' + h3.html() + '</a>');
+				hide($(this), 0);
+				$(this).children('h3').children('.expander').click(toggle);
+			});
+			$('.category').each(function(){
+				var h2 = $(this).children('h2');
+				h2.html('<a href="#' + this.id + '" class="expander">' + h2.html() + '</a><a href="#' + this.id + '" class="expandall">Expand all</a>'); // TODO: i18n
+				$(this).children('h2').children('.expandall').click(function() { expandAll($(this).parent().parent()); return false; });
+				hide($(this), true);
+				$(this).children('h2').children('.expander').click(toggle);
+			});
+			$('#left-column').addClass('collapsible');
+			$(window).hashchange(function() {
+				var e = $(location.hash);
+				if (e.hasClass('category')) {
+					show(e, true);
+				} else if (e.hasClass('question')) {
+					show(e.parents('.category'), true);
+					show(e, true);
+				}
+				location.hash = location.hash;
+			});
+			if (location.hash) {
+				$(window).hashchange();
+			} else {
+				show($('.category:first'), true);
+				show($('.category:first .question:first'));
+			}
+		});
+		</script>
+{% endblock %}
+{% block left-column %}
+
+	<div class="category" id="general">
+	<h2>General</h2>
+	<div class="category-body">
+
+	<div class="question" id="what-is-inkscape">
+	<h3>What is Inkscape?</h3>
+	<div class="question-body">
+	<p>Inkscape is an open-source vector graphics editor similar to Adobe Illustrator, Corel Draw, Freehand, or Xara X. What sets Inkscape apart is its use of <a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> (SVG), an open XML-based <a href="http://www.w3.org">W3C</a> standard, as the native format.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-are-vector-graphics">
+	<h3>What are vector graphics?</h3>
+	<div class="question-body">
+	<p>In contrast to raster (bitmap) graphics editors such as Photoshop or Gimp, Inkscape stores its graphics in a vector format.  <a href="http://en.wikipedia.org/wiki/Vector_graphics">Vector graphics</a> is a resolution-independent description of the actual shapes and objects that you see in the image. A rasterization engine uses this information to determine how to plot each line and curve at any resolution or zoom level.</p>
+	<p>Contrast that to <a href="http://en.wikipedia.org/wiki/Raster_format">bitmap (raster) graphics</a> which is always bound to a specific resolution and stores an image as a grid of pixels.</p>
+	<p>Vector graphics are a complement, rather than an alternative, to bitmap graphics. Each has its own purpose and are useful for different kinds of things. Raster graphics tend to be better for photographs and some kinds of artistic drawings, whereas vectors are more suitable for design compositions, logos, images with text, technical illustrations, etc.</p>
+	<p>Note that Inkscape can import and display bitmap images, too. An imported bitmap becomes yet another object in your vector graphics, and you can do with it everything you can do to other kinds of objects (move, transform, clip, etc.)</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-is-scalable-vector-graphics">
+	<h3>What is 'Scalable Vector Graphics'?</h3>
+	<div class="question-body">
+	<p><a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics</a> (SVG) is an open, industry-standard XML-based format for vector graphics developed by the <a href="http://www.w3.org">W3C</a>. Its acceptance is growing fast. Most vector editors these days can import and export SVG, and modern browsers (such as Firefox and Opera) can display it directly, i.e. without requiring any plugins. (For Internet Explorer, there's an <a href="http://adobe.com/svg/viewer/install/main.html">SVG Viewer</a> plugin from Adobe.) For more information, see <a href="#svg-topics">SVG topics</a> below.</p>
+	</div>
+	</div>
+
+	<div class="question" id="is-inkscape-ready-for-regular-users-to-use">
+	<h3>Is Inkscape ready for regular users to use?</h3>
+	<div class="question-body">
+	<p>Yes! While Inkscape does not have all the features of the leading vector editors, the latest versions provide for a large portion of basic vector graphics editing capabilities. People report successfully using Inkscape in a lot of very different projects (web graphics, technical diagrams, icons, creative art, logos, maps). For example, thousands of images on Wikipedia are <a href="http://commons.wikimedia.org/wiki/Category:Created_with_Inkscape">created with Inkscape</a>, as is the majority of the content on <a href="http://openclipart.org/">openclipart</a>; many examples of Inkscape art can be seen <a href="http://inkscape.deviantart.com/favourites/">on deviantART</a> and <a href="/galleries">here</a>. We try to always keep the codebase usable for real users, as we believe that a tight iteration cycle between users and developers will give best results.  You can start using Inkscape alongside your other tools now!</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-platforms-does-inkscape-run-on">
+	<h3>What platforms does Inkscape run on?</h3>
+	<div class="question-body">
+	<p>We provide binary packages for Linux, Windows 2000/2003/XP (fully self-contained installer), and OSX (dmg package).  We know that Inkscape is successfully used on FreeBSD and other Unix-like operating systems. Note that Windows 98/ME is no longer supported.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-did-inkscape-start">
+	<h3>How did Inkscape start?</h3>
+	<div class="question-body">
+	<p>Inkscape was started as a fork of <a href="http://sourceforge.net/projects/sodipodi/">Sodipodi</a>, in late 2003, by four Sodipodi developers: Bryce Harrington, MenTaLguY, Nathan Hurst, and Ted Gould. Our mission was creating a fully compliant <a href="http://www.w3.org/Graphics/SVG/">Scalable Vector Graphics (SVG)</a> drawing tool written in C++ with a new, more user friendly (<a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines (HIG)</a> compliant) interface and an open, community-oriented development process.  Within several months the project had produced several releases, demonstrating a sequence of significant new features and improvements to the codebase and quickly established Inkscape as a noteworthy Open Source project.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-does-inkscape-mean">
+	<h3>What does 'Inkscape' mean?</h3>
+	<div class="question-body">
+	<p>The name is made up of the two English words 'ink' and 'scape'.  Ink is a common substance for drawings, and is used when the sketched work is ready to be permanently committed to paper, and thus evokes the idea that Inkscape is ready for production work.  A scape is a view of a large number of objects, such as a landscape or ocean-scape, and thus alludes to the object-oriented nature of vector imagery.</p>
+	</div>
+	</div>
+
+	<div class="question" id="can-i-create-webpages-with-it">
+	<h3>Can I create webpages with it?</h3>
+	<div class="question-body">
+	<p>Sort of.</p>
+	<p>Many webpage authors use Inkscape for webpage mockups or to generate parts of web pages, such as banners, logos, icons, and more.</p>
+	<p>With the recent advances in SVG support in web browsers (such as Firefox or Opera), using SVG directly on the web becomes more of a possibility. For example, with Firefox 1.5 or better, you can open any Inkscape SVG document right in the browser, and Firefox will show it correctly. In theory, SVG and XHTML can be used together within the same document, so interested users or developers can explore this possibility further.</p>
+	<p>Unfortunately, even though SVG is the internet standard for vector graphics, some older (but still common) web browsers fail to support SVG.</p>
+	<p>Web page authors who need to support widest variety of web browsers convert each SVG graphic to a raster image (.png) as the very last step.</p>
+	<h4>How do I make a SVG object that link to an internet site when I click on it?</h4>
+	<p>You can <a href="http://www.w3.org/TR/SVG/linking.html">create clickable links from objects</a> in Inkscape by right clicking the object, and clicking 'Create Link'. Then, right click your new link and choose 'Link Properties' to set the web address and many other properties.</p>
+	<p>Another way to make objects into web links is to edit the XML directly.  Inside Inkscape, open the XML editor (Shift+Ctrl+X) ... or use your favorite text editor.</p>
+	<p>First look at the &lt;svg&gt; element and try adding the following if it's not there already:</p>
+	<pre>
+	xmlns:xlink=&quot;http://www.w3.org/1999/xlink&quot;</pre>
+	<p>Then find the object you want people to click on.  Let's say it's a red ellipse
+	that looks like this in the XML editor:</p>
+	<pre>
+	&lt;ellipse cx=&quot;2.5&quot; cy=&quot;1.5&quot; rx=&quot;2&quot; ry=&quot;1&quot; fill=&quot;red&quot; /&gt;</pre>
+	<p>Surround that object with the &quot;<code>a xlink:href</code>&quot; tag:</p>
+	<pre>
+	&lt;a xlink:href=&quot;&quot;&gt;
+	  &lt;ellipse cx=&quot;2.5&quot; cy=&quot;1.5&quot; rx=&quot;2&quot; ry=&quot;1&quot;
+			   fill=&quot;red&quot; /&gt;
+	&lt;/a&gt;</pre>
+	<p>then fill in the destination URL:</p>
+	<pre>
+	&lt;a xlink:href=&quot;http://inkscape.org/&quot;&gt;
+	  &lt;ellipse cx=&quot;2.5&quot; cy=&quot;1.5&quot; rx=&quot;2&quot; ry=&quot;1&quot; fill=&quot;red&quot; /&gt;
+	&lt;/a&gt;</pre>
+	<p>Then close the editor and return to normal graphical editing.</p>
+	</div>
+	</div>
+
+	<div class="question" id="can-i-create-animations-with-it">
+	<h3>Can I create animations with it?</h3>
+	<div class="question-body">
+	<p>No, Inkscape does not support SVG animation yet. It is for static 2-D graphics.  However you can export graphics from Inkscape to use in Flash or GIF animations. And since February 2006, Blender can import SVG data and extrude it to render 3D graphics.</p>
+	</div>
+	</div>
+
+	<div class="question" id="will-there-be-an-inkscape-1-00-what-would-it-be-like">
+	<h3>Will there be an Inkscape 1.00?  What would it be like?</h3>
+	<div class="question-body">
+	<p>Assuming development continues steadily, we will inevitably hit 1.00, but no particular date has been discussed yet.</p>
+	<p>One of the goals that must be completed before version 1.00 is the full implementation of the SVG 1.1 Spec.</p>
+	<p>Before going gold with any kind of 1.00 release, there would be a significant effort to tie down loose ends, a push for greater stability and smoothing off of rough edges. This would be a time consuming process and until it does happen Inkscape may be subject to substantial changes between releases.</p>
+	</div>
+	</div>
+
+	<div class="question" id="to-update-to-a-new-version-of-inkscape-in-windows-do-i-need-to-uninstall-the-old-version">
+	<h3>To update to a new version of Inkscape in Windows, do I need to uninstall the old version?</h3>
+	<div class="question-body">
+	<p>When you already have Inkscape installed on your Windows XP computer and you launch the installer for the new version, you should be asked if you wish to uninstall the version you already have. If you answer <em>Yes</em>, a wizard will be launched that will uninstall the old version; when it finishes, the install wizard will then launch.</p>
+	<p>However, a file may be left in your installation folder (the default is <code>C:\Program Files\Inkscape</code>) that prevents the installation from completing. Simply use File Manager to navigate to that folder and remove any files that may be there. You can then resume installation.</p>
+	<p>If you wish to keep the old version on your computer, simply choose a different folder to which the newer Inkscape should be installed.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="using-inkscape">
+	<h2>Using Inkscape</h2>
+	<div class="category-body">
+
+	<div class="question" id="how-do-i-rotate-objects">
+	<h3>How do I rotate objects?</h3>
+	<div class="question-body">
+	<p>Inkscape follows the convention used by CorelDraw, Xara and some other programs: instead of a separate &quot;rotate&quot; tool, you switch to Selector (arrow), click to select, and then click selected objects again. The handles around the object become rotation handles - drag them to rotate. You can also use the Transform dialog for precise rotation and the [, ] keys to rotate selection from the keyboard (with Ctrl to rotate 90 degrees, with Alt to rotate the one-pixel amount at the current zoom).</p>
+	</div>
+	</div>
+	<div class="question" id="how-do-i-scale-or-rotate-groups-of-nodes">
+	<h3>How do I scale or rotate groups of nodes?</h3>
+	<div class="question-body">
+	<p>You cannot yet do it by mouse, but you can do it from the keyboard. When several nodes are selected, pressing the '&lt;' or '&gt;' button scales, while pressing the '[' or ']' button rotates the selected nodes as if they were an “object”, around the center of that node group or around the node over which your mouse cursor hovers. (And arrow keys, of course, move the selected nodes as a whole.) So, for example, in a single-path silhouette portrait, you can now select the nodes of the nose and rotate/scale the nose as a whole without breaking the path into pieces. Pressing Alt with these keys gives pixel-sized movement depending on zoom, the same as in Selector. Also, you can press h or v to flip the selected nodes horizontally or vertically.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-do-i-change-the-color-of-text">
+	<h3>How do I change the color of text?</h3>
+	<div class="question-body">
+	<p>Text is not different from any other type of object in Inkscape. You can paint its fill and stroke with any color, as you would do with any object. Swatches palette, Fill and Stroke dialog, pasting style - all this works on texts exactly as it does on, for example, rectangles. Moreover, if in the Text tool you select part of a text by Shift+arrows or mouse drag, any color setting method will apply only to the selected part of the text.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-do-i-change-the-color-of-markers-e-g-arrow-ends">
+	<h3>How do I change the color of markers (e.g. arrow ends)?</h3>
+	<div class="question-body">
+	<p>By default, markers are black. You can change their color to match the color of the stroke of the object they are applied to by enabling an effect: Extensions &gt; Modify Path &gt; Color Markers to Match Stroke.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-insert-math-symbols-or-other-special-symbols-in-the-drawing">
+	<h3>How to insert math symbols or other special symbols in the drawing?</h3>
+	<div class="question-body">
+	<p>When editing text on canvas, press Ctrl+U, then type the Unicode code point of the symbol you need. A preview of the symbol is shown in the statusbar. When done, press Enter. A list of Unicode codes can be found at <a href="http://www.unicode.org/charts/">unicode.org</a>; for example, the integral sign character is &quot;222b&quot;. You must have a font installed on your system that has this character; otherwise what you'll see is a placeholder rectangle.</p>
+	<p>When editing text on the Text tab of the Text and Font dialog, you can use any GTK input modes that your GTK installation supports. Consult GTK documentation for details.</p>
+	<p>There is also an extension called <a href="http://www.iki.fi/pav/software/textext/index.html">textext</a>, that allows you to include LaTeX typeset formulas in inkscape.</p>
+	<p>When saving your work in eps format, we recommend to set the option &quot;convert text to path&quot; in the export dialog box, to preserve the symbol.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-can-sine-curves-be-made-in-inkscape">
+	<h3>How can sine curves be made in Inkscape?</h3>
+	<div class="question-body">
+	<p>Inkscape includes an extension called Function Plotter. It can be used to create sine curves or any other function graphs.  To access it, go to the Effects menu, and then the Render submenu.  Other software, such as Xfig, <a href="http://edu.kde.org/kig/">KiG</a>, or <a href="http://www.mit.edu/~ibaran/kseg.html">KSEG</a> can also be used to create complex curves and then export to SVG for use in Inkscape.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-measure-distances-and-angles">
+	<h3>How to measure distances and angles?</h3>
+	<div class="question-body">
+	<p>Inkscape does not yet have a dedicated Measure tool. However, the Pen tool can be used in its stead. Switch to Pen (Shift+F6), click at one end of the segment you want to measure, and move the mouse (without clicking) to its other end. In the statusbar, you will see the distance and angle measurement. Then press Esc to cancel.</p>
+	<p>The angle is measured by default from 3 o'clock origin counterclockwise (the mathematical convention), but in Preferences you can switch this to using compass-like measurement (from 12 o'clock, clockwise).</p>
+	<p>Starting from 0.44 we also have the Measure Path extension that will measure the length of an arbitrary path.</p>
+	</div>
+	</div>
+
+	<div class="question" id="does-inkscape-support-palettes-where-can-i-store-and-save-colours-for-further-use">
+	<h3>Does Inkscape support palettes? Where can I &quot;store&quot; and save colours for further use?</h3>
+	<div class="question-body">
+	<p>Inkscape uses the same file format for palettes as the GNU Image Manipulation Program (GIMP Colour Palettes, .gpl). To install a palette, copy the .gpl file to the share/palettes directory in your Inkscape installation.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-can-i-print-the-tutorials-when-printed-from-inkscape-they-don-t-fit-and-i-don-t-like-reading-on-screen">
+	<h3>How can I print the tutorials? When printed from Inkscape they don't fit, and I don't like reading on screen.</h3>
+	<div class="question-body">
+	<p>All tutorials in all languages are available online in HTML at <a href="http://inkscape.org/doc/index.php">this page</a> and can be easily printed from your browser.</p>
+	</div>
+	</div>
+
+	<div class="question" id="can-i-use-different-settings-for-the-new-documents-created-by-inkscape">
+	<h3>Can I use different settings for the new documents created by Inkscape?</h3>
+	<div class="question-body">
+	<p>Yes. When you do File &gt; New (Ctrl+N) or start a new Inkscape session, Inkscape loads the default template document which stores page format, grid and guide parameters, snapping and export settings, etc. It can even contain any pre-created objects. You can save any document as the default template by writing it to <code>~/.inkscape/templates/default.svg</code> on Linux and <code><em>[inkscape dir]</em>/share/templates/default.svg</code> on Windows. If you save it under any other name than <code>default.svg</code> in the same folder, it will appear in the File &gt; New submenu but will not load automatically unless chosen.</p>
+	<p>If you use a localized version of Inkscape, french for example, the document <code>default.fr.svg</code> will be used in place of <code>default.svg</code>. Thus you can adapt the document loaded by default to the user language.</p>
+	</div>
+	</div>
+
+	<div class="question" id="is-there-a-way-to-apply-a-gradient-to-a-stroke-so-that-it-bends-with-the-stroke">
+	<h3>Is there a way to apply a gradient to a stroke so that it bends with the stroke?</h3>
+	<div class="question-body">
+	<p>A stroke can be painted with a gradient, but that gradient will not bend with the stroke. It will remain linear or elliptic. If you meant something like <a href="http://www.mediascape.com/vp.html">this</a>, then Inkscape can emulate such effects using blur (use the Blur slider in the Fill and Stroke dialog), possibly in combination with clipping (see <a href="http://inkscape.org/screenshots/gallery/inkscape-0.45-3D-rope.png">this screenshot</a>). Another method is to use the Blend extension to create a blend between two curved paths painted with different colors or opacity levels; with enough intermediate steps, such a blend will look almost like an arbitrarily curved gradient.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-m-trying-to-make-a-colored-tiling-of-clones-but-the-tiles-refuse-to-change-color">
+	<h3>I'm trying to make a colored tiling of clones, but the tiles refuse to change color.</h3>
+	<div class="question-body">
+	<p>The original object from which you're cloning must have its fill or stroke <em>unset</em> (not removed, but unset!) for this to work. Use the &quot;?&quot; button in the Fill &amp; Stroke dialog to unset fill, or use the &quot;Unset&quot; command in the right-click menu of the selected style indicator in the statusbar. If the original is a group, only some of the objects in the group may have unset fill, and only these objects will change colors in the tiling.</p>
+	</div>
+	</div>
+
+	<div class="question" id="gradients-disappear-when-objects-are-moved-or-resized">
+	<h3>Gradients &quot;disappear&quot; when objects are moved or resized.</h3>
+	<div class="question-body">
+	<p>You have the &quot;move gradients&quot; button toggled off in the Selector tool's controls bar (above the canvas). That's the mode in which moving or resizing an object does not affect the gradients - they stay in the original place relative to canvas and therefore may seem to &quot;disappear&quot; if you move the object. Toggle it back on and it will work as you expect.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-m-trying-to-apply-a-gradient-opacity-mask-to-an-object-but-the-entire-object-disappears">
+	<h3>I'm trying to apply a gradient opacity mask to an object, but the entire object disappears.</h3>
+	<div class="question-body">
+	<p>Note that per SVG rules, <strong>black</strong> color is <em>opaque</em> in a mask (i.e. it obscures the object under it); <strong>white</strong> color is <em>transparent</em> (the object shows through). What's more, the &quot;no color&quot; fill or full transparency is equivalent to &quot;transparent black&quot;, i.e. (rather counterintuitively) also becomes opaque in a mask. So, if you want to make your object gradually masked out, create the masking gradient either <em>from white to transparent</em>, or <em>from white to black</em>. The detailed rules of SVG masks are defined in <a href="http://www.w3.org/TR/SVG11/masking.html#Masking">http://www.w3.org/TR/SVG11/masking.html#Masking</a>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="images-in-my-document-disappear-and-i-get-linked-image-not-found">
+	<h3>Images in my document disappear and I get &quot;Linked Image Not Found&quot;.</h3>
+	<div class="question-body">
+	<p>This happens when bitmap/raster images are imported, because they are not actually stored inside an Inkscape file by default. What is stored is a link to the location of the bitmap image on your system. If you later move the original bitmap image or send the document to someone else, the image will not be able to be found by Inkscape. See <a href="http://tavmjong.free.fr/INKSCAPE/MANUAL/html/File-Import.html">File Import</a> for more information.</p>
+	<p>How can you fix this? There are several solutions.</p>
+	<ol>
+	<li>You can &quot;Embed&quot; the images. Go to the Effects menu -&gt; Images -&gt; Embed All Images. This will save all bitmaps inside the file, but can make the file quite large. Inkscape will also only embed PNG or JPG files.</li>
+	<li>Another, possibly better, solution is to &quot;Trace&quot; the bitmap images so they become vector images. Inkscape does embed traced images by default, as they are now vector images. To do this, follow the instructions on tracing an image <a href="http://www.inkscape.org/doc/tracing/tutorial-tracing.html">here</a> or <a href="http://tavmjong.free.fr/INKSCAPE/MANUAL/html/Trace.html">in the manual</a>.</li>
+	</ol>
+	<p>A <a href="https://bugs.launchpad.net/inkscape/+bug/171842">bug request</a> has been made to enable Inkscape users to embed bitmap images by default.</p>
+	</div>
+	</div>
+
+	<div class="question" id="the-pngs-exported-by-inkscape-have-jagged-edges-no-antialiasing-funny-background">
+	<h3>The PNGs exported by Inkscape have jagged edges/no antialiasing/funny background.</h3>
+	<div class="question-body">
+	<p>This is a problem with whatever you use to view these PNG files, not with Inkscape. For example, Internet Explorer prior to version 7 cannot show PNG files with transparency properly. Use e.g. Firefox to view your PNGs. If you absolutely must support IE 6, you can't have transparent background in PNG; change it to opaque in Document Preferences and export the PNG file again. Also, you should look into using Dean Edwards' <a href="http://dean.edwards.name/IE7/">IE7 Library</a>: <em>It fixes many CSS issues and makes transparent PNG work correctly under IE5 and IE6.</em></p>
+	<p>If you want to open the exported PNG bitmaps in MS-Word, you will also have to change the alpha-opacity (in document-properties dialog) to full, and then export &ndash; the result will be much better.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-have-two-adjacent-objects-with-their-edges-abutting-precisely-but-at-some-zoom-levels-a-seam-is-still-visible">
+	<h3>I have two adjacent objects with their edges abutting precisely, but at some zoom levels, a seam is still visible.</h3>
+	<div class="question-body">
+	<p>That's a known problem of our renderer (as well as many other renderers, for example Xara's). Antialiased display sometimes results in not-fully-opaque pixels along the boundary of two objects even if there's absolutely no gap between them. There are several ways to avoid this problem. If your boundary is horizontal or vertical, you can suppress antialiasing by pixel-snapping (see next question). Often, you can just union the two shapes so they become one and the seam disappears. If this is not possible, just add a small overlap to the abutting shapes. If this isn't possible either (for example, due to transparency of these objects), sometimes blurring can help:  in Inkscape 0.45+, you can group the two objects and slightly blur the group to make the seam disappear.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-suppress-antialiasing">
+	<h3>How to suppress antialiasing?</h3>
+	<div class="question-body">
+	<p>With the current renderer, it is not possible to completely get rid of antialiasing. However, it is possible to <em>partially</em> suppress it on export.  Usually, antialiasing is unwelcome in horizontal and vertical lines which become &quot;blurred&quot;. To work around this, make sure your horizontal/vertical edges are snapped on the pixel grid, and all strokes are a whole number of pixels wide. Then, export bitmap at the default 90dpi so that 1 px unit corresponds to 1 bitmap pixel. In the resulting bitmap, snapped color boundaries will be perfectly crisp.</p>
+	</div>
+	</div>
+
+	<div class="question" id="can-inkscape-be-used-from-the-command-line">
+	<h3>Can Inkscape be used from the command line?</h3>
+	<div class="question-body">
+	<p>Yes, Inkscape has a powerful command line interface and can be used in scripts for a variety of tasks, such as exporting and format conversions.  For details, refer to the manual page (<a href="http://inkscape.org/doc/inkscape-man.html">online</a>, or via the <em>Help &gt; Command line options</em> command, or by <code>man inkscape</code> on Unix). Using command line interface on Windows has <a href="I'monWindows,andcommandlineparametersdon'tseemtowork!">certain limitations and specifics</a>.</p>
+	<!-- TODO fix that link if it doesn't work -->
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="troubleshooting-inkscape">
+	<h2>Troubleshooting Inkscape</h2>
+	<div class="category-body">
+
+	<div class="question" id="where-do-i-ask-for-help-troubleshooting-an-inkscape-problem">
+	<h3>Where do I ask for help troubleshooting an Inkscape problem?</h3>
+	<div class="question-body">
+	<p><a href="https://answers.launchpad.net/inkscape/">https://answers.launchpad.net/inkscape/</a> is the best place to ask for help in troubleshooting an Inkscape issue.</p>
+	<p>The <a href="http://inkscape.org/mailing_lists.php">Inkscape-user</a> mailing list is also an excellent place to ask for help, although it may be harder and take longer to get a question answered than through the Answers site.</p>
+	<p>Sometimes people join IRC thinking they can get a quick answer, however this can be very hit and miss, as generally whomever is active on IRC at the moment probably doesn't know the right answer for you.  Also, your question may result in distracting other conversations.  Generally, IRC is best used only if you specifically need to ask a particular person an Inkscape question.</p>
+	</div>
+	</div>
+
+	<div class="question" id="where-else-should-i-look-when-i-have-an-inkscape-problem">
+	<h3>Where else should I look when I have an Inkscape problem?</h3>
+	<div class="question-body">
+	<p>Try <a href="http://wiki.inkscape.org/wiki/index.php/InstallHelp">InstallHelp</a></p>
+	</div>
+	</div>
+
+	<div class="question" id="what-is-the-proper-way-to-ask-questions-on-irc">
+	<h3>What is the proper way to ask questions on IRC?</h3>
+	<div class="question-body">
+	<p>Many people wonder why questions asked on the Inkscape IRC channel generally do not receive an answer.  There are several reasons for this.</p>
+	<p>First, maybe IRC is the wrong place to be asking the question; see the previous FAQ item.</p>
+	<p>Second, you may have asked the question wrong.  A common error people make on IRC is to say something like, &quot;Can someone answer a question?&quot; without actually indicating what the question is.  Most people won't respond to this, because they have no idea what they'll be asked, and they may not know.  (For instance, your question may have to do with Windows, whereas they only know Linux.) Instead, <em>just ask the question</em>.  If someone has relevant advice, they'll see your question and give it.</p>
+	<p>Third, you may not have waited long enough for an answer.  It's very, very common for someone to join IRC, ask a question, wait a few minutes, log out when no answer appears, and then a few seconds later someone submits the answer.  Be patient; it could take as much as 30 min for someone to see and respond to your question.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-to-do-when-the-cursor-and-tools-end-up-in-different-places">
+	<h3>What to do when the cursor and tools end up in different places?</h3>
+	<div class="question-body">
+	<p>In Windows XP, there might be a problem where the cursor is at a different location than where the drawing ends up. Their position relative to each other varies. When the cursor is at the very center of the image, the lines might end up far out in the periphery. The problem appears both in Version 0.44 and 0.45, even after reinstalling the software.</p>
+	<p>There is yet no solution to this problem, and one simply has to find another software than Inkscape.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-do-i-get-extensions-working">
+	<h3>How do I get extensions working?</h3>
+	<div class="question-body">
+	<p>The extensions mechanism allows you to use external programs and scripts written in any language to augment Inkscape's capabilities.  The tricky part is satisfying all of the dependencies of the external programs. For help regarding opening special file formats though extensions check <a href="http://wiki.inkscape.org/wiki/index.php/GettingExtensionsWorking">GettingExtensionsWorking</a>. If you are interested in on-canvas Effects (the Effects menu) go to <a href="http://wiki.inkscape.org/wiki/index.php/GettingEffectsWorking">GettingEffectsWorking</a>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="why-do-images-grow-when-imported-into-inkscape">
+	<h3>Why do images 'grow' when imported into Inkscape?</h3>
+	<div class="question-body">
+	<p>There is a limitation in the way Inkscape imports <a href="http://en.wikipedia.org/wiki/Raster_graphics">raster/bitmap images</a> (e.g JPEG, PNG, TIFF images): it cannot read the image resolution. Inkscape assumes a 1-to-1 relation at 90dpi, so any imported image with a different resolution will appear to be scaled. For example, an image of resolution 180 dpi, when imported into Inkscape, will appear twice as big (180 = 90 x 2) in absolute units as it is in other programs. Note that this just scales the pixels of the image, but never adds or removes any pixels.</p>
+	<p>When exporting back to a PNG image, changing the resolution will only resample the image, not resize it. The only way to keep the image at the same size is to scale it inside Inkscape, once it is imported. For this you need to know the size (in pixels, cm, inches,...) of the image you import. Then select it and in the selector's toolbar, click the lock between the width and height fields, select the unit of the image size and enter either the width or height in the appropriate field. When exporting, if you don't want to lose information from your image, use a resolution larger or equal to the resolution of the original image.</p>
+	<p><em>Example:</em> Import an image of size 800*600 pixels and resolution 150 dpi. It will appear to be 1333 pixels wide and 1000 pixels high in Inkscape. Select it, click the lock in the selector's toolbar, enter 800 in the width field. Add some stuff on the image. Export the document to PNG with resolution 150 dpi.  The exported image will be identical to the original one expect for the stuff you added on it.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-m-on-windows-and-command-line-parameters-don-t-seem-to-work">
+	<h3>I'm on Windows, and command line parameters don't seem to work!</h3>
+	<div class="question-body">
+	<h4>Missing console output issue</h4>
+	<p>Actually, things like exporting or converting to plain SVG do work, they just do not output anything to the console. This is because Inkscape on Windows is a GUI application and is not allowed to have any console output. (This means that query options (such as <code>--query-x</code>) will not work at all.)</p>
+	<p>One way to enable console output on windows is by running Inkscape from a <a href="http://kaioa.com/node/42">batch file</a> or from a <a href="http://kaioa.com/node/63">launcher application</a>. Both options redirect the output to the console.</p>
+	<p>Another way to restore console output is by recompiling Inkscape for Windows as a console application. See <a href="http://wiki.inkscape.org/wiki/index.php/Win32Port">this page</a> for general Windows compilation instructions; edit the file build.xml in the source tree's root directory and replace the <code>-mwindows</code> that's in the flags section of the link target with <code>-mconsole</code> then recompile. This will give you an inkscape.exe which works exactly as it does on Linux with regard to command line parameters and console output. If you regularly use Inkscape's command line interface on Windows, please send a message to the <a href="http://inkscape.org/mailing_lists.php">inkscape-devel list</a> and we may consider providing such a console executable in our official Inkscape Windows builds.</p>
+	<h4>'File not found' issue</h4>
+	<p>Note that on Windows you must provide full paths for all files:</p>
+	<pre>
+	inkscape -e c:\mydir\file.png c:\mydir\file.svg</pre>
+	<p>Without the <code>c:\mydir\</code> it won't work. If the path contains spaces, you must enclose it all into quotes, for example <code>&quot;c:\my dir\file.svg&quot;</code>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-make-alt-click-and-alt-drag-work-on-linux">
+	<h3>How to make Alt+click and Alt+drag work on Linux?</h3>
+	<div class="question-body">
+	<p>Alt+click and Alt+drag are very useful Inkscape shortcuts (&quot;select under&quot; and &quot;move selected&quot; in Selector, &quot;node sculpting&quot; in Node tool). However, on Linux Alt+click and Alt+drag are often reserved by the window manager for manipulating the windows.</p>
+	<p>From version 0.46 onwards there is an option in the ~/.config/inkscape/preferences.xml file to allow another modifier key to be used as an alias for Alt within Inkscape. The option is &quot;mapalt&quot; under group &quot;options&quot; and has a numerical value. This value equates to the modifier key that is mapped to Alt, 1 indicates Alt, ie, no mapping). The value you need to use depends on the setup of your particular keyboard and may be 2, 3, 4, or 5.  The program xkeycaps available from <a href="http://www.jwz.org/xkeycaps/">www.jwz.org</a> is useful in finding which mod values are assigned to which keys on your keyboard, as well as setting them. The value associated with a particular key is shown in that program at the top of the screen beside the word &quot;Modifiers&quot; when the mouse is held over a key on the main display.</p>
+	<p>Note that this setting makes the new key an alias for Alt in every keyboard shortcut, not just those concerned with the mouse.</p>
+	<p>Alternatively, you can disable Alt-click and Alt-drag in your window manager as shown below:</p>
+	<h4>KDE</h4>
+	<p>For example, in KDE this is done in Control Center &gt; Desktop &gt; Window Behavior &gt; Window Actions.</p>
+	<h4>XFCE4</h4>
+	<p>Please read <a href="http://www.xfce.org/documentation/4.2/manuals/xfwm4">Xfce 4 Window Manager documentation</a> - (The documentation is currently out of date for the 4.4 series.)</p>
+	<ul>
+	<li>To enable in XFCE 4.4 or greater, in the Settings Manager &gt; Window Manager Tweaks &gt; Accessibility Tab, change &quot;Key used to grab and move windows&quot; to &quot;none&quot; or something else.  Several other selections (such as &quot;Meta&quot;) may still use the &quot;Alt&quot; key, however, so test it first.</li>
+	<li>Before 4.4, edit ~/.config/xfce4/xfwm4/xfwm4rc to contain &quot;easy_click=false&quot;.</li>
+	</ul>
+	<h4>GNOME</h4>
+	<p>Go to System &gt; Preferences &gt; Windows. You are presented with three options to move windows around: &quot;Alt&quot;, &quot;Ctrl&quot; or &quot;Super&quot; (Windows logo key). Choose &quot;Super&quot;.</p>
+	<h4>fluxbox</h4>
+	<p>Beginning from version 1.0rc2, fluxbox allows changing the key used for manipulating windows. To use windows logo key for this, open file ~/.fluxbox/init in a text editor and change line &quot;session.modKey: Mod1&quot; to &quot;session.modKey: Mod4&quot;</p>
+	<h4>IceWM</h4>
+	<p>If you have not already done so, create a local copy of the IceWM system preferences file.  (Typically the system file is <code>/usr/share/icewm/preferences</code> and your local copy is <code>~/.icewm/preferences</code>. Your mileage may vary.)</p>
+	<p>Edit your local copy as follows; change:</p>
+	<pre>
+	# MouseWinMove=&quot;Alt+Pointer_Button1&quot;</pre>
+	<p>to:</p>
+	<pre>
+	MouseWinMove=&quot;Alt+Pointer_Button2&quot;</pre>
+	<p>and change:</p>
+	<pre>
+	# MouseWinRaise=&quot;Ctrl+Alt+Pointer_Button1&quot;</pre>
+	<p>to:</p>
+	<pre>
+	MouseWinRaise=&quot;Ctrl+Alt+Pointer_Button2&quot;</pre>
+	<p>Save the preferences file and restart IceWM.</p>
+	<p>This rebinds the window manager functions to the middle button, which frees up Alt+click and Alt+drag with the left button for Inkscape.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-m-having-problems-with-non-latin-filenames-on-linux-help">
+	<h3>I'm having problems with non-Latin filenames on Linux - help!</h3>
+	<div class="question-body">
+	<p>If your locale charset is not UTF-8, then you need to have this environment variable set:</p>
+	<pre>
+	$ G_BROKEN_FILENAMES=1
+	$ export G_BROKEN_FILENAMES</pre>
+	<p>This is necessary for Glib filename conversion from the locale charset to UTF-8 (used in SVG) and back to work. <a href="http://www.gtk.org/gtk-2.0.0-notes.html">Read more details</a>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-can-i-change-inkscape-s-interface-language">
+	<h3>How can I change Inkscape's interface language?</h3>
+	<div class="question-body">
+	<p>If you are using the 0.47 development snapshot, you can change it using a drop-down box in Inkscape Preferences -&gt; Interface. It requires a restart to take effect. Here are the instructions for older versions:</p>
+	<dl>
+	<dt>Linux</dt>
+	<dd><p>Fist type <code>locale -a</code> in the console to find out, which locale settings are supported on your system and how they were written.</p>
+	<p><code>export LANGUAGE=&quot;C&quot;</code> in the commandline switches to the default language (English).</p>
+	<p><code>export LANGUAGE=&quot;de_DE.utf-8&quot;</code> changes the language to german. This command works only temporary. After a system restart the original locale is active. The used locale has to be installed with inkscape on your computer (else, Inkscape falls back to the default language).</p>
+	<p><strong>Add a new locale</strong> (need root permissions):</p>
+	<p>Add an entry to /etc/locale.gen:</p>
+	<pre>
+	hu_HU ISO-8859-2
+	en_US ISO-8859-1</pre>
+	<pre>
+	&gt; locale-gen
+	&gt; update-locale</pre>
+	</dd>
+	<dt>Windows</dt>
+	<dd><dl>
+	<dt><strong>Easy way</strong></dt>
+	<dd><p>Create a batch file in your inkscape installation directory. Call it inkscape.bat.</p>
+	<p>Add the lines (replace with your LANG setting)</p>
+	<pre>
+	&#64;set LANG=de_DE
+	&#64;start inkscape.exe</pre>
+	<p>Save and double-click to use it.</p>
+	</dd>
+	</dl>
+	<p><strong>Using System Settings</strong>: either delete the yyy language files, or change the language by setting the LANGUAGE environment variable.</p>
+	<ol>
+	<li><p>Deleting the yyy language files</p>
+	<p>Beware, this changes the behaviour for <strong>all</strong> inkscape users on this machine.</p>
+	<ol>
+	<li>Locate the installation directory.</li>
+	<li>Enter the Inkscape\locale directory</li>
+	<li>Locate the directory with the two letter locale you don't want to use.</li>
+	<li>Rename (or remove) this directory to something like <em>disable_de</em> or <em>x_es</em></li>
+	<li>Restart inkscape and the default English (en) locale will be used.</li>
+	</ol>
+	</li>
+	<li><p>Setting the LANGUAGE environment variable</p>
+	<p>Probably this only works when you have administrator (or poweruser?) rights on your pc.</p>
+	<ol>
+	<li>Go to the control panel, doubleclick on &quot;System&quot;.</li>
+	<li>Select the &quot;Advanced&quot; tab, and press the &quot;Environment variables&quot; button.</li>
+	<li>You can either add the 'LANGUAGE' variable to the current user or to all users (system variables). Press the 'New' button and enter 'LANGUAGE' as the variable name, and 'C' as value if you want to select the default language (English) or e.g. 'de' if you want to set the language to german.</li>
+	</ol>
+	</li>
+	</ol>
+	</dd>
+	</dl>
+	</div>
+	</div>
+
+	<div class="question" id="inkscape-does-not-see-some-of-the-fonts-windows">
+	<h3>Inkscape does not see some of the fonts (Windows)</h3>
+	<div class="question-body">
+	<p>This was a bug in versions of Inkscape up to 0.43, caused by using an obsolete font cache. This cache is stored in the file called <code>.fonts.cache-1</code>. This file may be in your Windows folder, or in your Temp folder, or in &quot;My documents&quot; folder, or in the folder listed in the $HOME environment variable.  Use file search by name to locate this file. Then simply delete this file and restart Inkscape; now it will see the new fonts.</p>
+	<p>If you are using 0.44 or 0.45 then OpenType/PostScript and Type1 fonts are not supported (this is a side-effect of the method used to fix the previous bug).</p>
+	<p>The issues with OpenType/PostScript and Type 1 fonts have been fixed in Inkscape 0.46.</p>
+	<p>Windows internally supports several different types of font:</p>
+	<ul>
+	<li>Bitmap and vector fonts (red 'A' icon) will never be supported by Inkscape because they are too simple to be useful for drawing. They're generally used on-screen only.</li>
+	<li>TrueType fonts (blue/gray 'TT' icon) are fully supported</li>
+	<li>Type1 fonts (red 'a' with shadow icon) are fully supported since 0.46</li>
+	<li>OpenType fonts (green/black 'O' icon) come in two subtypes: TrueType outlines and PostScript outlines. To tell the difference, double click the font file from Control Panel, Fonts and read the second line of text. TrueType outlines are fully supported. PostScript outlines are fully supported since 0.46.</li>
+	</ul>
+	</div>
+	</div>
+
+	<div class="question" id="bolding-has-no-effect-on-some-fonts">
+	<h3>Bolding has no effect on some fonts</h3>
+	<div class="question-body">
+	<p>Some fonts are available with in an unique, &quot;normal&quot; variant (i.e. no italics or bold). Nonetheless, Inkscape currently displays four styles available for them: Normal, Italics, Bold, Bold Italics. Italics is correctly faked by inclining the font but bolding cannot be faked at this point. Since the font itself does not have a Bold variant, the result would likely be of poor quality anyway. You should rather consider using a font with a real Bold variant.</p>
+	</div>
+	</div>
+
+	<div class="question" id="on-linux-inkscape-crashes-with-invalid-pointer-message">
+	<h3>On Linux, Inkscape crashes with &quot;invalid pointer&quot; message</h3>
+	<div class="question-body">
+	<p>If your Inkscape crashes on start with the error message that looks like</p>
+	<pre>
+	*** glibc detected *** free(): invalid pointer: 0x086143b0 ***</pre>
+	<p>this is caused by GCC versions incompatibility which affects C++ applications.  Your Inkscape is compiled by a different version of GCC than the C++ libraries it uses. Recompile either Inkscape itself or its C++ libraries (libstdc++, libsigc++, libglibmm and libgtkmm) with the single GCC version and the problem will go away.</p>
+	</div>
+	</div>
+	<div class="question" id="how-do-i-turn-off-system-beep-on-windows-when-backspace-is-pressed-at-start-of-field">
+	<h3>How do I turn off system beep on Windows when backspace is pressed at start of field?</h3>
+	<div class="question-body">
+	<p>When backspace is used at start of field Inkscape produces annoying system sound/beep, The behavior is confirmed on Windows XP and 2000 with Inkscape up to 0.46. On Windows XP this can be turned off in a following way (requires administration rights):</p>
+	<ol>
+	<li>Right-click on My Computer</li>
+	<li>On the Hardware tab, click on [Device Manager]</li>
+	<li>On the &quot;View&quot; menu, select &quot;Show hidden devices&quot;</li>
+	<li>Under &quot;Non-Plug and Play Drivers&quot;, right-click &quot;Beep&quot;</li>
+	<li>Click &quot;Disable&quot;</li>
+	<li>Answer [Yes] when asked if you really want to disable it</li>
+	<li>Answer [No] when asked if you want to reboot</li>
+	<li>Right-click &quot;Beep&quot; again.</li>
+	<li>Click &quot;Properties&quot;</li>
+	<li>On the &quot;Driver&quot; tab, set the Startup type to Disabled</li>
+	<li>Click [Stop]</li>
+	<li>Click [OK]</li>
+	<li>Answer [No] when asked if you want to reboot</li>
+	</ol>
+	<p>The procedure is obtained from <a href="http://www.howtogeek.com/howto/windows/turn-off-the-annoying-windows-xp-system-beeps/">the How-To Geek</a> site.</p>
+	<p>Please note that this is Windows system-wide setting, and it affects other programs as well. On Windows 2000 the steps may vary a bit. Last 6 steps (steps 8-13) are important, since steps 1-7 do not turn off the system beep in Inkscape (but may turn it off somewhere else).</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="mac-os-x-specific-issues">
+	<h2>Mac OS X specific issues</h2>
+	<div class="category-body">
+
+	<div class="question" id="how-to-make-the-alt-key-work">
+	<h3>How to make the Alt key work?</h3>
+	<div class="question-body">
+	<p>If you find yourself unable to use Inkscape functions that require the <code>alt</code> key (i.e. <code>option</code> key) such as Alt+D to create a clone or Alt+Click to select under, you will need to turn off the &quot;Emulate three button mouse&quot; under the Input Preferences for X11.</p>
+	<p>If you still cannot get it to work you can try using a keyboard mapping file for X11 (the environment Inkscape is running in) called an xmodmap. Open a terminal and type</p>
+	<pre>
+	cd ~
+	touch .xmodmap</pre>
+	<p>This will create a new text file called &quot;.xmodmap&quot; in your home directory. The period before the actual file name &quot;xmodmap&quot; causes the file to stay hidden within the Finder.</p>
+	<p>Now open the file by typing</p>
+	<pre>
+	open .xmodmap</pre>
+	<p>and paste the following into the newly created file:</p>
+	<pre>
+	keycode 66 = Alt_L</pre>
+	<p>This defines the left <code>option</code> key as alt within <strong>all</strong> X11 applications, enabling Alt based shortcuts. You need to re-start X11 to see the change.</p>
+	<p>The right <code>option</code> key stays the same though, so you cannot use it as Alt but you can still use it to type special characters such as é, ß or \ on non-US keyboards (which is <code>Shift+Option+7</code> on a German keyboard for example). It makes typing those letters more cumbersome but the user (unfortunately) has to determine him/herself which of the two functionalities is needed most for his/her daily business.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-make-keyboard-shortcuts-work-with-command-instead-of-control">
+	<h3>How to make keyboard shortcuts work with Command instead of Control?</h3>
+	<div class="question-body">
+	<p>Inkscape runs under X11 and is originally a Linux app, so all keyboard shortcuts are based on <code>Control</code> and not <code>Command</code> as in OS X. For example, Copy is ⌃C and not ⌘C. You can use an &quot;.xmodmap&quot; file to switch the behaviours of Control and Command in X11 applications. See above how to create and open the .xmodmap file. Then paste this inside:</p>
+	<pre>
+	! Switch meta and control
+	keycode 67 = Meta_L
+	keycode 63 = Control_L
+	keycode 71 = Control_R
+	clear mod2
+	clear control
+	add mod2 = Meta_L
+	add control = Control_L Control_R</pre>
+	<p>Finally, in X11, make sure that the option &quot;Enable key equivalents in X11&quot; is <strong>un</strong>checked and restart X11. Now ⌘C should copy, ⌘V paste etc.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-change-the-interface-language">
+	<h3>How to change the interface language?</h3>
+	<div class="question-body">
+	<p>Inkscape should follow the settings in System Preferences &gt; International. If it does not that is a bug and you should report it. Alternatively, starting with Inkscape 0.47, you can change the language for Inkscape only in Inscape's preferences &gt; Interface. Inkscape needs to be restarted for the change to take effect.</p>
+	</div>
+	</div>
+
+	<div class="question" id="inkscape-does-not-see-some-of-the-fonts">
+	<h3>Inkscape does not see some of the fonts</h3>
+	<div class="question-body">
+	<p>This issue is fixed in version 0.46. For older versions, the issue comes from Pango (the library Inkscape uses to manage fonts). Pango does not handle fonts in the .dfont format and Microsoft Font Suitcases. One solution is to convert everything to individual ttf files (Times.dfont becomes TimesRegular.ttf, TimesItalic.ttf, and so on) with fondu or/and fontforge (both are available via Fink, DarwinPorts or with standalone installers). Beware though:</p>
+	<ul>
+	<li>you'll end up with duplicated fonts, you need to suppress or disable one version</li>
+	<li>do not disable system fonts (if you need system fonts in TTF for X11 apps only, put them in an X11 specific directory, such as ~/.fonts)</li>
+	<li>this can cause problems with Firefox which mozilla guys do not seem ready to solve soon because the problem is inconsistent in its appearance</li>
+	</ul>
+	</div>
+	</div>
+
+	<div class="question" id="i-ve-installed-inkscape-in-some-subfolder-of-applications-on-os-x-but-inkscape-does-not-run">
+	<h3>I've installed Inkscape in some subfolder of &quot;Applications&quot; on OS X but Inkscape does not run</h3>
+	<div class="question-body">
+	<p>Inkscape cannot be run from a folder containing strange characters in its name (such as /, ƒ, &amp;, etc.) so if the subfolder you installed Inkscape in contains one of those, either change its name to something more conventional (spaces and accented characters are ok) or move Inkscape to &quot;Applications&quot;.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-cannot-install-the-latest-inkscape-version-on-os-x-10-3-panther">
+	<h3>I cannot install the latest Inkscape version on OS X 10.3 (Panther)</h3>
+	<div class="question-body">
+	<p>Panther is no longer supported by Inkscape. Please download Inkscape 0.45.1, the last compatible version, from Inkscape's <a href="http://sourceforge.net/project/showfiles.php?group_id=93438&amp;package_id=99112&amp;release_id=495106">Sourceforge download page</a>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-ve-installed-inkscape-on-mac-os-x-but-it-does-not-start-or-crashes-on-startup">
+	<h3>I've installed Inkscape on Mac OS X but it does not start, or crashes on startup</h3>
+	<div class="question-body">
+	<p>Please see <a href="http://wiki.inkscape.org/wiki/index.php/InstallHelp#Installing_on_a_Mac">InstallHelp#Installing_on_a_Mac</a> for extended help on Mac install issues with X11</p>
+	</div>
+	</div>
+
+	<div class="question" id="copying-and-pasting-in-inkscape-creates-pixellated-images-instead-of-copying-the-vector-objects">
+	<h3>Copying and pasting in Inkscape creates pixellated images instead of copying the vector objects</h3>
+	<div class="question-body">
+	<p>Starting with XQuartz 2.3.2, X11 has some functionality to exchange the content of the clipboard with OS X. But it currently does not know how to deal with vector images so it just captures the screen, i.e. creates a bitmap copy, and then pastes that. You need to deactivate this functionality in X11 preferences &gt; Pasteboard: uncheck &quot;Update Pasteboard when CLIPBOARD changes&quot;. However, this will also prevent copying text from any X11 application to Mac OS X ones. It will not prevent copying text from OS X to X11.</p>
+	<p>Users with non-english locale settings in System Preferences &gt; International &gt; Language have to install the X11 <a href="http://static.macosforge.org/xquartz/downloads/X11-Locales-2.3.3.2.dmg">Localization updates</a> for <a href="http://xquartz.macosforge.org/trac/wiki/Releases">XQuartz</a> 2.3.3.2 and 2.1.6 to access the new Pasteboard preferences.</p>
+	<p>When you just want to make a copy of an object within Inkscape, you should use <em>duplicate</em> (Ctrl-D) rather than <em>copy/paste</em> (Ctrl-C/Ctrl-V).  <em>Duplicate</em> does not interact with the X11/OSX clipboards.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="contributing-to-inkscape">
+	<h2>Contributing to Inkscape</h2>
+	<div class="category-body">
+
+	<div class="question" id="how-can-i-help-the-inkscape-project">
+	<h3>How can I help the Inkscape project?</h3>
+	<div class="question-body">
+	<p>If you are a developer, grab the code and start hacking on whatever draws your attention. Send in a patch when you're happy with it and ready to share your efforts with others. We also need writers and translators for the user manual and interface internationalization (<a href="http://wiki.inkscape.org/wiki/index.php/I18N">I18N</a>) files.</p>
+	<p>We take contributions very seriously and follow the principle of &quot;patch first, discuss later&quot;, so it is highly likely your efforts will appear in the development codebase swiftly.  There are, of course, rules and standards that must be followed, but we try to keep them unsurprising and obvious.</p>
+	</div>
+	</div>
+
+	<div class="question" id="are-there-non-coding-ways-to-help">
+	<h3>Are there non-coding ways to help?</h3>
+	<div class="question-body">
+	<p>Certainly!  While there is certainly a lot of coding work to be done, there are also a lot of other non-programming tasks needed to make the project successful:</p>
+	<dl>
+	<dt>Bug wrangling and testing:</dt>
+	<dd><p>Identifying and characterizing bugs can help a HUGE amount by reducing the amount of development time required to fix them.</p>
+	<ul>
+	<li><strong>Find and</strong> <a href="http://www.inkscape.org/report_bugs.php">report bugs</a>.  This is a critical need for ensuring the quality of the code.</li>
+	<li><strong>Review and verify reported bugs</strong>.  Sometimes the bug reports don't have enough info, or are hard to reproduce.  Try seeing if the bug occurs for you too, and add details to the description.</li>
+	<li><strong>Performance Testing</strong> - Create SVG's that stress out Inkscape, and post them as test cases to the Inkscape bug tracker, with your time measurements.</li>
+	<li><strong>Compatibility Testing</strong>.  Compare the rendering of SVG's in Inkscape with other apps like <a href="http://xml.apache.org/batik/">Batik</a> and <a href="http://cairographics.org/">Cairo</a>, and report differences found (to both projects).</li>
+	<li><strong>Bug prioritization</strong>.  Bugs that are marked priority '5' are new bugs.  Review them and set them to high/medium/low priority according to their severity.  See <a href="http://wiki.inkscape.org/wiki/index.php/UpdatingTrackerItems">Updating Tracker Items</a> in Wiki for details.</li>
+	</ul>
+	</dd>
+	<dt>Helping fellow users</dt>
+	<dd><p>In addition to making a good drawing application, it's also extremely important to us to build a good community around it; you can help us achieve this goal directly, by helping other users.  Above all, keep in mind that we want to maintain Inkscape's community as a nice, polite place; so encourage good behavior through your own interactions with others in the group.</p>
+	<ul>
+	<li><strong>Write tutorials</strong>.  If something isn't already documented in a tutorial, write up a description of how to use it.</li>
+	<li><strong>Participate on inkscape-user@</strong>.  Answer questions that pop up on the mailing list from other users.  Also, share your tips and tricks, and demo new ways of using Inkscape for cool stuff.</li>
+	<li><strong>Create clipart</strong>.  You can upload it to the <a href="http://www.openclipart.org/">openclipart.org</a> project.</li>
+	<li><strong>Give Inkscape classes</strong>.  Teach people local to you about using Inkscape.  Or give presentations at local events, Linux group meetings, etc. about Inkscape (and other Open Source art tools).</li>
+	</ul>
+	</dd>
+	<dt>Development (no coding needed)</dt>
+	<dd><ul class="first last simple">
+	<li><strong>Translations</strong>.  Information on how to create translations for the interface is available on the <a href="http://wiki.inkscape.org/wiki/index.php/TranslationInformation">Translation Information</a> page in Wiki.</li>
+	<li><strong>Design Icons and SVG themes</strong>.  Create new icons for existing themes or start a new icon theme.  Also see <a href="http://librsvg.sourceforge.net/theme.php">librsvg.sf.net</a></li>
+	<li><strong>Mockup new dialogs</strong>.  Draw up ideas for improving or adding dialogs.  These are handy to the UI developers for figuring out what to do.</li>
+	<li><strong>Improve packaging</strong>.  Figure out how to make the package for your operating system or Linux distribution install and work better.  See <a href="http://wiki.inkscape.org/wiki/index.php/CreatingDists">Creating Dists</a> in Wiki.</li>
+	<li><strong>Add extensions</strong>.  For file input/output, special features, etc.  Inkscape is able to tie into external programs.  Create new .inx files to hook these up for use in Inkscape.  Also, if you're comfortable scripting in Perl, Python, etc. have a shot at improving the extensions, too!</li>
+	<li><strong>Add source code documentation</strong>  The source code needs even the simplest documentation in some places. Documenting functions will certainly help the next coder.</li>
+	<li><strong>Create templates.</strong>  See the Inkscape share/templates directory.</li>
+	<li><strong>Work in Wiki</strong>.  Wiki is a great place for gathering development info but always needs updating, copyediting, and elaboration.</li>
+	<li><strong>Plan future development</strong>.  Review and help update the <a href="http://wiki.inkscape.org/wiki/index.php/Roadmap">Roadmap</a> in Wiki. Basically, talk with developers about what they're working on, planning to work on, or recently finished, and update the roadmap accordingly.</li>
+	</ul>
+	</dd>
+	<dt>Spread the word - Inkscape Marketing and Evangelism</dt>
+	<dd><p>Increasing the size of the userbase is important.  The network effects of more interested users means more potential contributors and hopefully people saying nice things about us, and giving Inkscape word of mouth advertising which we believe is important.  All our users and developers serve as ambassadors for Inkscape and others will judge Inkscape based on how well we behave.  It is important that we all be polite and friendly and make Inkscape a project people like using and enjoy working on, all other evangelism follows on naturally from there.  Generally though for building the community we prefer <em>quality</em> over <em>quantity</em> so be careful not to go too overboard with evangelizing or the &quot;hard sell&quot;.  We want to work <em>with</em> other applications, rather than &quot;killing&quot; off other software and such comments are counter productive.  We need to manage expectations. We want users to be pleasantly surprised by how much Inkscape does, not disappointed that it does not match other programs feature for feature.  Inkscape should be thought of as providing artists another way to be creative which complements their existing skills and tools.</p>
+	<ul>
+	<li><strong>Write Articles</strong>.  Get articles published in various online (or even printed) magazines and blogs.  Don't forget to include a link to Inkscape!</li>
+	<li><strong>Create Screenshots</strong>.  Especially for new features.</li>
+	<li><strong>Create Examples</strong>.  <a href="http://www.inkscape.org/screenshots/">Examples</a> are useful for showcasing different ways Inkscape can be used. Create some screenshots and text, and submit to the web wranglers (via the inkscape-devel mailing list) to add to the site.</li>
+	<li><strong>Work on the Website</strong>.  Help on the website is ALWAYS appreciated.  Knowledge of HTML is required; PHP know-how is helpful.  Check out the website code from the <a href="https://code.launchpad.net/inkscape">Bazaar repository</a> and send patches, or request direct Bazaar and shell access for doing on-going work.</li>
+	<li><strong>Give presentations</strong>.  Give talks at expos, symposia, and other big events about Inkscape.  Be sure to announce it on an inkscape mailing list so we can post it to the Inkscape website.</li>
+	<li><strong>Recruit more developers</strong>.  Find people with an interest in doing coding, and encourage them to work on Inkscape.</li>
+	</ul>
+	</dd>
+	</dl>
+	</div>
+	</div>
+
+	<div class="question" id="where-can-i-get-a-banner-for-inkscape">
+	<h3>Where can I get a banner for Inkscape?</h3>
+	<div class="question-body">
+	<p>Here's one:</p>
+	<blockquote><a href="http://www.inkscape.org/images/inkscape_80x15.png">http://www.inkscape.org/images/inkscape_80x15.png</a></blockquote>
+	<p>Feel free to contribute your own banners or buttons for promoting Inkscape. The best ones will be linked here.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-can-i-avoid-causing-a-flamewar-on-the-mailing-list">
+	<h3>How can I avoid causing a flamewar on the mailing list?</h3>
+	<div class="question-body">
+	<p>Inkscape prides itself on maintaining a friendly community that is passionate about Inkscape.  Each member arrives here with some definite ideas about what would make an excellent SVG editor.  When these ideas are discussed and some folks start taking firm positions, it is easy for arguments to get out of hand and become unproductive (possibly even driving valuable contributors away from the project).</p>
+	<p>Here are some tips for effectively communicating in the Inkscape community</p>
+
+	<ol>
+	<li>Make your argument first and foremost without comparison. Really great features can stand on their own and are obviously great from the use cases users give. Most often comparisons won't strengthen your case.  In fact they can often weaken your case because there is a built up resistance to this bandwagon sort of reasoning. Many people use Inkscape to escape from the software you want to compare it with. :-)</li>
+	<li>Don't assume that developers, users and industry professionals are mutually exclusive groups. Itch driven development means quite the opposite.  Developers are users developing the software for their own uses. Some developers are industry professionals using Inkscape for their livelihood daily. This also means that arguments that start with generalizations about user wants and expectations have to struggle against the fact that the users are developing the software the way they want it.</li>
+	<li><p>Don't assume that resistance to your idea indicates rampant disregard for non-developer-users needs and wants. Many of the developers spend large amounts of time conversing with users in person, on IRC and on the mailing list. We know when issues are important because we can hear the consensus.  As anecdotal evidence most of the features I have coded have been in direct response to the needs and requests of users who came with polite and persistent concerns.</p>
+	<p>Indeed, since Inkscape developers typically judge by user consensus, an effective way to prove a point is to show a pattern of demand for the change from a range of users, or to demonstrate how your change will satisfy a large number of user requests.  (This isn't to say that what the unwashed masses ask for is always correct, but there are generally strong correlations.)</p></li>
+	<li><p>Street cred is earned, not demanded. :-) This is just a hard fact about community life. The project needs contributors to live and thrive, and everyone loves seeing new blood getting involved, and will bend over backwards to help.  The more you involve yourself; the more you give of your own blood, sweat and tears, the more the community will respond to you. The great part is that simple contributions really do matter.</p>
+	<p>Remember Inkscape's slogan, &quot;Patch first, discuss later.&quot;  This is not just an aphorism; oftentimes the principles in an argument won't really understand all the factors until they can see the thing in practice, even if just a mockup or prototype.  Presenting your ideas as a patch also bypasses the concern that others are going to have to put in the labor to implement the ideas.</p></li>
+	<li>Always remember we all share common goals.  If nothing else, we all want to see Inkscape made better.  When a discussion feels like it's starting to get hot, it's time for the arguers to seek areas of agreement, and focus on those.</li>
+	</ol>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="svg-topics">
+	<h2>SVG topics</h2>
+	<div class="category-body">
+
+	<div class="question" id="are-inkscape-s-svg-documents-valid-svg">
+	<h3>Are Inkscape's SVG documents valid SVG?</h3>
+	<div class="question-body">
+	<p>Yes. Inkscape does not yet support all features of SVG, but all files it generates are valid SVG (with the partial and temporary exception of flowed text, see below). All standard-conformant SVG renderers show them the same as in Inkscape. If they do not, it's a bug. If this bug is in Inkscape, we will fix it (especially if you help us by reporting it!).</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-about-flowed-text">
+	<h3>What about flowed text?</h3>
+	<div class="question-body">
+	<p>However, due to the utility of this much-requested feature, we decided to leave it available to users. When the final SVG 1.2 specification is published, we will change our flowed text implementation to be fully conformant to it, and will provide a way to migrate the older flowed text objects to the new format.</p>
+	<p>Until that is done, however, you should not use flowed text in documents that you intend to use outside of Inkscape. Flowed text is created by clicking and dragging in the Text tool, while simple click creates plain SVG 1.1 text; so, if you don't really need the flowing aspect, just use click to position text cursor instead of dragging to create a frame. If however you really need flowed text, you will have to <strong>convert it to regular (non-flowed) text</strong> by the &quot;Convert to text&quot; command in the Text menu. This command fully preserves the appearance and formatting of your flowed text but makes it non-flowed and SVG 1.1-compliant.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-then-is-inkscape-svg-as-opposed-to-plain-svg-when-saving-a-document">
+	<h3>What, then, is &quot;Inkscape SVG&quot; as opposed to &quot;Plain SVG&quot; when saving a document?</h3>
+	<div class="question-body">
+	<p>Inkscape SVG files use the Inkscape namespace to store some extra information used by the program. Other SVG programs will not understand these extensions, but this is OK because the extensions only affect how the document is <em>edited</em>, not how it <em>looks</em>. Extensions must not cause any rendering problems in SVG-compliant renderers.  However, some non-compliant renderers may have trouble with the presence of the extensions, or you may want to save some space by dropping the Inkscape information (if you're not planning to edit the file in Inkscape again). This is what the &quot;Plain SVG&quot; option is provided for.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-svg-features-does-inkscape-implement">
+	<h3>What SVG features does Inkscape implement?</h3>
+	<div class="question-body">
+	<p>The main parts of SVG that Inkscape does <strong>not support</strong> yet are some of the filters (most are supported as of 0.46), animation (work on it is in planning stages) and SVG fonts (implementation work is under way). The rest mostly works, though of course there are bugs that we're always fixing. For a comparison of Inkscape and other open source SVG tools on the <a href="http://wiki.inkscape.org/wiki/index.php/W3C">W3C</a> SVG test suite, look <a href="http://www.linuxrising.org/svg_test/test.html">here</a>.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-have-hand-created-svg-will-everything-be-messed-up-if-i-load-and-save-it-with-inkscape">
+	<h3>I have hand-created SVG. Will everything be messed up, if I load and save it with Inkscape?</h3>
+	<div class="question-body">
+	<p>Inkscape strives to avoid changing the SVG just because it does not recognize some of the SVG elements, however it <em>does</em> make changes:</p>
+	<ul>
+	<li>All objects will get unique &quot;id&quot; attributes. If already existing and unique, they will be preserved, otherwise one will be derived from node name.</li>
+	<li>Some sodipodi: and inkscape: namespaced metadata will be added to the beginning of document.</li>
+	<li>If you edit a gradient, that gradient will be broken up into 2 linked gradients - one defining color vector, another one position.</li>
+	<li>Changing any style property forces reconstructing of the whole 'style' attribute, which means CSS (not XML) comments will be lost and formatting of CSS may change.</li>
+	<li>The formatting style of the SVG file will be changed to follow the style hardcoded into Inkscape.</li>
+	</ul>
+	<p>There is ongoing work to allow Inkscape to better preserve hand-created SVG markup but it is a very difficult task requiring a lot of infrastructure work and will happen very gradually - but help is always appreciated.</p>
+	</div>
+	</div>
+
+	<div class="question" id="inkscape-and-renderer-x-show-my-svgs-differently-what-to-do">
+	<h3>Inkscape and renderer X show my SVGs differently. What to do?</h3>
+	<div class="question-body">
+	<p>That depends on X.  We accept <a href="http://xml.apache.org/batik/">Batik</a> and <a href="http://www.adobe.com/svg/">Adobe SVG plugin</a> as authoritative SVG renderers because they are backed by some of the the authors of the SVG standard and really care about compliance. This may not be true for other renderers. So if you are having a problem with some renderer, please try the same file with either Batik or Adobe, or better yet, with both (they are free and cross-platform). If you still see a discrepancy with Inkscape rendering, we want to look into it. Please <a href="https://bugs.launchpad.net/inkscape">submit a bug</a>; don't forget to attach a sample of the problem file to the bug report, and ideally include screenshots too.</p>
+	</div>
+	</div>
+
+	<div class="question" id="viewing-svg-files-like-an-image-archive">
+	<h3>Viewing SVG files like an image archive</h3>
+	<div class="question-body">
+	<p>The following may be used to view/preview files:</p>
+	<ul>
+	<li>Irfanview (<a href="http://www.irfanview.com/">http://www.irfanview.com/</a>). Plugin is required, thumbnails available, but may display inaccurately.</li>
+	<li>Opera (<a href="http://www.opera.com">http://www.opera.com</a>). The browser can be used to open files.</li>
+	<li>Renesis Player (<a href="http://www.examotion.com">http://www.examotion.com</a>)</li>
+	<li>Adobe SVG (MS IE plugin)</li>
+	<li>Others: Batik, webkit</li>
+	</ul>
+	<p>Depending on which type of viewing will match your need, eg if zooming, quick preview, quick launch, thumbnail gallery... will affect which is most suited to you. Additional feature comments, editors welcome!</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="inkscape-and-other-programs">
+	<h2>Inkscape and other programs</h2>
+	<div class="category-body">
+
+	<div class="question" id="why-is-inkscape-so-different-from-adobe-illustrator">
+	<h3>Why is Inkscape so different from Adobe Illustrator?</h3>
+	<div class="question-body">
+	<p>In many cases, this is simply because the feature in question is not yet implemented, or is being actively worked on. But there are other reasons, too.  AI is not the only game in town. Even though it currently enjoys a near-monopoly position, there still exist, for example, CorelDraw and Xara - which are also quite different and, in the opinion of many people, superior to AI in usability. Inkscape has borrowed a lot of user interface ideas from these fine editors. It has also added many new tools and interface elements of its own. We take usability very seriously, and we often knowingly depart from the AI paradigms because we consider our approaches better. If you came from Adobe Illustrator and are having trouble with Inkscape, please read (and maybe eventually contribute to) the <a href="http://wiki.inkscape.org/wiki/index.php/Inkscape for Adobe Illustrator users">Inkscape for Adobe Illustrator users</a> document on our Wiki.</p>
+	</div>
+	</div>
+	<div class="question" id="is-inkscape-a-replacement-for-the-gimp-or-photoshop">
+	<h3>Is Inkscape a replacement for The GIMP or Photoshop?</h3>
+	<div class="question-body">
+	<p>In most cases, no. They're used for two very different things. Inkscape is used for creating vector drawings, such as laying out a poster or creating a fancy logo, whereas bitmap editors are for working on raster images, such as touching up a photograph. In many projects, you would need to use <em>both</em> Inkscape and a bitmap editor (such as GIMP), for example, to add bitmap effects to an image exported from Inkscape.</p>
+	<p>However, currently bitmap editors are often used for common tasks they are not well equipped for, such as creating web page layouts, logos, or technical line art. In most cases, this is because users are not aware of the power (or even the existence) of the  modern vector editors. Inkscape wants to amend this situation, and to raise a vector editor to the status of an essential desktop tool for everyone, rather than an exotic specialized tool that only professionals use.</p>
+	</div>
+	</div>
+
+	<div class="question" id="why-did-inkscape-split-from-sodipodi">
+	<h3>Why did Inkscape split from Sodipodi?</h3>
+	<div class="question-body">
+	<p>Inkscape started as a code fork of <a href="http://www.sodipodi.com">Sodipodi</a>. The main reasons were differences in objectives and in development approach.  Inkscape's objective is to be a fully compliant SVG editor, whereas for Sodipodi SVG is more a means-to-an-end of being a vector illustration tool.  Inkscape's development approach emphasizes open developer access to the codebase, as well as using and contributing back to 3rd party libraries and standards such as HIG, CSS, etc. in preference to custom solutions.  Reusing existing shared solutions helps developers to focus on the core work of Inkscape.</p>
+	<p>For background, it may also be worth reviewing Lauris' <a href="http://sourceforge.net/mailarchive/message.php?msg_id=1067118318.5026.63.camel%40tont">Sodipodi direction</a> post from Oct 2003, and his thoughts on SVG, licensing, and the value of splitting the project into two independent branches.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-s-the-difference-between-inkscape-and-dia">
+	<h3>What's the difference between Inkscape and Dia?</h3>
+	<div class="question-body">
+	<p><a href="http://live.gnome.org/Dia/">Dia</a> is for technical diagrams like database charts, class diagrams, etc., whereas Inkscape is for vector drawing such as logos, posters, scalable icons, etc.</p>
+	<p>SVG is a useful format for creating diagrams, though, so we hope as Inkscape grows as a fully-featured SVG editor, it will also be useful for making attractive diagrams too.  Several of us hope Inkscape will become a useful technical drawing tool and work on features with that goal in mind.  However, Dia provides a number of useful capabilities such as support for UML, autogeneration of diagrams, etc. that are well beyond the scope of a general SVG editor.  Ideally both Inkscape and Dia can share various bits of code infrastructure and third party libraries.</p>
+	</div>
+	</div>
+
+	<div class="question" id="is-this-intended-to-replace-flash">
+	<h3>Is this intended to replace Flash?</h3>
+	<div class="question-body">
+	<p>While SVG is often identified as a &quot;Flash replacement&quot;, SVG has a huge range of other uses outside that of vector animation.  Replacing <a href="http://www.adobe.com/products/flash/">Flash</a> is not one of Inkscape's primary intents.  If SVG can replace Flash, and Inkscape can help, that's great, but there's a lot more to SVG than web animation that is worth exploring.  (See also <a href="http://www.w3.org/AudioVideo/">SMIL</a>)</p>
+	</div>
+	</div>
+
+	<div class="question" id="will-inkscape-be-part-of-the-gnome-office">
+	<h3>Will Inkscape be part of the Gnome-Office?</h3>
+	<div class="question-body">
+	<p>Inkscape will need to mature a bit further before this can be considered.  Specifically, better support for embedding (Bonobo) is needed, and the Gnome-Print subsystem needs to be tested more thoroughly (help very much appreciated here).  If you can compile a recent version of Inkscape and help us with testing it would be very useful.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-formats-can-inkscape-import-export">
+	<h3>What formats can Inkscape import/export?</h3>
+	<div class="question-body">
+	<p>Inkscape natively supports opening or importing SVG, SVGZ (gzipped SVG), PDF, and AI (Adobe Illustrator) formats.</p>
+	<p>With the help of extensions, Inkscape can open a number other vector formats.  For importing PostScript or EPS, you need to install <a href="http://pages.cs.wisc.edu/~ghost/">Ghostscript</a> and make sure ps2pdf is in your PATH. For formats of Dia, XFig, or Sketch, you need to have these programs installed. For CorelDraw, CGM, and SK1 files, you need to have <a href="http://sk1project.org/">UniConverter</a> installed.</p>
+	<p>Inkscape can natively import most raster formats (JPEG, PNG, GIF, etc.) as bitmap images, but it can only export PNG bitmaps.</p>
+	<p>Inkscape can save as SVG, SVGZ, PDF, Postscript/EPS/EPSi, Adobe Illustrator (<code>*.ai</code>), <a href="http://wiki.inkscape.org/wiki/index.php/LaTeX">LaTeX</a> (<code>*.tex</code>), POVRay (<code>*.pov</code>), HPGL, and others.</p>
+	<p>See <a href="http://wiki.inkscape.org/wiki/index.php/FileTypes">FileTypes</a> for discussion about file formats that people would like to see supported, and third-party tools that can be used to convert files to or from SVG.</p>
+	</div>
+	</div>
+
+	<div class="question" id="can-i-open-import-cdr-corel-draw-vector-drawing-file-files-in-inkscape">
+	<h3>Can I open/import *.cdr (Corel Draw Vector drawing file) files in Inkscape?</h3>
+	<div class="question-body">
+	<p>You can use the <a href="http://sourceforge.net/projects/uniconvertor/">UniConvertor</a> for converting CDR files and some other formats to SVG. In Inkscape 0.46, there's an input extension that will allow you to open or import CDR files directly from Inkscape if you have UniConvertor installed on your system.</p>
+	<p>If you can't run UniConvertor, you can try this workaround:</p>
+	<ol>
+	<li>Open the <a href="http://wiki.inkscape.org/wiki/index.php/CDR">CDR</a> file in Corel Draw. Save it as <strong>binary encoded</strong> <a href="http://wiki.inkscape.org/wiki/index.php/CGM">CGM</a>* file. It will save only vector graphics. It will not save bitmap graphics.</li>
+	<li>Open the CGM file in OpenOffice Impress. Copy to Open Office Draw and insert original <a href="http://wiki.inkscape.org/wiki/index.php/JPG">JPG</a> or another bitmap graphics. Save file as <a href="http://wiki.inkscape.org/wiki/index.php/ODG">ODG</a> And you can continue in Open Office Draw program.)</li>
+	<li>Select all (CTRL+A)</li>
+	<li>Export as SVG.</li>
+	<li>Open SVG file in Inkscape and correct mistakes if they appear.</li>
+	</ol>
+	<p><strong>Note:</strong> OpenOffice will open only <strong>binary encoded</strong> <em>CGM</em> files in Impress. If the <em>CGM</em> is encoded using clear-text encoding, it will be opened in OpenOfice Writer, thus rendering the next steps invalid.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-exported-an-svg-file-from-adobe-illustrator-edited-it-in-inkscape-and-imported-back-to-ai-but-there-my-changes-are-lost">
+	<h3>I exported an SVG file from Adobe Illustrator, edited it in Inkscape, and imported back to AI, but there my changes are lost!</h3>
+	<div class="question-body">
+	<p>That's because Adobe cheats. It creates a valid SVG, but apart from the SVG code it also writes to the file, in encoded binary form, the entire AI-format source file of the image. Inkscape, of course, edits the SVG part of the image and leaves the encoded binary untouched. But when you import the SVG file back to AI, it completely disregards the SVG code with its edits and reads directly from the encoded AI binary. Therefore, any SVG changes are lost. To work around it, in Inkscape open the XML Editor and remove the non-SVG elements (everything not with the svg: prefix in its name, usually towards the end of the tree). If you need to do this job repeatedly you may consider using some <a href="http://www.w3.org/Style/XSL/">XSLT</a>-based automation. Alternatively, when exporting SVG from Illustrator, uncheck the options &quot;Preserve Adobe Illustrator Editing&quot; and &quot;Optimize for Adobe SVG viewer&quot;.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="development-topics">
+	<h2>Development topics</h2>
+	<div class="category-body">
+
+	<div class="question" id="what-are-inkscape-s-development-goals">
+	<h3>What are Inkscape's development goals?</h3>
+	<div class="question-body">
+	<p>Inkscape wants to be a complete SVG-compliant vector graphics editor. Apart from standards compliance, our primary goals are stability, performance, state of the art vector graphics features, and an efficient and innovative user interface.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-language-and-toolkit-is-inkscape-built-upon">
+	<h3>What language and toolkit is Inkscape built upon?</h3>
+	<div class="question-body">
+	<p>The codebase Inkscape inherited from Sodipodi was C/<a href="http://www.gtk.org">Gtk</a> based. There is an ongoing effort to convert the codebase to C++/<a href="http://www.gtkmm.org">Gtkmm</a>. The ultimate goal is to simplify the code and make it more maintainable. We invite you to join us. Just don't mention Qt. :)</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-is-your-position-on-code-sharing-with-other-projects">
+	<h3>What is your position on code sharing with other projects?</h3>
+	<div class="question-body">
+	<p>Yes, sharing of code libraries with other projects is highly desirable, provided the right conditions exist.  A good candidate for a library will be mature, widely distributed, well documented, and actively maintained.  It should not introduce massive dependency problems for end-users and should be stable, powerful, and lightweight.  It should strive to do one thing, and do it well.  Libraries that don't meet all the criteria will be considered on a case-by-case basis.</p>
+	</div>
+	</div>
+
+	<div class="question" id="how-to-create-an-inkscape-extension">
+	<h3>How to create an Inkscape extension?</h3>
+	<div class="question-body">
+	<p>You don't need to know much, if anything, about Inkscape internals to create a useful extension. Aaron Spike, the author of most Python extensions that come with Inkscape, wrote a helpful <a href="http://www.ekips.org/comp/inkscape/extending.php">web page</a> (including a series of tutorials) on creating extensions in Python (Perl and Ruby are also supported).</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-s-a-good-way-to-get-familiar-with-the-code">
+	<h3>What's a good way to get familiar with the code?</h3>
+	<div class="question-body">
+	<p>You can start with the <a href="http://inkscape.sourceforge.net/doc/doxygen/html">Doxygen documentation</a>. There you can find not only the usual Doxygen stuff but also different categorized views into the inkscape source.</p>
+	<p>In the Documentation section of the Inkscape website you can find some high-level diagrams and links to other documentation that's been produced such as the man page.  Historically, this codebase has not been kept well documented so expect to find many areas where the only recourse is to work through the code itself.  However, we place importance on working to change this, and to flesh out the documentation further as we go.</p>
+	<p>Some developers have found that testing patches is a good way to quickly get exposure to the code, as you see how other developers have approached making changes to the codebase.  Other developers like to pick an interesting feature request (or perhaps a feature wish of their own) and focus on figuring out how to implement it.  Occasionally we also have large scale grunt-work type changes that need to be applied to the codebase, and these can be easy ways to provide significant contributions with very little experience.</p>
+	<p>Getting beyond initial exposure, to the next stage of understanding of the codebase, is challenging due to the lack of documentation, however with some determination it can be done.  Some developers find that fixing a crash bug by tracing execution through the various subsystems, brings good insights into program flow.  Sometimes it is educational to start from an interesting dialog box and tracing function calls in the code.  Or perhaps to start with the SVG file loader and follow the flow into and through the parser.  Other developers have found that writing inline comments into the code files to be highly useful in gaining understanding of a particular area, with the fringe benefit of making that bit of code easy for future developers to pick up, too.</p>
+	<p>Once you feel far enough up the learning curve, implementing features will firm up your experience and understanding of the codebase.  Be certain to also write test cases and documentation, as this will be of great help to future developers and thus ensure the longevity of the codebase.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-rendering-engine-do-you-use">
+	<h3>What rendering engine do you use?</h3>
+	<div class="question-body">
+	<p>Currently we use our own renderer called livarot. We plan to migrate to <a href="http://cairographics.org/">Cairo</a> when it is mature enough. In 0.46, Cairo is already used for Outline mode.</p>
+	</div>
+	</div>
+
+	<div class="question" id="what-is-the-development-platform">
+	<h3>What is the development platform?</h3>
+	<div class="question-body">
+	<p>Most developers work on Linux. However it is also possible to compile Inkscape on Windows; <a href="http://wiki.inkscape.org/wiki/index.php/Win32Port">this page</a> provides detailed instructions for this as well as for cross-compiling Windows binaries on Linux.</p>
+	</div>
+	</div>
+	<div class="question" id="what-is-the-linux-command-to-download-the-code-through-subversion">
+	<h3>What is the Linux command to download the code through Subversion?</h3>
+	<div class="question-body">
+	<p>Generic directions are under the <a href="http://sourceforge.net/svn/?group_id=93438">Subversion</a> link on the <a href="http://www.sourceforge.net/projects/inkscape/">inkscape sourceforge page</a>.  Note, however, that the command given on the sourceforge page will check out <em>all</em> modules of the Inkscape project and <em>all</em> branches of those modules.</p>
+	<ul>
+	<li><p>To <em>only</em> check out the latest copy of the main branch (also called &quot;trunk&quot;) of the Inkscape program, do:</p>
+	<pre>
+	svn checkout https://inkscape.svn.sourceforge.net/svnroot/inkscape/inkscape/trunk/</pre>
+	</li>
+	<li><p>To <em>only</em> check out the trunk of another Inkscape module, do:</p>
+	<pre>
+	svn checkout https://svn.sourceforge.net/svnroot/inkscape/MODULE_NAME/trunk/
+	</pre>
+	<p>where <code>MODULE_NAME</code> is the name of the module you want to check out.  Other modules you can check out include: <code>experimental</code>, our development &quot;scratchpad&quot; for working up prototypes; <code>inkscape_web</code>, which holds our website files; and <code>inkscape_project</code>, which holds config files and other project-level things.  You can use <a href="http://inkscape.svn.sourceforge.net/viewcvs.cgi/inkscape/">our Subversion viewer</a> to get the names of available modules.</p>
+	</li>
+	<li><p>To <em>only</em> check out a branch of some Inkscape module, do:</p>
+	<pre>
+	svn checkout https://inkscape.svn.sourceforge.net/svnroot/inkscape/MODULE_NAME/branches/BRANCH_NAME/</pre>
+	<p>where <code>MODULE_NAME</code> is the name of the module you want to check out, and <code>BRANCH_NAME</code> is the name of the branch that you are interested in.  You can use <a href="http://inkscape.svn.sourceforge.net/viewcvs.cgi/inkscape/">our Subversion viewer</a> to get the names of available modules and branches.</p>
+	</li>
+	</ul>
+	<p>These commands will download the requested module into a directory named either <code>trunk</code> or <code>BRANCH_NAME</code>, depending on whether you chose to check out the trunk or a branch.</p>
+	<ul>
+	<li><p>If you'd like to later test out a different branch of any of Inkscape's modules, you can do that by running</p>
+	<pre>
+	svn switch https://inkscape.svn.sourceforge.net/svnroot/inkscape/MODULE_NAME/branches/BRANCH_NAME</pre>
+	<p>in your working copy, where <code>MODULE_NAME</code> is the name of the module you are working in, and <code>BRANCH_NAME</code> is the name of the branch that you want to switch to.</p>
+	</li>
+	<li><p>You can do something similar for tagged branches:</p>
+	<pre>
+	svn switch https://inkscape.svn.sourceforge.net/svnroot/inkscape/MODULE_NAME/tags/BRANCH_NAME</pre>
+	<p>Note that Subversion supports the ability to move individual subdirectories of a working copy of a module to different branches of that module, so if you want to switch an entire working copy to a different branch, run <code>svn switch</code> in the root directory of the working copy.</p>
+	</li>
+	</ul>
+	</div>
+	</div>
+
+	<div class="question" id="how-are-feature-requests-selected-for-implementing">
+	<h3>How are feature requests selected for implementing?</h3>
+	<div class="question-body">
+	<p>Many developers become involved because they wish to &quot;scratch an itch&quot;, so of course if they wish to work on a particular feature, then by definition that one will receive implementational attention.  This is the primary mechanism by which features get implemented.</p>
+	<p>Inkscape also strives to take user requests for features seriously, especially if they're easy to do or mesh with what one of the existing developers already wants to do, or if the user has helped the project in other ways.</p>
+	<p>If you have a feature that you'd really like to see implemented, but others aren't working on, the right thing to do is delve into the code and develop it yourself.  We put great importance on keeping the development process open and straightforward with exactly this in mind.</p>
+	</div>
+	</div>
+
+	<div class="question" id="i-d-prefer-the-interface-to-look-like">
+	<h3>I'd prefer the interface to look like ...</h3>
+	<div class="question-body">
+	<p>Understandably, many users are accustomed to other programs (such as Illustrator, the GIMP, etc.) and would prefer Inkscape to follow them in design.  Inkscape developers are constantly examining other projects and on the look for better interface ideas.  A large motivation is to make the application follow the <a href="http://library.gnome.org/devel/hig-book/stable/">GNOME Human Interface Guidelines (HIG)</a>, which has a number of rules in how the interface is made.  The Inkscape developers also seek advice and ideas from other GUI app designers, such as the <a href="http://www.gimp.org/">GIMP</a> crew, <a href="http://www.abisource.com/">AbiWord</a>, and <a href="http://projects.gnome.org/gnumeric/">Gnumeric</a>; they've been at it longer and we view them as an excellent source of battle tested experience.</p>
+	<p>But please understand that the Inkscape interface will, at the end of the day, be the &quot;Inkscape interface&quot;.  We will strive to find our own balance of compatibility with common drawing programs, wishes of our userbase, good workflow, creativity of our developers, and compliance with UI guidelines.  It's unlikely that this balance will meet every user's wish, or achieve 100% compliance with the various platform specific Interface Guidelines, or include every developer's idea, and if it did it probably wouldn't be as good.  ;-)</p>
+	<p>Usually when we discuss interface look and feel, we arrive at the conclusion that, really, it should be configurable so that each user can flip a few switches and get an app that is most cozy to them.  However, flexibility should not be used as an excuse not to make tough decisions when they are called for.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+
+	<div class="category" id="legal">
+	<h2>Legal</h2>
+	<div class="category-body">
+
+	<div class="question" id="what-license-is-inkscape-released-under">
+	<h3>What License is Inkscape released under?</h3>
+	<div class="question-body">
+
+	<p>GNU GENERAL PUBLIC LICENSE Version 2, June 1991 [<a href="http://www.gnu.org/licenses/gpl-2.0.html">http://www.gnu.org/licenses/gpl-2.0.html</a>]. In short, this means you are free to use and distribute Inkscape for any purpose, commercial or non-commercial, without any restrictions.  You are also free to modify the program as you wish, but with the only restriction that if you distribute the modified version, you must provide access to the source code of the distributed version.</p>
+	</div>
+	</div>
+	</div>
+	</div>
+{% endblock %}
+{% block right-sidebar %}
+	<h2>Download</h2>
+	<p>So you're ready to give Inkscape a try? Great! Download the latest version now.</p>
+	<div class="download-box w160"><a class="button download w160" href="/download/"><span>Free Download</span></a><span class="download-version">Latest stable release: 0.48</span></div>
+	<h2>Help &amp; Support</h2>
+	<p>Still can't find the answer to your question? Check out the <a href="/community/help/">Help &amp; Support</a> section.</p>
+{% endblock %}

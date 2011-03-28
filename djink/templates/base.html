@@ -95,9 +95,10 @@
 				</ul>
 				{% endblock %}
 			</div>
-			<p>{% trans "Inkscape is Free and Open Source Software licensed under the GPL. This website was designed in Inkscape (of course.)" %}</p>
+			<p>{% trans "Inkscape is Free and Open Source Software licensed under the GPL." %}</p>
+			<!-- This site is running Python {{ PYTHON_VERSION }} / Django {{ DJANGO_VERSION }} / {% if CODE_VERSION = CONTENT_VERSION %}inkscape-web r{{ CODE_VERSION }}{% else %}code r{{ CODE_VERSION }} / content r{{ CONTENT_VERSION }}{% endif %} -->
 		</div>
-		<p id="final-footer">{% blocktrans %}Website designed by <a href="http://skymaiden.com">Hinerangi Courtenay</a> and developed by <a href="http://chrismorgan.info">Chris Morgan</a>{% endblocktrans %}</p>
+		<p id="final-footer">{% blocktrans %}Website designed by <a href="http://skymaiden.com">Hinerangi Courtenay</a> in Inkscape and developed by <a href="http://chrismorgan.info">Chris Morgan</a>{% endblocktrans %}</p>
 		{% endblock %}
 	</body>
 </html>

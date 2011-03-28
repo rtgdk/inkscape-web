@@ -3,6 +3,8 @@
 from django.conf import global_settings
 from os.path import join, dirname, abspath
 
+INKSCAPE_VERSION = '0.48.1'
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -83,6 +85,7 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
+    'djink.versions.versions_context_processor',
     'djink.nav.navigation_context_processor',
     'django.core.context_processors.request',
 )

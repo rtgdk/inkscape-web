@@ -1321,6 +1321,9 @@ hr {
   color: #000000;
   background: url("../images/expand-section-expanded.png") no-repeat 15px 17px;
 }
+#page-faq #left-column .category.collapsed h2, #page-faq #left-column .category.expanded h2 {
+  padding: 0;
+}
 #page-faq #left-column .category.collapsed h2 a.expander {
   background: url("../images/expand-section-collapsed.png") no-repeat 15px 17px;
 }
@@ -1337,11 +1340,7 @@ hr {
 #page-faq #left-column .question.collapsed h3 a.expander {
   background: url("../images/expand-item-collapsed.png") no-repeat 12px 5px;
 }
-#page-faq #left-column.collapsible h2 {
-  padding: 0;
-}
 #page-faq #left-column .category-body {
-  overflow: auto;
   margin-bottom: 50px;
 }
 #page-faq #left-column .category-body .question:first-child h3 {

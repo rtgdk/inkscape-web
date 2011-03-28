@@ -1,4 +1,5 @@
 {% extends "base_sidebar.html" %}
+{% load i18n %}
 {% block title %}Frequently Asked Questions{% endblock %}
 {% block pagetitle %}Frequently Asked Questions{% endblock %}
 {% block extra-head %}
@@ -7,13 +8,13 @@
 		$(function(){
 			function hide(item, instant) {
 				if (item.hasClass('collapsed')) return;
-				if (instant) item.children('div').hide();
+				if (instant) item.children('div').hide(0);
 				else item.children('div').slideUp();
 				item.removeClass('expanded').addClass('collapsed');
 			}
 			function show(item, instant) {
 				if (item.hasClass('expanded')) return;
-				if (instant) item.children('div').show(0); // .show() isn't working properly?
+				if (instant) item.children('div').show(0);
 				else item.children('div').slideDown();
 				item.removeClass('collapsed').addClass('expanded');
 			}
@@ -36,12 +37,11 @@
 			});
 			$('.category').each(function(){
 				var h2 = $(this).children('h2');
-				h2.html('<a href="#' + this.id + '" class="expander">' + h2.html() + '</a><a href="#' + this.id + '" class="expandall">Expand all</a>'); // TODO: i18n
+				h2.html('<a href="#' + this.id + '" class="expander">' + h2.html() + '</a><a href="#' + this.id + '" class="expandall">{% trans "Expand all" %}</a>');
 				$(this).children('h2').children('.expandall').click(function() { expandAll($(this).parent().parent()); return false; });
 				hide($(this), true);
 				$(this).children('h2').children('.expander').click(toggle);
 			});
-			$('#left-column').addClass('collapsible');
 			$(window).hashchange(function() {
 				var e = $(location.hash);
 				if (e.hasClass('category')) {
@@ -50,7 +50,7 @@
 					show(e.parents('.category'), true);
 					show(e, true);
 				}
-				location.hash = location.hash;
+				location.hash = location.hash; // refresh the position; doesn't change it so we don't get a loop
 			});
 			if (location.hash) {
 				$(window).hashchange();
@@ -324,8 +324,7 @@
 	<div class="question" id="can-inkscape-be-used-from-the-command-line">
 	<h3>Can Inkscape be used from the command line?</h3>
 	<div class="question-body">
-	<p>Yes, Inkscape has a powerful command line interface and can be used in scripts for a variety of tasks, such as exporting and format conversions.  For details, refer to the manual page (<a href="http://inkscape.org/doc/inkscape-man.html">online</a>, or via the <em>Help &gt; Command line options</em> command, or by <code>man inkscape</code> on Unix). Using command line interface on Windows has <a href="I'monWindows,andcommandlineparametersdon'tseemtowork!">certain limitations and specifics</a>.</p>
-	<!-- TODO fix that link if it doesn't work -->
+	<p>Yes, Inkscape has a powerful command line interface and can be used in scripts for a variety of tasks, such as exporting and format conversions.  For details, refer to the manual page (<a href="http://inkscape.org/doc/inkscape-man.html">online</a>, or via the <em>Help &gt; Command line options</em> command, or by <code>man inkscape</code> on Unix). Using command line interface on Windows has <a href="#i-m-on-windows-and-command-line-parameters-don-t-seem-to-work">certain limitations and specifics</a>.</p>
 	</div>
 	</div>
 	</div>

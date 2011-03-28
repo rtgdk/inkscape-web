@@ -39,6 +39,9 @@
 		}
 	}
 	.category {
+		&.collapsed h2, &.expanded h2 {
+			padding: 0;
+		}
 		&.collapsed h2 a.expander {
 			background: url("../images/expand-section-collapsed.png") no-repeat 15px 17px;
 		}
@@ -59,13 +62,7 @@
 			background: url("../images/expand-item-collapsed.png") no-repeat 12px 5px;
 		}
 	}
-	&.collapsible {
-		h2 {
-			padding: 0;
-		}
-	}
 	.category-body {
-		overflow: auto;
 		.question:first-child h3 {
 			margin-top: 0;
 		}

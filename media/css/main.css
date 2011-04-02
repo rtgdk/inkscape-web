@@ -38,6 +38,34 @@ ul.ticks li, ul li.tick {
   padding: 2px 0 2px 22px;
 }
 
+/* reStructuredText uses this in News section */ 
+table {
+  border: 0;
+  border-spacing: 0px 0px;
+  margin-top: 2.5em;
+}
+
+th, td {
+  border: 0;
+  height: 24px;
+  line-height: 24px;
+  text-align: center;
+  padding-left: 8px;
+  padding-right: 8px;
+}
+
+th {
+  font-size: 14px;
+  background-color: #d55500;
+  color: white;
+  font-weight: bold;
+}
+
+td {
+  border-bottom: 1px solid #d55500;
+}
+/**/
+
 #content {
   padding: 20px 20px 50px;
   background-color: white;

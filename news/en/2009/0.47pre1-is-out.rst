@@ -1,6 +1,6 @@
 Title: 0.47pre1 is out
 Author: helix84
-Category: General
+Category: Releases
 Date: 2009-07-07
 
 

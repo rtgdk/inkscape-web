@@ -1,6 +1,6 @@
 Title: 0.47 is getting closer
 Author: helix84
-Category: General
+Category: Releases
 Date: 2009-08-07
 
 

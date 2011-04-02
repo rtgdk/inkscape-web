@@ -1,0 +1,7 @@
+Title: 0.47 is getting closer
+Author: helix84
+Category: General
+Date: 2009-08-07
+
+
+We are now at 456 points out of 500 for bugfixing. So it's just 44 points left, and then we wrap up for releasing.

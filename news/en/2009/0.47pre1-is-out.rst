@@ -1,0 +1,10 @@
+Title: 0.47pre1 is out
+Author: helix84
+Category: General
+Date: 2009-07-07
+
+
+Slowly, but surely we are getting there. First prerelease of v0.47 `is out`_. Please test and report any issues you run into. The plan is to gain 500 points for closing bugs. At the moment of publishing this news we are at 304 points.
+
+
+.. _is out: http://sourceforge.net/projects/inkscape/files/

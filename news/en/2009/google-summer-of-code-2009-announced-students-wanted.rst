@@ -1,4 +1,4 @@
-Title: Google Summer of Code 2009 announced, students wanted
+Title: Google Summer of Code 2009 announced, students wanted!
 Author: prokoudine
 Category: Events
 Date: 2009-01-19

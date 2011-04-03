@@ -1,6 +1,6 @@
 Title: Translation Statistics
 Author: helix84
-Category: General
+Category: Community
 Date: 2009-06-10
 
 

@@ -1,5 +1,5 @@
 Title: 0.47 is getting closer
-Author: helix84
+Author: prokoudine
 Category: Releases
 Date: 2009-08-07
 

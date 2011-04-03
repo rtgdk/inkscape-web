@@ -1,6 +1,6 @@
 Title: The road to 0.47
 Author: prokoudine
-Category: Releases
+Category: Community
 Date: 2009-04-21
 
 Following announcement about our participation at Google Summer of Code 2009 we declare that we are beginning to wrap up to release long anticipated 0.47 version of Inkscape.

@@ -798,6 +798,17 @@ hr {
 			margin-left: 5px;
 		}
 	}
+	&.em { // Emphasised style for when it's not pages (e.g. version numbers on screenshots page)
+		margin-top: 20px;
+		li {
+			font-size: 12px;
+			line-height: 20px;
+		}
+		a {
+			padding: 6px 12px;
+			color: $link-dark;
+		}
+	}
 }
 
 #right-sidebar {
@@ -870,4 +881,5 @@ $box-padding: 13px;
 @import 'get-involved';
 @import 'news';
 @import 'books';
+@import 'screenshots';
 @import 'other';

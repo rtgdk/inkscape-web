@@ -25,7 +25,7 @@ class root(object):
     def maybe_current(self, url):
         return (self.copy_as_current()
                 if url == self.href or any(url == e.href for e in self) or
-                url.startswith(self.href) else self)
+                url.startswith(self.href) or any(url.startswith(e.href) for e in self) else self)
 
     def copy_as_current(self):
         return root(self.title, self.href, self.children, True)

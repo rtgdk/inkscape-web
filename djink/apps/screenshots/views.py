@@ -2,6 +2,7 @@ from collections import namedtuple, OrderedDict
 from django.http import Http404
 from django.views.generic.simple import direct_to_template
 from django.utils.translation import ugettext_lazy as _
+from ...nav import leaf
 
 Screenshot = namedtuple('Screenshot', ('filename', 'description'))
 
@@ -29,8 +30,23 @@ model_values = OrderedDict((
 
 def screenshots(request, version=None):
     if version is None:
+        override_breadcrumb = False
         version = model_values.keys()[0]
     elif version not in model_values:
         raise Http404('No screenshots for version %r.' % version)
+    else:
+        override_breadcrumb = True
 
-    return direct_to_template(request, 'screenshots.html', {'title': _('Inkscape screenshots'), 'pagetitle': _('Inkscape screenshots'), 'screenshots': model_values[version], 'versions': model_values.keys(), 'version': version})
+    extra_context = {
+            'title': _('Inkscape screenshots'),
+            'pagetitle': _('Inkscape screenshots'),
+            'screenshots': model_values[version],
+            'versions': model_values.keys(),
+            'version': version}
+    if override_breadcrumb:
+        extra_context['breadcrumb_override'] = ((
+                leaf(_('About'), '/about/'),
+                leaf(_('Screenshots'), '/screenshots/')),
+                leaf(version, ''))
+
+    return direct_to_template(request, 'screenshots.html', extra_context)

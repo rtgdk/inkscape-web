@@ -32,5 +32,6 @@ if settings.DEBUG:
 
 urlpatterns += patterns('',
     (r'^news/', include('djink.apps.news.urls', namespace='news')),
+    (r'^screenshots/', include('djink.apps.screenshots.urls', namespace='screenshots')),
     (r'', include('djink.apps.content.urls', namespace='content')),
 )

@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'djink',
     'djink.i18n',
     'djink.apps.content',
+    'djink.apps.screenshots',
     'djink.apps.news',
 )
 

@@ -1,0 +1,50 @@
+{% extends 'base_about.html' %}
+{% load i18n %}
+{% block alltitle %}{% trans "Inkscape screenshots" %}{% endblock %}
+{% block pagetitle %}{% trans "Inkscape screenshots" %}{% endblock %}
+{% block left-column %}
+	<script>
+
+		function addClass(n, c) {
+			if (!n.className) n.className = c;
+			else if ((" " + n.className + " ").indexOf(" " + c + " ") < 0) n.className += " " + c;
+		}
+		
+		function removeClass(n, c) {
+			n.className = (" " + n.className + " ").replace(" " + c + " ", " ").replace(/^\s\s*/, '').replace(/\s\s*$/, '');
+		}
+
+		function changeScreenshot(e) {
+			removeClass(document.getElementById("screenshot-" + changeScreenshot.current + "-thumb"), 'current');
+			removeClass(document.getElementById("screenshot-" + changeScreenshot.current), 'current');
+			changeScreenshot.current = e.id.replace(/^screenshot-(\d+)-thumb/, '$1');
+			addClass(e, 'current');
+			addClass(document.getElementById("screenshot-" + changeScreenshot.current), 'current');
+			return false;
+		}
+		changeScreenshot.current = 1;
+	</script>
+	<h2>{% blocktrans %}Screenshots of Inkscape {{ version }}{% endblocktrans %}</h2>
+
+	<ul id="screenshots-big">
+		{% for screenshot in screenshots %}
+		<li class="screenshot{% if forloop.first %} current{% endif %}" id="screenshot-{{ forloop.counter }}">
+			<a href="{{ MEDIA_URL }}images/screenshots/{{ screenshot.filename }}" class="screenshot-fullsize"><img src="{{ MEDIA_URL }}images/screenshots/{{ screenshot.filename }}"></a>
+			{{ screenshot.description|safe }}
+		</li>
+		{% endfor %}
+	</ul>
+
+	<ul id="screenshots-thumbnails">
+		{% for screenshot in screenshots %}
+		<li><a class="screenshot{% if forloop.first %} current{% endif %}" id="screenshot-{{ forloop.counter }}-thumb" onclick="return changeScreenshot(this)" href="{{ MEDIA_URL }}images/screenshots/{{ screenshot.filename }}"><img src="{{ MEDIA_URL }}images/screenshots/{{ screenshot.filename }}"></a></li>
+		{% endfor %}
+	</ul>
+
+	<p>{% trans "See screenshots of other versions:" %}</p>
+	<ul class="pager em">
+		{% for v in versions %}{% if v != version %}
+		<li><a href="/screenshots/{{ v }}/">{{ v }}</a></li>
+		{% endif %}{% endfor %}
+	</ul>
+{% endblock %}

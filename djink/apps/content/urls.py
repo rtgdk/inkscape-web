@@ -11,6 +11,7 @@ def redirect(from_, to):
     return (from_, 'redirect_to', {'url': to})
 
 
+# Groups must be named or be (?:) to avoid a TypeError on multiple values for kwarg url
 urlpatterns += patterns('django.views.generic.simple',
     # Nice
     redirect(r'^downloads/$',      '/download/'),
@@ -18,12 +19,12 @@ urlpatterns += patterns('django.views.generic.simple',
 
     # Legacy
     redirect(r'^screenshots/gallery/(?P<file>.*\.png)$', '/media/images/screenshots/%(file)s'),
-    redirect(r'^books/(index.php)?$', '/learn/books/'),
+    redirect(r'^books/(?:index.php)?$', '/learn/books/'),
     redirect(r'^download.php$',     '/download/'),
     redirect(r'^doc/inkscape-man.html$',
         'http://inkscape.modevia.com/inkscape-man.html'),
     redirect(r'^planet/?$',          'http://planet.inkscape.org/'),
-    redirect(r'^(FAQ|help|HELP)/?$', '/faq'),
+    redirect(r'^(?:FAQ|help|HELP)/?$', '/faq'),
 
     redirect(r'^favicon.ico$', '/media/favicon.ico'),
 )

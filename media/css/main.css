@@ -1472,11 +1472,11 @@ hr {
   float: right;
   width: 338px;
 }
-#page-showcase #left-column .category:nth-of-type(even) .thumbnail {
+#page-showcase #left-column .category:nth-child(even) .thumbnail {
   float: right;
   margin-right: 0;
   margin-left: 20px;
 }
-#page-showcase #left-column .category:nth-of-type(even) > p, #page-showcase #left-column .category:nth-of-type(even) > h2 {
+#page-showcase #left-column .category:nth-child(even) > p, #page-showcase #left-column .category:nth-child(even) > h2 {
   float: left;
 }

@@ -1449,3 +1449,34 @@ hr {
   padding-left: 55px;
   border-bottom: 1px solid #cccccc;
 }
+
+#page-showcase #left-column .category {
+  clear: both;
+  position: relative;
+  display: inline-block;
+  margin-top: 50px;
+}
+#page-showcase #left-column .category .thumbnail {
+  padding: 10px;
+  border: 1px solid #ccc;
+  float: left;
+  margin-right: 20px;
+}
+#page-showcase #left-column .category > :link {
+  outline: 0;
+}
+#page-showcase #left-column .category > :link:hover .thumbnail, #page-showcase #left-column .category > :link:focus .thumbnail {
+  border-color: #666;
+}
+#page-showcase #left-column .category > p, #page-showcase #left-column .category > h2 {
+  float: right;
+  width: 338px;
+}
+#page-showcase #left-column .category:nth-of-type(even) .thumbnail {
+  float: right;
+  margin-right: 0;
+  margin-left: 20px;
+}
+#page-showcase #left-column .category:nth-of-type(even) > p, #page-showcase #left-column .category:nth-of-type(even) > h2 {
+  float: left;
+}

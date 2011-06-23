@@ -73,3 +73,40 @@
 		border-bottom: 1px solid #cccccc;
 	}
 }
+
+#page-showcase #left-column .category {
+	$max-image-width: 300px;
+	$img-padding: 10px;
+	$colspace: 20px;
+	$space: $max-image-width + ($colspace + $img-padding * 2 + 2px /* border */);
+	clear: both;
+	position: relative;
+	display: inline-block;
+	margin-top: 50px;
+	.thumbnail {
+		padding: $img-padding;
+		border: 1px solid #ccc;
+		float: left;
+		margin-right: $colspace;
+	}
+	> :link {
+		outline: 0;
+	}
+	> :link:hover .thumbnail, > :link:focus .thumbnail {
+		border-color: #666;
+	}
+	> p, > h2 {
+		float: right;
+		width: 680px - $space;
+	}
+	&:nth-of-type(even) {
+		.thumbnail {
+			float: right;
+			margin-right: 0;
+			margin-left: $colspace;
+		}
+		> p, > h2 {
+			float: left;
+		}
+	}
+}

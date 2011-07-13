@@ -99,7 +99,7 @@
 		float: right;
 		width: 680px - $space;
 	}
-	&:nth-child(even) {
+	&:nth-of-type(even) {
 		.thumbnail {
 			float: right;
 			margin-right: 0;

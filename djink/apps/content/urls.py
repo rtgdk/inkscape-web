@@ -27,6 +27,7 @@ urlpatterns += patterns('django.views.generic.simple',
     redirect(r'^(?:FAQ|help|HELP)/?$', '/faq'),
 
     redirect(r'^favicon.ico$', '/media/favicon.ico'),
+    redirect(r'^showcase/web_design/(?:index.php)?$', '/showcase/web-design/'),
 )
 
 urlpatterns += patterns('',

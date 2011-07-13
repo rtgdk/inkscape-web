@@ -1,6 +1,7 @@
 {% extends "base_about.html" %}
 {% block title %}Showcase{% endblock %}
 {% block pagetitle %}Showcase{% endblock %}
+{% block body-classes %}page-showcase{% endblock %}
 {% block left-column %}
 <p>Inkscapers are finding this tool useful for a wide variety of purposes, as you can see from these examples.</p>
 
@@ -12,7 +13,7 @@
 <p>Branding is where you use a variety of applications to create a whole package.</p>
 </div>
 
-<div class="category">
+<div class="category flip">
 <h2>Icons</h2>
 <a href="/showcase/icons/"><img class="thumbnail" src="{{ MEDIA_URL }}images/showcase/icons_jimmac_yast_smt_thumb.png" alt=""></a>
 <p>Icons are probably one of the most popular use cases when it comes to using Inkscape. Almost all complete icon sets on Linux desktop are created mainly using Inkscape.</p>
@@ -24,7 +25,7 @@
 <p>Website design examples from Jakub "Jimmac" Steiner et al.</p>
 </div>
 
-<div class="category">
+<div class="category flip">
 <h2>CD Booklet</h2>
 <a href="/showcase/cd-booklet/"><img class="thumbnail" src="{{ MEDIA_URL }}images/showcase/artemio_inkscape_FZ_booklet_thumb.png" alt=""></a>
 <p>This demonstrates creating a CD booklet to go along with a compilation CD for the Fantomized.info community.</p>

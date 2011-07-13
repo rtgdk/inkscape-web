@@ -15,6 +15,13 @@
 	}
 }
 
+#left-column h2.visual-block {
+	background-color: #e6e6e6;
+	border-radius: 6px;
+	-moz-border-radius: 6px;
+	padding: 15px;
+	line-height: 1;
+}
 #page-faq #left-column {
 	h2 {
 		background-color: #e6e6e6;
@@ -74,7 +81,7 @@
 	}
 }
 
-#page-showcase #left-column .category {
+.page-showcase #left-column .category {
 	$max-image-width: 300px;
 	$img-padding: 10px;
 	$colspace: 20px;
@@ -99,7 +106,7 @@
 		float: right;
 		width: 680px - $space;
 	}
-	&:nth-of-type(even) {
+	&.flip {
 		.thumbnail {
 			float: right;
 			margin-right: 0;

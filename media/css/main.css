@@ -1398,6 +1398,14 @@ hr {
   padding-top: 4px;
 }
 
+#left-column h2.visual-block {
+  background-color: #e6e6e6;
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  padding: 15px;
+  line-height: 1;
+}
+
 #page-faq #left-column h2 {
   background-color: #e6e6e6;
   border-radius: 6px;
@@ -1450,33 +1458,33 @@ hr {
   border-bottom: 1px solid #cccccc;
 }
 
-#page-showcase #left-column .category {
+.page-showcase #left-column .category {
   clear: both;
   position: relative;
   display: inline-block;
   margin-top: 50px;
 }
-#page-showcase #left-column .category .thumbnail {
+.page-showcase #left-column .category .thumbnail {
   padding: 10px;
   border: 1px solid #ccc;
   float: left;
   margin-right: 20px;
 }
-#page-showcase #left-column .category > :link {
+.page-showcase #left-column .category > :link {
   outline: 0;
 }
-#page-showcase #left-column .category > :link:hover .thumbnail, #page-showcase #left-column .category > :link:focus .thumbnail {
+.page-showcase #left-column .category > :link:hover .thumbnail, .page-showcase #left-column .category > :link:focus .thumbnail {
   border-color: #666;
 }
-#page-showcase #left-column .category > p, #page-showcase #left-column .category > h2 {
+.page-showcase #left-column .category > p, .page-showcase #left-column .category > h2 {
   float: right;
   width: 338px;
 }
-#page-showcase #left-column .category:nth-of-type(even) .thumbnail {
+.page-showcase #left-column .category.flip .thumbnail {
   float: right;
   margin-right: 0;
   margin-left: 20px;
 }
-#page-showcase #left-column .category:nth-of-type(even) > p, #page-showcase #left-column .category:nth-of-type(even) > h2 {
+.page-showcase #left-column .category.flip > p, .page-showcase #left-column .category.flip > h2 {
   float: left;
 }

@@ -5,7 +5,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
 from django.core.paginator import Paginator, EmptyPage, InvalidPage
 from .manager import news_manager
-from ...nav import leaf
+from ...nav import node
 
 PAGE_SIZE = 4
 
@@ -59,7 +59,7 @@ def archive_year(request, year):
             request=request,
             articles=news_manager.get_articles(request.LANGUAGE_CODE,
                 news_manager.articles_by_year.get(year, {}).values()),
-            breadcrumb=((leaf(_('News'), '/news/'),), leaf(year, '')),
+            breadcrumb=((node(_('News'), '/news/'),), node(year, '')),
             title=_('%s News') % year,
             page_title=_('Inkscape News in %s') % year)
 
@@ -83,8 +83,8 @@ def article(request, year, slug):
     return direct_to_template(request, 'news_full.html', {
         'title': article.title,
         'article': article,
-        'breadcrumb_override': ((leaf(_('News'), '/news/'),
-    leaf(year, '/news/%s/' % year)), leaf(article.title, '')),
+        'breadcrumb_override': ((node(_('News'), '/news/'),
+    node(year, '/news/%s/' % year)), node(article.title, '')),
         'categories': [dict(name=name, count=count)
             for name, count in news_manager.categories],
         'archives': news_manager.articles_by_year.keys(),
@@ -100,6 +100,6 @@ def category(request, slug):
             articles=news_manager.get_articles(request.LANGUAGE_CODE,
                 news_manager.articles_by_category.get(friendly_name,
                     {}).values()),
-            breadcrumb=((leaf(_('News'), '/news/'),), leaf(friendly_name, '')),
+            breadcrumb=((node(_('News'), '/news/'),), node(friendly_name, '')),
             title=_('News: %s') % friendly_name,
             page_title=_('Inkscape News: %s') % friendly_name)

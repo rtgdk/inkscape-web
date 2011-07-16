@@ -2,7 +2,7 @@ from collections import namedtuple, OrderedDict
 from django.http import Http404
 from django.views.generic.simple import direct_to_template
 from django.utils.translation import ugettext_lazy as _
-from ...nav import leaf
+from ...nav import node
 
 Screenshot = namedtuple('Screenshot', ('filename', 'description'))
 
@@ -45,8 +45,8 @@ def screenshots(request, version=None):
             'version': version}
     if override_breadcrumb:
         extra_context['breadcrumb_override'] = ((
-                leaf(_('About'), '/about/'),
-                leaf(_('Screenshots'), '/screenshots/')),
-                leaf(version, ''))
+                node(_('About'), '/about/'),
+                node(_('Screenshots'), '/screenshots/')),
+                node(version, ''))
 
     return direct_to_template(request, 'screenshots.html', extra_context)

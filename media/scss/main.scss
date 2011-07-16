@@ -62,13 +62,12 @@ body {
 	color: $text-colour;
 }
 
-a:link, a:visited {
+:link, :visited {
 	text-decoration: none;
 	color: $link-dark;
-}
-
-a:link:hover, a:link:active {
-	text-decoration: underline;
+	&:hover, &:active {
+		text-decoration: underline;
+	}
 }
 
 ul {
@@ -233,11 +232,11 @@ video {
 		margin: 0;
 		border: 0;
 	}
-	a:link, a:visited {
+	:link, :visited {
 		color: #000000;
-	}
-	a:link:hover, a:link:active {
-		text-decoration: none;
+		&:hover, &:active {
+			text-decoration: none;
+		}
 	}
 	h1 {
 		font-family: $fonts-heading;
@@ -525,9 +524,11 @@ input {
 		padding: 0;
 		border-left: 1px solid $colours-sep-2;
 	}
-	a:link, a:visited, a:link:hover, a:link:active {
-		color: $coloured-bg-text;
-		text-decoration: none;
+	:link, :visited {
+		&, &:hover, &:active {
+			color: $coloured-bg-text;
+			text-decoration: none;
+		}
 	}
 	li {
 		margin: 0;
@@ -628,10 +629,10 @@ input {
 		&:link, &:visited {
 			color: $coloured-bg-text;
 			text-decoration: none;
-		}
-		&:hover, &:active {
-			color: $coloured-bg-text;
-			text-decoration: underline;
+			&:hover, &:active {
+				color: $coloured-bg-text;
+				text-decoration: underline;
+			}
 		}
 	}
 	.nav > ul > li {
@@ -670,8 +671,10 @@ input {
 	text-align: center;
 	color: lighten($text-colour, 40%);
 	margin-bottom: 20px;
-	a:link, a:visited, a:link:hover, a:link:active {
-		color: $link-light;
+	:link, :visited {
+		&, &:hover, &:active {
+			color: $link-light;
+		}
 	}
 }
 
@@ -822,9 +825,11 @@ hr {
 	.download-box {
 		margin: 20px 0 40px;
 	}
-	h2, h2 a:link, h2 a:visited {
-		color: $text-colour;
-		font-size: 16px;
+	h2 {
+		&, :link, :visited {
+			color: $text-colour;
+			font-size: 16px;
+		}
 	}
 	> h2:first-child { margin-top: 18px; }
 

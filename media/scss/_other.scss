@@ -96,11 +96,13 @@
 		float: left;
 		margin-right: $colspace;
 	}
-	> :link {
+	> :link, :visited {
 		outline: 0;
-	}
-	> :link:hover .thumbnail, > :link:focus .thumbnail {
-		border-color: #666;
+		&:hover, &:focus {
+			.thumbnail {
+				border-color: #666;
+			}
+		}
 	}
 	> p, > h2 {
 		float: right;

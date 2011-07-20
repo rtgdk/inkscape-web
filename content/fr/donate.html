@@ -1,0 +1,68 @@
+{% extends "base_sidebar.html" %}
+{% block alltitle %}Faire un don à Inkscape{% endblock %}
+{% block pagetitle %}Faire un don au projet Inkscape{% endblock %}
+{% block left-column %}
+
+<p class="summary">Donnez à Inkscape pour apporter votre soutien aux développeurs d'Inkscape.</p>
+
+<p>Vos dons sont utilisés pour supporter Inkscape de plusieurs manières, et plus particulièrement pour aider à financer l'organisation de <a href="">rencontres entre développeurs</a> et pour leur permettre de participer à des conférences majeures telles que la <a href="">Libre Graphics Convention</a> et <a href="">SCALE</a>, événements auxquels les développeurs ne seraient autrement pas en mesure d'assister.</p>
+
+<h2>Comment donner&nbsp;?</h2>
+
+<p>Le fond Inkscape est actuellement géré par la <a href="http://conservancy.softwarefreedom.org/">Software Freedom Conservancy</a>, une organisation 501(c)(3) à but non lucratif. Tous les dons faits par son intermédiaire sont déductibles des impôts aux Etats-Unis dans la mesure permise par la loi. Si vous souhaitez contribuer au projet Inkscape, merci d'utiliser un des modes de paiement suivants&nbsp;:</p>
+
+<div class="box-2 box-fancy">
+	<h2>Google Checkout</h2>
+<script type="text/javascript">
+	function validateAmount(amount) {
+		if (amount.value.match(/^[0-9]+(\.[0-9]+)?$/)) {
+			return true;
+		} else {
+			alert('Vous devez saisir un montant valide.');
+			amount.focus();
+			return false;
+		}
+	}
+</script>
+
+<form action="https://checkout.google.com/cws/v2/Donations/622836985124940/checkoutForm"
+      id="BB_BuyButtonForm" method="post" name="BB_BuyButtonForm"
+      onsubmit="return validateAmount(this.item_price_1)">
+	<input name="item_name_1" type="hidden" value="Inkscape Project Donation via Software Freedom Conservancy">
+	<input name="item_description_1" type="hidden" value="This donation is to the Software Freedom Conservancy, Inc., a 501(c)(3) non-profit, and will be earmarked for use for the Inkscape Project of the Conservancy.">
+	<input name="item_quantity_1" type="hidden" value="1">
+	<input name="item_currency_1" type="hidden" value="USD">
+	<input name="item_is_modifiable_1" type="hidden" value="true">
+	<input name="item_min_price_1" type="hidden" value="5.0">
+	<input name="item_max_price_1" type="hidden" value="25000.0">
+	<input name="_charset_" type="hidden" value="utf-8">
+	<div>
+		$ <input id="item_price_1" name="item_price_1" onfocus="this.style.color='';this.value='';" size="10" style="color:GrayText" type="text" value="Enter Amount">
+	</div>
+	<div>
+		<input alt="Donate" src="https://checkout.google.com/buttons/donateNow.gif?merchant_id=622836985124940&amp;w=115&amp;h=50&amp;style=trans&amp;variant=text&amp;loc=en_US" type="image">
+	</div>
+</form>
+</div>
+
+<div class="box-2 box-fancy box-last">
+	<h2>Chèque ou mandat</h2>
+	<p>Inkscape Project<br>
+	Software Freedom Conservancy<br>
+	1995 Broadway FL 17<br>
+	New York, NY 10023-5882</p>
+</div>
+
+<div class="box-2 box-fancy">
+	<h2> PayPal</h2>
+	<!--form-->
+	<!--<p>Please note that Paypal charges a transaction fee for each donation.</p>-->
+	<!--Chris disagrees with the placement of this notice, or says it should be on the Google Checkout one as well - the fees appear to actually be higher with Google Checkout than PayPal (both 30c plus a percentage, but PayPal's is a lower percentage)-->
+</div>
+
+<div class="box-2 box-fancy box-last">
+	<h2>Virement bancaire</h2>
+	<p>Les modalités d'utilisation variant selon le pays d'origine, merci de contacter <a href="mailto:conservancy@softwarefreedom.org">conservancy@softwarefreedom.org</a> pour obtenir des instructions adaptées à votre cas.</p>
+</div>
+
+{% endblock %}

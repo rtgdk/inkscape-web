@@ -8,7 +8,7 @@ msgstr ""
 "Project-Id-Version: Inkscape website\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-15 06:24-0500\n"
-"PO-Revision-Date: 2011-07-20 21:36+0100\n"
+"PO-Revision-Date: 2011-07-20 21:53+0100\n"
 "Last-Translator: Nicolas Dufour <nicoduf@yahoo.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
 "Language: \n"
@@ -125,7 +125,7 @@ msgstr "Donner"
 
 #: nav.py:73
 msgid "Developers"
-msgstr "Développeurs"
+msgstr "Développer"
 
 #: nav.py:74
 msgid "Developer docs"

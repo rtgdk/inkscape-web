@@ -201,8 +201,9 @@ video {
   font-weight: normal;
 }
 #logo h2 a {
-  padding-left: 49px;
+  padding-left: 17px;
   display: block;
+  text-align: center;
 }
 
 .header #topdrops {

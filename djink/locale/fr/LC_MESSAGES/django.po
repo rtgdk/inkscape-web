@@ -227,7 +227,6 @@ msgstr "Nouvelles d'Inkscape : %s"
 
 #: apps/screenshots/views.py:41 apps/screenshots/views.py:42
 #: templates/screenshots.html:4 templates/screenshots.html.py:5
-#, fuzzy
 msgid "Inkscape screenshots"
 msgstr "Nouvelles d'Inkscape"
 
@@ -347,12 +346,10 @@ msgid "Or log in with"
 msgstr "Ou connectez-vous avec"
 
 #: templates/base.html:98
-#, fuzzy
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape est un logiciel libre et à sources ouvertes sous licence GPL."
 
 #: templates/base.html:101
-#, fuzzy
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://chrismorgan.info\">Chris "

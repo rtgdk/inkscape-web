@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-15 06:24-0500\n"
+"POT-Creation-Date: 2011-07-23 05:51-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,153 +18,173 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1)\n"
 
-#: nav.py:35
+#: nav.py:31 apps/screenshots/views.py:48
 msgid "About"
 msgstr ""
 
-#: nav.py:36
+#: nav.py:32
 msgid "Overview"
 msgstr ""
 
-#: nav.py:37
+#: nav.py:33
 msgid "Features"
 msgstr ""
 
-#: nav.py:38
+#: nav.py:34 apps/screenshots/views.py:49
 msgid "Screenshots"
 msgstr ""
 
-#: nav.py:39
+#: nav.py:35
 msgid "Gallery"
 msgstr ""
 
-#: nav.py:40
+#: nav.py:36
 msgid "FAQ"
 msgstr ""
 
-#: nav.py:41
+#: nav.py:37
 msgid "User testimonials"
 msgstr ""
 
-#: nav.py:43
+#: nav.py:39
 msgid "Download"
 msgstr ""
 
-#: nav.py:44
+#: nav.py:40
 msgid "Official releases"
 msgstr ""
 
-#: nav.py:45
+#: nav.py:41
 msgid "Development versions"
 msgstr ""
 
-#: nav.py:46
+#: nav.py:42
 msgid "Add-ons"
 msgstr ""
 
-#: nav.py:47
+#: nav.py:43
 msgid "Clip art"
 msgstr ""
 
-#: nav.py:49
+#: nav.py:45
 msgid "Learn"
 msgstr ""
 
-#: nav.py:50
+#: nav.py:46
 msgid "User documentation"
 msgstr ""
 
-#: nav.py:51
+#: nav.py:47
 msgid "Books"
 msgstr ""
 
-#: nav.py:52
+#: nav.py:48
 msgid "Tutorials"
 msgstr ""
 
-#: nav.py:53
+#: nav.py:49
 msgid "Manuals"
 msgstr ""
 
-#: nav.py:54
+#: nav.py:50
 msgid "Wiki"
 msgstr ""
 
-#: nav.py:64
+#: nav.py:60
 msgid "Community"
 msgstr ""
 
-#: nav.py:65
+#: nav.py:61
 msgid "Get Involved"
 msgstr ""
 
-#: nav.py:66
+#: nav.py:62
 msgid "Connect"
 msgstr ""
 
-#: nav.py:67
+#: nav.py:63
 msgid "Forums & blogs"
 msgstr ""
 
-#: nav.py:68
+#: nav.py:64
 msgid "Mailing lists"
 msgstr ""
 
-#: nav.py:69
+#: nav.py:65
 msgid "Help & support"
 msgstr ""
 
-#: nav.py:70
+#: nav.py:66
 msgid "Contact"
 msgstr ""
 
-#: nav.py:71 templates/base.html:63
+#: nav.py:67 templates/base.html:64
 msgid "Donate"
 msgstr ""
 
-#: nav.py:73
+#: nav.py:69
 msgid "Developers"
 msgstr ""
 
-#: nav.py:74
+#: nav.py:70
 msgid "Developer docs"
 msgstr ""
 
-#: nav.py:75
+#: nav.py:71
 msgid "Launchpad"
 msgstr ""
 
-#: nav.py:76
+#: nav.py:72
 msgid "Roadmap"
 msgstr ""
 
-#: nav.py:77
+#: nav.py:73
 msgid "Bazaar"
 msgstr ""
 
-#: nav.py:78
+#: nav.py:74
 msgid "Source code"
 msgstr ""
 
-#: nav.py:80 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
+#: nav.py:76 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
 #: apps/news/views.py:86 apps/news/views.py:103
 msgid "News"
 msgstr ""
 
-#: nav.py:81
+#: nav.py:77
 msgid "Releases"
 msgstr ""
 
-#: nav.py:82
+#: nav.py:78
 msgid "Contests"
 msgstr ""
 
-#: nav.py:83
+#: nav.py:79
 msgid "Events"
 msgstr ""
 
-#: nav.py:84
+#: nav.py:80
 msgid "Press"
+msgstr ""
+
+#: nav.py:85
+msgid "Showcase"
+msgstr ""
+
+#: nav.py:86
+msgid "Branding"
+msgstr ""
+
+#: nav.py:87
+msgid "Icons"
+msgstr ""
+
+#: nav.py:88
+msgid "Web design"
+msgstr ""
+
+#: nav.py:89
+msgid "CD booklet"
 msgstr ""
 
 #: apps/content/views.py:31 apps/news/views.py:78
@@ -200,6 +220,11 @@ msgstr ""
 #: apps/news/views.py:105
 #, python-format
 msgid "Inkscape News: %s"
+msgstr ""
+
+#: apps/screenshots/views.py:41 apps/screenshots/views.py:42
+#: templates/screenshots.html:4 templates/screenshots.html.py:5
+msgid "Inkscape screenshots"
 msgstr ""
 
 #: templates/403.html:3
@@ -259,48 +284,47 @@ msgstr ""
 msgid "Read more..."
 msgstr ""
 
-#: templates/base.html:7 templates/base.html.py:16
+#: templates/base.html:17 templates/front.html:4
 msgid "Draw Freely."
 msgstr ""
 
-#: templates/base.html:29
+#: templates/base.html:30
 msgid "Log in / Register"
 msgstr ""
 
-#: templates/base.html:31
+#: templates/base.html:32
 msgid "Already a member? Log in below."
 msgstr ""
 
-#: templates/base.html:32
+#: templates/base.html:33
 msgid "Username"
 msgstr ""
 
-#: templates/base.html:34
+#: templates/base.html:35
 msgid "Password"
 msgstr ""
 
-#: templates/base.html:36
+#: templates/base.html:38
 msgid "Not a member?"
 msgstr ""
 
-#: templates/base.html:36
+#: templates/base.html:38
 msgid "Register now."
 msgstr ""
 
-#: templates/base.html:38
+#: templates/base.html:39
 msgid "Or log in with"
 msgstr ""
 
-#: templates/base.html:97
-msgid ""
-"Inkscape is Free and Open Source Software licensed under the GPL. This "
-"website was designed in Inkscape (of course.)"
+#: templates/base.html:98
+msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr ""
 
-#: templates/base.html:99
+#: templates/base.html:101
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
-"and developed by <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
+"in Inkscape and developed by <a href=\"http://chrismorgan.info\">Chris "
+"Morgan</a>"
 msgstr ""
 
 #: templates/fake-404.html:3
@@ -335,4 +359,13 @@ msgstr ""
 
 #: templates/paginator.html:23
 msgid "Next"
+msgstr ""
+
+#: templates/screenshots.html:28
+#, python-format
+msgid "Screenshots of Inkscape %(version)s"
+msgstr ""
+
+#: templates/screenshots.html:45
+msgid "See screenshots of other versions:"
 msgstr ""

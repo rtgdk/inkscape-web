@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Inkscape website\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-23 05:51-0500\n"
+"POT-Creation-Date: 2011-07-23 07:54-0500\n"
 "PO-Revision-Date: 2011-07-20 21:53+0100\n"
 "Last-Translator: Nicolas Dufour <nicoduf@yahoo.fr>\n"
 "Language-Team: Français <fr@li.org>\n"
@@ -39,153 +39,149 @@ msgid "Gallery"
 msgstr "Galerie"
 
 #: nav.py:36
+msgid "Branding"
+msgstr ""
+
+#: nav.py:37
+msgid "Icons"
+msgstr ""
+
+#: nav.py:38
+msgid "Web design"
+msgstr ""
+
+#: nav.py:39
+msgid "CD booklet"
+msgstr ""
+
+#: nav.py:41
 msgid "FAQ"
 msgstr "FAQ"
 
-#: nav.py:37
+#: nav.py:42
 msgid "User testimonials"
 msgstr "Témoignages d'utilisateurs"
 
-#: nav.py:39
+#: nav.py:44
 msgid "Download"
 msgstr "Télécharger"
 
-#: nav.py:40
+#: nav.py:45
 msgid "Official releases"
 msgstr "Versions officielles"
 
-#: nav.py:41
+#: nav.py:46
 msgid "Development versions"
 msgstr "Versions de développement"
 
-#: nav.py:42
+#: nav.py:47
 msgid "Add-ons"
 msgstr "Extensions"
 
-#: nav.py:43
+#: nav.py:48
 msgid "Clip art"
 msgstr "Clip art"
 
-#: nav.py:45
+#: nav.py:50
 msgid "Learn"
 msgstr "Apprendre"
 
-#: nav.py:46
+#: nav.py:51
 msgid "User documentation"
 msgstr "Documentation utilisateurs"
 
-#: nav.py:47
+#: nav.py:52
 msgid "Books"
 msgstr "Livres"
 
-#: nav.py:48
+#: nav.py:53
 msgid "Tutorials"
 msgstr "Tutoriels"
 
-#: nav.py:49
+#: nav.py:54
 msgid "Manuals"
 msgstr "Manuels"
 
-#: nav.py:50
+#: nav.py:55
 msgid "Wiki"
 msgstr "Wiki"
 
-#: nav.py:60
+#: nav.py:65
 msgid "Community"
 msgstr "Communauté"
 
-#: nav.py:61
+#: nav.py:66
 msgid "Get Involved"
 msgstr "S'impliquer"
 
-#: nav.py:62
+#: nav.py:67
 msgid "Connect"
 msgstr "Se connecter"
 
-#: nav.py:63
+#: nav.py:68
 msgid "Forums & blogs"
 msgstr "Forums & blogs"
 
-#: nav.py:64
+#: nav.py:69
 msgid "Mailing lists"
 msgstr "Listes de diffusion"
 
-#: nav.py:65
+#: nav.py:70
 msgid "Help & support"
 msgstr "Aide et support"
 
-#: nav.py:66
+#: nav.py:71
 msgid "Contact"
 msgstr "Contact"
 
-#: nav.py:67 templates/base.html:64
+#: nav.py:72 templates/base.html:64
 msgid "Donate"
 msgstr "Donner"
 
-#: nav.py:69
+#: nav.py:74
 msgid "Developers"
 msgstr "Développer"
 
-#: nav.py:70
+#: nav.py:75
 msgid "Developer docs"
 msgstr "Documentation développeurs"
 
-#: nav.py:71
+#: nav.py:76
 msgid "Launchpad"
 msgstr "Launchpad"
 
-#: nav.py:72
+#: nav.py:77
 msgid "Roadmap"
 msgstr "Feuille de route"
 
-#: nav.py:73
+#: nav.py:78
 msgid "Bazaar"
 msgstr "Bazaar"
 
-#: nav.py:74
+#: nav.py:79
 msgid "Source code"
 msgstr "Code source"
 
-#: nav.py:76 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
+#: nav.py:81 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
 #: apps/news/views.py:86 apps/news/views.py:103
 msgid "News"
 msgstr "Nouvelles"
 
-#: nav.py:77
+#: nav.py:82
 msgid "Releases"
 msgstr "Versions"
 
-#: nav.py:78
+#: nav.py:83
 msgid "Contests"
 msgstr "Concours"
 
-#: nav.py:79
+#: nav.py:84
 msgid "Events"
 msgstr "Événements"
 
-#: nav.py:80
+#: nav.py:85
 msgid "Press"
 msgstr "Presse"
-
-#: nav.py:85
-msgid "Showcase"
-msgstr ""
-
-#: nav.py:86
-msgid "Branding"
-msgstr ""
-
-#: nav.py:87
-msgid "Icons"
-msgstr ""
-
-#: nav.py:88
-msgid "Web design"
-msgstr ""
-
-#: nav.py:89
-msgid "CD booklet"
-msgstr ""
 
 #: apps/content/views.py:31 apps/news/views.py:78
 msgid ""

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-07-23 05:51-0500\n"
+"POT-Creation-Date: 2011-07-23 07:54-0500\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -39,152 +39,148 @@ msgid "Gallery"
 msgstr ""
 
 #: nav.py:36
-msgid "FAQ"
+msgid "Branding"
 msgstr ""
 
 #: nav.py:37
-msgid "User testimonials"
+msgid "Icons"
+msgstr ""
+
+#: nav.py:38
+msgid "Web design"
 msgstr ""
 
 #: nav.py:39
-msgid "Download"
-msgstr ""
-
-#: nav.py:40
-msgid "Official releases"
+msgid "CD booklet"
 msgstr ""
 
 #: nav.py:41
-msgid "Development versions"
+msgid "FAQ"
 msgstr ""
 
 #: nav.py:42
-msgid "Add-ons"
+msgid "User testimonials"
 msgstr ""
 
-#: nav.py:43
-msgid "Clip art"
+#: nav.py:44
+msgid "Download"
 msgstr ""
 
 #: nav.py:45
-msgid "Learn"
+msgid "Official releases"
 msgstr ""
 
 #: nav.py:46
-msgid "User documentation"
+msgid "Development versions"
 msgstr ""
 
 #: nav.py:47
-msgid "Books"
+msgid "Add-ons"
 msgstr ""
 
 #: nav.py:48
-msgid "Tutorials"
-msgstr ""
-
-#: nav.py:49
-msgid "Manuals"
+msgid "Clip art"
 msgstr ""
 
 #: nav.py:50
+msgid "Learn"
+msgstr ""
+
+#: nav.py:51
+msgid "User documentation"
+msgstr ""
+
+#: nav.py:52
+msgid "Books"
+msgstr ""
+
+#: nav.py:53
+msgid "Tutorials"
+msgstr ""
+
+#: nav.py:54
+msgid "Manuals"
+msgstr ""
+
+#: nav.py:55
 msgid "Wiki"
 msgstr ""
 
-#: nav.py:60
+#: nav.py:65
 msgid "Community"
 msgstr ""
 
-#: nav.py:61
+#: nav.py:66
 msgid "Get Involved"
 msgstr ""
 
-#: nav.py:62
+#: nav.py:67
 msgid "Connect"
 msgstr ""
 
-#: nav.py:63
+#: nav.py:68
 msgid "Forums & blogs"
 msgstr ""
 
-#: nav.py:64
+#: nav.py:69
 msgid "Mailing lists"
 msgstr ""
 
-#: nav.py:65
+#: nav.py:70
 msgid "Help & support"
 msgstr ""
 
-#: nav.py:66
+#: nav.py:71
 msgid "Contact"
 msgstr ""
 
-#: nav.py:67 templates/base.html:64
+#: nav.py:72 templates/base.html:64
 msgid "Donate"
 msgstr ""
 
-#: nav.py:69
+#: nav.py:74
 msgid "Developers"
 msgstr ""
 
-#: nav.py:70
+#: nav.py:75
 msgid "Developer docs"
 msgstr ""
 
-#: nav.py:71
+#: nav.py:76
 msgid "Launchpad"
 msgstr ""
 
-#: nav.py:72
+#: nav.py:77
 msgid "Roadmap"
 msgstr ""
 
-#: nav.py:73
+#: nav.py:78
 msgid "Bazaar"
 msgstr ""
 
-#: nav.py:74
+#: nav.py:79
 msgid "Source code"
 msgstr ""
 
-#: nav.py:76 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
+#: nav.py:81 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
 #: apps/news/views.py:86 apps/news/views.py:103
 msgid "News"
 msgstr ""
 
-#: nav.py:77
+#: nav.py:82
 msgid "Releases"
 msgstr ""
 
-#: nav.py:78
+#: nav.py:83
 msgid "Contests"
 msgstr ""
 
-#: nav.py:79
+#: nav.py:84
 msgid "Events"
 msgstr ""
 
-#: nav.py:80
-msgid "Press"
-msgstr ""
-
 #: nav.py:85
-msgid "Showcase"
-msgstr ""
-
-#: nav.py:86
-msgid "Branding"
-msgstr ""
-
-#: nav.py:87
-msgid "Icons"
-msgstr ""
-
-#: nav.py:88
-msgid "Web design"
-msgstr ""
-
-#: nav.py:89
-msgid "CD booklet"
+msgid "Press"
 msgstr ""
 
 #: apps/content/views.py:31 apps/news/views.py:78

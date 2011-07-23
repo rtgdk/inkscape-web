@@ -257,6 +257,21 @@ video {
 
 // Top dropdowns (Language and Log in / Register)
 
+html[lang=fr] {
+	// login/register needs to be 70px wider.
+	// #topdrops included to increase specificity so it's taken
+	$shift: 70px;
+	#topdrops #toplogin {
+		> p {
+			width: 100px + $shift;
+			background-position: (112px + $shift) 10px;
+		}
+		.topdrop {
+			margin-left: -110px + $shift;
+		}
+	}
+}
+
 .header {
 	#topdrops {
 		float: right;

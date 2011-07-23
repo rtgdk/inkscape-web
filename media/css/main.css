@@ -206,6 +206,14 @@ video {
   text-align: center;
 }
 
+html[lang=fr] #topdrops #toplogin > p {
+  width: 170px;
+  background-position: 182px 10px;
+}
+html[lang=fr] #topdrops #toplogin .topdrop {
+  margin-left: -40px;
+}
+
 .header #topdrops {
   float: right;
   margin: 0;

@@ -3,336 +3,341 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
+"Project-Id-Version: Inkscape website\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2011-03-15 06:24-0500\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2011-07-20 21:53+0100\n"
+"Last-Translator: Nicolas Dufour <nicoduf@yahoo.fr>\n"
+"Language-Team: Français <fr@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n>1;\n"
+"X-Poedit-Language: French\n"
 
 #: nav.py:35
 msgid "About"
-msgstr ""
+msgstr "À propos"
 
 #: nav.py:36
 msgid "Overview"
-msgstr ""
+msgstr "Aperçu"
 
 #: nav.py:37
 msgid "Features"
-msgstr ""
+msgstr "Fonctionnalités"
 
 #: nav.py:38
 msgid "Screenshots"
-msgstr ""
+msgstr "Captures d'écran"
 
 #: nav.py:39
 msgid "Gallery"
-msgstr ""
+msgstr "Galerie"
 
 #: nav.py:40
 msgid "FAQ"
-msgstr ""
+msgstr "FAQ"
 
 #: nav.py:41
 msgid "User testimonials"
-msgstr ""
+msgstr "Témoignages d'utilisateurs"
 
 #: nav.py:43
 msgid "Download"
-msgstr ""
+msgstr "Télécharger"
 
 #: nav.py:44
 msgid "Official releases"
-msgstr ""
+msgstr "Versions officielles"
 
 #: nav.py:45
 msgid "Development versions"
-msgstr ""
+msgstr "Versions de développement"
 
 #: nav.py:46
 msgid "Add-ons"
-msgstr ""
+msgstr "Extensions"
 
 #: nav.py:47
 msgid "Clip art"
-msgstr ""
+msgstr "Clip art"
 
 #: nav.py:49
 msgid "Learn"
-msgstr ""
+msgstr "Apprendre"
 
 #: nav.py:50
 msgid "User documentation"
-msgstr ""
+msgstr "Documentation utilisateurs"
 
 #: nav.py:51
 msgid "Books"
-msgstr ""
+msgstr "Livres"
 
 #: nav.py:52
 msgid "Tutorials"
-msgstr ""
+msgstr "Tutoriels"
 
 #: nav.py:53
 msgid "Manuals"
-msgstr ""
+msgstr "Manuels"
 
 #: nav.py:54
 msgid "Wiki"
-msgstr ""
+msgstr "Wiki"
 
 #: nav.py:64
 msgid "Community"
-msgstr ""
+msgstr "Communauté"
 
 #: nav.py:65
 msgid "Get Involved"
-msgstr ""
+msgstr "S'impliquer"
 
 #: nav.py:66
 msgid "Connect"
-msgstr ""
+msgstr "Se connecter"
 
 #: nav.py:67
 msgid "Forums & blogs"
-msgstr ""
+msgstr "Forums & blogs"
 
 #: nav.py:68
 msgid "Mailing lists"
-msgstr ""
+msgstr "Listes de diffusion"
 
 #: nav.py:69
 msgid "Help & support"
-msgstr ""
+msgstr "Aide et support"
 
 #: nav.py:70
 msgid "Contact"
-msgstr ""
+msgstr "Contact"
 
-#: nav.py:71 templates/base.html:63
+#: nav.py:71
+#: templates/base.html:63
 msgid "Donate"
-msgstr ""
+msgstr "Donner"
 
 #: nav.py:73
 msgid "Developers"
-msgstr ""
+msgstr "Développer"
 
 #: nav.py:74
 msgid "Developer docs"
-msgstr ""
+msgstr "Documentation développeurs"
 
 #: nav.py:75
 msgid "Launchpad"
-msgstr ""
+msgstr "Launchpad"
 
 #: nav.py:76
 msgid "Roadmap"
-msgstr ""
+msgstr "Feuille de route"
 
 #: nav.py:77
 msgid "Bazaar"
-msgstr ""
+msgstr "Bazaar"
 
 #: nav.py:78
 msgid "Source code"
-msgstr ""
+msgstr "Code source"
 
-#: nav.py:80 apps/news/views.py:16 apps/news/views.py:19 apps/news/views.py:62
-#: apps/news/views.py:86 apps/news/views.py:103
+#: nav.py:80
+#: apps/news/views.py:16
+#: apps/news/views.py:19
+#: apps/news/views.py:62
+#: apps/news/views.py:86
+#: apps/news/views.py:103
 msgid "News"
-msgstr ""
+msgstr "Nouvelles"
 
 #: nav.py:81
 msgid "Releases"
-msgstr ""
+msgstr "Versions"
 
 #: nav.py:82
 msgid "Contests"
-msgstr ""
+msgstr "Concours"
 
 #: nav.py:83
 msgid "Events"
-msgstr ""
+msgstr "Événements"
 
 #: nav.py:84
 msgid "Press"
-msgstr ""
+msgstr "Presse"
 
-#: apps/content/views.py:31 apps/news/views.py:78
-msgid ""
-"This page is not available in English. Here is the English version of this "
-"page. If you would like to help with translating this website, please <a "
-"href=\"\">contact us</a>."
-msgstr ""
+#: apps/content/views.py:31
+#: apps/news/views.py:78
+msgid "This page is not available in English. Here is the English version of this page. If you would like to help with translating this website, please <a href=\"\">contact us</a>."
+msgstr "Cette page n'est pas disponible en français. Ceci est la version anglaise de la page. Si vous souhaitez nous aider à traduire ce site, merci de nous <a href=\"\">contacter</a>."
 
-#: apps/news/feeds.py:19 apps/news/views.py:17
+#: apps/news/feeds.py:19
+#: apps/news/views.py:17
 msgid "Inkscape News"
-msgstr ""
+msgstr "Nouvelles d'Inkscape"
 
 #: apps/news/feeds.py:21
 msgid "News about the Inkscape scalable vector graphics editor"
-msgstr ""
+msgstr "Nouvelles à propos de l'éditeur de graphismes vectoriel Inkscape"
 
 #: apps/news/views.py:63
 #, python-format
 msgid "%s News"
-msgstr ""
+msgstr "%s Nouvelles"
 
 #: apps/news/views.py:64
 #, python-format
 msgid "Inkscape News in %s"
-msgstr ""
+msgstr "Nouvelles d'Inkscape en %s"
 
 #: apps/news/views.py:104
 #, python-format
 msgid "News: %s"
-msgstr ""
+msgstr "Nouvelles : %s"
 
 #: apps/news/views.py:105
 #, python-format
 msgid "Inkscape News: %s"
-msgstr ""
+msgstr "Nouvelles d'Inkscape : %s"
 
 #: templates/403.html:3
 msgid "Forbidden"
-msgstr ""
+msgstr "Interdit"
 
 #: templates/403.html:6
 msgid ""
 "\n"
 "<h1>Sorry, you're not allowed to see this.</h1>\n"
-"<p>Although you can do anything you like in Inkscape, you can't do anything "
-"you like in the Inkscape website. You can't view the contents of this page, "
-"for example.</p>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything you like in the Inkscape website. You can't view the contents of this page, for example.</p>\n"
 msgstr ""
+"\n"
+"<h1>Désolé, vous n'êtes pas autorisés à voir cela.</h1>\n"
+"<p>Même si vous pouvez faire tout ce qui vous plaît avec Inkscape, vous ne pouvez pas faire tout ce qui vous plaît sur le site web d'Inkscape. Vous ne pouvez pas consulter le contenu de cette page, par exemple.</p>\n"
 
 #: templates/404.html:3
 msgid "Not found"
-msgstr ""
+msgstr "Introuvable"
 
 #: templates/404.html:7
 msgid ""
 "\n"
 "<h1>Page not found</h1>\n"
-"<p>Couldn't find what you were looking for. Sorry about that. In the future "
-"we might have a funny image here for you to look at but at the moment it's "
-"just boring.</p>\n"
-"<p>If you've followed a link from our site, or are using a link that used to "
-"work before we made this shiny new website, please tell us and we'll fix it "
-"up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
-"<p>Then again, there's always the possibility that you came here just to see "
-"what the 404 page looked like. I hope you're satisfied.</p>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future we might have a funny image here for you to look at but at the moment it's just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to work before we made this shiny new website, please tell us and we'll fix it up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
+"\n"
+"<h1>Page introuvable</h1>\n"
+"<p>Pas moyen de trouver ce que vous rechercher. Désolé. Dans le futur, nous espérons vous afficher une image amusante, mais pour l'instant, il faudra faire avec ce message ennuyeux.</p>\n"
+"<p>Si vous avez suivi un lien sur notre site, ou si le lien que vous avez utilisé fonctionnait avant que nous ayons mis en ligne ce site flambant neuf, merci de nous avertir que nous le réparions.</p>\n"
+"<p>Si vous ne savez pas pourquoi vous avez atterri ici, peut-être devriez-vous <a href=\"/search\">chercher</a> pour essayer de trouver votre bonheur.</p>\n"
+"<p>Après, il est toujours possible que vous ayez fait exprès juste pour voir à quoi ressemble la page 404. Nous espérons que vous êtes satisfait...</p>\n"
 
 #: templates/500.html:3
 msgid "You broke it!"
-msgstr ""
+msgstr "Vous l'avez cassé !"
 
 #: templates/500.html:7
 msgid ""
 "\n"
 "<h1>Ouch!</h1>\n"
-"<p>You broke our website! Please email <a href=\"mailto:me@chrismorgan.info?"
-"title=I+broke+the+Inkscape+website\">Chris Morgan (me@chrismorgan.info)</a> "
-"and we'll see about fixing it.</p>\n"
+"<p>You broke our website! Please email <a href=\"mailto:me@chrismorgan.info?title=I+broke+the+Inkscape+website\">Chris Morgan (me@chrismorgan.info)</a> and we'll see about fixing it.</p>\n"
 msgstr ""
+"\n"
+"<h1>Aïe !</h1>\n"
+"<p>Vous avez cassé notre site ! Merci d'envoyer un courriel à <a href=\"mailto:me@chrismorgan.info?title=I+broke+the+Inkscape+website\">Chris Morgan (me@chrismorgan.info)</a> et nous ferons le nécessaire pour le réparer.</p>\n"
 
-#: templates/_news_brief.html:6 templates/news_full.html:15
+#: templates/_news_brief.html:6
+#: templates/news_full.html:15
 #, python-format
-msgid ""
-"Published %(date)s by <a href=\"%(author_url)s\">%(author)s</a> in <a href="
-"\"%(category_url)s\">%(category)s</a>"
-msgstr ""
+msgid "Published %(date)s by <a href=\"%(author_url)s\">%(author)s</a> in <a href=\"%(category_url)s\">%(category)s</a>"
+msgstr "Publié le %(date)s par <a href=\"%(author_url)s\">%(author)s</a> dans <a href=\"%(category_url)s\">%(category)s</a>"
 
 #: templates/_news_brief.html:8
 msgid "Read more..."
-msgstr ""
+msgstr "Lire la suite..."
 
-#: templates/base.html:7 templates/base.html.py:16
+#: templates/base.html:7
+#: templates/base.html.py:16
 msgid "Draw Freely."
-msgstr ""
+msgstr "Dessiner librement."
 
 #: templates/base.html:29
 msgid "Log in / Register"
-msgstr ""
+msgstr "Connexion / Enregistrement"
 
 #: templates/base.html:31
 msgid "Already a member? Log in below."
-msgstr ""
+msgstr "Déjà membre ? Connectez-vous ci-dessous"
 
 #: templates/base.html:32
 msgid "Username"
-msgstr ""
+msgstr "Nom d'utilisateur"
 
 #: templates/base.html:34
 msgid "Password"
-msgstr ""
+msgstr "Mot de passe"
 
 #: templates/base.html:36
 msgid "Not a member?"
-msgstr ""
+msgstr "Pas encore membre ?"
 
 #: templates/base.html:36
 msgid "Register now."
-msgstr ""
+msgstr "Enregistrez-vous dès maintenant."
 
 #: templates/base.html:38
 msgid "Or log in with"
-msgstr ""
+msgstr "Ou connectez-vous avec"
 
 #: templates/base.html:97
-msgid ""
-"Inkscape is Free and Open Source Software licensed under the GPL. This "
-"website was designed in Inkscape (of course.)"
-msgstr ""
+msgid "Inkscape is Free and Open Source Software licensed under the GPL. This website was designed in Inkscape (of course.)"
+msgstr "Inkscape est un logiciel libre et à sources ouvertes sous licence GPL. Bien entendu, ce site a été conçu avec Inkscape !"
 
 #: templates/base.html:99
-msgid ""
-"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
-"and developed by <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
-msgstr ""
+msgid "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> and developed by <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
+msgstr "Site dessiné par <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> et développé par <a href=\"http://chrismorgan.info\">Chris Morgan</a>"
 
 #: templates/fake-404.html:3
 msgid "Try again"
-msgstr ""
+msgstr "Essayez à nouveau"
 
 #: templates/fake-404.html:6
 msgid ""
 "\n"
 "<h1>You'll have to try harder than that.</h1>\n"
-"<p>This was too obvious as a target for a 404. There's no 404 for you at "
-"this URL.</p>\n"
-"<p id=\"credits\">(This fake 404 page is courtesy of <a href=\"http://"
-"chrismorgan.info\">Chris Morgan</a>.)</p>\n"
+"<p>This was too obvious as a target for a 404. There's no 404 for you at this URL.</p>\n"
+"<p id=\"credits\">(This fake 404 page is courtesy of <a href=\"http://chrismorgan.info\">Chris Morgan</a>.)</p>\n"
 msgstr ""
+"\n"
+"<h1>Vous aurez à faire plus d'efforts que ça...</h1>\n"
+"<p>Cette cible est trop évidente pour une 404. Il n'y a pas de 404 pour vous à cette URL&nbsp;!</p>\n"
+"<p id=\"credits\">(Cette fausse page 404 vous est offerte par <a href=\"http://chrismorgan.info\">Chris Morgan</a>.)</p>\n"
 
 #: templates/news_archive.html:14
 msgid "No news articles were found."
-msgstr ""
+msgstr "Aucun article n'a été trouvé."
 
 #: templates/news_archive.html:23
 msgid "Categories"
-msgstr ""
+msgstr "Catégories"
 
 #: templates/news_archive.html:32
 msgid "Archives"
-msgstr ""
+msgstr "Archives"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "Précédent"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr ""
+msgstr "Suivant"
+

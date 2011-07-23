@@ -1,0 +1,41 @@
+{% extends "base_about.html" %}
+{% block title %}Galerie&nbsp: identité visuelle{% endblock %}
+{% block pagetitle %}Identité visuelle{% endblock %}
+{% block body-classes %}page-gallery{% endblock %}
+{% block left-column %}
+<p>Ces exemples montrent comment utiliser Inkscape pour développer une identité visuelle.</p>
+
+<h2 class="visual-block">Identité visuelle de <a href="http://susestudio.com/">SuSE Studio</a> par Jakub «&nbsp;Jimmac&nbsp;» Steiner</h2>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_break_free_sketch.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_break_free_sketch_thumb.png" alt=""></a>
+	<p>Ce travail a commencé par des esquisses de Jimmac pendant le Libre Graphics Meeting 2008 à Wrocław.</p>
+</div>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_break_free_inkscape.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_break_free_inkscape_thumb.png" alt=""></a>
+	<p>Et voici la version vectorielle.</p>
+</div>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_fun_sketch.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_fun_sketch_thumb.png" alt=""></a>
+	<p>Le personnage principal est appelé Dister, et voici un autre échantillon issu d'une esquisse...</p>
+</div>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_fun_inkscape.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_fun_inkscape_thumb.png" alt=""></a>
+	<p>...pour finir en un dessin vectoriel complet.</p>
+</div>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_2d_vs_3d.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_2d_vs_3d_thumb.png" alt=""></a>
+	<p>Blender a été utilisé un peu plus tard dans le développement. Voici une comparaison entre le dessin 2D dans Inkscape et le rendu 3D de Dister.</p>
+</div>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/suse_studio_storyboard.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/suse_studio_storyboard_thumb.png" alt=""></a>
+	<p>À un certain moment, Jimmac a créé un petite bande dessinée mettant en scène Dister, mais elle n'a pas été utilisée dans la version finale du paquet. Voici toutefois ce qu'il en dit&nbsp;:</p>
+
+	<p>«&nbsp;Travailler avec avec des objets bitmap aussi bien qu'avec des vecteurs est très pratique. Les artistes de bande dessinée ont la liberté de réorganiser le flux. En convertissant une image en un motif, il est possible de créer facilement des masques sur le bitmap. L'outil nœud offre des contrôles sympas pour éditer la texture sur de tels objets. Les motifs bitmap peuvent être redimensionnés, déplacés ou tournés directement sur l'espace de travail.&nbsp;»</p>
+</div>
+{% endblock %}

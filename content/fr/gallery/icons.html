@@ -1,0 +1,15 @@
+{% extends "base_about.html" %}
+{% block title %}Galerie&nbsp;: Icônes{% endblock %}
+{% block pagetitle %}Icônes{% endblock %}
+{% block body-classes %}page-gallery{% endblock %}
+{% block left-column %}
+<p>Ces exemples montrent comment utiliser Inkscape pour créer une icône.</p>
+
+<div class="category">
+	<a href="{{ MEDIA_URL }}images/gallery/icons_jimmac_yast_smt.png"><img class="thumbnail" src="{{ MEDIA_URL }}images/gallery/icons_jimmac_yast_smt_thumb.png" alt=""></a>
+	<h2>Une icône <a href="http://www.gnome.org/">GNOME</a> par Jakub «&nbsp;Jimmac&nbsp;» Steiner</h2>
+	<p>Inkscape offre la possibilité d'afficher plusieurs vues sur le même espace de travail, de façon à ce qu'un artiste créateur d'icônes puisse éditer les formes avec précision et en même temps visionner le résultat à sa taille réelle. Les grilles, les outils magnétiques, les gradients sur les contours (y compris les stops RGBA) sont autant d'outils très utiles dans la conception d'icônes.</p>
+
+	<p>Cet exemple illustre l'utilisation d'un <a href="http://blip.tv/pixel-pusher-screencasts/one-canvas-workflow-1081509">flux de travail sur un espace de travail</a> par un artiste <a href="http://tango.freedesktop.org/Tango_Desktop_Project">Tango</a>.</p>
+</div>
+{% endblock %}

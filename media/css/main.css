@@ -1466,33 +1466,33 @@ hr {
   border-bottom: 1px solid #cccccc;
 }
 
-.page-showcase #left-column .category {
+.page-gallery #left-column .category {
   clear: both;
   position: relative;
   display: inline-block;
   margin-top: 50px;
 }
-.page-showcase #left-column .category .thumbnail {
+.page-gallery #left-column .category .thumbnail {
   padding: 10px;
   border: 1px solid #ccc;
   float: left;
   margin-right: 20px;
 }
-.page-showcase #left-column .category > :link, .page-showcase #left-column .category :visited {
+.page-gallery #left-column .category > :link, .page-gallery #left-column .category :visited {
   outline: 0;
 }
-.page-showcase #left-column .category > :link:hover .thumbnail, .page-showcase #left-column .category > :link:focus .thumbnail, .page-showcase #left-column .category :visited:hover .thumbnail, .page-showcase #left-column .category :visited:focus .thumbnail {
+.page-gallery #left-column .category > :link:hover .thumbnail, .page-gallery #left-column .category > :link:focus .thumbnail, .page-gallery #left-column .category :visited:hover .thumbnail, .page-gallery #left-column .category :visited:focus .thumbnail {
   border-color: #666;
 }
-.page-showcase #left-column .category > p, .page-showcase #left-column .category > h2 {
+.page-gallery #left-column .category > p, .page-gallery #left-column .category > h2 {
   float: right;
   width: 338px;
 }
-.page-showcase #left-column .category.flip .thumbnail {
+.page-gallery #left-column .category.flip .thumbnail {
   float: right;
   margin-right: 0;
   margin-left: 20px;
 }
-.page-showcase #left-column .category.flip > p, .page-showcase #left-column .category.flip > h2 {
+.page-gallery #left-column .category.flip > p, .page-gallery #left-column .category.flip > h2 {
   float: left;
 }

@@ -27,8 +27,9 @@ urlpatterns += patterns('django.views.generic.simple',
     redirect(r'^(?:FAQ|help|HELP)/?$', '/faq'),
 
     redirect(r'^favicon.ico$', '/media/favicon.ico'),
-    redirect(r'^showcase/web_design/(?:index.php)?$', '/showcase/web-design/'),
-    redirect(r'^showcase/cd_booklet/(?:index.php)?$', '/showcase/cd-booklet/'),
+    redirect(r'^showcase/web_design/(?:index.php)?$', '/gallery/web-design/'),
+    redirect(r'^showcase/cd_booklet/(?:index.php)?$', '/gallery/cd-booklet/'),
+    redirect(r'^showcase/(?P<target>.*)$', '/gallery/%(target)s'),
     redirect(r'^(?P<dir>.*/)index.php$', '/%(dir)s'),
 )
 

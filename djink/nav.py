@@ -32,7 +32,12 @@ nav = (
             node(_('Overview'),             '/about/'),
             node(_('Features'),             '/about/features/'),
             node(_('Screenshots'),          '/screenshots/'),
-            node(_('Gallery'),              '/gallery/'),
+            node(_('Gallery'),              '/gallery/', (
+                node(_('Branding'),   '/gallery/branding/'),
+                node(_('Icons'),      '/gallery/icons/'),
+                node(_('Web design'), '/gallery/web-design/'),
+                node(_('CD booklet'), '/gallery/cd-booklet/'),
+                )),
             node(_('FAQ'),                  '/faq/'),
             node(_('User testimonials'),    '/about/testimonials/'),
             )),
@@ -82,12 +87,6 @@ nav = (
         )
 
 extra_nav = (
-        node(_('Showcase'), '/showcase/', (
-            node(_('Branding'),   '/showcase/branding/'),
-            node(_('Icons'),      '/showcase/icons/'),
-            node(_('Web design'), '/showcase/web-design/'),
-            node(_('CD booklet'), '/showcase/cd-booklet/'),
-            )),
         )
 
 

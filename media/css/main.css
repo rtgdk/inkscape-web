@@ -1086,7 +1086,6 @@ hr {
 }
 #page-download #left-column div.section#windows {
   background-image: url(../images/shadow-windows.png);
-  margin-top: 30px;
 }
 #page-download #left-column div.section#macosx {
   background-image: url(../images/shadow-macosx.png);
@@ -1097,6 +1096,19 @@ hr {
 #page-download #left-column div.section#source {
   background-image: url(../images/shadow-source.png);
   margin-bottom: 30px;
+}
+#page-download #left-column div.section.first {
+  margin-top: 30px;
+}
+#page-download #left-column div.section#macosx.first .button span {
+  color: #4d4d4d;
+}
+#page-download #left-column div.section#macosx.first .button.current-os-version span {
+  color: #1a1a1a;
+}
+#page-download #left-column div.section .current-os-version {
+  border-color: #d55500;
+  box-shadow: 0 0 2px #d55500;
 }
 #page-download #left-column div.section h2 {
   margin-top: 7px;

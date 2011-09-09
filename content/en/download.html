@@ -23,7 +23,7 @@
 			<ul>
 				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-2.exe" class="button left w210 download"><span>Windows installer</span></a></li>
 				<li><a href="http://downloads.sourceforge.net/inkscape/InkscapePortable_0.48.1.paf.exe" class="button left w210 download"><span>Portable edition</span></a></li>
-				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-win32.7z" class="button left w210 download"><span>7-Zip archive</span></a></li>
+				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-2-win32.7z" class="button left w210 download"><span>7-Zip archive</span></a></li>
 			</ul>
 			<p class="clearer">Also available: <a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-win32-debug.7z">debug files</a>.</p>
 		</div>
@@ -41,9 +41,9 @@
 				<p>Mac OS X 10.4 Tiger users with Intel Macs can use <a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.46-3.TIGER.UNIVERSAL.dmg">Inkscape 0.46</a>.</li>
 			</div>
 			<ul>
-				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-LEOPARD%2B.dmg" class="button left w210 download"><span>OS X 10.6 Snow Leopard</span></a></li>
-				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-LEOPARD%2B.dmg" class="button left w210 download"><span>OS X 10.5 Leopard</span></a></li>
-				<li><a href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-TIGER-PPC.dmg" class="button left w210 download"><span>OS X 10.4 Tiger PPC</span></a></li>
+				<li><a id="macosx-snow-leopard" href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-LEOPARD%2B.dmg" class="button left w210 download"><span>OS X 10.6 Snow Leopard</span></a></li>
+				<li><a id="macosx-leopard" href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-LEOPARD%2B.dmg" class="button left w210 download"><span>OS X 10.5 Leopard</span></a></li>
+				<li><a id="macosx-tiger" href="http://downloads.sourceforge.net/inkscape/Inkscape-0.48.1-1-TIGER-PPC.dmg" class="button left w210 download"><span>OS X 10.4 Tiger PPC</span></a></li>
 			</ul>
 			<br class="clearer">
 		</div>
@@ -83,5 +83,32 @@
 			<li><a href="/development/source/">Source code</a></li>
 		</ul>
 	</div>
+	<script>
+		var ua = navigator.userAgent, pl = navigator.platform;
+		function os(str){return pl.search(str) != -1;}
+		var topBlock = 'windows';
+		if (os('Linux')) {
+			topBlock = 'linux';
+		} else if (os('Win')) {
+			topBlock = 'windows';
+		} else if (os('Mac')) {
+			topBlock = 'macosx';
+			var osxVersionMatch = ua.match(/Mac OS X 10[._](\d)/);
+			if (osxVersionMatch !== null) {
+				var osxVersion = {'4': 'tiger', '5': 'leopard', '6': 'snow-leopard', '7': 'lion'}[osxVersionMatch[1]];
+				var btn = document.getElementById('macosx-' + osxVersion);
+				if (btn !== null) {
+					btn.className += ' current-os-version';
+				}
+			}
+		}
+		topBlock = document.getElementById(topBlock);
+		topBlock.className += ' first';
+		if (topBlock != 'windows') {
+			container = topBlock.parentNode;
+			container.removeChild(topBlock);
+			container.insertBefore(topBlock, document.getElementById('windows'));
+		}
+	</script>
 	<br class="clearer">
 {% endblock %}

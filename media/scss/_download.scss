@@ -7,10 +7,23 @@
 		background-color: #e6e6e6;
 		background-position: 15px 20px;
 		background-repeat: no-repeat;
-		&#windows { background-image: url(../images/shadow-windows.png); margin-top: 30px; }
+		&#windows { background-image: url(../images/shadow-windows.png); }
 		&#macosx { background-image: url(../images/shadow-macosx.png); }
 		&#linux { background-image: url(../images/shadow-linux.png); }
 		&#source { background-image: url(../images/shadow-source.png); margin-bottom: 30px; }
+		&.first { margin-top: 30px; }
+		&#macosx.first {
+			.button span {
+				color: lighten($button-text-colour, 10%);
+			}
+			.button.current-os-version span {
+				color: darken($button-text-colour, 10%);
+			}
+		}
+		.current-os-version {
+			border-color: $link-dark;
+			box-shadow: 0 0 2px $link-dark;//, inset 0 0 50px rgba(213, 85, 0, 0.1);
+		}
 		h2 {
 			margin-top: 7px;
 		}

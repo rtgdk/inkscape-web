@@ -3,7 +3,7 @@
 from django.conf import global_settings
 import os
 
-INKSCAPE_VERSION = '0.48.1'
+INKSCAPE_VERSION = '0.48.2'
 
 DJINK_DIR = os.path.abspath(os.path.dirname(__file__))
 ROOT_DIR = os.path.dirname(DJINK_DIR)

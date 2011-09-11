@@ -17,8 +17,18 @@
 				color: lighten($button-text-colour, 10%);
 			}
 			.button.current-os-version span {
-				color: darken($button-text-colour, 10%);
+				color: darken($button-text-colour, 20%);
 			}
+		}
+		.button small {
+			display: block;
+			text-align: center;
+			font-size: 80%;
+			opacity: 0.6;
+			line-height: 1;
+		}
+		.supplemental {
+			margin-top: 30px;
 		}
 		.current-os-version {
 			border-color: $link-dark;

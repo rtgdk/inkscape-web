@@ -1104,7 +1104,17 @@ hr {
   color: #4d4d4d;
 }
 #page-download #left-column div.section#macosx.first .button.current-os-version span {
-  color: #1a1a1a;
+  color: black;
+}
+#page-download #left-column div.section .button small {
+  display: block;
+  text-align: center;
+  font-size: 80%;
+  opacity: 0.6;
+  line-height: 1;
+}
+#page-download #left-column div.section .supplemental {
+  margin-top: 30px;
 }
 #page-download #left-column div.section .current-os-version {
   border-color: #d55500;

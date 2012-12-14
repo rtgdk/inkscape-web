@@ -31,7 +31,7 @@ if settings.DEBUG:
 
 
 urlpatterns += patterns('',
-    (r'^news/', include('djink.apps.news.urls', namespace='news')),
-    (r'^screenshots/', include('djink.apps.screenshots.urls', namespace='screenshots')),
-    (r'', include('djink.apps.content.urls', namespace='content')),
+    (r'^news/', include('inkscape.apps.news.urls', namespace='news')),
+    (r'^screenshots/', include('inkscape.apps.screenshots.urls', namespace='screenshots')),
+    (r'', include('inkscape.apps.content.urls', namespace='content')),
 )

@@ -1,5 +1,5 @@
 # coding: utf-8
-# Django settings for djink project.
+# Django settings for inkscape project.
 from django.conf import global_settings
 import os
 
@@ -88,22 +88,22 @@ TEMPLATE_LOADERS = (
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'djink.versions.versions_context_processor',
-    'djink.nav.navigation_context_processor',
+    'inkscape.versions.versions_context_processor',
+    'inkscape.nav.navigation_context_processor',
     'django.core.context_processors.request',
 )
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'djink.i18n.LocaleSubdomainMiddleware',
+    'inkscape.i18n.LocaleSubdomainMiddleware',
     #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 )
 
-ROOT_URLCONF = 'djink.urls'
+ROOT_URLCONF = 'inkscape.urls'
 
 APPEND_TRAILING_SLASH = True
 
@@ -127,11 +127,11 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
-    'djink',
-    'djink.i18n',
-    'djink.apps.content',
-    'djink.apps.screenshots',
-    'djink.apps.news',
+    'inkscape',
+    'inkscape.i18n',
+    'inkscape.apps.content',
+    'inkscape.apps.screenshots',
+    'inkscape.apps.news',
 )
 
 RST_SETTINGS_OVERRIDES = {
@@ -143,7 +143,7 @@ RST_SETTINGS_OVERRIDES = {
 CONTENT_PATH = os.path.join(ROOT_DIR, 'content')
 NEWS_PATH = os.path.join(ROOT_DIR, 'news')
 
-HOST_ROOT = 'djink.chrismorgan.info'
+HOST_ROOT = 'inkscape.org'
 
 # Development users: add www.localhost, en.localhost, de.localhost, etc. to
 # your system's HOSTS file and create local_settings.py next to this file with

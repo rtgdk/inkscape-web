@@ -3,42 +3,19 @@
 from django.conf import global_settings
 import os
 
-INKSCAPE_VERSION = '0.48.2'
+SOUTH_TESTS_MIGRATE = False
+SERVE_STATIC = True
 
-DJINK_DIR = os.path.abspath(os.path.dirname(__file__))
-ROOT_DIR = os.path.dirname(DJINK_DIR)
-
-DEBUG = True
-TEMPLATE_DEBUG = DEBUG
+VERSION_STRING = "2.0.1"
+INKSCAPE_VERSION = '0.49.2'
 
 ADMINS = (
-    ('Chris Morgan', 'me@chrismorgan.info'),
+    ('Martin Owens', 'doctormo@ubuntu.com'),
 )
 
 MANAGERS = ADMINS
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3', # Add 'postgresql_psycopg2', 'postgresql', 'mysql', 'sqlite3' or 'oracle'.
-        'NAME': 'db.sqlite',                      # Or path to database file if using sqlite3.
-        'USER': '',                      # Not used with sqlite3.
-        'PASSWORD': '',                  # Not used with sqlite3.
-        'HOST': '',                      # Set to empty string for localhost. Not used with sqlite3.
-        'PORT': '',                      # Set to empty string for default. Not used with sqlite3.
-    }
-}
-
-# Local time zone for this installation. Choices can be found here:
-# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
-# although not all choices may be available on all operating systems.
-# On Unix systems, a value of None will cause Django to use the same
-# timezone as the operating system.
-# If running in a Windows environment this must be set to the same as your
-# system time zone.
 TIME_ZONE = 'America/Chicago'
-
-# Language code for this installation. All choices can be found here:
-# http://www.i18nguy.com/unicode/language-identifiers.html
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
@@ -54,43 +31,55 @@ LANGUAGES = (
 )
 
 SITE_ID = 1
-
-# If you set this to False, Django will make some optimizations so as not
-# to load the internationalization machinery.
 USE_I18N = True
-
-# If you set this to False, Django will not format dates, numbers and
-# calendars according to the current locale
 USE_L10N = True
 
-# Absolute path to the directory that holds media.
-# Example: "/home/media/media.lawrence.com/"
-MEDIA_ROOT = os.path.join(ROOT_DIR, 'media')
+# We import a number of key variables here, if this fails, we don't work!
+import logging
+try:
+  from local_settings import *
+except ImportError:
+  from shutil import copyfile
+  f = 'local_settings.py'
+  CODE_PATH = os.path.dirname(os.path.abspath(__file__))
+  copyfile(os.path.join(CODE_PATH, f+'.template'), os.path.join(CODE_PATH, f))
+  try:
+      from local_settings import *
+  except ImportError:
+      logging.error("No settings found and default template failed to load.")
 
-# URL that handles the media served from MEDIA_ROOT. Make sure to use a
-# trailing slash if there is a path component (optional in other cases).
-# Examples: "http://media.lawrence.com", "http://example.com/media/"
+
+HOST_ROOT = SITE_ADDRESS
+SITE_ROOT = "http://%s" % SITE_ADDRESS
+
+TEMPLATE_DEBUG = DEBUG
+
+# Place where files can be uploaded
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data/media/')
+
+# Place where uploaded files can be seen online
 MEDIA_URL = '/media/'
 
-# URL prefix for admin media -- CSS, JavaScript and images. Make sure to use a
-# trailing slash.
-# Examples: "http://foo.com/media/", "/media/".
-ADMIN_MEDIA_PREFIX = '/media/admin/'
+# Place where media can be served from in development mode
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'media')
 
-# Make this unique, and don't share it with anybody.
-SECRET_KEY = 'iccj=*n_h03lm!)53e^ze&qudzcyoc+qi8s=$+fj6khix-w&*e'
+# Place where static files can be seen online
+STATIC_URL = '/static/'
+
+# Special media directory for admin hosting
+ADMIN_MEDIA_PREFIX = '/admin/media/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
     'django.template.loaders.app_directories.Loader',
-#     'django.template.loaders.eggs.Loader',
 )
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'inkscape.versions.versions_context_processor',
     'inkscape.nav.navigation_context_processor',
     'django.core.context_processors.request',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -105,27 +94,18 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'inkscape.urls'
 
-APPEND_TRAILING_SLASH = True
+#APPEND_TRAILING_SLASH = True
 
 TEMPLATE_DIRS = (
-    os.path.join(DJINK_DIR, 'templates').replace('\\', '/'),
-    # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
-    # Always use forward slashes, even on Windows.
-    # Don't forget to use absolute paths, not relative paths.
+    os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    # We may need to use this once we get to db-backed stuff, but the language
-    # subdomain stuff will probably be easier managed as a separate field.
-    # Could be messy, the way it uses settings.SITE_ID makes it a bit hard.
-    #'django.contrib.sites',
     'django.contrib.messages',
-    # Uncomment the next line to enable the admin:
     'django.contrib.admin',
-    # Uncomment the next line to enable admin documentation:
     'django.contrib.admindocs',
     'inkscape',
     'inkscape.i18n',
@@ -134,27 +114,20 @@ INSTALLED_APPS = (
     'inkscape.apps.news',
 )
 
-RST_SETTINGS_OVERRIDES = {
-    'file_insertion_enabled': 0,
-    'raw_enabled': 0,
-    'initial_header_level': 2,
-}
+#RST_SETTINGS_OVERRIDES = {
+#    'file_insertion_enabled': 0,
+#    'raw_enabled': 0,
+#    'initial_header_level': 2,
+#}
 
-CONTENT_PATH = os.path.join(ROOT_DIR, 'content')
-NEWS_PATH = os.path.join(ROOT_DIR, 'news')
 
-HOST_ROOT = 'inkscape.org'
+SERVER_EMAIL         = 'admin@%s' % SITE_ADDRESS
+EMAIL_USE_TLS        = True
+EMAIL_HOST           = 'smtp.gmail.com'
+EMAIL_PORT           = 587
 
-# Development users: add www.localhost, en.localhost, de.localhost, etc. to
-# your system's HOSTS file and create local_settings.py next to this file with
-# this line in it::
-#
-#     HOST_ROOT = 'localhost:8000'
-#
-# Then i18n should magically start working. If you don't do this, you'll be
-# stuck in English, but it will work.
+EMAIL_HOST_USER      = 'noone@gmail.com'
+EMAIL_HOST_PASSWORD  = 'Nothing'
+EMAIL_SUBJECT_PREFIX = '[%s] ' % SITE_NAME
 
-try:
-    from local_settings import *
-except ImportError:
-    pass
+

@@ -1,3 +1,24 @@
 
-HOST_ROOT = 'localhost:8000'
+import os
+
+CODE_PATH = os.path.dirname(os.path.abspath(__file__))
+PROJECT_PATH = os.path.abspath(os.path.join(CODE_PATH, ".."))
+
+SITE_ADDRESS = 'localhost:8000'
+SITE_NAME = 'inkscape-website-dev'
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': '%s/data/development.db' % PROJECT_PATH,
+        'USER': '',
+        'PASSWORD': '',
+        'HOST': '',
+        'PORT': '',
+    },
+}
+
+SECRET_KEY = 'iccj=*n_h03lm!)53e^ze&qudzcyoc+qi8s=$+fj6khix-w&*e'
+
+DEBUG = True
 

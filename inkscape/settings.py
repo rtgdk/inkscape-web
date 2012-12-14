@@ -1,13 +1,12 @@
 # coding: utf-8
-# Django settings for inkscape project.
+
 from django.conf import global_settings
+from utils import *
 import os
 
 SOUTH_TESTS_MIGRATE = False
 SERVE_STATIC = True
 
-VERSION_STRING = "2.0.1"
-INKSCAPE_VERSION = '0.49.2'
 
 ADMINS = (
     ('Martin Owens', 'doctormo@ubuntu.com'),
@@ -48,6 +47,8 @@ except ImportError:
   except ImportError:
       logging.error("No settings found and default template failed to load.")
 
+
+(VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
 
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS

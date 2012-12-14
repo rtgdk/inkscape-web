@@ -2,8 +2,8 @@
 <html lang="{{ LANGUAGE_CODE }}">
 	<head>
 		<meta charset="utf-8">
-		<link href="{{ MEDIA_URL }}css/main.css" rel="stylesheet" type="text/css">
-		<link href="{{ MEDIA_URL }}favicon.ico" rel="shortcut icon">
+		<link href="{{ STATIC_URL }}css/main.css" rel="stylesheet" type="text/css">
+		<link href="{{ STATIC_URL }}favicon.ico" rel="shortcut icon">
 		<title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		{% block extra-head %}{% endblock %}
@@ -12,7 +12,7 @@
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">
-					<a href="/"><img src="{% block logo-url %}{{ MEDIA_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
+					<a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
 					<h1><a href="/" tabindex="-1">Inkscape</a></h1>
 					<h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
 				</div>
@@ -47,7 +47,7 @@
 						</li>
 					</ul>
 					<form id="topsearch">
-						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ MEDIA_URL }}images/search-button.png" alt="Search">
+						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ STATIC_URL }}images/search-button.png" alt="Search">
 					</form>
 				</div>
 			</div>

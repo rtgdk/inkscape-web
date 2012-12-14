@@ -109,9 +109,9 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'inkscape',
     'inkscape.i18n',
-    'inkscape.apps.content',
-    'inkscape.apps.screenshots',
-    'inkscape.apps.news',
+    'inkscape.content',
+    'inkscape.screenshots',
+    'inkscape.news',
 )
 
 #RST_SETTINGS_OVERRIDES = {

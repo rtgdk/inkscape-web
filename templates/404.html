@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block alltitle %}{% trans "Not found" %} | Inkscape{% endblock %}
-{% block logo-url %}{{ MEDIA_URL }}images/linked-image-not-found.png{% endblock %}
+{% block logo-url %}{{ STATIC_URL }}images/linked-image-not-found.png{% endblock %}
 {% block body-pageid %}404{% endblock %}
 {% block content %}
 {% blocktrans %}

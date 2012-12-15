@@ -4,12 +4,11 @@
 {% block logo-url %}{{ STATIC_URL }}images/linked-image-not-found.png{% endblock %}
 {% block body-pageid %}500{% endblock %}
 {% block content %}
-{% blocktrans %}
-<h1>You were eaten by a Gru!</h1>
-<p>Oh no! The website is broken in some way. Now we've emailed the people who look after the website to let them know you've had problems, so please don't worry.</p>
+<h1>{% trans You were eaten by a Gru! %}</h1>
+<p>{% trans Oh no! The website is broken in some way. Now we've emailed the people who look after the website to let them know you've had problems, so please don't worry. %}</p>
 
 {% if admins %}
- <p>Please feel free to email an admin to let them know what you were doing, if it was something special:</p>
+ <p>{% trans Please feel free to email an admin to let them know what you were doing, if it was something special: %}</p>
 
  <ul>
   {% for admin in admins %}
@@ -18,5 +17,4 @@
  </ul>
 {% endif %}
 
-{% endblocktrans %}
 {% endblock %}

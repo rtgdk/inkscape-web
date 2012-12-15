@@ -32,6 +32,7 @@ LANGUAGES = (
 SITE_ID = 1
 USE_I18N = True
 USE_L10N = True
+I18N_DOMAIN = 'inkscape'
 
 # We import a number of key variables here, if this fails, we don't work!
 import logging

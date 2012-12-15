@@ -8,6 +8,7 @@ from django.utils.encoding import iri_to_uri
 from django.utils.cache import patch_vary_headers
 from django.utils import translation
 
+import logging
 
 __all__ = ('LocaleSubdomainMiddleware', 'langurl')
 

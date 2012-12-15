@@ -20,7 +20,7 @@ msgstr ""
 
 #: inkscape/nav.py:31 inkscape/screenshots/views.py:48
 msgid "About"
-msgstr ""
+msgstr "FR About"
 
 #: inkscape/nav.py:32
 msgid "Overview"

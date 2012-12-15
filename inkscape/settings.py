@@ -50,6 +50,8 @@ except ImportError:
 
 (VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
 
+LOCALE_PATHS = os.path.join(PROJECT_PATH, 'locale'),
+
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS
 
@@ -62,7 +64,7 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data/media/')
 MEDIA_URL = '/media/'
 
 # Place where media can be served from in development mode
-STATIC_ROOT = os.path.join(PROJECT_PATH, 'media')
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
 # Place where static files can be seen online
 STATIC_URL = '/static/'
@@ -87,7 +89,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'inkscape.i18n.LocaleSubdomainMiddleware',
-    #'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',

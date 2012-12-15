@@ -30,7 +30,7 @@
 	<ul id="screenshots-big">
 		{% for screenshot in screenshots %}
 		<li class="screenshot{% if forloop.first %} current{% endif %}" id="screenshot-{{ forloop.counter }}">
-			<a href="{{ STATIC_URL }}images/screenshots/{{ screenshot.filename }}" class="screenshot-fullsize"><img src="{{ STATIC_URL }}images/screenshots/{{ screenshot.filename }}"></a>
+			<a href="{{ DESIGN_URL }}images/screenshots/{{ screenshot.filename }}" class="screenshot-fullsize"><img src="{{ DESIGN_URL }}images/screenshots/{{ screenshot.filename }}"></a>
 			{{ screenshot.description|safe }}
 		</li>
 		{% endfor %}
@@ -38,7 +38,7 @@
 
 	<ul id="screenshots-thumbnails">
 		{% for screenshot in screenshots %}
-		<li><a class="screenshot{% if forloop.first %} current{% endif %}" id="screenshot-{{ forloop.counter }}-thumb" onclick="return changeScreenshot(this)" href="{{ STATIC_URL }}images/screenshots/{{ screenshot.filename }}"><img src="{{ STATIC_URL }}images/screenshots/{{ screenshot.filename }}"></a></li>
+		<li><a class="screenshot{% if forloop.first %} current{% endif %}" id="screenshot-{{ forloop.counter }}-thumb" onclick="return changeScreenshot(this)" href="{{ DESIGN_URL }}images/screenshots/{{ screenshot.filename }}"><img src="{{ DESIGN_URL }}images/screenshots/{{ screenshot.filename }}"></a></li>
 		{% endfor %}
 	</ul>
 

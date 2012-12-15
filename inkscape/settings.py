@@ -1,8 +1,10 @@
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from django.conf import global_settings
 from utils import *
 import os
+
+gettext = lambda s: s
 
 SOUTH_TESTS_MIGRATE = False
 SERVE_STATIC = True
@@ -69,6 +71,8 @@ STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
 
 # Place where static files can be seen online
 STATIC_URL = '/static/'
+# Out Static url was eaten by the CMS Gru
+DESIGN_URL = '/design/'
 
 # Special media directory for admin hosting
 ADMIN_MEDIA_PREFIX = '/admin/media/'
@@ -82,8 +86,14 @@ TEMPLATE_LOADERS = (
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'inkscape.versions.versions_context_processor',
     'inkscape.nav.navigation_context_processor',
+    'inkscape.context_processors.design',
+    'django.contrib.auth.context_processors.auth',
+#    'django.core.context_processors.i18n',
     'django.core.context_processors.request',
-
+    'django.core.context_processors.media',
+    'django.core.context_processors.static',
+    'cms.context_processors.media',
+    'sekizai.context_processors.sekizai',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,18 +102,21 @@ MIDDLEWARE_CLASSES = (
     'inkscape.i18n.LocaleSubdomainMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
+#    'django.contrib.messages.middleware.MessageMiddleware',
+    'cms.middleware.multilingual.MultilingualURLMiddleware',
+    'cms.middleware.page.CurrentPageMiddleware',
+    'cms.middleware.user.CurrentUserMiddleware',
+    'cms.middleware.toolbar.ToolbarMiddleware',
 )
 
 ROOT_URLCONF = 'inkscape.urls'
-
-#APPEND_TRAILING_SLASH = True
 
 TEMPLATE_DIRS = (
     os.path.join(PROJECT_PATH, 'templates'),
 )
 
 INSTALLED_APPS = (
+    'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
@@ -112,16 +125,22 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'inkscape',
     'inkscape.i18n',
-    'inkscape.content',
-    'inkscape.screenshots',
-    'inkscape.news',
+    'cms',     # django CMS itself
+    'mptt',    # utilities for implementing a modified pre-order traversal tree
+    'menus',   # helper for model independent hierarchical website navigation
+    'south',   # intelligent schema and data migrations
+    'sekizai', # for javascript and css management
+    'cms.plugins.file',
+    'cms.plugins.picture',
+    'cms.plugins.snippet',
+    'cms.plugins.video',
+    'cms.plugins.twitter',
 )
 
-#RST_SETTINGS_OVERRIDES = {
-#    'file_insertion_enabled': 0,
-#    'raw_enabled': 0,
-#    'initial_header_level': 2,
-#}
+CMS_TEMPLATES = (
+    ('super_template.html', 'Full Screen'),
+    ('normal_template.html', 'Normal Page'),
+)
 
 
 SERVER_EMAIL         = 'admin@%s' % SITE_ADDRESS

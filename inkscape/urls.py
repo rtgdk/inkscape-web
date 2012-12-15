@@ -5,19 +5,18 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'',              include('inkscape.content.urls', namespace='content')),
-    (r'^news/',        include('inkscape.news.urls', namespace='news')),
-    (r'^screenshots/', include('inkscape.screenshots.urls', namespace='screenshots')),
     (r'^admin/doc/',   include('django.contrib.admindocs.urls')),
     (r'^admin/',       include(admin.site.urls)),
+    (r'^',             include('cms.urls')),
+    (r'^',             include('django.contrib.staticfiles.urls')),
 )
 
 if settings.DEBUG:
-    urlpatterns += patterns('django.views.static',
+    urlpatterns = patterns('django.views.static',
       # This urls will be covered over by apache
-      (r'^static/(?P<path>.*)$', 'serve', {'document_root': settings.STATIC_ROOT}),
+      (r'^design/(?P<path>.*)$', 'serve', {'document_root': settings.STATIC_ROOT}),
       (r'^media/(?P<path>.*)$', 'serve', {'document_root': settings.MEDIA_ROOT}),
-    )
+    ) + urlpatterns
 
 
 urlpatterns += patterns('django.views.generic.simple',

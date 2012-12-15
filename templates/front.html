@@ -1,9 +1,5 @@
-{% extends "base.html" %}
 {% load i18n %}
 
-{% block alltitle %}Inkscape: {% trans "Draw Freely." %}{% endblock %}
-
-{% block extra-head %}
 		<script>
 			function addClass(n, c) {
 				if (!n.className) n.className = c;
@@ -24,9 +20,7 @@
 			}
 			frontTabGo.current = "overview";
 		</script>
-{% endblock %}
 
-{% block supercontent %}
 	<div id="front-banner-container">
 		<div id="front-banners">
 			<!--<div id="front-banner-overview" class="front-banner current bottom left buttons-right car">-->
@@ -120,4 +114,4 @@
 		</div>
 		<br>
 	</div>
-{% endblock %}
+

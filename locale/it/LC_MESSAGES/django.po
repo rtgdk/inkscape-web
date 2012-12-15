@@ -1,0 +1,370 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2012-12-14 20:07-0600\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1)\n"
+
+#: inkscape/nav.py:31 inkscape/screenshots/views.py:48
+msgid "About"
+msgstr ""
+
+#: inkscape/nav.py:32
+msgid "Overview"
+msgstr ""
+
+#: inkscape/nav.py:33
+msgid "Features"
+msgstr ""
+
+#: inkscape/nav.py:34 inkscape/screenshots/views.py:49
+msgid "Screenshots"
+msgstr ""
+
+#: inkscape/nav.py:35
+msgid "Gallery"
+msgstr ""
+
+#: inkscape/nav.py:36
+msgid "Branding"
+msgstr ""
+
+#: inkscape/nav.py:37
+msgid "Icons"
+msgstr ""
+
+#: inkscape/nav.py:38
+msgid "Web design"
+msgstr ""
+
+#: inkscape/nav.py:39
+msgid "CD booklet"
+msgstr ""
+
+#: inkscape/nav.py:41
+msgid "FAQ"
+msgstr ""
+
+#: inkscape/nav.py:42
+msgid "User testimonials"
+msgstr ""
+
+#: inkscape/nav.py:44
+msgid "Download"
+msgstr ""
+
+#: inkscape/nav.py:45
+msgid "Official releases"
+msgstr ""
+
+#: inkscape/nav.py:46
+msgid "Development versions"
+msgstr ""
+
+#: inkscape/nav.py:47
+msgid "Add-ons"
+msgstr ""
+
+#: inkscape/nav.py:48
+msgid "Clip art"
+msgstr ""
+
+#: inkscape/nav.py:50
+msgid "Learn"
+msgstr ""
+
+#: inkscape/nav.py:51
+msgid "User documentation"
+msgstr ""
+
+#: inkscape/nav.py:52
+msgid "Books"
+msgstr ""
+
+#: inkscape/nav.py:53
+msgid "Tutorials"
+msgstr ""
+
+#: inkscape/nav.py:54
+msgid "Manuals"
+msgstr ""
+
+#: inkscape/nav.py:55
+msgid "Wiki"
+msgstr ""
+
+#: inkscape/nav.py:65
+msgid "Community"
+msgstr ""
+
+#: inkscape/nav.py:66
+msgid "Get Involved"
+msgstr ""
+
+#: inkscape/nav.py:67
+msgid "Connect"
+msgstr ""
+
+#: inkscape/nav.py:68
+msgid "Forums & blogs"
+msgstr ""
+
+#: inkscape/nav.py:69
+msgid "Mailing lists"
+msgstr ""
+
+#: inkscape/nav.py:70
+msgid "Help & support"
+msgstr ""
+
+#: inkscape/nav.py:71
+msgid "Contact"
+msgstr ""
+
+#: inkscape/nav.py:72 templates/base.html:64
+msgid "Donate"
+msgstr ""
+
+#: inkscape/nav.py:74
+msgid "Developers"
+msgstr ""
+
+#: inkscape/nav.py:75
+msgid "Developer docs"
+msgstr ""
+
+#: inkscape/nav.py:76
+msgid "Launchpad"
+msgstr ""
+
+#: inkscape/nav.py:77
+msgid "Roadmap"
+msgstr ""
+
+#: inkscape/nav.py:78
+msgid "Bazaar"
+msgstr ""
+
+#: inkscape/nav.py:79
+msgid "Source code"
+msgstr ""
+
+#: inkscape/nav.py:81 inkscape/news/views.py:16 inkscape/news/views.py:19
+#: inkscape/news/views.py:62 inkscape/news/views.py:86
+#: inkscape/news/views.py:103
+msgid "News"
+msgstr ""
+
+#: inkscape/nav.py:82
+msgid "Releases"
+msgstr ""
+
+#: inkscape/nav.py:83
+msgid "Contests"
+msgstr ""
+
+#: inkscape/nav.py:84
+msgid "Events"
+msgstr ""
+
+#: inkscape/nav.py:85
+msgid "Press"
+msgstr ""
+
+#. Translators: replace "the current language" with the language name
+#. Translators: replace "the current language" with the language
+#. name
+#: inkscape/content/views.py:31 inkscape/news/views.py:78
+msgid ""
+"This page is not available in English. Here is the English version of this "
+"page. If you would like to help with translating this website, please <a "
+"href=\"\">contact us</a>."
+msgstr ""
+
+#: inkscape/news/feeds.py:19 inkscape/news/views.py:17
+msgid "Inkscape News"
+msgstr ""
+
+#: inkscape/news/feeds.py:21
+msgid "News about the Inkscape scalable vector graphics editor"
+msgstr ""
+
+#: inkscape/news/views.py:63
+#, python-format
+msgid "%s News"
+msgstr ""
+
+#: inkscape/news/views.py:64
+#, python-format
+msgid "Inkscape News in %s"
+msgstr ""
+
+#: inkscape/news/views.py:104
+#, python-format
+msgid "News: %s"
+msgstr ""
+
+#: inkscape/news/views.py:105
+#, python-format
+msgid "Inkscape News: %s"
+msgstr ""
+
+#: inkscape/screenshots/views.py:41 inkscape/screenshots/views.py:42
+#: templates/screenshots.html:4 templates/screenshots.html.py:5
+msgid "Inkscape screenshots"
+msgstr ""
+
+#: templates/403.html:3
+msgid "Forbidden"
+msgstr ""
+
+#: templates/403.html:6
+msgid ""
+"\n"
+"<h1>Sorry, you're not allowed to see this.</h1>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything "
+"you like in the Inkscape website. You can't view the contents of this page, "
+"for example.</p>\n"
+msgstr ""
+
+#: templates/404.html:3
+msgid "Not found"
+msgstr ""
+
+#: templates/404.html:7
+msgid ""
+"\n"
+"<h1>Page not found</h1>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future "
+"we might have a funny image here for you to look at but at the moment it's "
+"just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to "
+"work before we made this shiny new website, please tell us and we'll fix it "
+"up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see "
+"what the 404 page looked like. I hope you're satisfied.</p>\n"
+msgstr ""
+
+#: templates/500.html:3
+msgid "You broke it!"
+msgstr ""
+
+#: templates/500.html:7
+msgid ""
+"\n"
+"<h1>Ouch!</h1>\n"
+"<p>You broke our website! Please email <a href=\"mailto:me@chrismorgan.info?"
+"title=I+broke+the+Inkscape+website\">Chris Morgan (me@chrismorgan.info)</a> "
+"and we'll see about fixing it.</p>\n"
+msgstr ""
+
+#: templates/_news_brief.html:6 templates/news_full.html:15
+#, python-format
+msgid ""
+"Published %(date)s by <a href=\"%(author_url)s\">%(author)s</a> in <a href="
+"\"%(category_url)s\">%(category)s</a>"
+msgstr ""
+
+#: templates/_news_brief.html:8
+msgid "Read more..."
+msgstr ""
+
+#: templates/base.html:17 templates/front.html:4
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:30
+msgid "Log in / Register"
+msgstr ""
+
+#: templates/base.html:32
+msgid "Already a member? Log in below."
+msgstr ""
+
+#: templates/base.html:33
+msgid "Username"
+msgstr ""
+
+#: templates/base.html:35
+msgid "Password"
+msgstr ""
+
+#: templates/base.html:38
+msgid "Not a member?"
+msgstr ""
+
+#: templates/base.html:38
+msgid "Register now."
+msgstr ""
+
+#: templates/base.html:39
+msgid "Or log in with"
+msgstr ""
+
+#: templates/base.html:98
+msgid "Inkscape is Free and Open Source Software licensed under the GPL."
+msgstr ""
+
+#: templates/base.html:101
+msgid ""
+"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgstr ""
+
+#: templates/fake-404.html:3
+msgid "Try again"
+msgstr ""
+
+#: templates/fake-404.html:6
+msgid ""
+"\n"
+"<h1>You'll have to try harder than that.</h1>\n"
+"<p>This was too obvious as a target for a 404. There's no 404 for you at "
+"this URL.</p>\n"
+"<p id=\"credits\">(This fake 404 page is courtesy of <a href=\"http://"
+"chrismorgan.info\">Chris Morgan</a>.)</p>\n"
+msgstr ""
+
+#: templates/news_archive.html:14
+msgid "No news articles were found."
+msgstr ""
+
+#: templates/news_archive.html:23
+msgid "Categories"
+msgstr ""
+
+#: templates/news_archive.html:32
+msgid "Archives"
+msgstr ""
+
+#: templates/paginator.html:5
+msgid "Previous"
+msgstr ""
+
+#: templates/paginator.html:23
+msgid "Next"
+msgstr ""
+
+#: templates/screenshots.html:28
+#, python-format
+msgid "Screenshots of Inkscape %(version)s"
+msgstr ""
+
+#: templates/screenshots.html:45
+msgid "See screenshots of other versions:"
+msgstr ""

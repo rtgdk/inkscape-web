@@ -31,16 +31,17 @@
 							</ul>
 						</li>
 						<li id="toplogin">
-                        {% if not request.user %}
+                        {% if not request.user.is_authenticated %}
 						<p>{% trans "Log in / Register" %}</p>
-							<form class="topdrop">
+							<form class="topdrop" action="{% url auth_login %}" method="POST">
+                                {% csrf_token %}
 								<p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
 								<label for="toplogin-username">{% trans "Username" %}</label>
 								<input name="username" id="toplogin-username" type="text">
 								<label for="toplogin-password">{% trans "Password" %}</label>
 								<input name="password" id="toplogin-password" type="password">
 								<input id="toplogin-submit" type="submit" value="Log in">
-								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/register">{% trans "Register now." %}</a></p>
+								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url socialauth_begin 'google' %}" id="toplogin-google"></a>
 								<a href="{% url socialauth_begin 'facebook' %}" id="toplogin-facebook"></a>
@@ -50,9 +51,9 @@
 								<a href="{% url socialauth_begin 'wordpress' %}" id="toplogin-wordpress"></a></p>
 							</form>
                         {% else %}
-                        <p>{{ request.user.first_name }} {{ request.user.last_name }} ({{ request.user.username }})</p>
+                        <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>
                         <form  class="topdrop">
-                        <p id="toplogin-head"><a href="/logout/">{% trans "Logout" %}</a></p>
+                        <p id="toplogin-head"><a href="{% url auth_logout %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
 						</li>

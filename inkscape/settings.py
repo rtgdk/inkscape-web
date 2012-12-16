@@ -154,7 +154,7 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleOAuth2Backend',
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.browserid.BrowserIDBackend',
+#    'social_auth.backends.browserid.BrowserIDBackend',
 #    'social_auth.backends.contrib.linkedin.LinkedinBackend',
 #    'social_auth.backends.contrib.disqus.DisqusBackend',
 #    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
@@ -170,7 +170,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-LOGIN_URL          = '/login/'
+#LOGIN_URL          = '/login/'
 LOGIN_REDIRECT_URL = '/'
-LOGIN_ERROR_URL    = '/login/error/'
+#LOGIN_ERROR_URL    = '/login/error/'
 

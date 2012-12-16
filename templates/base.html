@@ -47,8 +47,8 @@
 								<a href="{% url socialauth_begin 'facebook' %}" id="toplogin-facebook"></a>
 								<a href="{% url socialauth_begin 'twitter' %}" id="toplogin-twitter"></a>
 								<a href="{% url socialauth_begin 'yahoo' %}" id="toplogin-yahoo"></a>
-								<a href="{% url socialauth_begin 'live' %}" id="toplogin-live"></a>
-								<a href="{% url socialauth_begin 'wordpress' %}" id="toplogin-wordpress"></a></p>
+<!--								<a href="{% url socialauth_begin 'live' %}" id="toplogin-live"></a>
+								<a href="{% url socialauth_begin 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
 							</form>
                         {% else %}
                         <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>

@@ -484,10 +484,16 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   padding: 17px 23px;
   outline: 0;
 }
-.header .nav > ul li.selected a, .header .nav > ul li:hover > a, .header .nav > ul li > a:focus {
+.header .nav > ul > li.selected > a,
+.header .nav > ul > li.ancestor > a,
+.header .nav > ul > li:hover > a,
+.header .nav > ul > li > a:focus {
   background: #333333;
   background-image: -moz-linear-gradient(top, #333333, #4d4d4d);
   background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#4d4d4d));
+}
+.header .nav > ul li.selected > a {
+  background: #333333;
 }
 .header .nav > ul ul a:hover, .header .nav > ul ul a:focus {
   background: #333333;
@@ -529,7 +535,7 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   line-height: 0;
   height: 0;
 }
-.header .nav li:last-child a {
+.header .nav > ul > li:last-child a {
   color: #ff7e28;
   border-right: 0 none;
   border-radius: 0 10px 0 0;

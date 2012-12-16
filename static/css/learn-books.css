@@ -1,0 +1,27 @@
+
+#page-learn-books #left-column .book {
+  margin-bottom: 50px;
+  padding-left: 150px;
+}
+#page-learn-books #left-column .book-cover {
+  float: left;
+  margin: -34px 10px 25px -150px;
+  border: 1px solid #aaaaaa;
+}
+#page-learn-books #left-column .book-metadata {
+  list-style-type: none;
+  margin-left: 0;
+  padding-left: 0;
+}
+#page-learn-books #left-column .book-metadata strong {
+  display: inline-block;
+  min-width: 8em;
+  padding-right: 1em;
+  text-indent: 0;
+  margin-right: -4px;
+}
+#page-learn-books #left-column .book-metadata li {
+  text-indent: -9em;
+  padding-left: 9em;
+}
+

@@ -1,5 +1,6 @@
 {% load i18n %}{% load inkscape_i18n %}<!DOCTYPE html>
 {% load cms_tags sekizai_tags %}
+{% load menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
 	<head>
 		<meta charset="utf-8">
@@ -11,6 +12,7 @@
         {% render_block "css" %}
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
+        {% cms_toolbar %}
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">
@@ -53,33 +55,12 @@
 					</form>
 				</div>
 			</div>
-			<div class="nav">
-				{% block header-nav %}
-				<ul>
-					{% for item in nav %}
-					<li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
-						{% for subitem in item %}
-						<li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
-						{% endfor %}
-					</ul></li>
-					{% endfor %}
-					<li id="hnav-donate"><a href="/donate/">{% trans "Donate" %}</a></li>
-				</ul>
-				{% endblock %}
-			</div>
+			<div class="nav"><ul>{% show_menu 1 %}</ul></div>
 		</div>
 		{% block supercontent %}
 		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
-			{% block breadcrumb %}{% if breadcrumb or breadcrumb_override %}{% with breadcrumb_override|default:breadcrumb as breadcrumb %}
-			<p id="breadcrumb"><a href="/">Home</a>{% for i in breadcrumb.0 %} &gt; <a href="{{ i.href }}">{{ i.title }}</a>{% endfor %} &gt; <a>{{ breadcrumb.1.title }}</a></p>
-			{% endwith %}{% endif %}{% endblock %}
-			{% block messages %}{% if messages %}
-			<ul class="messages">{% for message in messages %}
-				<li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-			{% endfor %}</ul>
-			{% endif %}{% endblock %}
-			{% block content %}
-			{% endblock %}
+            {% show_breadcrumb %}
+			{% block content %}{% endblock %}
 		</div></div>
 		{% endblock %}
 		{% block footer %}

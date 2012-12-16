@@ -1,0 +1,29 @@
+
+#page-news-archive .postdate {
+  margin: 6px 0 18px;
+}
+#page-news-archive .readmore {
+  margin-top: 20px;
+  text-align: left;
+}
+#page-news-archive #right-sidebar h2 {
+  margin-top: 35px;
+}
+#page-news-archive #right-sidebar .article-actions {
+  margin: 80px 0 0;
+  padding: 0;
+  list-style: none;
+}
+#page-news-archive #right-sidebar .article-actions li {
+  margin: 0 0 0 -5px;
+  font-size: 11px;
+}
+#page-news-archive #right-sidebar .article-actions a {
+  padding: 4px 4px 4px 28px;
+  background-position: 4px 50%;
+  background-repeat: no-repeat;
+}
+#page-news-archive #right-sidebar .article-actions .action-subscribe {
+  background-image: url(../images/action-subscribe.png);
+}
+

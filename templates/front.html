@@ -1,5 +1,8 @@
-{% load i18n %}
+{% extends "base.html" %}
+{% load cms_tags %}
 
+{% block extra-head %}
+  <link href="{{ DESIGN_URL }}css/front.css" rel="stylesheet" type="text/css"/>
 		<script>
 			function addClass(n, c) {
 				if (!n.className) n.className = c;
@@ -20,12 +23,12 @@
 			}
 			frontTabGo.current = "overview";
 		</script>
+{% endblock %}
 
+{% block supercontent %}
 	<div id="front-banner-container">
 		<div id="front-banners">
-			<!--<div id="front-banner-overview" class="front-banner current bottom left buttons-right car">-->
 			<div id="front-banner-overview" class="front-banner current top right buttons-right one-day-in-farm">
-			<!--<div id="front-banner-overview" class="front-banner current top right buttons-right light grass">-->
 				<div>
 					<p>Inkscape is a professional quality open-source vector graphics editor, which runs on Windows, Mac OS X and Linux. And it's free!</p>
 					<div>
@@ -114,4 +117,4 @@
 		</div>
 		<br>
 	</div>
-
+{% endblock %}

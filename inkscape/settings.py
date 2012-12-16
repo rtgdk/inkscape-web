@@ -85,7 +85,6 @@ TEMPLATE_LOADERS = (
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'inkscape.versions.versions_context_processor',
-    'inkscape.nav.navigation_context_processor',
     'inkscape.context_processors.design',
     'django.contrib.auth.context_processors.auth',
 #    'django.core.context_processors.i18n',
@@ -99,10 +98,10 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'inkscape.i18n.LocaleSubdomainMiddleware',
+#    'inkscape.i18n.LocaleSubdomainMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-#    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
     'cms.middleware.multilingual.MultilingualURLMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
@@ -130,6 +129,7 @@ INSTALLED_APPS = (
     'menus',   # helper for model independent hierarchical website navigation
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
+    'cms.plugins.text',
     'cms.plugins.file',
     'cms.plugins.picture',
     'cms.plugins.snippet',
@@ -138,8 +138,9 @@ INSTALLED_APPS = (
 )
 
 CMS_TEMPLATES = (
-    ('super_template.html', 'Full Screen'),
-    ('normal_template.html', 'Normal Page'),
+    ('front.html', 'Front Page'),
+    ('super.html', 'Full Screen'),
+    ('normal.html', 'Normal Page'),
 )
 
 

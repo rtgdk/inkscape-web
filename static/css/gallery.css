@@ -1,0 +1,32 @@
+
+.page-gallery #left-column .category {
+  clear: both;
+  position: relative;
+  display: inline-block;
+  margin-top: 50px;
+}
+.page-gallery #left-column .category .thumbnail {
+  padding: 10px;
+  border: 1px solid #ccc;
+  float: left;
+  margin-right: 20px;
+}
+.page-gallery #left-column .category > :link, .page-gallery #left-column .category :visited {
+  outline: 0;
+}
+.page-gallery #left-column .category > :link:hover .thumbnail, .page-gallery #left-column .category > :link:focus .thumbnail, .page-gallery #left-column .category :visited:hover .thumbnail, .page-gallery #left-column .category :visited:focus .thumbnail {
+  border-color: #666;
+}
+.page-gallery #left-column .category > p, .page-gallery #left-column .category > h2 {
+  float: right;
+  width: 338px;
+}
+.page-gallery #left-column .category.flip .thumbnail {
+  float: right;
+  margin-right: 0;
+  margin-left: 20px;
+}
+.page-gallery #left-column .category.flip > p, .page-gallery #left-column .category.flip > h2 {
+  float: left;
+}
+

@@ -1,6 +1,6 @@
 {% extends "base.html" %}
+{% load cms_tags %}
 
-{% block body-pageid %}normal{% endblock %}
-
-{% block content %}{{ text|safe }}{% endblock %}
-
+{% block content %}
+  {% placeholder normal_template_content %}
+{% endblock %}

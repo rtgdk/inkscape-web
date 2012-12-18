@@ -147,6 +147,8 @@ CMS_TEMPLATES = (
     ('normal.html', 'Normal Page'),
 )
 
+CMS_HIDE_UNTRANSLATED = False
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',

@@ -1,0 +1,4 @@
+
+# Backup all data on live website
+12 3 * * *		/var/www/www.inkscape.org/utils/dumpcms.sh
+

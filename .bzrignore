@@ -3,3 +3,5 @@ djink/local_settings.py
 apache
 local_settings.py
 *.mo
+pythonenv
+build

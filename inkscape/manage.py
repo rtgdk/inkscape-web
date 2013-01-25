@@ -1,4 +1,8 @@
-#!/usr/bin/python
+#!/usr/bin/env python
+
+import sys
+sys.path.insert(0, 'pythonenv/lib/python2.7/site-packages/')
+
 from django.core.management import execute_manager
 try:
     import settings # Assumed to be in the same directory.

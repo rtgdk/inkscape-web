@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'inkscape.i18n',
+    'registration',
     'social_auth',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
@@ -170,6 +171,8 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
+
+ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
 #LOGIN_URL          = '/login/'

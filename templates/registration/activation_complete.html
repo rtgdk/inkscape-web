@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block title %}Activation Complete{% endblock %}
+
+{% block supercontent %}
+
+<h1>Activation Complete</h1>
+
+<p>{% blocktrans %}Your user account has been created. Please log in using your username and password.{% endblocktrans %}</p>
+<p>
+{% blocktrans %}If you have any problems, please <a href="/contact/?subject=Lost activation code">contact us</a>.{% endblocktrans %}
+</p>
+
+{% endblock %}

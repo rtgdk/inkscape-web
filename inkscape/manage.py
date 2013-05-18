@@ -3,10 +3,12 @@
 import sys
 import os
 
+_VER = "python%d.%d" % (sys.version_info[0], sys.version_info[1])
+
 _PATH = os.path.abspath(os.path.join(
     os.path.dirname(os.path.abspath(__file__)), ".."))
 
-sys.path.insert(0, os.path.join(_PATH,'pythonenv/lib/python2.7/site-packages/'))
+sys.path.insert(0,os.path.join(_PATH,'pythonenv', 'lib', _VER, 'site-packages'))
 
 from django.core.management import execute_manager
 try:

@@ -14,7 +14,7 @@ rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
 
 cd $TARGET
 
-./pythonenv/bin/pip -q -r utils/requirements.txt
+./pythonenv/bin/pip install -r utils/requirements.txt
 
 ./puthonenv/bin/python inkscape/manage.py syncdb
 ./puthonenv/bin/python inkscape/manage.py migrate

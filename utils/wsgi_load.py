@@ -3,9 +3,9 @@
 import os
 import sys
 
-CODE_PATH = os.path.dirname(os.path.abspath(__file__))
-PROJECT_PATH = os.path.abspath(os.path.join(CODE_PATH, ".."))
-#PROJECT_PATH = '/var/www/staging.inkscape.org' <- Why is this required?
+PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
+if 'utils' in PROJECT_PATH:
+    PROJECT_PATH = os.path.dirname(PROJECT_PATH)
 ACTIVATE = os.path.join(PROJECT_PATH, 'pythonenv/bin/activate_this.py')
 
 sys.path.insert(0, PROJECT_PATH)

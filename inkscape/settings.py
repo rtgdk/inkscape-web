@@ -11,12 +11,12 @@ SERVE_STATIC = True
 
 
 ADMINS = (
-    ('Martin Owens', 'doctormo@ubuntu.com'),
+    ('Martin Owens', 'doctormo@gmail.com'),
 )
 
 MANAGERS = ADMINS
 
-TIME_ZONE = 'America/Chicago'
+TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
@@ -140,12 +140,19 @@ INSTALLED_APPS = (
     'cms.plugins.snippet',
     'cms.plugins.video',
     'cms.plugins.twitter',
+    'cmsplugin_news',
 )
 
 CMS_TEMPLATES = (
     ('front.html', 'Front Page'),
     ('super.html', 'Full Screen'),
     ('normal.html', 'Normal Page'),
+)
+CMS_APPLICATIONS_URLS = (
+        ('cmsplugin_news.urls', 'News'),
+)
+CMS_NAVIGATION_EXTENDERS = (
+        ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
 
 CMS_HIDE_UNTRANSLATED = False

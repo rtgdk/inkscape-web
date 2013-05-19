@@ -16,6 +16,6 @@ cd $TARGET
 
 ./pythonenv/bin/pip install -r utils/requirements.txt
 
-./puthonenv/bin/python inkscape/manage.py syncdb
-./puthonenv/bin/python inkscape/manage.py migrate
+./pythonenv/bin/python inkscape/manage.py syncdb
+./pythonenv/bin/python inkscape/manage.py migrate
 

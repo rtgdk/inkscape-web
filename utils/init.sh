@@ -11,3 +11,5 @@ $PYTHON ./inkscape/manage.py syncdb
 $PYTHON ./inkscape/manage.py migrate
 $PYTHON ./inkscape/manage.py migrate
 
+
+

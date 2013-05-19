@@ -1,0 +1,18 @@
+{% load i18n %}
+<div class="cmsplugin-news">
+  <div class="content">
+{% if latest %}
+ {% for news in latest %}
+  <div class="article">
+    <h2><a href="{{ news.get_absolute_url }}">{{ news.title }}</a></h2>
+    <p class="postdate">{{ news.pub_date|date:"DATE_FORMAT" }}</p>
+    <p>{{ news.excerpt }}</p>
+    <p class="readmore"><a href="{{ news.get_absolute_url }}">Read more...</a></p>
+  </div>
+ {% endfor %}
+{% else %}
+ <p class="empty">{% trans "No news yet" %}</p>
+{% endif %}
+<!--<a href="{ url news_archive_index %}">{% trans "Archive" %}</a>-->
+  </div>
+</div>

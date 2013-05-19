@@ -1,8 +1,13 @@
 #!/bin/bash
 
 virtualenv pythonenv
-pip install -E pythonenv -r utils/requirements.txt
-./inkscape/manage.py syncdb
-./inkscape/manage.py migrate
-./inkscape/manage.py migrate
+
+BIN="./pythonenv/bin"
+PIP="$BIN/pip"
+PYTHON="$BIN/python"
+
+$PIP install -r utils/requirements.txt
+$PYTHON ./inkscape/manage.py syncdb
+$PYTHON ./inkscape/manage.py migrate
+$PYTHON ./inkscape/manage.py migrate
 

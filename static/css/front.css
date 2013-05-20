@@ -1,4 +1,23 @@
+/* cms intergration for front pannels */
+.front-banner .cms_placeholder-bar {
+  background: none !important;
+  border: none !important;
+}
 
+.front-banner .cms_placeholder-title {
+  display: none !important;
+}
+
+.front-banner .cms_placeholder-btn {
+  position: absolute !important;
+  top: 0px !important;
+  right: 0px !important;
+  z-index: -1 !important;
+  padding: 0px !important;
+  margin: 0px !important;
+}
+
+/* rest of it */
 .front-banner {
   margin: 0;
   height: 365px;

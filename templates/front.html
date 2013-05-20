@@ -17,6 +17,7 @@
 				removeClass(document.getElementById("front-banner-tab-" + frontTabGo.current).firstChild, 'current');
 				removeClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
 				frontTabGo.current = e.getAttribute('href').replace(/^#front-banner-/, '');
+				addClass(e, 'show');
 				addClass(e, 'current');
 				addClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
 				return false;
@@ -29,37 +30,19 @@
 	<div id="front-banner-container">
 		<div id="front-banners">
 			<div id="front-banner-overview" class="front-banner current top right buttons-right one-day-in-farm">
-				<div>
-					<p>Inkscape is a professional quality open-source vector graphics editor, which runs on Windows, Mac OS X and Linux. And it's free!</p>
-					<div>
-						<a id="front-banner-read-more" href="/about" class="button center w140 darkbg">Read more</a>
-						<div id="front-banner-download-box">
-							<a href="/download" class="button w140 center darkbg download"><span>Download</span></a>
-							<span>Latest stable release: {{ INKSCAPE_VERSION }}</span>
-						</div>
-					</div>
-				</div>
-				<!--<p id="front-banner-author" class="black right"><a rel="author" href="http://freeter.deviantart.com/art/Grass-inkscape-86884997"><em>Grass</em> by freeter</a></p>-->
-				<p id="front-banner-author"><a rel="author" href="http://rebirthart.deviantart.com/art/One-Day-in-Farm-47515219"><em>One Day in Farm</em> by RebirthArt</a></p>
+                {% placeholder banner_one %}
 			</div>
 
 			<div id="front-banner-features" class="front-banner">
-				<div>
-					<p>Inkscape is just so <em>absolutely jam packed full of features</em> we can't tell you about them all here. In fact, there are so many features that it's not even worth starting on this page.</p>
-					<p><a href="/about/features/" class="button center">Learn about all the marvellous things Inkscape has to offer</a></p>
-				</div>
+                {% placeholder banner_two %}
 			</div>
 
 			<div id="front-banner-gallery" class="front-banner">
-				<div>
-					<p>Whoa. You've already seen those pictures on the other tabs &ndash; what more do you want to see?</p>
-				</div>
+                {% placeholder banner_three %}
 			</div>
 
 			<div id="front-banner-learning" class="front-banner">
-				<div>
-					<p>One day we might consider helping you out here. But unfortunately for you, today is Not Your Lucky Day.</p>
-				</div>
+                {% placeholder banner_four %}
 			</div>
 		</div>
 

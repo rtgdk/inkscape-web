@@ -29,6 +29,7 @@ LANGUAGES = (
     ('cs', 'Česky'),      # Czech
     ('ru', 'Русский'),    # Russian
     ('ja', '日本'),       # Japanese
+    ('cn', '中国语文'),   # Chinese
 )
 
 SITE_ID = 1
@@ -154,6 +155,19 @@ CMS_APPLICATIONS_URLS = (
 CMS_NAVIGATION_EXTENDERS = (
         ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
+CMS_LANGUAGE_CONF = {
+    'en':['en'],
+    'de':['en'],
+    'fr':['en'],
+    'it':['en'],
+    'es':['en'],
+    'pt':['es','en'],
+    'cs':['en'],
+    'ru':['en'],
+    'ja':['en'],
+    'cn':['en'],
+}
+
 
 CMS_HIDE_UNTRANSLATED = False
 

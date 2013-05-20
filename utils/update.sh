@@ -19,3 +19,6 @@ cd $TARGET
 ./pythonenv/bin/python inkscape/manage.py syncdb
 ./pythonenv/bin/python inkscape/manage.py migrate
 
+# Restart server like this:
+touch utils/wsgi_load.py
+

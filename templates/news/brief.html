@@ -1,9 +1,0 @@
-{% load i18n %}
-<div class="article">
-	<h2><a href="{% url news:article article.date.year article.slug %}">{{ article.title }}</a></h2>
-	{% url content:users article.author|slugify as author_url %}
-	{% url news:category article.category|slugify as category_url %}
-	<p class="postdate">{% blocktrans with article.date|date:'F j, Y' as date and article.author as author and article.category as category %}Published {{ date }} by <a href="{{ author_url }}">{{ author }}</a> in <a href="{{ category_url }}">{{ category }}</a>{% endblocktrans %}</p>
-	{{ article.brief }}
-	<p class="readmore"><a href="{% url news:article article.date.year article.slug %}">{% trans 'Read more...' %}</a></p>
-</div>

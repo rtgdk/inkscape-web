@@ -15,7 +15,7 @@ body {
   background-image: -webkit-gradient(linear, left top, left 75, from(#e6e6e6), color-stop(0.1, #e6e6e6), color-stop(0.75, white), to(white));
   background-repeat: no-repeat;
   font-size: 12px;
-  font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+  font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
 

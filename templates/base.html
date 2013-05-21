@@ -22,14 +22,7 @@
 				</div>
 				<div id="header-right">
 					<ul id="topdrops">
-						<li id="languages">
-							<p>Language</p>
-							<ul class="topdrop">
-								{% for lang in LANGUAGES %}
-								<li class="{{ lang.0 }}"><a href="/{{ lang.0 }}/"{% if LANGUAGE_CODE = lang.0 %} class="current"{% endif %}><span></span>{{ lang.1 }}</a>
-								{% endfor %}
-							</ul>
-						</li>
+                        {% language_chooser "languages.html" %}
 						<li id="toplogin">
                         {% if not request.user.is_authenticated %}
 						<p>{% trans "Log in / Register" %}</p>

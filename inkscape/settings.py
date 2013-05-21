@@ -29,7 +29,7 @@ LANGUAGES = (
     ('cs', 'Česky'),      # Czech
     ('ru', 'Русский'),    # Russian
     ('ja', '日本'),       # Japanese
-    ('cn', '中国语文'),   # Chinese
+    ('zh', '中国语文'),   # Chinese
 )
 
 SITE_ID = 1
@@ -165,7 +165,7 @@ CMS_LANGUAGE_CONF = {
     'cs':['en'],
     'ru':['en'],
     'ja':['en'],
-    'cn':['en'],
+    'zh':['en'],
 }
 
 

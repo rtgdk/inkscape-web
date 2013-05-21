@@ -246,95 +246,29 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   -moz-border-radius: 0 0 5px 5px;
 }
 
+#languages p img {
+  padding-right: 4px;
+}
 #languages a {
+  background-repeat: no-repeat;
+  background-position: 8px 10px;
   display: block;
-  padding: 10px 10px 10px 50px;
+  padding: 10px 10px 10px 30px;
   color: white;
   font-size: 11px;
   line-height: 11px;
 }
-#languages a.current {
+#languages li.selected a {
   background-color: #464646;
 }
 #languages a:hover {
   background-color: #4d4d4d;
   text-decoration: none;
 }
-#languages span {
-  background: url("../images/flags.png") no-repeat;
-  display: block;
-  margin-left: -28px;
-  float: left;
-  height: 11px;
-  width: 16px;
-}
 #languages li:last-child a:hover {
   border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
 }
-#languages .en span {
-  background-position: 0 0;
-}
-#languages .de span {
-  background-position: -16px 0;
-}
-#languages .fr span {
-  background-position: -32px 0;
-}
-#languages .it span {
-  background-position: -48px 0;
-}
-#languages .es span {
-  background-position: -64px 0;
-}
-#languages .pt span {
-  background-position: -80px 0;
-}
-#languages .cs span {
-  background-position: -96px 0;
-}
-#languages .ru span {
-  background-position: -112px 0;
-}
-#languages .ja span {
-  background-position: -128px 0;
-}
-#languages.old span {
-  background-image: url("../images/flags-old.png");
-  display: block;
-  margin-left: -28px;
-  float: left;
-  height: 12px;
-  width: 14px;
-}
-#languages.old .en span {
-  background-position: 0 0;
-}
-#languages.old .de span {
-  background-position: -14px 0;
-}
-#languages.old .fr span {
-  background-position: -28px 0;
-}
-#languages.old .it span {
-  background-position: -42px 0;
-}
-#languages.old .es span {
-  background-position: -56px 0;
-}
-#languages.old .cs span {
-  background-position: -70px 0;
-}
-#languages.old .pt span {
-  background-position: -84px 0;
-}
-#languages.old .ru span {
-  background-position: -98px 0;
-}
-#languages.old .ja span {
-  background-position: -112px 0;
-}
-
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;

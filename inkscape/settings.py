@@ -152,6 +152,9 @@ CMS_TEMPLATES = (
 CMS_APPLICATIONS_URLS = (
         ('cmsplugin_news.urls', 'News'),
 )
+CMS_APPHOOKS = (
+  'cmsplugin_news.cms_app.NewsAppHook',
+)
 CMS_NAVIGATION_EXTENDERS = (
         ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )

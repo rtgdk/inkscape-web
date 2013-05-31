@@ -3,8 +3,8 @@
 # dev machine.
 #
 
-# Python libraries
-pil==1.1.7
+# Python libraries (can't install on most machines using pip)
+#pil==1.1.7
 
 # Web libraries
 python-openid==2.2.4

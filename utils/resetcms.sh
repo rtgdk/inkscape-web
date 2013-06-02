@@ -1,8 +1,8 @@
 #!/bin/bash
 
 
-wget http://staging.inkscape.org/media/content.json.gz -O /tmp/contents.gz
-gunzip /tmp/content.gz
+wget http://staging.inkscape.org/media/content.json.gz -O /tmp/contents.json.gz
+gunzip /tmp/contents.json.gz
 
 ./pythonenv/bin/python inkscape/manage.py reset cmsplugin_news cms
 

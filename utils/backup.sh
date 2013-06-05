@@ -25,7 +25,7 @@ cd $DEST/cms_db
 # Create hard links of all the backups
 ln -f $DATE "$DIR/data/media/content.json.gz"
 ln -f $DATE week-`date +%Y-%W`.json.gz
-ln -f $DATE month-`date +%Y-%M`.json.gz
+ln -f $DATE month-`date +%Y-%m`.json.gz
 ln -f $DATE year-`date +%Y`.json.gz
 
 # Remove any days older than 14 days

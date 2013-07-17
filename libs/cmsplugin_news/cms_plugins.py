@@ -6,6 +6,9 @@ from cms.plugin_pool import plugin_pool
 from cmsplugin_news.models import LatestNewsPlugin, News
 from cmsplugin_news import settings
 
+from cms.utils import get_language_from_request
+from django.db.models import Q
+
 
 class CMSLatestNewsPlugin(CMSPluginBase):
     """
@@ -19,7 +22,9 @@ class CMSLatestNewsPlugin(CMSPluginBase):
         """
             Render the latest news
         """
-        latest = News.published.all()[:instance.limit]
+        language = get_language_from_request(context['request'])
+        q = Q(language__isnull=True) | Q(language=language)
+        latest = News.published.filter(q).all()[:instance.limit]
         context.update({
             'instance': instance,
             'latest': latest,

@@ -3,6 +3,8 @@
 import os
 import sys
 
+# This is really weird, the server only runs python2.6 when loading the
+# WSGI file and we can't figure out why yet.
 _VER = "python2.7" #"python%d.%d" % (sys.version_info[0], sys.version_info[1])
 
 PROJECT_PATH = os.path.dirname(os.path.abspath(__file__))
@@ -13,6 +15,7 @@ PYTHONS = os.path.join(PROJECT_PATH, 'pythonenv', 'lib', _VER, 'site-packages')
 
 sys.path.insert(0, PROJECT_PATH)
 sys.path.insert(0, PYTHONS)
+sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
 execfile( ACTIVATE, dict(__file__=ACTIVATE) )
 

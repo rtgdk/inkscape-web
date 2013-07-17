@@ -15,4 +15,5 @@ South==0.7.3
 django-cms==2.3.5
 django-social-auth==0.7.22
 django-registration==0.8
+MySQL-python
 

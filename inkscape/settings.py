@@ -142,6 +142,7 @@ INSTALLED_APPS = (
     'cms.plugins.video',
     'cms.plugins.twitter',
     'cmsplugin_news',
+    'cmsplugin_pygments',
 )
 
 CMS_TEMPLATES = (

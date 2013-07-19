@@ -19,7 +19,7 @@ PIP="./pythonenv/bin/pip"
 
 cd $SOURCE
 
-bzr pull | grep Now\ on\ revision &> /dev/null
+bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
 if [ -d $TARGET ]; then
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"

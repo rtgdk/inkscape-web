@@ -127,7 +127,6 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'inkscape.i18n',
     'registration',
     'social_auth',
     'cms',     # django CMS itself

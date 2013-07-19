@@ -31,7 +31,7 @@
 						<li id="toplogin">
                         {% if not request.user.is_authenticated %}
 						<p>{% trans "Log in / Register" %}</p>
-							<form class="topdrop" action="{% url auth_login %}" method="POST">
+							<form class="topdrop" action="{% url "auth_login" %}" method="POST">
                                 {% csrf_token %}
 								<p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
 								<label for="toplogin-username">{% trans "Username" %}</label>
@@ -51,7 +51,7 @@
                         {% else %}
                         <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>
                         <form  class="topdrop">
-                        <p id="toplogin-head"><a href="{% url auth_logout %}">{% trans "Logout" %}</a></p>
+                        <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
 						</li>

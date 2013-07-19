@@ -20,16 +20,16 @@ TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('en', 'English'),    # Guess
-    ('de', 'Deutsch'),    # German
-    ('fr', 'Français'),   # French
-    ('it', 'Italiano'),   # Italian
-    ('es', 'Español'),    # Spanish
-    ('pt', 'Português'),  # Portuguese
-    ('cs', 'Cesky'), #'Česky'),      # Czech
-    ('ru', 'Русский'),    # Russian
-    ('ja', '日本語'),      # Japanese
-    ('zh', '中国语文'),   # Chinese
+    ('en', 'English'),
+    ('de', 'Germen'),
+    ('fr', 'French'),
+    ('it', 'Italian'),
+    ('es', 'Spanish'),
+    ('pt', 'Portuguese'),
+    ('cs', 'Czech'),
+    ('ru', 'Russian'),
+    ('ja', 'Japanese'),
+    ('zh', 'Chinese'),
 )
 
 SITE_ID = 1
@@ -127,6 +127,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
+    'haystack',
     'registration',
     'social_auth',
     'cms',     # django CMS itself
@@ -140,6 +141,7 @@ INSTALLED_APPS = (
     'cms.plugins.snippet',
     'cms.plugins.video',
     'cms.plugins.twitter',
+    'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',
     #'cmsplugin_filery',
@@ -155,6 +157,7 @@ CMS_APPLICATIONS_URLS = (
 )
 CMS_APPHOOKS = (
   'cmsplugin_news.cms_app.NewsAppHook',
+  'cmsplugin_search.cms_app.HaystackSearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
         ('cmsplugin_news.navigation.get_nodes','News navigation'),

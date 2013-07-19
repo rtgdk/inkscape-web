@@ -16,6 +16,7 @@
 		<title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+		<script type="text/javascript" src="{{ DESIGN_URL }}js/textSize.js"></script>
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
         {% cms_toolbar %}
@@ -61,7 +62,7 @@
 					</form>
 				</div>
 			</div>
-			<div class="nav"><ul>{% show_menu 1 100 1 100 %}</ul></div>
+			<div class="nav"><ul id="menu">{% show_menu 1 100 1 100 %}</ul></div>
 		</div>
 		{% block supercontent %}
 		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">

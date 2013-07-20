@@ -1,8 +1,8 @@
 #!/bin/bash
-
+set -e
 
 wget http://staging.inkscape.org/media/content.json.gz -O /tmp/contents.json.gz
-gunzip /tmp/contents.json.gz
+gunzip -f /tmp/contents.json.gz
 
 ./utils/jsonmigrator.py /tmp/contents.json > /tmp/content_reformed.json
 

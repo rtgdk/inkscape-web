@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'menus',   # helper for model independent hierarchical website navigation
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
+    'django_reset', # forward port of the "reset" command
     'cms.plugins.text',
     'cms.plugins.file',
     'cms.plugins.picture',

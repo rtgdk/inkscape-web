@@ -16,9 +16,20 @@ def delete(data, field):
         return True
     return False
 
+def set_one(data, field):
+    if data.has_key(field) and data[field] != 1:
+        data[field] = 1
+        return True
+    return False
+
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
+  ),
+
+  # reset to superuser, since user credentials are not exported
+  'cms.pagemoderatorstate': (
+    [ set_one, 'user' ],
   ),
 }
 

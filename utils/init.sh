@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 virtualenv pythonenv -p /usr/bin/python2.7
 

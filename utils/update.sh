@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 
 #TEST="--dry-run"
 TEST=""

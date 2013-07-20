@@ -75,9 +75,6 @@ STATIC_URL = '/static/'
 # Out Static url was eaten by the CMS Gru
 DESIGN_URL = '/design/'
 
-# Special media directory for admin hosting
-ADMIN_MEDIA_PREFIX = '/admin/media/'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',

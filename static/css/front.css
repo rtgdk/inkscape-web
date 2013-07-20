@@ -143,6 +143,7 @@
   background-color: rgba(0, 0, 0, 0.7);
 }
 #front-banner-tabs {
+  font-size: 12px;
   list-style: none;
   padding-left: 0;
   margin: -70px 19px -30px;

@@ -30,6 +30,7 @@ LANGUAGES = (
     ('ru', 'Russian'),
     ('ja', 'Japanese'),
     ('zh', 'Chinese'),
+    ('zh-tw', 'Simplified Chinese'),
 )
 
 SITE_ID = 1
@@ -163,22 +164,17 @@ CMS_NAVIGATION_EXTENDERS = (
 
 CMS_LANGUAGES = {
     1: [
-      {
-        'code': 'en',
-        'name': gettext('English'),
-        'public': True,
-        'hide_untranslated': True,
-        'redirect_on_fallback':False,
-      },
-      { 'code': 'de', 'name': gettext('Deutsch'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'fr', 'name': gettext('Français'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'it', 'name': gettext('Italiano'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'es', 'name': gettext('Español'), 'fallbacks': ['fr','en'], 'public': True },
-      { 'code': 'pt', 'name': gettext('Português'), 'fallbacks': ['es','fr','en'], 'public': True },
-      { 'code': 'cs', 'name': gettext('Česky'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'ru', 'name': gettext('Русский'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'ja', 'name': gettext('日本語'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'zh', 'name': gettext('中国语文'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'en',    'name': 'English',                             'public': True },
+      { 'code': 'de',    'name': 'Deutsch',   'fallbacks': ['en'],      'public': True },
+      { 'code': 'fr',    'name': 'Français',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'it',    'name': 'Italiano',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'es',    'name': 'Español',   'fallbacks': ['fr','en'], 'public': True },
+      { 'code': 'pt',    'name': 'Português', 'fallbacks': ['es','en'], 'public': True },
+      { 'code': 'cs',    'name': 'Česky',     'fallbacks': ['en'],      'public': True },
+      { 'code': 'ru',    'name': 'Русский',   'fallbacks': ['en'],      'public': True },
+      { 'code': 'ja',    'name': '日本語',    'fallbacks': ['en'],      'public': True },
+      { 'code': 'zh',    'name': '中国语文',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'zh-tw', 'name': '正體中文',  'fallbacks': ['en'],      'public': True },
     ],
     'default': {
       'fallbacks': ['en', 'de', 'fr'],

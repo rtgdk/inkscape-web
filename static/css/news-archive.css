@@ -1,9 +1,21 @@
 
+#page-news-archive h2 a {
+  color: inherit;
+}
+
+#page-news-archive .article {
+  position: relative;
+  margin: 10px 0 20px;
+}
+
 #page-news-archive .postdate {
-  margin: 6px 0 18px;
+  margin: 0;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 #page-news-archive .readmore {
-  margin-top: 20px;
+  margin: 15px 0 0;
   text-align: left;
 }
 #page-news-archive #right-sidebar h2 {

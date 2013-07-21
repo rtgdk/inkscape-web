@@ -1,16 +1,22 @@
 {% extends "base.html" %}
-{% load cms_tags %}
+{% load cms_tags sekizai_tags %}
 
 {% block title %}Latest News{% endblock %}
+{% block body-pageid %}news-archive{% endblock %}
+{% block css %}
+{% addtoblock 'css' %}
+<link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/news-archive.css" media="all" />
+{% endaddtoblock %}
+{% endblock %}
 
 {% block content %}
   <h1>Latest News</h1>
   {% for object in latest %}
-    <hr/>
     <div class="article">
-      <h2>{{ object.title }}</h2>
+      <div class="postdate">{{ object.pub_date }}</div>
+      <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
       <p>{{ object.excerpt }}</p>
-      <a href="{{ object.get_absolute_url }}">Read more</a>
+      <a class="readmore" href="{{ object.get_absolute_url }}">Read more</a>
     </div>
   {% endfor %}
 {% endblock %}

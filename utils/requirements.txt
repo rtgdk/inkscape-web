@@ -4,6 +4,7 @@
 #
 
 # Python libraries (can't install on some machines using pip)
+docutils
 distribute>=0.6.28
 pil==1.1.7
 MySQL-python==1.2.4

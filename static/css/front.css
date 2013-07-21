@@ -42,7 +42,7 @@
   line-height: 25px;
 }
 #front-banner-features {
-  background-image: url("../images/front-banner-features-background.png");
+  background-image: url("../images/banners/companies.png");
   background-color: #eeeeee;
 }
 #front-banner-features > div {
@@ -67,14 +67,14 @@
   margin-top: 0;
 }
 #front-banner-overview.car {
-  background-image: url("../images/front-banner-car.png");
+  background-image: url("../images/banners/car.png");
 }
 #front-banner-overview.one-day-in-farm {
-  background-image: url("../images/front-banner-one-day-in-farm.png");
+  background-image: url("../images/banners/farm.png");
   background-color: #000000;
 }
 #front-banner-overview.grass {
-  background-image: url("../images/front-banner-grass.png");
+  background-image: url("../images/banners/grass.png");
 }
 #front-banner-overview > div {
   width: 410px;

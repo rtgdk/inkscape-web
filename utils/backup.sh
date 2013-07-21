@@ -17,7 +17,7 @@ cd $DEST/cms_db
 # Make a backup of the cms database and put it into a gz json file
 # Don't make a copy of any other databases or tables from django.
 $PYTHON $MANAGE dumpdata cms text menus mptt sekizai file picture \
-                snippet video twitter cmsplugin_news \
+                snippet video twitter cmsplugin_news cmsplugin_pygments \
     | gzip -9 > $DATE
 
 

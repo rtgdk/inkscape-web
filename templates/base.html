@@ -1,4 +1,4 @@
-{% load i18n %}{% load inkscape_i18n %}<!DOCTYPE html>
+{% load i18n %}<!DOCTYPE html>
 {% load cms_tags sekizai_tags %}
 {% load menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
@@ -32,7 +32,7 @@
 						<li id="toplogin">
                         {% if not request.user.is_authenticated %}
 						<p>{% trans "Log in / Register" %}</p>
-							<form class="topdrop" action="{% url auth_login %}" method="POST">
+							<form class="topdrop" action="{% url "auth_login" %}" method="POST">
                                 {% csrf_token %}
 								<p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
 								<label for="toplogin-username">{% trans "Username" %}</label>
@@ -42,17 +42,17 @@
 								<input id="toplogin-submit" type="submit" value="Log in">
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/auth/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
-								<a href="{% url socialauth_begin 'google' %}" id="toplogin-google"></a>
-								<a href="{% url socialauth_begin 'facebook' %}" id="toplogin-facebook"></a>
-								<a href="{% url socialauth_begin 'twitter' %}" id="toplogin-twitter"></a>
-								<a href="{% url socialauth_begin 'yahoo' %}" id="toplogin-yahoo"></a>
-<!--								<a href="{% url socialauth_begin 'live' %}" id="toplogin-live"></a>
-								<a href="{% url socialauth_begin 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
+								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
+								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
+								<a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>
+								<a href="{% url "socialauth_begin" 'yahoo' %}" id="toplogin-yahoo"></a>
+<!--								<a href="{% url "socialauth_begin" 'live' %}" id="toplogin-live"></a>
+								<a href="{% url "socialauth_begin" 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
 							</form>
                         {% else %}
                         <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>
                         <form  class="topdrop">
-                        <p id="toplogin-head"><a href="{% url auth_logout %}">{% trans "Logout" %}</a></p>
+                        <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
 						</li>

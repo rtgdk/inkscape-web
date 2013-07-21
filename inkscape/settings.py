@@ -20,16 +20,16 @@ TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
-    ('en', 'English'),    # Guess
-    ('de', 'Deutsch'),    # German
-    ('fr', 'Français'),   # French
-    ('it', 'Italiano'),   # Italian
-    ('es', 'Español'),    # Spanish
-    ('pt', 'Português'),  # Portuguese
-    ('cs', 'Česky'),      # Czech
-    ('ru', 'Русский'),    # Russian
-    ('ja', '日本'),       # Japanese
-    ('zh', '中国语文'),   # Chinese
+    ('en', 'English'),
+    ('de', 'Germen'),
+    ('fr', 'French'),
+    ('it', 'Italian'),
+    ('es', 'Spanish'),
+    ('pt', 'Portuguese'),
+    ('cs', 'Czech'),
+    ('ru', 'Russian'),
+    ('ja', 'Japanese'),
+    ('zh', 'Chinese'),
 )
 
 SITE_ID = 1
@@ -75,9 +75,6 @@ STATIC_URL = '/static/'
 # Out Static url was eaten by the CMS Gru
 DESIGN_URL = '/design/'
 
-# Special media directory for admin hosting
-ADMIN_MEDIA_PREFIX = '/admin/media/'
-
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -103,11 +100,11 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-#    'inkscape.i18n.LocaleSubdomainMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-    'cms.middleware.multilingual.MultilingualURLMiddleware',
+    'cms.middleware.language.LanguageCookieMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
@@ -127,7 +124,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
-    'inkscape.i18n',
+    'haystack',
     'registration',
     'social_auth',
     'cms',     # django CMS itself
@@ -135,14 +132,17 @@ INSTALLED_APPS = (
     'menus',   # helper for model independent hierarchical website navigation
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
+    'django_reset', # forward port of the "reset" command
     'cms.plugins.text',
     'cms.plugins.file',
     'cms.plugins.picture',
     'cms.plugins.snippet',
     'cms.plugins.video',
     'cms.plugins.twitter',
+    'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',
+    #'cmsplugin_filery',
 )
 
 CMS_TEMPLATES = (
@@ -155,25 +155,38 @@ CMS_APPLICATIONS_URLS = (
 )
 CMS_APPHOOKS = (
   'cmsplugin_news.cms_app.NewsAppHook',
+  'cmsplugin_search.cms_app.HaystackSearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
         ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
-CMS_LANGUAGE_CONF = {
-    'en':['en'],
-    'de':['en'],
-    'fr':['en'],
-    'it':['en'],
-    'es':['en'],
-    'pt':['es','en'],
-    'cs':['en'],
-    'ru':['en'],
-    'ja':['en'],
-    'zh':['en'],
+
+CMS_LANGUAGES = {
+    1: [
+      {
+        'code': 'en',
+        'name': gettext('English'),
+        'public': True,
+        'hide_untranslated': True,
+        'redirect_on_fallback':False,
+      },
+      { 'code': 'de', 'name': gettext('Deutsch'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'fr', 'name': gettext('Français'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'it', 'name': gettext('Italiano'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'es', 'name': gettext('Español'), 'fallbacks': ['fr','en'], 'public': True },
+      { 'code': 'pt', 'name': gettext('Português'), 'fallbacks': ['es','fr','en'], 'public': True },
+      { 'code': 'cs', 'name': gettext('Česky'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'ru', 'name': gettext('Русский'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'ja', 'name': gettext('日本語'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'zh', 'name': gettext('中国语文'), 'fallbacks': ['en'], 'public': True },
+    ],
+    'default': {
+      'fallbacks': ['en', 'de', 'fr'],
+      'redirect_on_fallback':True,
+      'public': True,
+      'hide_untranslated': False,
+    }
 }
-
-
-CMS_HIDE_UNTRANSLATED = False
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',

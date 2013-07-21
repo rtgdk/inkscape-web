@@ -3,18 +3,29 @@
 # dev machine.
 #
 
-# Python libraries (can't install on most machines using pip)
+# Python libraries (can't install on some machines using pip)
+docutils
+distribute>=0.6.28
 pil==1.1.7
+MySQL-python==1.2.4
+Whoosh==2.4
 
 # Web libraries
 python-openid==2.2.4
 
 # Django libraries
-Django==1.3.3
-South==0.7.3
-django-cms==2.3.5
-cmsplugin-pygments==0.7.3
+Django==1.5
+South==0.8.1
+django-haystack==2.0
+easy-thumbnails
+django-filer
+django-reset
 django-social-auth==0.7.22
-django-registration==0.8
-MySQL-python
+django-registration==1.0
+
+# Django-CMS Plugins
+django-cms==2.4.2
+cmsplugin-pygments==0.7.3
+cmsplugin-filery==1.0.1
+cmsplugin-search==0.6.5
 

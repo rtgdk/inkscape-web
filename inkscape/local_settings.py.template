@@ -18,6 +18,14 @@ DATABASES = {
     },
 }
 
+# >= haystack 2.0
+HAYSTACK_CONNECTIONS = { 
+    'default': {
+        'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+        'PATH': "%s/data/woosh_search" % PROJECT_PATH,
+    },
+}
+
 SECRET_KEY = 'iccj=*n_h03lm!)53e^ze&qudzcyoc+qi8s=$+fj6khix-w&*e'
 
 DEBUG = True

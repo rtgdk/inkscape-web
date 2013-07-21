@@ -1,6 +1,5 @@
-
 #page-news-full .postdate {
-  margin: -16px 0 30px;
+  margin: -1ex 0 3ex;
 }
 #page-news-full .article-share {
   margin: -47px 0 0;
@@ -15,11 +14,11 @@
   margin-bottom: 50px;
   min-height: 250px;
 }
-#page-news-full .article-body > p:first-child, #page-news-full .article-body > .document > p:first-child {
+/*#page-news-full .article-body > p:first-child, #page-news-full .article-body > .document > p:first-child {
   font-size: 14px;
   line-height: 24px;
   margin-bottom: 24px;
-}
+}*/
 #page-news-full .article-actions {
   margin: 0;
   padding: 0;
@@ -43,8 +42,5 @@
 }
 #page-news-full .article-actions .action-printer {
   background-image: url(../images/action-printer.png);
-}
-#page-news-full #content h1 {
-  width: 480px;
 }
 

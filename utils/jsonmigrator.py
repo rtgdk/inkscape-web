@@ -57,12 +57,15 @@ def update(content, updates):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1 or not os.path.exists(sys.argv[1]):
+    if len(sys.argv) == 1 or (sys.argv[1] != '-' and os.path.exists(sys.argv[1])):
         sys.stderr.write(__doc__)
         sys.exit(1)
 
-    with open(sys.argv[1], 'r') as fhl:
-        content = json.loads(fhl.read())
+    if sys.argv[1] == '-':
+        content = json.loads(sys.stdin.read())
+    else:
+        with open(sys.argv[1], 'r') as fhl:
+            content = json.loads(fhl.read())
     update(content, UPDATES)
     print json.dumps(content)
 

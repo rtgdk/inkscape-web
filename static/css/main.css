@@ -172,7 +172,7 @@ div.toc ul {
   border-radius: 5px;
 }
 
-div.article .postdate {
+.postdate {
   margin-top: 0;
   font-size: 80%;
   color: #666666;

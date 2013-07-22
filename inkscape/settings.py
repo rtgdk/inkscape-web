@@ -128,7 +128,8 @@ INSTALLED_APPS = (
     'haystack',
     'registration',
     'social_auth',
-    'extra',
+    'easy_thumbnails',
+    'filer',   # Django filer
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -144,7 +145,9 @@ INSTALLED_APPS = (
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',
-    #'cmsplugin_filery',
+    'cmsplugin_filery',
+    'inkscape.extra',
+    'inkscape.search',
 )
 
 CMS_TEMPLATES = (

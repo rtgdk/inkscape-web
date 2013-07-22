@@ -58,7 +58,7 @@
                         {% endif %}
 						</li>
 					</ul>
-                    <form id="topsearch" target="{% url "search" %}">
+                    <form id="topsearch" method="submit" action="{% url "search" %}">
 						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.png" alt="Search">
 					</form>
 				</div>

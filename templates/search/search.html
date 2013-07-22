@@ -8,19 +8,25 @@
         <input type="text" name="q" value="{{ query }}"/><input type="submit" value="Search">
 
         {% if query %}
-            <h3>Results</h3>
+        <h3>Results for '{{ query }}'</h3>
 
+        <div id="results">
             {% for result in page.object_list %}
-                <p>
                 {% ifequal result.model_name 'title' %}
-                <a href="{{ result.object.page.get_absolute_url }}">Inkscape Website: {{ result.object }}</a>
+              <div class="result page">
+                <h3><a href="{{ result.object.page.get_absolute_url }}">{{ result.object.title }}</a></h3>
+                <p>{{ result.get_stored_fields.excerpt }}</p>
+              </div>
                 {% else %}
-                <a href="{{ result.object.get_absolute_url }}">News: {{ result.object }}</a>
+              <div class="result news">
+                <h3><a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a></h3>
+                <p>{{ result.object.excerpt }}</p>
+              </div>
                 {% endifequal %}
-                </p>
             {% empty %}
-                <p>No results found.</p>
+                <h3>No results found.</h3>
             {% endfor %}
+        </div>
 
             {% if page.has_previous or page.has_next %}
                 <div>

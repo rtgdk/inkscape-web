@@ -33,7 +33,7 @@ class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):
     ListView.
     """
     paginate_by = settings.ARCHIVE_PAGE_SIZE
-    template_name = 'cmsplugin_news/news_archive.html'
+    template_name = 'news/news_archive.html'
     include_yearlist = True
     date_field = 'pub_date'
 
@@ -47,21 +47,25 @@ class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):
 
 
 class DetailView(PublishedNewsMixin, generic_views.DateDetailView):
+    template_name = 'news/news_detail.html'
     month_format = '%m'
     date_field = 'pub_date'
 
 
 class MonthArchiveView(PublishedNewsMixin, generic_views.MonthArchiveView):
+    template_name = 'news/news_archive_month.html'
     month_format = '%m'
     date_field = 'pub_date'
 
 
 class YearArchiveView(PublishedNewsMixin, generic_views.YearArchiveView):
+    template_name = 'news/news_archive_year.html'
     month_format = '%m'
     date_field = 'pub_date'
 
 
 class DayArchiveView(PublishedNewsMixin, generic_views.DayArchiveView):
+    template_name = 'news/news_archive_day.html'
     month_format = '%m'
     date_field = 'pub_date'
 

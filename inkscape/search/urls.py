@@ -6,5 +6,5 @@ except ImportError:
 from inkscape.search.views import SearchView
 
 urlpatterns = patterns('inkscape.search.views',
-    url(r'^$', SearchView(), name='haystack_search'),
+    url(r'^$', SearchView(), name='search'),
 )

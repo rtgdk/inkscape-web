@@ -4,7 +4,7 @@
 {% block title %}News for {{ month }}{% endblock %}
 
 {% block content %}
-<h1>News for {{ month }}</h1>
+<h1>News for {{ month|date:'F Y' }}</h1>
 
 <ul>
 	{% for object in object_list %}

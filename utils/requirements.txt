@@ -27,5 +27,5 @@ django-registration==1.0
 django-cms==2.4.2
 cmsplugin-pygments==0.7.3
 cmsplugin-filery==1.0.1
-cmsplugin-search==0.6.5
+cmsplugin-search==0.7.1
 

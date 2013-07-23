@@ -6,7 +6,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^search/',      include('inkscape.search.urls')),
     (r'^admin/doc/',   include('django.contrib.admindocs.urls')),
     (r'^admin/',       include(admin.site.urls)),
     url(r'^auth/login/',   'django.contrib.auth.views.login', name='auth_login'),

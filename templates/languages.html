@@ -9,7 +9,7 @@
   <ul class="topdrop">
     {% for language in languages %}
       {% language language.0 %}
-      <li class="{% ifequal current_language language.0 %}selected{% endifequal %}"><a style="background-image: url({{ DESIGN_URL }}/images/lang/{{ language.0 }}.png);" href="{% url "pages-root" %}">{{ language.1 }}</a></li>
+      <li class="{% ifequal current_language language.0 %}selected{% endifequal %}"><a style="background-image: url({{ DESIGN_URL }}/images/lang/{{ language.0 }}.png);" href="{% page_language_url language.0 %}">{{ language.1 }}</a></li>
       {% endlanguage %}
     {% endfor %}
   </ul>

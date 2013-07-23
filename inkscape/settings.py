@@ -160,7 +160,7 @@ CMS_APPLICATIONS_URLS = (
 )
 CMS_APPHOOKS = (
   'cmsplugin_news.cms_app.NewsAppHook',
-  'cmsplugin_search.cms_app.HaystackSearchApphook',
+  'inkscape.search.cms_app.SearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
         ('cmsplugin_news.navigation.get_nodes','News navigation'),

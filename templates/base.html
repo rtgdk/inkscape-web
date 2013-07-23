@@ -67,7 +67,7 @@
 		</div>
 		{% block supercontent %}
 		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
-            {% show_breadcrumb %}
+            {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
 			{% block content %}{% endblock %}
 		</div></div>
 		{% endblock %}

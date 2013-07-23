@@ -1,0 +1,260 @@
+#: inkscape/search/cms_app.py:10
+msgid "search apphook"
+msgstr ""
+
+#: libs/cmsplugin_news/admin.py:37
+#, python-format
+msgid "%(count)d newsitem was published"
+msgid_plural "%(count)d newsitems were published"
+msgstr[0] ""
+msgstr[1] ""
+
+#: libs/cmsplugin_news/admin.py:40
+msgid "Publish selected news"
+msgstr ""
+
+#: libs/cmsplugin_news/admin.py:47
+#, python-format
+msgid "%(count)d newsitem was unpublished"
+msgid_plural "%(count)d newsitems were unpublished"
+msgstr[0] ""
+msgstr[1] ""
+
+#: libs/cmsplugin_news/admin.py:50
+msgid "Unpublish selected news"
+msgstr ""
+
+#: libs/cmsplugin_news/cms_app.py:10
+msgid "News App"
+msgstr ""
+
+#: libs/cmsplugin_news/cms_plugins.py:18
+#: libs/cmsplugin_news/templates/news/latest_news.html:3
+msgid "Latest news"
+msgstr ""
+
+#: libs/cmsplugin_news/menu.py:14
+msgid "News menu"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:28
+msgid "Title"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:29
+msgid "Slug"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:30
+msgid ""
+"A slug is a short name which uniquely identifies the news item for this day"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:31
+msgid "Excerpt"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:32
+msgid "Content"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:34
+msgid "Published"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:35
+msgid "Publication date"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:43
+msgid "Language"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:43
+msgid "Optional: Show only for this language"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:44
+msgid "Link"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:44
+msgid ""
+"This link will be used a absolute url for this item and replaces the view "
+"logic. <br />Note that by default this only applies for items with an empty "
+"\"content\" field."
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
+msgid "News"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:71
+msgid "Number of news items to show"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:72
+msgid "Limits the number of items that will be displayed"
+msgstr ""
+
+#: libs/cmsplugin_news/settings.py:18
+msgid "News feed"
+msgstr ""
+
+#: libs/cmsplugin_news/settings.py:19
+msgid "A feed full of news"
+msgstr ""
+
+#: libs/cmsplugin_news/templates/news/latest_news.html:15
+#: templates/news/latest_news.html:14
+msgid "No news yet"
+msgstr ""
+
+#: libs/cmsplugin_news/templates/news/latest_news.html:17
+#: templates/news/latest_news.html:16
+msgid "Archive"
+msgstr ""
+
+#: templates/base.html:35
+msgid "Log in / Register"
+msgstr ""
+
+#: templates/base.html:38
+msgid "Already a member? Log in below."
+msgstr ""
+
+#: templates/base.html:39
+msgid "Username"
+msgstr ""
+
+#: templates/base.html:41
+msgid "Password"
+msgstr ""
+
+#: templates/base.html:44
+msgid "Not a member?"
+msgstr ""
+
+#: templates/base.html:44
+msgid "Register now."
+msgstr ""
+
+#: templates/base.html:45
+msgid "Or log in with"
+msgstr ""
+
+#: templates/base.html:56
+msgid "Logout"
+msgstr ""
+
+#: templates/base.html:89
+msgid "Inkscape is Free and Open Source Software licensed under the GPL."
+msgstr ""
+
+#: templates/base.html:92
+msgid ""
+"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgstr ""
+
+#: templates/paginator.html:5
+msgid "Previous"
+msgstr ""
+
+#: templates/paginator.html:23
+msgid "Next"
+msgstr ""
+
+#: templates/screenshots.html:4 templates/screenshots.html.py:5
+msgid "Inkscape screenshots"
+msgstr ""
+
+#: templates/screenshots.html:28
+#, python-format
+msgid "Screenshots of Inkscape %(version)s"
+msgstr ""
+
+#: templates/screenshots.html:45
+msgid "See screenshots of other versions:"
+msgstr ""
+
+#: templates/content/faq.html:40
+msgid "Expand all"
+msgstr ""
+
+#: templates/error/403.html:3
+msgid "Forbidden"
+msgstr ""
+
+#: templates/error/403.html:6
+msgid ""
+"\n"
+"<h1>Sorry, you're not allowed to see this.</h1>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything "
+"you like in the Inkscape website. You can't view the contents of this page, "
+"for example.</p>\n"
+msgstr ""
+
+#: templates/error/404.html:3
+msgid "Not found"
+msgstr ""
+
+#: templates/error/404.html:7
+msgid ""
+"\n"
+"<h1>Page not found</h1>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future "
+"we might have a funny image here for you to look at but at the moment it's "
+"just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to "
+"work before we made this shiny new website, please tell us and we'll fix it "
+"up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see "
+"what the 404 page looked like. I hope you're satisfied.</p>\n"
+msgstr ""
+
+#: templates/error/500.html:3
+msgid "You broke it!"
+msgstr ""
+
+#: templates/registration/activation_complete.html:10
+msgid ""
+"Your user account has been created. Please log in using your username and "
+"password."
+msgstr ""
+
+#: templates/registration/activation_complete.html:12
+msgid ""
+"If you have any problems, please <a href=\"/contact/?subject=Lost activation "
+"code\">contact us</a>."
+msgstr ""
+
+#: templates/registration/activation_email.txt:1
+msgid "Hi,"
+msgstr ""
+
+#: templates/registration/activation_email.txt:5
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+
+#: templates/registration/activation_email.txt:9
+msgid "If there is a problem with your registration, please contact us:"
+msgstr ""
+
+#: templates/registration/registration_complete.html:10
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+
+#: templates/registration/registration_complete.html:13
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
+msgstr ""

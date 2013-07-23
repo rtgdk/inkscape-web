@@ -285,7 +285,8 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 }
 .header #topdrops #languages .topdrop {
   width: 130px;
-  padding: 0;
+  padding: 0px;
+  margin: 0px;
   border-radius: 0 0 5px 5px;
   -moz-border-radius: 0 0 5px 5px;
 }

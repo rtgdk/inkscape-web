@@ -4,9 +4,6 @@
     <h2>Search</h2>
 
     <form method="get" action=".">
-        <!--{{ form.as_table }}-->
-        <input type="text" name="q" value="{{ query }}"/><input type="submit" value="Search">
-
         {% if query %}
         <h3>Results for '{{ query }}'</h3>
 

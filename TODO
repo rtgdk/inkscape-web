@@ -3,10 +3,3 @@ Please see the inkscape-web project's bug reports for general items todo.
 
 https://bugs.launchpad.com/inkscape-web
 
-Administration Items:
-
- * Dump data from cms modules to http media directory
- * Restore data from init json for dev sites when syncdb (just test that this works)
- * Have a method to pull data and insert it.
- * Allow data to be committed for other developers.
-

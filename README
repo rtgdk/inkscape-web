@@ -1,13 +1,20 @@
 Running the website locally:
 
- 1) cd inkscape/
- 2) ./manage.py syncdb
- 3) ./manage.py migrate
- 4) ./manage.py runserver
+ 1) ./utils/init
+ 2) ./utils/manage.py runserver
+
+Updating the Website:
+
+ 1) bzr pull
+ 2) ./utils/update
+
+Updating the CMS Content:
+
+ 1) ./utils/refresh-cms
 
 Deploying the website:
 
- Using apache and mysql or postgresql.
+ Using apache or httpd and mysql or postgresql.
 
  1) Deploy to /var/www/www.inkscape.org/
  2) cd /var/www/www.inkscape.org/inkscape

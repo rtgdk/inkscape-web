@@ -1,0 +1,10 @@
+#!/bin/bash
+set -e
+
+wget http://staging.inkscape.org/media/content.json.gz -O /tmp/contents.json.gz
+gunzip -c /tmp/contents.json.gz \
+ | ./utils/migrate-backup - > /tmp/content_reformed.json
+
+./utils/manage.py reset --noinput cms cmsplugin_news cmsplugin_pygments
+./utils/manage.py loaddata /tmp/content_reformed.json
+

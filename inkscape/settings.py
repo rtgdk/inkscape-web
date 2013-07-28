@@ -16,6 +16,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+USE_TZ = True
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
@@ -146,8 +147,9 @@ INSTALLED_APPS = (
     'cmsplugin_news',
     'cmsplugin_pygments',
     'cmsplugin_filery',
-    'inkscape.extra',
-    'inkscape.search',
+    'tracker',
+    'extra',
+    'search',
 )
 
 CMS_TEMPLATES = (

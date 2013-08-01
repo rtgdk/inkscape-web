@@ -3,3 +3,9 @@ Please see the inkscape-web project's bug reports for general items todo.
 
 https://bugs.launchpad.com/inkscape-web
 
+ * Make sure bug/blueprint data can be updated, expected solution:
+   - Read in html page request and scrape each of the IDs
+   - Update each of these in the database
+
+ * Find a graph system
+

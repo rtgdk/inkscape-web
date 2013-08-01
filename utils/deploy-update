@@ -15,6 +15,8 @@ if [ ! -d "$TARGET" ]; then
     echo "Target doesn't exist: $TARGET"
     exit 2
 fi
+
+EX="$TARGET/keep-local.conf"
 if [ ! -f "$EX" ]; then
     echo "!!!!!!!!!"
     echo "!"

@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-24 13:35+0000\n"
-"PO-Revision-Date: 2013-07-28 09:09+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-09-06 05:39+0000\n"
+"Last-Translator: Federico Ruggiero <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-07-29 05:40+0000\n"
-"X-Generator: Launchpad (build 16700)\n"
+"X-Launchpad-Export-Date: 2013-09-06 05:41+0000\n"
+"X-Generator: Launchpad (build 16760)\n"
 "Language: \n"
 
 #: inkscape/search/cms_app.py:10
@@ -52,7 +52,7 @@ msgstr ""
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr ""
+msgstr "Ultime news"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
@@ -60,7 +60,7 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr ""
+msgstr "Titolo"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"

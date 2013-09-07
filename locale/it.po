@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-07-24 13:35+0000\n"
-"PO-Revision-Date: 2013-09-06 05:39+0000\n"
+"PO-Revision-Date: 2013-09-06 06:07+0000\n"
 "Last-Translator: Federico Ruggiero <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-09-06 05:41+0000\n"
+"X-Launchpad-Export-Date: 2013-09-07 05:21+0000\n"
 "X-Generator: Launchpad (build 16760)\n"
 "Language: \n"
 
@@ -32,7 +32,7 @@ msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
-msgstr ""
+msgstr "Pubblica le news selezionate"
 
 #: libs/cmsplugin_news/admin.py:47
 #, python-format
@@ -43,11 +43,11 @@ msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
-msgstr ""
+msgstr "Sospendi le news selezionate"
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr ""
+msgstr "News App"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
@@ -56,7 +56,7 @@ msgstr "Ultime news"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr ""
+msgstr "News menu"
 
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
@@ -70,34 +70,36 @@ msgstr ""
 msgid ""
 "A slug is a short name which uniquely identifies the news item for this day"
 msgstr ""
+"Uno slug è un nome corto che identifica univocamente l'oggetto news per "
+"questo giorno"
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr ""
+msgstr "Estratto"
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr ""
+msgstr "Contenuto"
 
 #: libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr ""
+msgstr "Pubblicato"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr ""
+msgstr "Data di pubblicazione"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr ""
+msgstr "Lingua"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr ""
+msgstr "Opzionale: Mostrare solo per questa lingua"
 
 #: libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr ""
+msgstr "Collegamento"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -105,107 +107,112 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
+"Questo link verrà utilizzato come url assoluto per questo oggetto e "
+"rimpiazzerà la view logic. <br />Notare che di default questo si applica "
+"solo a oggetti con un campo \"contenuto\" vuoto."
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr ""
+msgstr "News"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr ""
+msgstr "Numero di oggetti news da mostrare"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
-msgstr ""
+msgstr "Limita il numero di oggetti che verranno mostrati"
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr ""
+msgstr "News feed"
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
-msgstr ""
+msgstr "Un feed pieno di news"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr ""
+msgstr "Ancora niente news"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr ""
+msgstr "Archivio"
 
 #: templates/base.html:35
 msgid "Log in / Register"
-msgstr ""
+msgstr "Effettua Log in / Iscriviti"
 
 #: templates/base.html:38
 msgid "Already a member? Log in below."
-msgstr ""
+msgstr "Sei già iscritto? Effettua il Log in sotto."
 
 #: templates/base.html:39
 msgid "Username"
-msgstr ""
+msgstr "Nome utente"
 
 #: templates/base.html:41
 msgid "Password"
-msgstr ""
+msgstr "Password"
 
 #: templates/base.html:44
 msgid "Not a member?"
-msgstr ""
+msgstr "Non iscritto?"
 
 #: templates/base.html:44
 msgid "Register now."
-msgstr ""
+msgstr "Iscriviti ora."
 
 #: templates/base.html:45
 msgid "Or log in with"
-msgstr ""
+msgstr "O effettua il log in con"
 
 #: templates/base.html:56
 msgid "Logout"
-msgstr ""
+msgstr "Disconnetti"
 
 #: templates/base.html:89
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr ""
+msgstr "Inkscape è software Libero e Open Source sotto licenza GPL."
 
 #: templates/base.html:92
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
+"Sito progettato da <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"in Inkscape e sviluppato da <a href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "Precedente"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr ""
+msgstr "Successivo"
 
 #: templates/screenshots.html:4 templates/screenshots.html.py:5
 msgid "Inkscape screenshots"
-msgstr ""
+msgstr "Screenshots su Inkscape"
 
 #: templates/screenshots.html:28
 #, python-format
 msgid "Screenshots of Inkscape %(version)s"
-msgstr ""
+msgstr "Screenshots di Inkscape %(version)s"
 
 #: templates/screenshots.html:45
 msgid "See screenshots of other versions:"
-msgstr ""
+msgstr "Visualizza screenshots di altre versioni:"
 
 #: templates/content/faq.html:40
 msgid "Expand all"
-msgstr ""
+msgstr "Espandi tutto"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr ""
+msgstr "Non consentito"
 
 #: templates/error/403.html:6
 msgid ""
@@ -215,10 +222,15 @@ msgid ""
 "you like in the Inkscape website. You can't view the contents of this page, "
 "for example.</p>\n"
 msgstr ""
+"\n"
+"<h1>Mi dispiace, non sei abilitato a vedere questo.</h1>\n"
+"<p>Nonostante puoi fare quello che vuoi in Inkscape, non puoi fare quello "
+"che vuoi nel sito web di Inkscape. Non puoi visualizzare il contenuto di "
+"questa pagina, ad esempio.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr ""
+msgstr "Non trovato"
 
 #: templates/error/404.html:7
 msgid ""
@@ -239,33 +251,39 @@ msgstr ""
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr ""
+msgstr "L'hai rovinato!"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
 msgstr ""
+"Il tuo account utente è stato creato. Per favore effettua il log in "
+"utilizzando il tuo nome utente e la password."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
+"Se hai qualunque problema, per favore <a href=\"/contact/?subject=Lost "
+"activation code\">contattaci</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "Ciao,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
+"Per favore apri il seguente link nel tuo browser web. Se il link è spezzato "
+"su più righe, dovrai copiarlo nella barra degli indirizzi."
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
+msgstr "Se c'è un problema con la tua registrazione, per favore contattaci:"
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -273,6 +291,9 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
+"Grazie per esserti registrato. Riceverai a breve un email con un link di "
+"conferma. Per favore segui questo link per poter completare la tua "
+"registrazione."
 
 #: templates/registration/registration_complete.html:13
 msgid ""
@@ -280,3 +301,6 @@ msgid ""
 "there, please <a href=\"/contact/?subject=Lost activation code\">contact "
 "us</a>."
 msgstr ""
+"Se non lo ricevi in breve tempo, per favore controlla la tua cartella spam. "
+"Se non è lì, per favore <a href=\"/contact/?subject=Lost activation "
+"code\">contattaci</a>."

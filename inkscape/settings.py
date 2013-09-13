@@ -147,9 +147,9 @@ INSTALLED_APPS = (
     'cmsplugin_news',
     'cmsplugin_pygments',
     'cmsplugin_filery',
-    'tracker',
-    'extra',
-    'search',
+    'inkscape.tracker',
+    'inkscape.extra',
+    'inkscape.search',
 )
 
 CMS_TEMPLATES = (

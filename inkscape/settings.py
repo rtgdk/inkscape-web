@@ -130,7 +130,6 @@ INSTALLED_APPS = (
     'registration',
     'social_auth',
     'easy_thumbnails',
-    'filer',   # Django filer
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -146,7 +145,6 @@ INSTALLED_APPS = (
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',
-    'cmsplugin_filery',
     'inkscape.tracker',
     'inkscape.extra',
     'inkscape.search',
@@ -156,6 +154,7 @@ CMS_TEMPLATES = (
     ('front.html', 'Front Page'),
     ('super.html', 'Full Screen'),
     ('normal.html', 'Normal Page'),
+    ('parsed.html', 'Parsed Page'),
 )
 CMS_APPLICATIONS_URLS = (
         ('cmsplugin_news.urls', 'News'),

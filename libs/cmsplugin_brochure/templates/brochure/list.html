@@ -1,0 +1,17 @@
+
+{% if source %}
+<h2>From {{ source.title }}</h2>
+{% endif %}
+
+<ul>
+	{% for item in items %}
+    <li>
+      <a href="{{ item.link }}"><img src="{{ object.thumb }}" title="{{ object.title }}" alt="{{ object.title }}"/></a>
+      <br/>
+      <p>{{ object.title }}</p>
+      <p>{{ object.desc }}</p>
+    </li>
+	{% empty %}
+		<li>No items yet.</li>
+	{% endfor %}
+</ul>

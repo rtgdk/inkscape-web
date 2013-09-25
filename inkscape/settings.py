@@ -144,6 +144,7 @@ INSTALLED_APPS = (
     'cms.plugins.twitter',
     'cmsplugin_search',
     'cmsplugin_news',
+    'cmsplugin_brochure',
     'cmsplugin_pygments',
     'inkscape.tracker',
     'inkscape.extra',
@@ -154,17 +155,16 @@ CMS_TEMPLATES = (
     ('front.html', 'Front Page'),
     ('super.html', 'Full Screen'),
     ('normal.html', 'Normal Page'),
-    ('parsed.html', 'Parsed Page'),
 )
 CMS_APPLICATIONS_URLS = (
-        ('cmsplugin_news.urls', 'News'),
+    ('cmsplugin_news.urls', 'News'),
 )
 CMS_APPHOOKS = (
-  'cmsplugin_news.cms_app.NewsAppHook',
-  'inkscape.search.cms_app.SearchApphook',
+   'cmsplugin_news.cms_app.NewsAppHook',
+   'inkscape.search.cms_app.SearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
-        ('cmsplugin_news.navigation.get_nodes','News navigation'),
+    ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
 
 CMS_LANGUAGES = {

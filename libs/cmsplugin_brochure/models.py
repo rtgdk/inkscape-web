@@ -26,17 +26,13 @@ class Brochure(models.Model):
 
     kind    = models.CharField(_('Source Type'), max_length=4,
         choices=B_TYPES, default='rss', help_text=_('Kind of parsing to do.'))
-    rss     = models.URLField(_('Data Link'), null=True, blank=True,
+    data    = models.URLField(_('Data Link'), null=True, blank=True,
         help_text=_('Link to RSS feed or other data for regular parsing.'))
     autoadd = models.BooleanField(_('Automatically Enable'), default=True,
         help_text=_('Makes all new entries visible to the user directly'))
     publish = models.DateTimeField(_('Last Updated'), null=True, blank=True)
 
     is_published = models.BooleanField(_('Published'), default=True)
-
-    @property # XXX REPLACE ME with real field
-    def data(self):
-        return self.rss
 
     def __unicode__(self):
         return self.name

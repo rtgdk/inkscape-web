@@ -8,10 +8,25 @@ import os
 import sys
 import urllib2
 
-from datetime import datetime
+from time import mktime
+from datetime import datetime, tzinfo, timedelta
 from feedparser import parse as rss_parse
 
 from django.core.files import File, temp
+
+class UTC(tzinfo):
+    """Fuck You pytz, horrible, broken python tzinfo can fuck off too"""
+    def utcoffset(self, dt):
+        return timedelta(0)
+    def tzname(self, dt):
+        return "UTC"
+    def dst(self, dt):
+        return timedelta(0)
+
+utc = UTC()
+
+def datetimetz(struct):
+    return datetime.fromtimestamp(mktime(struct)).replace(tzinfo=utc)
 
 def download_nail(url):
     img_temp = temp.NamedTemporaryFile(delete=True)
@@ -31,27 +46,28 @@ def rss_nails(media):
     for u in media:
         yield (u.get('url', None), u.get('width', 0), u.get('height',0))
 
+
 def rss(src):
     feed = rss_parse(src.data)
     if not feed:
         return "Can't find feed [ERROR]"
-    publish = datetime(*feed.feed.published_parsed[:-3]),
+    publish = datetimetz(feed.feed.published_parsed)
     if src.publish and src.publish >= publish:
         return "Already up to date [SKIP]"
 
     BrochureItem = src.brochureitem_set.model
 
     for entry in feed.entries:
-        entered = datetime(*entry.published_parsed[:-3])
+        entered = datetimetz(entry.published_parsed)
         if src.publish and entered < src.publish:
-            sys.stderr.write("Skipping old entry")
+            sys.stderr.write("Skipping old entry\n")
             continue
 
         (name, thumb) = (None, None)
         if entry.has_key('media_thumbnail'):
             (name, thumb) = get_thumbnail(rss_nails(entry.media_thumbnail))
         if not name or not thumb:
-            sys.stderr.write("Skipping, no thumbnail")
+            sys.stderr.write("Skipping, no thumbnail\n")
             continue
 
         item = BrochureItem(
@@ -66,4 +82,5 @@ def rss(src):
 
     src.publish = publish
     src.save()
+    return "Done"
 

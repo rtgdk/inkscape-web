@@ -56,7 +56,7 @@ class BrochureItem(models.Model):
     desc    = models.TextField(_('Description'), max_length=255)
     link    = models.URLField(_('Link'))
     publish = models.DateTimeField(_('Publication Date'), null=True)
-    thumb   = models.ImageField(_('Thumbnail'), upload_to=THUMBS)
+    thumb   = models.ImageField(_('Thumbnail'), max_length=255, upload_to=THUMBS)
 
     enabled = models.BooleanField(_('Enabled'), default=True)
     indexed = models.DateTimeField(_('Indexed Date'))

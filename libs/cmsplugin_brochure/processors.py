@@ -85,7 +85,7 @@ def rss(src):
             enabled = src.autoadd,
             indexed = indexed,
         )
-        item.thumb.save(name, thumb, save=True)
+        item.thumb.save(name[:255], thumb, save=True)
 
     src.publish = publish
     src.save()

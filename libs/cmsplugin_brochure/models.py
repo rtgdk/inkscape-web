@@ -28,25 +28,35 @@ class Brochure(models.Model):
         choices=B_TYPES, default='rss', help_text=_('Kind of parsing to do.'))
     rss     = models.URLField(_('Data Link'), null=True, blank=True,
         help_text=_('Link to RSS feed or other data for regular parsing.'))
-    publish = DateTimeField(_('Last Updated'), null=True, blank=True)
+    autoadd = models.BooleanField(_('Automatically Enable'), default=True,
+        help_text=_('Makes all new entries visible to the user directly'))
+    publish = models.DateTimeField(_('Last Updated'), null=True, blank=True)
 
     is_published = models.BooleanField(_('Published'), default=True)
 
+    @property # XXX REPLACE ME with real field
+    def data(self):
+        return self.rss
+
+    def __unicode__(self):
+        return self.name
+
     def refresh(self):
         """Fill the brochure will new information"""
-        if self.kind = 'rss':
+        if self.kind == 'rss':
             processors.rss(self)
 
 
+THUMBS = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
+THUURL = os.path.join(settings.MEDIA_URL, 'thumbnails')
 
 class BrochureItem(models.Model):
     group   = models.ForeignKey(Brochure)
     title   = models.CharField(_('Title'), max_length=82)
-    text    = models.CharField(_('Subtitle'), max_length=255)
+    desc    = models.TextField(_('Description'), max_length=255)
     link    = models.URLField(_('Link'))
     publish = models.DateTimeField(_('Publication Date'), null=True)
-    thumb   = models.ImageField(_('Thumbnail'),
-        upload_to=os.path.join(settings.MEDIA_ROOT, 'icons'))
+    thumb   = models.ImageField(_('Thumbnail'), upload_to=THUMBS)
 
     enabled = models.BooleanField(_('Enabled'), default=True)
     indexed = models.DateTimeField(_('Indexed Date'), default=datetime.datetime.now)
@@ -56,6 +66,9 @@ class BrochureItem(models.Model):
 
     def __unicode__(self):
         return self.title
+
+    def thumbnail(self):
+        return os.path.join(THUURL, self.thumb.url.split('/')[-1])
 
 
 class BrochurePlugin(CMSPlugin):

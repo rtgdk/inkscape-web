@@ -10,7 +10,6 @@ from cmsplugin_brochure import settings
 from cms.utils import get_language_from_request
 
 
-
 class CMSBrochurePlugin(CMSPluginBase):
     model = BrochurePlugin
     name = _('Gallery Brochure')
@@ -20,7 +19,6 @@ class CMSBrochurePlugin(CMSPluginBase):
         if(not instance.source):
             items = BrochureItem.objects.all()
         else:
-            help(instance.source)
             items = instance.source.brochureitem_set.all()
 
         context.update({

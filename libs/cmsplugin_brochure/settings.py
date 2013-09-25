@@ -10,4 +10,6 @@ def get_setting(name, default):
 FEED_SIZE = get_setting('FEED_SIZE', 50)
 MEDIA_ROOT = get_setting('MEIDA',
     os.path.join(django_settings.MEDIA_ROOT, 'brochure'))
+MEDIA_URL = get_setting('URL',
+    os.path.join(django_settings.MEDIA_URL, 'brochure'))
 

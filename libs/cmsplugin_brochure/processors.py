@@ -1,11 +1,17 @@
-
-from django.core.files import File, temp
+#
+# Copyright 2013(c) Martin Owens <mail@doctormo.org>
+#
+# Licensed: AGPLv3
+#
 
 import os
 import sys
 import urllib2
 
+from datetime import datetime
 from feedparser import parse as rss_parse
+
+from django.core.files import File, temp
 
 def download_nail(url):
     img_temp = temp.NamedTemporaryFile(delete=True)
@@ -16,12 +22,14 @@ def download_nail(url):
 def get_thumbnail(nails):
     """Return the best image that fits our settings"""
     for url, width, height in nails:
-        return download_nail(url)
-    return (None, None)
+        if url:
+            name = url.split('/')[-1]
+            return name, download_nail(url)
+    return None, None
 
 def rss_nails(media):
     for u in media:
-        yield (u['url'], u['width'], u['heigh'])
+        yield (u.get('url', None), u.get('width', 0), u.get('height',0))
 
 def rss(src):
     feed = rss_parse(src.data)
@@ -31,23 +39,30 @@ def rss(src):
     if src.publish and src.publish >= publish:
         return "Already up to date [SKIP]"
 
-    for item in feed.entries:
-        ipub = datetime(*item.published_parsed[:-3])
-        if ipub < src.publish:
+    BrochureItem = src.brochureitem_set.model
+
+    for entry in feed.entries:
+        entered = datetime(*entry.published_parsed[:-3])
+        if src.publish and entered < src.publish:
             sys.stderr.write("Skipping old entry")
             continue
 
-        (name, thumb) = get_thumbnail(rss_nails(item.media_thumbnail)),
+        (name, thumb) = (None, None)
+        if entry.has_key('media_thumbnail'):
+            (name, thumb) = get_thumbnail(rss_nails(entry.media_thumbnail))
         if not name or not thumb:
             sys.stderr.write("Skipping, no thumbnail")
             continue
 
-        src.brochureitem_set.create(
-            title   = item.title,
-            desc    = item.description,
-            publish = ipub,
-            thumb   = (name, thumb),
+        item = BrochureItem(
+            group  = src,
+            title   = entry.title,
+            desc    = entry.description,
+            link    = entry.link,
+            publish = entered,
+            enabled = src.autoadd,
         )
+        item.thumb.save(name, thumb, save=True)
 
     src.publish = publish
     src.save()

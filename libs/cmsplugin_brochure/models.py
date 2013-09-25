@@ -42,6 +42,10 @@ class Brochure(models.Model):
         if self.kind == 'rss':
             processors.rss(self)
 
+    def icon_url(self):
+        return os.path.join(settings.MEDIA_URL, 'icons',
+                   self.icon.url.split('/')[-1])
+
 
 THUMBS = os.path.join(settings.MEDIA_ROOT, 'thumbnails')
 THUURL = os.path.join(settings.MEDIA_URL, 'thumbnails')
@@ -55,7 +59,7 @@ class BrochureItem(models.Model):
     thumb   = models.ImageField(_('Thumbnail'), upload_to=THUMBS)
 
     enabled = models.BooleanField(_('Enabled'), default=True)
-    indexed = models.DateTimeField(_('Indexed Date'), default=datetime.datetime.now)
+    indexed = models.DateTimeField(_('Indexed Date'))
 
     class Meta:
         ordering = ('-indexed', )

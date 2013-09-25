@@ -1,0 +1,48 @@
+
+<style><!--
+  div.galleryitem {
+    display: inline-block;
+    border: solid #cce 2px;
+    margin: 5px;
+    padding: 6px;
+    min-width: 162px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  div.galleryitem:hover {
+    background-color: #eef;
+  }
+  div.galleryitem a.link img {
+    max-width: 150px;
+    max-height: 150px;
+  }
+  div.galleryitem a.feed {
+  }
+  div.galleryitem a.feed img {
+  }
+  div.galleryitem p {
+    max-width: 150px;
+  }
+  div.galleryitem p a {
+    background-color: #eef;
+    display: block;
+    margin: 2px;
+    padding: 3px;
+    color: #157;
+  }
+
+--></style>
+
+{% if source %}
+<h3>From {{ source }}</h3>
+<p><a class="feed" href="{{ source.link }}"><img src="{{ source.icon_url }}" title="{{ source }}"/></a> {{ source.desc }}</p>
+{% endif %}
+
+{% for item in items %}
+  <div class="galleryitem">
+    <a class="link" href="{{ item.link }}"><img src="{{ item.thumbnail }}" title="{{ item.title }}" alt="{{ item.title }}"/></a>
+    <p><a href="{{ item.link }}">{{ item.title }}</a></p>
+  </div>
+{% empty %}
+  <h2>No items yet.</h2>
+{% endfor %}

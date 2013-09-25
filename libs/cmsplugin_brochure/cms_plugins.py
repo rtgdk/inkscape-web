@@ -25,7 +25,7 @@ class CMSBrochurePlugin(CMSPluginBase):
             'instance'   : instance,
             'placeholder': placeholder,
             'source'     : instance.source,
-            'items'      : items.filter(enabled=True).order_by('-publish'),
+            'items'      : items.filter(enabled=True).order_by('-publish')[:instance.limit],
         })
         return context
 

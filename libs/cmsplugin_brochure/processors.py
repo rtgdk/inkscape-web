@@ -49,11 +49,15 @@ def rss_nails(media):
 
 def rss(src):
     feed = rss_parse(src.data)
+    indexed = datetime.now().replace(tzinfo=utc)
     if not feed:
         return "Can't find feed [ERROR]"
-    publish = datetimetz(feed.feed.published_parsed)
-    if src.publish and src.publish >= publish:
-        return "Already up to date [SKIP]"
+    if feed.feed.has_key('published_parsed'):
+        publish = datetimetz(feed.feed.published_parsed)
+        if src.publish and src.publish >= publish:
+            return "Already up to date [SKIP]"
+    else:
+        publish = indexed
 
     BrochureItem = src.brochureitem_set.model
 
@@ -66,6 +70,8 @@ def rss(src):
         (name, thumb) = (None, None)
         if entry.has_key('media_thumbnail'):
             (name, thumb) = get_thumbnail(rss_nails(entry.media_thumbnail))
+        elif entry.has_key('thumbnail'):
+            (name, thumb) = get_thumbnail(rss_nails([entry.thumbnail]))
         if not name or not thumb:
             sys.stderr.write("Skipping, no thumbnail\n")
             continue
@@ -77,6 +83,7 @@ def rss(src):
             link    = entry.link,
             publish = entered,
             enabled = src.autoadd,
+            indexed = indexed,
         )
         item.thumb.save(name, thumb, save=True)
 

@@ -5,12 +5,12 @@ PIP="./pythonenv/bin/pip"
 MANAGE="./utils/manage.py"
 REQUIRES="./utils/requirements.txt"
 
-if [ $REQUIRES -nt $PIP ]; then
+if [ \( ! -e $PIP \) -o \( $REQUIRES -nt $PIP \) ]; then
     $PIP install --upgrade distribute
     $PIP install -r $REQUIRES
 fi
 
-if [ $SETTINGS -nt "data/updated.last" ]; then
+if [ $REQUIRES -nt "data/updated.last" ]; then
     $MANAGE syncdb
     $MANAGE migrate
     touch "data/updated.last"

@@ -1,9 +1,9 @@
 
 # This updates from bzr every hour (for staging)
-11 * * * * /var/www/.../utils/update.sh
+11 * * * * /var/www/.../utils/update
 
 # This creates a database dump once per day (backups).
-40 0 * * * /var/www/.../utils/backup.sh
+40 0 * * * /var/www/.../utils/backup
 
 # This updates the search index each night
 45 0 * * * /var/www/.../utils/manage.py update_index

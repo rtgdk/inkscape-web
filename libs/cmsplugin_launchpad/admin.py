@@ -1,6 +1,7 @@
 
 from django.contrib import admin
-from cmsplugin_launchpad.models import BugList
+from cmsplugin_launchpad.models import Project, BugCount
 
-admin.site.register(BugList)
+admin.site.register(Project)
+admin.site.register(BugCount)
 

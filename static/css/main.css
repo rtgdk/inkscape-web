@@ -849,3 +849,75 @@ hr {
   background: left center url(../images/page.png) no-repeat;
 }
 
+/* Count blocks */
+
+div.countbox {
+  display: inline-block;
+  padding: 4px;
+  margin: 3px;
+  min-width: 75px;
+  min-height: 75px;
+  border: 1px solid #ddd;
+  background-color: #eee;
+}
+
+div.countbox div {
+  display: block;
+  font-size: 30px;
+  font-weight: bold;
+  text-align: center;
+  line-height: 50px;
+  margin: 0px;
+  padding: 0px;
+  vertical-align: middle;
+  border: 1px solid red;
+}
+
+div.countbox .name {
+  line-height: 15px;
+  font-size: 15px;
+  margin-bottom: 5px;
+  margin-top: 3px;
+  border: none;
+}
+
+div.countbox a {
+  color: white;
+}
+div.countbox a:hover {
+  text-decoration: none;
+}
+
+div.countbox .disabled {
+  background-color: #eee;
+  border-color: #fff;
+}
+div.countbox .disabled a {
+  color: #ddd;
+}
+
+div.countbox .none {
+  background-color: rgb(25, 182, 238);
+  border-color: rgb(20, 145, 208);
+}
+
+div.countbox .low {
+  background-color: rgb(64, 244, 46);
+  border-color: rgb(44, 204, 34);
+}
+
+div.countbox .medium {
+  background-color: rgb(244, 221, 64);
+  border-color: rgb(221, 204, 54);
+}
+
+div.countbox .high {
+  background-color: rgb(239, 183, 62);
+  border-color: rgb(223, 156, 44);
+}
+
+div.countbox .vhigh {
+  background-color: rgb(193, 46, 34);
+  border-color: rgb(173, 36, 24);
+}
+

@@ -13,20 +13,7 @@ from datetime import datetime, tzinfo, timedelta
 from feedparser import parse as rss_parse
 
 from django.core.files import File, temp
-
-class UTC(tzinfo):
-    """Fuck You pytz, horrible, broken python tzinfo can fuck off too"""
-    def utcoffset(self, dt):
-        return timedelta(0)
-    def tzname(self, dt):
-        return "UTC"
-    def dst(self, dt):
-        return timedelta(0)
-
-utc = UTC()
-
-def datetimetz(struct):
-    return datetime.fromtimestamp(mktime(struct)).replace(tzinfo=utc)
+from tzinfo import utc, datetimetz
 
 def download_nail(url):
     img_temp = temp.NamedTemporaryFile(delete=True)

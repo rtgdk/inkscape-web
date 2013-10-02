@@ -4,7 +4,6 @@
 # Licensed: AGPLv3
 #
 
-from launchpadlib.launchpad import Launchpad
 
 def match(p, ps):
     for (v, n) in ps:
@@ -13,6 +12,7 @@ def match(p, ps):
     return None
 
 def bug_count(project, **query):
+    from launchpadlib.launchpad import Launchpad
     lpi = Launchpad.login_anonymously('inkscape-website')
     project = lpi.projects[project]
     if query.has_key('milestone'):

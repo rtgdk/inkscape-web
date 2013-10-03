@@ -1,101 +1,102 @@
-# Japanese translation of Inkscape website
-# Copyright (C) 2013 Inkscae team
-# This file is distributed under the same license as the Inkscape package.
-# Masato Hashimoto <cabezon.hashimoto@gmail.com>, 2013.
+# English (United Kingdom) translation for inkscape-web
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Inkscape-web\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-07-24 13:35+0000\n"
-"PO-Revision-Date: 2013-10-02 11:16+0000\n"
-"Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
-"Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2013-07-24 10:19+0000\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: English (United Kingdom) <en_GB@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-10-03 05:43+0000\n"
-"X-Generator: Launchpad (build 16791)\n"
-"Language: ja\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2013-07-29 05:40+0000\n"
+"X-Generator: Launchpad (build 16700)\n"
 
 #: inkscape/search/cms_app.py:10
 msgid "search apphook"
-msgstr "apphook の検索"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] "%(count)d 個のニュースアイテムが公開されました"
+msgstr[0] ""
+msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
-msgstr "選択された News の公開"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:47
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] "%(count)d 個のニュースアイテムを非公開にしました"
+msgstr[0] ""
+msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
-msgstr "選択されたニュースの公開中止"
+msgstr ""
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr "News アプリ"
+msgstr ""
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr "最新のニュース"
+msgstr ""
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr "News メニュー"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr "タイトル"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
-msgstr "スラグ"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:30
 msgid ""
 "A slug is a short name which uniquely identifies the news item for this day"
-msgstr "スラグはこの日のニュースアイテムを一意に識別する省略名です"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr "抜粋"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr "内容"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr "公開"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr "公開日"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr "言語"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr "オプション: この言語でのみ表示"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr "リンク"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -106,11 +107,11 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr "ニュース"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr "表示するニュースアイテムの数"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
@@ -118,7 +119,7 @@ msgstr ""
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr "News フィード"
+msgstr ""
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
@@ -127,86 +128,83 @@ msgstr ""
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr "ニュースはありません"
+msgstr ""
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr "アーカイブ"
+msgstr ""
 
 #: templates/base.html:35
 msgid "Log in / Register"
-msgstr "ログイン / 登録"
+msgstr ""
 
 #: templates/base.html:38
 msgid "Already a member? Log in below."
-msgstr "メンバーであれば以下からログインしてください。"
+msgstr ""
 
 #: templates/base.html:39
 msgid "Username"
-msgstr "ユーザー名"
+msgstr ""
 
 #: templates/base.html:41
 msgid "Password"
-msgstr "パスワード"
+msgstr ""
 
 #: templates/base.html:44
 msgid "Not a member?"
-msgstr "メンバーではありませんか?"
+msgstr ""
 
 #: templates/base.html:44
 msgid "Register now."
-msgstr "今すぐ登録する"
+msgstr ""
 
 #: templates/base.html:45
 msgid "Or log in with"
-msgstr "または以下のアカウントでログイン"
+msgstr ""
 
 #: templates/base.html:56
 msgid "Logout"
-msgstr "ログアウト"
+msgstr ""
 
 #: templates/base.html:89
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフトウェアです。"
+msgstr ""
 
 #: templates/base.html:92
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
-"このウェブサイトは <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> が "
-"Inkscape を使ってデザインし、<a href=\"http://doctormo.org\">Martin Owens</a> "
-"によって開発されています。"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr "前へ"
+msgstr ""
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr "次へ"
+msgstr ""
 
 #: templates/screenshots.html:4 templates/screenshots.html.py:5
 msgid "Inkscape screenshots"
-msgstr "Inkscape スクリーンショット"
+msgstr ""
 
 #: templates/screenshots.html:28
 #, python-format
 msgid "Screenshots of Inkscape %(version)s"
-msgstr "Inkscape %(version)s のスクリーンショット"
+msgstr ""
 
 #: templates/screenshots.html:45
 msgid "See screenshots of other versions:"
-msgstr "他のバージョンのスクリーンショットを見る:"
+msgstr ""
 
 #: templates/content/faq.html:40
 msgid "Expand all"
-msgstr "すべて展開"
+msgstr ""
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr "立ち入り禁止"
+msgstr ""
 
 #: templates/error/403.html:6
 msgid ""
@@ -216,14 +214,10 @@ msgid ""
 "you like in the Inkscape website. You can't view the contents of this page, "
 "for example.</p>\n"
 msgstr ""
-"\n"
-"<h1>申し訳ありません、あなたはここに立ち入ることを許されていません。</h1>\n"
-"<p>あなたが Inkscape でなにがしかを行えるとしても、Inkscape "
-"ウェブサイトで行うことはできません。例えば、あなたはこのページの内容を閲覧することはできません。</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr "ページが見つかりません"
+msgstr ""
 
 #: templates/error/404.html:7
 msgid ""
@@ -241,49 +235,36 @@ msgid ""
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
-"\n"
-"<h1>ページが見つかりません</h1>\n"
-"<p>申し訳ありません、あなたがお探しのページは見つかりませんでした。将来的に私たちはここに楽しい画像を表示させるかもしれませんが、今のところこのようにつ"
-"まらないかんじになっています。</p>\n"
-"<p>もしあなたが私たちのサイトからのリンクをたどっていらしたか、あるいは私たちのこの出来たてほやほやの新ウェブサイトに変わる前は有効だったリンクであった"
-"場合は、修正いたしますのでお手数ですが私たちまでご連絡ください。</p>\n"
-"<p>あなたがなぜここに飛ばされたかわからない場合は、<a "
-"href=\"/search\">検索</a>していただくとお探しのものが見つかるかもしれません。</p>\n"
-"<p>ひょっとすると、あなたがただこのような 404 ページをご覧になるためにいらしのであれば、あなたにご満足いただけると良いのですが。</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr "あなたが壊したのだ!"
+msgstr ""
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
-msgstr "あなたのユーザーアカウントは作成されました。あなたのユーザー名とパスワードでログインしてください。"
+msgstr ""
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"なにか問題があった場合、<a href=\"/contact/?subject=Lost activation "
-"code\">私たちまでご連絡ください</a>。"
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr "ようこそ"
+msgstr ""
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバーに"
-"貼り付けてください。"
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr "ユーザー登録で問題が発生した場合は、私たちまでご連絡ください:"
+msgstr ""
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -291,8 +272,6 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"ご登録いただきありがとうございました。まもなく確認のためのリンクが書かれた E "
-"メールが送られてきます。そのリンク先を開いてユーザー登録を完了させてください。"
 
 #: templates/registration/registration_complete.html:13
 msgid ""
@@ -300,5 +279,3 @@ msgid ""
 "there, please <a href=\"/contact/?subject=Lost activation code\">contact "
 "us</a>."
 msgstr ""
-"もし確認メールが送られてこない場合は、スパムメールとしてフィルターされていないか確認してください。本当に送られてこない場合は<a "
-"href=\"/contact/?subject=Lost activation code\">私たちまでご連絡ください</a>。"

@@ -2,6 +2,7 @@
 
 from django.conf import global_settings
 from utils import *
+import sys
 import os
 
 gettext = lambda s: s
@@ -53,6 +54,7 @@ except ImportError:
   except ImportError:
       logging.error("No settings found and default template failed to load.")
 
+sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
 (VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
 

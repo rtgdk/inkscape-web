@@ -123,13 +123,13 @@ class BugCount(Model):
 
     def count(self):
         """Returns the count, may cause a blocking launchpad request"""
-        import sys
-        threshold = datetime.now().replace(tzinfo=utc) - timedelta(hours=2)
-        sys.stderr.write("Got %s for %s" % (self.name, threshold))
-        if self.bugs == -1 or not self.updated or self.updated < threshold:
-            sys.stderr.write("REFRESHING")
-            self.refresh()
-        sys.stderr.write("\n")
+        #import sys
+        #threshold = datetime.now().replace(tzinfo=utc) - timedelta(hours=2)
+        #sys.stderr.write("Got %s for %s" % (self.name, threshold))
+        #if self.bugs == -1 or not self.updated or self.updated < threshold:
+        #    sys.stderr.write("REFRESHING")
+        #    self.refresh()
+        #sys.stderr.write("\n")
         return self.bugs
 
     @property

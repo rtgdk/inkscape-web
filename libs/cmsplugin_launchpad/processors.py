@@ -11,10 +11,23 @@ def match(p, ps):
             return v
     return None
 
+_launchpad = None
+@property
+def launchpad():
+    if not _launchpad:
+        from launchpadlib.launchpad import Launchpad
+        _launchpad = Launchpad.login_anonymously('inkscape-website')
+    return _launchpad
+
+def get_project_series(project):
+    """Returns a list of series for a given project"""
+    project = launchpad.projects[project]
+    for series in project.series:
+        print "\nSERIES!! %s\n\n" % str(series)
+
+
 def bug_count(project, **query):
-    from launchpadlib.launchpad import Launchpad
-    lpi = Launchpad.login_anonymously('inkscape-website')
-    project = lpi.projects[project]
+    project = launchpad.projects[project]
     if query.has_key('milestone'):
         query['milestone'] = project.getMilestone(name=query['milestone'])
     bugs = project.searchTasks(**query)

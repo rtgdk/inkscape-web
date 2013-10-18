@@ -65,7 +65,7 @@ class Project(LpModel):
 class Series(LpModel):
     name    = CharField(_('Name'), max_length=32)
     lpid    = CharField(_('Launchpad ID'), max_length=16)
-    status  = CharField(_('Status'), max_length=3)
+    status  = CharField(_('Status'), max_length=32)
     project = ForeignKey(Project)
 
     def lp_object(self):

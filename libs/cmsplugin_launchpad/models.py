@@ -5,16 +5,28 @@ from datetime import datetime, timedelta
 from . import settings
 from . import processors
 
-from django.db.models import Model as _Model, BooleanField,\
-                             CharField, ForeignKey, ManyToManyField,\
-                             IntegerField, DateTimeField
+from django.db.models import Model, BooleanField, IntegerField,\
+      CharField, ForeignKey, ManyToManyField, DateTimeField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models import CMSPlugin
 from tzinfo import utc
 
-class Model(_Model):
+def clean(iterA):
+    """Return a list of cleaned items, removes None and '' blank items."""
+    for item in iterA:
+        if item:
+            if isinstance(item, tuple) and len(item) == 2:
+                if item[1]:
+                    yield item
+            elif item:
+                yield item
+
+
+class LpModel(Model):
+    updated = DateTimeField(auto_now=True)
+
     class Meta:
         abstract = True
 
@@ -32,12 +44,10 @@ class Model(_Model):
         return self.name
 
 
-
-class Project(Model):
+class Project(LpModel):
     name    = CharField(_('Project Name'), max_length=32)
     lpid    = CharField(_('Launchpad ID'), max_length=64)
     focus   = ForeignKey('Series', null=True, blank=True, related_name="focus")
-    updated = DateTimeField(null=True, blank=True)
 
     def lp_object(self):
         return processors.launchpad().projects[self.lpid]
@@ -52,7 +62,7 @@ class Project(Model):
         self.save()
 
 
-class Series(Model):
+class Series(LpModel):
     name    = CharField(_('Name'), max_length=32)
     lpid    = CharField(_('Launchpad ID'), max_length=16)
     status  = CharField(_('Status'), max_length=3)
@@ -73,7 +83,7 @@ class Series(Model):
             m.save()
 
 
-class Milestone(Model):
+class Milestone(LpModel):
     name   = CharField(_('Name'), max_length=32)
     lpid   = CharField(_('Launchpad ID'), max_length=16)
     active = BooleanField(default=True)
@@ -81,6 +91,22 @@ class Milestone(Model):
 
     def lp_object(self):
         return self.series.project.lp_object().getMilestone(name=self.lpid)
+
+
+class BugStatus(Model):
+    name    = CharField(max_length=32)
+    colour  = CharField(max_length=6, default="ffffff")
+    meaning = CharField("Meaning in Project", max_length=256, null=True, blank=True)
+    def __unicode__(self):
+        return self.name
+
+
+class BugImportance(Model):
+    name    = CharField(max_length=32)
+    colour  = CharField(max_length=6, default="ffffff")
+    meaning = CharField("Meaning in Project", max_length=256, null=True, blank=True)
+    def __unicode__(self):
+        return self.name
 
 
 class BugCount(Model):
@@ -97,14 +123,33 @@ class BugCount(Model):
         help_text=_("That have been created since the given date."))
     modified_since  = DateTimeField(blank=True, null=True,
         help_text=_("That have been modified since the given date."))
-
-    tags = CharField(max_length=255, null=True, blank=True,
+    search_text     = CharField(max_length=128, null=True, blank=True,
+        help_text=_("Bug ID or search text."))
+    linked_branches = CharField(max_length=64, default="Show all bugs",
+        choices=(( "Show all bugs", _("All Bugs")),
+           ("Show only Bugs with linked Branches", _("Linked Only")),
+           ("Show only Bugs without linked Branches", _("Not Linked Only"))
+        ), help_text=_("That are or are not linked to branches"))
+    omit_duplicates = BooleanField(default=True,
+        help_text=_("Omit bugs marked as duplicate."))
+    omit_targeted   = BooleanField(default=False,
+        help_text=_("Omit bugs targeted to a series."))
+    status          = ManyToManyField(BugStatus, null=True, blank=True,
+        help_text=_("Only with any of the given status values."))
+    importance      = ManyToManyField(BugImportance, null=True, blank=True,
+        help_text=_("Only with any of the given importances."))
+    tags            = CharField(max_length=255, null=True, blank=True,
         help_text=_("Tags to search. To exclude use '-tag' instead."))
-    milestone = ManyToManyField(Milestone, null=True, blank=True,
-        help_text=_("Show only bug tasks targeted to these milestone."))
+    tags_combinator = CharField(max_length=3, default='Any',
+        choices=(('Any',_('Any Selected Tag')),('All',_('All Selected Tags'))),
+        help_text=_("Search for any or all of the tags specified."))
+    milestone       = ForeignKey(Milestone, null=True, blank=True,
+        help_text=_("Only bugs targeted to this milestone."))
+    nominated_for   = ForeignKey(Series, null=True, blank=True,
+        help_text=_("Only bugs nominated for this series."))
 
     ignore = ['id', 'name', 'bugs', 'project', 'updated']
-    tr = { 'tags': 'tag' }
+    tr = { 'tags': 'tag', 'milestone': None, 'nominated_for': None }
 
     def __unicode__(self):
         return self.name
@@ -116,36 +161,52 @@ class BugCount(Model):
             self.refresh()
         return self.bugs
 
+    def query_item(self, field):
+        """Returns a single field item suitable for query"""
+        if hasattr(field, 'lp_object'):
+            return field.lp_object()
+        if 'Many' in str(type(field)):
+            return [ self.query_item(obj) for obj in field.all() ]
+        elif isinstance(field, ForeignKey):
+            return field.lp_object()
+        elif isinstance(field, bool):
+            return field
+        elif field and unicode(field):
+            return unicode(field)
+
     @property
     def query(self):
         """Returns a launchpad query based on available fields"""
         result = {}
         for name in self._meta.get_all_field_names():
             if name not in self.ignore and hasattr(self, name):
-                field = getattr(self, name)
-                if field and unicode(field):
-                 [name] = unicode(field)
-        return result
+                result[name] = self.query_item( getattr(self, name) )
+        return dict( clean( result.iteritems() ) )
 
     @property
     def field_query(self):
         for (name, value) in self.query.iteritems():
             name = self.tr.get(name, name)
-            if isinstance(value, list):
+            if isinstance(value, bool):
+                value = value and "on" or None
+            if isinstance(value, list) and name:
                 for v in value:
                     yield "field.%s%%3Alist=%s" % (name, v)
-            else:
+            elif value and name:
                 yield "field.%s=%s" % (name, value)
 
     def link(self):
         """Tries to return a generated link"""
+        if self.milestone or self.nominated_for:
+            return "https://bugs.launchpad.net/launchpad/+bug/1241875"
         return "https://bugs.launchpad.net/%s/+bugs?orderby=-importance&%s" % (
             self.project, "&".join(self.field_query))
 
     def refresh(self):
         """Fill the bug list with new information"""
-        self.bugs = processors.bug_count(self.project, **self.query)
+        self.bugs = len(self.project.lp_object().searchTasks(**self.query))
         self.save()
+
 
 
 class BugCountPlugin(CMSPlugin):

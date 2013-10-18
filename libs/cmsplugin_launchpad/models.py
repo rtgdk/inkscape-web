@@ -5,13 +5,32 @@ from datetime import datetime, timedelta
 from . import settings
 from . import processors
 
-from django.db.models import Model, CharField, ForeignKey, ManyToManyField,\
+from django.db.models import Model as _Model, BooleanField,\
+                             CharField, ForeignKey, ManyToManyField,\
                              IntegerField, DateTimeField
 from django.db import models
 from django.utils.translation import ugettext_lazy as _
 
 from cms.models import CMSPlugin
 from tzinfo import utc
+
+class Model(_Model):
+    class Meta:
+        abstract = True
+
+    @classmethod
+    def get(cls, uri, **kwargs):
+        """With return the item using the launchpad id, None if not existing OR
+           will create the item using the extra data provided in kwargs if added"""
+        lpid = str(uri).split('/')[-1]
+        result = cls.objects.filter(lpid=lpid)
+        if result or not kwargs:
+            return result[0] or None
+        return cls(lpid=lpid, **kwargs)
+
+    def __unicode__(self):
+        return self.name
+
 
 
 class Project(Model):
@@ -20,16 +39,18 @@ class Project(Model):
     focus   = ForeignKey('Series', null=True, blank=True, related_name="focus")
     updated = DateTimeField(null=True, blank=True)
 
-    def __unicode__(self):
-        return self.name
+    def lp_object(self):
+        return processors.launchpad().projects[self.lpid]
 
     def refresh(self):
-        for series in get_project_series(self.lpid):
-            s = Series.objects.get(lpip=series)
-            if not s:
-                s = Series(lpip=series, project=self, name="-", status="NON")
-                s.save()
+        for series in self.lp_object().series:
+            s = Series.get(series, project=self, name=series.name)
+            s.status = series.status
+            s.save()
             s.refresh()
+        self.focus = Series.get(self.lp_object().development_focus)
+        self.save()
+
 
 class Series(Model):
     name    = CharField(_('Name'), max_length=32)
@@ -37,24 +58,29 @@ class Series(Model):
     status  = CharField(_('Status'), max_length=3)
     project = ForeignKey(Project)
 
+    def lp_object(self):
+        return self.project.lp_object().getSeries(name=self.lpid)
+
     def __unicode__(self):
+        if self.status in ('Obsolete'):
+            return "%s (%s)" % (self.name, self.status)
         return self.name
 
     def refresh(self):
-        for ms in get_series_milestones(self.lpid):
-            m = Milestone.objects.get(lpid=ms)
-            if not m:
-                m = Milestone(lpip=ms, series=self, name=ms.title())
-                m.save()
-            pass
+        for ms in self.lp_object().all_milestones:
+            m = Milestone.get(ms, series=self, name=ms.title)
+            m.active = ms.is_active
+            m.save()
+
 
 class Milestone(Model):
     name   = CharField(_('Name'), max_length=32)
     lpid   = CharField(_('Launchpad ID'), max_length=16)
+    active = BooleanField(default=True)
     series = ForeignKey(Series)
 
-    def __unicode__(self):
-        return self.name
+    def lp_object(self):
+        return self.series.project.lp_object().getMilestone(name=self.lpid)
 
 
 class BugCount(Model):

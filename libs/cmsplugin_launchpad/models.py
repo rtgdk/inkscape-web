@@ -84,8 +84,9 @@ class Series(LpModel):
 
 
 class Milestone(LpModel):
-    name   = CharField(_('Name'), max_length=32)
-    lpid   = CharField(_('Launchpad ID'), max_length=16)
+    name   = CharField(_('Name'), max_length=256)
+    lpid   = CharField(_('Launchpad ID'), max_length=256)
+    intid  = IntegerField(_('Internal Launchpad ID'), null=True, blank=True)
     active = BooleanField(default=True)
     series = ForeignKey(Series)
 
@@ -161,32 +162,35 @@ class BugCount(Model):
             self.refresh()
         return self.bugs
 
-    def query_item(self, field):
+    def query_item(self, field, api=True):
         """Returns a single field item suitable for query"""
-        if hasattr(field, 'lp_object'):
+        if hasattr(field, 'lp_object') and api:
             return field.lp_object()
         if 'Many' in str(type(field)):
-            return [ self.query_item(obj) for obj in field.all() ]
-        elif isinstance(field, ForeignKey):
-            return field.lp_object()
+            return [ self.query_item(obj, api) for obj in field.all() ]
         elif isinstance(field, bool):
             return field
         elif field and unicode(field):
             return unicode(field)
 
-    @property
-    def query(self):
+    def query(self, api=True):
         """Returns a launchpad query based on available fields"""
         result = {}
         for name in self._meta.get_all_field_names():
             if name not in self.ignore and hasattr(self, name):
-                result[name] = self.query_item( getattr(self, name) )
+                result[name] = self.query_item( getattr(self, name), api )
         return dict( clean( result.iteritems() ) )
 
-    @property
     def field_query(self):
-        for (name, value) in self.query.iteritems():
+        for (name, value) in self.query(api=False).iteritems():
             name = self.tr.get(name, name)
+            if name == 'milestone' and value.intid:
+                # Milestone is both a list and a weird int id which we have to
+                # find manually. Otherwise we raise error and return a bug url.
+                value = [ value.intid ]
+            elif name == 'milestone':
+                raise LinkFailure("IntID for '%s' Unavailable" % str(value))
+
             if isinstance(value, bool):
                 value = value and "on" or None
             if isinstance(value, list) and name:
@@ -197,16 +201,20 @@ class BugCount(Model):
 
     def link(self):
         """Tries to return a generated link"""
-        if self.milestone or self.nominated_for:
+        try:
+            return "https://bugs.launchpad.net/%s/+bugs?orderby=-importance&%s" % (
+                self.project, "&".join(self.field_query()))
+        except LinkFailure:
             return "https://bugs.launchpad.net/launchpad/+bug/1241875"
-        return "https://bugs.launchpad.net/%s/+bugs?orderby=-importance&%s" % (
-            self.project, "&".join(self.field_query))
 
     def refresh(self):
         """Fill the bug list with new information"""
-        self.bugs = len(self.project.lp_object().searchTasks(**self.query))
+        self.bugs = len(self.project.lp_object().searchTasks(**self.query()))
         self.save()
 
+
+class LinkFailure(KeyError):
+    pass
 
 
 class BugCountPlugin(CMSPlugin):

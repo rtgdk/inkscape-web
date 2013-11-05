@@ -149,8 +149,8 @@ class BugCount(Model):
     nominated_for   = ForeignKey(Series, null=True, blank=True,
         help_text=_("Only bugs nominated for this series."))
 
-    ignore = ['id', 'name', 'bugs', 'project', 'updated']
-    tr = { 'tags': 'tag', 'milestone': None, 'nominated_for': None }
+    ignore = ['id', 'name', 'bugs', 'project', 'updated', 'milestone', 'nominated_for']
+    tr = { 'tags': 'tag' }
 
     def __unicode__(self):
         return self.name

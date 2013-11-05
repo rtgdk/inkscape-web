@@ -11,12 +11,12 @@ def match(p, ps):
             return v
     return None
 
-_launchpad = None
+_lp = None
 def launchpad():
-    global _launchpad
-    if not _launchpad:
+    global _lp
+    if not _lp:
         from launchpadlib.launchpad import Launchpad
-        _launchpad = Launchpad.login_anonymously('inkscape-website')
-    return _launchpad
+        _lp = Launchpad.login_anonymously('inkscape-website', 'production')
+    return _lp
 
 

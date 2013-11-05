@@ -3,6 +3,8 @@ set -e
 
 virtualenv pythonenv -p /usr/bin/python2.7
 
+touch ./utils/requirements.txt
+
 ./utils/update
 ./utils/refresh-cms
 

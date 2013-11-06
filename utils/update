@@ -1,18 +1,30 @@
 #!/bin/bash
-set -e
 
 PIP="./pythonenv/bin/pip"
 MANAGE="./utils/manage.py"
 REQUIRES="./utils/requirements.txt"
 
-if [ \( ! -e $PIP \) -o \( $REQUIRES -nt $PIP \) ]; then
+if [ ! -e $PIP ]; then
+    echo "Installing new PIP..."
+    virtualenv pythonenv -p /usr/bin/python2.7
+    touch -d '+1 hour' $REQUIRES
+fi
+
+if [ $REQUIRES -nt $PIP ]; then
     $PIP install --upgrade distribute
     $PIP install -r $REQUIRES
 fi
 
 if [ $REQUIRES -nt "data/updated.last" ]; then
-    $MANAGE syncdb
-    $MANAGE migrate
+    $MANAGE syncdb &> /tmp/.issues
+    $MANAGE migrate &>> /tmp/.issues
     touch "data/updated.last"
+fi
+
+if grep -q ImportError "/tmp/.issues"; then
+    echo "Something went wrong! Removing pythonenv: please try again"
+    rm -fr ./pythonenv
+else
+    echo "Complete!"
 fi
 

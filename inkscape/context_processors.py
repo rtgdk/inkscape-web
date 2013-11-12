@@ -8,4 +8,5 @@ def design(request):
     return {
         'DESIGN_URL': settings.DESIGN_URL,
         'MEDIA_URL': settings.MEDIA_URL,
+        'DEBUG': settings.DEBUG,
     }

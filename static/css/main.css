@@ -7,6 +7,20 @@
   font-style: normal;
 }
 
+#debugwarn {
+  border: 5px solid red;
+  padding: 4px;
+  font-size: 8pt;
+  color: #922;
+  background-color: white;
+  position: fixed;
+  top: 2px;
+  left: 2px;
+  max-width: 120px;
+  z-index: 10000;
+  border-radius: 15px;
+}
+
 /* generic content styles */
 
 body {

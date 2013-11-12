@@ -21,6 +21,10 @@
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
         {% cms_toolbar %}
+        {% if DEBUG %}
+        <div id="debugwarn"><strong>WARNING!</strong> This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live. Please visit <a href="http://inkscape.org">the live website</a> to make perminant changes to the website.
+        </div>
+        {% endif %}
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">

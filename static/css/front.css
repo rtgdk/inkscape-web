@@ -69,7 +69,7 @@
   background-image: url("../images/banners/car.png");
   background-color: #000000;
 }
-#front-banner-overview.companies {
+#front-banner-features.companies {
   background-image: url("../images/banners/companies.png");
   background-color: #000000;
 }
@@ -79,17 +79,17 @@
 }
 #front-banner-overview.grass {
   background-image: url("../images/banners/grass.png");
+  background-color: #000000;
 }
-}
-#front-banner-overview.greenguy {
+#front-banner-gallery.greenguy {
   background-image: url("../images/banners/greenguy.png");
   background-color: #000000;
 }
-#front-banner-overview.telescope {
+#front-banner-features.telescope {
   background-image: url("../images/banners/telescope.png");
   background-color: #000000;
 }
-#front-banner-overview.sunset {
+#front-banner-learning.sunset {
   background-image: url("../images/banners/sunset.png");
   background-color: #000000;
 }

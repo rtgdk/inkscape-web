@@ -159,6 +159,27 @@
 #front-banner-overview p#front-banner-author.black {
   background-color: rgba(0, 0, 0, 0.7);
 }
+#front-banner-features p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+#front-banner-gallery p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+#front-banner-learning p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+}
 #front-banner-tabs {
   font-size: 12px;
   list-style: none;

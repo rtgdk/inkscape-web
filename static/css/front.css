@@ -20,7 +20,7 @@
 /* rest of it */
 .front-banner {
   margin: 0;
-  height: 365px;
+  height: 360px;
   background-color: #808080;
   background-repeat: no-repeat;
   opacity: 0;
@@ -42,16 +42,22 @@
   line-height: 25px;
 }
 #front-banner-features {
-  margin-top: -365px;
+  margin-top: -360px;
 }
 #front-banner-features > div {
   padding: 20px 20px 20px 300px;
   position: absolute;
 }
+#front-banner-gallery {
+  margin-top: -360px;
+}
 #front-banner-gallery > div {
-  padding: 80px 360px;
+  padding: 50px 450px;
   position: absolute;
   text-align: center;
+}
+#front-banner-learning {
+  margin-top: -360px;
 }
 #front-banner-learning > div {
   padding: 80px 360px;
@@ -59,7 +65,7 @@
   text-align: center;
 }
 #front-banners {
-  height: 365px;
+  height: 360px;
   border-bottom: 1px solid #000000;
 }
 #front-banner-overview {
@@ -157,6 +163,63 @@
   background-color: rgba(255, 255, 255, 0.7);
 }
 #front-banner-overview p#front-banner-author.black {
+  background-color: rgba(0, 0, 0, 0.7);
+}
+#front-banner-features div p {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  font-size: 18px;
+  line-height: 26px;
+  padding: 10px;
+  margin: 0 0 25px 0;
+  width:550px;
+}
+#front-banner-features p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+#front-banner-gallery div p {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  font-size: 18px;
+  line-height: 26px;
+  padding: 10px;
+  margin: 0 0 25px 0;
+  width:450px;
+}
+#front-banner-gallery p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+}
+#front-banner-learning div p {
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  -moz-border-radius: 6px;
+  font-size: 18px;
+  line-height: 26px;
+  padding: 10px;
+  margin: 0 0 25px 0;
+}
+#front-banner-learning p#front-banner-author {
+  clear: both;
+  display: block;
+  padding: 3px 25px 2px;
+  font-size: 12px;
+  line-height: 0;
+  color: rgba(255, 255, 255, 0.7);
+}
+#front-banner-learning p#front-banner-author.white {
+  background-color: rgba(255, 255, 255, 0.7);
+}
+#front-banner-learning p#front-banner-author.black {
   background-color: rgba(0, 0, 0, 0.7);
 }
 #front-banner-tabs {

@@ -1,13 +1,11 @@
-/* cms intergration for front pannels */
+/* cms integration for front panels */
 .front-banner .cms_placeholder-bar {
   background: none !important;
   border: none !important;
 }
-
 .front-banner .cms_placeholder-title {
   display: none !important;
 }
-
 .front-banner .cms_placeholder-btn {
   position: absolute !important;
   top: 0px !important;
@@ -16,7 +14,6 @@
   padding: 0px !important;
   margin: 0px !important;
 }
-
 /* rest of it */
 .front-banner {
   margin: 0;
@@ -25,17 +22,17 @@
   background-repeat: no-repeat;
   opacity: 0;
   position: relative;
-  transition: opacity 0s ease 0.4s;
   -moz-transition: opacity 0s ease 0.4s;
   -webkit-transition: opacity 0s ease 0.4s;
+  transition: opacity 0s ease 0.4s;
   margin-top: -365px;
 }
 .front-banner.current {
   opacity: 1;
   z-index: 1;
-  transition: opacity 0.4s ease 0s;
   -moz-transition: opacity 0.4s ease 0s;
   -webkit-transition: opacity 0.4s ease 0s;
+  transition: opacity 0.4s ease 0s;
 }
 .front-banner p {
   font-size: 18px;
@@ -133,11 +130,11 @@
 #front-banner-overview div p {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  -moz-border-radius: 6px;
   font-size: 18px;
   line-height: 26px;
   padding: 10px;
   margin: 0 0 25px 0;
+  width:350px;
 }
 #front-banner-overview #front-banner-download-box {
   text-align: center;
@@ -168,12 +165,11 @@
 #front-banner-features div p {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  -moz-border-radius: 6px;
   font-size: 18px;
   line-height: 26px;
   padding: 10px;
   margin: 0 0 25px 0;
-  width:550px;
+  width: 425px;
 }
 #front-banner-features p#front-banner-author {
   clear: both;
@@ -185,12 +181,11 @@
 #front-banner-gallery div p {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  -moz-border-radius: 6px;
   font-size: 18px;
   line-height: 26px;
   padding: 10px;
   margin: 0 0 25px 0;
-  width:450px;
+  width: 225px;
 }
 #front-banner-gallery p#front-banner-author {
   clear: both;
@@ -202,11 +197,11 @@
 #front-banner-learning div p {
   background-color: rgba(255, 255, 255, 0.7);
   border-radius: 6px;
-  -moz-border-radius: 6px;
   font-size: 18px;
   line-height: 26px;
   padding: 10px;
   margin: 0 0 25px 0;
+  width: 250px
 }
 #front-banner-learning p#front-banner-author {
   clear: both;
@@ -244,8 +239,7 @@
   height: 60px;
   padding: 19px 15px 20px 60px;
   background-color: #4d4d4d;
-  background-image: -moz-linear-gradient(top, #4d4d4d, #1a1a1a);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#4d4d4d), to(#1a1a1a));
+  background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
   border-width: 1px 1px 0 1px;
   border-style: solid;
   border-color: #5a5a5a #333333 #1a1a1a #5a5a5a;
@@ -255,8 +249,7 @@
 }
 #front-banner-tabs a:hover, #front-banner-tabs a:focus, #front-banner-tabs a.current {
   background-color: #333333;
-  background-image: -moz-linear-gradient(top, #333333, #4d4d4d);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#4d4d4d));
+  background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
 }
 #front-banner-tabs span {
   background-image: url("../images/front-icons.png");
@@ -276,17 +269,14 @@
   border-left-width: 1px;
   width: 229px;
   border-radius: 5px 0 0 5px;
-  -moz-border-radius: 5px 0 0 5px;
 }
 #front-banner-tabs #front-banner-tab-learning {
   border-right-width: 1px;
   width: 229px;
   border-radius: 0 5px 5px 0;
-  -moz-border-radius: 0 5px 5px 0;
 }
 #front-banner-tabs #front-banner-tab-overview a {
   border-radius: 4px 0 0 4px;
-  -moz-border-radius: 4px 0 0 4px;
 }
 #front-banner-tabs #front-banner-tab-features span {
   background-position: -32px;
@@ -299,11 +289,9 @@
 }
 #front-banner-tabs #front-banner-tab-learning a {
   border-radius: 0 4px 4px 0;
-  -moz-border-radius: 0 4px 4px 0;
 }
 #content {
-  background-image: -moz-linear-gradient(top, #eeeeee, white 132px);
-  background-image: -webkit-gradient(linear, left top, left 132, from(#eeeeee), to(white));
+  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 132px);
   padding-top: 60px;
   min-height: 0;
 }
@@ -334,7 +322,6 @@
   font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
   background-color: #e6e6e6;
   border-radius: 4px;
-  -moz-border-radius: 4px;
   font-size: 18px;
   line-height: 18px;
   padding: 11px 12px;
@@ -352,4 +339,5 @@
   font-size: 13px;
   font-weight: bold;
 }
+
 

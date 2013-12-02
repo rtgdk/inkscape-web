@@ -12,6 +12,7 @@ Whoosh==2.4
 launchpadlib
 lazr.restfulclient
 feedparser
+uwsgi
 
 # Web libraries
 python-openid==2.2.4

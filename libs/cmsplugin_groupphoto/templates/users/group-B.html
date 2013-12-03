@@ -1,0 +1,13 @@
+
+<h2>{{ instance.source }}</h2>
+
+<div class="photos"/>
+{% for user in users %}
+<div class="photo">
+    <img src="{{ user.photo }}" title="Photo of {{ user }}" alt="Photo of {{ user }}"/>
+    <h3>{{ user }}</h3>
+    <p>{{ user.bio }}</p>
+</div>
+{% endfor %}
+</div>
+

@@ -21,10 +21,10 @@ if [ $REQUIRES -nt "data/updated.last" ]; then
     touch "data/updated.last"
 fi
 
-if grep -q ImportError "/tmp/.issues"; then
-    echo "Something went wrong! Removing pythonenv: please try again"
-    rm -fr ./pythonenv
-else
-    echo "Complete!"
-fi
+#if grep -q ImportError "/tmp/.issues"; then
+#    echo "Something went wrong! Removing pythonenv: please try again"
+#    rm -fr ./pythonenv
+#else
+#    echo "Complete!"
+#fi
 

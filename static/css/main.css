@@ -190,7 +190,6 @@ div.toc ul {
 /* social styling */
 #social {
   clear: both;
-  margin-top: 6px;
   float: right;
 }
 
@@ -229,7 +228,7 @@ div.toc ul {
 }
 
 #topsearch {
-  margin-top: 6px;
+  margin: 2px 0px 5px 0px;
   clear: both;
   float: right;
 }
@@ -363,12 +362,14 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   margin: 0;
   width: 100px;
   padding: 5px 20px 7px 10px;
+  margin-bottom:7px;
 }
 .header #topdrops p {
   cursor: default;
 }
 .header #topdrops > li:hover > p {
-  padding-bottom: 20px;
+  padding-bottom: 14px;
+  margin-bottom: 0px;
   border-radius: 0;
 }
 .header #languages .topdrop {

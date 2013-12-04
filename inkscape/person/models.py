@@ -1,6 +1,6 @@
 
 import os
-import settings
+import inkscape.settings
 
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _

@@ -6,7 +6,6 @@
   font-weight: normal;
   font-style: normal;
 }
-
 #debugwarn {
   border: 5px solid red;
   padding: 4px;
@@ -20,21 +19,17 @@
   z-index: 10000;
   border-radius: 15px;
 }
-
 /* generic content styles */
-
 body {
   width: 960px;
   margin: 0 auto !important;
   background-color: white;
-  background-image: -moz-linear-gradient(top, #e6e6e6, #e6e6e6 10px, white 75px);
-  background-image: -webkit-gradient(linear, left top, left 75, from(#e6e6e6), color-stop(0.1, #e6e6e6), color-stop(0.75, white), to(white));
+  background-image: linear-gradient(to bottom, #e6e6e6 0%, #e6e6e6 10px, #ffffff 75px);
   background-repeat: no-repeat;
   font-size: 13px;
   font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
-
 :link, :visited {
   text-decoration: none;
   color: #d55500;
@@ -42,11 +37,9 @@ body {
 :link:hover, :link:active, :visited:hover, :visited:active {
   text-decoration: underline;
 }
-
 p {
   margin: 0.5ex 0;
 }
-
 ul, ol {
   padding: 0 0 0 30px;
   margin: 0.5ex 0;
@@ -58,7 +51,6 @@ ul.ticks li, ul li.tick {
   margin-left: -22px;
   padding: 2px 0 2px 22px;
 }
-
 pre {
   background-color: #f5f5f5;
   padding: 0.5ex 0.5em;
@@ -68,7 +60,6 @@ pre {
 h1, #google-groups-logo {
   font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
-
 h1 {
   font-size: 240%;
   line-height: 35px;
@@ -88,7 +79,6 @@ h3 {
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
 }
-
 span.align-right img {
   display: block;
   float: right;
@@ -103,11 +93,9 @@ span.align-center img {
   display: block;
   margin: 1ex auto;
 }
-
 video {
   margin-bottom: 30px;
 }
-
 /* for Tables of Contents on long pages */
 div.toc {
   float: right;
@@ -128,14 +116,11 @@ div.toc ul {
   margin: 0;
   padding: 0 0 0 2em;
 }
-
 /* specific styles for layout */
-
 #content {
   padding: 20px 20px 50px;
   background-color: white;
-  background-image: -moz-linear-gradient(top, #eeeeee, white 100px);
-  background-image: -webkit-gradient(linear, left top, left 100, from(#eeeeee), to(white));
+  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100px);
   line-height: 20px;
   min-height: 500px;
 }
@@ -149,14 +134,12 @@ div.toc ul {
   padding: 20px;
   min-height: 500px;
 }
-
 .readmore {
   margin-top: -10px;
   text-align: right;
   font-size: 11px;
   line-height: 11px;
 }
-
 #breadcrumb {
   font-size: 11px;
   margin: 0 -4px 10px -4px;
@@ -164,7 +147,6 @@ div.toc ul {
 #breadcrumb a {
   margin: 0 4px;
 }
-
 .messages {
   list-style-type: none;
   margin: 0;
@@ -172,28 +154,24 @@ div.toc ul {
 }
 .messages .success {
   border: 1px solid #77dd77;
-  -moz-box-shadow: 0 0 5px #77dd77;
   box-shadow: 0 0 5px #77dd77;
   background-color: #ccffcc;
   color: #002200;
 }
 .messages .info, .messages .debug {
   border: 1px solid #dddd77;
-  -moz-box-shadow: 0 0 5px #dddd77;
   box-shadow: 0 0 5px #dddd77;
   background-color: #ffffcc;
   color: #220000;
 }
 .messages .warning {
   border: 1px solid #ddaa77;
-  -moz-box-shadow: 0 0 5px #ddaa77;
   box-shadow: 0 0 5px #ddaa77;
   background-color: #ffe5cc;
   color: #221100;
 }
 .messages .error {
   border: 1px solid #dd7777;
-  -moz-box-shadow: 0 0 5px #dd7777;
   box-shadow: 0 0 5px #dd7777;
   background-color: #ffcccc;
   color: #220000;
@@ -201,10 +179,8 @@ div.toc ul {
 .messages li {
   padding: 6px;
   margin: 8px 0;
-  -moz-border-radius: 5px;
   border-radius: 5px;
 }
-
 .postdate {
   margin-top: 0;
   font-size: 80%;
@@ -262,7 +238,6 @@ div.toc ul {
   margin: 0;
   vertical-align: top;
 }
-
 #topsearch-q {
   width: 140px;
   height: 20px;
@@ -277,9 +252,7 @@ div.toc ul {
   background-image: none;
   box-shadow: inset 0 0 1px #999999;
 }
-
 /* logo styling */
-
 #logo {
   float: left;
   margin-top: 28px;
@@ -323,7 +296,6 @@ div.toc ul {
   display: block;
   text-align: center;
 }
-
 html[lang=fr] #topdrops #toplogin > p {
   width: 170px;
   background-position: 182px 10px;
@@ -331,7 +303,6 @@ html[lang=fr] #topdrops #toplogin > p {
 html[lang=fr] #topdrops #toplogin .topdrop {
   margin-left: -40px;
 }
-
 /* dropdowns on the right */
 .header #topdrops {
   float: right;
@@ -344,7 +315,6 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   background-color: #333333;
   padding: 10px;
   border-radius: 6px;
-  -moz-border-radius: 6px;
   display: none;
   position: absolute;
   z-index: 10;
@@ -355,7 +325,6 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 .header #topdrops > li:hover .topdrop {
   display: block;
 }
-
 .header #topdrops #languages {
   margin-right: 10px;
 }
@@ -364,9 +333,7 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   padding: 0px;
   margin: 0px;
   border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
 }
-
 #languages p img {
   padding-right: 4px;
 }
@@ -388,12 +355,10 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 }
 #languages li:last-child a:hover {
   border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
 }
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;
-  -moz-border-radius: 0 0 5px 5px;
   background: #333333 url("../images/down-arrow.png") 112px 10px no-repeat;
   margin: 0;
   width: 100px;
@@ -405,24 +370,19 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 .header #topdrops > li:hover > p {
   padding-bottom: 20px;
   border-radius: 0;
-  -moz-border-radius: 0;
 }
 .header #languages .topdrop {
   list-style-type: none;
 }
-
 #toplogin .topdrop {
   margin-left: -110px;
   width: 220px;
   border-radius: 5px 0 5px 5px;
-  -moz-border-radius: 5px 0 5px 5px;
 }
-
 #toplogin-head {
   margin-top: 0;
   font-size: 14px;
 }
-
 #toplogin label {
   margin-top: 12px;
   margin-bottom: 3px;
@@ -431,7 +391,6 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 #toplogin input {
   display: block;
 }
-
 #toplogin-submit {
   font-size: 14px;
   margin-top: 12px;
@@ -439,19 +398,16 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   padding: 3px;
   float: left;
 }
-
 #toplogin-username, #toplogin-password {
   width: 212px;
   font-size: 14px;
   padding: 3px;
 }
-
 #toplogin-register {
   float: right;
   font-size: 11px;
   margin-top: 12px;
 }
-
 #toplogin-alternate span {
   display: block;
   float: left;
@@ -485,22 +441,17 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 #toplogin-alternate #toplogin-wordpress {
   background-position: -120px;
 }
-
 #cleartop {
   height: 110px;
 }
-
 #header-right {
   float: right;
 }
-
 /* navigation */
 .header .nav {
   background-color: #4d4d4d;
-  background-image: -moz-linear-gradient(top, #4d4d4d, #1a1a1a);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#4d4d4d), to(#1a1a1a));
+  background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
   border-radius: 10px 10px 0 0;
-  -moz-border-radius: 10px 10px 0 0;
   border-bottom: 1px solid #262626;
   height: 52px;
   clear: both;
@@ -545,8 +496,7 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 .header .nav > ul > li:hover > a,
 .header .nav > ul > li > a:focus {
   background: #333333;
-  background-image: -moz-linear-gradient(top, #333333, #4d4d4d);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#333333), to(#4d4d4d));
+  background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
 }
 .header .nav > ul li.selected > a {
   background: #333333;
@@ -595,16 +545,12 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   color: #ff7e28;
   border-right: 0 none;
   border-radius: 0 10px 0 0;
-  -moz-border-radius: 0 10px 0 0;
 }
-
 .footer {
   border-top: 4px solid #0d0d0d;
   background-color: #333333;
-  background-image: -moz-radial-gradient(center 20px, circle, #4d4d4d 0, #333333 300px);
-  background-image: -webkit-gradient(radial, 50% 20, 0, 50% 20, 300, from(#4d4d4d), to(#333333));
+  background-image: radial-gradient(circle farthest-corner at center 20px, #4d4d4d 0%, #333333 300px);
   border-radius: 0 0 10px 10px;
-  -moz-border-radius: 0 0 10px 10px;
   padding: 20px;
   color: white;
   font-size: 12px;
@@ -646,7 +592,6 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   list-style-type: none;
   padding-left: 0;
 }
-
 #final-footer {
   text-align: center;
   color: #999999;
@@ -655,42 +600,34 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 #final-footer :link, #final-footer :link:hover, #final-footer :link:active, #final-footer :visited, #final-footer :visited:hover, #final-footer :visited:active {
   color: #ff7e28;
 }
-
 .float-right {
   float: right;
 }
-
 .small {
   font-size: 10px;
 }
-
 .clearer {
   clear: both;
 }
-
 br.clearer {
   font-size: 0;
 }
-
 a.button {
   padding: 12px;
   text-decoration: none;
   font-size: 14px;
   display: block;
   background: #eeeeee;
-  background-image: -moz-linear-gradient(top, white, #b4b4b4);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#b4b4b4));
+  background-image: linear-gradient(to bottom, #ffffff, #b4b4b4);
   border: 1px solid #999999;
   border-radius: 7px;
-  -moz-border-radius: 7px;
   color: #333333;
   outline: 0;
 }
 a.button:hover, a.button:focus, a.button:active {
   text-decoration: none;
   background: white;
-  background-image: -moz-linear-gradient(top, white, #c6c6c6);
-  background-image: -webkit-gradient(linear, left top, left bottom, from(white), to(#c6c6c6));
+  background-image: linear-gradient(to bottom, white, #c6c6c6);
 }
 a.button.download span {
   display: block;
@@ -732,7 +669,6 @@ a.button.glow {
 a.button.lighter {
   color: #666666;
 }
-
 .download-box {
   text-align: center;
 }
@@ -742,11 +678,9 @@ a.button.lighter {
 .download-box > span {
   font-size: 11px;
 }
-
 .with-short-right-sidebar > div.wrapper {
   background: url(../images/soft-sidebar-sep.png) transparent 714px 70px no-repeat;
 }
-
 #left-column {
   float: left;
   width: 680px;
@@ -755,7 +689,6 @@ a.button.lighter {
 #left-column > h2:first-child {
   margin-top: 18px;
 }
-
 hr {
   margin: 30px 0;
   color: #d2d2d2;
@@ -764,7 +697,6 @@ hr {
   height: 1px;
   width: 100%;
 }
-
 .pager {
   margin: 50px 0 0;
   padding: 0;
@@ -812,7 +744,6 @@ hr {
   padding: 6px 12px;
   color: #d55500;
 }
-
 #right-sidebar {
   float: right;
   width: 200px;
@@ -839,15 +770,12 @@ hr {
   height: 1px;
   width: 100%;
 }
-
 .box, .box-2, .box-3 {
   margin-bottom: 16px;
   border-radius: 7px;
-  -moz-border-radius: 7px;
   padding: 15px 15px 15px 25px;
   background-color: #e6e6e6;
 }
-
 .box, .box-2, .box-3 {
   float: left;
   margin: 0 16px 16px 0;
@@ -859,60 +787,45 @@ hr {
 .box > h2:first-child, .box-2 > h2:first-child, .box-3 > h2:first-child {
   margin-top: 0;
 }
-
 .box-fancy {
-  background: -moz-radial-gradient(80% 80%, white, #e6e6e6);
+  background: radial-gradient(80% 80%, #ffffff #e6e6e6);
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
   margin: 0 21px 21px 0;
 }
-
 .box-last {
   margin-right: 0;
 }
-
 .box-2 {
   width: 300px;
 }
-
 .box-3 {
   width: 187px;
 }
-
 #left-column h2.visual-block {
   background-color: #e6e6e6;
   border-radius: 6px;
-  -moz-border-radius: 6px;
   padding: 15px;
   line-height: 1;
 }
-
 .cms_placeholder {
   float: none !important;
 }
-
-
-
+ 
 
 /* News CSS Here */
-
 #results .result h3 {
   padding-left: 20px;
 }
-
 #results .result p {
   font-size: 12px;
 }
-
 #results .news h3 {
   background: left center url(../images/news.png) no-repeat;
 }
-
 #results .page h3 {
   background: left center url(../images/page.png) no-repeat;
 }
-
 /* Count blocks */
-
 div.countbox {
   display: inline-block;
   padding: 4px;
@@ -922,7 +835,6 @@ div.countbox {
   border: 1px solid #ddd;
   background-color: #eee;
 }
-
 div.countbox div {
   display: block;
   font-size: 30px;
@@ -934,7 +846,6 @@ div.countbox div {
   vertical-align: middle;
   border: 1px solid red;
 }
-
 div.countbox .name {
   line-height: 15px;
   font-size: 15px;
@@ -942,14 +853,12 @@ div.countbox .name {
   margin-top: 3px;
   border: none;
 }
-
 div.countbox a {
   color: white;
 }
 div.countbox a:hover {
   text-decoration: none;
 }
-
 div.countbox .disabled {
   background-color: #eee;
   border-color: #fff;
@@ -957,29 +866,23 @@ div.countbox .disabled {
 div.countbox .disabled a {
   color: #ddd;
 }
-
 div.countbox .none {
   background-color: rgb(25, 182, 238);
   border-color: rgb(20, 145, 208);
 }
-
 div.countbox .low {
   background-color: rgb(64, 244, 46);
   border-color: rgb(44, 204, 34);
 }
-
 div.countbox .medium {
   background-color: rgb(244, 221, 64);
   border-color: rgb(221, 204, 54);
 }
-
 div.countbox .high {
   background-color: rgb(239, 183, 62);
   border-color: rgb(223, 156, 44);
 }
-
 div.countbox .vhigh {
   background-color: rgb(193, 46, 34);
   border-color: rgb(173, 36, 24);
 }
-

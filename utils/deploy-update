@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR/../
+
 if [ ! -f "data/deployment" ]; then
     echo "Can not deploy a server instance."
     echo "the server information has not been set."

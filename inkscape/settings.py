@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'cmsplugin_groupphoto',
     'inkscape.extra',
     'inkscape.search',
+    'inkscape.person',
 )
 
 CMS_TEMPLATES = (

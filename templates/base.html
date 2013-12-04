@@ -50,16 +50,20 @@
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/auth/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
-								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
-								<a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>
+								<!--<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
+                                <a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>-->
 								<a href="{% url "socialauth_begin" 'yahoo' %}" id="toplogin-yahoo"></a>
 <!--								<a href="{% url "socialauth_begin" 'live' %}" id="toplogin-live"></a>
 								<a href="{% url "socialauth_begin" 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
 							</form>
                         {% else %}
-                        <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>
+                        <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
+                        {{ request.user.details }} 
                         <form  class="topdrop">
                         <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
+                        {% if request.user.is_staff %}
+                        <p id="toplogin-head"><a href="/admin/">{% trans "Website Administration" %}</a></p>
+                        {% endif %}
                         </form>
                         {% endif %}
 						</li>

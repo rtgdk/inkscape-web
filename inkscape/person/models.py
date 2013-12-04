@@ -15,9 +15,15 @@ class UserDetails(Model):
               upload_to=os.path.join(settings.MEDIA_ROOT, 'photos'))
 
     def roll(self):
+        if not self.user.is_active:
+            return None
         for group in self.user.groups.all():
-            if group.roll:
+            if group.roll.name == 'Super User':
+                if self.user.is_superuser:
+                    return group.roll
+            elif group.roll:
                 return group.roll
+        return UserRoll.objects.all()[0]
 
     def __unicode__(self):
         if self.user.first_name:

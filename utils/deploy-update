@@ -8,7 +8,7 @@ if [ ! -f "data/deployment" ]; then
 fi
 
 TEST=$@ #"--dry-run"
-SOURCE="/home/doctormo/bazaar/inkscape-web"
+SOURCE="/tmp/code"
 source "data/deployment"
 
 if [ ! -d "$TARGET" ]; then

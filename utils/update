@@ -16,8 +16,8 @@ if [ $REQUIRES -nt $PIP ]; then
 fi
 
 if [ $REQUIRES -nt "data/updated.last" ]; then
-    $MANAGE syncdb &> /tmp/.issues
-    $MANAGE migrate &>> /tmp/.issues
+    $MANAGE syncdb #&> /tmp/.issues
+    $MANAGE migrate #&>> /tmp/.issues
     touch "data/updated.last"
 fi
 

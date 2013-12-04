@@ -47,6 +47,7 @@ ul, ol {
 ul.ticks li, ul li.tick {
   list-style: none;
   background: left center url(../images/bullet-tick.png) no-repeat;
+  background-image: url(../images/bullet-tick.svg);
   margin-left: -22px;
   padding: 2px 0 2px 22px;
 }
@@ -55,8 +56,11 @@ pre {
   padding: 0.5ex 0.5em;
   margin: 0.5ex 0;
 }
-h1 {
+
+h1, #google-groups-logo {
   font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+}
+h1 {
   font-size: 240%;
   line-height: 35px;
   font-weight: normal;
@@ -182,10 +186,54 @@ div.toc ul {
   font-size: 80%;
   color: #666666;
 }
-#topsearch {
-  margin: 58px 0 0;
-  text-align: right;
+
+/* social styling */
+#social {
+  clear: both;
+  margin-top: 6px;
+  float: right;
 }
+
+#social p {
+  display: inline-block;
+  font-style: italic;
+  font-size: 16px;
+  vertical-align: middle;
+  padding-right: 0.5em;
+}
+
+#social nav {
+  display: inline-block;
+}
+
+#social nav a {
+  height: 30px;
+  width: 30px;
+  -moz-transition: background-color 0.3s linear;
+  display: inline-block;
+  vertical-align: middle;
+}
+
+#social nav a:hover {
+    background-color: #dddddd;
+}
+
+#twitter-logo {
+/*  background-image: url("../images/logo_twitter.svg"); */
+}
+
+#google-groups-logo {
+  /* Use simple G */
+  font-size: 30px;
+  text-align: center;
+}
+
+#topsearch {
+  margin-top: 6px;
+  clear: both;
+  float: right;
+}
+
 #topsearch * {
   margin: 0;
   vertical-align: top;
@@ -584,8 +632,9 @@ a.button:hover, a.button:focus, a.button:active {
 a.button.download span {
   display: block;
   background: url("../images/download-button-icon.png") 0 50% no-repeat;
+  background-image: url("../images/download-button-icon.svg");
   padding: 10px 40px 10px 10px;
-  margin: -10px -10px;
+  margin: -10px -15px;
 }
 a.button.download.w140 span {
   background-position: 104px 50%;

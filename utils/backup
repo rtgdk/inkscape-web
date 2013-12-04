@@ -18,6 +18,7 @@ cd $DEST/cms_db
 # Don't make a copy of any other databases or tables from django.
 $PYTHON $MANAGE dumpdata cms text menus mptt sekizai file picture \
                 snippet video twitter cmsplugin_news cmsplugin_pygments \
+                cmsplugin_launchpad cmsplugin_brochure \
     | gzip -9 > $DATE
 
 

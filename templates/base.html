@@ -28,7 +28,9 @@
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">
-					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
+					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
+							 width="64" height="64" alt="Inkscape Logo"
+							 onerror="this.src='{{DESIGN_URL}}images/inkscape-logo.png'"></a>
                     {% placeholder inkscape_title inherit %}
 				</div>
 				<div id="header-right">
@@ -62,9 +64,18 @@
                         {% endif %}
 						</li>
 					</ul>
-                    <form id="topsearch" method="submit" action="{% url "search" %}">
-						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.png" alt="Search">
-					</form>
+					<div id="social">
+					  <p>Follow us on: </p>
+					  <nav id="socialnav">
+					    <a id="twitter-logo"       href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
+														onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>
+					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
+					  </nav>
+					</div>
+					  <form id="topsearch" method="submit" action="{% url "search" %}">
+						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.svg"
+						       onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="Search">
+					  </form>
 				</div>
 			</div>
 			<div class="nav"><ul id="menu">{% show_menu 1 100 1 100 %}</ul></div>

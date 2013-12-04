@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+{% load cms_tags sekizai_tags %}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block body-pageid %}news-full{% endblock %}
+{% block css %}
+{% addtoblock 'css' %}
+<link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/news-full.css" media="all" />
+{% endaddtoblock %}
+{% endblock %}
+
+{% block content %}
+  <h1>{{ object.title }}</h1>
+  <p class="postdate">{{ object.pub_date }}</p>
+  {{ object.content|safe }}
+{% endblock %}
+

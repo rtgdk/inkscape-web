@@ -1,0 +1,11 @@
+#!/bin/bash
+set -e
+
+wget http://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz
+gunzip -c /tmp/contents.json.gz \
+ | ./utils/migrate-backup - > /tmp/content_reformed.json
+
+./utils/manage.py reset --noinput cms cmsplugin_news cmsplugin_pygments \
+    cmsplugin_launchpad cmsplugin_brochure
+./utils/manage.py loaddata /tmp/content_reformed.json
+

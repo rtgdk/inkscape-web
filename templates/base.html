@@ -7,9 +7,10 @@
 		<link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png">
         <link rel="alternate"     type="application/rss+xml" title="News Feed" href="/news/feed/" />
 
-        <link rel='stylesheet'    type='text/css' href='http://fonts.googleapis.com/css?family=Ubuntu' />
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css" rel="stylesheet">
+        <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu" />
+		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css" >
         {% render_block "css" %}
+        {% block css %}{% endblock %}
 
 		{% block extra-head %}{% endblock %}
 
@@ -20,10 +21,16 @@
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
         {% cms_toolbar %}
+        {% if DEBUG %}
+        <div id="debugwarn"><strong>WARNING!</strong> This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live. Please visit <a href="http://inkscape.org">the live website</a> to make perminant changes to the website.
+        </div>
+        {% endif %}
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">
-					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.png{% endblock %}" width="64" height="64" alt=""></a>
+					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
+							 width="64" height="64" alt="Inkscape Logo"
+							 onerror="this.src='{{DESIGN_URL}}images/inkscape-logo.png'"></a>
                     {% placeholder inkscape_title inherit %}
 				</div>
 				<div id="header-right">
@@ -57,16 +64,25 @@
                         {% endif %}
 						</li>
 					</ul>
-					<form id="topsearch">
-						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.png" alt="Search">
-					</form>
+					<div id="social">
+					  <p>Follow us on: </p>
+					  <nav id="socialnav">
+					    <a id="twitter-logo"       href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
+														onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>
+					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
+					  </nav>
+					</div>
+					  <form id="topsearch" method="submit" action="{% url "search" %}">
+						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.svg"
+						       onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="Search">
+					  </form>
 				</div>
 			</div>
 			<div class="nav"><ul id="menu">{% show_menu 1 100 1 100 %}</ul></div>
 		</div>
 		{% block supercontent %}
 		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
-            {% show_breadcrumb %}
+            {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
 			{% block content %}{% endblock %}
 		</div></div>
 		{% endblock %}

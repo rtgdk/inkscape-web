@@ -1,0 +1,4 @@
+#!/bin/bash
+
+exec ./pythonenv/bin/uwsgi --yaml ./data/wsgi.conf
+

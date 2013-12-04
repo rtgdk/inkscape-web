@@ -105,7 +105,7 @@ table thead th.descending a {
 }
 
 .change-list .filtered {
-    background: white url(../img/admin/changelist-bg_rtl.gif) top left repeat-y !important;
+    background: white url(../img/changelist-bg_rtl.gif) top left repeat-y !important;
 }
 
 .change-list .filtered table {
@@ -162,7 +162,7 @@ table thead th.descending a {
 }
 
 .submit-row .deletelink {
-    background: url(../img/admin/icon_deletelink.gif) 0 50% no-repeat;
+    background: url(../img/icon_deletelink.gif) 0 50% no-repeat;
     padding-right: 14px;
 }
 

@@ -1,0 +1,5 @@
+#!/bin/bash
+
+
+cat utils/lang/all | xargs -i1 mv locale/1/LC_MESSAGES/django.po locale/1.po
+

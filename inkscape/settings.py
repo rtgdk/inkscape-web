@@ -2,6 +2,7 @@
 
 from django.conf import global_settings
 from utils import *
+import sys
 import os
 
 gettext = lambda s: s
@@ -16,6 +17,7 @@ ADMINS = (
 
 MANAGERS = ADMINS
 
+USE_TZ = True
 TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
@@ -30,6 +32,7 @@ LANGUAGES = (
     ('ru', 'Russian'),
     ('ja', 'Japanese'),
     ('zh', 'Chinese'),
+    ('zh-tw', 'Simplified Chinese'),
 )
 
 SITE_ID = 1
@@ -51,6 +54,7 @@ except ImportError:
   except ImportError:
       logging.error("No settings found and default template failed to load.")
 
+sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
 (VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
 
@@ -127,6 +131,7 @@ INSTALLED_APPS = (
     'haystack',
     'registration',
     'social_auth',
+    'easy_thumbnails',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -141,8 +146,12 @@ INSTALLED_APPS = (
     'cms.plugins.twitter',
     'cmsplugin_search',
     'cmsplugin_news',
+    'cmsplugin_brochure',
     'cmsplugin_pygments',
-    #'cmsplugin_filery',
+    'cmsplugin_launchpad',
+    'cmsplugin_groupphoto',
+    'inkscape.extra',
+    'inkscape.search',
 )
 
 CMS_TEMPLATES = (
@@ -151,34 +160,29 @@ CMS_TEMPLATES = (
     ('normal.html', 'Normal Page'),
 )
 CMS_APPLICATIONS_URLS = (
-        ('cmsplugin_news.urls', 'News'),
+    ('cmsplugin_news.urls', 'News'),
 )
 CMS_APPHOOKS = (
-  'cmsplugin_news.cms_app.NewsAppHook',
-  'cmsplugin_search.cms_app.HaystackSearchApphook',
+   'cmsplugin_news.cms_app.NewsAppHook',
+   'inkscape.search.cms_app.SearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
-        ('cmsplugin_news.navigation.get_nodes','News navigation'),
+    ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
 
 CMS_LANGUAGES = {
     1: [
-      {
-        'code': 'en',
-        'name': gettext('English'),
-        'public': True,
-        'hide_untranslated': True,
-        'redirect_on_fallback':False,
-      },
-      { 'code': 'de', 'name': gettext('Deutsch'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'fr', 'name': gettext('Français'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'it', 'name': gettext('Italiano'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'es', 'name': gettext('Español'), 'fallbacks': ['fr','en'], 'public': True },
-      { 'code': 'pt', 'name': gettext('Português'), 'fallbacks': ['es','fr','en'], 'public': True },
-      { 'code': 'cs', 'name': gettext('Česky'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'ru', 'name': gettext('Русский'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'ja', 'name': gettext('日本語'), 'fallbacks': ['en'], 'public': True },
-      { 'code': 'zh', 'name': gettext('中国语文'), 'fallbacks': ['en'], 'public': True },
+      { 'code': 'en',    'name': 'English',                             'public': True },
+      { 'code': 'de',    'name': 'Deutsch',   'fallbacks': ['en'],      'public': True },
+      { 'code': 'fr',    'name': 'Français',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'it',    'name': 'Italiano',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'es',    'name': 'Español',   'fallbacks': ['fr','en'], 'public': True },
+      { 'code': 'pt',    'name': 'Português', 'fallbacks': ['es','en'], 'public': True },
+      { 'code': 'cs',    'name': 'Česky',     'fallbacks': ['en'],      'public': True },
+      { 'code': 'ru',    'name': 'Русский',   'fallbacks': ['en'],      'public': True },
+      { 'code': 'ja',    'name': '日本語',    'fallbacks': ['en'],      'public': True },
+      { 'code': 'zh',    'name': '中国语文',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'zh-tw', 'name': '正體中文',  'fallbacks': ['en'],      'public': True },
     ],
     'default': {
       'fallbacks': ['en', 'de', 'fr'],

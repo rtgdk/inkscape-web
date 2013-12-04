@@ -1,0 +1,6 @@
+#!/bin/bash
+
+source "data/deployment"
+
+wget $ADDR &> /tmp/$ADDR.request
+

@@ -1,0 +1,55 @@
+#!/bin/bash
+set -e
+
+if [ ! -f "data/deployment" ]; then
+    echo "Can not deploy a server instance."
+    echo "the server information has not been set."
+    exit 1
+fi
+
+TEST=$@ #"--dry-run"
+SOURCE="/tmp/code"
+source "data/deployment"
+
+if [ ! -d "$TARGET" ]; then
+    echo "Target doesn't exist: $TARGET"
+    exit 2
+fi
+
+EX="$TARGET/keep-local.conf"
+if [ ! -f "$EX" ]; then
+    echo "!!!!!!!!!"
+    echo "!"
+    echo "! Excludes file not set, deployment will delete all data every time!"
+    echo "!"
+    echo "!!!!!!!!!"
+fi
+
+if [ ! -d "$SOURCE" ]; then
+    SOURCE="./"
+    exit 1
+fi
+
+SETTINGS="inkscape/settings.py"
+REQUIRES="utils/requirements.txt"
+
+PYTHON="./pythonenv/bin/python"
+PIP="./pythonenv/bin/pip"
+
+cd $SOURCE
+
+bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
+if [ -d $TARGET ]; then
+  if [[ $? == 0 ]]; then
+    echo "New revisions found, updating!"
+
+    rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
+    cd $TARGET
+  fi
+fi
+
+./utils/update
+
+# Restart server like this:
+touch utils/wsgi_load.py
+

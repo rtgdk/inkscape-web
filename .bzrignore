@@ -5,3 +5,11 @@ local_settings.py
 *.mo
 pythonenv
 build
+django.po
+data/development.db
+data/langs
+data/updated.last
+data/woosh_search
+data/media/cms_page_media
+data/media/brochure
+sources

@@ -4,26 +4,26 @@
     <h2>Search</h2>
 
     <form method="get" action=".">
-        <table>
-            {{ form.as_table }}
-            <tr>
-                <td>&nbsp;</td>
-                <td>
-                    <input type="submit" value="Search">
-                </td>
-            </tr>
-        </table>
-
         {% if query %}
-            <h3>Results</h3>
+        <h3>Results for '{{ query }}'</h3>
 
+        <div id="results">
             {% for result in page.object_list %}
-                <p>
-                    <a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a>
-                </p>
+                {% ifequal result.model_name 'title' %}
+              <div class="result page">
+                <h3><a href="{{ result.object.page.get_absolute_url }}">{{ result.object.title }}</a></h3>
+                <p>{{ result.get_stored_fields.excerpt }}</p>
+              </div>
+                {% else %}
+              <div class="result news">
+                <h3><a href="{{ result.object.get_absolute_url }}">{{ result.object }}</a></h3>
+                <p>{{ result.object.excerpt }}</p>
+              </div>
+                {% endifequal %}
             {% empty %}
-                <p>No results found.</p>
+                <h3>No results found.</h3>
             {% endfor %}
+        </div>
 
             {% if page.has_previous or page.has_next %}
                 <div>

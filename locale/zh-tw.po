@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 13:35+0000\n"
+"POT-Creation-Date: 2013-12-05 22:49+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,6 +16,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
 
 #: inkscape/search/cms_app.py:10
 msgid "search apphook"
@@ -65,8 +66,7 @@ msgid "Slug"
 msgstr ""
 
 #: libs/cmsplugin_news/models.py:30
-msgid ""
-"A slug is a short name which uniquely identifies the news item for this day"
+msgid "A slug is a short name which uniquely identifies the news item for this day"
 msgstr ""
 
 #: libs/cmsplugin_news/models.py:31
@@ -98,10 +98,7 @@ msgid "Link"
 msgstr ""
 
 #: libs/cmsplugin_news/models.py:44
-msgid ""
-"This link will be used a absolute url for this item and replaces the view "
-"logic. <br />Note that by default this only applies for items with an empty "
-"\"content\" field."
+msgid "This link will be used a absolute url for this item and replaces the view logic. <br />Note that by default this only applies for items with an empty \"content\" field."
 msgstr ""
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
@@ -171,9 +168,7 @@ msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr ""
 
 #: templates/base.html:92
-msgid ""
-"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
-"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgid "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
 
 #: templates/paginator.html:5
@@ -209,9 +204,7 @@ msgstr ""
 msgid ""
 "\n"
 "<h1>Sorry, you're not allowed to see this.</h1>\n"
-"<p>Although you can do anything you like in Inkscape, you can't do anything "
-"you like in the Inkscape website. You can't view the contents of this page, "
-"for example.</p>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything you like in the Inkscape website. You can't view the contents of this page, for example.</p>\n"
 msgstr ""
 
 #: templates/error/404.html:3
@@ -222,16 +215,10 @@ msgstr ""
 msgid ""
 "\n"
 "<h1>Page not found</h1>\n"
-"<p>Couldn't find what you were looking for. Sorry about that. In the future "
-"we might have a funny image here for you to look at but at the moment it's "
-"just boring.</p>\n"
-"<p>If you've followed a link from our site, or are using a link that used to "
-"work before we made this shiny new website, please tell us and we'll fix it "
-"up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
-"<p>Then again, there's always the possibility that you came here just to see "
-"what the 404 page looked like. I hope you're satisfied.</p>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future we might have a funny image here for you to look at but at the moment it's just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to work before we made this shiny new website, please tell us and we'll fix it up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 
 #: templates/error/500.html:3
@@ -239,15 +226,11 @@ msgid "You broke it!"
 msgstr ""
 
 #: templates/registration/activation_complete.html:10
-msgid ""
-"Your user account has been created. Please log in using your username and "
-"password."
+msgid "Your user account has been created. Please log in using your username and password."
 msgstr ""
 
 #: templates/registration/activation_complete.html:12
-msgid ""
-"If you have any problems, please <a href=\"/contact/?subject=Lost activation "
-"code\">contact us</a>."
+msgid "If you have any problems, please <a href=\"/contact/?subject=Lost activation code\">contact us</a>."
 msgstr ""
 
 #: templates/registration/activation_email.txt:1
@@ -255,9 +238,7 @@ msgid "Hi,"
 msgstr ""
 
 #: templates/registration/activation_email.txt:5
-msgid ""
-"Please open the following link in your web browser. If the link is split "
-"over several lines, you may need to copy it in the address bar."
+msgid "Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar."
 msgstr ""
 
 #: templates/registration/activation_email.txt:9
@@ -265,15 +246,9 @@ msgid "If there is a problem with your registration, please contact us:"
 msgstr ""
 
 #: templates/registration/registration_complete.html:10
-msgid ""
-"Thank you for registering. You will very soon receive an email with a "
-"confirmation link. Please follow this link in order to complete your "
-"registration."
+msgid "Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration."
 msgstr ""
 
 #: templates/registration/registration_complete.html:13
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+msgid "If you don't receive it shortly, please check your spam folder. If it's not there, please <a href=\"/contact/?subject=Lost activation code\">contact us</a>."
 msgstr ""

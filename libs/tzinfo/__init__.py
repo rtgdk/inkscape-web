@@ -3,6 +3,7 @@
 #
 
 from datetime import datetime, tzinfo, timedelta
+from time import mktime
 
 class UTC(tzinfo):
     def utcoffset(self, dt):

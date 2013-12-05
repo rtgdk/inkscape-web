@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>User: {{ user.details }}</h1>
+
+<table class="block">
+    <tr>
+        <td rowspan="4" class="photo"><img src="{% if user.details.photo %}{{ user.details.photo_url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></td>
+        <th scope="row">Username:</th>
+        <td>{{ user.username }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Name:</th>
+        <td>{{ user.first_name }} {{ user.last_name }}</td>
+    </tr>
+    <tr>
+        <th scope="row">Bio:</th>
+        <td class="bio">&nbsp;{{ user.details.bio }}</td>
+    </tr>
+    <tr class="max">
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+</table>
+
+{% ifequal user request.user %}
+<p><a href="{% url "edit_profile" %}">Edit My Profile</a></p>
+{% endifequal %}
+
+{% endblock %}

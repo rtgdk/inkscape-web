@@ -1,5 +1,8 @@
 #!/bin/bash
-set -e
+#set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR/../
 
 if [ ! -f "data/deployment" ]; then
     echo "Can not deploy a server instance."
@@ -48,8 +51,9 @@ if [ -d $TARGET ]; then
   fi
 fi
 
+cd $TARGET
+
 ./utils/update
 
-# Restart server like this:
-touch utils/wsgi_load.py
+touch ./data/wsgi.conf
 

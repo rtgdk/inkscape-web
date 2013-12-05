@@ -190,7 +190,6 @@ div.toc ul {
 /* social styling */
 #social {
   clear: both;
-  margin-top: 6px;
   float: right;
 }
 
@@ -229,7 +228,7 @@ div.toc ul {
 }
 
 #topsearch {
-  margin-top: 6px;
+  margin: 2px 0px 5px 0px;
   clear: both;
   float: right;
 }
@@ -319,6 +318,15 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   position: absolute;
   z-index: 10;
 }
+.header .topdrop img.userphoto {
+  width: 64px;
+  height: 64px;
+  background-image: url(../images/photo.png);
+  display: inline-block;
+  float: left;
+  margin-right: 6px;
+  font-size: 0px;
+}
 .header #topdrops > li {
   float: left;
 }
@@ -356,6 +364,9 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 #languages li:last-child a:hover {
   border-radius: 0 0 5px 5px;
 }
+.header #languages .topdrop {
+  list-style-type: none;
+}
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;
@@ -363,16 +374,15 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   margin: 0;
   width: 100px;
   padding: 5px 20px 7px 10px;
+  margin-bottom:7px;
 }
 .header #topdrops p {
   cursor: default;
 }
 .header #topdrops > li:hover > p {
-  padding-bottom: 20px;
+  padding-bottom: 14px;
+  margin-bottom: 0px;
   border-radius: 0;
-}
-.header #languages .topdrop {
-  list-style-type: none;
 }
 #toplogin .topdrop {
   margin-left: -110px;
@@ -390,6 +400,10 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 }
 #toplogin input {
   display: block;
+}
+#topdrops p a {
+  color: white;
+  font-size: 90%;
 }
 #toplogin-submit {
   font-size: 14px;
@@ -885,4 +899,27 @@ div.countbox .high {
 div.countbox .vhigh {
   background-color: rgb(193, 46, 34);
   border-color: rgb(173, 36, 24);
+}
+th[scope="row"] {
+  text-align: right;
+}
+
+table.block {
+  min-width: 500px;
+  border: 2px solid #eee;
+  margin: 2px;
+  padding: 10px;
+}
+table.block .bio {
+  width: 100%;
+}
+table.block .photo {
+  vertical-align: top;
+  padding-right: 20px;
+}
+table.block .photo img {
+  width: 128px;
+  height: 128px;
+  padding: 3px;
+  border: 2px solid #eee;
 }

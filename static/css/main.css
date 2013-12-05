@@ -327,6 +327,9 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   margin-right: 6px;
   font-size: 0px;
 }
+.header #topdrops {
+  font-size: 10pt;
+}
 .header #topdrops > li {
   float: left;
 }

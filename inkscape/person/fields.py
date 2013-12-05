@@ -3,6 +3,16 @@
 from django.db import models
 from django.db.models import OneToOneField
 from django.db.models.fields.related import SingleRelatedObjectDescriptor
+from django.db.models.fields.files import ImageField, ImageFieldFile
+from django.core.files.base import ContentFile
+
+from PIL import Image
+
+try:
+    from cStringIO import StringIO
+except ImportError:
+    from StringIO import StringIO
+
 
 
 class AutoSingleRelatedObjectDescriptor(SingleRelatedObjectDescriptor):
@@ -33,4 +43,38 @@ class AutoOneToOneField(OneToOneField):
     def contribute_to_related_class(self, cls, related):
         setattr(cls, related.get_accessor_name(), AutoSingleRelatedObjectDescriptor(related))
 
+
+
+def _update_ext(filename, new_ext):
+    parts = filename.split('.')
+    parts[-1] = new_ext
+    return '.'.join(parts)
+
+
+class ResizedImageFieldFile(ImageFieldFile):
+    def save(self, name, content, save=True):
+        new_content = StringIO()
+        content.file.seek(0)
+
+        img = Image.open(content.file)
+        img.thumbnail((
+            self.field.max_width,
+            self.field.max_height
+            ), Image.ANTIALIAS)
+        img.save(new_content, format=self.field.format)
+
+        new_content = ContentFile(new_content.getvalue())
+        new_name = _update_ext(name, self.field.format.lower())
+
+        super(ResizedImageFieldFile, self).save(new_name, new_content, save)
+
+
+class ResizedImageField(ImageField):
+    attr_class = ResizedImageFieldFile
+
+    def __init__(self, name, max_width=100, max_height=100, format='PNG', *args, **kwargs):
+        self.max_width = max_width
+        self.max_height = max_height
+        self.format = format
+        super(ResizedImageField, self).__init__(name, *args, **kwargs)
 

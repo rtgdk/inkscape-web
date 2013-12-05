@@ -60,10 +60,12 @@
                         <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
                         {{ request.user.details }} 
                         <form  class="topdrop">
-                        <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
-                        {% if request.user.is_staff %}
-                        <p id="toplogin-head"><a href="/admin/">{% trans "Website Administration" %}</a></p>
-                        {% endif %}
+                            <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="Profile Photo"/></a>
+                          {% if request.user.is_staff %}
+                            <p id="toplogin-head"><a href="/admin/">{% trans "Admin" %}</a></p>
+                          {% endif %}
+                          <p id="toplogin-head"><a href="{% url "edit_profile" %}">{% trans "Edit Profile" %}</a></p>
+                          <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
 						</li>

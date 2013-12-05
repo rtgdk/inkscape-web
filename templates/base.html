@@ -22,7 +22,7 @@
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
         {% cms_toolbar %}
         {% if DEBUG %}
-        <div id="debugwarn"><strong>WARNING!</strong> This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live. Please visit <a href="http://inkscape.org">the live website</a> to make perminant changes to the website.
+        <div id="debugwarn"><strong>{% trans "WARNING!" %}</strong> {% trans "This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live." %} {% trans "Please visit" %} <a href="http://inkscape.org">{% trans "the live website" %}</a> {% trans "to make perminant changes to the website." %}
         </div>
         {% endif %}
 		<div class="header">
@@ -71,7 +71,7 @@
 						</li>
 					</ul>
 					<div id="social">
-					  <p>Follow us on: </p>
+                        <p>{% trans "Follow us on:" %} </p>
 					  <nav id="socialnav">
 					    <a id="twitter-logo"       href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
 														onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>

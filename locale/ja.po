@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:18+0000\n"
+"POT-Creation-Date: 2013-12-05 16:31+0000\n"
 "PO-Revision-Date: 2013-10-02 11:16+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
@@ -351,6 +351,28 @@ msgstr "ニュースはありません"
 msgid "Archive"
 msgstr "アーカイブ"
 
+#: templates/base.html:25
+msgid "WARNING!"
+msgstr ""
+
+#: templates/base.html:25
+msgid ""
+"This website is not the live website and should be used for testing. "
+"Anything you save will be replaced on the next sync from live."
+msgstr ""
+
+#: templates/base.html:25
+msgid "Please visit"
+msgstr ""
+
+#: templates/base.html:25
+msgid "the live website"
+msgstr ""
+
+#: templates/base.html:25
+msgid "to make perminant changes to the website."
+msgstr ""
+
 #: templates/base.html:41
 msgid "Log in / Register"
 msgstr "ログイン / 登録"
@@ -386,6 +408,10 @@ msgstr ""
 #: templates/base.html:68
 msgid "Logout"
 msgstr "ログアウト"
+
+#: templates/base.html:74
+msgid "Follow us on:"
+msgstr ""
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."

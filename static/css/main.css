@@ -121,12 +121,12 @@ div.toc ul {
   padding: 20px 20px 50px;
   background-color: white;
   background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100px);
-  line-height: 20px;
+  line-height: 150%;
   min-height: 500px;
 }
 #content .summary {
   font-size: 12pt;
-  line-height: 24px;
+  line-height: 160%;
   margin-bottom: 10px;
 }
 #content > div.wrapper {

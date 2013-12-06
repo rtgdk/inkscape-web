@@ -26,7 +26,7 @@ body {
   background-color: white;
   background-image: linear-gradient(to bottom, #e6e6e6 0%, #e6e6e6 10px, #ffffff 75px);
   background-repeat: no-repeat;
-  font-size: 13px;
+  font-size: 11pt;
   font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
@@ -125,9 +125,9 @@ div.toc ul {
   min-height: 500px;
 }
 #content .summary {
-  font-size: 14px;
+  font-size: 12pt;
   line-height: 24px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 #content > div.wrapper {
   margin: -20px;
@@ -326,6 +326,9 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   float: left;
   margin-right: 6px;
   font-size: 0px;
+}
+.header #topdrops {
+  font-size: 10pt;
 }
 .header #topdrops > li {
   float: left;

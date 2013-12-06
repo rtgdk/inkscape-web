@@ -7,27 +7,21 @@ REQUIRES="./utils/requirements.txt"
 if [ ! -e $PIP ]; then
     echo "Installing new PIP..."
     virtualenv pythonenv -p /usr/bin/python2.7
-    touch -d '+1 hour' $REQUIRES
+    touch -d '+1 minute' $PIP
+    touch -d '+2 minute' $REQUIRES
 fi
 
 if [ $REQUIRES -nt $PIP ]; then
     echo "Updating PythonEnv..."
-    $PIP install --upgrade distribute &> /dev/null
-    $PIP install -r $REQUIRES &> /dev/null
+    $PIP install --upgrade distribute >&1 | grep -v 'fooblah'
+    $PIP install -r $REQUIRES 2>&1 | grep -v 'horyhar'
     touch $PIP
 fi
 
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."
-    $MANAGE syncdb 2> /tmp/.issues
-    $MANAGE migrate 2>> /tmp/.issues
+    $MANAGE syncdb 
+    $MANAGE migrate 
     touch "data/updated.last"
 fi
-
-#if grep -q ImportError "/tmp/.issues"; then
-#    echo "Something went wrong! Removing pythonenv: please try again"
-#    rm -fr ./pythonenv
-#else
-#    echo "Complete!"
-#fi
 

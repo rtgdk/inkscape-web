@@ -1,0 +1,6 @@
+#
+# Only required for live
+#
+
+MySQL-python==1.2.4
+

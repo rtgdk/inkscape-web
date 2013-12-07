@@ -8,29 +8,29 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-05 16:31+0000\n"
-"PO-Revision-Date: 2013-07-28 09:09+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-12-05 20:42+0000\n"
+"Last-Translator: Alexandre Prokoudine <alexandre.prokoudine@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: ru\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-07-29 05:40+0000\n"
-"X-Generator: Launchpad (build 16700)\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2013-12-06 05:58+0000\n"
+"X-Generator: Launchpad (build 16863)\n"
+"Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
-msgstr ""
+msgstr "Пароль"
 
 #: inkscape/person/forms.py:8
 msgid "Confirm"
-msgstr ""
+msgstr "Подтвердить"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr ""
+msgstr "Фото"
 
 #: inkscape/person/models.py:49
 msgid "Display Icon"
@@ -47,11 +47,11 @@ msgstr ""
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr ""
+msgstr "Название"
 
 #: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr ""
+msgstr "Описание"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -91,23 +91,23 @@ msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr ""
+msgstr "Опубликовано"
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr ""
+msgstr "Ссылка"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr ""
+msgstr "Дата публикации"
 
 #: libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr ""
+msgstr "Миниатюра"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr ""
+msgstr "Включено"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
@@ -471,8 +471,9 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -517,6 +518,6 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
 msgstr ""

@@ -1,320 +1,321 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Slovak translation for inkscape-web
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-12-05 16:31+0000\n"
-"PO-Revision-Date: 2013-12-06 22:15+0000\n"
-"Last-Translator: Edouard <Unknown>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
+"PO-Revision-Date: 2013-12-06 10:21+0000\n"
+"Last-Translator: helix84 <Unknown>\n"
+"Language-Team: Slovak <sk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
 "X-Launchpad-Export-Date: 2013-12-07 06:20+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
-"Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
-msgstr "Mot de passe"
+msgstr "Heslo"
 
 #: inkscape/person/forms.py:8
 msgid "Confirm"
-msgstr "Confirmer"
+msgstr "Potvrdiť"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr "Photographie"
+msgstr "Fotografia"
 
 #: inkscape/person/models.py:49
 msgid "Display Icon"
-msgstr "Afficher l'icône"
+msgstr "Zobraziť ikonu"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr "Rechercher le lien applicatif"
+msgstr "hľadať apphook"
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr "Galerie"
+msgstr "Brožúra galérie"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr "Titre"
+msgstr "Názov"
 
 #: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr "Description"
+msgstr "Popis"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr "Lien vers la liste complète"
+msgstr "Odkaz na plný výpis"
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr "Icône cible"
+msgstr "Cieľová ikona"
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr "Type de Source"
+msgstr "Typ zdroja"
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr "Type d'analyse syntaxique à effectuer"
+msgstr "Typ spracovania."
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr "Lien de données"
+msgstr "Dátový odkaz"
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
-msgstr "Lien vers un flux RSS ou d'autres données pour analyse syntaxique"
+msgstr "Odkaz na kanál RSS alebo iné dáta na bežné spracovanie."
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr "Activer automatiquement"
+msgstr "Automaticky zapnúť"
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr ""
-"Rend toutes les nouvelles entrées directement visibles par l'utilisateur"
+msgstr "Automaticky zviditeľňuje nové položky priamo používateľovi"
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr "Dernière mise à jour"
+msgstr "Naposledy aktualizované"
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr "Publié"
+msgstr "Zverejnené"
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr "Lien"
+msgstr "Odkaz"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr "Date de publication"
+msgstr "Dátum zverejnenia"
 
 #: libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr "Miniature"
+msgstr "Náhľad"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr "Activé"
+msgstr "Zapnuté"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr "Date d'indexation"
+msgstr "Dátum indexácie"
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr "Nombre d'éléments"
+msgstr "Počet položiek"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr "Groupe de listes d'utilisateurs"
+msgstr "Zoznam skupiny používateľov"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr "Style d'affichage"
+msgstr "Štýl zobrazenia"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr "Liste simple"
+msgstr "Jednoduchý zoznam"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr "Photos portraits"
+msgstr "Fotohlavičky"
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
-msgstr "Photo Biographies"
+msgstr "Foto biografie"
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr "Décompte de bugs Launchpad"
+msgstr "Počet chýb v Launchpade"
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr "Nom du projet"
+msgstr "Názov projektu"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr "Identifiant Launchpad"
+msgstr "ID v Launchpade"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 msgid "Name"
-msgstr "Nom"
+msgstr "Názov"
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr "État"
+msgstr "Stav"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr "Identifiant interne Launchpad"
+msgstr "Interné ID v Launchpade"
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr "Nom de la liste"
+msgstr "Názov zoznamu"
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr "Créés avant la date donnée"
+msgstr "Ktoré boli vytvorené pred uvedeným dátumom."
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr "Créés depuis la date donnée"
+msgstr "Ktoré boli vytvorené od uvedeného dátumu."
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr "Modifiés depuis la date donnée"
+msgstr "Ktoré boli zmenené od uvedeného dátumu."
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr "Identifiant du bug ou texte de la recherche."
+msgstr "ID chyby alebo hľadaný text."
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr "Tous les bugs"
+msgstr "Všetky chyby"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr "Liés seulement"
+msgstr "Iba spojené"
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr "Non liés seulement"
+msgstr "Iba nespojené"
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr "Qui sont liés ou non à des branches"
+msgstr "Ktoré sú alebo nie sú spojené s vetvami."
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr "Omettre les bugs marqués comme dupliqués"
+msgstr "Vynechať chyby označené ako duplicity."
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr "Omettre les bugs marqués comme une série."
+msgstr "Vynechať chyby cielené na sériu."
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr "Seulement avec les valeurs d'état indiquées"
+msgstr "Iba s uvedenou hodnotou stavu."
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr "seulement avec les importances indiquées"
+msgstr "Iba s uvedenou dôležitosťou."
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
-msgstr "Etiquettes à rechercher. Pour exclure, utiliser '-tag'."
+msgstr ""
+"Ktoré štítky prehľadávať. Položky neobsahujúce štítok hľadajte pomocou „-"
+"štítok“."
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
-msgstr "N'importe quelle étiquette sélectionnée"
+msgstr "Ľubovoľný zvolený štítok"
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr "Toutes les étiquettes sélectionnées"
+msgstr "Všetky zvolené štítky"
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
-msgstr "Chercher une ou toutes les étiquettes précisées."
+msgstr "Hľadať ľubovoľný zvolený štítok alebo všetky zvolené štítky"
 
 #: libs/cmsplugin_launchpad/models.py:148
 msgid "Only bugs targeted to this milestone."
-msgstr "Seulement les bugs visés par cette étape."
+msgstr "Iba chyby cielené na tento míľnik."
 
 #: libs/cmsplugin_launchpad/models.py:150
 msgid "Only bugs nominated for this series."
-msgstr "seulement les bugs nominés pour cette série."
+msgstr "Iba chyby nominované do tejto série."
 
 #: libs/cmsplugin_launchpad/models.py:222
 msgid "Low Bug Threshold"
-msgstr "Seuil de bugs bas"
+msgstr "Nízky prah chýb"
 
 #: libs/cmsplugin_launchpad/models.py:223
 msgid "Medium Bug Threshold"
-msgstr "Seuil de bugs médian"
+msgstr "Stredný prah chýb"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "Height Bug Threshold"
-msgstr "Seuil de bugs élevé"
+msgstr "Vysoký prah chýb"
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] "%(count)d actualité publiée"
-msgstr[1] "%(count)d actualités publiées"
+msgstr[0] "%(count)d novinka bola zverejnená"
+msgstr[1] "%(count)d novinky boli zverejnené"
+msgstr[2] "%(count)d noviniek bolo zverejnených"
 
 #: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
-msgstr "Publier l'actualité sélectionnée"
+msgstr "Zverejniť vybrané novinky"
 
 #: libs/cmsplugin_news/admin.py:47
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] "%(count)d actualité dépubliée"
-msgstr[1] "%(count)d actualités dépubliées"
+msgstr[0] "%(count)d zverejnená novinka bola skrytá"
+msgstr[1] "%(count)d zverejnené novinky boli skryté"
+msgstr[2] "%(count)d zverejnených noviniek bolo skrytých"
 
 #: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
-msgstr "Dépublier les actualités sélectionnées"
+msgstr "Skryť vybrané zverejnené novinky"
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr "Application actualités"
+msgstr "Aplikácia noviniek"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr "Dernières actualités"
+msgstr "Posledné novinky"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr "Menu actualités"
+msgstr "Menu noviniek"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
-msgstr "Label"
+msgstr "SEO URL"
 
 #: libs/cmsplugin_news/models.py:30
 msgid ""
 "A slug is a short name which uniquely identifies the news item for this day"
 msgstr ""
-"Un label est un nom bref qui identifie de manière unique l'actualité pour un "
-"jour donné"
+"SEO URL je krátky názov, ktorý jedinečne identifikuje novinku pre tento deň."
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr "Extrait"
+msgstr "Výťah"
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr "Contenu"
+msgstr "Obsah"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr "Date de publication"
+msgstr "Dátum zverejnenia"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr "Langue"
+msgstr "Jazyk"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr "Optionnel : Ne montrer que pour cette langue"
+msgstr "Voliteľné: Zobrazovať iba pre tento jazyk"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -322,142 +323,138 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
-"Ce lien sera utilisé en tant qu'URL absolue pour cet élément. <br />Notez "
-"que ceci ne s'applique par défaut qu'aux éléments ayant un champ \"contenu\" "
-"vide."
+"Tento odkaz použije absolútny URL tejto položky a nahradí logiku zobrazenia. "
+"<br />Všimnite si, že štandardne sa toto týka iba položiek s prázdnym poľom "
+"„obsah“."
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr "Actualités"
+msgstr "Novinky"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr "Nombre d'actualités à afficher"
+msgstr "Koľko noviniek zobrazovať"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
-msgstr "Limite le nombre d'éléments affichés"
+msgstr "Obmedzuje počet zobrazených noviniek"
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr "Flux d'actualités"
+msgstr "Kanál noviniek"
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
-msgstr "Un flux contenant des actualités"
+msgstr "Kanál plný noviniek"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr "Pas encore d'actualités"
+msgstr "Zatiaľ žiadne novinky"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr "Archives"
+msgstr "Archív"
 
 #: templates/base.html:25
 msgid "WARNING!"
-msgstr "ATTENTION !"
+msgstr "UPOZORNENIE!"
 
 #: templates/base.html:25
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
-"Ce site web n'est pas le site de production et doit être utilisé à fins de "
-"test. Tout ce que vous sauvegarderez sera remplacé à la prochaine "
-"synchronisation depuis le site de production."
 
 #: templates/base.html:25
 msgid "Please visit"
-msgstr "Visitez SVP"
+msgstr "Prosím, navštívte"
 
 #: templates/base.html:25
 msgid "the live website"
-msgstr "le site web de production"
+msgstr ""
 
 #: templates/base.html:25
 msgid "to make perminant changes to the website."
-msgstr "pour faire des modifications permanentes au site web."
+msgstr ""
 
 #: templates/base.html:41
 msgid "Log in / Register"
-msgstr "Se connecter / Créer un compte"
+msgstr "Prihlásiť / zaregistrovať sa"
 
 #: templates/base.html:44
 msgid "Already a member? Log in below."
-msgstr "Déjà membre ? Connectez vous ci-dessous."
+msgstr "Už máte účet? Prihláste sa nižšie."
 
 #: templates/base.html:45
 msgid "Username"
-msgstr "Nom d’utilisateur"
+msgstr "Používateľské meno:"
 
 #: templates/base.html:50
 msgid "Not a member?"
-msgstr "Pas encore membre ?"
+msgstr "Nemáte účet?"
 
 #: templates/base.html:50
 msgid "Register now."
-msgstr "Inscrivez-vous maintenant."
+msgstr "Zaregistrujte sa."
 
 #: templates/base.html:51
 msgid "Or log in with"
-msgstr "Ou connectez-vous avec"
+msgstr "Alebo sa prihláste pomocou"
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr "Administrateur"
+msgstr "Správca"
 
 #: templates/base.html:67
 msgid "Edit Profile"
-msgstr "Modifier le profil"
+msgstr "Upraviť profil"
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr "Se déconnecter"
+msgstr "Odhlásiť sa"
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr "Suivez nous sur :"
+msgstr "Sledujte nás na:"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr "Inkscape est un logiciel Libre et Open Source sous licence GPL"
+msgstr "Inkscape je slobodný a open source softvér pod licenciou GPL."
 
 #: templates/base.html:113
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
-"Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> avec Inkscape et développé par <a "
-"href=\"http://doctormo.org\">Martin Owens</a>"
+"Web navrhol <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> v "
+"Inkscape a vyvinul <a href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr "Précédent"
+msgstr "Späť"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr "Suivant"
+msgstr "Ďalej"
 
 #: templates/screenshots.html:4 templates/screenshots.html.py:5
 msgid "Inkscape screenshots"
-msgstr "Captures d'écran d'Inkscape"
+msgstr "Snímky obrazovky Inkscape"
 
 #: templates/screenshots.html:28
 #, python-format
 msgid "Screenshots of Inkscape %(version)s"
-msgstr "Captures d'écran d'Inkscape %(version)s"
+msgstr "Snímky obrazovky Inkscape %(version)s"
 
 #: templates/screenshots.html:45
 msgid "See screenshots of other versions:"
-msgstr "Voir les captures d'écrans d'autres versions :"
+msgstr "Snímky obrazovky iných verzií:"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr "Interdit"
+msgstr "Zakázané"
 
 #: templates/error/403.html:6
 msgid ""
@@ -468,14 +465,13 @@ msgid ""
 "for example.</p>\n"
 msgstr ""
 "\n"
-"<h1>Désolé, vous n'êtes pas autorisé à voir ceci.</h1>\n"
-"<p>Bien que vous puissiez faire ce que vous voulez dans Inkscape, vous ne "
-"pouvez pas faire tout ce que vous voulez sur le site web d'Inkscape. vous ne "
-"pouvez par exemple pas voir le contenu de cette page.</p>\n"
+"<h1>Ľutujeme, nemáte oprávnenie zobraziť túto stránku.</h1>\n"
+"<p>Hoci v Inkscape môžete robiť, čo chcete, to neplatí pre webovú stránku o "
+"Inkscape. Napríklad nemôžete zobraziť obsah tejto stránky.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr "Non trouvé"
+msgstr "Nenájdené"
 
 #: templates/error/404.html:7
 msgid ""
@@ -494,58 +490,52 @@ msgid ""
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 "\n"
-"<h1>Page introuvable</h1>\n"
-"<p>Impossible de trouver ce que vous cherchez. Navrés. Dans le futur nous "
-"aurons sans doute une image rigolote pour vous mais pour le moment c'est "
-"ennuyeux.</p>\n"
-"<p>Si vous avez suivi un lien depuis notre site, ou utilisez un lien qui "
-"marchait avant que nous réalisions ce tout nouveau site web, merci de nous "
-"en informer afin que nous réparions le lien.</p>\n"
-"<p>Si vous ne savez pas comment vous êtes arrivé là, peut être souhaitez "
-"vous faire une <a href=\"/search\">recherche</a> pour essayer de trouver ce "
-"que vous cherchiez.</p>\n"
-"<p>Bien sûr, il est également possible que vous soyez venu ici juste pour "
-"voir à quoi ressemblait notre page 404, auquel cas j'éspère que vous êtes "
-"satisfait.</p>\n"
+"<h1>Stránka nebola nájdená</h1>\n"
+"<p>Ľutujeme, ale nenašli sme, čo ste hľadali. V budúcnosti tu možno budeme "
+"mať pre vás aspoň zábavný obrázok, ale zatiaľ je to len nudná stránka.</p>\n"
+"<p>Ak ste sa sem dostali z odkazu na tomto webe alebo ste použili odkaz, "
+"ktorý v minulosti fungoval, prosím, dajte nám vedieť a my to opravíme.</p>\n"
+"<p>Ak neviete, prečo ste sa sem dostali, možno budete chcieť <a "
+"href=\"/search\">vyhľadať</a> to, čo hľadáte.</p>\n"
+"<p>A ešte vždy je to možnosť, že ste sem prišli len preto, aby ste videli "
+"ako vyzerá naša stránka 404. Dúfame, že ste spokojní.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr "Vous l'avez cassé !"
+msgstr "Pokazili ste to!"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
 msgstr ""
-"Votre compte utilisateur a été créé. Connectez-vous en utilisant votre "
-"identifiant et mot de passe."
+"Váš používateľský účet bol vytvorený. Prosím, prihláste sa pomocou svojho "
+"používateľského mena a hesla."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Si vous rencontrez des difficultés, n'hésitez pas à <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"Ak máte nejaké problémy, prosím <a href=\"/contact/?subject=Lost activation "
+"code\">kontaktujte nás</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr "Bonjour,"
+msgstr "Ahoj,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"Veuillez ouvrir le lien suivant dans votre navigateur web. Si le lien est "
-"coupé sur plusieurs lignes, vous devrez probablement le copier/coller dans "
-"la barre d'adresse."
+"Prosím, otvorte nasledovný odkaz vo svojom webovom prehliadači. Ak je odkaz "
+"rozdelený na niekoľko riadkov, budete ho možno musieť do prehliadača "
+"skopírovať."
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
-"Si vous rencontrez une difficulté lors de la création de votre compte, "
-"n'hésitez pas à nous contacter :"
+msgstr "Ak nastane problém počas registrácie, prosím, kontaktujte nás:"
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -553,9 +543,8 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"Merci de votre enregistrement. Vous allez reçevoir sous peu un email avec un "
-"lien de confirmation. Pour terminer votre enregistrement, il vous suffira de "
-"suivre ce lien."
+"Ďakujeme vám za registráciu. Čoskoro dostanete email s potvrdzovacím "
+"odkazom. Prosím, dokončite svoju registráciu kliknutím na tento odkaz."
 
 #: templates/registration/registration_complete.html:13
 msgid ""
@@ -563,6 +552,6 @@ msgid ""
 "there, please <a href=\"/contact/?subject=Lost activation code\">contact "
 "us</a>."
 msgstr ""
-"Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
-"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"Ak ho zakrátko nedostanete, pozrite sa prosím do svojho spamového priečinka. "
+"Ak tam nebude, prosím, <a href=\"/contact/?subject=Lost activation "
+"code\">kontaktujte nás</a>."

@@ -8,125 +8,125 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-05 16:31+0000\n"
-"PO-Revision-Date: 2013-07-28 09:09+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"PO-Revision-Date: 2013-12-06 20:40+0000\n"
+"Last-Translator: Duarte Ramos <duarte.framos@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: pt\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-07-29 05:40+0000\n"
-"X-Generator: Launchpad (build 16700)\n"
+"X-Launchpad-Export-Date: 2013-12-07 06:20+0000\n"
+"X-Generator: Launchpad (build 16869)\n"
+"Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
-msgstr ""
+msgstr "Palavra-Passe"
 
 #: inkscape/person/forms.py:8
 msgid "Confirm"
-msgstr ""
+msgstr "Confirmar"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr ""
+msgstr "Fotografia"
 
 #: inkscape/person/models.py:49
 msgid "Display Icon"
-msgstr ""
+msgstr "Ícone exibido"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr ""
+msgstr "procurar apphook"
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr ""
+msgstr "Brochura de galeria"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr ""
+msgstr "Título"
 
 #: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr ""
+msgstr "Descrição"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr ""
+msgstr "Ligação para listagem completa"
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr ""
+msgstr "Ícone alvo"
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr ""
+msgstr "Tipo de Fonte"
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr ""
+msgstr "Tipo de análise"
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr ""
+msgstr "Ligação aos dados"
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
-msgstr ""
+msgstr "Conectar RSS ou outra fonte de informação para análse normal"
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr ""
+msgstr "Activar automaticamente"
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr ""
+msgstr "Tornar todas as entradas visíveis para os utilizadores directamente"
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr ""
+msgstr "Última actualização"
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr ""
+msgstr "Publicado"
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr ""
+msgstr "Ligação"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr ""
+msgstr "Data de publicação"
 
 #: libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr ""
+msgstr "Miniatura"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr ""
+msgstr "Activado"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr ""
+msgstr "Data de indexação"
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr ""
+msgstr "Número de itens"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr ""
+msgstr "Lista de Grupos de Utilizadores"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr ""
+msgstr "Estilo de Apresentação"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr ""
+msgstr "Lista simples"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
@@ -138,7 +138,7 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr ""
+msgstr "Contagem de bugs do Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
@@ -470,8 +470,9 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -516,6 +517,6 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
 msgstr ""

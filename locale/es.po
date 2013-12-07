@@ -7,17 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:31+0000\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
 "PO-Revision-Date: 2013-12-05 18:09+0000\n"
 "Last-Translator: Jabiertxof <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2013-12-06 05:58+0000\n"
 "X-Generator: Launchpad (build 16863)\n"
-"Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
@@ -246,7 +246,8 @@ msgid "Medium Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:224
-msgid "Height Bug Threshold"
+#, fuzzy
+msgid "High Bug Threshold"
 msgstr "Errores de umbral alto"
 
 #: libs/cmsplugin_news/admin.py:37
@@ -369,7 +370,8 @@ msgid "the live website"
 msgstr ""
 
 #: templates/base.html:25
-msgid "to make perminant changes to the website."
+#, fuzzy
+msgid "to make permanent changes to the website."
 msgstr "para hacer permanentes los cambios a esta web"
 
 #: templates/base.html:41
@@ -414,17 +416,16 @@ msgstr "Siguenos en:"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr ""
-"Inkscape es un software Libre y de Código Abierto bajo la licencia GPL"
+msgstr "Inkscape es un software Libre y de Código Abierto bajo la licencia GPL"
 
 #: templates/base.html:113
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
-"Website diseñada por <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> en Inkscape y desarroyada por <a "
-"href=\"http://doctormo.org\">Martin Owens</a>"
+"Website diseñada por <a href=\"http://skymaiden.com\">Hinerangi Courtenay</"
+"a> en Inkscape y desarroyada por <a href=\"http://doctormo.org\">Martin "
+"Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -462,8 +463,8 @@ msgstr ""
 "\n"
 "<h1>Lo sentimos, no tienes permisos para ver esto.</h1>\n"
 "<p>Puedes hacer cualquier cosa en Inkscape, pero no puedes hacer cualquier "
-"cosa en su web. Tu no puedes ver los contenidos de esta página por "
-"ejemplo.</p>\n"
+"cosa en su web. Tu no puedes ver los contenidos de esta página por ejemplo.</"
+"p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
@@ -479,22 +480,21 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 "\n"
 "<h1>Página no encontrada</h1>\n"
 "<p>No podemos encontrar lo que estas buscando, disculpa. En el futuro "
-"tendremos una bonita imagen que te lo indique pero actualmente solo hay "
-"esto.</p>\n"
+"tendremos una bonita imagen que te lo indique pero actualmente solo hay esto."
+"</p>\n"
 "<p>Si tu has seguido un enlace desde nuestro sitio, o has usado un enlace "
 "que funcionaba antes de esta nueva y brillante web, avísanos y lo "
 "solucionaremos.</p>\n"
-"<p>Si no sabes muy bien por que estas aquí, quizás quieras <a "
-"href=\"/search\">buscar</a> y ver si puedes encontrar lo que buscas.</p>\n"
+"<p>Si no sabes muy bien por que estas aquí, quizás quieras <a href=\"/search"
+"\">buscar</a> y ver si puedes encontrar lo que buscas.</p>\n"
 "<p>De nuevo, siempre hay la posibilidad de que llegues aquí buscando como es "
 "nuestra página 404. Esperamos que te satisfaga.</p>\n"
 
@@ -546,8 +546,8 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
 "Si no lo recibes en breve, por favor mira la bandeja del spam. Si no está "
 "ahí, por favor <a href=\"/contact/?subject=Lost activation code\">contacte "

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:31+0000\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -244,7 +244,7 @@ msgid "Medium Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:224
-msgid "Height Bug Threshold"
+msgid "High Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
@@ -367,7 +367,7 @@ msgid "the live website"
 msgstr ""
 
 #: templates/base.html:25
-msgid "to make perminant changes to the website."
+msgid "to make permanent changes to the website."
 msgstr ""
 
 #: templates/base.html:41

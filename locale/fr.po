@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:31+0000\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
 "PO-Revision-Date: 2013-12-06 22:15+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,7 +15,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-12-07 06:20+0000\n"
+"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 "Language: \n"
 
@@ -247,8 +247,8 @@ msgid "Medium Bug Threshold"
 msgstr "Seuil de bugs médian"
 
 #: libs/cmsplugin_launchpad/models.py:224
-msgid "Height Bug Threshold"
-msgstr "Seuil de bugs élevé"
+msgid "High Bug Threshold"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
@@ -378,8 +378,8 @@ msgid "the live website"
 msgstr "le site web de production"
 
 #: templates/base.html:25
-msgid "to make perminant changes to the website."
-msgstr "pour faire des modifications permanentes au site web."
+msgid "to make permanent changes to the website."
+msgstr ""
 
 #: templates/base.html:41
 msgid "Log in / Register"

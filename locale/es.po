@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:31+0000\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
 "PO-Revision-Date: 2013-12-05 18:09+0000\n"
 "Last-Translator: Jabiertxof <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -15,8 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-06 05:58+0000\n"
-"X-Generator: Launchpad (build 16863)\n"
+"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
+"X-Generator: Launchpad (build 16869)\n"
 "Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
@@ -246,8 +246,8 @@ msgid "Medium Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:224
-msgid "Height Bug Threshold"
-msgstr "Errores de umbral alto"
+msgid "High Bug Threshold"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
@@ -369,8 +369,8 @@ msgid "the live website"
 msgstr ""
 
 #: templates/base.html:25
-msgid "to make perminant changes to the website."
-msgstr "para hacer permanentes los cambios a esta web"
+msgid "to make permanent changes to the website."
+msgstr ""
 
 #: templates/base.html:41
 msgid "Log in / Register"

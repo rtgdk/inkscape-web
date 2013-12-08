@@ -7,15 +7,15 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 16:31+0000\n"
-"PO-Revision-Date: 2013-12-06 20:40+0000\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"PO-Revision-Date: 2013-12-07 20:12+0000\n"
 "Last-Translator: Duarte Ramos <duarte.framos@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-07 06:20+0000\n"
+"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 "Language: \n"
 
@@ -246,7 +246,7 @@ msgid "Medium Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:224
-msgid "Height Bug Threshold"
+msgid "High Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
@@ -369,7 +369,7 @@ msgid "the live website"
 msgstr ""
 
 #: templates/base.html:25
-msgid "to make perminant changes to the website."
+msgid "to make permanent changes to the website."
 msgstr ""
 
 #: templates/base.html:41
@@ -476,6 +476,18 @@ msgid ""
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
+"\n"
+"<h1>Página não encontrada</h1>\n"
+"<p>Não conseguimos encontrar o que procura. Pedimos desculpa. De futuro "
+"talvez coloquemos uma imagem engraçada aqui para você ver, mas de momento "
+"apenas temos este texto aborrecido.</p>\n"
+"<p>Se seguiu uma ligação no nosso site, ou usou uma ligação que costumava "
+"funcionar antes de nós termos feito este site novinho em folha, por favor "
+"diga-nos para que possamos corrigir o erro.</p>\n"
+"<p>Se não sabe porque está aqui, talvez queira <a "
+"href=\"/search\">pesquisar</a> para ver se encontra o que procura.</p>\n"
+"<p>Também há a possibilidade de que tenha vindo aqui apenas para ver a "
+"aparência da página 404. Espero que tenha ficado satisfeito.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"

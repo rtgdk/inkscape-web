@@ -300,7 +300,7 @@
 }
 #content .column1, #content .column2, #content .column3 {
   float: left;
-  height: 360px;
+  height: 100%;
 }
 #content .column1 {
   padding: 0 12px 0 0;

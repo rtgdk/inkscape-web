@@ -1,6 +1,8 @@
 #!/bin/bash
 set -e
 
+mkdir -p data/media
+
 command -v virtualenv &> /dev/null || {
   command -v apt-get &> /dev/null || {
     echo "I require pythonenv, but it is not installed. Aborting."

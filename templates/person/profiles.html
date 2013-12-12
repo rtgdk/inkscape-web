@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>The Faces of Inkscape Users</h1>
+
+{% for user in users %}
+
+{% if user.photo %}
+  <div class="galleryitem">
+    <a class="link" href="{% url "view_profile" user.user.id %}"><img src="{{ user.photo.url }}" title="{{ user }}"/></a>
+    <p title="{{ user.email }}"><a href="{% url "view_profile" user.user.id %}">{{ user }}</a></p>
+  </div>
+{% else %}
+.
+{% endif %}
+
+{% endfor %}
+
+{% endblock %}

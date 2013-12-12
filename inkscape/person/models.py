@@ -6,7 +6,7 @@ from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 
-from .fields import ResizedImageField, AutoOneToOneField
+from inkscape.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 
@@ -14,8 +14,7 @@ class UserDetails(Model):
     user  = AutoOneToOneField(User, related_name='details')
     bio   = TextField(null=True, blank=True)
     photo = ResizedImageField(_('Photograph'), null=True, blank=True,
-              upload_to=os.path.join(settings.MEDIA_ROOT, 'photos'),
-              max_width=190, max_height=190)
+              upload_to=os.path.join('photos'), max_width=190, max_height=190)
     #ircnick = CharField("IRC Nickname", max_length=20, **null)
     #ircpass = PasswordField("Freenode Password (optional)", max_length=255, **null)
 
@@ -37,8 +36,7 @@ class UserDetails(Model):
 
     def photo_url(self):
         if self.photo:
-            return os.path.join(settings.MEDIA_URL,
-                                *self.photo.url.split('/')[-2:])
+            return self.photo.url
         return None
 
 

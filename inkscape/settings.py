@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'inkscape.extra',
     'inkscape.search',
     'inkscape.person',
+    'inkscape.gallery',
 )
 
 CMS_TEMPLATES = (
@@ -222,7 +223,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-#LOGIN_URL          = '/login/'
-LOGIN_REDIRECT_URL = '/'
-#LOGIN_ERROR_URL    = '/login/error/'
+LOGIN_URL          = '/auth/login/'
+LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_ERROR_URL    = '/auth/login/'
 

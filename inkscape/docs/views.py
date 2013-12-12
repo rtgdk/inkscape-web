@@ -20,12 +20,13 @@ Load inkscape docs from the disk and give to the user.
 """
 import os
 import sys
+import codecs
 
 from django.http import Http404
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
-from inkscape.settings import STATIC_ROOT
+from inkscape.settings import STATIC_ROOT, DESIGN_URL
 
 def get_path(uri):
     path = os.path.join(STATIC_ROOT, 'doc', uri)
@@ -38,14 +39,18 @@ def page(request, uri):
     path = get_path(uri)
     if os.path.isdir(path):
         return index(request, uri)
-    with open(path, 'r') as fhl:
-        (t, l) = fhl.read().split('<div id="content">')
-        content = l.split('<div id="footer">')[0]
-        title = t.split('<title>')[-1].split('</title>')[0]
+    with codecs.open(path, "r", "utf-8") as fhl:
+        content = fhl.read()
+        title = content.split('<title>',1)[-1].split('</title>',1)[0]
+        if '<div id="content">' in content:
+            content = content.split('<div id="content">',1)[-1]
+        elif '<div id="preface">' in content:
+            content = content.split('<div id="preface">',1)[-1]
+        content = content.split('<div id="footer">')[0]
+        content = content.replace('src="', 'src="%s/' % os.path.join(DESIGN_URL, 'doc', *uri.split('/')[:-1]))
     c = {
         'title': title,
         'content': content,
-        'folder': os.path.join('doc', *uri.split('/')),
     }
     return render_to_response('docs/page.html', c,
         context_instance=RequestContext(request))

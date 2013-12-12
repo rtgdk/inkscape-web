@@ -156,7 +156,7 @@ INSTALLED_APPS = (
     'inkscape.extra',
     'inkscape.search',
     'inkscape.person',
-    'inkscape.gallery',
+    'inkscape.docs',
 )
 
 CMS_TEMPLATES = (

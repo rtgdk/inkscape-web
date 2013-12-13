@@ -7,19 +7,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
 "PO-Revision-Date: 2013-12-06 09:59+0000\n"
 "Last-Translator: helix84 <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 "X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
-"Language: \n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Popis"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Náhled"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+#, fuzzy
+msgid "Source File"
+msgstr "Typ zdroje"
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "Heslo"
 
@@ -31,7 +85,7 @@ msgstr "Potvrdit"
 msgid "Photograph"
 msgstr "Fotografie"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "Zobrazit ikonu"
 
@@ -47,10 +101,6 @@ msgstr "Brožura galerie"
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "Název"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Popis"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -99,10 +149,6 @@ msgstr "Odkaz"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "Datum zveřejnění"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Náhled"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -356,11 +402,11 @@ msgstr "Prozatím žádné novinky"
 msgid "Archive"
 msgstr "Archiv"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "UPOZORNĚNÍ!"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
@@ -369,39 +415,43 @@ msgstr ""
 "Cokoliv, co uložíte bude nahrazeno při nejbližší synchronizaci z produkčního "
 "webu."
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr "Prosím, navštivte"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr "produkční webstránku"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr "Přihlásit / zaregistrovat se"
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr "Máte už účet? Přihlaste se níže."
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "Uživatelské jméno"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "Nemáte účet?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "Zaregistrujte se."
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr "Nebo se přihlaste pomocí"
 
@@ -441,19 +491,6 @@ msgstr "Předchozí"
 msgid "Next"
 msgstr "Další"
 
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "Snímky obrazovky Inkscape"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr "Snímky obrazovky Inkscape %(version)s"
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr "Podívejte se na snímky obrazovky jiných verzí:"
-
 #: templates/error/403.html:3
 msgid "Forbidden"
 msgstr "Zakázáno"
@@ -485,9 +522,8 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -553,9 +589,18 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
 "Pokud ho zakrátko nedostanete, prosím, podívejte se do své spamové složky. "
-"Pokud tam není, prosím, <a href=\"/contact/?subject=Lost activation "
-"code\">kontaktujte nás</a>."
+"Pokud tam není, prosím, <a href=\"/contact/?subject=Lost activation code"
+"\">kontaktujte nás</a>."
+
+#~ msgid "Inkscape screenshots"
+#~ msgstr "Snímky obrazovky Inkscape"
+
+#~ msgid "Screenshots of Inkscape %(version)s"
+#~ msgstr "Snímky obrazovky Inkscape %(version)s"
+
+#~ msgid "See screenshots of other versions:"
+#~ msgstr "Podívejte se na snímky obrazovky jiných verzí:"

@@ -7,19 +7,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:26+0000\n"
 "PO-Revision-Date: 2013-12-06 22:15+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
-"Language: \n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Description"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Miniature"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+#, fuzzy
+msgid "Source File"
+msgstr "Type de Source"
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "Mot de passe"
 
@@ -31,7 +85,7 @@ msgstr "Confirmer"
 msgid "Photograph"
 msgstr "Photographie"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "Afficher l'icône"
 
@@ -47,10 +101,6 @@ msgstr "Galerie"
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "Titre"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Description"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -100,10 +150,6 @@ msgstr "Lien"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "Date de publication"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Miniature"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -356,11 +402,11 @@ msgstr "Pas encore d'actualités"
 msgid "Archive"
 msgstr "Archives"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "ATTENTION !"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
@@ -369,39 +415,43 @@ msgstr ""
 "test. Tout ce que vous sauvegarderez sera remplacé à la prochaine "
 "synchronisation depuis le site de production."
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr "Visitez SVP"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr "le site web de production"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr "Se connecter / Créer un compte"
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr "Déjà membre ? Connectez vous ci-dessous."
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "Nom d’utilisateur"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "Pas encore membre ?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "Inscrivez-vous maintenant."
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr "Ou connectez-vous avec"
 
@@ -431,8 +481,8 @@ msgid ""
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
 "Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> avec Inkscape et développé par <a "
-"href=\"http://doctormo.org\">Martin Owens</a>"
+"Courtenay</a> avec Inkscape et développé par <a href=\"http://doctormo.org"
+"\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -441,19 +491,6 @@ msgstr "Précédent"
 #: templates/paginator.html:23
 msgid "Next"
 msgstr "Suivant"
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "Captures d'écran d'Inkscape"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr "Captures d'écran d'Inkscape %(version)s"
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr "Voir les captures d'écrans d'autres versions :"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -487,9 +524,8 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -525,8 +561,8 @@ msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Si vous rencontrez des difficultés, n'hésitez pas à <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"Si vous rencontrez des difficultés, n'hésitez pas à <a href=\"/contact/?"
+"subject=Lost activation code\">nous contacter</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
@@ -560,9 +596,18 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
 "Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
-"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a href=\"/"
+"contact/?subject=Lost activation code\">nous contacter</a>."
+
+#~ msgid "Inkscape screenshots"
+#~ msgstr "Captures d'écran d'Inkscape"
+
+#~ msgid "Screenshots of Inkscape %(version)s"
+#~ msgstr "Captures d'écran d'Inkscape %(version)s"
+
+#~ msgid "See screenshots of other versions:"
+#~ msgstr "Voir les captures d'écrans d'autres versions :"

@@ -7,19 +7,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:26+0000\n"
 "PO-Revision-Date: 2013-12-06 17:53+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
+"Language: ja\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
 "X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
-"Language: ja\n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "説明"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+#, fuzzy
+msgid "Source File"
+msgstr "ソースタイプ"
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "パスワード"
 
@@ -31,7 +85,7 @@ msgstr "パスワードの確認:"
 msgid "Photograph"
 msgstr "写真"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "アイコンを表示"
 
@@ -47,10 +101,6 @@ msgstr "ギャラリーブローシャ"
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "タイトル"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "説明"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -99,10 +149,6 @@ msgstr "リンク"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "公開日"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "サムネイル"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -317,8 +363,10 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
-"このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられる。\n"
-"デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されることに注意。"
+"このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられ"
+"る。\n"
+"デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されるこ"
+"とに注意。"
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
@@ -350,49 +398,55 @@ msgstr "ニュースはありません"
 msgid "Archive"
 msgstr "アーカイブ"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "警告!"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
-msgstr "このウェブサイトはテスト用でライブウェブサイトではありません。このサイトへの変更は次回の同期時にライブサイトのものに置き換えられます。"
+msgstr ""
+"このウェブサイトはテスト用でライブウェブサイトではありません。このサイトへの"
+"変更は次回の同期時にライブサイトのものに置き換えられます。"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr "ライブウェブサイトは"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr "こちら"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr "ログイン / 登録"
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr "メンバーであれば以下からログインしてください。"
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "ユーザー名"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "メンバーではありませんか?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "今すぐ登録する"
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr "または以下のアカウントでログイン"
 
@@ -414,16 +468,18 @@ msgstr "フォローはこちらから:"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフトウェアです。"
+msgstr ""
+"Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフ"
+"トウェアです。"
 
 #: templates/base.html:113
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
-"このウェブサイトは <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> が "
-"Inkscape を使ってデザインし、<a href=\"http://doctormo.org\">Martin Owens</a> "
-"によって開発されています。"
+"このウェブサイトは <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"が Inkscape を使ってデザインし、<a href=\"http://doctormo.org\">Martin "
+"Owens</a> によって開発されています。"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -432,19 +488,6 @@ msgstr "前へ"
 #: templates/paginator.html:23
 msgid "Next"
 msgstr "次へ"
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "Inkscape スクリーンショット"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr "Inkscape %(version)s のスクリーンショット"
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr "他のバージョンのスクリーンショットを見る:"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -460,8 +503,9 @@ msgid ""
 msgstr ""
 "\n"
 "<h1>申し訳ありません、あなたはここに立ち入ることを許されていません。</h1>\n"
-"<p>あなたが Inkscape でなにがしかを行えるとしても、Inkscape "
-"ウェブサイトで行うことはできません。例えば、あなたはこのページの内容を閲覧することはできません。</p>\n"
+"<p>あなたが Inkscape でなにがしかを行えるとしても、Inkscape ウェブサイトで行"
+"うことはできません。例えば、あなたはこのページの内容を閲覧することはできませ"
+"ん。</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
@@ -477,21 +521,23 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 "\n"
 "<h1>ページが見つかりません</h1>\n"
-"<p>申し訳ありません、あなたがお探しのページは見つかりませんでした。将来的に私たちはここに楽しい画像を表示させるかもしれませんが、今のところこのようにつ"
-"まらないかんじになっています。</p>\n"
-"<p>もしあなたが私たちのサイトからのリンクをたどっていらしたか、あるいは私たちのこの出来たてほやほやの新ウェブサイトに変わる前は有効だったリンクであった"
-"場合は、修正いたしますのでお手数ですが私たちまでご連絡ください。</p>\n"
-"<p>あなたがなぜここに飛ばされたかわからない場合は、<a "
-"href=\"/search\">検索</a>していただくとお探しのものが見つかるかもしれません。</p>\n"
-"<p>ひょっとすると、あなたがただこのような 404 ページをご覧になるためにいらしのであれば、あなたにご満足いただけると良いのですが。</p>\n"
+"<p>申し訳ありません、あなたがお探しのページは見つかりませんでした。将来的に私"
+"たちはここに楽しい画像を表示させるかもしれませんが、今のところこのようにつま"
+"らないかんじになっています。</p>\n"
+"<p>もしあなたが私たちのサイトからのリンクをたどっていらしたか、あるいは私たち"
+"のこの出来たてほやほやの新ウェブサイトに変わる前は有効だったリンクであった場"
+"合は、修正いたしますのでお手数ですが私たちまでご連絡ください。</p>\n"
+"<p>あなたがなぜここに飛ばされたかわからない場合は、<a href=\"/search\">検索</"
+"a>していただくとお探しのものが見つかるかもしれません。</p>\n"
+"<p>ひょっとすると、あなたがただこのような 404 ページをご覧になるためにいらし"
+"のであれば、あなたにご満足いただけると良いのですが。</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
@@ -501,15 +547,17 @@ msgstr "あなたが壊したのだ!"
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
-msgstr "あなたのユーザーアカウントは作成されました。あなたのユーザー名とパスワードでログインしてください。"
+msgstr ""
+"あなたのユーザーアカウントは作成されました。あなたのユーザー名とパスワードで"
+"ログインしてください。"
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"なにか問題があった場合、<a href=\"/contact/?subject=Lost activation "
-"code\">私たちまでご連絡ください</a>。"
+"なにか問題があった場合、<a href=\"/contact/?subject=Lost activation code\">私"
+"たちまでご連絡ください</a>。"
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
@@ -520,8 +568,9 @@ msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバーに"
-"貼り付けてください。"
+"以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正"
+"しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバー"
+"に貼り付けてください。"
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
@@ -534,13 +583,24 @@ msgid ""
 "registration."
 msgstr ""
 "ご登録いただきありがとうございました。まもなく確認のためのリンクが書かれた E "
-"メールが送られてきます。そのリンク先を開いてユーザー登録を完了させてください。"
+"メールが送られてきます。そのリンク先を開いてユーザー登録を完了させてくださ"
+"い。"
 
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
-"もし確認メールが送られてこない場合は、スパムメールとしてフィルターされていないか確認してください。本当に送られてこない場合は<a "
-"href=\"/contact/?subject=Lost activation code\">私たちまでご連絡ください</a>。"
+"もし確認メールが送られてこない場合は、スパムメールとしてフィルターされていな"
+"いか確認してください。本当に送られてこない場合は<a href=\"/contact/?"
+"subject=Lost activation code\">私たちまでご連絡ください</a>。"
+
+#~ msgid "Inkscape screenshots"
+#~ msgstr "Inkscape スクリーンショット"
+
+#~ msgid "Screenshots of Inkscape %(version)s"
+#~ msgstr "Inkscape %(version)s のスクリーンショット"
+
+#~ msgid "See screenshots of other versions:"
+#~ msgstr "他のバージョンのスクリーンショットを見る:"

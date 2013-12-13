@@ -7,19 +7,73 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:26+0000\n"
 "PO-Revision-Date: 2013-12-10 16:48+0000\n"
 "Last-Translator: Duarte Ramos <duarte.framos@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
 "X-Launchpad-Export-Date: 2013-12-11 05:56+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
-"Language: \n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Descrição"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Miniatura"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+#, fuzzy
+msgid "Source File"
+msgstr "Tipo de Fonte"
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "Palavra-Passe"
 
@@ -31,7 +85,7 @@ msgstr "Confirmar"
 msgid "Photograph"
 msgstr "Fotografia"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "Ícone exibido"
 
@@ -47,10 +101,6 @@ msgstr "Brochura de galeria"
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "Título"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Descrição"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -99,10 +149,6 @@ msgstr "Ligação"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "Data de publicação"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Miniatura"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -350,49 +396,53 @@ msgstr ""
 msgid "Archive"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr ""
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr ""
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr ""
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr ""
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr ""
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr ""
 
@@ -430,19 +480,6 @@ msgstr ""
 msgid "Next"
 msgstr ""
 
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr ""
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr ""
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr ""
-
 #: templates/error/403.html:3
 msgid "Forbidden"
 msgstr ""
@@ -470,9 +507,8 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -484,8 +520,8 @@ msgstr ""
 "<p>Se seguiu uma ligação no nosso site, ou usou uma ligação que costumava "
 "funcionar antes de nós termos feito este site novinho em folha, por favor "
 "diga-nos para que possamos corrigir o erro.</p>\n"
-"<p>Se não sabe porque está aqui, talvez queira <a "
-"href=\"/search\">pesquisar</a> para ver se encontra o que procura.</p>\n"
+"<p>Se não sabe porque está aqui, talvez queira <a href=\"/search"
+"\">pesquisar</a> para ver se encontra o que procura.</p>\n"
 "<p>Também há a possibilidade de que tenha vindo aqui apenas para ver a "
 "aparência da página 404. Espero que tenha ficado satisfeito.</p>\n"
 
@@ -529,6 +565,6 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""

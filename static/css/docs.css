@@ -41,6 +41,10 @@
 {
 	border: 3px inset #F3F3F3;
 }
+#content > div.wrapper
+{
+    min-height: 0px !important;
+}
 span.menu-command
 {
 	font-family: verdana, sans-serif;

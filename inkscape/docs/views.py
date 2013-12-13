@@ -37,7 +37,7 @@ def get_path(uri):
 
 def page(request, uri):
     path = get_path(uri)
-    if os.path.isdir(path):
+    if os.path.isdir(path) or path[-5:] != '.html':
         return index(request, uri)
     with codecs.open(path, "r", "utf-8") as fhl:
         content = fhl.read()

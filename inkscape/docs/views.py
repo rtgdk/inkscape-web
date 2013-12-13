@@ -38,7 +38,8 @@ def get_path(uri):
 def page(request, uri):
     path = get_path(uri)
     if os.path.isdir(path) or path[-5:] != '.html':
-        return index(request, uri)
+        raise Http404
+
     with codecs.open(path, "r", "utf-8") as fhl:
         content = fhl.read()
         title = content.split('<title>',1)[-1].split('</title>',1)[0]
@@ -53,15 +54,6 @@ def page(request, uri):
         'content': content,
     }
     return render_to_response('docs/page.html', c,
-        context_instance=RequestContext(request))
-
-def index3(request, uri):
-    path = get_path(uri)
-    if os.path.isfile(path):
-        return page(request, uri)
-    # Dir here
-    c = { 'title': path }
-    return render_to_response('docs/index.html', c,
         context_instance=RequestContext(request))
 
 

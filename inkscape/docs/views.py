@@ -19,7 +19,6 @@
 Load inkscape docs from the disk and give to the user.
 """
 import os
-import sys
 import codecs
 
 from django.http import Http404
@@ -31,7 +30,6 @@ from inkscape.settings import STATIC_ROOT, DESIGN_URL
 def get_path(uri):
     path = os.path.join(STATIC_ROOT, 'doc', uri)
     if not os.path.exists(path):
-        sys.stderr.write("Can't find doc '%s'\n" % path)
         raise Http404
     return path
 

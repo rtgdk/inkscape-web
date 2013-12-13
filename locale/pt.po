@@ -8,16 +8,16 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-07 17:25+0000\n"
-"PO-Revision-Date: 2013-12-06 20:40+0000\n"
+"PO-Revision-Date: 2013-12-10 16:48+0000\n"
 "Last-Translator: Duarte Ramos <duarte.framos@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-07 06:20+0000\n"
+"X-Launchpad-Export-Date: 2013-12-11 05:56+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
+"Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
@@ -142,80 +142,80 @@ msgstr "Contagem de bugs do Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr ""
+msgstr "Nome do projecto"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr ""
+msgstr "Identificação do Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 msgid "Name"
-msgstr ""
+msgstr "Nome"
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr ""
+msgstr "Estado"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr ""
+msgstr "Identificação interna do Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr ""
+msgstr "Nome da lista"
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr ""
+msgstr "Que foram criadas antes da data indicada"
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr ""
+msgstr "Que foram criadas depois da data indicada"
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr ""
+msgstr "Que foram criadas depois da data indicada"
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr ""
+msgstr "Identificação do erro ou texto de pesquisa"
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr ""
+msgstr "Todos os Erros"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr ""
+msgstr "Apenas conectados"
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr ""
+msgstr "Apenas não conectados"
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr ""
+msgstr "Que estão ou não conectados aos ramos"
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr ""
+msgstr "Omitir erros marcados como duplicados"
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr ""
+msgstr "Omitir bugs apontados a uma série"
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr ""
+msgstr "Apenas com os valores de estado indicados"
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr ""
+msgstr "Apenas com as importâncias indicadas"
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
-msgstr ""
+msgstr "Etiquetas a  pesquisar. Para excluir use \"-etiqueta\""
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
@@ -470,11 +470,24 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
+"\n"
+"<h1>Página não encontrada</h1>\n"
+"<p>Não conseguimos encontrar o que procura. Pedimos desculpa. De futuro "
+"talvez coloquemos uma imagem engraçada aqui para você ver, mas de momento "
+"apenas temos este texto aborrecido.</p>\n"
+"<p>Se seguiu uma ligação no nosso site, ou usou uma ligação que costumava "
+"funcionar antes de nós termos feito este site novinho em folha, por favor "
+"diga-nos para que possamos corrigir o erro.</p>\n"
+"<p>Se não sabe porque está aqui, talvez queira <a "
+"href=\"/search\">pesquisar</a> para ver se encontra o que procura.</p>\n"
+"<p>Também há a possibilidade de que tenha vindo aqui apenas para ver a "
+"aparência da página 404. Espero que tenha ficado satisfeito.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
@@ -516,6 +529,6 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
 msgstr ""

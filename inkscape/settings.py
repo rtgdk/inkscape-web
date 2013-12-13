@@ -224,6 +224,6 @@ ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
 LOGIN_URL          = '/auth/login/'
-LOGIN_REDIRECT_URL = '/profile/'
+LOGIN_REDIRECT_URL = '/person/'
 LOGIN_ERROR_URL    = '/auth/login/'
 

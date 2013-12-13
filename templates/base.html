@@ -30,9 +30,10 @@
 			<div id="cleartop">
 				<div id="logo">
 					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
-							 width="64" height="64" alt="Inkscape Logo"
+							 width="64" height="64" alt="Inkscape"
 							 onerror="this.src='{{DESIGN_URL}}images/inkscape-logo.png'"></a>
-                    {% placeholder inkscape_title inherit %}
+                    <h1><a href="/" tabindex="-1">Inkscape</a></h1>
+                    <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
 				</div>
 				<div id="header-right">
 					<ul id="topdrops">
@@ -51,11 +52,9 @@
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/auth/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
-								<!--<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
-                                <a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>-->
+								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
+                                <a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>
 								<a href="{% url "socialauth_begin" 'yahoo' %}" id="toplogin-yahoo"></a>
-<!--								<a href="{% url "socialauth_begin" 'live' %}" id="toplogin-live"></a>
-								<a href="{% url "socialauth_begin" 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
 							</form>
                         {% else %}
                         <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>

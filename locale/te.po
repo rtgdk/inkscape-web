@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: inkscape-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
 "PO-Revision-Date: 2013-12-06 05:48+0000\n"
 "Last-Translator: వీవెన్ (Veeven) <Unknown>\n"
 "Language-Team: Telugu <te@li.org>\n"
@@ -15,10 +15,63 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
+"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "వివరణ"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "నఖచిత్రం"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+msgid "Source File"
+msgstr ""
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "సంకేతపదం"
 
@@ -30,7 +83,7 @@ msgstr "నిర్ధారించు"
 msgid "Photograph"
 msgstr "ఫోటోగ్రాఫ్"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "ప్రతీకాన్ని చూపించు"
 
@@ -46,10 +99,6 @@ msgstr ""
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "శీర్షిక"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "వివరణ"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -98,10 +147,6 @@ msgstr "లంకె"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "ప్రచురణ తేదీ"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "నఖచిత్రం"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -349,49 +394,53 @@ msgstr ""
 msgid "Archive"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "హెచ్చరిక!"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr "ప్రవేశించండి / నమోదవ్వండి"
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr "ఇప్పటికే సభ్యులా? ప్రవేశించండి."
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "వాడుకరి పేరు"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "సభ్యులు కాదా?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "ఇప్పుడే నమోదవ్వండి."
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr ""
 
@@ -428,19 +477,6 @@ msgstr ""
 #: templates/paginator.html:23
 msgid "Next"
 msgstr "తదుపరి"
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "ఇంక్‌స్కేప్ తెరపట్లు"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr ""
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr ""
 
 #: templates/error/403.html:3
 msgid "Forbidden"

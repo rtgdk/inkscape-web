@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
 "PO-Revision-Date: 2013-12-06 17:53+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
@@ -15,11 +15,64 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
+"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 "Language: ja\n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "説明"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+msgid "Source File"
+msgstr ""
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "パスワード"
 
@@ -31,7 +84,7 @@ msgstr "パスワードの確認:"
 msgid "Photograph"
 msgstr "写真"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr "アイコンを表示"
 
@@ -47,10 +100,6 @@ msgstr "ギャラリーブローシャ"
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr "タイトル"
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "説明"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -99,10 +148,6 @@ msgstr "リンク"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "公開日"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "サムネイル"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -350,49 +395,53 @@ msgstr "ニュースはありません"
 msgid "Archive"
 msgstr "アーカイブ"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "警告!"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr "このウェブサイトはテスト用でライブウェブサイトではありません。このサイトへの変更は次回の同期時にライブサイトのものに置き換えられます。"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr "ライブウェブサイトは"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr "こちら"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr "ログイン / 登録"
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr "メンバーであれば以下からログインしてください。"
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "ユーザー名"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "メンバーではありませんか?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "今すぐ登録する"
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr "または以下のアカウントでログイン"
 
@@ -432,19 +481,6 @@ msgstr "前へ"
 #: templates/paginator.html:23
 msgid "Next"
 msgstr "次へ"
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "Inkscape スクリーンショット"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr "Inkscape %(version)s のスクリーンショット"
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr "他のバージョンのスクリーンショットを見る:"
 
 #: templates/error/403.html:3
 msgid "Forbidden"

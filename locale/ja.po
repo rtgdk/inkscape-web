@@ -8,14 +8,14 @@ msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-13 18:25+0000\n"
-"PO-Revision-Date: 2013-12-06 17:53+0000\n"
+"PO-Revision-Date: 2013-12-14 09:39+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
+"X-Launchpad-Export-Date: 2013-12-15 05:36+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 "Language: ja\n"
 
@@ -415,11 +415,11 @@ msgstr "こちら"
 
 #: templates/base.html:26
 msgid "to make permanent changes to the website."
-msgstr ""
+msgstr "。"
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr ""
+msgstr "自由に描く。"
 
 #: templates/base.html:43
 msgid "Log in / Register"

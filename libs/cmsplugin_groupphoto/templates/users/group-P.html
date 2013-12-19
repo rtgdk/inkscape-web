@@ -3,7 +3,12 @@
 
 <div class="photos"/>
 {% for user in users %}
-<div class="photo"><img src="{{ user.photo }}" title="{{ user }}" alt="{{ user }}"/></div>
+
+  <div class="galleryitem">
+    <a class="link" href="{% url "view_profile" user.user.id %}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
+    <p title="{{ user.email }}"><a href="{% url "view_profile" user.user.id %}">{{ user }}</a></p>
+  </div>
+
 {% endfor %}
 </div>
 

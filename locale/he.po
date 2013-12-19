@@ -8,19 +8,19 @@ msgstr ""
 "Project-Id-Version: inkscape-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-12-13 18:25+0000\n"
-"PO-Revision-Date: 2013-12-08 11:08+0000\n"
+"PO-Revision-Date: 2013-12-18 15:31+0000\n"
 "Last-Translator: Yaron <sh.yaron@gmail.com>\n"
 "Language-Team: Hebrew <he@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2013-12-19 05:48+0000\n"
+"X-Generator: Launchpad (build 16872)\n"
 
 #: inkscape/gallery/forms.py:27
 msgid "I have permission to post this work"
-msgstr ""
+msgstr "יש לי הרשאה לפרסם יצירה זו"
 
 #: inkscape/gallery/models.py:39
 msgid "License Banner"
@@ -40,7 +40,7 @@ msgstr ""
 
 #: inkscape/gallery/models.py:44
 msgid "Non-Commercial"
-msgstr ""
+msgstr "לא מסחרי"
 
 #: inkscape/gallery/models.py:45
 msgid "Non-Derivitive"
@@ -48,7 +48,7 @@ msgstr ""
 
 #: inkscape/gallery/models.py:46
 msgid "All Rights Reserved"
-msgstr ""
+msgstr "כל הזכויות שמורות"
 
 #: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
@@ -57,11 +57,11 @@ msgstr "תיאור"
 
 #: inkscape/gallery/models.py:71
 msgid "I own this work"
-msgstr ""
+msgstr "זאת היצירה שלי"
 
 #: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr ""
+msgstr "תמונה ממוזערת"
 
 #: inkscape/gallery/models.py:74
 msgid "Consumable File"
@@ -69,7 +69,7 @@ msgstr ""
 
 #: inkscape/gallery/models.py:75
 msgid "Source File"
-msgstr ""
+msgstr "קובץ מקור"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -158,19 +158,19 @@ msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr ""
+msgstr "מספר הפריטים"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr ""
+msgstr "קבוצה של רשימת משתמשים"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr ""
+msgstr "סגנון תצוגה"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr ""
+msgstr "רשימה פשוטה"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
@@ -186,20 +186,20 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr ""
+msgstr "שם המיזם"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr ""
+msgstr "מזהה ב־Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 msgid "Name"
-msgstr ""
+msgstr "שם"
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr ""
+msgstr "מצב"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
@@ -207,7 +207,7 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr ""
+msgstr "שם הרשימה"
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
@@ -219,7 +219,7 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr ""
+msgstr "שהשתנו מאז התאריך הנקוב."
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
@@ -227,7 +227,7 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr ""
+msgstr "כל התקלות"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
@@ -267,7 +267,7 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr ""
+msgstr "כל התגים הנבחרים"
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
@@ -317,16 +317,16 @@ msgstr ""
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr ""
+msgstr "יישום חדשות"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr ""
+msgstr "חדשות עדכניות"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr ""
+msgstr "תפריט חדשות"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
@@ -339,23 +339,23 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr ""
+msgstr "מבואה"
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr ""
+msgstr "תוכן"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr ""
+msgstr "תאריך הפרסום"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr ""
+msgstr "שפה"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr ""
+msgstr "רשות: הצגה רק לשפה הזאת"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -366,15 +366,15 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr ""
+msgstr "חדשות"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr ""
+msgstr "מספר פריטי החדשות להצגה"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
-msgstr ""
+msgstr "הגבלת מספר הפריטים שיוצגו"
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
@@ -387,16 +387,16 @@ msgstr ""
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr ""
+msgstr "אין חדשות עדיין"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr ""
+msgstr "ארכיון"
 
 #: templates/base.html:26
 msgid "WARNING!"
-msgstr ""
+msgstr "אזהרה!"
 
 #: templates/base.html:26
 msgid ""
@@ -406,7 +406,7 @@ msgstr ""
 
 #: templates/base.html:26
 msgid "Please visit"
-msgstr ""
+msgstr "נא לבקר"
 
 #: templates/base.html:26
 msgid "the live website"
@@ -422,43 +422,43 @@ msgstr ""
 
 #: templates/base.html:43
 msgid "Log in / Register"
-msgstr ""
+msgstr "כניסה / הרשמה"
 
 #: templates/base.html:46
 msgid "Already a member? Log in below."
-msgstr ""
+msgstr "כבר יש לך חשבון? ניתן להיכנס להלן."
 
 #: templates/base.html:47
 msgid "Username"
-msgstr ""
+msgstr "שם משתמש"
 
 #: templates/base.html:52
 msgid "Not a member?"
-msgstr ""
+msgstr "עוד אין לך חשבון?"
 
 #: templates/base.html:52
 msgid "Register now."
-msgstr ""
+msgstr "ניתן להירשם כעת."
 
 #: templates/base.html:53
 msgid "Or log in with"
-msgstr ""
+msgstr "או להיכנס עם"
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr ""
+msgstr "מנהל"
 
 #: templates/base.html:67
 msgid "Edit Profile"
-msgstr ""
+msgstr "עריכת הפרופיל"
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr ""
+msgstr "יציאה"
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr ""
+msgstr "ניתן לעקוב אחרינו דרך:"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
@@ -472,11 +472,11 @@ msgstr ""
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "הקודם"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr ""
+msgstr "הבא"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -514,7 +514,7 @@ msgstr ""
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr ""
+msgstr "הרסת את זה!"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
@@ -530,7 +530,7 @@ msgstr ""
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "היי,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""

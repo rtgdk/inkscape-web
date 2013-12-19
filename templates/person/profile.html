@@ -6,13 +6,13 @@
 
 <table class="block">
     <tr>
-        <td rowspan="4" class="photo"><img src="{% if user.details.photo %}{{ user.details.photo_url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></td>
+        <td rowspan="4" class="photo"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/></td>
         <th scope="row">Username:</th>
         <td>{{ user.username }}</td>
     </tr>
     <tr>
         <th scope="row">Name:</th>
-        <td>{{ user.first_name }} {{ user.last_name }}</td>
+        <td>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}Annonymous{% endif %}</td>
     </tr>
     <tr>
         <th scope="row">Bio:</th>
@@ -28,6 +28,6 @@
 <p><a href="{% url "edit_profile" %}">Edit My Profile</a></p>
 {% endifequal %}
 
-{% include "gallery/list.html" %}
+{% include "resource/list.html" %}
 
 {% endblock %}

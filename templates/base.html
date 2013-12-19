@@ -64,7 +64,7 @@
                           {% if request.user.is_staff %}
                             <p id="toplogin-head"><a href="/admin/">{% trans "Admin" %}</a></p>
                           {% endif %}
-                          <p id="toplogin-head"><a href="{% url "edit_profile" %}">{% trans "Edit Profile" %}</a></p>
+                          <p id="toplogin-head"><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
                           <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
@@ -73,14 +73,15 @@
 					<div id="social">
                         <p>{% trans "Follow us on:" %} </p>
 					  <nav id="socialnav">
-					    <a id="twitter-logo"       href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
-														onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>
+					    <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
+					        onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>
 					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
 					  </nav>
 					</div>
 					  <form id="topsearch" method="submit" action="{% url "search" %}">
-						<input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.svg"
-						       onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="Search">
+                        <input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button"
+                          src="{{ DESIGN_URL }}images/search-button.svg"
+						  onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="Search">
 					  </form>
 				</div>
 			</div>

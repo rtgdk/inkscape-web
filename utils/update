@@ -11,13 +11,16 @@ if [ ! -e $PIP ]; then
 fi
 
 if [ $REQUIRES -nt $PIP ]; then
-    $PIP install --upgrade distribute
-    $PIP install -r $REQUIRES
+    echo "Updating PythonEnv..."
+    $PIP install --upgrade distribute &> /dev/null
+    $PIP install -r $REQUIRES &> /dev/null
+    touch $PIP
 fi
 
-if [ $REQUIRES -nt "data/updated.last" ]; then
-    $MANAGE syncdb #&> /tmp/.issues
-    $MANAGE migrate #&>> /tmp/.issues
+if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
+    echo "Updating Django..."
+    $MANAGE syncdb 2> /tmp/.issues
+    $MANAGE migrate 2>> /tmp/.issues
     touch "data/updated.last"
 fi
 

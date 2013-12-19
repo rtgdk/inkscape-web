@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Edit Profile</h1>
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+{{ user_form.non_field_errors }}
+
+<table class="block">
+    {% for field in user_form %}
+    <tr>
+        <th scope="row">{{ field.label }}:</th>
+        <td>{{ field }}</td>
+    </tr>
+    {% if field.errors %}<tr><td colspan="2" class='error'>{{ field.errors|striptags }}</td></tr>{% endif %}
+    {% endfor %}
+</table>
+
+<h2>Personal Details</h2>
+
+{{ details_form.non_field_errors }}
+
+<table class="block">
+    {% for field in details_form %}
+    <tr>
+        <th scope="row">{{ field.label }}:</th>
+        <td>{{ field }}</td>
+    </tr>
+    {% if field.errors %}<tr><td colspan="2" class='error'>{{ field.errors|striptags }}</td></tr>{% endif %}
+    {% endfor %}
+</table>
+
+<input type="submit" value="Save"/>
+
+</form>
+
+{% endblock %}

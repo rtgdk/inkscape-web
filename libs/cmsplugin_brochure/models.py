@@ -74,6 +74,5 @@ class BrochureItem(models.Model):
 class BrochurePlugin(CMSPlugin):
     limit  = models.PositiveIntegerField(_('Number of items'))
     source = models.ForeignKey( Brochure, null=True, blank=True)
-    fromStr   = models.CharField(_('From'), max_length=30)
 
 

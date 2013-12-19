@@ -26,7 +26,7 @@ body {
   background-color: white;
   background-image: linear-gradient(to bottom, #e6e6e6 0%, #e6e6e6 10px, #ffffff 75px);
   background-repeat: no-repeat;
-  font-size: 13px;
+  font-size: 11pt;
   font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
@@ -125,9 +125,9 @@ div.toc ul {
   min-height: 500px;
 }
 #content .summary {
-  font-size: 14px;
+  font-size: 12pt;
   line-height: 24px;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 #content > div.wrapper {
   margin: -20px;
@@ -318,6 +318,18 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   position: absolute;
   z-index: 10;
 }
+.header .topdrop img.userphoto {
+  width: 64px;
+  height: 64px;
+  background-image: url(../images/photo.png);
+  display: inline-block;
+  float: left;
+  margin-right: 6px;
+  font-size: 0px;
+}
+.header #topdrops {
+  font-size: 10pt;
+}
 .header #topdrops > li {
   float: left;
 }
@@ -355,6 +367,9 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 #languages li:last-child a:hover {
   border-radius: 0 0 5px 5px;
 }
+.header #languages .topdrop {
+  list-style-type: none;
+}
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;
@@ -372,9 +387,6 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   margin-bottom: 0px;
   border-radius: 0;
 }
-.header #languages .topdrop {
-  list-style-type: none;
-}
 #toplogin .topdrop {
   margin-left: -110px;
   width: 220px;
@@ -391,6 +403,10 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 }
 #toplogin input {
   display: block;
+}
+#topdrops p a {
+  color: white;
+  font-size: 90%;
 }
 #toplogin-submit {
   font-size: 14px;
@@ -789,7 +805,7 @@ hr {
   margin-top: 0;
 }
 .box-fancy {
-  background: radial-gradient(80% 80%, #ffffff #e6e6e6);
+  background: radial-gradient(#ffffff 20%, #e6e6e6 80%);
   box-shadow: 2px 2px 6px rgba(0, 0, 0, 0.5);
   margin: 0 21px 21px 0;
 }
@@ -886,4 +902,27 @@ div.countbox .high {
 div.countbox .vhigh {
   background-color: rgb(193, 46, 34);
   border-color: rgb(173, 36, 24);
+}
+th[scope="row"] {
+  text-align: right;
+}
+
+table.block {
+  min-width: 500px;
+  border: 2px solid #eee;
+  margin: 2px;
+  padding: 10px;
+}
+table.block .bio {
+  width: 100%;
+}
+table.block .photo {
+  vertical-align: top;
+  padding-right: 20px;
+}
+table.block .photo img {
+  width: 128px;
+  height: 128px;
+  padding: 3px;
+  border: 2px solid #eee;
 }

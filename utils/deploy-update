@@ -1,5 +1,5 @@
 #!/bin/bash
-set -e
+#set -e
 
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 cd $DIR/../
@@ -51,8 +51,9 @@ if [ -d $TARGET ]; then
   fi
 fi
 
+cd $TARGET
+
 ./utils/update
 
-# Restart server like this:
-touch utils/wsgi_load.py
+touch ./data/wsgi.conf
 

@@ -22,7 +22,7 @@
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
         {% cms_toolbar %}
         {% if DEBUG %}
-        <div id="debugwarn"><strong>WARNING!</strong> This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live. Please visit <a href="http://inkscape.org">the live website</a> to make perminant changes to the website.
+        <div id="debugwarn"><strong>{% trans "WARNING!" %}</strong> {% trans "This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live." %} {% trans "Please visit" %} <a href="http://inkscape.org">{% trans "the live website" %}</a> {% trans "to make perminant changes to the website." %}
         </div>
         {% endif %}
 		<div class="header">
@@ -50,22 +50,28 @@
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/auth/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
-								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
-								<a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>
+								<!--<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
+                                <a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>-->
 								<a href="{% url "socialauth_begin" 'yahoo' %}" id="toplogin-yahoo"></a>
 <!--								<a href="{% url "socialauth_begin" 'live' %}" id="toplogin-live"></a>
 								<a href="{% url "socialauth_begin" 'wordpress' %}" id="toplogin-wordpress"></a></p>-->
 							</form>
                         {% else %}
-                        <p>{% if request.user.first_name %}{{ request.user.first_name }} {{ request.user.last_name }}{% else %}{{ request.user.username }}{% endif %}</p>
+                        <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
+                        {{ request.user.details }} 
                         <form  class="topdrop">
-                        <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
+                            <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="Profile Photo"/></a>
+                          {% if request.user.is_staff %}
+                            <p id="toplogin-head"><a href="/admin/">{% trans "Admin" %}</a></p>
+                          {% endif %}
+                          <p id="toplogin-head"><a href="{% url "edit_profile" %}">{% trans "Edit Profile" %}</a></p>
+                          <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}
 						</li>
 					</ul>
 					<div id="social">
-					  <p>Follow us on: </p>
+                        <p>{% trans "Follow us on:" %} </p>
 					  <nav id="socialnav">
 					    <a id="twitter-logo"       href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
 														onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>

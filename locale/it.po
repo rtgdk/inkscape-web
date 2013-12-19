@@ -3,20 +3,21 @@
 # This file is distributed under the same license as the PACKAGE package.
 # FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
 #
-#, fuzzy
 msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-05 22:49+0100\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-07-24 13:35+0000\n"
+"PO-Revision-Date: 2013-09-06 06:07+0000\n"
+"Last-Translator: Federico Ruggiero <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=INTEGER; plural=EXPRESSION;\n"
+"Plural-Forms: nplurals=2; plural=n != 1;\n"
+"X-Launchpad-Export-Date: 2013-09-07 05:21+0000\n"
+"X-Generator: Launchpad (build 16760)\n"
+"Language: \n"
 
 #: inkscape/search/cms_app.py:10
 msgid "search apphook"
@@ -66,8 +67,11 @@ msgid "Slug"
 msgstr ""
 
 #: libs/cmsplugin_news/models.py:30
-msgid "A slug is a short name which uniquely identifies the news item for this day"
-msgstr "Uno slug è un nome corto che identifica univocamente l'oggetto news per questo giorno"
+msgid ""
+"A slug is a short name which uniquely identifies the news item for this day"
+msgstr ""
+"Uno slug è un nome corto che identifica univocamente l'oggetto news per "
+"questo giorno"
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
@@ -98,8 +102,14 @@ msgid "Link"
 msgstr "Collegamento"
 
 #: libs/cmsplugin_news/models.py:44
-msgid "This link will be used a absolute url for this item and replaces the view logic. <br />Note that by default this only applies for items with an empty \"content\" field."
-msgstr "Questo link verrà utilizzato come url assoluto per questo oggetto e rimpiazzerà la view logic. <br />Notare che di default questo si applica solo a oggetti con un campo \"contenuto\" vuoto."
+msgid ""
+"This link will be used a absolute url for this item and replaces the view "
+"logic. <br />Note that by default this only applies for items with an empty "
+"\"content\" field."
+msgstr ""
+"Questo link verrà utilizzato come url assoluto per questo oggetto e "
+"rimpiazzerà la view logic. <br />Notare che di default questo si applica "
+"solo a oggetti con un campo \"contenuto\" vuoto."
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
@@ -168,8 +178,12 @@ msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape è software Libero e Open Source sotto licenza GPL."
 
 #: templates/base.html:92
-msgid "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
-msgstr "Sito progettato da <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> in Inkscape e sviluppato da <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgid ""
+"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgstr ""
+"Sito progettato da <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
+"in Inkscape e sviluppato da <a href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -204,11 +218,15 @@ msgstr "Non consentito"
 msgid ""
 "\n"
 "<h1>Sorry, you're not allowed to see this.</h1>\n"
-"<p>Although you can do anything you like in Inkscape, you can't do anything you like in the Inkscape website. You can't view the contents of this page, for example.</p>\n"
+"<p>Although you can do anything you like in Inkscape, you can't do anything "
+"you like in the Inkscape website. You can't view the contents of this page, "
+"for example.</p>\n"
 msgstr ""
 "\n"
 "<h1>Mi dispiace, non sei abilitato a vedere questo.</h1>\n"
-"<p>Nonostante puoi fare quello che vuoi in Inkscape, non puoi fare quello che vuoi nel sito web di Inkscape. Non puoi visualizzare il contenuto di questa pagina, ad esempio.</p>\n"
+"<p>Nonostante puoi fare quello che vuoi in Inkscape, non puoi fare quello "
+"che vuoi nel sito web di Inkscape. Non puoi visualizzare il contenuto di "
+"questa pagina, ad esempio.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
@@ -218,10 +236,17 @@ msgstr "Non trovato"
 msgid ""
 "\n"
 "<h1>Page not found</h1>\n"
-"<p>Couldn't find what you were looking for. Sorry about that. In the future we might have a funny image here for you to look at but at the moment it's just boring.</p>\n"
-"<p>If you've followed a link from our site, or are using a link that used to work before we made this shiny new website, please tell us and we'll fix it up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search\">search</a> to see if you can find what you were looking for.</p>\n"
-"<p>Then again, there's always the possibility that you came here just to see what the 404 page looked like. I hope you're satisfied.</p>\n"
+"<p>Couldn't find what you were looking for. Sorry about that. In the future "
+"we might have a funny image here for you to look at but at the moment it's "
+"just boring.</p>\n"
+"<p>If you've followed a link from our site, or are using a link that used to "
+"work before we made this shiny new website, please tell us and we'll fix it "
+"up.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
+"<p>Then again, there's always the possibility that you came here just to see "
+"what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 
 #: templates/error/500.html:3
@@ -229,29 +254,53 @@ msgid "You broke it!"
 msgstr "L'hai rovinato!"
 
 #: templates/registration/activation_complete.html:10
-msgid "Your user account has been created. Please log in using your username and password."
-msgstr "Il tuo account utente è stato creato. Per favore effettua il log in utilizzando il tuo nome utente e la password."
+msgid ""
+"Your user account has been created. Please log in using your username and "
+"password."
+msgstr ""
+"Il tuo account utente è stato creato. Per favore effettua il log in "
+"utilizzando il tuo nome utente e la password."
 
 #: templates/registration/activation_complete.html:12
-msgid "If you have any problems, please <a href=\"/contact/?subject=Lost activation code\">contact us</a>."
-msgstr "Se hai qualunque problema, per favore <a href=\"/contact/?subject=Lost activation code\">contattaci</a>."
+msgid ""
+"If you have any problems, please <a href=\"/contact/?subject=Lost activation "
+"code\">contact us</a>."
+msgstr ""
+"Se hai qualunque problema, per favore <a href=\"/contact/?subject=Lost "
+"activation code\">contattaci</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
 msgstr "Ciao,"
 
 #: templates/registration/activation_email.txt:5
-msgid "Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar."
-msgstr "Per favore apri il seguente link nel tuo browser web. Se il link è spezzato su più righe, dovrai copiarlo nella barra degli indirizzi."
+msgid ""
+"Please open the following link in your web browser. If the link is split "
+"over several lines, you may need to copy it in the address bar."
+msgstr ""
+"Per favore apri il seguente link nel tuo browser web. Se il link è spezzato "
+"su più righe, dovrai copiarlo nella barra degli indirizzi."
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
 msgstr "Se c'è un problema con la tua registrazione, per favore contattaci:"
 
 #: templates/registration/registration_complete.html:10
-msgid "Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration."
-msgstr "Grazie per esserti registrato. Riceverai a breve un email con un link di conferma. Per favore segui questo link per poter completare la tua registrazione."
+msgid ""
+"Thank you for registering. You will very soon receive an email with a "
+"confirmation link. Please follow this link in order to complete your "
+"registration."
+msgstr ""
+"Grazie per esserti registrato. Riceverai a breve un email con un link di "
+"conferma. Per favore segui questo link per poter completare la tua "
+"registrazione."
 
 #: templates/registration/registration_complete.html:13
-msgid "If you don't receive it shortly, please check your spam folder. If it's not there, please <a href=\"/contact/?subject=Lost activation code\">contact us</a>."
-msgstr "Se non lo ricevi in breve tempo, per favore controlla la tua cartella spam. Se non è lì, per favore <a href=\"/contact/?subject=Lost activation code\">contattaci</a>."
+msgid ""
+"If you don't receive it shortly, please check your spam folder. If it's not "
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
+msgstr ""
+"Se non lo ricevi in breve tempo, per favore controlla la tua cartella spam. "
+"Se non è lì, per favore <a href=\"/contact/?subject=Lost activation "
+"code\">contattaci</a>."

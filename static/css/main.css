@@ -217,10 +217,6 @@ div.toc ul {
     background-color: #dddddd;
 }
 
-#twitter-logo {
-/*  background-image: url("../images/logo_twitter.svg"); */
-}
-
 #google-groups-logo {
   /* Use simple G */
   font-size: 30px;
@@ -322,6 +318,8 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   width: 64px;
   height: 64px;
   background-image: url(../images/photo.png);
+  background-size: 64px;
+  background-repeat: no-repeat;
   display: inline-block;
   float: left;
   margin-right: 6px;

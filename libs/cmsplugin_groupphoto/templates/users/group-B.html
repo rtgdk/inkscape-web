@@ -1,13 +1,13 @@
 
-<h2>{{ instance.source }}</h2>
-
 <div class="photos"/>
 {% for user in users %}
-<div class="photo">
-    <img src="{{ user.photo }}" title="Photo of {{ user }}" alt="Photo of {{ user }}"/>
-    <h3>{{ user }}</h3>
-    <p>{{ user.bio }}</p>
-</div>
+
+  <div class="galleryitem">
+    <a class="link" href="{% url "view_profile" user.id %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
+    <p title="{{ user.email }}"><a href="{% url "view_profile" user.id %}">{{ user.details }} ({{ user.username }})</a></p>
+    <p class="bio">{{ user.details.bio }}</p>
+  </div>
+
 {% endfor %}
 </div>
 

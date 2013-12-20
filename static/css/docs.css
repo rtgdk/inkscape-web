@@ -1,0 +1,55 @@
+#intro
+{
+	font-style: italic;
+	padding: 2% 5% 0 5%;
+	text-align: justify;
+	color: #454545;
+}
+#content h2,
+#content h3,
+#content h4,
+#content h5,
+#content h6
+{
+	font-family: verdana, sans-serif;
+	font-weight: bold;
+}
+#content h2
+{
+	font-size: 1.2em;
+	margin: 25px 0 5px 0;
+}
+#content h3
+{
+	font-size: 1em;
+	margin: 20px 0 5px 0;
+	font-style: italic;
+}
+#content p
+{
+	margin: 0 0 15px 0;
+	line-height: 165%;
+}
+#content kbd
+{
+	border: 3px outset #F3F3F3;
+	background-color: #F3F3F3;
+	padding: 0px 2px;
+	cursor: default;
+}
+#content kbd:hover
+{
+	border: 3px inset #F3F3F3;
+}
+#content > div.wrapper
+{
+    min-height: 0px !important;
+}
+span.menu-command
+{
+	font-family: verdana, sans-serif;
+}
+span.firstterm
+{
+	font-style: italic;
+}

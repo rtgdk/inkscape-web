@@ -25,6 +25,7 @@ LANGUAGES = (
     ('en', 'English'),
     ('de', 'Germen'),
     ('fr', 'French'),
+    ('nl', 'Dutch'),
     ('it', 'Italian'),
     ('es', 'Spanish'),
     ('pt', 'Portuguese'),
@@ -59,8 +60,6 @@ sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 (VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
 
 LOCALE_PATHS = os.path.join(PROJECT_PATH, 'locale'),
-import sys
-sys.stderr.write("\n PATHS: %s \n\n" % LOCALE_PATHS)
 
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS
@@ -157,6 +156,7 @@ INSTALLED_APPS = (
     'inkscape.extra',
     'inkscape.search',
     'inkscape.person',
+    'inkscape.docs',
 )
 
 CMS_TEMPLATES = (
@@ -180,6 +180,7 @@ CMS_LANGUAGES = {
       { 'code': 'en',    'name': 'English',                             'public': True },
       { 'code': 'de',    'name': 'Deutsch',   'fallbacks': ['en'],      'public': True },
       { 'code': 'fr',    'name': 'Français',  'fallbacks': ['en'],      'public': True },
+      { 'code': 'nl',    'name': 'Nederlands','fallbacks': ['en'],      'public': True },
       { 'code': 'it',    'name': 'Italiano',  'fallbacks': ['en'],      'public': True },
       { 'code': 'es',    'name': 'Español',   'fallbacks': ['fr','en'], 'public': True },
       { 'code': 'pt',    'name': 'Português', 'fallbacks': ['es','en'], 'public': True },
@@ -222,7 +223,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-#LOGIN_URL          = '/login/'
-LOGIN_REDIRECT_URL = '/'
-#LOGIN_ERROR_URL    = '/login/error/'
+LOGIN_URL          = '/auth/login/'
+LOGIN_REDIRECT_URL = '/person/'
+LOGIN_ERROR_URL    = '/auth/login/'
 

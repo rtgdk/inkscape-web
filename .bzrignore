@@ -13,3 +13,5 @@ data/woosh_search
 data/media/cms_page_media
 data/media/brochure
 sources
+data/media
+data/backup

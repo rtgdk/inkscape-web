@@ -121,12 +121,12 @@ div.toc ul {
   padding: 20px 20px 50px;
   background-color: white;
   background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100px);
-  line-height: 20px;
+  line-height: 150%;
   min-height: 500px;
 }
 #content .summary {
   font-size: 12pt;
-  line-height: 24px;
+  line-height: 160%;
   margin-bottom: 10px;
 }
 #content > div.wrapper {
@@ -215,10 +215,6 @@ div.toc ul {
 
 #social nav a:hover {
     background-color: #dddddd;
-}
-
-#twitter-logo {
-/*  background-image: url("../images/logo_twitter.svg"); */
 }
 
 #google-groups-logo {
@@ -322,6 +318,8 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   width: 64px;
   height: 64px;
   background-image: url(../images/photo.png);
+  background-size: 64px;
+  background-repeat: no-repeat;
   display: inline-block;
   float: left;
   margin-right: 6px;
@@ -654,7 +652,7 @@ a.button.download span {
   margin: -10px -15px;
 }
 a.button.download.w140 span {
-  background-position: 104px 50%;
+  background-position: 101px 50%;
 }
 a.button.download.w160 span {
   background-position: 124px 50%;

@@ -1,6 +1,23 @@
 #!/bin/bash
 set -e
 
+mkdir -p data/media
+
+command -v virtualenv &> /dev/null || {
+  command -v apt-get &> /dev/null || {
+    echo "I require pythonenv, but it is not installed. Aborting."
+    exit 1;
+  }
+  sudo apt-get install python-virtualenv
+}
+
+python ./utils/python-bedeveled || {
+  command -v apt-get &> /dev/null || {
+    echo "I require python headers, but they are not installed. Aborting."
+    exit 1;
+  }
+  sudo apt-get install python-dev
+}
 
 ./utils/update
 ./utils/refresh-cms

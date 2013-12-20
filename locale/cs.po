@@ -7,97 +7,360 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-07-24 13:35+0000\n"
-"PO-Revision-Date: 2013-07-28 09:09+0000\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"PO-Revision-Date: 2013-12-06 09:59+0000\n"
+"Last-Translator: helix84 <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-07-29 05:40+0000\n"
-"X-Generator: Launchpad (build 16700)\n"
-"Language: \n"
+"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
+"X-Generator: Launchpad (build 16869)\n"
 
-#: inkscape/search/cms_app.py:10
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Popis"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Náhled"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+#, fuzzy
+msgid "Source File"
+msgstr "Typ zdroje"
+
+#: inkscape/person/forms.py:7 templates/base.html:49
+msgid "Password"
+msgstr "Heslo"
+
+#: inkscape/person/forms.py:8
+msgid "Confirm"
+msgstr "Potvrdit"
+
+#: inkscape/person/models.py:16
+msgid "Photograph"
+msgstr "Fotografie"
+
+#: inkscape/person/models.py:47
+msgid "Display Icon"
+msgstr "Zobrazit ikonu"
+
+#: inkscape/search/cms_app.py:14
 msgid "search apphook"
+msgstr "hledat apphook"
+
+#: libs/cmsplugin_brochure/cms_plugins.py:15
+msgid "Gallery Brochure"
+msgstr "Brožura galerie"
+
+#: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
+#: libs/cmsplugin_news/models.py:28
+msgid "Title"
+msgstr "Název"
+
+#: libs/cmsplugin_brochure/models.py:23
+msgid "Link to Full Listing"
+msgstr "Odkaz na plný výpis"
+
+#: libs/cmsplugin_brochure/models.py:24
+msgid "Target Icon"
+msgstr "Cílová ikona"
+
+#: libs/cmsplugin_brochure/models.py:27
+msgid "Source Type"
+msgstr "Typ zdroje"
+
+#: libs/cmsplugin_brochure/models.py:28
+msgid "Kind of parsing to do."
+msgstr "Druh zpracování."
+
+#: libs/cmsplugin_brochure/models.py:29
+msgid "Data Link"
+msgstr "Datový odkaz"
+
+#: libs/cmsplugin_brochure/models.py:30
+msgid "Link to RSS feed or other data for regular parsing."
+msgstr "Odkaz na kanál RSS nebo další data na běžné zpracování."
+
+#: libs/cmsplugin_brochure/models.py:31
+msgid "Automatically Enable"
+msgstr "Automaticky zapnout"
+
+#: libs/cmsplugin_brochure/models.py:32
+msgid "Makes all new entries visible to the user directly"
+msgstr "Přímo zviditelňuje nové položky uživateli"
+
+#: libs/cmsplugin_brochure/models.py:33
+msgid "Last Updated"
+msgstr "Naposledy aktualizováno"
+
+#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
+msgid "Published"
+msgstr "Zveřejněno"
+
+#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
+msgid "Link"
+msgstr "Odkaz"
+
+#: libs/cmsplugin_brochure/models.py:58
+msgid "Publication Date"
+msgstr "Datum zveřejnění"
+
+#: libs/cmsplugin_brochure/models.py:61
+msgid "Enabled"
+msgstr "Zapnuto"
+
+#: libs/cmsplugin_brochure/models.py:62
+msgid "Indexed Date"
+msgstr "Datum indexace"
+
+#: libs/cmsplugin_brochure/models.py:75
+msgid "Number of items"
+msgstr "Počet položek"
+
+#: libs/cmsplugin_groupphoto/cms_plugins.py:11
+msgid "Group of Users List"
+msgstr "Seznam skupiny uživatel"
+
+#: libs/cmsplugin_groupphoto/models.py:10
+msgid "Display Style"
+msgstr "Styl zobrazení"
+
+#: libs/cmsplugin_groupphoto/models.py:12
+msgid "Simple List"
+msgstr "Jednoduchý seznam"
+
+#: libs/cmsplugin_groupphoto/models.py:13
+msgid "Photo Heads"
+msgstr "Fotohlavičky"
+
+#: libs/cmsplugin_groupphoto/models.py:14
+msgid "Photo Bios"
+msgstr "Foto biografie"
+
+#: libs/cmsplugin_launchpad/cms_plugins.py:13
+msgid "Launchpad Bug Count"
+msgstr "Počet chyb v Launchpadu"
+
+#: libs/cmsplugin_launchpad/models.py:48
+msgid "Project Name"
+msgstr "Název projektu"
+
+#: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
+#: libs/cmsplugin_launchpad/models.py:88
+msgid "Launchpad ID"
+msgstr "ID v Launchpadu"
+
+#: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
+msgid "Name"
+msgstr "Název"
+
+#: libs/cmsplugin_launchpad/models.py:68
+msgid "Status"
+msgstr "Stav"
+
+#: libs/cmsplugin_launchpad/models.py:89
+msgid "Internal Launchpad ID"
+msgstr "Interní ID v Launchpadu"
+
+#: libs/cmsplugin_launchpad/models.py:115
+msgid "List Name"
+msgstr "Název seznamu"
+
+#: libs/cmsplugin_launchpad/models.py:122
+msgid "That were created before the given date."
+msgstr "Které byli vytvořeny před uvedeným datem."
+
+#: libs/cmsplugin_launchpad/models.py:124
+msgid "That have been created since the given date."
+msgstr "Které byli vytvořeny od uvedeného data."
+
+#: libs/cmsplugin_launchpad/models.py:126
+msgid "That have been modified since the given date."
+msgstr "Které byli změněny od uvedeného data."
+
+#: libs/cmsplugin_launchpad/models.py:128
+msgid "Bug ID or search text."
+msgstr "ID chyby nebo text vyhledávání."
+
+#: libs/cmsplugin_launchpad/models.py:130
+msgid "All Bugs"
+msgstr "Všechny chyby"
+
+#: libs/cmsplugin_launchpad/models.py:131
+msgid "Linked Only"
+msgstr "Pouze spojeny"
+
+#: libs/cmsplugin_launchpad/models.py:132
+msgid "Not Linked Only"
+msgstr "Pouze nespojeny"
+
+#: libs/cmsplugin_launchpad/models.py:133
+msgid "That are or are not linked to branches"
+msgstr "Které jsou nebo nejsou spojeny s větvami"
+
+#: libs/cmsplugin_launchpad/models.py:135
+msgid "Omit bugs marked as duplicate."
+msgstr "Vynechat chyby označené jako duplicity."
+
+#: libs/cmsplugin_launchpad/models.py:137
+msgid "Omit bugs targeted to a series."
+msgstr "Vykonat chyby cílené na sérii."
+
+#: libs/cmsplugin_launchpad/models.py:139
+msgid "Only with any of the given status values."
+msgstr "Pouze s jednou z uvedených hodnot stavu."
+
+#: libs/cmsplugin_launchpad/models.py:141
+msgid "Only with any of the given importances."
+msgstr "Pouze s jednou z uvedených důležitostí."
+
+#: libs/cmsplugin_launchpad/models.py:143
+msgid "Tags to search. To exclude use '-tag' instead."
+msgstr "Které štítky prohledávat. Pro vynechání použijte „-štítek“."
+
+#: libs/cmsplugin_launchpad/models.py:145
+msgid "Any Selected Tag"
+msgstr "Libovolný vybraný štítek"
+
+#: libs/cmsplugin_launchpad/models.py:145
+msgid "All Selected Tags"
+msgstr "Všechny vybrané štítky"
+
+#: libs/cmsplugin_launchpad/models.py:146
+msgid "Search for any or all of the tags specified."
+msgstr "Hledat libovolný nebo všechny z uvedených štítků."
+
+#: libs/cmsplugin_launchpad/models.py:148
+msgid "Only bugs targeted to this milestone."
+msgstr "Pouze chyby cílené na tento milník."
+
+#: libs/cmsplugin_launchpad/models.py:150
+msgid "Only bugs nominated for this series."
+msgstr "Pouze chyby nominované do této série."
+
+#: libs/cmsplugin_launchpad/models.py:222
+msgid "Low Bug Threshold"
+msgstr "Nízký prah chyb"
+
+#: libs/cmsplugin_launchpad/models.py:223
+msgid "Medium Bug Threshold"
+msgstr "Střední prah chyb"
+
+#: libs/cmsplugin_launchpad/models.py:224
+msgid "High Bug Threshold"
 msgstr ""
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)d novinka byla zveřejněna"
+msgstr[1] "%(count)d novinky byly zveřejněny"
+msgstr[2] "%(count)d novinek bylo zveřejněno"
 
 #: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
-msgstr ""
+msgstr "Publikovat vybrané novinky"
 
 #: libs/cmsplugin_news/admin.py:47
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] ""
-msgstr[1] ""
+msgstr[0] "%(count)d zveřejněná novinka byla skryta"
+msgstr[1] "%(count)d zveřejněné novinky byly skryty"
+msgstr[2] "%(count)d zveřejněných novinek bylo skryto"
 
 #: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
-msgstr ""
+msgstr "Skrýt vybrané zveřejněné novinky"
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr ""
+msgstr "Aplikace novinek"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr ""
+msgstr "Nejnovější novinky"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr ""
-
-#: libs/cmsplugin_news/models.py:28
-msgid "Title"
-msgstr ""
+msgstr "Menu novinek"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
-msgstr ""
+msgstr "SEO URL"
 
 #: libs/cmsplugin_news/models.py:30
 msgid ""
 "A slug is a short name which uniquely identifies the news item for this day"
 msgstr ""
+"SEO URL je zkrácený název, který jedinečně identifikuje novinku pro tento den"
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr ""
+msgstr "Výtah"
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr ""
-
-#: libs/cmsplugin_news/models.py:34
-msgid "Published"
-msgstr ""
+msgstr "Obsah"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr ""
+msgstr "Datum zveřejnění"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr ""
+msgstr "Jazyk"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr ""
-
-#: libs/cmsplugin_news/models.py:44
-msgid "Link"
-msgstr ""
+msgstr "Volitené: Zobrazit pouze pro tento jazyk"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -105,107 +368,132 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
+"Tento odkaz se použije jako absolutní URL pro tuto položku a nahradí logiku "
+"zobrazení. <br />Všimněte si, že toto se standardně týká pouze položek, "
+"které mají prázdné pole „obsah“."
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr ""
+msgstr "Novinky"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr ""
+msgstr "Kolik novinek zobrazovat"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
-msgstr ""
+msgstr "Omezuje počet novinek, které se budou zobrazovat"
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr ""
+msgstr "Kanál novinek"
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
-msgstr ""
+msgstr "Kanál úplných novinek"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr ""
+msgstr "Prozatím žádné novinky"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
+msgstr "Archiv"
+
+#: templates/base.html:26
+msgid "WARNING!"
+msgstr "UPOZORNĚNÍ!"
+
+#: templates/base.html:26
+msgid ""
+"This website is not the live website and should be used for testing. "
+"Anything you save will be replaced on the next sync from live."
+msgstr ""
+"Tato webstránka není produkční webstránka a je určena pro testování. "
+"Cokoliv, co uložíte bude nahrazeno při nejbližší synchronizaci z produkčního "
+"webu."
+
+#: templates/base.html:26
+msgid "Please visit"
+msgstr "Prosím, navštivte"
+
+#: templates/base.html:26
+msgid "the live website"
+msgstr "produkční webstránku"
+
+#: templates/base.html:26
+msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:35
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
-msgstr ""
+msgstr "Přihlásit / zaregistrovat se"
 
-#: templates/base.html:38
+#: templates/base.html:46
 msgid "Already a member? Log in below."
-msgstr ""
+msgstr "Máte už účet? Přihlaste se níže."
 
-#: templates/base.html:39
+#: templates/base.html:47
 msgid "Username"
-msgstr ""
+msgstr "Uživatelské jméno"
 
-#: templates/base.html:41
-msgid "Password"
-msgstr ""
-
-#: templates/base.html:44
+#: templates/base.html:52
 msgid "Not a member?"
-msgstr ""
+msgstr "Nemáte účet?"
 
-#: templates/base.html:44
+#: templates/base.html:52
 msgid "Register now."
-msgstr ""
+msgstr "Zaregistrujte se."
 
-#: templates/base.html:45
+#: templates/base.html:53
 msgid "Or log in with"
-msgstr ""
+msgstr "Nebo se přihlaste pomocí"
 
-#: templates/base.html:56
+#: templates/base.html:65
+msgid "Admin"
+msgstr "Správce"
+
+#: templates/base.html:67
+msgid "Edit Profile"
+msgstr "Upravit profil"
+
+#: templates/base.html:68
 msgid "Logout"
-msgstr ""
+msgstr "Odhlásit se"
 
-#: templates/base.html:89
+#: templates/base.html:74
+msgid "Follow us on:"
+msgstr "Sledujte nás na:"
+
+#: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr ""
+msgstr "Inkscape je slobodný a open source software pod licencí GPL."
 
-#: templates/base.html:92
+#: templates/base.html:113
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
+"Webstránku navrhl <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> v "
+"Inkscape a vyvinul <a href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "Předchozí"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr ""
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr ""
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr ""
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr ""
-
-#: templates/content/faq.html:40
-msgid "Expand all"
-msgstr ""
+msgstr "Další"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr ""
+msgstr "Zakázáno"
 
 #: templates/error/403.html:6
 msgid ""
@@ -215,10 +503,14 @@ msgid ""
 "you like in the Inkscape website. You can't view the contents of this page, "
 "for example.</p>\n"
 msgstr ""
+"\n"
+"<h1>Litujeme, nemáte oprávnění prohlížet tuto stránku.</h1>\n"
+"<p>Ačkoli v Inkscape můžete dělat co chcete, to neplatí pro webstránky o "
+"Inkscape. Například nemůžete zobrazit obsah této stránky.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr ""
+msgstr "Nenalezeno"
 
 #: templates/error/404.html:7
 msgid ""
@@ -230,42 +522,60 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
+"\n"
+"<h1>Stránka nebyla nalezena</h1>\n"
+"<p>Litujeme, to, co jste hledali nelze najít. V budoucnu bychom mohli mít "
+"legrační obrázek, na který byste se mohli dívat, ale v tuto chvíli je to jen "
+"nuda.</p>\n"
+"<p>Pokud jste klikli na odkaz z našich stránek nebo odkazu, který v "
+"minulosti fungoval, než jsme spustili tuto zbrusu novou webovou stránku, "
+"prosím, sdělte nám to a my to opravíme.</p>\n"
+"<p>Pokud nevíte, proč jste se sem dostali, možná byste chtěli zkusit najít "
+"to, co jste hledali pomocí <a href=\"/search\">vyhledávání</ a>.</p>\n"
+"<p>Ješte pořád je tu možnost, že jsi sem přišli jen proto, aby jste viděli, "
+"jak stránka 404 vypadá. Doufám, že jste spokojeni.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr ""
+msgstr "Rozbil jsi to!"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
 msgstr ""
+"Váš uživatelský účet byl vytvoŕen. Prosím, přihlaste se svým přihlasovacím "
+"jménem a heslem."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
+"V případě jakýchkoliv problémů <a href=\"/contact/?subject=Lost activation "
+"code\">nás kontaktujte</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "Ahoj,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
+"Prosím, otevřete následující odkaz ve svém webovém prohlížeči. Pokud je "
+"odkaz rozdělen na několik řádků, budete ho možná muset zkopírovat do svého "
+"prohlížeče."
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr ""
+msgstr "Pokud se vyskytne problém s registrací, prosím, kontaktujte nás."
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -273,10 +583,24 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
+"Děkujeme vám za vaši registraci. Již brzy dostanete email s potvrzovacím "
+"odkazem. Prosím, použijte tento odkaz na dokončení vaší registrace."
 
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
+"Pokud ho zakrátko nedostanete, prosím, podívejte se do své spamové složky. "
+"Pokud tam není, prosím, <a href=\"/contact/?subject=Lost activation code"
+"\">kontaktujte nás</a>."
+
+#~ msgid "Inkscape screenshots"
+#~ msgstr "Snímky obrazovky Inkscape"
+
+#~ msgid "Screenshots of Inkscape %(version)s"
+#~ msgstr "Snímky obrazovky Inkscape %(version)s"
+
+#~ msgid "See screenshots of other versions:"
+#~ msgstr "Podívejte se na snímky obrazovky jiných verzí:"

@@ -1,0 +1,18 @@
+# WARNING! Do not specify python bang line
+#
+# Return true (exit 0) if Python.h is available
+#
+
+import os
+import sys
+
+from distutils import sysconfig as s;
+
+inc_dir = s.get_config_vars()['INCLUDEPY']
+
+if os.path.exists(os.path.join(inc_dir, 'Python.h')):
+    sys.exit(0)
+
+sys.stderr.write("No python headers detected!\n")
+sys.exit(1)
+

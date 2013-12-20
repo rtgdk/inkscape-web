@@ -33,6 +33,17 @@ def edit_profile(request):
     return render_to_response('person/edit.html', c,
         context_instance=RequestContext(request))
 
+from django.contrib.auth.decorators import user_passes_test
+@user_passes_test(lambda u: u.is_superuser)
+def view_profiles(request):
+    c = {
+        'users': UserDetails.objects.all(),
+    }
+    return render_to_response('person/profiles.html', c,
+        context_instance=RequestContext(request))
+
+
+
 @login_required
 def my_profile(request):
     return view_profile(request, request.user.id)

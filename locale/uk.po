@@ -1,178 +1,132 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Ukrainian translation for inkscape-web
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 18:26+0000\n"
-"PO-Revision-Date: 2013-12-10 16:48+0000\n"
-"Last-Translator: Duarte Ramos <duarte.framos@gmail.com>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2013-12-07 17:25+0000\n"
+"PO-Revision-Date: 2013-12-05 18:58+0000\n"
+"Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
+"Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-11 05:56+0000\n"
+"Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
+"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
 
-#: inkscape/gallery/forms.py:27
-msgid "I have permission to post this work"
-msgstr ""
-
-#: inkscape/gallery/models.py:39
-msgid "License Banner"
-msgstr ""
-
-#: inkscape/gallery/models.py:40
-msgid "License Icon"
-msgstr ""
-
-#: inkscape/gallery/models.py:42
-msgid "Attribution"
-msgstr ""
-
-#: inkscape/gallery/models.py:43
-msgid "Copyleft (Share Alike)"
-msgstr ""
-
-#: inkscape/gallery/models.py:44
-msgid "Non-Commercial"
-msgstr ""
-
-#: inkscape/gallery/models.py:45
-msgid "Non-Derivitive"
-msgstr ""
-
-#: inkscape/gallery/models.py:46
-msgid "All Rights Reserved"
-msgstr ""
-
-#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
-#: libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Descrição"
-
-#: inkscape/gallery/models.py:71
-msgid "I own this work"
-msgstr ""
-
-#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Miniatura"
-
-#: inkscape/gallery/models.py:74
-msgid "Consumable File"
-msgstr ""
-
-#: inkscape/gallery/models.py:75
-#, fuzzy
-msgid "Source File"
-msgstr "Tipo de Fonte"
-
-#: inkscape/person/forms.py:7 templates/base.html:49
+#: inkscape/person/forms.py:7 templates/base.html:47
 msgid "Password"
-msgstr "Palavra-Passe"
+msgstr "Пароль"
 
 #: inkscape/person/forms.py:8
 msgid "Confirm"
-msgstr "Confirmar"
+msgstr "Підтвердити"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr "Fotografia"
+msgstr "Фотографія"
 
-#: inkscape/person/models.py:47
+#: inkscape/person/models.py:49
 msgid "Display Icon"
-msgstr "Ícone exibido"
+msgstr ""
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr "procurar apphook"
+msgstr ""
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr "Brochura de galeria"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr "Título"
+msgstr ""
+
+#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Опис"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr "Ligação para listagem completa"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr "Ícone alvo"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr "Tipo de Fonte"
+msgstr "Тип джерела"
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr "Tipo de análise"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr "Ligação aos dados"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
-msgstr "Conectar RSS ou outra fonte de informação para análse normal"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr "Activar automaticamente"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr "Tornar todas as entradas visíveis para os utilizadores directamente"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr "Última actualização"
+msgstr "Останнє оновлення"
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr "Publicado"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr "Ligação"
+msgstr "Посилання"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr "Data de publicação"
+msgstr "Дата оприлюднення"
+
+#: libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr "Activado"
+msgstr "Увімкнено"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr "Data de indexação"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr "Número de itens"
+msgstr "Кількість елементів"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr "Lista de Grupos de Utilizadores"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr "Estilo de Apresentação"
+msgstr "Стиль показу"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr "Lista simples"
+msgstr "Простий список"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
@@ -184,92 +138,92 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr "Contagem de bugs do Launchpad"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr "Nome do projecto"
+msgstr "Назва проекту"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr "Identificação do Launchpad"
+msgstr "Ідентифікатор Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 msgid "Name"
-msgstr "Nome"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr "Estado"
+msgstr "Стан"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr "Identificação interna do Launchpad"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr "Nome da lista"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr "Que foram criadas antes da data indicada"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr "Que foram criadas depois da data indicada"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr "Que foram criadas depois da data indicada"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr "Identificação do erro ou texto de pesquisa"
+msgstr "Ідентифікатор вади або текст для пошуку"
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr "Todos os Erros"
+msgstr "Усі вади"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr "Apenas conectados"
+msgstr "Лише пов’язані"
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr "Apenas não conectados"
+msgstr "Лише непов’язані"
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr "Que estão ou não conectados aos ramos"
+msgstr "Які пов’язано або не пов’язано з гілками"
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr "Omitir erros marcados como duplicados"
+msgstr "Пропустити вади, позначені як дублікати."
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr "Omitir bugs apontados a uma série"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr "Apenas com os valores de estado indicados"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr "Apenas com as importâncias indicadas"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
-msgstr "Etiquetas a  pesquisar. Para excluir use \"-etiqueta\""
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
-msgstr ""
+msgstr "Будь-яка з вибраних міток"
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr ""
+msgstr "Усі вибрані мітки"
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
@@ -324,11 +278,11 @@ msgstr ""
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr ""
+msgstr "Останні новини"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr ""
+msgstr "Меню новин"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
@@ -345,15 +299,15 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr ""
+msgstr "Вміст"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr ""
+msgstr "Дата оприлюднення"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr ""
+msgstr "Мова"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
@@ -368,7 +322,7 @@ msgstr ""
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr ""
+msgstr "Новини"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
@@ -380,11 +334,11 @@ msgstr ""
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr ""
+msgstr "Подача новин"
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
-msgstr ""
+msgstr "Подача з новинами"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
@@ -394,73 +348,69 @@ msgstr ""
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr ""
+msgstr "Архів"
 
-#: templates/base.html:26
+#: templates/base.html:25
 msgid "WARNING!"
-msgstr ""
+msgstr "ПОПЕРЕДЖЕННЯ!"
 
-#: templates/base.html:26
+#: templates/base.html:25
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
 
-#: templates/base.html:26
+#: templates/base.html:25
 msgid "Please visit"
 msgstr ""
 
-#: templates/base.html:26
+#: templates/base.html:25
 msgid "the live website"
 msgstr ""
 
-#: templates/base.html:26
+#: templates/base.html:25
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:36
-msgid "Draw Freely."
-msgstr ""
-
-#: templates/base.html:43
+#: templates/base.html:41
 msgid "Log in / Register"
 msgstr ""
 
-#: templates/base.html:46
+#: templates/base.html:44
 msgid "Already a member? Log in below."
 msgstr ""
 
-#: templates/base.html:47
+#: templates/base.html:45
 msgid "Username"
-msgstr ""
+msgstr "Користувач"
 
-#: templates/base.html:52
+#: templates/base.html:50
 msgid "Not a member?"
-msgstr ""
+msgstr "Ще не є користувачем?"
 
-#: templates/base.html:52
+#: templates/base.html:50
 msgid "Register now."
-msgstr ""
+msgstr "Зареєструйтеся."
 
-#: templates/base.html:53
+#: templates/base.html:51
 msgid "Or log in with"
-msgstr ""
+msgstr "або увійдіть за допомогою"
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr ""
+msgstr "Адміністратор"
 
 #: templates/base.html:67
 msgid "Edit Profile"
-msgstr ""
+msgstr "Змінити профіль"
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr ""
+msgstr "Вийти"
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr ""
+msgstr "Стежте за нами:"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
@@ -474,15 +424,28 @@ msgstr ""
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "Назад"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr ""
+msgstr "Далі"
+
+#: templates/screenshots.html:4 templates/screenshots.html.py:5
+msgid "Inkscape screenshots"
+msgstr "Знімки вікон Inkscape"
+
+#: templates/screenshots.html:28
+#, python-format
+msgid "Screenshots of Inkscape %(version)s"
+msgstr "Знімки вікон Inkscape %(version)s"
+
+#: templates/screenshots.html:45
+msgid "See screenshots of other versions:"
+msgstr "Переглянути знімки вікон інших версій:"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr ""
+msgstr "Заборонено"
 
 #: templates/error/403.html:6
 msgid ""
@@ -495,7 +458,7 @@ msgstr ""
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr ""
+msgstr "Не знайдено"
 
 #: templates/error/404.html:7
 msgid ""
@@ -507,23 +470,12 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
-"\n"
-"<h1>Página não encontrada</h1>\n"
-"<p>Não conseguimos encontrar o que procura. Pedimos desculpa. De futuro "
-"talvez coloquemos uma imagem engraçada aqui para você ver, mas de momento "
-"apenas temos este texto aborrecido.</p>\n"
-"<p>Se seguiu uma ligação no nosso site, ou usou uma ligação que costumava "
-"funcionar antes de nós termos feito este site novinho em folha, por favor "
-"diga-nos para que possamos corrigir o erro.</p>\n"
-"<p>Se não sabe porque está aqui, talvez queira <a href=\"/search"
-"\">pesquisar</a> para ver se encontra o que procura.</p>\n"
-"<p>Também há a possibilidade de que tenha vindo aqui apenas para ver a "
-"aparência da página 404. Espero que tenha ficado satisfeito.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
@@ -543,7 +495,7 @@ msgstr ""
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr ""
+msgstr "Привіт,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""
@@ -565,6 +517,6 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
 msgstr ""

@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^auth/logout/',  'django.contrib.auth.views.logout',{'next_page': '/'}, name='auth_logout'),
     url(r'^auth/',     include('registration.backends.default.urls')),
     url(r'^person/',   include('inkscape.person.urls')),
+    #url(r'^gallery/',  include('inkscape.gallery.urls')),
+    url(r'^doc/',      include('inkscape.docs.urls')),
     (r'^',             include('social_auth.urls')),
     (r'^',             include('django.contrib.staticfiles.urls')),
 )

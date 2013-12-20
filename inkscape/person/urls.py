@@ -9,4 +9,5 @@ urlpatterns = patterns('inkscape.person.views',
     url(r'^$',        'my_profile',      name='my_profile'),
     url(r'^(\d+)/$',  'view_profile',    name='view_profile'),
     url(r'^edit/$',   'edit_profile',    name='edit_profile'),
+    url(r'^faces/$',  'view_profiles',   name='faces'),
 )

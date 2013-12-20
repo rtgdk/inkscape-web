@@ -221,7 +221,7 @@ class BugCountPlugin(CMSPlugin):
     source = ForeignKey(BugCount)
     low    = IntegerField(_("Low Bug Threshold"), default=10)
     medium = IntegerField(_("Medium Bug Threshold"), default=20)
-    high   = IntegerField(_("Height Bug Threshold"), default=50)
+    high   = IntegerField(_("High Bug Threshold"), default=50)
 
     def importance(self):
         c = int(self.source.bugs)

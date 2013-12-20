@@ -23,7 +23,8 @@ function menu(){
     while(containerHeight > elementHeight){
         $("#menu").children("li").each(function(){
             if(i != 0){
-                $(this).children("a:first-child").css('font-size',parseInt($(this).children("a:first-child").css('font-size'))-1 + "px");
+                $(this).children("a:first-child").css('padding-left',parseInt($(this).children("a:first-child").css('padding-left'))-1 + "px");
+                $(this).children("a:first-child").css('padding-right',parseInt($(this).children("a:first-child").css('padding-right'))-1 + "px");
             }
             elementHeight = $(this).height();
         })

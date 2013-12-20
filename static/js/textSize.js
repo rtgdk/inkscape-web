@@ -20,11 +20,11 @@ function menu(){
     var elementHeight=0;
     var containerHeight=1;
     var i = 0;
-    var onePointLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
+    var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
     while(containerHeight > elementHeight){
         $("#menu").children("li").each(function(){
             if(i != 0){
-                $(this).children("a:first-child").css('font-size',onePointLess);
+                $(this).children("a:first-child").css('font-size',onePixelLess);
                 $(this).children("a:first-child").css('padding-left',parseInt($(this).children("a:first-child").css('padding-left'))-1 + "px");
                 $(this).children("a:first-child").css('padding-right',parseInt($(this).children("a:first-child").css('padding-right'))-1 + "px");
             }

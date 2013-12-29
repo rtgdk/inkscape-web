@@ -8,48 +8,48 @@ msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2013-12-13 18:25+0000\n"
-"PO-Revision-Date: 2013-12-14 09:39+0000\n"
+"PO-Revision-Date: 2013-12-29 00:09+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-15 05:36+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2013-12-29 05:28+0000\n"
+"X-Generator: Launchpad (build 16877)\n"
 "Language: ja\n"
 
 #: inkscape/gallery/forms.py:27
 msgid "I have permission to post this work"
-msgstr ""
+msgstr "私はこの作品を投稿する許可を得ています"
 
 #: inkscape/gallery/models.py:39
 msgid "License Banner"
-msgstr ""
+msgstr "ライセンスバナー"
 
 #: inkscape/gallery/models.py:40
 msgid "License Icon"
-msgstr ""
+msgstr "ライセンスアイコン"
 
 #: inkscape/gallery/models.py:42
 msgid "Attribution"
-msgstr ""
+msgstr "表示"
 
 #: inkscape/gallery/models.py:43
 msgid "Copyleft (Share Alike)"
-msgstr ""
+msgstr "コピーレフト (シェアアライク)"
 
 #: inkscape/gallery/models.py:44
 msgid "Non-Commercial"
-msgstr ""
+msgstr "非営利"
 
 #: inkscape/gallery/models.py:45
 msgid "Non-Derivitive"
-msgstr ""
+msgstr "改変禁止"
 
 #: inkscape/gallery/models.py:46
 msgid "All Rights Reserved"
-msgstr ""
+msgstr "All Rights Reserved"
 
 #: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
@@ -58,7 +58,7 @@ msgstr "説明"
 
 #: inkscape/gallery/models.py:71
 msgid "I own this work"
-msgstr ""
+msgstr "私はこの作品を所有しています"
 
 #: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
@@ -66,11 +66,11 @@ msgstr "サムネイル"
 
 #: inkscape/gallery/models.py:74
 msgid "Consumable File"
-msgstr ""
+msgstr "消耗ファイル"
 
 #: inkscape/gallery/models.py:75
 msgid "Source File"
-msgstr ""
+msgstr "ソースファイル"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -175,11 +175,11 @@ msgstr "シンプルリスト"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr ""
+msgstr "顔写真"
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
-msgstr ""
+msgstr "略歴写真"
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
@@ -292,7 +292,7 @@ msgstr "重要度中のバグのしきい値"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr ""
+msgstr "重要度高のバグのしきい値"
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format

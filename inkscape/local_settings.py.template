@@ -32,6 +32,13 @@ ALLOWED_HOSTS = ['*']
 DEBUG = True
 
 # Auth Settings
+#
+# Localhost ReCapture Keys, sign up for live keys:
+#   http://recaptcha.net/
+# 
+RECAPTCHA_PUBLIC_KEY = '6Ldd6OsSAAAAAOOu3QVFc2_pBazt7H8Fuks7hBC3'
+RECAPTCHA_PRIVATE_KEY = '6Ldd6OsSAAAAANDyM9FbuAne2b2NKHkkpMWP3wIY'
+
 
 OPENID_REDIRECT_NEXT = '/accounts/openid/done/'
 

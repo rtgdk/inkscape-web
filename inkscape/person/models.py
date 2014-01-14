@@ -18,6 +18,9 @@ class UserDetails(Model):
     #ircnick = CharField("IRC Nickname", max_length=20, **null)
     #ircpass = PasswordField("Freenode Password (optional)", max_length=255, **null)
 
+    #dauser  = CharField("deviantArt User", max_length=64, **null)
+    #ocuser  = CharField("openClipArt User", max_length=64, **null)
+
     def roll(self):
         if not self.user.is_active:
             return None
@@ -27,7 +30,11 @@ class UserDetails(Model):
                     return group.roll
             elif group.roll:
                 return group.roll
-        return UserRoll.objects.all()[0]
+        rolls = UserRoll.objects.all()
+        for roll in rolls:
+            if 'normal' in unicode(roll.name).lower():
+                return roll
+        return None
 
     def __unicode__(self):
         if self.user.first_name:

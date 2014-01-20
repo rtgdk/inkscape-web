@@ -2,11 +2,15 @@
 <div class="photos"/>
 {% for user in users %}
 
-  <div class="galleryitem">
-    <a class="link" href="{% url "view_profile" user.id %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
-    <p title="{{ user.email }}"><a href="{% url "view_profile" user.id %}">{{ user.details }} ({{ user.username }})</a></p>
-    <p class="bio">{{ user.details.bio }}</p>
-  </div>
+  <table class="galleryitem">
+    <tr>
+      <td rowspan="2"><a class="link" href="{% url "view_profile" user.id %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a></td>
+      <td><p title="{{ user.email }}"><a href="{% url "view_profile" user.id %}">{{ user.details }} ({{ user.username }})</a></p></td>
+    </tr>
+    <tr>
+      <td><p class="bio">{{ user.details.bio }}</p></td>
+    </tr>
+  </table>
 
 {% endfor %}
 </div>

@@ -1,4 +1,4 @@
-div.galleryitem {
+.galleryitem {
   display: inline-block;
   border: solid #cce 2px;
   margin: 5px;
@@ -7,21 +7,21 @@ div.galleryitem {
   text-align: center;
   vertical-align: middle;
 }
-div.galleryitem:hover {
+.galleryitem:hover {
   background-color: #eef;
 }
-div.galleryitem a.link img {
+.galleryitem a.link img {
   max-width: 150px;
   max-height: 150px;
 }
-div.galleryitem a.feed {
+.galleryitem a.feed {
 }
-div.galleryitem a.feed img {
+.galleryitem a.feed img {
 }
-div.galleryitem p {
+.galleryitem p {
   max-width: 150px;
 }
-div.galleryitem p a {
+.galleryitem p a {
   background-color: #eef;
   display: block;
   margin: 2px;

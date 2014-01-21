@@ -10,13 +10,10 @@
 .galleryitem:hover {
   background-color: #eef;
 }
-.galleryitem a.link img {
+.galleryitem a.link img,
+.bioitem a.link img {
   max-width: 150px;
   max-height: 150px;
-}
-.galleryitem a.feed {
-}
-.galleryitem a.feed img {
 }
 .galleryitem p {
   max-width: 150px;
@@ -26,5 +23,37 @@
   display: block;
   margin: 2px;
   padding: 3px;
+  color: #157;
+}
+
+table.bioitem {
+  border: solid #cce 2px;
+  margin: 5px;
+  padding: 6px;
+  min-width: 162px;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+}
+table.bioitem td {
+  height: 0px;
+}
+table.bioitem td.img {
+  width: 0px;
+  padding-right: 10px;
+}
+table.bioitem p {
+  text-align: left;
+}
+table.bioitem p.bio {
+  height: 110px;
+  width: 100%;
+}
+table.bioitem p a {
+  background-color: #eef;
+  display: block;
+  margin: 2px;
+  padding: 6px 3px 6px 6px;
+  font-size: 18px;
   color: #157;
 }

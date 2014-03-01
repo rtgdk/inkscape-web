@@ -37,9 +37,6 @@ body {
 :link:hover, :link:active, :visited:hover, :visited:active {
   text-decoration: underline;
 }
-p {
-  margin: 0.5ex 0;
-}
 ul, ol {
   padding: 0 0 0 30px;
   margin: 0.5ex 0;

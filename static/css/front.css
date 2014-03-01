@@ -312,11 +312,11 @@
   padding: 0 0 0 12px;
 }
 #content .column1, #content .column2 {
-  width: 210px;
+  width: 260px;
   border-right: 1px solid #b3b3b3;
 }
 #content .column3 {
-  width: 450px;
+  width: 350px;
 }
 #content h1 {
   font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;

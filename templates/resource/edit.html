@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+{% if item %}
+<h1>Edit Resource</h1>
+{% else %}
+<h1>Submit Resource</h1>
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+
+{% csrf_token %}
+
+{{ form.non_field_errors }}
+
+<table class="block">
+    {% for field in form %}
+    <tr>
+        <th scope="row">{{ field.label }}:</th>
+        <td>{{ field }}</td>
+    </tr>
+    {% if field.errors %}<tr><td colspan="2" class='error'>{{ field.errors|striptags }}</td></tr>{% endif %}
+    {% endfor %}
+</table>
+
+<input type="submit" value="Save"/>
+
+</form>
+
+{% endblock %}

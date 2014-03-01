@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>{{ item }}</h1>
+
+<div class="preview">
+
+{% if item.thumb %}
+  <img src="{{ item.thumb.url }}"/>
+{% endif %}
+
+<p>{{ item.desc }}<br/>
+{% if item.file %}<a href="{{ item.file.url }}">Download</a>{% endif %}
+{% if item.source %}<a href="{{ item.source.url }}">Download</a> |{% endif %}
+
+{% ifequal item.user request.user %}
+   <a href="{% url "edit_resource" item.id %}">Edit Resource</a> |
+   <a href="{% url "delete_resource" item.id %}">Delete Resource</a>
+{% else %}
+   by <a href="{% url "profile" item.user.id %}">{{ item.user.details }}</a>
+{% endifequal %}
+</p>
+
+</div>
+
+{% endblock %}

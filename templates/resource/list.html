@@ -1,0 +1,24 @@
+
+{% if category %}
+  <h1>All {{ category }} Resources</h1>
+  <p>{{ category.desc }}</p>
+{% endif %}
+
+{% if user %}
+<h1>Resources by {{ user }}</h1>
+{% endif %}
+
+{% for item in items %}
+  <div class="galleryitem">
+    <a class="link" href="{% url "view_resource" item.id %}"><img src="{{ item.thumbnail.url }}" title="{{ item.name }}"/></a>
+    <p><a href="{% url "view_resource" item.id %}">{{ item.name }}</a></p>
+  </div>
+{% empty %}
+  <h2>No resources submitted yet.</h2>
+{% endfor %}
+
+{% ifequal user request.user %}
+<p><a href="{% url "new_resource" %}">Submit Resource</a></p>
+{% endifequal %}
+
+

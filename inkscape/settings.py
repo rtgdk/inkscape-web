@@ -157,13 +157,13 @@ INSTALLED_APPS = (
     'inkscape.search',
     'inkscape.person',
     'inkscape.docs',
-#    'inkscape.resource',
+    'inkscape.resource',
 )
 
 CMS_TEMPLATES = (
+    ('normal.html', 'Normal Page'),
     ('front.html', 'Front Page'),
     ('super.html', 'Full Screen'),
-    ('normal.html', 'Normal Page'),
 )
 CMS_APPLICATIONS_URLS = (
     ('cmsplugin_news.urls', 'News'),
@@ -175,29 +175,6 @@ CMS_APPHOOKS = (
 CMS_NAVIGATION_EXTENDERS = (
     ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
-
-CMS_LANGUAGES = {
-    1: [
-      { 'code': 'en',    'name': 'English',                             'public': True },
-      { 'code': 'de',    'name': 'Deutsch',   'fallbacks': ['en'],      'public': True },
-      { 'code': 'fr',    'name': 'Français',  'fallbacks': ['en'],      'public': True },
-      { 'code': 'nl',    'name': 'Nederlands','fallbacks': ['en'],      'public': True },
-      { 'code': 'it',    'name': 'Italiano',  'fallbacks': ['en'],      'public': True },
-      { 'code': 'es',    'name': 'Español',   'fallbacks': ['fr','en'], 'public': True },
-      { 'code': 'pt',    'name': 'Português', 'fallbacks': ['es','en'], 'public': True },
-      { 'code': 'cs',    'name': 'Česky',     'fallbacks': ['en'],      'public': True },
-      { 'code': 'ru',    'name': 'Русский',   'fallbacks': ['en'],      'public': True },
-      { 'code': 'ja',    'name': '日本語',    'fallbacks': ['en'],      'public': True },
-      { 'code': 'zh',    'name': '中国语文',  'fallbacks': ['en'],      'public': True },
-      { 'code': 'zh-tw', 'name': '正體中文',  'fallbacks': ['en'],      'public': True },
-    ],
-    'default': {
-      'fallbacks': ['en', 'de', 'fr'],
-      'redirect_on_fallback':True,
-      'public': True,
-      'hide_untranslated': False,
-    }
-}
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',

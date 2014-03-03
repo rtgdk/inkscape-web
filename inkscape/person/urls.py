@@ -11,10 +11,6 @@ urlpatterns = patterns('inkscape.person.views',
     url(r'^(\d+)/$',  'view_profile',    name='view_profile'),
     url(r'^edit/$',   'edit_profile',    name='edit_profile'),
     url(r'^faces/$',  'view_profiles',   name='faces'),
-
-    url(r'^register/$',       'register', name='registration_register'),
-    url(r'^register/(\w+)/$', 'register', name='registration_activate'),
-    url(r'^register/(y)/$',   'register', name='registration_complete'),
 )
 
 urlpatterns += patterns('django.contrib.auth.views',

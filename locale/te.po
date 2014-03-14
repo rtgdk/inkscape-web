@@ -8,31 +8,31 @@ msgstr ""
 "Project-Id-Version: inkscape-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-12-13 18:25+0000\n"
-"PO-Revision-Date: 2013-12-06 05:48+0000\n"
-"Last-Translator: వీవెన్ (Veeven) <Unknown>\n"
+"PO-Revision-Date: 2014-03-13 10:48+0000\n"
+"Last-Translator: వీవెన్ <Unknown>\n"
 "Language-Team: Telugu <te@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2014-03-14 06:43+0000\n"
+"X-Generator: Launchpad (build 16963)\n"
 
 #: inkscape/gallery/forms.py:27
 msgid "I have permission to post this work"
-msgstr ""
+msgstr "ఈ కృతిని ప్రచురించడానికి నాకు అనుమతి ఉంది"
 
 #: inkscape/gallery/models.py:39
 msgid "License Banner"
-msgstr ""
+msgstr "లైసెన్సు పతాకం"
 
 #: inkscape/gallery/models.py:40
 msgid "License Icon"
-msgstr ""
+msgstr "లైసెన్సు ప్రతీకం"
 
 #: inkscape/gallery/models.py:42
 msgid "Attribution"
-msgstr ""
+msgstr "ఆపాదింపు"
 
 #: inkscape/gallery/models.py:43
 msgid "Copyleft (Share Alike)"
@@ -57,7 +57,7 @@ msgstr "వివరణ"
 
 #: inkscape/gallery/models.py:71
 msgid "I own this work"
-msgstr ""
+msgstr "ఈ కృతి నా స్వంతం"
 
 #: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
@@ -166,7 +166,7 @@ msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr ""
+msgstr "ప్రదర్శన శైలి"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
@@ -355,7 +355,7 @@ msgstr "భాష"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr ""
+msgstr "ఐచ్చికం: ఈ భాషకు మాత్రమే చూపించు"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -370,7 +370,7 @@ msgstr "వార్తలు"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr ""
+msgstr "చూపించాల్సిన వార్తాంశాల సంఖ్య"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
@@ -387,7 +387,7 @@ msgstr ""
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr ""
+msgstr "ఇంకా వార్తలు లేవు"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
@@ -472,7 +472,7 @@ msgstr ""
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr ""
+msgstr "మునుపటి"
 
 #: templates/paginator.html:23
 msgid "Next"
@@ -521,6 +521,7 @@ msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
 msgstr ""
+"మీ వాడుకరి ఖాతా తయారయ్యింది. మీ వాడుకరి పేరునీ సంకేతపదాన్నీవాడి లాగినవ్వండి."
 
 #: templates/registration/activation_complete.html:12
 msgid ""

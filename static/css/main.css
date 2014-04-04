@@ -559,6 +559,7 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   border-radius: 0 10px 0 0;
 }
 .footer {
+  clear: both;
   border-top: 4px solid #0d0d0d;
   background-color: #333333;
   background-image: radial-gradient(circle farthest-corner at center 20px, #4d4d4d 0%, #333333 300px);

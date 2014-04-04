@@ -13,8 +13,7 @@ class PublishedNewsMixin(object):
     """
     def get_queryset(self):
         language = get_language_from_request(self.request)
-        q = Q(language__isnull=True) | Q(language=language)
-        return models.News.published.filter(q).all()
+        return models.News.published.filter( Q(language=language) ).all()
 
 
 class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):

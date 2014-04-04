@@ -40,7 +40,7 @@ class News(models.Model):
     published = PublishedNewsManager()
     objects = models.Manager()
 
-    language = models.CharField(_("Language"), max_length=5, choices=LANGUAGES, blank=True, null=True, help_text=_("Optional: Show only for this language"))
+    language = models.CharField(_("Language"), max_length=5, choices=LANGUAGES, help_text=_("Optional: Show only for this language"))
     link = models.URLField(_('Link'), blank=True, null=True, help_text=_('This link will be used a absolute url'
             ' for this item and replaces the view logic. <br />Note that by'
             ' default this only applies for items with an empty "content"'

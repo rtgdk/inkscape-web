@@ -32,19 +32,20 @@ class News(models.Model):
     content = models.TextField(_('Content'), blank=True)
 
     is_published = models.BooleanField(_('Published'), default=False)
-    pub_date = models.DateTimeField(_('Publication date'), default=datetime.datetime.now)
+    pub_date     = models.DateTimeField(_('Publication date'), default=datetime.datetime.now)
 
-    created = models.DateTimeField(auto_now_add=True, editable=False)
-    updated = models.DateTimeField(auto_now=True, editable=False)
+    created      = models.DateTimeField(auto_now_add=True, editable=False)
+    updated      = models.DateTimeField(auto_now=True, editable=False)
 
     published = PublishedNewsManager()
-    objects = models.Manager()
-
+    objects   = models.Manager()
+    
+    translation_of = models.ForeignKey("News", blank=True, null=True, related_name="translations")
     language = models.CharField(_("Language"), max_length=5, choices=LANGUAGES, help_text=_("Optional: Show only for this language"))
-    link = models.URLField(_('Link'), blank=True, null=True, help_text=_('This link will be used a absolute url'
-            ' for this item and replaces the view logic. <br />Note that by'
-            ' default this only applies for items with an empty "content"'
-            ' field.'))
+    link     = models.URLField(_('Link'), blank=True, null=True, help_text=_('This link will be used a absolute url'
+                  ' for this item and replaces the view logic. <br />Note that by'
+                  ' default this only applies for items with an empty "content"'
+                  ' field.'))
 
     class Meta:
         verbose_name = _('News')

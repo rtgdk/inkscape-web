@@ -1,10 +1,38 @@
 from django.views import generic as generic_views
+from django.shortcuts import redirect, render_to_response, RequestContext, _get_queryset
 
-from . import models
-from . import settings
+from .settings import ARCHIVE_PAGE_SIZE
+from .models import News
+from .forms import NewsForm
 
 from cms.utils import get_language_from_request
 from django.db.models import Q
+
+def get_or_none(model, *args, **kwargs):
+    queryset = _get_queryset(model)
+    try:
+        return queryset.get(*args, **kwargs)
+    except model.DoesNotExist:
+        return None
+
+def credit(request, news_id=None):
+    existing = get_or_none(News, pk=news_id)
+
+    if request.method == 'POST':
+        form = NewsForm(request.POST, request.FILES, instance=existing)
+        if form.is_valid():
+            obj = form.save(commit=False)
+            if not existing:
+                obj.creator = request.user
+            else:
+                obj.editor = request.user
+            obj.save()
+            return redirect( 'news_:w', obj.id )
+    else:
+        form = NewsForm(instance=existing)
+    return render_to_response('news/credit.html', { 'form' : form },
+        context_instance=RequestContext(request))
+
 
 class PublishedNewsMixin(object):
     """
@@ -13,7 +41,7 @@ class PublishedNewsMixin(object):
     """
     def get_queryset(self):
         language = get_language_from_request(self.request)
-        return models.News.published.filter( Q(language=language) ).all()
+        return News.published.filter( Q(language=language) ).all()
 
 
 class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):
@@ -31,7 +59,7 @@ class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):
     date_based.archive_index view while the latter ones are provided by
     ListView.
     """
-    paginate_by = settings.ARCHIVE_PAGE_SIZE
+    paginate_by = ARCHIVE_PAGE_SIZE
     template_name = 'news/news_archive.html'
     include_yearlist = True
     date_field = 'pub_date'

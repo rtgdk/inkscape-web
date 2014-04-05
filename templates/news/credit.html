@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Create or Edit News" %}{% endblock %}
+{% block body-pageid %}news-edit{% endblock %}
+
+{% block content %}
+
+<form method="post" action=".">
+{% csrf_token %}
+
+{% if form.errors %}
+<p class="error">Please correct the errors below: {{ form.errors }}</p>
+{% endif %}
+
+  {% if object %}
+
+  {% ifequal current_language "en" %}
+
+  <h2>{% trans "English Article" %}</h2>
+
+  {{ object.excerpt }}
+
+  {{ object.content }}
+
+  {% for language in languages %}
+    {% ifequal current_language language.0 %}
+    <h2>{{ language.1 }} {% trans "Article" %}</h2>
+    <input type="hidden" name="language" value="{{ language.0 }}"/>
+    <input type="hidden" name="translation_of" value="{{ object.id }}"/>
+    {% endifequal %}
+  {% endfor %}
+
+  {% else %}
+
+  <h2>Edit News</h2>
+
+  {% endifequal %}
+
+    <table>
+      <tr><th scope="row">{% trans "Title" %}:</th><td>{{ form.title }}</td>
+      {% if form.title.errors %}<tr class="error"><td colspan="2">{{ form.title.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Excerpt" %}:</th><td>{{ form.excerpt }}</td>
+      {% if form.excerpt.errors %}<tr class="error"><td colspan="2">{{ form.except.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Content" %}:</th><td>{{ form.content }}</td>
+      {% if form.content.errors %}<tr class="error"><td colspan="2">{{ form.content.errors|join:", " }}</td></tr>{% endif %}
+    </table>
+
+  <input type="submit" value="Save"/>
+
+  {% else %}
+  {% ifequal current_language "en" %}
+    <h1>Create New News</h1>
+    <table>
+      <tr><th scope="row">{% trans "Title" %}:</th><td>{{ form.title }}</td>
+      {% if form.title.errors %}<tr class="error"><td colspan="2">{{ form.title.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Slug" %}:</th><td>{{ form.slug }}</td>
+      {% if form.slug.errors %}<tr class="error"><td colspan="2">{{ form.slug.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Excerpt" %}:</th><td>{{ form.excerpt }}</td>
+      {% if form.excerpt.errors %}<tr class="error"><td colspan="2">{{ form.except.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Content" %}:</th><td>{{ form.content }}</td>
+      {% if form.content.errors %}<tr class="error"><td colspan="2">{{ form.content.errors|join:", " }}</td></tr>{% endif %}
+    </table>
+  <input type="submit" name="publish" value="Publish"/>
+  <input type="submit" value="Save Only"/>
+  {% else %}
+    <h2>Can't Create New News</h2>
+
+    <p>Please make a new article available in English first and translate the article to {{ current_language }}</p>
+
+  {% endifequal %}
+    
+  {% endif %}
+
+
+</form>
+
+  {{ object.content|safe }}
+{% endblock %}
+

@@ -4,6 +4,7 @@ from django.db import models
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.conf.global_settings import LANGUAGES
+from django.contrib.auth.models import User
 
 from cms.models import CMSPlugin
 
@@ -18,7 +19,6 @@ class PublishedNewsManager(models.Manager):
         return super(PublishedNewsManager, self).get_query_set() \
                     .filter(is_published=True) \
                     .filter(pub_date__lte=datetime.datetime.now())
-
 
 class News(models.Model):
     """
@@ -37,6 +37,9 @@ class News(models.Model):
     created      = models.DateTimeField(auto_now_add=True, editable=False)
     updated      = models.DateTimeField(auto_now=True, editable=False)
 
+    creator      = models.ForeignKey(User, related_name="created_news")
+    editor       = models.ForeignKey(User, blank=True, null=True, related_name="edited_news")
+
     published = PublishedNewsManager()
     objects   = models.Manager()
     
@@ -51,6 +54,12 @@ class News(models.Model):
         verbose_name = _('News')
         verbose_name_plural = _('News')
         ordering = ('-pub_date', )
+
+    def publish(self):
+        if not self.is_published:
+            self.pub_date = datetime.datetime.now()
+            self.is_published = True
+            self.save()
 
     def __unicode__(self):
         return self.title

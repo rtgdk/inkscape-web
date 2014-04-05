@@ -13,6 +13,9 @@
 {% else %}
  <p class="empty">{% trans "No news yet" %}</p>
 {% endif %}
+{% if perms.cmsplugin_news.create %}
+  <a href="{% url "news_create" %}">Create News</a>
+{% endif %}
 <!--<a href="{ url news_archive_index %}">{% trans "Archive" %}</a>-->
   </div>
 </div>

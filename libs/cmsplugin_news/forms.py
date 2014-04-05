@@ -12,6 +12,7 @@ from .models import News
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
+        exclude = ('pub_date', 'creator', 'editor', 'created', 'edited', 'language')
 
     def _get_widget(self):
         plugins = plugin_pool.get_text_enabled_plugins(placeholder=None,

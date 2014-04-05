@@ -1,4 +1,12 @@
 #!/bin/bash
 
-exec ./pythonenv/bin/uwsgi --yaml ./data/wsgi.conf
+if [ -f "./data/wsgi.conf" ]; then
+
+  exec ./pythonenv/bin/uwsgi --yaml ./data/wsgi.conf
+
+else
+
+  ./pythonenv/bin/python inkscape/manage.py runserver
+
+fi
 

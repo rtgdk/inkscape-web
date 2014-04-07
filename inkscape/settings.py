@@ -23,7 +23,7 @@ LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
     ('en', 'English'),
-    ('de', 'Germen'),
+    ('de', 'German'),
     ('fr', 'French'),
     ('nl', 'Dutch'),
     ('it', 'Italian'),

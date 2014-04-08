@@ -1,7 +1,8 @@
 from django.conf import settings as django_settings
 from django.utils.translation import ugettext_lazy as _
 
-OTHER_LANGS = list( i for i in django_settings.LANGUAGES if i[0].split('-')[0] != django_settings.LANGUAGE_CODE.split('-')[0] )
+DEFAULT_LANG = django_settings.LANGUAGE_CODE.split('-')[0]
+OTHER_LANGS = list( i for i in django_settings.LANGUAGES if i[0].split('-')[0] != DEFAULT_LANG )
 
 def get_setting(name, default):
     """

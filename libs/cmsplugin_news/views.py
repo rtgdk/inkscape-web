@@ -55,8 +55,8 @@ class PublishedNewsMixin(object):
     we have to fetch it dynamically.
     """
     def get_queryset(self):
-        #language = get_language_from_request(self.request)
-        return News.filter(is_published=True, language__isnull=True)
+        News.published.select_language( get_language_from_request(self.request) )
+        return News.published.all()
 
 
 class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):

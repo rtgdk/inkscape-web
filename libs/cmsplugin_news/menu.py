@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 from menus.menu_pool import menu_pool
 from menus.base import NavigationNode
 from cms.menu_bases import CMSAttachMenu
+from cms.utils import get_language_from_request
 
 from cmsplugin_news.models import News
 
@@ -31,10 +32,9 @@ def strf(t, f):
 def _get_nodes(request):
     logger.debug("Rebuilding news menu")
     nodes = {}
+    News.published.select_language( get_language_from_request(request) )
 
-    items = News.published.all()
-
-    for item in items:
+    for item in News.published.all():
         date = item.pub_date
 
         year_id = 'newsitem-year-%d' % date.year

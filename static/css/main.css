@@ -922,3 +922,20 @@ table.block .photo img {
   padding: 3px;
   border: 2px solid #eee;
 }
+
+ol.checklist ul {
+    list-style: none;
+    padding: 0px;
+}
+ol.checklist ul li:before
+{
+    content: '\2717';
+    margin: 0 1em;    /* any design */
+    color: #900;
+}
+ol.checklist ul li.done:before
+{
+    content: '\2714';
+    margin: 12px;
+    color: #050;
+}

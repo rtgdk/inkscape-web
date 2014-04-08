@@ -55,8 +55,9 @@ class PublishedNewsMixin(object):
     we have to fetch it dynamically.
     """
     def get_queryset(self):
-        language = get_language_from_request(self.request)
-        return News.published.filter( Q(language=language) ).all()
+        #language = get_language_from_request(self.request)
+        return News.filter(is_published=True, language__isnull=True)
+
 
 class ArchiveIndexView(PublishedNewsMixin, generic_views.ListView):
     """
@@ -93,21 +94,15 @@ class DetailView(PublishedNewsMixin, generic_views.DateDetailView):
     date_field = 'pub_date'
     allow_future = True
 
-    def get_queryset(self):
-        language = get_language_from_request(self.request)
-        return News.published.all()
-
 class MonthArchiveView(PublishedNewsMixin, generic_views.MonthArchiveView):
     template_name = 'news/news_archive_month.html'
     month_format = '%m'
     date_field = 'pub_date'
 
-
 class YearArchiveView(PublishedNewsMixin, generic_views.YearArchiveView):
     template_name = 'news/news_archive_year.html'
     month_format = '%m'
     date_field = 'pub_date'
-
 
 class DayArchiveView(PublishedNewsMixin, generic_views.DayArchiveView):
     template_name = 'news/news_archive_day.html'

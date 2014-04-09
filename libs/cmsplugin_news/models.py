@@ -82,6 +82,10 @@ class News(Model):
         verbose_name = _('News')
         verbose_name_plural = _('News')
         ordering = ('-pub_date', )
+        permissions = (
+            ('translate', _('Translate News')),
+        )
+
 
     def __unicode__(self):
         return self.title
@@ -95,23 +99,23 @@ class News(Model):
             self.tr = self
         return self
 
-    def is_translated(self):
-        return self.language != self._lang
-
     def __getattribute__(self, name):
         obj = self
-        if name in ['title','except','editor','edited','language','content']:
-            if not hasattr(self, 'tr'):
-                raise LanguageNotSet("Language is required to be set to access data like this.")
+        if hasattr(self, 'tr') and name in ['title','except','language','content']:
             obj = self.tr
         if name == 'lang':
             name = 'language'
         return Model.__getattribute__(obj, name)
 
     def get_translations(self):
+        if self.translation_of:
+            return self.translation_of.get_translations()
         if self.is_published:
             return self.translations.filter(is_published=True)
         return self.translations.all()
+
+    def needs_translation(self):
+        return self.tr == self or self.tr.updated < self.updated
 
     def get_absolute_url(self):
         if settings.LINK_AS_ABSOLUTE_URL and self.link:

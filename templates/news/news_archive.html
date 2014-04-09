@@ -17,6 +17,13 @@
       <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
       <p>{{ object.excerpt }}</p>
       <a class="readmore" href="{{ object.get_absolute_url }}">Read more</a>
+      {% if perms.cmsplugin_news.translate %}
+        {% if object.needs_translation %}
+        - <a href="">needs translting</a>
+        {% else %}
+        - translated
+        {% endif %}
+      {% endif %}
     </div>
   {% endfor %}
 {% endblock %}

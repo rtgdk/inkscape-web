@@ -23,8 +23,8 @@ class CMSLatestNewsPlugin(CMSPluginBase):
             Render the latest news
         """
         language = get_language_from_request(context['request'])
-        q = Q(language__isnull=True) | Q(language=language)
-        latest = News.published.filter(q).all()[:instance.limit]
+        News.published.select_language(language)
+        latest = News.published.all()[:instance.limit]
         context.update({
             'instance': instance,
             'latest': latest,

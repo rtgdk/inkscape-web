@@ -45,7 +45,7 @@ class PublishedManager(Manager):
         if not hasattr(self, 'language'):
             raise LanguageNotSet("Can't do a language dependant query before the language is selected.")
         return LanguageQuerySet(self.model, using=self._db).select_language(self.language)\
-                .filter(is_published=True, pub_date__lte=timezone.now(), language='')
+                .filter(is_published=True, pub_date__lte=timezone.now(), translation_of__isnull=True)
 
 
 class News(Model):

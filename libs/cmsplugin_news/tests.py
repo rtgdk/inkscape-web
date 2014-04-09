@@ -2,9 +2,11 @@
 Tests for the cmsplugin_news app
 """
 
-import datetime
+from django.utils import timezone
+from datetime import timedelta
 
 from django.test import TestCase
+from django.contrib.auth.models import User
 
 from cmsplugin_news.models import News
 
@@ -15,9 +17,12 @@ class NewsTest(TestCase):
     urls = 'cmsplugin_news.urls'
 
     def setUp(self):
-        self.today = datetime.datetime.today()
-        self.yesterday = self.today - datetime.timedelta(days=1)
-        self.tomorrow = self.today + datetime.timedelta(days=1)
+        self.today = timezone.now()
+        self.yesterday = self.today - timedelta(days=1)
+        self.tomorrow = self.today + timedelta(days=1)
+        self.user = User(username='testuser')
+        self.user.save()
+        News.published.select_language('en')
 
     def tearDown(self):
         pass
@@ -31,6 +36,7 @@ class NewsTest(TestCase):
             slug='unpublished-news',
             is_published=False,
             pub_date=self.yesterday,
+            creator=self.user,
         )
         self.assertEquals(News.published.count(), 0)
         unpublished.is_published = True
@@ -50,6 +56,7 @@ class NewsTest(TestCase):
             slug='future-published-news',
             is_published=True,
             pub_date=self.tomorrow,
+            creator=self.user,
         )
         self.assertEquals(News.published.count(), 0)
         future_published.pub_date = self.yesterday
@@ -58,6 +65,38 @@ class NewsTest(TestCase):
         future_published.pub_date = self.tomorrow
         future_published.save()
         self.assertEquals(News.published.count(), 0)
+
+    def test_language(self):
+        """Test translations of articles"""
+        item = News.objects.create(
+            title='Original Language',
+            slug='news',
+            is_published=True,
+            pub_date=self.yesterday,
+            creator=self.user,
+        )
+        item.save()
+        self.assertEqual(item.language, '')
+        self.assertEqual(News.published.count(), 1)
+
+        trans = News.objects.create(
+            title='Translation',
+            slug='news',
+            is_published=True,
+            pub_date=self.yesterday,
+            creator=self.user,
+            translation_of=item,
+            language='fr',
+        )
+        trans.save()
+        self.assertEqual(trans.language, 'fr')
+        self.assertEqual(News.published.count(), 1)
+        
+        self.assertEqual(item.translations.count(), 1)
+        self.assertEqual(item.translations.all()[0], trans)
+        self.assertEqual(item.title, 'Original Language')
+        item.select_language('fr')
+        self.assertEqual(item.title, 'Translation')
 
     def test_navigation(self):
         """
@@ -78,7 +117,8 @@ class NewsTest(TestCase):
             slug='future-published-news',
             is_published=True,
             pub_date=self.tomorrow,
-            link='http://lala.com/'
+            link='http://lala.com/',
+            creator=self.user,
         )
         self.assertEquals('http://lala.com/', item.get_absolute_url())
 
@@ -95,6 +135,10 @@ class NewsTest(TestCase):
             content='test',
             is_published=True,
             pub_date=self.tomorrow,
-            link='http://lala.com/'
+            link='http://lala.com/',
+            creator=self.user,
         )
         self.assertNotEquals('http://lala.com/', item.get_absolute_url())
+
+
+

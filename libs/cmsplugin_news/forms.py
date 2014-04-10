@@ -28,3 +28,4 @@ class NewsForm(forms.ModelForm):
         widget = self._get_widget()
         self.fields['excerpt'].widget = widget
         self.fields['content'].widget = widget
+        self.fields['translation_of'].queryset = News.objects.filter(language="")

@@ -939,3 +939,7 @@ ol.checklist ul li.done:before
     margin: 12px;
     color: #050;
 }
+
+a.translate {
+  float: right;
+}

@@ -2,14 +2,16 @@ from django.views import generic as generic_views
 from django.shortcuts import redirect, render_to_response, RequestContext, _get_queryset
 from django.shortcuts import get_object_or_404
 
-from .settings import ARCHIVE_PAGE_SIZE
+from .settings import ARCHIVE_PAGE_SIZE, OTHER_LANGS
 from .models import News
 from .forms import NewsForm
 
 from cms.utils import get_language_from_request
 from django.db.models import Q
 
-from datetime import datetime
+from django.utils.translation import ugettext_lazy as _
+from django.utils import timezone
+
 
 def get_or_none(model, *args, **kwargs):
     queryset = _get_queryset(model)
@@ -17,6 +19,29 @@ def get_or_none(model, *args, **kwargs):
         return queryset.get(*args, **kwargs)
     except model.DoesNotExist:
         return None
+
+def translate(request, news_id=None):
+    original    = get_object_or_404(News, pk=news_id)
+    language    = get_language_from_request(request)
+    translation = original.get_translation(language)
+    if request.method == 'POST' and request.user:
+        form = NewsForm(request.POST, request.FILES, instance=translation)
+        obj = form.save(commit=False)
+        if not obj.created:
+            obj.creator = request.user
+            obj.created = timezone.now()
+        obj.editor   = request.user
+        obj.updated  = timezone.now()
+        obj.language = language
+        obj.translation_of = original
+        obj.save()
+        return redirect( obj.get_absolute_url() )
+    else:
+        form = NewsForm(instance=translation)
+    
+    return render_to_response('news/translation.html',
+        { 'form' : form, 'original': original, 'object': translation, 'language': _( dict(OTHER_LANGS).get(language, 'Unknown')) },
+        context_instance=RequestContext(request))
 
 # Add permission here
 def credit(request, news_id=None):
@@ -39,7 +64,7 @@ def credit(request, news_id=None):
             return redirect( obj.get_absolute_url() )
     else:
         form = NewsForm(instance=existing)
-    return render_to_response('news/credit.html', { 'form' : form },
+    return render_to_response('news/credit.html', { 'form' : form, 'object': existing },
         context_instance=RequestContext(request))
 
 # Add permission here

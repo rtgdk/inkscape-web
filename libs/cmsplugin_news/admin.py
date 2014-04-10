@@ -5,7 +5,6 @@ from django.contrib import admin
 from cmsplugin_news.forms import NewsForm
 from cmsplugin_news.models import News
 
-
 class NewsAdmin(admin.ModelAdmin):
     """
         Admin for news

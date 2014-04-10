@@ -24,7 +24,8 @@ urlpatterns = patterns('django.views.generic.date_based',
 )
 
 urlpatterns += patterns('cmsplugin_news.views',
-    url(r'^create/',                'credit', name="news_create"),
-    url(r'^(?P<news_id>\d+)/edit',  'credit', name="news_edit"),
-    url(r'^(?P<news_id>\d+)/',      'view',   name="news_item"),
+    url(r'^create/',                'credit',   name="news_create"),
+    url(r'^(?P<news_id>\d+)/edit/', 'credit',   name="news_edit"),
+    url(r'^(?P<news_id>\d+)/tr/',   'translate',name="news_translate"),
+    url(r'^(?P<news_id>\d+)/',      'view',     name="news_item"),
 )

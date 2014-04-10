@@ -89,32 +89,37 @@ class News(Model):
     def __unicode__(self):
         return self.title
 
-    def select_language(self, l):
-        self._lang = l
-        for item in self.get_translations():
-            if item.lang == l:
-                self.tr = item
-        if not hasattr(self, 'tr'):
-            self.tr = self
+    def select_language(self, lang):
+        self._lang = lang.split('-')[0]
+        self.trans = self.get_translation(lang) or self
         return self
 
     def __getattribute__(self, name):
         obj = self
-        if hasattr(self, 'tr') and name in ['title','except','language','content']:
-            obj = self.tr
+        if hasattr(self, 'trans') and name in ['translated','title','excerpt','language','content']:
+            obj = self.trans
         if name == 'lang':
             name = 'language'
+        elif name == 'translated':
+            name = 'updated'
         return Model.__getattribute__(obj, name)
 
     def get_translations(self):
         if self.translation_of:
             return self.translation_of.get_translations()
-        if self.is_published:
-            return self.translations.filter(is_published=True)
         return self.translations.all()
 
+    def get_translation(self, lang):
+        for item in self.get_translations():
+            if item.lang == lang:
+                return item
+        return None
+
     def needs_translation(self):
-        return self.tr == self or self.tr.updated < self.updated
+        return not self.is_original() and (self.trans == self or self.trans.updated < self.updated)
+
+    def is_original(self):
+        return not hasattr(self, '_lang') or self._lang == settings.DEFAULT_LANG
 
     def get_absolute_url(self):
         if settings.LINK_AS_ABSOLUTE_URL and self.link:

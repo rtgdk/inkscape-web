@@ -95,8 +95,13 @@ class NewsTest(TestCase):
         self.assertEqual(item.translations.count(), 1)
         self.assertEqual(item.translations.all()[0], trans)
         self.assertEqual(item.title, 'Original Language')
+        self.assertEqual(trans.is_original(), True)
+        self.assertEqual(item.is_original(), True)
+
         item.select_language('fr')
         self.assertEqual(item.title, 'Translation')
+        self.assertEqual(item.is_original(), False)
+        self.assertEqual(trans.is_original(), True)
 
     def test_navigation(self):
         """

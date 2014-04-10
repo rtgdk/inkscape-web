@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% trans "Create or Edit News" %}{% endblock %}
+{% block title %}{% if object %}{% trans "Edit" %} '{{ object.title }}'{% else %}{% trans "New News Article" %}{% endif %}{% endblock %}
 {% block body-pageid %}news-edit{% endblock %}
 
 {% block content %}
@@ -62,8 +62,12 @@
       <tr><th scope="row">{% trans "Content" %}:</th><td>{{ form.content }}</td>
       {% if form.content.errors %}<tr class="error"><td colspan="2">{{ form.content.errors|join:", " }}</td></tr>{% endif %}
     </table>
-  <input type="submit" name="publish" value="Publish"/>
-  <input type="submit" value="Save Only"/>
+    {% if object.is_published %}
+      <input type="submit" value="Update News"/>
+    {% else %}
+      <input type="submit" name="publish" value="Publish"/>
+      <input type="submit" value="Save Only"/>
+    {% endif %}
   {% else %}
     <h2>Can't Create New News</h2>
 

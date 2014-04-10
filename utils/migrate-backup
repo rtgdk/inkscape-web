@@ -16,9 +16,15 @@ def delete(data, field):
         return True
     return False
 
-def set_one(data, field):
-    if data.has_key(field) and data[field] != 1:
-        data[field] = 1
+def set_to(data, field, r):
+    if data.has_key(field) and data[field] != r:
+        data[field] = r
+        return True
+    return False
+
+def add_to(data, field, r):
+    if not data.has_key(field):
+        data[field] = r
         return True
     return False
 
@@ -26,10 +32,13 @@ UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
   ),
-
   # reset to superuser, since user credentials are not exported
   'cms.pagemoderatorstate': (
-    [ set_one, 'user' ],
+    [ set_to, 'user', 1 ],
+  ),
+  # Set the creator to admin account
+  'cmsplugin_news.news': (
+    [ add_to, 'creator', 1 ],
   ),
 }
 

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 {% load cms_tags sekizai_tags %}
+{% load i18n %}
 
-{% block title %}Latest News{% endblock %}
+{% block title %}{% trans "Latest News" %}{% endblock %}
 {% block body-pageid %}news-archive{% endblock %}
 {% block css %}
 {% addtoblock 'css' %}
@@ -10,20 +11,8 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Latest News</h1>
+  <h1>{% trans "Latest News" %}</h1>
   {% for object in latest %}
-    <div class="article">
-      <div class="postdate">{{ object.pub_date }}</div>
-      <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
-      <p>{{ object.excerpt }}</p>
-      <a class="readmore" href="{{ object.get_absolute_url }}">Read more</a>
-      {% if perms.cmsplugin_news.translate %}
-        {% if object.needs_translation %}
-        - <a href="">needs translting</a>
-        {% else %}
-        - translated
-        {% endif %}
-      {% endif %}
-    </div>
+    {% include "news/list_item.html" %}
   {% endfor %}
 {% endblock %}

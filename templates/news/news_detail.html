@@ -10,8 +10,11 @@
 {% endblock %}
 
 {% block content %}
+{% include "news/translation_option.html" %}
   <h1>{{ object.title }}</h1>
   <p class="postdate">{{ object.pub_date }}</p>
   {{ object.content|safe }}
+
+
 {% endblock %}
 

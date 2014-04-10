@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% if object %}{% trans "Edit" %} '{{ object.title }}'{% else %}{% trans "New News Article" %}{% endif %}{% endblock %}
+{% block body-pageid %}news-edit{% endblock %}
+
+{% block content %}
+
+<form method="post" action=".">
+{% csrf_token %}
+
+  {% if object %}
+  <h2>{% trans "Delete News Article" %}</h2>
+  {% endif %}
+
+  <div class="warning">This will delete the article and any translations associated with the article!</div>
+
+  <h3>{{ object.title }}</h3>
+
+  <hr/>
+
+  <p>{{ object.excerpt|safe }}</p>
+
+  <hr/>
+
+  <p>{{ object.content|safe }}</p>
+
+  <hr/>
+
+  <input type="submit" name="confirm" value="Yes!"/>
+  <input type="submit" name="no" value="No, I change my mind!"/>
+
+</form>
+
+{% endblock %}
+

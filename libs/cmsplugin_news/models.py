@@ -125,7 +125,7 @@ class News(Model):
         if settings.LINK_AS_ABSOLUTE_URL and self.link:
             if settings.USE_LINK_ON_EMPTY_CONTENT_ONLY and not self.content:
                 return self.link
-        if self.is_published:
+        if self.is_published and self.slug:
             return reverse('news_detail', kwargs={
                 'year'  : self.pub_date.strftime("%Y"),
                 'month' : self.pub_date.strftime("%m"),

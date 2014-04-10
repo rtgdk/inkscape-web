@@ -1,6 +1,6 @@
 
 from haystack.forms import SearchForm
-from haystack.query import SearchQuerySet
+from haystack.query import SearchQuerySet, SQ
 from haystack.views import SearchView as BaseView
 
 from cms.utils import get_language_from_request

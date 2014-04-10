@@ -51,21 +51,33 @@ def credit(request, news_id=None):
         form = NewsForm(request.POST, request.FILES, instance=existing)
         if form.is_valid():
             obj = form.save(commit=False)
-            if not existing:
+            if not obj.created:
                 obj.creator = request.user
-                obj.created = datetime.now()
-            else:
-                obj.editor = request.user
-                obj.edited = datetime.now()
+                obj.created = timezone.now()
+            if not obj.slug:
+                obj.slug = obj.title.lower().replace(' ','-')
+            obj.editor = request.user
+            obj.updated = timezone.now()
             if request.POST.get('publish', False):
                 obj.is_published = True
-                obj.pub_date = datetime.now()
+                obj.pub_date = timezone.now()
             obj.save()
             return redirect( obj.get_absolute_url() )
     else:
         form = NewsForm(instance=existing)
     return render_to_response('news/credit.html', { 'form' : form, 'object': existing },
         context_instance=RequestContext(request))
+
+def delete(request, news_id=None):
+    item = get_object_or_404(News, pk=news_id)
+    if request.method == 'POST':
+        if request.POST.get('confirm', False):
+            item.translations.all().delete()
+            item.delete()
+            return redirect( "news_archive_index" )
+        return redirect( item.get_absolute_url() )
+    return render_to_response('news/delete.html', { 'object': item }, context_instance=RequestContext(request))
+
 
 # Add permission here
 def view(request, news_id=None):

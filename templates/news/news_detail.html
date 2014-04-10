@@ -13,6 +13,9 @@
 {% include "news/translation_option.html" %}
   <h1>{{ object.title }}</h1>
   <p class="postdate">{{ object.pub_date }}</p>
+  {% if not object.is_published %}
+  <div class="warning">This article is not published yet!</div>
+  {% endif %}
   {{ object.content|safe }}
 
 

@@ -1,13 +1,12 @@
 
 import datetime
-#from haystack.indexes import SearchIndex, Indexable
-from haystack import indexes
+from haystack.indexes import *
 from cmsplugin_news.models import News
 
-class NewsIndex(indexes.SearchIndex, indexes.Indexable):
-    text = indexes.CharField(document=True, use_template=True)
-    pub_date = indexes.DateTimeField(model_attr='pub_date')
-    language = indexes.CharField(stored=True, model_attr='language')
+class NewsIndex(SearchIndex, Indexable):
+    text     = CharField(document=True, use_template=True)
+    pub_date = DateTimeField(model_attr='pub_date')
+    language = CharField(stored=True, model_attr='language')
 
     def get_model(self):
         return News

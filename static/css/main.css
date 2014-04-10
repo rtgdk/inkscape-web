@@ -161,11 +161,15 @@ div.toc ul {
   background-color: #ffffcc;
   color: #220000;
 }
-.messages .warning {
+.warning {
   border: 1px solid #ddaa77;
   box-shadow: 0 0 5px #ddaa77;
   background-color: #ffe5cc;
   color: #221100;
+}
+div.warning {
+  padding: 4px;
+  margin: 5px;
 }
 .messages .error {
   border: 1px solid #dd7777;
@@ -940,6 +944,9 @@ ol.checklist ul li.done:before
     color: #050;
 }
 
-a.translate {
+a.roundel {
   float: right;
+}
+a.roundel img {
+  padding: 3px;
 }

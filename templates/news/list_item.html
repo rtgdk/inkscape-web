@@ -3,10 +3,10 @@
   <div class="article">
     <div class="postdate">{{ object.pub_date }}</div>
     <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+    {% include "news/translation_option.html" %}
     <p>{{ object.excerpt }}</p>
     <a class="readmore" href="{{ object.get_absolute_url }}">Read more</a>
 
-    {% include "news/translation_option.html" %}
 
   </div>
 

@@ -8,11 +8,21 @@ from cms.plugins.text.settings import USE_TINYMCE
 from .widgets.wymeditor_widget import WYMEditor
 from .models import News
 
-
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        exclude = ('pub_date', 'creator', 'editor', 'created', 'edited', 'language')
+        exclude = ('creator', 'editor', 'created', 'updated', 'language', 'translation_of')
+
+class NewsTranslationForm(forms.ModelForm):
+    class Meta:
+        model = News
+        exclude = ('creator', 'editor', 'created', 'updated', 'language', 'translation_of', 'pub_date')
+
+
+class NewsAdminForm(forms.ModelForm):
+    class Meta:
+        model = News
+        exclude = ('creator', 'editor', 'created', 'updated')
 
     def _get_widget(self):
         plugins = plugin_pool.get_text_enabled_plugins(placeholder=None,
@@ -29,3 +39,4 @@ class NewsForm(forms.ModelForm):
         self.fields['excerpt'].widget = widget
         self.fields['content'].widget = widget
         self.fields['translation_of'].queryset = News.objects.filter(language="")
+

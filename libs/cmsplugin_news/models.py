@@ -85,7 +85,6 @@ class News(Model):
             ('translate', _('Translate News')),
         )
 
-
     def __unicode__(self):
         return self.title
 

@@ -4,7 +4,7 @@ from django.shortcuts import get_object_or_404
 
 from .settings import ARCHIVE_PAGE_SIZE, OTHER_LANGS
 from .models import News
-from .forms import NewsForm
+from .forms import NewsForm, NewsTranslationForm
 
 from cms.utils import get_language_from_request
 from django.db.models import Q
@@ -25,19 +25,21 @@ def translate(request, news_id=None):
     language    = get_language_from_request(request)
     translation = original.get_translation(language)
     if request.method == 'POST' and request.user:
-        form = NewsForm(request.POST, request.FILES, instance=translation)
+        form = NewsTranslationForm(request.POST, request.FILES, instance=translation)
         obj = form.save(commit=False)
         if not obj.created:
             obj.creator = request.user
             obj.created = timezone.now()
-        obj.editor   = request.user
-        obj.updated  = timezone.now()
-        obj.language = language
+        obj.editor    = request.user
+        obj.updated   = timezone.now()
+        obj.language  = language
+        obj.is_published = True
+        obj.pub_date     = timezone.now()
         obj.translation_of = original
         obj.save()
-        return redirect( obj.get_absolute_url() )
+        return redirect( original.get_absolute_url() )
     else:
-        form = NewsForm(instance=translation)
+        form = NewsTranslationForm(instance=translation)
     
     return render_to_response('news/translation.html',
         { 'form' : form, 'original': original, 'object': translation, 'language': _( dict(OTHER_LANGS).get(language, 'Unknown')) },

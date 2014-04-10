@@ -2,7 +2,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.translation import ungettext
 from django.contrib import admin
 
-from cmsplugin_news.forms import NewsForm
+from cmsplugin_news.forms import NewsAdminForm
 from cmsplugin_news.models import News
 
 class NewsAdmin(admin.ModelAdmin):
@@ -15,7 +15,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_filter = ('is_published', )
     search_fields = ['title', 'excerpt', 'content']
     prepopulated_fields = {'slug': ('title',)}
-    form = NewsForm
+    form = NewsAdminForm
 
     actions = ['make_published', 'make_unpublished']
 

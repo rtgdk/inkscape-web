@@ -113,7 +113,7 @@ class News(Model):
 
     def get_translation(self, lang):
         for item in self.get_translations():
-            if item.lang == lang:
+            if item.language == lang:
                 return item
         return None
 

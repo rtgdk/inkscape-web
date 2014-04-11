@@ -20,7 +20,7 @@ urlpatterns = patterns('django.views.generic.date_based',
     url(r'^(?P<year>\d{4})/(?P<month>\d{2})/(?P<day>\d{2})/(?P<slug>[-\w]+)/$',
         views.DetailView.as_view(), name='news_detail'),
 
-    url(r'^feed/$', feeds.NewsFeed()),
+    url(r'^feed/$', feeds.NewsFeed(), name='news_rss'),
 )
 
 urlpatterns += patterns('cmsplugin_news.views',

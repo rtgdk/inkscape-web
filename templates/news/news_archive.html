@@ -13,6 +13,8 @@
 {% block content %}
 {% if perms.cmsplugin_news.create %}
   <div style="text-align: right;"><a href="{% url "news_create" %}"><img src="{{ DESIGN_URL }}/images/add.svg" alt="{% trans "Create News" %}" style="float: right;"/></a></div>
+{% else %}
+  <a style="float: right;" href="{% url "news_rss" %}"><img src="{{ DESIGN_URL }}/images/action-subscribe.png" alt="RSS Feed"/></a>
 {% endif %}
   <h1>{% trans "Latest News" %}</h1>
   {% for object in latest %}

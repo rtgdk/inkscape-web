@@ -64,13 +64,18 @@ class News(Model):
     creator      = ForeignKey(User, related_name="created_news")
     editor       = ForeignKey(User, blank=True, null=True, related_name="edited_news")
 
-    language     = CharField(_("Language"), max_length=5, choices=settings.OTHER_LANGS,
-                     help_text=_("Translated version of another news item."))
     link         = URLField(_('Link'), blank=True, null=True,
                      help_text=_('This link will be used a absolute url for this item and replaces'
                                  ' the view logic. <br />Note that by default this only applies for'
                                  ' items with an empty "content" field.'))
 
+    # The translation functionality could be brought into a more generic format
+    # By making a meta class which doesn't have it's own table but contains these two fields
+    # and specifying 1. a list of translated fields which __getattr always passes UP to the
+    # translated version and 2. a list of base fields which __getattr always passes DOWN to the root.
+    # All mechanisms to do with translations would then be brought into that generic class.
+    language     = CharField(_("Language"), max_length=5, choices=settings.OTHER_LANGS,
+                     help_text=_("Translated version of another news item."))
     translation_of = ForeignKey("self", blank=True, null=True, related_name="translations")
 
     # django uses the first object manager for reverse lookups. Make sure normal manager is first.
@@ -97,8 +102,6 @@ class News(Model):
         obj = self
         if hasattr(self, 'trans') and name in ['translated','title','excerpt','language','content']:
             obj = self.trans
-        if name == 'lang':
-            name = 'language'
         elif name == 'translated':
             name = 'updated'
         return Model.__getattribute__(obj, name)

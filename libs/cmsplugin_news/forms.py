@@ -34,7 +34,7 @@ class NewsAdminForm(forms.ModelForm):
             return WYMEditor(installed_plugins=plugins)
 
     def __init__(self, *args, **kwargs):
-        super(NewsForm, self).__init__(*args, **kwargs)
+        super(NewsAdminForm, self).__init__(*args, **kwargs)
         widget = self._get_widget()
         self.fields['excerpt'].widget = widget
         self.fields['content'].widget = widget

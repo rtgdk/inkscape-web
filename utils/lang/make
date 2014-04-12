@@ -6,8 +6,7 @@ mv pythonenv $GOTO/
 
 ./utils/lang/unpack
 
-# pythonenv is gone, don't use it here
-./inkscape/manage.py makemessages -a $@
+./utils/manage makemessages -a $@
 
 mv locale/en/LC_MESSAGES/django.po locale/django.pot
 rm -fr locale/en/LC_MESSAGES

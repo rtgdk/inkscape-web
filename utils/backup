@@ -4,7 +4,7 @@ set -e
 DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
 BIN="$DIR/pythonenv/bin"
 PYTHON="$BIN/python"
-MANAGE="$DIR/inkscape/manage.py"
+MANAGE="$DIR/utils/manage"
 DEST="$DIR/data/backup"
 
 mkdir -p $DEST/cms_db

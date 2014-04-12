@@ -6,5 +6,5 @@
 40 0 * * * /var/www/.../utils/backup
 
 # This updates the search index each night
-45 0 * * * /var/www/.../utils/manage.py update_index
+45 0 * * * /var/www/.../utils/manage update_index
 

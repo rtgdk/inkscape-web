@@ -66,7 +66,7 @@ def credit(request, news_id=None):
             obj.save()
             return redirect( obj.get_absolute_url() )
     else:
-        form = NewsForm(instance=existing)
+        form = NewsForm(instance=existing, initial={'pub_date':timezone.now})
     return render_to_response('news/credit.html', { 'form' : form, 'object': existing },
         context_instance=RequestContext(request))
 

@@ -1,6 +1,8 @@
 from __future__ import absolute_import
+
 from django import forms
 from django.conf import settings
+from django.contrib.admin import widgets  
 
 from cms.plugin_pool import plugin_pool
 from cms.plugins.text.settings import USE_TINYMCE
@@ -12,6 +14,9 @@ class NewsForm(forms.ModelForm):
     class Meta:
         model = News
         exclude = ('creator', 'editor', 'created', 'updated', 'language', 'translation_of')
+    def __init__(self, *args, **kwargs):
+        super(NewsForm, self).__init__(*args, **kwargs)
+        self.fields['pub_date'].widget = widgets.AdminSplitDateTime()
 
 class NewsTranslationForm(forms.ModelForm):
     class Meta:

@@ -27,6 +27,8 @@
       {% if form.excerpt.errors %}<tr class="error"><td colspan="2">{{ form.except.errors|join:", " }}</td></tr>{% endif %}
       <tr><th scope="row">{% trans "Content" %}:</th><td>{{ form.content }}</td>
       {% if form.content.errors %}<tr class="error"><td colspan="2">{{ form.content.errors|join:", " }}</td></tr>{% endif %}
+      <tr><th scope="row">{% trans "Publish Date" %}:</th><td>{{ form.pub_date }}</td>
+      {% if form.pub_date.errors %}<tr class="error"><td colspan="2">{{ form.pub_date.errors|join:", " }}</td></tr>{% endif %}
     </table>
 
   <input type="submit" value="Save"/>

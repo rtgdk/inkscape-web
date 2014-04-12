@@ -83,7 +83,7 @@ def delete(request, news_id=None):
 
 # Add permission here
 def view(request, news_id=None):
-    news = News.objects.filter(pk=news_id)[0]
+    news = get_object_or_404(News, pk=news_id)
     return render_to_response('news/news_detail.html', { 'object' : news },
         context_instance=RequestContext(request))
 

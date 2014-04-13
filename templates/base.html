@@ -49,7 +49,7 @@
 								<label for="toplogin-password">{% trans "Password" %}</label>
 								<input name="password" id="toplogin-password" type="password">
 								<input id="toplogin-submit" type="submit" value="Log in">
-								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/auth/register/">{% trans "Register now." %}</a></p>
+								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
 								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>

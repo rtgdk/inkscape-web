@@ -6,8 +6,4 @@ This is an automatic email to help you complete your registration with Inkscape.
 
 http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
 
-{% blocktrans %}If there is a problem with your registration, please contact us:{% endblocktrans %}
-
-http://{{ site.domain }}/contact/?subject=Registration
-
 {% endfilter%}{% endautoescape %}

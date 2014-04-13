@@ -6,7 +6,7 @@ mv pythonenv $GOTO/
 
 ./utils/lang/unpack
 
-./utils/manage makemessages -a $@
+/tmp/anti-msg-stash/pythonenv/bin/python ./inkscape/manage.py makemessages -a $@
 
 mv locale/en/LC_MESSAGES/django.po locale/django.pot
 rm -fr locale/en/LC_MESSAGES

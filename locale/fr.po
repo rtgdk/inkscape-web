@@ -7,70 +7,17 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"POT-Creation-Date: 2014-04-13 05:27+0000\n"
 "PO-Revision-Date: 2013-12-22 23:34+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
 "X-Launchpad-Export-Date: 2013-12-23 05:37+0000\n"
 "X-Generator: Launchpad (build 16872)\n"
-"Language: \n"
-
-#: inkscape/gallery/forms.py:27
-msgid "I have permission to post this work"
-msgstr "J'ai l'autorisation de publier cette oeuvre"
-
-#: inkscape/gallery/models.py:39
-msgid "License Banner"
-msgstr "Bannière de la licence"
-
-#: inkscape/gallery/models.py:40
-msgid "License Icon"
-msgstr "Icône de la licence"
-
-#: inkscape/gallery/models.py:42
-msgid "Attribution"
-msgstr "Attribution"
-
-#: inkscape/gallery/models.py:43
-msgid "Copyleft (Share Alike)"
-msgstr "Copyleft (Partage dans les Mêmes Conditions)"
-
-#: inkscape/gallery/models.py:44
-msgid "Non-Commercial"
-msgstr "Pas d’Utilisation Commerciale"
-
-#: inkscape/gallery/models.py:45
-msgid "Non-Derivitive"
-msgstr "Pas de Modification"
-
-#: inkscape/gallery/models.py:46
-msgid "All Rights Reserved"
-msgstr "Tous droits réservés"
-
-#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
-#: libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Description"
-
-#: inkscape/gallery/models.py:71
-msgid "I own this work"
-msgstr "Je possède cette oeuvre"
-
-#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Miniature"
-
-#: inkscape/gallery/models.py:74
-msgid "Consumable File"
-msgstr "Fichier consommable"
-
-#: inkscape/gallery/models.py:75
-msgid "Source File"
-msgstr "Fichier source"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -84,9 +31,62 @@ msgstr "Confirmer"
 msgid "Photograph"
 msgstr "Photographie"
 
-#: inkscape/person/models.py:47
+#: inkscape/person/models.py:54
 msgid "Display Icon"
 msgstr "Afficher l'icône"
+
+#: inkscape/resource/forms.py:27
+msgid "I have permission to post this work"
+msgstr "J'ai l'autorisation de publier cette oeuvre"
+
+#: inkscape/resource/models.py:39
+msgid "License Banner"
+msgstr "Bannière de la licence"
+
+#: inkscape/resource/models.py:40
+msgid "License Icon"
+msgstr "Icône de la licence"
+
+#: inkscape/resource/models.py:42
+msgid "Attribution"
+msgstr "Attribution"
+
+#: inkscape/resource/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr "Copyleft (Partage dans les Mêmes Conditions)"
+
+#: inkscape/resource/models.py:44
+msgid "Non-Commercial"
+msgstr "Pas d’Utilisation Commerciale"
+
+#: inkscape/resource/models.py:45
+msgid "Non-Derivitive"
+msgstr "Pas de Modification"
+
+#: inkscape/resource/models.py:46
+msgid "All Rights Reserved"
+msgstr "Tous droits réservés"
+
+#: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Description"
+
+#: inkscape/resource/models.py:71
+msgid "I own this work"
+msgstr "Je possède cette oeuvre"
+
+#: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Miniature"
+
+#: inkscape/resource/models.py:74
+msgid "Consumable File"
+msgstr "Fichier consommable"
+
+#: inkscape/resource/models.py:75
+msgid "Source File"
+msgstr "Fichier source"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
@@ -97,7 +97,8 @@ msgid "Gallery Brochure"
 msgstr "Galerie"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
-#: libs/cmsplugin_news/models.py:28
+#: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
+#: templates/news/translation.html:21
 msgid "Title"
 msgstr "Titre"
 
@@ -138,11 +139,11 @@ msgstr ""
 msgid "Last Updated"
 msgstr "Dernière mise à jour"
 
-#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
+#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:58
 msgid "Published"
 msgstr "Publié"
 
-#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:67
 msgid "Link"
 msgstr "Lien"
 
@@ -295,25 +296,25 @@ msgstr "Seuil de bugs médian"
 msgid "High Bug Threshold"
 msgstr "Seuil de bug élevé"
 
-#: libs/cmsplugin_news/admin.py:37
+#: libs/cmsplugin_news/admin.py:36
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
 msgstr[0] "%(count)d actualité publiée"
 msgstr[1] "%(count)d actualités publiées"
 
-#: libs/cmsplugin_news/admin.py:40
+#: libs/cmsplugin_news/admin.py:39
 msgid "Publish selected news"
 msgstr "Publier l'actualité sélectionnée"
 
-#: libs/cmsplugin_news/admin.py:47
+#: libs/cmsplugin_news/admin.py:46
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
 msgstr[0] "%(count)d actualité dépubliée"
 msgstr[1] "%(count)d actualités dépubliées"
 
-#: libs/cmsplugin_news/admin.py:50
+#: libs/cmsplugin_news/admin.py:49
 msgid "Unpublish selected news"
 msgstr "Dépublier les actualités sélectionnées"
 
@@ -326,42 +327,36 @@ msgstr "Application actualités"
 msgid "Latest news"
 msgstr "Dernières actualités"
 
-#: libs/cmsplugin_news/menu.py:14
+#: libs/cmsplugin_news/menu.py:21
 msgid "News menu"
 msgstr "Menu actualités"
 
-#: libs/cmsplugin_news/models.py:29
+#: libs/cmsplugin_news/models.py:53
 msgid "Slug"
 msgstr "Label"
 
-#: libs/cmsplugin_news/models.py:30
-msgid ""
-"A slug is a short name which uniquely identifies the news item for this day"
+#: libs/cmsplugin_news/models.py:54
+#, fuzzy
+msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
 "Un label est un nom bref qui identifie de manière unique l'actualité pour un "
 "jour donné"
 
-#: libs/cmsplugin_news/models.py:31
+#: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
+#: templates/news/translation.html:23
 msgid "Excerpt"
 msgstr "Extrait"
 
-#: libs/cmsplugin_news/models.py:32
+#: libs/cmsplugin_news/models.py:56 templates/news/credit.html:28
+#: templates/news/translation.html:25
 msgid "Content"
 msgstr "Contenu"
 
-#: libs/cmsplugin_news/models.py:35
+#: libs/cmsplugin_news/models.py:59
 msgid "Publication date"
 msgstr "Date de publication"
 
-#: libs/cmsplugin_news/models.py:43
-msgid "Language"
-msgstr "Langue"
-
-#: libs/cmsplugin_news/models.py:43
-msgid "Optional: Show only for this language"
-msgstr "Optionnel : Ne montrer que pour cette langue"
-
-#: libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_news/models.py:68
 msgid ""
 "This link will be used a absolute url for this item and replaces the view "
 "logic. <br />Note that by default this only applies for items with an empty "
@@ -371,33 +366,45 @@ msgstr ""
 "que ceci ne s'applique par défaut qu'aux éléments ayant un champ \"contenu\" "
 "vide."
 
-#: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
+#: libs/cmsplugin_news/models.py:77
+msgid "Language"
+msgstr "Langue"
+
+#: libs/cmsplugin_news/models.py:78
+msgid "Translated version of another news item."
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
 msgstr "Actualités"
 
-#: libs/cmsplugin_news/models.py:71
+#: libs/cmsplugin_news/models.py:90
+msgid "Translate News"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
 msgstr "Nombre d'actualités à afficher"
 
-#: libs/cmsplugin_news/models.py:72
+#: libs/cmsplugin_news/models.py:144
 msgid "Limits the number of items that will be displayed"
 msgstr "Limite le nombre d'éléments affichés"
 
-#: libs/cmsplugin_news/settings.py:18
+#: libs/cmsplugin_news/settings.py:20
 msgid "News feed"
 msgstr "Flux d'actualités"
 
-#: libs/cmsplugin_news/settings.py:19
+#: libs/cmsplugin_news/settings.py:21
 msgid "A feed full of news"
 msgstr "Un flux contenant des actualités"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
-#: templates/news/latest_news.html:14
+#: templates/news/latest_news.html:15
 msgid "No news yet"
 msgstr "Pas encore d'actualités"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
-#: templates/news/latest_news.html:16
+#: templates/news/latest_news.html:17
 msgid "Archive"
 msgstr "Archives"
 
@@ -459,7 +466,8 @@ msgid "Admin"
 msgstr "Administrateur"
 
 #: templates/base.html:67
-msgid "Edit Profile"
+#, fuzzy
+msgid "My Profile"
 msgstr "Modifier le profil"
 
 #: templates/base.html:68
@@ -470,18 +478,18 @@ msgstr "Se déconnecter"
 msgid "Follow us on:"
 msgstr "Suivez nous sur :"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape est un logiciel Libre et Open Source sous licence GPL"
 
-#: templates/base.html:113
+#: templates/base.html:114
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
 "Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> avec Inkscape et développé par <a "
-"href=\"http://doctormo.org\">Martin Owens</a>"
+"Courtenay</a> avec Inkscape et développé par <a href=\"http://doctormo.org"
+"\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -523,9 +531,8 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a "
-"href=\"/search\">search</a> to see if you can find what you were looking "
-"for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
+"\">search</a> to see if you can find what you were looking for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -548,6 +555,90 @@ msgstr ""
 msgid "You broke it!"
 msgstr "Vous l'avez cassé !"
 
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "Edit"
+msgstr ""
+
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "New News Article"
+msgstr ""
+
+#: templates/news/credit.html:18
+msgid "Edit English News Article"
+msgstr ""
+
+#: templates/news/credit.html:20
+msgid "New English News Article"
+msgstr ""
+
+#: templates/news/credit.html:30
+#, fuzzy
+msgid "Publish Date"
+msgstr "Publié"
+
+#: templates/news/delete.html:14
+msgid "Delete News Article"
+msgstr ""
+
+#: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+#, fuzzy
+msgid "Latest News"
+msgstr "Dernières actualités"
+
+#: templates/news/news_archive.html:15
+msgid "Create News"
+msgstr ""
+
+#: templates/news/news_archive_day.html:5
+#: templates/news/news_archive_day.html:8
+#, fuzzy
+msgid "News for"
+msgstr "Flux d'actualités"
+
+#: templates/news/news_archive_day.html:14
+msgid "No news for this day"
+msgstr ""
+
+#: templates/news/translation.html:5
+msgid "Translate News Article"
+msgstr ""
+
+#: templates/news/translation.html:14
+msgid "Please correct the errors below"
+msgstr ""
+
+#: templates/news/translation.html:17
+msgid "Translate News Article into"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "New Translations"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "Original"
+msgstr ""
+
+#: templates/news/translation.html:29
+msgid "Save Translation"
+msgstr ""
+
+#: templates/news/translation_option.html:5
+msgid "Edit This News"
+msgstr ""
+
+#: templates/news/translation_option.html:8
+msgid "Delete This News"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Needs Translating"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Translation OK"
+msgstr ""
+
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
@@ -561,8 +652,8 @@ msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Si vous rencontrez des difficultés, n'hésitez pas à <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"Si vous rencontrez des difficultés, n'hésitez pas à <a href=\"/contact/?"
+"subject=Lost activation code\">nous contacter</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
@@ -596,9 +687,12 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
+"a>."
 msgstr ""
 "Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
-"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a "
-"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
+"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a href=\"/"
+"contact/?subject=Lost activation code\">nous contacter</a>."
+
+#~ msgid "Optional: Show only for this language"
+#~ msgstr "Optionnel : Ne montrer que pour cette langue"

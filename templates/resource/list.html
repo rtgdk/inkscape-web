@@ -3,7 +3,7 @@
   <h1>All {{ category }} Resources</h1>
   <p>{{ category.desc }}</p>
 {% endif %}
-
+<!--
 {% if user %}
 <h1>Resources by {{ user }}</h1>
 {% endif %}
@@ -20,5 +20,5 @@
 {% ifequal user request.user %}
 <p><a href="{% url "new_resource" %}">Submit Resource</a></p>
 {% endifequal %}
-
+-->
 

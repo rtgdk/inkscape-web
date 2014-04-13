@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Inkscape-web\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"POT-Creation-Date: 2014-04-13 05:26+0000\n"
 "PO-Revision-Date: 2013-12-29 00:09+0000\n"
 "Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
 "Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
@@ -15,62 +15,9 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-30 04:46+0000\n"
-"X-Generator: Launchpad (build 16877)\n"
+"X-Launchpad-Export-Date: 2014-04-13 06:07+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 "Language: ja\n"
-
-#: inkscape/gallery/forms.py:27
-msgid "I have permission to post this work"
-msgstr "私はこの作品を投稿する許可を得ています"
-
-#: inkscape/gallery/models.py:39
-msgid "License Banner"
-msgstr "ライセンスバナー"
-
-#: inkscape/gallery/models.py:40
-msgid "License Icon"
-msgstr "ライセンスアイコン"
-
-#: inkscape/gallery/models.py:42
-msgid "Attribution"
-msgstr "表示"
-
-#: inkscape/gallery/models.py:43
-msgid "Copyleft (Share Alike)"
-msgstr "コピーレフト (シェアアライク)"
-
-#: inkscape/gallery/models.py:44
-msgid "Non-Commercial"
-msgstr "非営利"
-
-#: inkscape/gallery/models.py:45
-msgid "Non-Derivitive"
-msgstr "改変禁止"
-
-#: inkscape/gallery/models.py:46
-msgid "All Rights Reserved"
-msgstr "All Rights Reserved"
-
-#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
-#: libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "説明"
-
-#: inkscape/gallery/models.py:71
-msgid "I own this work"
-msgstr "私はこの作品を所有しています"
-
-#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "サムネイル"
-
-#: inkscape/gallery/models.py:74
-msgid "Consumable File"
-msgstr "消耗ファイル"
-
-#: inkscape/gallery/models.py:75
-msgid "Source File"
-msgstr "ソースファイル"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -84,9 +31,62 @@ msgstr "パスワードの確認:"
 msgid "Photograph"
 msgstr "写真"
 
-#: inkscape/person/models.py:47
+#: inkscape/person/models.py:54
 msgid "Display Icon"
 msgstr "アイコンを表示"
+
+#: inkscape/resource/forms.py:27
+msgid "I have permission to post this work"
+msgstr "私はこの作品を投稿する許可を得ています"
+
+#: inkscape/resource/models.py:39
+msgid "License Banner"
+msgstr "ライセンスバナー"
+
+#: inkscape/resource/models.py:40
+msgid "License Icon"
+msgstr "ライセンスアイコン"
+
+#: inkscape/resource/models.py:42
+msgid "Attribution"
+msgstr "表示"
+
+#: inkscape/resource/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr "コピーレフト (シェアアライク)"
+
+#: inkscape/resource/models.py:44
+msgid "Non-Commercial"
+msgstr "非営利"
+
+#: inkscape/resource/models.py:45
+msgid "Non-Derivitive"
+msgstr "改変禁止"
+
+#: inkscape/resource/models.py:46
+msgid "All Rights Reserved"
+msgstr "All Rights Reserved"
+
+#: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "説明"
+
+#: inkscape/resource/models.py:71
+msgid "I own this work"
+msgstr "私はこの作品を所有しています"
+
+#: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "サムネイル"
+
+#: inkscape/resource/models.py:74
+msgid "Consumable File"
+msgstr "消耗ファイル"
+
+#: inkscape/resource/models.py:75
+msgid "Source File"
+msgstr "ソースファイル"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
@@ -97,7 +97,8 @@ msgid "Gallery Brochure"
 msgstr "ギャラリーブローシャ"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
-#: libs/cmsplugin_news/models.py:28
+#: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
+#: templates/news/translation.html:21
 msgid "Title"
 msgstr "タイトル"
 
@@ -137,11 +138,11 @@ msgstr "すべての新しいエントリを表示させます"
 msgid "Last Updated"
 msgstr "最終更新日"
 
-#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
+#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:58
 msgid "Published"
 msgstr "公開"
 
-#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:67
 msgid "Link"
 msgstr "リンク"
 
@@ -294,23 +295,23 @@ msgstr "重要度中のバグのしきい値"
 msgid "High Bug Threshold"
 msgstr "重要度高のバグのしきい値"
 
-#: libs/cmsplugin_news/admin.py:37
+#: libs/cmsplugin_news/admin.py:36
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
 msgstr[0] "%(count)d 個のニュースアイテムが公開されました"
 
-#: libs/cmsplugin_news/admin.py:40
+#: libs/cmsplugin_news/admin.py:39
 msgid "Publish selected news"
 msgstr "選択された News の公開"
 
-#: libs/cmsplugin_news/admin.py:47
+#: libs/cmsplugin_news/admin.py:46
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
 msgstr[0] "%(count)d 個のニュースアイテムを非公開にしました"
 
-#: libs/cmsplugin_news/admin.py:50
+#: libs/cmsplugin_news/admin.py:49
 msgid "Unpublish selected news"
 msgstr "選択されたニュースの公開中止"
 
@@ -323,40 +324,33 @@ msgstr "News アプリ"
 msgid "Latest news"
 msgstr "最新のニュース"
 
-#: libs/cmsplugin_news/menu.py:14
+#: libs/cmsplugin_news/menu.py:21
 msgid "News menu"
 msgstr "News メニュー"
 
-#: libs/cmsplugin_news/models.py:29
+#: libs/cmsplugin_news/models.py:53
 msgid "Slug"
 msgstr "スラグ"
 
-#: libs/cmsplugin_news/models.py:30
-msgid ""
-"A slug is a short name which uniquely identifies the news item for this day"
-msgstr "スラグはこの日のニュースアイテムを一意に識別する省略名です"
+#: libs/cmsplugin_news/models.py:54
+msgid "A slug is a short name which uniquely identifies the news item."
+msgstr ""
 
-#: libs/cmsplugin_news/models.py:31
+#: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
+#: templates/news/translation.html:23
 msgid "Excerpt"
 msgstr "抜粋"
 
-#: libs/cmsplugin_news/models.py:32
+#: libs/cmsplugin_news/models.py:56 templates/news/credit.html:28
+#: templates/news/translation.html:25
 msgid "Content"
 msgstr "内容"
 
-#: libs/cmsplugin_news/models.py:35
+#: libs/cmsplugin_news/models.py:59
 msgid "Publication date"
 msgstr "公開日"
 
-#: libs/cmsplugin_news/models.py:43
-msgid "Language"
-msgstr "言語"
-
-#: libs/cmsplugin_news/models.py:43
-msgid "Optional: Show only for this language"
-msgstr "オプション: この言語でのみ表示"
-
-#: libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_news/models.py:68
 msgid ""
 "This link will be used a absolute url for this item and replaces the view "
 "logic. <br />Note that by default this only applies for items with an empty "
@@ -365,33 +359,45 @@ msgstr ""
 "このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられる。\n"
 "デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されることに注意。"
 
-#: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
+#: libs/cmsplugin_news/models.py:77
+msgid "Language"
+msgstr "言語"
+
+#: libs/cmsplugin_news/models.py:78
+msgid "Translated version of another news item."
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
 msgstr "ニュース"
 
-#: libs/cmsplugin_news/models.py:71
+#: libs/cmsplugin_news/models.py:90
+msgid "Translate News"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
 msgstr "表示するニュースアイテムの数"
 
-#: libs/cmsplugin_news/models.py:72
+#: libs/cmsplugin_news/models.py:144
 msgid "Limits the number of items that will be displayed"
 msgstr "表示するアイテム数の上限"
 
-#: libs/cmsplugin_news/settings.py:18
+#: libs/cmsplugin_news/settings.py:20
 msgid "News feed"
 msgstr "News フィード"
 
-#: libs/cmsplugin_news/settings.py:19
+#: libs/cmsplugin_news/settings.py:21
 msgid "A feed full of news"
 msgstr "全ニュースのフィード"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
-#: templates/news/latest_news.html:14
+#: templates/news/latest_news.html:15
 msgid "No news yet"
 msgstr "ニュースはありません"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
-#: templates/news/latest_news.html:16
+#: templates/news/latest_news.html:17
 msgid "Archive"
 msgstr "アーカイブ"
 
@@ -450,8 +456,8 @@ msgid "Admin"
 msgstr "管理"
 
 #: templates/base.html:67
-msgid "Edit Profile"
-msgstr "プロファイルの編集"
+msgid "My Profile"
+msgstr ""
 
 #: templates/base.html:68
 msgid "Logout"
@@ -461,11 +467,11 @@ msgstr "ログアウト"
 msgid "Follow us on:"
 msgstr "フォローはこちらから:"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフトウェアです。"
 
-#: templates/base.html:113
+#: templates/base.html:114
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
@@ -533,6 +539,87 @@ msgstr ""
 msgid "You broke it!"
 msgstr "あなたが壊したのだ!"
 
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "Edit"
+msgstr ""
+
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "New News Article"
+msgstr ""
+
+#: templates/news/credit.html:18
+msgid "Edit English News Article"
+msgstr ""
+
+#: templates/news/credit.html:20
+msgid "New English News Article"
+msgstr ""
+
+#: templates/news/credit.html:30
+msgid "Publish Date"
+msgstr ""
+
+#: templates/news/delete.html:14
+msgid "Delete News Article"
+msgstr ""
+
+#: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+msgid "Latest News"
+msgstr ""
+
+#: templates/news/news_archive.html:15
+msgid "Create News"
+msgstr ""
+
+#: templates/news/news_archive_day.html:5
+#: templates/news/news_archive_day.html:8
+msgid "News for"
+msgstr ""
+
+#: templates/news/news_archive_day.html:14
+msgid "No news for this day"
+msgstr ""
+
+#: templates/news/translation.html:5
+msgid "Translate News Article"
+msgstr ""
+
+#: templates/news/translation.html:14
+msgid "Please correct the errors below"
+msgstr ""
+
+#: templates/news/translation.html:17
+msgid "Translate News Article into"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "New Translations"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "Original"
+msgstr ""
+
+#: templates/news/translation.html:29
+msgid "Save Translation"
+msgstr ""
+
+#: templates/news/translation_option.html:5
+msgid "Edit This News"
+msgstr ""
+
+#: templates/news/translation_option.html:8
+msgid "Delete This News"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Needs Translating"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Translation OK"
+msgstr ""
+
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
@@ -580,3 +667,13 @@ msgid ""
 msgstr ""
 "もし確認メールが送られてこない場合は、スパムメールとしてフィルターされていないか確認してください。本当に送られてこない場合は<a "
 "href=\"/contact/?subject=Lost activation code\">私たちまでご連絡ください</a>。"
+
+#~ msgid ""
+#~ "A slug is a short name which uniquely identifies the news item for this day"
+#~ msgstr "スラグはこの日のニュースアイテムを一意に識別する省略名です"
+
+#~ msgid "Optional: Show only for this language"
+#~ msgstr "オプション: この言語でのみ表示"
+
+#~ msgid "Edit Profile"
+#~ msgstr "プロファイルの編集"

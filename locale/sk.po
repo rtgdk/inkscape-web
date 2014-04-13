@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: inkscape-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"POT-Creation-Date: 2014-04-13 05:26+0000\n"
 "PO-Revision-Date: 2013-12-06 10:21+0000\n"
 "Last-Translator: helix84 <Unknown>\n"
 "Language-Team: Slovak <sk@li.org>\n"
@@ -15,61 +15,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 1 : (n>=2 && n<=4) ? 2 : 0;\n"
-"X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
-
-#: inkscape/gallery/forms.py:27
-msgid "I have permission to post this work"
-msgstr ""
-
-#: inkscape/gallery/models.py:39
-msgid "License Banner"
-msgstr ""
-
-#: inkscape/gallery/models.py:40
-msgid "License Icon"
-msgstr ""
-
-#: inkscape/gallery/models.py:42
-msgid "Attribution"
-msgstr ""
-
-#: inkscape/gallery/models.py:43
-msgid "Copyleft (Share Alike)"
-msgstr ""
-
-#: inkscape/gallery/models.py:44
-msgid "Non-Commercial"
-msgstr ""
-
-#: inkscape/gallery/models.py:45
-msgid "Non-Derivitive"
-msgstr ""
-
-#: inkscape/gallery/models.py:46
-msgid "All Rights Reserved"
-msgstr ""
-
-#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
-#: libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Popis"
-
-#: inkscape/gallery/models.py:71
-msgid "I own this work"
-msgstr ""
-
-#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr "Náhľad"
-
-#: inkscape/gallery/models.py:74
-msgid "Consumable File"
-msgstr ""
-
-#: inkscape/gallery/models.py:75
-msgid "Source File"
-msgstr ""
+"X-Launchpad-Export-Date: 2014-04-13 06:07+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -83,9 +30,62 @@ msgstr "Potvrdiť"
 msgid "Photograph"
 msgstr "Fotografia"
 
-#: inkscape/person/models.py:47
+#: inkscape/person/models.py:54
 msgid "Display Icon"
 msgstr "Zobraziť ikonu"
+
+#: inkscape/resource/forms.py:27
+msgid "I have permission to post this work"
+msgstr ""
+
+#: inkscape/resource/models.py:39
+msgid "License Banner"
+msgstr ""
+
+#: inkscape/resource/models.py:40
+msgid "License Icon"
+msgstr ""
+
+#: inkscape/resource/models.py:42
+msgid "Attribution"
+msgstr ""
+
+#: inkscape/resource/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/resource/models.py:44
+msgid "Non-Commercial"
+msgstr ""
+
+#: inkscape/resource/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/resource/models.py:46
+msgid "All Rights Reserved"
+msgstr ""
+
+#: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Popis"
+
+#: inkscape/resource/models.py:71
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Náhľad"
+
+#: inkscape/resource/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/resource/models.py:75
+msgid "Source File"
+msgstr ""
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
@@ -96,7 +96,8 @@ msgid "Gallery Brochure"
 msgstr "Brožúra galérie"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
-#: libs/cmsplugin_news/models.py:28
+#: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
+#: templates/news/translation.html:21
 msgid "Title"
 msgstr "Názov"
 
@@ -136,11 +137,11 @@ msgstr "Automaticky zviditeľňuje nové položky priamo používateľovi"
 msgid "Last Updated"
 msgstr "Naposledy aktualizované"
 
-#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
+#: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:58
 msgid "Published"
 msgstr "Zverejnené"
 
-#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:67
 msgid "Link"
 msgstr "Odkaz"
 
@@ -295,7 +296,7 @@ msgstr "Stredný prah chýb"
 msgid "High Bug Threshold"
 msgstr ""
 
-#: libs/cmsplugin_news/admin.py:37
+#: libs/cmsplugin_news/admin.py:36
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
@@ -303,11 +304,11 @@ msgstr[0] "%(count)d novinka bola zverejnená"
 msgstr[1] "%(count)d novinky boli zverejnené"
 msgstr[2] "%(count)d noviniek bolo zverejnených"
 
-#: libs/cmsplugin_news/admin.py:40
+#: libs/cmsplugin_news/admin.py:39
 msgid "Publish selected news"
 msgstr "Zverejniť vybrané novinky"
 
-#: libs/cmsplugin_news/admin.py:47
+#: libs/cmsplugin_news/admin.py:46
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
@@ -315,7 +316,7 @@ msgstr[0] "%(count)d zverejnená novinka bola skrytá"
 msgstr[1] "%(count)d zverejnené novinky boli skryté"
 msgstr[2] "%(count)d zverejnených noviniek bolo skrytých"
 
-#: libs/cmsplugin_news/admin.py:50
+#: libs/cmsplugin_news/admin.py:49
 msgid "Unpublish selected news"
 msgstr "Skryť vybrané zverejnené novinky"
 
@@ -328,41 +329,33 @@ msgstr "Aplikácia noviniek"
 msgid "Latest news"
 msgstr "Posledné novinky"
 
-#: libs/cmsplugin_news/menu.py:14
+#: libs/cmsplugin_news/menu.py:21
 msgid "News menu"
 msgstr "Menu noviniek"
 
-#: libs/cmsplugin_news/models.py:29
+#: libs/cmsplugin_news/models.py:53
 msgid "Slug"
 msgstr "SEO URL"
 
-#: libs/cmsplugin_news/models.py:30
-msgid ""
-"A slug is a short name which uniquely identifies the news item for this day"
+#: libs/cmsplugin_news/models.py:54
+msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
-"SEO URL je krátky názov, ktorý jedinečne identifikuje novinku pre tento deň."
 
-#: libs/cmsplugin_news/models.py:31
+#: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
+#: templates/news/translation.html:23
 msgid "Excerpt"
 msgstr "Výťah"
 
-#: libs/cmsplugin_news/models.py:32
+#: libs/cmsplugin_news/models.py:56 templates/news/credit.html:28
+#: templates/news/translation.html:25
 msgid "Content"
 msgstr "Obsah"
 
-#: libs/cmsplugin_news/models.py:35
+#: libs/cmsplugin_news/models.py:59
 msgid "Publication date"
 msgstr "Dátum zverejnenia"
 
-#: libs/cmsplugin_news/models.py:43
-msgid "Language"
-msgstr "Jazyk"
-
-#: libs/cmsplugin_news/models.py:43
-msgid "Optional: Show only for this language"
-msgstr "Voliteľné: Zobrazovať iba pre tento jazyk"
-
-#: libs/cmsplugin_news/models.py:44
+#: libs/cmsplugin_news/models.py:68
 msgid ""
 "This link will be used a absolute url for this item and replaces the view "
 "logic. <br />Note that by default this only applies for items with an empty "
@@ -372,33 +365,45 @@ msgstr ""
 "<br />Všimnite si, že štandardne sa toto týka iba položiek s prázdnym poľom "
 "„obsah“."
 
-#: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
+#: libs/cmsplugin_news/models.py:77
+msgid "Language"
+msgstr "Jazyk"
+
+#: libs/cmsplugin_news/models.py:78
+msgid "Translated version of another news item."
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
 msgstr "Novinky"
 
-#: libs/cmsplugin_news/models.py:71
+#: libs/cmsplugin_news/models.py:90
+msgid "Translate News"
+msgstr ""
+
+#: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
 msgstr "Koľko noviniek zobrazovať"
 
-#: libs/cmsplugin_news/models.py:72
+#: libs/cmsplugin_news/models.py:144
 msgid "Limits the number of items that will be displayed"
 msgstr "Obmedzuje počet zobrazených noviniek"
 
-#: libs/cmsplugin_news/settings.py:18
+#: libs/cmsplugin_news/settings.py:20
 msgid "News feed"
 msgstr "Kanál noviniek"
 
-#: libs/cmsplugin_news/settings.py:19
+#: libs/cmsplugin_news/settings.py:21
 msgid "A feed full of news"
 msgstr "Kanál plný noviniek"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
-#: templates/news/latest_news.html:14
+#: templates/news/latest_news.html:15
 msgid "No news yet"
 msgstr "Zatiaľ žiadne novinky"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
-#: templates/news/latest_news.html:16
+#: templates/news/latest_news.html:17
 msgid "Archive"
 msgstr "Archív"
 
@@ -457,8 +462,8 @@ msgid "Admin"
 msgstr "Správca"
 
 #: templates/base.html:67
-msgid "Edit Profile"
-msgstr "Upraviť profil"
+msgid "My Profile"
+msgstr ""
 
 #: templates/base.html:68
 msgid "Logout"
@@ -468,11 +473,11 @@ msgstr "Odhlásiť sa"
 msgid "Follow us on:"
 msgstr "Sledujte nás na:"
 
-#: templates/base.html:110
+#: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape je slobodný a open source softvér pod licenciou GPL."
 
-#: templates/base.html:113
+#: templates/base.html:114
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
@@ -540,6 +545,87 @@ msgstr ""
 msgid "You broke it!"
 msgstr "Pokazili ste to!"
 
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "Edit"
+msgstr ""
+
+#: templates/news/credit.html:5 templates/news/delete.html:5
+msgid "New News Article"
+msgstr ""
+
+#: templates/news/credit.html:18
+msgid "Edit English News Article"
+msgstr ""
+
+#: templates/news/credit.html:20
+msgid "New English News Article"
+msgstr ""
+
+#: templates/news/credit.html:30
+msgid "Publish Date"
+msgstr ""
+
+#: templates/news/delete.html:14
+msgid "Delete News Article"
+msgstr ""
+
+#: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+msgid "Latest News"
+msgstr ""
+
+#: templates/news/news_archive.html:15
+msgid "Create News"
+msgstr ""
+
+#: templates/news/news_archive_day.html:5
+#: templates/news/news_archive_day.html:8
+msgid "News for"
+msgstr ""
+
+#: templates/news/news_archive_day.html:14
+msgid "No news for this day"
+msgstr ""
+
+#: templates/news/translation.html:5
+msgid "Translate News Article"
+msgstr ""
+
+#: templates/news/translation.html:14
+msgid "Please correct the errors below"
+msgstr ""
+
+#: templates/news/translation.html:17
+msgid "Translate News Article into"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "New Translations"
+msgstr ""
+
+#: templates/news/translation.html:20
+msgid "Original"
+msgstr ""
+
+#: templates/news/translation.html:29
+msgid "Save Translation"
+msgstr ""
+
+#: templates/news/translation_option.html:5
+msgid "Edit This News"
+msgstr ""
+
+#: templates/news/translation_option.html:8
+msgid "Delete This News"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Needs Translating"
+msgstr ""
+
+#: templates/news/translation_option.html:13
+msgid "Translation OK"
+msgstr ""
+
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
@@ -591,3 +677,14 @@ msgstr ""
 "Ak ho zakrátko nedostanete, pozrite sa prosím do svojho spamového priečinka. "
 "Ak tam nebude, prosím, <a href=\"/contact/?subject=Lost activation "
 "code\">kontaktujte nás</a>."
+
+#~ msgid ""
+#~ "A slug is a short name which uniquely identifies the news item for this day"
+#~ msgstr ""
+#~ "SEO URL je krátky názov, ktorý jedinečne identifikuje novinku pre tento deň."
+
+#~ msgid "Optional: Show only for this language"
+#~ msgstr "Voliteľné: Zobrazovať iba pre tento jazyk"
+
+#~ msgid "Edit Profile"
+#~ msgstr "Upraviť profil"

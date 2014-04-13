@@ -1,360 +1,364 @@
-# Japanese translation of Inkscape website
-# Copyright (C) 2013 Inkscae team
-# This file is distributed under the same license as the Inkscape package.
-# Masato Hashimoto <cabezon.hashimoto@gmail.com>, 2013.
+# French (Canada) translation for inkscape-web
+# Copyright (c) 2013 Rosetta Contributors and Canonical Ltd 2013
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2013.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: Inkscape-web\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2013-12-13 18:25+0000\n"
-"PO-Revision-Date: 2013-12-29 00:09+0000\n"
-"Last-Translator: Masato HASHIMOTO <cabezon.hashimoto@gmail.com>\n"
-"Language-Team: Japanese <inkscape-translator@lists.sourceforge.net>\n"
+"PO-Revision-Date: 2013-12-22 23:56+0000\n"
+"Last-Translator: Edouard <Unknown>\n"
+"Language-Team: French (Canada) <fr_CA@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=1; plural=0;\n"
-"X-Launchpad-Export-Date: 2013-12-30 04:46+0000\n"
+"Plural-Forms: nplurals=2; plural=n > 1;\n"
+"X-Launchpad-Export-Date: 2013-12-24 05:31+0000\n"
 "X-Generator: Launchpad (build 16877)\n"
-"Language: ja\n"
 
 #: inkscape/gallery/forms.py:27
 msgid "I have permission to post this work"
-msgstr "私はこの作品を投稿する許可を得ています"
+msgstr "J'ai l'autorisation de publier cette oeuvre"
 
 #: inkscape/gallery/models.py:39
 msgid "License Banner"
-msgstr "ライセンスバナー"
+msgstr "Bannière de la licence"
 
 #: inkscape/gallery/models.py:40
 msgid "License Icon"
-msgstr "ライセンスアイコン"
+msgstr "Icône de la licence"
 
 #: inkscape/gallery/models.py:42
 msgid "Attribution"
-msgstr "表示"
+msgstr "Attribution"
 
 #: inkscape/gallery/models.py:43
 msgid "Copyleft (Share Alike)"
-msgstr "コピーレフト (シェアアライク)"
+msgstr "Copyleft (Partage dans les Mêmes Conditions)"
 
 #: inkscape/gallery/models.py:44
 msgid "Non-Commercial"
-msgstr "非営利"
+msgstr "Pas d’Utilisation Commerciale"
 
 #: inkscape/gallery/models.py:45
 msgid "Non-Derivitive"
-msgstr "改変禁止"
+msgstr "Pas de Modification"
 
 #: inkscape/gallery/models.py:46
 msgid "All Rights Reserved"
-msgstr "All Rights Reserved"
+msgstr "Tous droits réservés"
 
 #: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr "説明"
+msgstr "Description"
 
 #: inkscape/gallery/models.py:71
 msgid "I own this work"
-msgstr "私はこの作品を所有しています"
+msgstr "Je possède cette oeuvre"
 
 #: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr "サムネイル"
+msgstr "Miniature"
 
 #: inkscape/gallery/models.py:74
 msgid "Consumable File"
-msgstr "消耗ファイル"
+msgstr "Fichier consommable"
 
 #: inkscape/gallery/models.py:75
 msgid "Source File"
-msgstr "ソースファイル"
+msgstr "Fichier source"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
-msgstr "パスワード"
+msgstr "Mot de passe"
 
 #: inkscape/person/forms.py:8
 msgid "Confirm"
-msgstr "パスワードの確認:"
+msgstr "Confirmer"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr "写真"
+msgstr "Photographie"
 
 #: inkscape/person/models.py:47
 msgid "Display Icon"
-msgstr "アイコンを表示"
+msgstr "Afficher l'icône"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr "apphook の検索"
+msgstr "Rechercher le lien applicatif"
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr "ギャラリーブローシャ"
+msgstr "Galerie"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
-msgstr "タイトル"
+msgstr "Titre"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr "全リストへのリンク"
+msgstr "Lien vers la liste complète"
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr "ターゲットアイコン"
+msgstr "Icône cible"
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr "ソースタイプ"
+msgstr "Type de Source"
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr "解析の種類"
+msgstr "Type d'analyse syntaxique à effectuer"
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr "データリンク"
+msgstr "Lien de données"
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
-msgstr "RSS フィードまたは一般解析用データへのリンク"
+msgstr "Lien vers un flux RSS ou d'autres données pour analyse syntaxique"
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr "自動的に有効にする"
+msgstr "Activer automatiquement"
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr "すべての新しいエントリを表示させます"
+msgstr ""
+"Rend toutes les nouvelles entrées directement visibles par l'utilisateur"
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr "最終更新日"
+msgstr "Dernière mise à jour"
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:34
 msgid "Published"
-msgstr "公開"
+msgstr "Publié"
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:44
 msgid "Link"
-msgstr "リンク"
+msgstr "Lien"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr "公開日"
+msgstr "Date de publication"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr "有効"
+msgstr "Activé"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr "インデックス化した日"
+msgstr "Date d'indexation"
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr "アイテム数"
+msgstr "Nombre d'éléments"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr "ユーサーリストのグループ"
+msgstr "Groupe de listes d'utilisateurs"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr "表示スタイル"
+msgstr "Style d'affichage"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr "シンプルリスト"
+msgstr "Liste simple"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr "顔写真"
+msgstr "Photos portraits"
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
-msgstr "略歴写真"
+msgstr "Photo Biographies"
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr "Launchpad バグカウント"
+msgstr "Décompte de bugs Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr "プロジェクト名"
+msgstr "Nom du projet"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr "プロジェクト名"
+msgstr "Identifiant Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 msgid "Name"
-msgstr "名前"
+msgstr "Nom"
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr "ステータス"
+msgstr "État"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr "内部 Launchpad ID"
+msgstr "Identifiant interne Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr "リスト名"
+msgstr "Nom de la liste"
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr "指定日より前に作成されたもの。"
+msgstr "Créés avant la date donnée"
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr "指定日以降に作成されたもの。"
+msgstr "Créés depuis la date donnée"
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr "指定日以降に修正されたもの。"
+msgstr "Modifiés depuis la date donnée"
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr "バグ ID または検索文字列。"
+msgstr "Identifiant du bug ou texte de la recherche."
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr "全バグ"
+msgstr "Tous les bugs"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr "リンクされたもののみ"
+msgstr "Liés seulement"
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr "リンクされてないもののみ"
+msgstr "Non liés seulement"
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr "ブローシャにリンクされた、またはされてないもの"
+msgstr "Qui sont liés ou non à des branches"
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr "Duplicate がマークされたものはオミットする。"
+msgstr "Omettre les bugs marqués comme dupliqués"
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr "シリーズにターゲットされたバグはオミットする。"
+msgstr "Omettre les bugs marqués comme une série."
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr "与えられたステータス値のみ。"
+msgstr "Seulement avec les valeurs d'état indiquées"
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr "与えられた重要度のみ。"
+msgstr "seulement avec les importances indiquées"
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
-msgstr "検索するタグ。除外する場合は '-tag'。"
+msgstr "Etiquettes à rechercher. Pour exclure, utiliser '-tag'."
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
-msgstr "選択されたタグのいずれか"
+msgstr "N'importe quelle étiquette sélectionnée"
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr "選択されたタグすべて"
+msgstr "Toutes les étiquettes sélectionnées"
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
-msgstr "指定されたタグのいずれか、またはすべてを選択する。"
+msgstr "Chercher une ou toutes les étiquettes précisées."
 
 #: libs/cmsplugin_launchpad/models.py:148
 msgid "Only bugs targeted to this milestone."
-msgstr "このマイルストーンをターゲットとされたバグのみ。"
+msgstr "Seulement les bugs visés par cette étape."
 
 #: libs/cmsplugin_launchpad/models.py:150
 msgid "Only bugs nominated for this series."
-msgstr "このシリーズにノミネートされたバグのみ。"
+msgstr "seulement les bugs nominés pour cette série."
 
 #: libs/cmsplugin_launchpad/models.py:222
 msgid "Low Bug Threshold"
-msgstr "重要度低のバグのしきい値"
+msgstr "Seuil de bugs bas"
 
 #: libs/cmsplugin_launchpad/models.py:223
 msgid "Medium Bug Threshold"
-msgstr "重要度中のバグのしきい値"
+msgstr "Seuil de bugs médian"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr "重要度高のバグのしきい値"
+msgstr "Seuil de bug élevé"
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] "%(count)d 個のニュースアイテムが公開されました"
+msgstr[0] "%(count)d actualité publiée"
+msgstr[1] "%(count)d actualités publiées"
 
 #: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
-msgstr "選択された News の公開"
+msgstr "Publier l'actualité sélectionnée"
 
 #: libs/cmsplugin_news/admin.py:47
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] "%(count)d 個のニュースアイテムを非公開にしました"
+msgstr[0] "%(count)d actualité dépubliée"
+msgstr[1] "%(count)d actualités dépubliées"
 
 #: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
-msgstr "選択されたニュースの公開中止"
+msgstr "Dépublier les actualités sélectionnées"
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr "News アプリ"
+msgstr "Application actualités"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr "最新のニュース"
+msgstr "Dernières actualités"
 
 #: libs/cmsplugin_news/menu.py:14
 msgid "News menu"
-msgstr "News メニュー"
+msgstr "Menu actualités"
 
 #: libs/cmsplugin_news/models.py:29
 msgid "Slug"
-msgstr "スラグ"
+msgstr "Label"
 
 #: libs/cmsplugin_news/models.py:30
 msgid ""
 "A slug is a short name which uniquely identifies the news item for this day"
-msgstr "スラグはこの日のニュースアイテムを一意に識別する省略名です"
+msgstr ""
+"Un label est un nom bref qui identifie de manière unique l'actualité pour un "
+"jour donné"
 
 #: libs/cmsplugin_news/models.py:31
 msgid "Excerpt"
-msgstr "抜粋"
+msgstr "Extrait"
 
 #: libs/cmsplugin_news/models.py:32
 msgid "Content"
-msgstr "内容"
+msgstr "Contenu"
 
 #: libs/cmsplugin_news/models.py:35
 msgid "Publication date"
-msgstr "公開日"
+msgstr "Date de publication"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Language"
-msgstr "言語"
+msgstr "Langue"
 
 #: libs/cmsplugin_news/models.py:43
 msgid "Optional: Show only for this language"
-msgstr "オプション: この言語でのみ表示"
+msgstr "Optionnel : Ne montrer que pour cette langue"
 
 #: libs/cmsplugin_news/models.py:44
 msgid ""
@@ -362,129 +366,133 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
-"このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられる。\n"
-"デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されることに注意。"
+"Ce lien sera utilisé en tant qu'URL absolue pour cet élément. <br />Notez "
+"que ceci ne s'applique par défaut qu'aux éléments ayant un champ \"contenu\" "
+"vide."
 
 #: libs/cmsplugin_news/models.py:50 libs/cmsplugin_news/models.py:51
 msgid "News"
-msgstr "ニュース"
+msgstr "Actualités"
 
 #: libs/cmsplugin_news/models.py:71
 msgid "Number of news items to show"
-msgstr "表示するニュースアイテムの数"
+msgstr "Nombre d'actualités à afficher"
 
 #: libs/cmsplugin_news/models.py:72
 msgid "Limits the number of items that will be displayed"
-msgstr "表示するアイテム数の上限"
+msgstr "Limite le nombre d'éléments affichés"
 
 #: libs/cmsplugin_news/settings.py:18
 msgid "News feed"
-msgstr "News フィード"
+msgstr "Flux d'actualités"
 
 #: libs/cmsplugin_news/settings.py:19
 msgid "A feed full of news"
-msgstr "全ニュースのフィード"
+msgstr "Un flux contenant des actualités"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:14
 msgid "No news yet"
-msgstr "ニュースはありません"
+msgstr "Pas encore d'actualités"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:16
 msgid "Archive"
-msgstr "アーカイブ"
+msgstr "Archives"
 
 #: templates/base.html:26
 msgid "WARNING!"
-msgstr "警告!"
+msgstr "ATTENTION !"
 
 #: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
-msgstr "このウェブサイトはテスト用でライブウェブサイトではありません。このサイトへの変更は次回の同期時にライブサイトのものに置き換えられます。"
+msgstr ""
+"Ce site web n'est pas le site de production et doit être utilisé à fins de "
+"test. Tout ce que vous sauvegarderez sera remplacé à la prochaine "
+"synchronisation depuis le site de production."
 
 #: templates/base.html:26
 msgid "Please visit"
-msgstr "ライブウェブサイトは"
+msgstr "Visitez SVP"
 
 #: templates/base.html:26
 msgid "the live website"
-msgstr "こちら"
+msgstr "le site web de production"
 
 #: templates/base.html:26
 msgid "to make permanent changes to the website."
-msgstr "。"
+msgstr "pour faire des modifications permanentes au site web."
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr "自由に描く。"
+msgstr "Dessinez librement."
 
 #: templates/base.html:43
 msgid "Log in / Register"
-msgstr "ログイン / 登録"
+msgstr "Se connecter / Créer un compte"
 
 #: templates/base.html:46
 msgid "Already a member? Log in below."
-msgstr "メンバーであれば以下からログインしてください。"
+msgstr "Déjà membre ? Connectez vous ci-dessous."
 
 #: templates/base.html:47
 msgid "Username"
-msgstr "ユーザー名"
+msgstr "Nom d’utilisateur"
 
 #: templates/base.html:52
 msgid "Not a member?"
-msgstr "メンバーではありませんか?"
+msgstr "Pas encore membre ?"
 
 #: templates/base.html:52
 msgid "Register now."
-msgstr "今すぐ登録する"
+msgstr "Inscrivez-vous maintenant."
 
 #: templates/base.html:53
 msgid "Or log in with"
-msgstr "または以下のアカウントでログイン"
+msgstr "Ou connectez-vous avec"
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr "管理"
+msgstr "Administrateur"
 
 #: templates/base.html:67
 msgid "Edit Profile"
-msgstr "プロファイルの編集"
+msgstr "Modifier le profil"
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr "ログアウト"
+msgstr "Se déconnecter"
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr "フォローはこちらから:"
+msgstr "Suivez nous sur :"
 
 #: templates/base.html:110
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフトウェアです。"
+msgstr "Inkscape est un logiciel Libre et Open Source sous licence GPL"
 
 #: templates/base.html:113
 msgid ""
 "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
-"このウェブサイトは <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> が "
-"Inkscape を使ってデザインし、<a href=\"http://doctormo.org\">Martin Owens</a> "
-"によって開発されています。"
+"Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
+"Courtenay</a> avec Inkscape et développé par <a "
+"href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
-msgstr "前へ"
+msgstr "Précédent"
 
 #: templates/paginator.html:23
 msgid "Next"
-msgstr "次へ"
+msgstr "Suivant"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr "立ち入り禁止"
+msgstr "Interdit"
 
 #: templates/error/403.html:6
 msgid ""
@@ -495,13 +503,14 @@ msgid ""
 "for example.</p>\n"
 msgstr ""
 "\n"
-"<h1>申し訳ありません、あなたはここに立ち入ることを許されていません。</h1>\n"
-"<p>あなたが Inkscape でなにがしかを行えるとしても、Inkscape "
-"ウェブサイトで行うことはできません。例えば、あなたはこのページの内容を閲覧することはできません。</p>\n"
+"<h1>Désolé, vous n'êtes pas autorisé à voir ceci.</h1>\n"
+"<p>Bien que vous puissiez faire ce que vous voulez dans Inkscape, vous ne "
+"pouvez pas faire tout ce que vous voulez sur le site web d'Inkscape. vous ne "
+"pouvez par exemple pas voir le contenu de cette page.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr "ページが見つかりません"
+msgstr "Non trouvé"
 
 #: templates/error/404.html:7
 msgid ""
@@ -520,48 +529,58 @@ msgid ""
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 "\n"
-"<h1>ページが見つかりません</h1>\n"
-"<p>申し訳ありません、あなたがお探しのページは見つかりませんでした。将来的に私たちはここに楽しい画像を表示させるかもしれませんが、今のところこのようにつ"
-"まらないかんじになっています。</p>\n"
-"<p>もしあなたが私たちのサイトからのリンクをたどっていらしたか、あるいは私たちのこの出来たてほやほやの新ウェブサイトに変わる前は有効だったリンクであった"
-"場合は、修正いたしますのでお手数ですが私たちまでご連絡ください。</p>\n"
-"<p>あなたがなぜここに飛ばされたかわからない場合は、<a "
-"href=\"/search\">検索</a>していただくとお探しのものが見つかるかもしれません。</p>\n"
-"<p>ひょっとすると、あなたがただこのような 404 ページをご覧になるためにいらしのであれば、あなたにご満足いただけると良いのですが。</p>\n"
+"<h1>Page introuvable</h1>\n"
+"<p>Impossible de trouver ce que vous cherchez. Navrés. Dans le futur nous "
+"aurons sans doute une image rigolote pour vous mais pour le moment c'est "
+"ennuyeux.</p>\n"
+"<p>Si vous avez suivi un lien depuis notre site, ou utilisez un lien qui "
+"marchait avant que nous réalisions ce tout nouveau site web, merci de nous "
+"en informer afin que nous réparions le lien.</p>\n"
+"<p>Si vous ne savez pas comment vous êtes arrivé là, peut être souhaitez "
+"vous faire une <a href=\"/search\">recherche</a> pour essayer de trouver ce "
+"que vous cherchiez.</p>\n"
+"<p>Bien sûr, il est également possible que vous soyez venu ici juste pour "
+"voir à quoi ressemblait notre page 404, auquel cas j'éspère que vous êtes "
+"satisfait.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr "あなたが壊したのだ!"
+msgstr "Vous l'avez cassé !"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
-msgstr "あなたのユーザーアカウントは作成されました。あなたのユーザー名とパスワードでログインしてください。"
+msgstr ""
+"Votre compte utilisateur a été créé. Connectez-vous en utilisant votre "
+"identifiant et mot de passe."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"なにか問題があった場合、<a href=\"/contact/?subject=Lost activation "
-"code\">私たちまでご連絡ください</a>。"
+"Si vous rencontrez des difficultés, n'hésitez pas à <a "
+"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr "ようこそ"
+msgstr "Bonjour,"
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバーに"
-"貼り付けてください。"
+"Veuillez ouvrir le lien suivant dans votre navigateur web. Si le lien est "
+"coupé sur plusieurs lignes, vous devrez probablement le copier/coller dans "
+"la barre d'adresse."
 
 #: templates/registration/activation_email.txt:9
 msgid "If there is a problem with your registration, please contact us:"
-msgstr "ユーザー登録で問題が発生した場合は、私たちまでご連絡ください:"
+msgstr ""
+"Si vous rencontrez une difficulté lors de la création de votre compte, "
+"n'hésitez pas à nous contacter :"
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -569,8 +588,9 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"ご登録いただきありがとうございました。まもなく確認のためのリンクが書かれた E "
-"メールが送られてきます。そのリンク先を開いてユーザー登録を完了させてください。"
+"Merci de votre enregistrement. Vous allez reçevoir sous peu un email avec un "
+"lien de confirmation. Pour terminer votre enregistrement, il vous suffira de "
+"suivre ce lien."
 
 #: templates/registration/registration_complete.html:13
 msgid ""
@@ -578,5 +598,6 @@ msgid ""
 "there, please <a href=\"/contact/?subject=Lost activation code\">contact "
 "us</a>."
 msgstr ""
-"もし確認メールが送られてこない場合は、スパムメールとしてフィルターされていないか確認してください。本当に送られてこない場合は<a "
-"href=\"/contact/?subject=Lost activation code\">私たちまでご連絡ください</a>。"
+"Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
+"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a "
+"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."

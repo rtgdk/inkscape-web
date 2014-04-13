@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: inkscape-web\n"
 "Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
-"POT-Creation-Date: 2013-12-07 17:25+0000\n"
-"PO-Revision-Date: 2013-12-05 18:58+0000\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"PO-Revision-Date: 2013-12-18 06:40+0000\n"
 "Last-Translator: Yuri Chornoivan <yurchor@gmail.com>\n"
 "Language-Team: Ukrainian <uk@li.org>\n"
 "MIME-Version: 1.0\n"
@@ -16,10 +16,63 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
 "n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2;\n"
-"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2013-12-19 05:48+0000\n"
+"X-Generator: Launchpad (build 16872)\n"
 
-#: inkscape/person/forms.py:7 templates/base.html:47
+#: inkscape/gallery/forms.py:27
+msgid "I have permission to post this work"
+msgstr "У вас є дозвіл на оприлюднення цієї роботи"
+
+#: inkscape/gallery/models.py:39
+msgid "License Banner"
+msgstr "Банер ліцензії"
+
+#: inkscape/gallery/models.py:40
+msgid "License Icon"
+msgstr "Піктограма ліцензії"
+
+#: inkscape/gallery/models.py:42
+msgid "Attribution"
+msgstr "Авторство"
+
+#: inkscape/gallery/models.py:43
+msgid "Copyleft (Share Alike)"
+msgstr ""
+
+#: inkscape/gallery/models.py:44
+msgid "Non-Commercial"
+msgstr "Некомерційна"
+
+#: inkscape/gallery/models.py:45
+msgid "Non-Derivitive"
+msgstr ""
+
+#: inkscape/gallery/models.py:46
+msgid "All Rights Reserved"
+msgstr "Усі права захищено"
+
+#: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: libs/cmsplugin_brochure/models.py:56
+msgid "Description"
+msgstr "Опис"
+
+#: inkscape/gallery/models.py:71
+msgid "I own this work"
+msgstr "Ви є власником цієї роботи"
+
+#: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
+msgid "Thumbnail"
+msgstr "Мініатюра"
+
+#: inkscape/gallery/models.py:74
+msgid "Consumable File"
+msgstr ""
+
+#: inkscape/gallery/models.py:75
+msgid "Source File"
+msgstr ""
+
+#: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
 msgstr "Пароль"
 
@@ -31,7 +84,7 @@ msgstr "Підтвердити"
 msgid "Photograph"
 msgstr "Фотографія"
 
-#: inkscape/person/models.py:49
+#: inkscape/person/models.py:47
 msgid "Display Icon"
 msgstr ""
 
@@ -47,10 +100,6 @@ msgstr ""
 #: libs/cmsplugin_news/models.py:28
 msgid "Title"
 msgstr ""
-
-#: libs/cmsplugin_brochure/models.py:22 libs/cmsplugin_brochure/models.py:56
-msgid "Description"
-msgstr "Опис"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
@@ -99,10 +148,6 @@ msgstr "Посилання"
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
 msgstr "Дата оприлюднення"
-
-#: libs/cmsplugin_brochure/models.py:59
-msgid "Thumbnail"
-msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
@@ -350,49 +395,53 @@ msgstr ""
 msgid "Archive"
 msgstr "Архів"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "WARNING!"
 msgstr "ПОПЕРЕДЖЕННЯ!"
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "Please visit"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "the live website"
 msgstr ""
 
-#: templates/base.html:25
+#: templates/base.html:26
 msgid "to make permanent changes to the website."
 msgstr ""
 
-#: templates/base.html:41
+#: templates/base.html:36
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:43
 msgid "Log in / Register"
 msgstr ""
 
-#: templates/base.html:44
+#: templates/base.html:46
 msgid "Already a member? Log in below."
 msgstr ""
 
-#: templates/base.html:45
+#: templates/base.html:47
 msgid "Username"
 msgstr "Користувач"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Not a member?"
 msgstr "Ще не є користувачем?"
 
-#: templates/base.html:50
+#: templates/base.html:52
 msgid "Register now."
 msgstr "Зареєструйтеся."
 
-#: templates/base.html:51
+#: templates/base.html:53
 msgid "Or log in with"
 msgstr "або увійдіть за допомогою"
 
@@ -429,19 +478,6 @@ msgstr "Назад"
 #: templates/paginator.html:23
 msgid "Next"
 msgstr "Далі"
-
-#: templates/screenshots.html:4 templates/screenshots.html.py:5
-msgid "Inkscape screenshots"
-msgstr "Знімки вікон Inkscape"
-
-#: templates/screenshots.html:28
-#, python-format
-msgid "Screenshots of Inkscape %(version)s"
-msgstr "Знімки вікон Inkscape %(version)s"
-
-#: templates/screenshots.html:45
-msgid "See screenshots of other versions:"
-msgstr "Переглянути знімки вікон інших версій:"
 
 #: templates/error/403.html:3
 msgid "Forbidden"

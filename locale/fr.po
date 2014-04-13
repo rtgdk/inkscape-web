@@ -7,49 +7,49 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2013-12-13 18:26+0000\n"
-"PO-Revision-Date: 2013-12-06 22:15+0000\n"
+"POT-Creation-Date: 2013-12-13 18:25+0000\n"
+"PO-Revision-Date: 2013-12-22 23:34+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: fr\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
-"X-Launchpad-Export-Date: 2013-12-08 05:35+0000\n"
-"X-Generator: Launchpad (build 16869)\n"
+"X-Launchpad-Export-Date: 2013-12-23 05:37+0000\n"
+"X-Generator: Launchpad (build 16872)\n"
+"Language: \n"
 
 #: inkscape/gallery/forms.py:27
 msgid "I have permission to post this work"
-msgstr ""
+msgstr "J'ai l'autorisation de publier cette oeuvre"
 
 #: inkscape/gallery/models.py:39
 msgid "License Banner"
-msgstr ""
+msgstr "Bannière de la licence"
 
 #: inkscape/gallery/models.py:40
 msgid "License Icon"
-msgstr ""
+msgstr "Icône de la licence"
 
 #: inkscape/gallery/models.py:42
 msgid "Attribution"
-msgstr ""
+msgstr "Attribution"
 
 #: inkscape/gallery/models.py:43
 msgid "Copyleft (Share Alike)"
-msgstr ""
+msgstr "Copyleft (Partage dans les Mêmes Conditions)"
 
 #: inkscape/gallery/models.py:44
 msgid "Non-Commercial"
-msgstr ""
+msgstr "Pas d’Utilisation Commerciale"
 
 #: inkscape/gallery/models.py:45
 msgid "Non-Derivitive"
-msgstr ""
+msgstr "Pas de Modification"
 
 #: inkscape/gallery/models.py:46
 msgid "All Rights Reserved"
-msgstr ""
+msgstr "Tous droits réservés"
 
 #: inkscape/gallery/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
@@ -58,7 +58,7 @@ msgstr "Description"
 
 #: inkscape/gallery/models.py:71
 msgid "I own this work"
-msgstr ""
+msgstr "Je possède cette oeuvre"
 
 #: inkscape/gallery/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
@@ -66,12 +66,11 @@ msgstr "Miniature"
 
 #: inkscape/gallery/models.py:74
 msgid "Consumable File"
-msgstr ""
+msgstr "Fichier consommable"
 
 #: inkscape/gallery/models.py:75
-#, fuzzy
 msgid "Source File"
-msgstr "Type de Source"
+msgstr "Fichier source"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 msgid "Password"
@@ -294,7 +293,7 @@ msgstr "Seuil de bugs médian"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr ""
+msgstr "Seuil de bug élevé"
 
 #: libs/cmsplugin_news/admin.py:37
 #, python-format
@@ -425,11 +424,11 @@ msgstr "le site web de production"
 
 #: templates/base.html:26
 msgid "to make permanent changes to the website."
-msgstr ""
+msgstr "pour faire des modifications permanentes au site web."
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr ""
+msgstr "Dessinez librement."
 
 #: templates/base.html:43
 msgid "Log in / Register"
@@ -481,8 +480,8 @@ msgid ""
 "in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
 msgstr ""
 "Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> avec Inkscape et développé par <a href=\"http://doctormo.org"
-"\">Martin Owens</a>"
+"Courtenay</a> avec Inkscape et développé par <a "
+"href=\"http://doctormo.org\">Martin Owens</a>"
 
 #: templates/paginator.html:5
 msgid "Previous"
@@ -524,8 +523,9 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
@@ -561,8 +561,8 @@ msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Si vous rencontrez des difficultés, n'hésitez pas à <a href=\"/contact/?"
-"subject=Lost activation code\">nous contacter</a>."
+"Si vous rencontrez des difficultés, n'hésitez pas à <a "
+"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
@@ -596,18 +596,9 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid ""
 "If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
+"us</a>."
 msgstr ""
 "Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
-"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a href=\"/"
-"contact/?subject=Lost activation code\">nous contacter</a>."
-
-#~ msgid "Inkscape screenshots"
-#~ msgstr "Captures d'écran d'Inkscape"
-
-#~ msgid "Screenshots of Inkscape %(version)s"
-#~ msgstr "Captures d'écran d'Inkscape %(version)s"
-
-#~ msgid "See screenshots of other versions:"
-#~ msgstr "Voir les captures d'écrans d'autres versions :"
+"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a "
+"href=\"/contact/?subject=Lost activation code\">nous contacter</a>."

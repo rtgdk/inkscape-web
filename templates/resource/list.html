@@ -1,6 +1,7 @@
+{% load i18n %}
 
 {% if category %}
-  <h1>All {{ category }} Resources</h1>
+  <h1>{% blacktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
   <p>{{ category.desc }}</p>
 {% endif %}
 <!--
@@ -14,11 +15,11 @@
     <p><a href="{% url "view_resource" item.id %}">{{ item.name }}</a></p>
   </div>
 {% empty %}
-  <h2>No resources submitted yet.</h2>
+  <h2>{% trans "No resources submitted yet." %}</h2>
 {% endfor %}
 
 {% ifequal user request.user %}
-<p><a href="{% url "new_resource" %}">Submit Resource</a></p>
+<p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
 {% endifequal %}
 -->
 

@@ -1,5 +1,6 @@
 {% extends "base.html" %}
 {% load cms_tags %}
+{% load i18n %}
 
 {% block extra-head %}
   <link href="{{ DESIGN_URL }}css/front.css" rel="stylesheet" type="text/css"/>
@@ -47,14 +48,14 @@
 		</div>
 
 		<ul id="front-banner-tabs">
-			<li id="front-banner-tab-overview"><a href="#front-banner-overview" class="current" onclick="return frontTabGo(this)"><strong>Overview</strong><span></span>
-				What is Inkscape and how can you get it?</a></li>
-			<li id="front-banner-tab-features"><a href="#front-banner-features" onclick="return frontTabGo(this)"><strong>Features</strong><span></span>
-				Find out what Inkscape is capable of.</a></li>
-			<li id="front-banner-tab-gallery"><a href="#front-banner-gallery" onclick="return frontTabGo(this)"><strong>Gallery</strong><span></span>
-				Showcase of creations from the Inkscape community.</a></li>
-			<li id="front-banner-tab-learning"><a href="#front-banner-learning" onclick="return frontTabGo(this)"><strong>Learning Resources</strong><span></span>
-				Resources to help you get the most out of Inkscape.</a></li>
+			<li id="front-banner-tab-overview"><a href="#front-banner-overview" class="current" onclick="return frontTabGo(this)"><strong>{% trans "Overview" %}</strong><span></span>
+				{% trans "What is Inkscape and how can you get it?" %}</a></li>
+			<li id="front-banner-tab-features"><a href="#front-banner-features" onclick="return frontTabGo(this)"><strong>{% trans "Features" %}</strong><span></span>
+				{% trans "Find out what Inkscape is capable of." %}</a></li>
+			<li id="front-banner-tab-gallery"><a href="#front-banner-gallery" onclick="return frontTabGo(this)"><strong>{% trans "Gallery" %}</strong><span></span>
+				{% trans "Showcase of creations from the Inkscape community." %}</a></li>
+			<li id="front-banner-tab-learning"><a href="#front-banner-learning" onclick="return frontTabGo(this)"><strong>{% trans "Learning Resources" %}</strong><span></span>
+				{% trans "Resources to help you get the most out of Inkscape." %}</a></li>
 		</ul>
 	</div>
 

@@ -1,6 +1,7 @@
+{% load i18n %}
 
 {% if source %}
-<h3>From {{ source }}</h3>
+<h3>{% trans "From" %} {{ source }}</h3>
 <p><a class="feed" href="{{ source.link }}"><img src="{{ source.icon_url }}" title="{{ source }}"/></a> {{ source.desc }}</p>
 {% endif %}
 
@@ -10,5 +11,5 @@
     <p><a href="{{ item.link }}">{{ item.title }}</a></p>
   </div>
 {% empty %}
-  <h2>No items yet.</h2>
+  <h2>{% trans "No items yet." %}</h2>
 {% endfor %}

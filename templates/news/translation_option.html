@@ -12,8 +12,8 @@
       {% if perms.cmsplugin_news.translate %}
         <a class="roundel" href="{% url "news_translate" object.id %}"><img src="{{ DESIGN_URL }}/images/{% if object.needs_translation %}trans-need.svg" title="{% trans "Needs Translating" %}{% else %}trans-not.svg" title="{% trans "Translation OK" %}{% endif %}
 
-Original Updated: {{ object.updated }}
-Translation Updated: {{ object.translated }}"/></a>
+{% trans "Original Updated" %}: {{ object.updated }}
+{% trans "Translation Updated" %}: {{ object.translated }}"/></a>
       {% endif %}
     {% endif %}
 

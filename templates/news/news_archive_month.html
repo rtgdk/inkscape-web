@@ -1,15 +1,16 @@
 {% extends "base.html" %}
 {% load cms_tags %}
+{% load i18n %}
 
-{% block title %}News for {{ month }}{% endblock %}
+{% block title %}{% trans "News for" %} {{ month|date:'F Y' }}{% endblock %}
 
 {% block content %}
-<h1>News for {{ month|date:'F Y' }}</h1>
+<h1>{% trans "News for" %} {{ month|date:'F Y' }}</h1>
 
 	{% for object in object_list %}
         {% include "news/list_item.html" %}
 	{% empty %}
-		<h2>No news for this month</h2>
+		<h2>{% trans "No news for this month." %}</h2>
 	{% endfor %}
 
 {% endblock %}

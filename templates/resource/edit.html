@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
 {% if item %}
-<h1>Edit Resource</h1>
+<h1>{% trans "Edit Resource" %}</h1>
 {% else %}
-<h1>Submit Resource</h1>
+<h1>{% trans "Submit Resource" %}</h1>
 {% endif %}
 
 <form method="post" enctype="multipart/form-data">
@@ -24,7 +25,7 @@
     {% endfor %}
 </table>
 
-<input type="submit" value="Save"/>
+<input type="submit" value="{% trans "Save" %}"/>
 
 </form>
 

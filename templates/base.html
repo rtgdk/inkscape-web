@@ -5,7 +5,7 @@
 	<head>
 		<meta charset="utf-8">
 		<link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png">
-        <link rel="alternate"     type="application/rss+xml" title="News Feed" href="/news/feed/" />
+        <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/" />
 
         <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu" />
 		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css" >
@@ -48,7 +48,7 @@
 								<input name="username" id="toplogin-username" type="text">
 								<label for="toplogin-password">{% trans "Password" %}</label>
 								<input name="password" id="toplogin-password" type="password">
-								<input id="toplogin-submit" type="submit" value="Log in">
+								<input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
 								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
 								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
@@ -60,7 +60,7 @@
                         <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
                         {{ request.user.details }} 
                         <form  class="topdrop">
-                            <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="Profile Photo"/></a>
+                            <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="{% trans "Profile Photo" %}"/></a>
                           {% if request.user.is_staff %}
                             <p id="toplogin-head"><a href="/admin/">{% trans "Admin" %}</a></p>
                           {% endif %}
@@ -74,14 +74,14 @@
                         <p>{% trans "Follow us on:" %} </p>
 					  <nav id="socialnav">
 					    <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
-					        onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'" alt="Twitter Logo"/></a>
+					        onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'"/></a>
 					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
 					  </nav>
 					</div>
 					  <form id="topsearch" method="submit" action="{% url "search" %}">
-                        <input type="text" name="q" id="topsearch-q" placeholder="Search"><input type="image" id="topsearch-button"
+                        <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}"><input type="image" id="topsearch-button"
                           src="{{ DESIGN_URL }}images/search-button.svg"
-						  onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="Search">
+						  onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="{% trans "Search" %}">
 					  </form>
 				</div>
 			</div>
@@ -111,7 +111,7 @@
 			<p>{% trans "Inkscape is Free and Open Source Software licensed under the GPL." %}</p>
 			<!-- This site is running Python {{ PYTHON_VERSION }} / Django {{ DJANGO_VERSION }} / {% if CODE_VERSION = CONTENT_VERSION %}inkscape-web r{{ CODE_VERSION }}{% else %}code r{{ CODE_VERSION }} / content r{{ CONTENT_VERSION }}{% endif %} -->
 		</div>
-        <p id="final-footer">{% blocktrans %}Website designed by <a href="http://skymaiden.com">Hinerangi Courtenay</a> in Inkscape and developed by <a href="http://doctormo.org">Martin Owens</a>{% endblocktrans %} - Website development guide: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">Here</a></p>
+        <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
 		{% endblock %}
       {% render_block "js" %}
 	</body>

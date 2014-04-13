@@ -1,8 +1,8 @@
 {% load url from future %}{% load i18n %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
 
-This is an automatic email to help you complete your registration with Inkscape.org.
+{% trans "This is an automatic email to help you complete your registration with www.inkscape.org."%}
 
-{% blocktrans %}Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar.{% endblocktrans %}
+{% trans "Please open the following link in your web browser. If the link is split over several lines, you may need to copy it in the address bar." %}
 
 http://{{ site.domain }}{% url 'registration_activate' activation_key=activation_key %}
 

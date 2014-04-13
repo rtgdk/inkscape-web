@@ -1,8 +1,9 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
 
-<h1>Edit Profile</h1>
+<h1>{% trans "Edit Profile" %}</h1>
 
 <form method="post" enctype="multipart/form-data">
 
@@ -20,7 +21,7 @@
     {% endfor %}
 </table>
 
-<h2>Personal Details</h2>
+<h2>{% trans "Personal Details" %}</h2>
 
 {{ details_form.non_field_errors }}
 
@@ -34,7 +35,7 @@
     {% endfor %}
 </table>
 
-<input type="submit" value="Save"/>
+<input type="submit" value="{% trans "Save" %}"/>
 
 </form>
 

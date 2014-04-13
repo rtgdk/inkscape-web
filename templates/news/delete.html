@@ -14,7 +14,7 @@
   <h2>{% trans "Delete News Article" %}</h2>
   {% endif %}
 
-  <div class="warning">This will delete the article and any translations associated with the article!</div>
+  <div class="warning">{% trans "This will delete the article and any translations associated with the article!" %}</div>
 
   <h3>{{ object.title }}</h3>
 
@@ -28,8 +28,8 @@
 
   <hr/>
 
-  <input type="submit" name="confirm" value="Yes!"/>
-  <input type="submit" name="no" value="No, I change my mind!"/>
+  <input type="submit" name="confirm" value="{% trans "Yes" %}!"/>
+  <input type="submit" name="no" value="{% trans "No, I change my mind" %}!"/>
 
 </form>
 

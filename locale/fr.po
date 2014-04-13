@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-13 05:27+0000\n"
+"POT-Creation-Date: 2014-04-13 16:47+0000\n"
 "PO-Revision-Date: 2013-12-22 23:34+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,10 +20,11 @@ msgstr ""
 "X-Generator: Launchpad (build 16872)\n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
+#: templates/registration/registration_form.html:34
 msgid "Password"
 msgstr "Mot de passe"
 
-#: inkscape/person/forms.py:8
+#: inkscape/person/forms.py:8 templates/registration/registration_form.html:40
 msgid "Confirm"
 msgstr "Confirmer"
 
@@ -197,6 +198,7 @@ msgid "Launchpad ID"
 msgstr "Identifiant Launchpad"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
+#: templates/person/profile.html:15
 msgid "Name"
 msgstr "Nom"
 
@@ -408,6 +410,11 @@ msgstr "Pas encore d'actualités"
 msgid "Archive"
 msgstr "Archives"
 
+#: templates/base.html:8
+#, fuzzy
+msgid "News Feed"
+msgstr "Flux d'actualités"
+
 #: templates/base.html:26
 msgid "WARNING!"
 msgstr "ATTENTION !"
@@ -445,9 +452,14 @@ msgstr "Se connecter / Créer un compte"
 msgid "Already a member? Log in below."
 msgstr "Déjà membre ? Connectez vous ci-dessous."
 
-#: templates/base.html:47
+#: templates/base.html:47 templates/person/profile.html:11
+#: templates/registration/registration_form.html:22
 msgid "Username"
 msgstr "Nom d’utilisateur"
+
+#: templates/base.html:51
+msgid "Log in"
+msgstr ""
 
 #: templates/base.html:52
 msgid "Not a member?"
@@ -460,6 +472,11 @@ msgstr "Inscrivez-vous maintenant."
 #: templates/base.html:53
 msgid "Or log in with"
 msgstr "Ou connectez-vous avec"
+
+#: templates/base.html:63
+#, fuzzy
+msgid "Profile Photo"
+msgstr "Modifier le profil"
 
 #: templates/base.html:65
 msgid "Admin"
@@ -478,26 +495,80 @@ msgstr "Se déconnecter"
 msgid "Follow us on:"
 msgstr "Suivez nous sur :"
 
+#: templates/base.html:82 templates/base.html.py:84
+#: templates/search/search.html:5
+msgid "Search"
+msgstr ""
+
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr "Inkscape est un logiciel Libre et Open Source sous licence GPL"
 
 #: templates/base.html:114
-msgid ""
-"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
-"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
+msgid "Website designed by"
 msgstr ""
-"Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
-"Courtenay</a> avec Inkscape et développé par <a href=\"http://doctormo.org"
-"\">Martin Owens</a>"
 
-#: templates/paginator.html:5
+#: templates/base.html:114
+msgid "in Inkscape and developed by"
+msgstr ""
+
+#: templates/base.html:114
+msgid "Website development guide"
+msgstr ""
+
+#: templates/base.html:114
+msgid "Here"
+msgstr ""
+
+#: templates/front.html:51
+msgid "Overview"
+msgstr ""
+
+#: templates/front.html:52
+msgid "What is Inkscape and how can you get it?"
+msgstr ""
+
+#: templates/front.html:53
+msgid "Features"
+msgstr ""
+
+#: templates/front.html:54
+msgid "Find out what Inkscape is capable of."
+msgstr ""
+
+#: templates/front.html:55
+#, fuzzy
+msgid "Gallery"
+msgstr "Galerie"
+
+#: templates/front.html:56
+msgid "Showcase of creations from the Inkscape community."
+msgstr ""
+
+#: templates/front.html:57
+msgid "Learning Resources"
+msgstr ""
+
+#: templates/front.html:58
+msgid "Resources to help you get the most out of Inkscape."
+msgstr ""
+
+#: templates/paginator.html:5 templates/search/search.html:30
 msgid "Previous"
 msgstr "Précédent"
 
-#: templates/paginator.html:23
+#: templates/paginator.html:23 templates/search/search.html:32
 msgid "Next"
 msgstr "Suivant"
+
+#: templates/brochure/list.html:4
+msgid "From"
+msgstr ""
+
+#: templates/brochure/list.html:14
+#, fuzzy
+msgid "No items yet."
+msgstr "Pas encore d'actualités"
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -563,6 +634,11 @@ msgstr ""
 msgid "New News Article"
 msgstr ""
 
+#: templates/news/credit.html:14 templates/news/translation.html:14
+#: templates/registration/registration_form.html:13
+msgid "Please correct the errors below"
+msgstr ""
+
 #: templates/news/credit.html:18
 msgid "Edit English News Article"
 msgstr ""
@@ -576,8 +652,40 @@ msgstr ""
 msgid "Publish Date"
 msgstr "Publié"
 
+#: templates/news/credit.html:34 templates/person/edit.html:38
+#: templates/resource/edit.html:28
+msgid "Save"
+msgstr ""
+
+#: templates/news/credit.html:37 templates/news/credit.html.py:40
+#, fuzzy
+msgid "Publish"
+msgstr "Publié"
+
 #: templates/news/delete.html:14
 msgid "Delete News Article"
+msgstr ""
+
+#: templates/news/delete.html:17
+msgid ""
+"This will delete the article and any translations associated with the "
+"article!"
+msgstr ""
+
+#: templates/news/delete.html:31
+msgid "Yes"
+msgstr ""
+
+#: templates/news/delete.html:32
+msgid "No, I change my mind"
+msgstr ""
+
+#: templates/news/latest_news.html:2 templates/news/news_archive.html:17
+msgid "RSS Feed"
+msgstr ""
+
+#: templates/news/latest_news.html:11 templates/news/list_item.html:8
+msgid "Read more"
 msgstr ""
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
@@ -591,6 +699,10 @@ msgstr ""
 
 #: templates/news/news_archive_day.html:5
 #: templates/news/news_archive_day.html:8
+#: templates/news/news_archive_month.html:5
+#: templates/news/news_archive_month.html:8
+#: templates/news/news_archive_year.html:5
+#: templates/news/news_archive_year.html:8
 #, fuzzy
 msgid "News for"
 msgstr "Flux d'actualités"
@@ -599,12 +711,21 @@ msgstr "Flux d'actualités"
 msgid "No news for this day"
 msgstr ""
 
-#: templates/news/translation.html:5
-msgid "Translate News Article"
+#: templates/news/news_archive_month.html:13
+msgid "No news for this month."
 msgstr ""
 
-#: templates/news/translation.html:14
-msgid "Please correct the errors below"
+#: templates/news/news_archive_year.html:13
+#, fuzzy
+msgid "No news for this year"
+msgstr "Pas encore d'actualités"
+
+#: templates/news/news_detail.html:19
+msgid "This article is not published yet!"
+msgstr ""
+
+#: templates/news/translation.html:5
+msgid "Translate News Article"
 msgstr ""
 
 #: templates/news/translation.html:17
@@ -639,6 +760,49 @@ msgstr ""
 msgid "Translation OK"
 msgstr ""
 
+#: templates/news/translation_option.html:15
+#, fuzzy
+msgid "Original Updated"
+msgstr "Dernière mise à jour"
+
+#: templates/news/translation_option.html:16
+#, fuzzy
+msgid "Translation Updated"
+msgstr "Dernière mise à jour"
+
+#: templates/person/edit.html:6
+#, fuzzy
+msgid "Edit Profile"
+msgstr "Modifier le profil"
+
+#: templates/person/edit.html:24
+msgid "Personal Details"
+msgstr ""
+
+#: templates/person/profile.html:6
+#, fuzzy
+msgid "User"
+msgstr "Nom d’utilisateur"
+
+#: templates/person/profile.html:16
+msgid "Annonymous"
+msgstr ""
+
+#: templates/person/profile.html:19
+#, fuzzy
+msgid "Biography"
+msgstr "Photographie"
+
+#: templates/person/profile.html:29
+#, fuzzy
+msgid "Edit My Profile"
+msgstr "Modifier le profil"
+
+#: templates/registration/activation_complete.html:4
+#: templates/registration/activation_complete.html:8
+msgid "Activation Complete"
+msgstr ""
+
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
@@ -659,6 +823,12 @@ msgstr ""
 msgid "Hi,"
 msgstr "Bonjour,"
 
+#: templates/registration/activation_email.txt:3
+msgid ""
+"This is an automatic email to help you complete your registration with www."
+"inkscape.org."
+msgstr ""
+
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
@@ -668,11 +838,30 @@ msgstr ""
 "coupé sur plusieurs lignes, vous devrez probablement le copier/coller dans "
 "la barre d'adresse."
 
-#: templates/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
+#: templates/registration/activation_email_subject.txt:1
+msgid "Your registration on www.inkscape.org"
 msgstr ""
-"Si vous rencontrez une difficulté lors de la création de votre compte, "
-"n'hésitez pas à nous contacter :"
+
+#: templates/registration/login.html:7
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+
+#: templates/registration/login.html:23
+msgid "Login"
+msgstr ""
+
+#: templates/registration/logout.html:6
+msgid "Logout from Inkscape"
+msgstr ""
+
+#: templates/registration/logout.html:8
+msgid "Thanks for using the Inkscape website. Hope to see you again soon!"
+msgstr ""
+
+#: templates/registration/registration_complete.html:4
+#: templates/registration/registration_complete.html:8
+msgid "Registration Complete"
+msgstr ""
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -685,14 +874,85 @@ msgstr ""
 "suivre ce lien."
 
 #: templates/registration/registration_complete.html:13
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact us</"
-"a>."
+msgid "If you don't receive it shortly, please check your spam folder."
 msgstr ""
-"Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
-"\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a href=\"/"
-"contact/?subject=Lost activation code\">nous contacter</a>."
+
+#: templates/registration/registration_form.html:4
+msgid "New User Registeration"
+msgstr ""
+
+#: templates/registration/registration_form.html:8
+msgid "New User Registration"
+msgstr ""
+
+#: templates/registration/registration_form.html:10
+msgid "Welcome, in order to register you must have a valid email address."
+msgstr ""
+
+#: templates/registration/registration_form.html:28
+msgid "Email Address"
+msgstr ""
+
+#: templates/registration/registration_form.html:45
+#, fuzzy
+msgid "Register"
+msgstr "Inscrivez-vous maintenant."
+
+#: templates/resource/edit.html:7 templates/resource/item.html:19
+msgid "Edit Resource"
+msgstr ""
+
+#: templates/resource/edit.html:9 templates/resource/list.html:22
+msgid "Submit Resource"
+msgstr ""
+
+#: templates/resource/item.html:15 templates/resource/item.html.py:16
+msgid "Download"
+msgstr ""
+
+#: templates/resource/item.html:20
+msgid "Delete Resource"
+msgstr ""
+
+#: templates/resource/item.html:22
+msgid "by"
+msgstr ""
+
+#: templates/resource/list.html:18
+msgid "No resources submitted yet."
+msgstr ""
+
+#: templates/search/search.html:9
+msgid "Search Results for"
+msgstr ""
+
+#: templates/search/search.html:25
+#, fuzzy
+msgid "No results found."
+msgstr "Non trouvé"
+
+#~ msgid ""
+#~ "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</"
+#~ "a> in Inkscape and developed by <a href=\"http://doctormo.org\">Martin "
+#~ "Owens</a>"
+#~ msgstr ""
+#~ "Site web mis en page par <a href=\"http://skymaiden.com\">Hinerangi "
+#~ "Courtenay</a> avec Inkscape et développé par <a href=\"http://doctormo.org"
+#~ "\">Martin Owens</a>"
+
+#~ msgid "If there is a problem with your registration, please contact us:"
+#~ msgstr ""
+#~ "Si vous rencontrez une difficulté lors de la création de votre compte, "
+#~ "n'hésitez pas à nous contacter :"
+
+#~ msgid ""
+#~ "If you don't receive it shortly, please check your spam folder. If it's "
+#~ "not there, please <a href=\"/contact/?subject=Lost activation code"
+#~ "\">contact us</a>."
+#~ msgstr ""
+#~ "Si vous ne le reçevez pas rapidement, merci de vérifier votre dossier "
+#~ "\"indésirables\" ou \"spams\". S'il n'y est pas, merci de <a href=\"/"
+#~ "contact/?subject=Lost activation code\">nous contacter</a>."
 
 #~ msgid "Optional: Show only for this language"
 #~ msgstr "Optionnel : Ne montrer que pour cette langue"

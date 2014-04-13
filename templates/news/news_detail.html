@@ -1,4 +1,6 @@
 {% extends "base.html" %}
+{% load i18n %}
+
 {% load cms_tags sekizai_tags %}
 
 {% block title %}{{ object.title }}{% endblock %}
@@ -14,7 +16,7 @@
   <h1>{{ object.title }}</h1>
   <p class="postdate">{{ object.pub_date }}</p>
   {% if not object.is_published %}
-  <div class="warning">This article is not published yet!</div>
+  <div class="warning">{% trans "This article is not published yet!" %}</div>
   {% endif %}
   {{ object.content|safe }}
 

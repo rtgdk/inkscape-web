@@ -7,23 +7,24 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-13 05:26+0000\n"
-"PO-Revision-Date: 2014-01-25 17:43+0000\n"
+"POT-Creation-Date: 2014-04-13 16:47+0000\n"
+"PO-Revision-Date: 2014-04-13 19:15+0000\n"
 "Last-Translator: Hachmann <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-04-13 06:07+0000\n"
+"X-Launchpad-Export-Date: 2014-04-14 05:45+0000\n"
 "X-Generator: Launchpad (build 16976)\n"
 "Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
+#: templates/registration/registration_form.html:34
 msgid "Password"
 msgstr "Passwort"
 
-#: inkscape/person/forms.py:8
+#: inkscape/person/forms.py:8 templates/registration/registration_form.html:40
 msgid "Confirm"
 msgstr "Bestätigen"
 
@@ -33,7 +34,7 @@ msgstr "Foto"
 
 #: inkscape/person/models.py:54
 msgid "Display Icon"
-msgstr ""
+msgstr "Icon anzeigen"
 
 #: inkscape/resource/forms.py:27
 msgid "I have permission to post this work"
@@ -94,7 +95,7 @@ msgstr "Search apphook in german"
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr ""
+msgstr "Galerie-Übersicht"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
@@ -120,7 +121,7 @@ msgstr "Art des durchzuführenden Parsens"
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr ""
+msgstr "Link zu den Daten"
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
@@ -157,7 +158,7 @@ msgstr "Aktiviert"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr ""
+msgstr "Datum im Index"
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
@@ -165,7 +166,7 @@ msgstr "Anzahl der Elemente"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr ""
+msgstr "Liste der Nutzergruppen"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
@@ -177,7 +178,7 @@ msgstr "Einfache Liste"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr ""
+msgstr "Foto-Beschreibungen"
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
@@ -197,6 +198,7 @@ msgid "Launchpad ID"
 msgstr "Launchpad ID"
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
+#: templates/person/profile.html:15
 msgid "Name"
 msgstr "Name"
 
@@ -250,7 +252,7 @@ msgstr "Keine Bugs anzeigen, die als Duplikat markiert wurden."
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr ""
+msgstr "Keine Bugs anzeigen, die sich auf eine bestimmte Serie beziehen."
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
@@ -287,15 +289,15 @@ msgstr "Nur Bugs, die für diese Serie wichtig sind."
 
 #: libs/cmsplugin_launchpad/models.py:222
 msgid "Low Bug Threshold"
-msgstr ""
+msgstr "Niedrige Bug-Schwelle"
 
 #: libs/cmsplugin_launchpad/models.py:223
 msgid "Medium Bug Threshold"
-msgstr ""
+msgstr "Mittlere Bug-Schwelle"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr ""
+msgstr "Hohe Bug-Schwelle"
 
 #: libs/cmsplugin_news/admin.py:36
 #, python-format
@@ -339,6 +341,8 @@ msgstr "Die Kurzform des Titels, die in URLs verwendet wird."
 #: libs/cmsplugin_news/models.py:54
 msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
+"Ein Schlagwort ist ein nur einmal vorkommender Kurzname, der den "
+"Nachrichtenartikel beschreibt."
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
@@ -370,7 +374,7 @@ msgstr "Sprache"
 
 #: libs/cmsplugin_news/models.py:78
 msgid "Translated version of another news item."
-msgstr ""
+msgstr "Übersetzte Version eines anderen Nachrichten-Artikels"
 
 #: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
@@ -378,7 +382,7 @@ msgstr "Neuigkeiten"
 
 #: libs/cmsplugin_news/models.py:90
 msgid "Translate News"
-msgstr ""
+msgstr "Nachrichten übersetzen"
 
 #: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
@@ -405,6 +409,10 @@ msgstr "Noch keine Neuigkeiten"
 #: templates/news/latest_news.html:17
 msgid "Archive"
 msgstr "Archiv"
+
+#: templates/base.html:8
+msgid "News Feed"
+msgstr "News-Feed"
 
 #: templates/base.html:26
 msgid "WARNING!"
@@ -433,7 +441,7 @@ msgstr "um dauerhafte Änderungen an der Webseite zu machen."
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr ""
+msgstr "Draw Freely."
 
 #: templates/base.html:43
 msgid "Log in / Register"
@@ -443,9 +451,14 @@ msgstr "Login / Registrierung"
 msgid "Already a member? Log in below."
 msgstr "Schon registriert? Logge Dich unten ein."
 
-#: templates/base.html:47
+#: templates/base.html:47 templates/person/profile.html:11
+#: templates/registration/registration_form.html:22
 msgid "Username"
 msgstr "Benutzername"
+
+#: templates/base.html:51
+msgid "Log in"
+msgstr "Anmelden"
 
 #: templates/base.html:52
 msgid "Not a member?"
@@ -459,13 +472,17 @@ msgstr "Jetzt registrieren."
 msgid "Or log in with"
 msgstr "Oder melde Dich an mit"
 
+#: templates/base.html:63
+msgid "Profile Photo"
+msgstr "Profilbild"
+
 #: templates/base.html:65
 msgid "Admin"
 msgstr "Administrator"
 
 #: templates/base.html:67
 msgid "My Profile"
-msgstr ""
+msgstr "Mein Profil"
 
 #: templates/base.html:68
 msgid "Logout"
@@ -475,6 +492,11 @@ msgstr "Abmelden"
 msgid "Follow us on:"
 msgstr "Folge uns auf:"
 
+#: templates/base.html:82 templates/base.html.py:84
+#: templates/search/search.html:5
+msgid "Search"
+msgstr "Suche"
+
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr ""
@@ -482,21 +504,68 @@ msgstr ""
 "steht."
 
 #: templates/base.html:114
-msgid ""
-"Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</a> "
-"in Inkscape and developed by <a href=\"http://doctormo.org\">Martin Owens</a>"
-msgstr ""
-"Die Webseite wurde in Inkscape von <a "
-"href=\"http://skymaiden.com\">Hinerangi Courtenay</a> designt und von <a "
-"href=\"http://doctormo.org\">Martin Owens</a> umgesetzt."
+msgid "Website designed by"
+msgstr "Webseiten-Design von"
 
-#: templates/paginator.html:5
+#: templates/base.html:114
+msgid "in Inkscape and developed by"
+msgstr "mit Inkscape und Entwicklung durch"
+
+#: templates/base.html:114
+msgid "Website development guide"
+msgstr "Webseiten-Entwicklerhandbuch"
+
+#: templates/base.html:114
+msgid "Here"
+msgstr "Hier"
+
+#: templates/front.html:51
+msgid "Overview"
+msgstr "Übersicht"
+
+#: templates/front.html:52
+msgid "What is Inkscape and how can you get it?"
+msgstr "Was ist Inkscape und woher bekommt man es?"
+
+#: templates/front.html:53
+msgid "Features"
+msgstr "Funktionen"
+
+#: templates/front.html:54
+msgid "Find out what Inkscape is capable of."
+msgstr "Finde heraus, was Inkcape kann."
+
+#: templates/front.html:55
+msgid "Gallery"
+msgstr "Galerie"
+
+#: templates/front.html:56
+msgid "Showcase of creations from the Inkscape community."
+msgstr "Galerie mit Kunstwerken der Inkscape-Community"
+
+#: templates/front.html:57
+msgid "Learning Resources"
+msgstr "Lernmaterialien"
+
+#: templates/front.html:58
+msgid "Resources to help you get the most out of Inkscape."
+msgstr "Diese Materialien helfen dir, das Beste aus Inkscape herauszuholen."
+
+#: templates/paginator.html:5 templates/search/search.html:30
 msgid "Previous"
 msgstr "Zurück"
 
-#: templates/paginator.html:23
+#: templates/paginator.html:23 templates/search/search.html:32
 msgid "Next"
 msgstr "Weiter"
+
+#: templates/brochure/list.html:4
+msgid "From"
+msgstr "Von"
+
+#: templates/brochure/list.html:14
+msgid "No items yet."
+msgstr "Noch keine Einträge."
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -558,84 +627,171 @@ msgstr "Du hast es kaputt gemacht!"
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "Edit"
-msgstr ""
+msgstr "Bearbeiten"
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "New News Article"
-msgstr ""
+msgstr "Neuer Nachrichten-Artikel"
+
+#: templates/news/credit.html:14 templates/news/translation.html:14
+#: templates/registration/registration_form.html:13
+msgid "Please correct the errors below"
+msgstr "Bitte korrigiere unten die Fehler."
 
 #: templates/news/credit.html:18
 msgid "Edit English News Article"
-msgstr ""
+msgstr "Englischen Nachrichten-Artikel bearbeiten"
 
 #: templates/news/credit.html:20
 msgid "New English News Article"
-msgstr ""
+msgstr "Neuer Englischer Nachrichten-Artikel"
 
 #: templates/news/credit.html:30
 msgid "Publish Date"
-msgstr ""
+msgstr "Veröffentlichungsdatum"
+
+#: templates/news/credit.html:34 templates/person/edit.html:38
+#: templates/resource/edit.html:28
+msgid "Save"
+msgstr "Speichern"
+
+#: templates/news/credit.html:37 templates/news/credit.html.py:40
+msgid "Publish"
+msgstr "Veröffentlichen"
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
+msgstr "Nachrichten-Artikel löschen"
+
+#: templates/news/delete.html:17
+msgid ""
+"This will delete the article and any translations associated with the "
+"article!"
 msgstr ""
+"Der Artikel und alle Übersetzungen, die damit verbunden sind, werden "
+"hierdurch gelöscht!"
+
+#: templates/news/delete.html:31
+msgid "Yes"
+msgstr "Ja"
+
+#: templates/news/delete.html:32
+msgid "No, I change my mind"
+msgstr "Nein, lieber doch nicht."
+
+#: templates/news/latest_news.html:2 templates/news/news_archive.html:17
+msgid "RSS Feed"
+msgstr "RSS-Feed"
+
+#: templates/news/latest_news.html:11 templates/news/list_item.html:8
+msgid "Read more"
+msgstr "Weiterlesen"
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
 msgid "Latest News"
-msgstr ""
+msgstr "Neueste Nachrichten"
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
-msgstr ""
+msgstr "Nachrichten-Artikel verfassen"
 
 #: templates/news/news_archive_day.html:5
 #: templates/news/news_archive_day.html:8
+#: templates/news/news_archive_month.html:5
+#: templates/news/news_archive_month.html:8
+#: templates/news/news_archive_year.html:5
+#: templates/news/news_archive_year.html:8
 msgid "News for"
-msgstr ""
+msgstr "Nachrichten vom"
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
-msgstr ""
+msgstr "Keine Nachrichten an diesem Datum."
+
+#: templates/news/news_archive_month.html:13
+msgid "No news for this month."
+msgstr "Für diesen Monat gibt es keine Einträge."
+
+#: templates/news/news_archive_year.html:13
+msgid "No news for this year"
+msgstr "Für dieses Jahr gibt es keine Einträge."
+
+#: templates/news/news_detail.html:19
+msgid "This article is not published yet!"
+msgstr "Dieser Artikel wurde noch nicht veröffentlicht!"
 
 #: templates/news/translation.html:5
 msgid "Translate News Article"
-msgstr ""
-
-#: templates/news/translation.html:14
-msgid "Please correct the errors below"
-msgstr ""
+msgstr "Nachrichten-Artikel übersetzen"
 
 #: templates/news/translation.html:17
 msgid "Translate News Article into"
-msgstr ""
+msgstr "Den Nachrichten-Artikel übersetzen auf:"
 
 #: templates/news/translation.html:20
 msgid "New Translations"
-msgstr ""
+msgstr "Neue Übersetzung"
 
 #: templates/news/translation.html:20
 msgid "Original"
-msgstr ""
+msgstr "Ursprungsversion"
 
 #: templates/news/translation.html:29
 msgid "Save Translation"
-msgstr ""
+msgstr "Übersetzung speichern"
 
 #: templates/news/translation_option.html:5
 msgid "Edit This News"
-msgstr ""
+msgstr "Diesen Nachrichten-Artikel bearbeiten"
 
 #: templates/news/translation_option.html:8
 msgid "Delete This News"
-msgstr ""
+msgstr "Diesen Nachrichten-Artikel löschen"
 
 #: templates/news/translation_option.html:13
 msgid "Needs Translating"
-msgstr ""
+msgstr "Übersetzung gesucht"
 
 #: templates/news/translation_option.html:13
 msgid "Translation OK"
-msgstr ""
+msgstr "Fertig übersetzt"
+
+#: templates/news/translation_option.html:15
+msgid "Original Updated"
+msgstr "Das Original wurde aktualisiert."
+
+#: templates/news/translation_option.html:16
+msgid "Translation Updated"
+msgstr "Die Übersetzung wurde aktualisiert."
+
+#: templates/person/edit.html:6
+msgid "Edit Profile"
+msgstr "Profil bearbeiten"
+
+#: templates/person/edit.html:24
+msgid "Personal Details"
+msgstr "Persönliche Angaben"
+
+#: templates/person/profile.html:6
+msgid "User"
+msgstr "Benutzer"
+
+#: templates/person/profile.html:16
+msgid "Annonymous"
+msgstr "Anonym"
+
+#: templates/person/profile.html:19
+msgid "Biography"
+msgstr "Biografie"
+
+#: templates/person/profile.html:29
+msgid "Edit My Profile"
+msgstr "Mein Profil bearbeiten"
+
+#: templates/registration/activation_complete.html:4
+#: templates/registration/activation_complete.html:8
+msgid "Activation Complete"
+msgstr "Aktivierung abgeschlossen"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
@@ -657,6 +813,14 @@ msgstr ""
 msgid "Hi,"
 msgstr "Hallo,"
 
+#: templates/registration/activation_email.txt:3
+msgid ""
+"This is an automatic email to help you complete your registration with "
+"www.inkscape.org."
+msgstr ""
+"Dies ist eine automatische Email, mit deren Hilfe Du Deine Registrierung bei "
+"www.inkscape.org abschließen kannst."
+
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
@@ -665,9 +829,34 @@ msgstr ""
 "Bitte öffne den folgenden Link mit Deinem Webbrowser. Falls der Link über "
 "mehrere Zeilen geht, musst Du ihn vielleicht in die Adressleiste kopieren."
 
-#: templates/registration/activation_email.txt:9
-msgid "If there is a problem with your registration, please contact us:"
-msgstr "Wenn Du Probleme mit der Registrierung hast, gib uns Bescheid:"
+#: templates/registration/activation_email_subject.txt:1
+msgid "Your registration on www.inkscape.org"
+msgstr "Deine Registrierung auf www.inkscape.org"
+
+#: templates/registration/login.html:7
+msgid "Your username and password didn't match. Please try again."
+msgstr ""
+"Benutzername und Passwort passen nicht zusammen. Bitte versuche es noch "
+"einmal!"
+
+#: templates/registration/login.html:23
+msgid "Login"
+msgstr "Anmelden"
+
+#: templates/registration/logout.html:6
+msgid "Logout from Inkscape"
+msgstr "Von Inkscape abmelden"
+
+#: templates/registration/logout.html:8
+msgid "Thanks for using the Inkscape website. Hope to see you again soon!"
+msgstr ""
+"Danke, dass Du die Inkscape-Webseite besucht hast. Hoffentlich sehen wir uns "
+"bald wieder!"
+
+#: templates/registration/registration_complete.html:4
+#: templates/registration/registration_complete.html:8
+msgid "Registration Complete"
+msgstr "Registrierung abgeschlossen."
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -679,23 +868,60 @@ msgstr ""
 "Bestätigungs-Link. Bitte folge dem Link um Deine Registrierung abzuschließen."
 
 #: templates/registration/registration_complete.html:13
-msgid ""
-"If you don't receive it shortly, please check your spam folder. If it's not "
-"there, please <a href=\"/contact/?subject=Lost activation code\">contact "
-"us</a>."
+msgid "If you don't receive it shortly, please check your spam folder."
 msgstr ""
-"Wenn sie nicht in Kürze bei Dir ankommt, schaue bitte auch im Spam-Ordner "
-"nach. Wenn sie da auch nicht ist, dann <a href=\"/contact/?subject=Lost "
-"activation code\">schreib uns</a> bitte."
+"Wenn sie nicht bald bei Dir ankommt, schau bitte auch in Deinen Spam-Ordner."
 
-#~ msgid ""
-#~ "A slug is a short name which uniquely identifies the news item for this day"
-#~ msgstr ""
-#~ "Das Schlagwort bezeichnet einen kurzen Namen, der den Artikel für diesen Tag "
-#~ "eindeutig identifiziert."
+#: templates/registration/registration_form.html:4
+msgid "New User Registeration"
+msgstr "Als neuer Benutzer registrieren"
 
-#~ msgid "Optional: Show only for this language"
-#~ msgstr "Optional: nur für diese Sprache anzeigen"
+#: templates/registration/registration_form.html:8
+msgid "New User Registration"
+msgstr "Als neuer Benutzer registrieren"
 
-#~ msgid "Edit Profile"
-#~ msgstr "Profil bearbeiten"
+#: templates/registration/registration_form.html:10
+msgid "Welcome, in order to register you must have a valid email address."
+msgstr ""
+"Willkommen! Um Dich registrieren zu können, benötigst Du eine gültige Email-"
+"Adresse."
+
+#: templates/registration/registration_form.html:28
+msgid "Email Address"
+msgstr "Email-Adresse"
+
+#: templates/registration/registration_form.html:45
+msgid "Register"
+msgstr "Registrieren"
+
+#: templates/resource/edit.html:7 templates/resource/item.html:19
+msgid "Edit Resource"
+msgstr ""
+
+#: templates/resource/edit.html:9 templates/resource/list.html:22
+msgid "Submit Resource"
+msgstr ""
+
+#: templates/resource/item.html:15 templates/resource/item.html.py:16
+msgid "Download"
+msgstr "Herunterladen"
+
+#: templates/resource/item.html:20
+msgid "Delete Resource"
+msgstr "Ressource löschen"
+
+#: templates/resource/item.html:22
+msgid "by"
+msgstr "von"
+
+#: templates/resource/list.html:18
+msgid "No resources submitted yet."
+msgstr ""
+
+#: templates/search/search.html:9
+msgid "Search Results for"
+msgstr "Suchergebnisse für"
+
+#: templates/search/search.html:25
+msgid "No results found."
+msgstr "Keine Ergebnisse gefunden."

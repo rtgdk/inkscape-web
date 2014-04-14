@@ -1,20 +1,15 @@
 #!/bin/bash
 
-if [ -d "../pythonenv" ]; then
-  cd ..
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
+
+if [ ! -d "$DIR/pythonenv" ]; then
+  echo "VirtualEnv not found, trying to set one up..."
+  echo "Failed! I didn't write this part yet!"
 fi
 
-if [ ! -d "./pythonenv" ]; then
-
-print "VirtualEnv not found, trying to set one up..."
-
-print "Failed! I didn't write this part yet!"
-
-fi
-
-if [ -f "manage.py" ]; then
-  ./pythonenv/bin/python manage.py $@
+if [ -f "$DIR/manage.py" ]; then
+  $DIR/pythonenv/bin/python $DIR/manage.py $@
 else
-  ./pythonenv/bin/python */manage.py $@
+  $DIR/pythonenv/bin/python $DIR/*/manage.py $@
 fi
 

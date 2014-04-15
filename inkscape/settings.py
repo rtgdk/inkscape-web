@@ -131,6 +131,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.redirects',
+    'django.contrib.staticfiles',
     'haystack',
     'reversion',
     'registration',

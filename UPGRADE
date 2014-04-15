@@ -13,3 +13,15 @@ syncdb
 migrate djangocms_text_ckeditor 0001 --fake
 migrate
 
+The css and javascript from ckeditor needs to be hooked in (surely there's a better way?)
+
+cd static/
+ln -s ../pythonenv/lib/python2.7/site-packages/djangocms_text_ckeditor/static/ckeditor .
+ln -s ../pythonenv/lib/python2.7/site-packages/djangocms_text_ckeditor/static/ckeditor_plugins .
+cd css
+ln -s ../../pythonenv/lib/python2.7/site-packages/djangocms_text_ckeditor/static/css/cms.ckeditor.css .
+cd ../js
+ln -s ../../pythonenv/lib/python2.7/site-packages/djangocms_text_ckeditor/static/js/cms.ckeditor.js .
+
+update keep-local.conf to keep these links in place.
+

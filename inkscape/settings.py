@@ -94,12 +94,11 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
     'django.core.context_processors.request',
     'django.core.context_processors.media',
     'django.core.context_processors.static',
-    'cms.context_processors.media',
+    'cms.context_processors.cms_settings',
     'sekizai.context_processors.sekizai',
     'social_auth.context_processors.social_auth_by_name_backends',
-    'social_auth.context_processors.social_auth_backends',
     'social_auth.context_processors.social_auth_by_type_backends',
-#    'social_auth.context_processors.social_auth_login_redirect',
+    'social_auth.context_processors.social_auth_backends',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -123,6 +122,7 @@ TEMPLATE_DIRS = (
 )
 
 INSTALLED_APPS = (
+    'django_reset', # forward port of the "reset" command
     'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -132,6 +132,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'haystack',
+    'reversion',
     'registration',
     'social_auth',
     'easy_thumbnails',
@@ -140,13 +141,11 @@ INSTALLED_APPS = (
     'menus',   # helper for model independent hierarchical website navigation
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
-    'django_reset', # forward port of the "reset" command
-    'cms.plugins.text',
-    'cms.plugins.file',
-    'cms.plugins.picture',
-    'cms.plugins.snippet',
-    'cms.plugins.video',
-    'cms.plugins.twitter',
+    'djangocms_text_ckeditor',
+    'djangocms_file',
+    'djangocms_picture',
+    'djangocms_snippet',
+    'djangocms_link',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_brochure',

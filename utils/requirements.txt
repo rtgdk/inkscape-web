@@ -25,9 +25,17 @@ django-filer
 django-reset
 django-social-auth==0.7.22
 django-registration==1.0
+django-reversion
 
 # Django-CMS Plugins
-django-cms==2.4.2
+django-cms==3.0
+
+djangocms-text-ckeditor
+djangocms-file
+djangocms-picture
+djangocms-snippet
+djangocms-link
+
 cmsplugin-pygments==0.7.3
 cmsplugin-filery==1.0.1
 cmsplugin-search==0.7.2

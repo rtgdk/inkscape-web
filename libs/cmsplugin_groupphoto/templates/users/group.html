@@ -1,0 +1,14 @@
+
+<div class="photos"/>
+{% for user in users %}
+
+  <table class="bioitem">
+    <tr>
+      <td class="img" rowspan="2"><a class="link" href="{% url "view_profile" user.id %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a></td>
+      <td><p title="{{ user.email }}"><a href="{% url "view_profile" user.id %}">{{ user.details }} ({{ user.username }})</a></p></td>
+    </tr>
+  </table>
+
+{% endfor %}
+</div>
+

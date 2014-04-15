@@ -1,7 +1,7 @@
 {% load i18n %}
 
 {% if category %}
-  <h1>{% blacktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
+  <h1>{% blocktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
   <p>{{ category.desc }}</p>
 {% endif %}
 <!--

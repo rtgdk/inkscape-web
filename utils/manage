@@ -7,9 +7,11 @@ if [ ! -d "$DIR/pythonenv" ]; then
   echo "Failed! I didn't write this part yet!"
 fi
 
+
 if [ -f "$DIR/manage.py" ]; then
   $DIR/pythonenv/bin/python $DIR/manage.py $@
 else
+  cd `dirname */manage.py`
   $DIR/pythonenv/bin/python $DIR/*/manage.py $@
 fi
 

@@ -10,6 +10,8 @@ import os
 import sys
 import json
 
+from subprocess import PIPE, Popen
+
 def delete(data, field):
     if data.has_key(field):
         data.pop(field)
@@ -28,17 +30,19 @@ def add_to(data, field, r):
         return True
     return False
 
+MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
+A_USER = Popen([MANAGE, 'getauser'], stdout=PIPE).stdout.read().strip()
+
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
   ),
-  # reset to superuser, since user credentials are not exported
-  'cms.pagemoderatorstate': (
-    [ set_to, 'user', 1 ],
+  'cms.usersettings': (
+    [ set_to, 'user', A_USER ],
   ),
   # Set the creator to admin account
   'cmsplugin_news.news': (
-    [ add_to, 'creator', 1 ],
+    [ set_to, 'creator', A_USER ],
   ),
 }
 
@@ -62,7 +66,7 @@ def update(content, updates):
                 COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1
 
     for model, counts in COUNT.iteritems():
-        sys.stderr.write("Updated %s: %s\n" % (model, str(counts)))
+        sys.stderr.write("Migrated %s: %s\n" % (model, str(counts)))
 
 
 if __name__ == '__main__':

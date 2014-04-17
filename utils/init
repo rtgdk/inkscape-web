@@ -20,6 +20,6 @@ python ./utils/python-bedeveled || {
 }
 
 ./utils/update
-./utils/refresh-cms
+./utils/refresh-cms staging.
 
 

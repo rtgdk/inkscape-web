@@ -31,7 +31,11 @@ def add_to(data, field, r):
     return False
 
 MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
-A_USER = Popen([MANAGE, 'getauser'], stdout=PIPE).stdout.read().strip()
+try:
+    A_USER = int( Popen([MANAGE, 'getauser'], stdout=PIPE).stdout.read().strip() )
+except ValueError:
+    sys.stderr.write("Can't restore data with no admin user setup.")
+    sys.exit(1)
 
 UPDATES = {
   'cms.page': (

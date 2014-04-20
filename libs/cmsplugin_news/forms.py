@@ -11,7 +11,7 @@ from .models import News
 class NewsForm(forms.ModelForm):
     class Meta:
         model = News
-        exclude = ('creator', 'editor', 'created', 'updated', 'language', 'translation_of')
+        exclude = ('creator', 'editor', 'created', 'updated', 'language', 'translation_of',)
     def __init__(self, *args, **kwargs):
         super(NewsForm, self).__init__(*args, **kwargs)
         self.fields['pub_date'].widget = widgets.AdminSplitDateTime()

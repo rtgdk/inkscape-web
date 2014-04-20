@@ -3,32 +3,42 @@
 Open django json dumps and update them to the latest versions so they
 can be continued to be used as backups going forwards.
 
-Usage: ./utils/jsonmigrator.py <content.json>
+Usage: %s <content.json>
 """
 
 import os
 import sys
 import json
 
+from collections import defaultdict
 from subprocess import PIPE, Popen
 
-def delete(data, field):
-    if data.has_key(field):
-        data.pop(field)
+def delete(field, row, **kwargs):
+    if row.has_key(field):
+        row.pop(field)
         return True
     return False
 
-def set_to(data, field, r):
-    if data.has_key(field) and data[field] != r:
-        data[field] = r
+def set_to(field, r, row, **kwargs):
+    if row.has_key(field) and row[field] != r:
+        row[field] = r
         return True
     return False
 
-def add_to(data, field, r):
-    if not data.has_key(field):
-        data[field] = r
+def add_to(field, r, row, **kwargs):
+    if not row.has_key(field):
+        row[field] = r
         return True
     return False
+
+TRACK = defaultdict(list)
+def unique(field, item, row, model, delete, **kwargs):
+    global TRACK
+    if row[field] in TRACK[model]:
+        delete.append(item)
+    else:
+        TRACK[model].append(row[field])
+
 
 MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
 try:
@@ -43,6 +53,7 @@ UPDATES = {
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],
+    [ unique, 'user' ],
   ),
   # Set the creator to admin account
   'cmsplugin_news.news': (
@@ -53,6 +64,7 @@ UPDATES = {
 
 def update(content, updates):
     WARNED = []
+    DELETE = []
     COUNT = {}
 
     for item in content:
@@ -66,16 +78,20 @@ def update(content, updates):
             continue
         COUNT[model] = COUNT.setdefault(model, {})
         for up in update:
-            if up[0](item['fields'], *up[1:]):
+            kwargs = dict(row=item['fields'], item=item, model=model, delete=DELETE)
+            if up[0](*up[1:], **kwargs):
                 COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1
+
+    for d in DELETE:
+        content.remove(d)
 
     for model, counts in COUNT.iteritems():
         sys.stderr.write("Migrated %s: %s\n" % (model, str(counts)))
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1 or (sys.argv[1] != '-' and os.path.exists(sys.argv[1])):
-        sys.stderr.write(__doc__)
+    if len(sys.argv) == 1 or (sys.argv[1] != '-' and not os.path.exists(sys.argv[1])):
+        sys.stderr.write(__doc__) % sys.argv[0]
         sys.exit(1)
 
     if sys.argv[1] == '-':

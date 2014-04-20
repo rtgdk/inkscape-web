@@ -24,5 +24,19 @@ if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     $MANAGE migrate
     $MANAGE collectstatic --noinput
     touch "data/updated.last"
+else
+  $MANAGE getauser &> /dev/null
+  if [ "$?" != 0 ]; then
+    if [ "$1" != "-u" ]; then
+      rm ./data/updated.last
+      $0 -u
+      exit $?
+    else
+      echo "Tried to update website system but still getting an error from django, tried again but that also failed."
+      exit 5
+    fi
+  else
+    echo "No updates needed."
+  fi 
 fi
 

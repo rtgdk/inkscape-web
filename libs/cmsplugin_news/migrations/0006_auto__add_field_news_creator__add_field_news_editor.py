@@ -9,10 +9,12 @@ class Migration(SchemaMigration):
 
     def forwards(self, orm):
         if not db.dry_run:
-            user = orm['auth.user'].objects.all()[0]
+            users = orm['auth.user'].objects.all()
+            if not users:
+                return
             # Adding field 'News.creator'
             db.add_column(u'cmsplugin_news_news', 'creator',
-                      self.gf('django.db.models.fields.related.ForeignKey')(default=user.id, related_name='created_news', to=orm['auth.User']),
+                      self.gf('django.db.models.fields.related.ForeignKey')(default=users[0].id, related_name='created_news', to=orm['auth.User']),
                       keep_default=False)
 
         # Adding field 'News.editor'

@@ -18,11 +18,11 @@ if [ $REQUIRES -nt $PIP ]; then
     touch $PIP
 fi
 
+
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."
-    $MANAGE syncdb 
-    $MANAGE migrate
-    $MANAGE collectstatic --noinput
+    $MANAGE syncdb  -v 0 --noinput
+    $MANAGE migrate -v 0
     touch "data/updated.last"
 else
   $MANAGE getauser &> /dev/null
@@ -31,12 +31,9 @@ else
       rm ./data/updated.last
       $0 -u
       exit $?
-    else
-      echo "Tried to update website system but still getting an error from django, tried again but that also failed."
-      exit 5
     fi
   else
     echo "No updates needed."
-  fi 
-fi
+  fi
+fi 
 

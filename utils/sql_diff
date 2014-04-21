@@ -1,0 +1,9 @@
+#!/bin/bash
+set -e
+
+
+sqlite3 $1 .dump > /tmp/sqlite-1.sql
+sqlite3 $2 .dump > /tmp/sqlite-2.sql
+
+diff -u /tmp/sqlite-1.sql /tmp/sqlite-2.sql
+

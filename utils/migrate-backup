@@ -13,13 +13,19 @@ import json
 from collections import defaultdict
 from subprocess import PIPE, Popen
 
+VERBOSE = '-v' in sys.argv
+if VERBOSE:
+    sys.argv.remove('-v')
+
 def delete(field, row, **kwargs):
     if row.has_key(field):
         row.pop(field)
         return True
     return False
 
-def set_to(field, r, row, **kwargs):
+def set_to(field, r, where=None, value=None, row=None, **kwargs):
+    if where and row[where] != value:
+        return False
     if row.has_key(field) and row[field] != r:
         row[field] = r
         return True
@@ -50,6 +56,7 @@ except ValueError:
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
+    [ set_to, 'is_home', 1, 'parent', None ],
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],
@@ -61,6 +68,9 @@ UPDATES = {
   ),
 }
 
+def log(message):
+    if VERBOSE:
+        sys.stderr.write(message+"\n")
 
 def update(content, updates):
     WARNED = []
@@ -73,7 +83,7 @@ def update(content, updates):
 
         if not update:
             if model not in WARNED:
-                sys.stderr.write("No updates for %s\n" % model)
+                log("No updates for %s" % model)
                 WARNED.append(model)
             continue
         COUNT[model] = COUNT.setdefault(model, {})
@@ -86,7 +96,7 @@ def update(content, updates):
         content.remove(d)
 
     for model, counts in COUNT.iteritems():
-        sys.stderr.write("Migrated %s: %s\n" % (model, str(counts)))
+        log("Migrated %s: %s" % (model, str(counts)))
 
 
 if __name__ == '__main__':

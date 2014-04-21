@@ -18,6 +18,9 @@ if [ $REQUIRES -nt $PIP ]; then
     touch $PIP
 fi
 
+if [ -e '.bzr' ]; then
+    bzr revno > ./data/revision
+fi
 
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."

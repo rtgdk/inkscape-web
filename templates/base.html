@@ -91,6 +91,10 @@
 		{% endblock %}
 		{% block footer %}
 		<div class="footer">
+	        <a href="https://code.launchpad.net/inkscape-web"><img src="{{ DESIGN_URL }}/images/django.svg" title="This site is running:
+Python {{ PYTHON_VERSION }}
+Django {{ DJANGO_VERSION }}
+InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -10px;"/></a>
 			<div class="nav">
 				{% block footer-nav %}
 				<ul>
@@ -105,7 +109,6 @@
 				{% endblock %}
 			</div>
 			<p>{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.</p>
-			<!-- This site is running Python {{ PYTHON_VERSION }} / Django {{ DJANGO_VERSION }} / {% if CODE_VERSION = CONTENT_VERSION %}inkscape-web r{{ CODE_VERSION }}{% else %}code r{{ CODE_VERSION }} / content r{{ CONTENT_VERSION }}{% endif %} -->
 		</div>
         <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
 		{% endblock %}

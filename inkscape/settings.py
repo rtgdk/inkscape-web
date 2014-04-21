@@ -9,7 +9,7 @@ gettext = lambda s: s
 
 SOUTH_TESTS_MIGRATE = False
 SERVE_STATIC = True
-
+REVISION = '???'
 
 ADMINS = (
     ('Martin Owens', 'doctormo@gmail.com'),
@@ -64,8 +64,13 @@ SITE_ROOT = "http://%s" % SITE_ADDRESS
 
 TEMPLATE_DEBUG = DEBUG
 
+REV_FILE = os.path.join(PROJECT_PATH, 'data', 'revision')
+if os.path.isfile(REV_FILE):
+    with open(REV_FILE, 'r') as fhl:
+        REVISION = fhl.read().strip()
+
 # Place where files can be uploaded
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data/media/')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
 
 # Place where uploaded files can be seen online
 MEDIA_URL = '/media/'

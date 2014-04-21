@@ -45,9 +45,8 @@ bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
 if [ -d $TARGET ]; then
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
-
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
-    cd $TARGET
+    bzr revno > $TARGET/data/revision
   fi
 fi
 

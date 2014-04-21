@@ -21,3 +21,4 @@ static/ckeditor
 static/ckeditor_plugins
 static/css/cms.ckeditor.css
 static/js/cms.ckeditor.js
+data/revision

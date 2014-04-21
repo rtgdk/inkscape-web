@@ -933,17 +933,17 @@ ol.checklist ul {
     list-style: none;
     padding: 0px;
 }
-ol.checklist ul li:before
+ol.checklist ul li
 {
-    content: '\2717';
-    margin: 0 1em;    /* any design */
-    color: #900;
+    background: left center url(../images/bullet-pass.png) no-repeat;
+    background-image: url(../images/bullet-pass.svg);
+    margin-left: 12px;
+    padding: 2px 0 2px 22px;
 }
-ol.checklist ul li.done:before
+ol.checklist ul li.done
 {
-    content: '\2714';
-    margin: 12px;
-    color: #050;
+    background: left center url(../images/bullet-tick.png) no-repeat;
+    background-image: url(../images/bullet-tick.svg);
 }
 
 a.roundel {

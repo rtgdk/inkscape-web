@@ -57,7 +57,11 @@ def credit(request, news_id=None):
                 obj.creator = request.user
                 obj.created = timezone.now()
             if not obj.slug:
-                obj.slug = obj.title.lower().replace(' ','-')
+                slug = obj.title.lower().replace(' ','-')
+                count = News.objects.filter(slug=slug).count()
+                if count > 0:
+                    slug = "%s-%d" % (slug, count)
+                obj.slug = slug
             obj.editor = request.user
             obj.updated = timezone.now()
             if request.POST.get('publish', False):

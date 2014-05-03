@@ -20,7 +20,16 @@ class UserForm(ModelForm):
         if password1 and password1 != password2:
             raise ValidationError("Passwords don't match")
 
+
         return self.cleaned_data
+
+    def clean_username(self):
+        username = self.cleaned_data['username']
+        user = User.objects.filter(username=username)
+        if user and user[0] != self.instance:
+            raise ValidationError('Username already taken')
+        return username
+        
 
     def save(self):
         password = self.cleaned_data.get('password1')

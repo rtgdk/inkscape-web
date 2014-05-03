@@ -16,5 +16,7 @@ syncdb
 migrate djangocms_text_ckeditor 0001 --fake
 migrate
 
+If this isn't done, admin won't be right:
+
 collectstatic --noinput
 

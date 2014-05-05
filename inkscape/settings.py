@@ -41,6 +41,8 @@ USE_I18N = True
 USE_L10N = True
 I18N_DOMAIN = 'inkscape'
 
+GOOGLE_ANID = None
+
 # We import a number of key variables here, if this fails, we don't work!
 import logging
 try:

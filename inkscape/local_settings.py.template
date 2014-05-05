@@ -18,6 +18,8 @@ DATABASES = {
     },
 }
 
+GOOGLE_ANID = 'UA-XXXXXX-X'
+
 # >= haystack 2.0
 HAYSTACK_CONNECTIONS = { 
     'default': {

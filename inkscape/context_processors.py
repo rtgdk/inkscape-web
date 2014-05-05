@@ -10,4 +10,5 @@ def design(request):
         'MEDIA_URL': settings.MEDIA_URL,
         'DEBUG': settings.DEBUG,
         'REVISION': settings.REVISION,
+        'GOOGLE_ANID': settings.GOOGLE_ANID,
     }

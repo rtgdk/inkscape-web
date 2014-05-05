@@ -7,7 +7,9 @@ from django.views.generic.base import TemplateView
 
 from inkscape.person.views import *
 from registration.backends.default.views import ActivationView as AV, \
-                                                RegistrationView as RV
+                                                RegistrationView
+
+from .forms import RegisForm
 
 urlpatterns = patterns('inkscape.person.views',
     url(r'^$',        'my_profile',      name='my_profile'),
@@ -26,11 +28,12 @@ urlpatterns += patterns('django.contrib.auth.views',
 AC = TemplateView.as_view(template_name='registration/activation_complete.html')
 RC = TemplateView.as_view(template_name='registration/registration_complete.html')
 RK = TemplateView.as_view(template_name='registration/registration_closed.html')
+RG = RegistrationView.as_view(form_class=RegisForm)
 
 urlpatterns += patterns('',
     url(r'^activate/complete/$',                AC,           name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', AV.as_view(), name='registration_activate'),
-    url(r'^register/$',                         RV.as_view(), name='registration_register'),
+    url(r'^register/$',                         RG,           name='registration_register'),
     url(r'^register/complete/$',                RC,           name='registration_complete'),
     url(r'^register/closed/$',                  RK,           name='registration_disallowed'),
     url(r'^register/',                          include('registration.auth_urls')),

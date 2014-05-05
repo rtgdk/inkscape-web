@@ -210,3 +210,5 @@ LOGIN_URL          = '/auth/login/'
 LOGIN_REDIRECT_URL = '/person/'
 LOGIN_ERROR_URL    = '/auth/login/'
 
+RECAPTCHA_USE_SSL = True
+

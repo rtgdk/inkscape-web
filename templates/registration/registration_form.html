@@ -41,6 +41,13 @@
     <td>{{ form.password2 }}<td>
   </tr>
 
+  {% if form.recaptcha.errors %}<tr class="error"><td colspan="2">{{ form.recaptcha.errors|join:", " }}</td></tr>{% endif %}
+  <tr>
+    <th scope="row"><label for="id_recaptcha">{% trans "ReCapture" %}:</label></th>
+    <td>{{ form.recaptcha }}<td>
+  </tr>
+
+
   <tr>
     <td colspan="2"><input type="submit" value="{% trans "Register" %}" /></td>
   </tr>

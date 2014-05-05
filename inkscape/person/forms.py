@@ -3,6 +3,12 @@ from django.forms import *
 from .models import User, UserDetails
 from django.utils.translation import ugettext_lazy as _
 
+from registration.forms import RegistrationForm
+from captcha.fields import ReCaptchaField
+
+class RegisForm(RegistrationForm):
+    recaptcha = ReCaptchaField(label=_("Human Test"))
+
 class UserForm(ModelForm):
     password1 = CharField(label=_('Password'), widget=PasswordInput(), required=False)
     password2 = CharField(label=_('Confirm'), widget=PasswordInput(), required=False)

@@ -9,7 +9,6 @@ from django.contrib.auth.models import User
 from .models import UserDetails
 from .forms import UserForm, UserDetailsForm
 
-
 @login_required
 def edit_profile(request):
     user = request.user

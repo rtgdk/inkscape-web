@@ -26,6 +26,7 @@ django-reset
 django-social-auth==0.7.22
 django-registration==1.0
 django-reversion
+django-recaptcha
 
 # Django-CMS Plugins
 django-cms==3.0

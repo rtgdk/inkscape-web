@@ -23,14 +23,13 @@ import os
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
-
-from datetime import datetime
+from django.utils.timezone import now
 
 from inkscape.fields import ResizedImageField
 
 null = dict(null=True, blank=True)
-def upto(d, c='resources'):
-    return dict(null=True, blank=True, upload_to=os.path.join(c, d))
+def upto(d, c='resources', blank=True):
+    return dict(null=blank, blank=blank, upload_to=os.path.join(c, d))
 
 class License(Model):
     name    = CharField(max_length=64)
@@ -63,24 +62,18 @@ class Category(Model):
 
 
 class Resource(Model):
-    user     = ForeignKey(User, related_name='items')
-    name     = CharField(max_length=64)
-    desc     = TextField(_('Description'))
-    category = ForeignKey(Category, related_name='items')
-    license  = ForeignKey(License)
-    owner    = BooleanField(_('I own this work'), default=True)
+    user      = ForeignKey(User, related_name='items')
+    name      = CharField(max_length=64)
+    desc      = TextField(_('Description'))
+    category  = ForeignKey(Category, related_name='items')
 
-    thumb    = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
-    download = FileField(_('Consumable File'), **upto('file'))
-    source   = FileField(_('Source File'), **upto('source'))
+    created   = DateTimeField(default=now)
+    edited    = DateTimeField(**null)
+    published = BooleanField(default=True)
 
-    created  = DateTimeField(default=datetime.now)
-    edited   = DateTimeField(**null)
-    published= BooleanField(default=True)
+    thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
 
-    link_url     = URLField(**null)
-    download_uri = URLField(**null)
-    source_uri   = URLField(**null)
+    link      = URLField(_('More Info URL'), **null)
 
     def __unicode__(self):
         return self.name
@@ -89,6 +82,79 @@ class Resource(Model):
         return user_id == self.user.id or self.published
 
     def save(self, *args, **kwargs):
-        self.edited = datetime.now()
+        self.edited = now()
         return Model.save(self, *args, **kwargs)
+
+    @property
+    def outer(self):
+        if type(self) is Resource:
+            if hasattr(self, 'resourcefile'):
+                return self.resourcefile
+            elif hasattr(self, 'resourceurl'):
+                return self.resourceurl
+        return self
+
+    def download(self):
+        return self.outer.download_url()
+
+    def download_url(self):
+        return self.link
+
+    def source_url(self):
+        return self.link
+
+
+class ResourceFile(Resource):
+    """This is a resource with an uploaded file"""
+    download = FileField(_('Consumable File'), **upto('file', blank=False))
+    source   = FileField(_('Source File'), **upto('source'))
+
+    license   = ForeignKey(License)
+    owner     = BooleanField(_('I own this work'), default=True)
+
+    def download_url(self):
+        return self.download.url
+
+    def source_url(self):
+        return self.source.url
+
+    def is_file(self):
+        return True
+
+    def is_image(self):
+        """Returns true if the download is an image (svg/png/jpeg/gif)"""
+        return True # XXX ToDo
+
+
+class ResourceUrl(Resource):
+    """This is a resource that links to somewhere else"""
+    download = URLField(_('Consumable File'), **null)
+    source   = URLField(_('Source File'), **null)
+
+    def download_url(self):
+        return self.download
+
+    def source_url(self):
+        return self.source
+
+    def is_link(self):
+        return True
+
+
+VOTES = ['Likes', 'Dislikes', 'Verified', 'Promotes']
+VOTE_CHOICE = [(i, VOTES[i]) for i in range(len(VOTES))]
+
+class Vote(Model):
+    """Vote for a resource in some way"""
+    resource = ForeignKey(Resource, related_name='votes')
+    voter    = ForeignKey(User, related_name='votes')
+    vote     = IntegerField(_('Vote'), default=0, choices=VOTE_CHOICE)
+    
+    def __str__(self):
+        return "%s %s %s " % (str(self.voter), self.votetype, str(self.resource))
+
+    @property
+    def votetype(self):
+        return VOTES[self.vote]
+
 

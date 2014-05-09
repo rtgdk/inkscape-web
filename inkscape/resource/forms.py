@@ -20,15 +20,20 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Resource
+from .models import Resource, ResourceFile, ResourceUrl
 
 
-class ResourceForm(ModelForm):
-    permission = BooleanField(label=_('I have permission to post this work'))
+class ResourceUrlForm(ModelForm):
+    class Meta:
+        model = ResourceUrl
+
+
+class ResourceFileForm(ModelForm):
+    permission = BooleanField(label=_('I have permission'), required=False)
 
     class Meta:
-        model = Resource
-        exclude = ('created', 'edited', 'user')
+        model = ResourceFile
+        fields = ['name', 'desc', 'link', 'category', 'thumbnail', 'download', 'source', 'license', 'published', 'owner', 'permission']
 
     def clean(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:

@@ -29,6 +29,8 @@
 <p><a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a></p>
 {% endifequal %}
 
-{% include "resource/list.html" %}
+  {% with user.items.all as items %}
+    {% include "resource/list.html" %}
+  {% endwith %}
 
 {% endblock %}

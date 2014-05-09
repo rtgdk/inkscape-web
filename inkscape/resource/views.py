@@ -28,15 +28,15 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 from .models import Resource, Category, License
-from .forms import ResourceForm
+from .forms import ResourceFileForm
 
 
 @login_required
 def edit_resource(request, item_id=None):
     item = item_id and get_object_or_404(Resource, id=item_id)
-    c = { 'form': ResourceForm(instance=item) }
+    c = { 'form': ResourceFileForm(instance=item) }
     if request.method == 'POST':
-        c['form'] = ResourceForm(request.POST, request.FILES, instance=item)
+        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item)
         if c['form'].is_valid():
             item = c['form'].save(commit=False)
             item.user = request.user

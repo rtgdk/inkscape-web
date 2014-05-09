@@ -164,7 +164,7 @@ INSTALLED_APPS = (
     'inkscape.search',
     'inkscape.person',
     'inkscape.docs',
-    #'inkscape.resource',
+    'inkscape.resource',
 )
 
 CMS_TEMPLATES = (

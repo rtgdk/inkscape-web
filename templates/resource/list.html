@@ -11,14 +11,16 @@
 
 {% for item in items %}
   <div class="galleryitem">
-    <a class="link" href="{% url "view_resource" item.id %}"><img src="{{ item.thumbnail.url }}" title="{{ item.name }}"/></a>
-    <p><a href="{% url "view_resource" item.id %}">{{ item.name }}</a></p>
+    <a class="link" href="{% url "resource" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/inkscape-logo.svg{% endif %}" title="{{ item.name }}"/></a>
+    <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
   </div>
 {% empty %}
-  <h2>{% trans "No resources submitted yet." %}</h2>
 {% endfor %}
 
 {% ifequal user request.user %}
-<p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
+  <div class="galleryitem">
+    <a class="link" href="{% url "new_resource" %}"><img style="padding-top: 70px;" src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a>
+    <p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
+  </div>
 {% endifequal %}
 

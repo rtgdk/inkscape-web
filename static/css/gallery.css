@@ -1,8 +1,8 @@
 .galleryitem {
   display: inline-block;
   border: solid #cce 2px;
-  margin: 5px;
-  padding: 6px;
+  margin: 4px;
+  padding: 3px;
   min-width: 162px;
   text-align: center;
   vertical-align: middle;
@@ -14,16 +14,29 @@
 .bioitem a.link img {
   max-width: 150px;
   max-height: 150px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.galleryitem a.link {
+  min-width: 150px;
+  min-height: 150px;
+  display: block;
 }
 .galleryitem p {
-  max-width: 150px;
+  max-width: 160px;
+  text-align: center;
+  padding: 0px;
+  margin: 0px;
 }
 .galleryitem p a {
   background-color: #eef;
   display: block;
   margin: 2px;
   padding: 3px;
-  color: #157;
+  color: #035;
+}
+.galleryitem p a:hover {
+  text-decoration: none;
 }
 
 table.bioitem {

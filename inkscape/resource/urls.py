@@ -24,13 +24,14 @@ from .views import *
 urlpatterns = patterns('',
     url(r'^$',            my_resources,    name='my_resources'),
 
-    url(r'^user/(\d+)/$', view_user,       name='user_resources'),
-    url(r'^cat/(\d+)/$',  view_category,   name='category_resources'),
-    url(r'^item/(\d+)/$', view_resource,   name='resource'),
-
+    url(r'^item/(\d+)/',          view_resource,   name='resource'),
     url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
     url(r'^item/(\d+)/del/$',     delete_resource, name='delete_resource'),
     url(r'^item/(\d+)/del/(y)/$', delete_resource, name='yes_delete_resource'),
     url(r'^item/new/$',           edit_resource,   name='new_resource'),
+
+    url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
+
+    url(r'^cat/(\w+)/$',          view_category,   name='category_resources'),
 )
 

@@ -61,11 +61,20 @@ class Category(Model):
         return self.name
 
 
+class Gallery(Model):
+    user      = ForeignKey(User, related_name='galleries')
+    name      = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.name
+
+
 class Resource(Model):
-    user      = ForeignKey(User, related_name='items')
+    user      = ForeignKey(User, related_name='resources')
     name      = CharField(max_length=64)
     desc      = TextField(_('Description'))
     category  = ForeignKey(Category, related_name='items')
+    gallery   = ForeignKey(Gallery, related_name='items', **null)
 
     created   = DateTimeField(default=now)
     edited    = DateTimeField(**null)

@@ -29,7 +29,7 @@
 <p><a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a></p>
 {% endifequal %}
 
-  {% with user.items.all as items %}
+  {% with user.resources.all as items %}
     {% include "resource/list.html" %}
   {% endwith %}
 

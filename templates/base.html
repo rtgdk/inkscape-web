@@ -26,6 +26,13 @@
         <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
         <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
 
+<script>
+function getPng(t) {
+  if(t.src.slice(-3)=='svg') {
+    t.src = t.src.slice(0,-3) + "png";
+  }
+}
+</script>
 
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
@@ -44,8 +51,7 @@
 			<div id="cleartop">
 				<div id="logo">
 					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
-							 width="64" height="64" alt="Inkscape"
-							 onerror="this.src='{{DESIGN_URL}}images/inkscape-logo.png'"></a>
+							 width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
                     <h1><a href="/" tabindex="-1">Inkscape</a></h1>
                     <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
 				</div>
@@ -87,15 +93,13 @@
 					<div id="social">
                         <p>{% trans "Follow us on:" %} </p>
 					  <nav id="socialnav">
-					    <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg"
-					        onerror="this.src='{{ DESIGN_URL }}images/logo_twitter.png'"/></a>
+					    <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);"/></a>
 					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
 					  </nav>
 					</div>
 					  <form id="topsearch" method="submit" action="{% url "search" %}">
                         <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}"><input type="image" id="topsearch-button"
-                          src="{{ DESIGN_URL }}images/search-button.svg"
-						  onerror="this.src='{{DESIGN_URL}}images/search-button.png'" alt="{% trans "Search" %}">
+                          src="{{ DESIGN_URL }}images/search-button.svg" onerror="getPng(this);" alt="{% trans "Search" %}">
 					  </form>
 				</div>
 			</div>

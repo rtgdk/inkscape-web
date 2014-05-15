@@ -25,16 +25,12 @@ class UserDetails(Model):
         if not self.user.is_active:
             return None
         for group in self.user.groups.all():
-            if group.roll.name == 'Super User':
+            if group.roll.name == 'Administrator':
                 if self.user.is_superuser:
                     return group.roll
             elif group.roll:
                 return group.roll
-        rolls = UserRoll.objects.all()
-        for roll in rolls:
-            if 'normal' in unicode(roll.name).lower():
-                return roll
-        return None
+        return UserRoll.objects.all()[0]
 
     def __unicode__(self):
         if self.user.first_name:

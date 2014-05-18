@@ -35,17 +35,21 @@ class License(Model):
     name    = CharField(max_length=64)
     code    = CharField(max_length=16)
     link    = URLField(**null)
-    banner  = ResizedImageField(_('License Banner'), 80, 15, **upto('banner', 'license'))
-    icon    = ResizedImageField(_('License Icon'), 100, 40, **upto('icon', 'license'))
+    banner  = FileField(_('License Banner (svg:80x15)'), **upto('banner', 'license'))
+    icon    = FileField(_('License Icon (svg:100x40)'), **upto('icon', 'license'))
 
     at  = BooleanField(_('Attribution'), default=True)
     sa  = BooleanField(_('Copyleft (Share Alike)'), default=False)
     nc  = BooleanField(_('Non-Commercial'), default=False)
     nd  = BooleanField(_('Non-Derivitive'), default=False)
-    arr = BooleanField(_('All Rights Reserved'), default=False)
+
+    replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
 
     def is_free(self):
         return not self.nc and not self.nd and not arr
+
+    def is_all_rights(self):
+        return self.nc and self.nd and not self.at
 
     def __unicode__(self):
         return "%s (%s)" % (self.name, self.code)
@@ -61,20 +65,11 @@ class Category(Model):
         return self.name
 
 
-class Gallery(Model):
-    user      = ForeignKey(User, related_name='galleries')
-    name      = CharField(max_length=64)
-
-    def __unicode__(self):
-        return self.name
-
-
 class Resource(Model):
     user      = ForeignKey(User, related_name='resources')
     name      = CharField(max_length=64)
     desc      = TextField(_('Description'))
     category  = ForeignKey(Category, related_name='items')
-    gallery   = ForeignKey(Gallery, related_name='items', **null)
 
     created   = DateTimeField(default=now)
     edited    = DateTimeField(**null)
@@ -133,6 +128,15 @@ class ResourceFile(Resource):
     def is_image(self):
         """Returns true if the download is an image (svg/png/jpeg/gif)"""
         return True # XXX ToDo
+
+
+class Gallery(Model):
+    user      = ForeignKey(User, related_name='galleries')
+    name      = CharField(max_length=64)
+    items     = ManyToManyField(Resource)
+
+    def __unicode__(self):
+        return self.name
 
 
 class ResourceUrl(Resource):

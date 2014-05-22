@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{{ gallery.name }}</h1>
+
+  {% with gallery.user as user %}
+   {% with gallery.items.all as items %}
+    {% include "resource/list.html" %}
+   {% endwith %}
+  {% endwith %}
+
+{% endblock %}

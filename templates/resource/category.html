@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{{ category.name }}</h1>
+
+  {% with category.items.all as items %}
+    {% include "resource/list.html" %}
+  {% endwith %}
+
+{% endblock %}

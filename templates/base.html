@@ -3,13 +3,13 @@
 {% load menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
 	<head>
-		<meta charset="utf-8">
-		<link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png">
-        <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/" />
+		<meta charset="utf-8"/>
+		<link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
+        <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
 
-        <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu" />
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css" >
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css" >
+        <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
+		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css"/>
+		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css"/>
         {% render_block "css" %}
         {% block css %}{% endblock %}
 
@@ -19,20 +19,13 @@
 
 		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
 		<script type="text/javascript" src="{{ DESIGN_URL }}js/textSize.js"></script>
+        <script type="text/javascript" src="{{ DESIGN_URL }}js/inkscape.js"></script>
 
         <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
         <meta name="Copyright" content="Developers, AGPLv3" />
 
         <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
         <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
-
-<script>
-function getPng(t) {
-  if(t.src.slice(-3)=='svg') {
-    t.src = t.src.slice(0,-3) + "png";
-  }
-}
-</script>
 
 	</head>
 	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
@@ -47,6 +40,7 @@ function getPng(t) {
 </script>
 
         {% cms_toolbar %}
+
 		<div class="header">
 			<div id="cleartop">
 				<div id="logo">
@@ -78,7 +72,7 @@ function getPng(t) {
 							</form>
                         {% else %}
                         <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
-                        {{ request.user.details }} 
+                        {{ request.user.name }} 
                         <form  class="topdrop">
                             <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="{% trans "Profile Photo" %}"/></a>
                           {% if request.user.is_staff %}

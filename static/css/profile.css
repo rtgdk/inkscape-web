@@ -1,0 +1,36 @@
+
+.header .nav {
+  border-bottom: 0px !important;
+}
+
+#profile {
+  background-image: linear-gradient(to bottom, #1A1A1A 0%, #000 100%);
+  min-height: 128px;
+  border-radius: 0px 0px 15px 15px; 
+  padding: 15px 8px 15px 15px;
+  margin: 0px 0px 20px 0px;
+}
+
+#profile #bio {
+  width: 100%;
+  margin: 0px;
+}
+
+#profile #photo {
+  margin-right: 10px;
+  width: 128px;
+  height: 128px;
+  border-radius: 15px;
+  float: left;
+}
+
+#profile h1 {
+  margin: 0px;
+  padding: 0px;
+}
+
+#profile #username {
+  font-size: 30%;
+  margin-left: 4px;
+}
+

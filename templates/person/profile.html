@@ -1,36 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'person/base.html' %}
 {% load i18n %}
 
 {% block content %}
 
-<h1>{% trans "User" %}: {{ user.details }}</h1>
+  <h1>Galleries</h1>
 
-<table class="block">
-    <tr>
-        <td rowspan="4" class="photo"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/></td>
-        <th scope="row">{% trans "Username" %}:</th>
-        <td>{{ user.username }}</td>
-    </tr>
-    <tr>
-        <th scope="row">{% trans "Name" %}:</th>
-        <td>{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{% trans "Annonymous" %}{% endif %}</td>
-    </tr>
-    <tr>
-        <th scope="row">{% trans "Biography" %}:</th>
-        <td class="bio">&nbsp;{{ user.details.bio }}</td>
-    </tr>
-    <tr class="max">
-        <td>&nbsp;</td>
-        <td>&nbsp;</td>
-    </tr>
-</table>
-
-{% ifequal user request.user %}
-<p><a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a></p>
-{% endifequal %}
-
-  {% with user.resources.all as items %}
-    {% include "resource/list.html" %}
+  {% with user.galleries.all as items %}
+    {% include "resource/galleries.html" %}
   {% endwith %}
 
 {% endblock %}

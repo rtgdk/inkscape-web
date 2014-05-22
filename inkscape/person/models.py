@@ -10,6 +10,15 @@ from inkscape.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 
+
+def forced_insert(self):
+    """Adds the first and last name as a full name or username"""
+    if self.first_name or self.last_name:
+        return self.get_full_name()
+    return self.username
+
+User.name = forced_insert
+
 class UserDetails(Model):
     user  = AutoOneToOneField(User, related_name='details')
     bio   = TextField(null=True, blank=True)

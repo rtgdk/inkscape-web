@@ -20,8 +20,12 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Resource, ResourceFile, ResourceUrl
+from .models import Resource, ResourceFile, ResourceUrl, Gallery
 
+class GalleryForm(ModelForm):
+    class Meta:
+        model = Gallery
+        fields = ['name']
 
 class ResourceUrlForm(ModelForm):
     class Meta:
@@ -29,11 +33,11 @@ class ResourceUrlForm(ModelForm):
 
 
 class ResourceFileForm(ModelForm):
-    permission = BooleanField(label=_('I have permission'), required=False)
+    #permission = BooleanField(label=_('I have permission'), required=False)
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'thumbnail', 'download', 'source', 'license', 'published', 'owner', 'permission']
+        fields = ['name', 'desc', 'link', 'category', 'license']
 
     def clean(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:

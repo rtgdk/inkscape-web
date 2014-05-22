@@ -28,8 +28,9 @@ from django.utils.timezone import now
 from inkscape.fields import ResizedImageField
 
 null = dict(null=True, blank=True)
-def upto(d, c='resources', blank=True):
-    return dict(null=blank, blank=blank, upload_to=os.path.join(c, d))
+def upto(d, c='resources', blank=True, lots=False):
+    dated = lots and ["%Y","%m"] or []
+    return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
 
 class License(Model):
     name    = CharField(max_length=64)
@@ -104,14 +105,10 @@ class Resource(Model):
     def download_url(self):
         return self.link
 
-    def source_url(self):
-        return self.link
-
 
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
     download = FileField(_('Consumable File'), **upto('file', blank=False))
-    source   = FileField(_('Source File'), **upto('source'))
 
     license   = ForeignKey(License)
     owner     = BooleanField(_('I own this work'), default=True)
@@ -119,15 +116,12 @@ class ResourceFile(Resource):
     def download_url(self):
         return self.download.url
 
-    def source_url(self):
-        return self.source.url
-
     def is_file(self):
         return True
 
     def is_image(self):
         """Returns true if the download is an image (svg/png/jpeg/gif)"""
-        return True # XXX ToDo
+        return download_url.rsplit('.', 1)[-1] in ['svg','png','jpeg','jpg']
 
 
 class Gallery(Model):

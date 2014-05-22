@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/profile.css" >
+{% endblock %}
+
+{% block supercontent %}
+
+  <div id="profile" style="background-color: #1c1c1c; color: white;">
+    <img id="photo" src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
+    <h1 id="name">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{% trans "Annonymous" %}{% endif %}<span id="username">({{ user.username }})</span></h1>
+    <p id="bio">{% if user.details.bio %}{{ user.details.bio }}{% else %}{{ user }} {% trans "hasn't written anything about themselves yet" %}{% endif %}</p>
+
+   {% ifequal user request.user %}
+    <noscript>
+      <a id="edit" href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
+    </noscript>
+   {% endifequal %}
+
+  </div>
+
+{% block content %}Nothing{% endblock %}
+
+{% endblock %}

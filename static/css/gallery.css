@@ -75,3 +75,30 @@ table.bioitem p a {
   font-size: 18px;
   color: #157;
 }
+
+.galleryitem div.link input {
+  padding-top: 70px;
+  max-width: 150px;
+  max-height: 150px;
+  vertical-align: middle;
+  display: inline-block;
+}
+.galleryitem div.link {
+  min-width: 150px;
+  min-height: 150px;
+  display: block;
+}
+.galleryitem div.input input {
+  max-width: 140px;
+  text-align: center;
+}
+.galleryitem div.input {
+  background-color: #EEF;
+  display: table-cell;
+  margin: 2px;
+  padding: 3px;
+  color: #035;
+  height: 4em;
+  width: 150px;
+  vertical-align: middle;
+}

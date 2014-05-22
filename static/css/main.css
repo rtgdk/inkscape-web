@@ -294,13 +294,6 @@ div.warning {
   display: block;
   text-align: center;
 }
-html[lang=fr] #topdrops #toplogin > p {
-  width: 170px;
-  background-position: 182px 10px;
-}
-html[lang=fr] #topdrops #toplogin .topdrop {
-  margin-left: -40px;
-}
 /* dropdowns on the right */
 .header #topdrops {
   float: right;
@@ -374,9 +367,8 @@ html[lang=fr] #topdrops #toplogin .topdrop {
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;
-  background: #333333 url("../images/down-arrow.png") 112px 10px no-repeat;
+  background: #333333 url("../images/down-arrow.png") right 6px center no-repeat;
   margin: 0;
-  width: 100px;
   padding: 5px 20px 7px 10px;
   margin-bottom:7px;
 }
@@ -389,9 +381,9 @@ html[lang=fr] #topdrops #toplogin .topdrop {
   border-radius: 0;
 }
 #toplogin .topdrop {
-  margin-left: -110px;
   width: 220px;
-  border-radius: 5px 0 5px 5px;
+  border-radius: 5px 0px 5px 5px;
+  margin-left: -20px;
 }
 #toplogin-head {
   margin-top: 0;
@@ -915,20 +907,11 @@ table.block {
   margin: 2px;
   padding: 10px;
 }
-table.block .bio {
+table.block input,
+table.block select,
+table.block textarea {
   width: 100%;
 }
-table.block .photo {
-  vertical-align: top;
-  padding-right: 20px;
-}
-table.block .photo img {
-  width: 128px;
-  height: 128px;
-  padding: 3px;
-  border: 2px solid #eee;
-}
-
 ol.checklist ul {
     list-style: none;
     padding: 0px;

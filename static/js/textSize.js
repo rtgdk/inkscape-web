@@ -1,6 +1,7 @@
 $(document).ready(function() {
       if($("#menu"))menu();
       if($('[class|="maxHeight"]')[0])maxHeight();
+      if($("#toplogin"))adjustBar();
 });
 
 jQuery.fn.getMaxHeight = function(){
@@ -33,6 +34,12 @@ function menu(){
         i++;
         containerHeight = $("#menu").height();
     }
+}
+
+function adjustBar(){
+    var tw = parseInt( $("#toplogin").width() );
+    var fw = parseInt( $("#toplogin").children("form").width() );
+    $("#toplogin").children("form").css('margin-left', (tw-fw-20)+"px");
 }
 
 function maxHeight(){

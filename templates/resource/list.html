@@ -5,10 +5,6 @@
   <p>{{ category.desc }}</p>
 {% endif %}
 
-{% if user %}
-<h1>Resources by {{ user }}</h1>
-{% endif %}
-
 {% for item in items %}
   <div class="galleryitem">
     <a class="link" href="{% url "resource" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/inkscape-logo.svg{% endif %}" title="{{ item.name }}"/></a>

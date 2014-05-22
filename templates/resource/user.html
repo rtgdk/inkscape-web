@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>Galleries for {{ user.name }}</h1>
+
+{% include "resource/galleries.html" %}
+
+{% endblock %}

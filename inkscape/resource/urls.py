@@ -22,16 +22,22 @@ except ImportError:
 from .views import *
 
 urlpatterns = patterns('',
-    url(r'^$',            my_resources,    name='my_resources'),
+    url(r'^$',                    my_resources,    name='my_resources'),
 
-    url(r'^item/(\d+)/',          view_resource,   name='resource'),
-    url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
+    url(r'^item/(\d+)/$',         view_resource,   name='resource'),
     url(r'^item/(\d+)/del/$',     delete_resource, name='delete_resource'),
     url(r'^item/(\d+)/del/(y)/$', delete_resource, name='yes_delete_resource'),
+    url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
     url(r'^item/new/$',           edit_resource,   name='new_resource'),
 
     url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
 
-    url(r'^cat/(\w+)/$',          view_category,   name='category_resources'),
+    url(r'^gallery/(\d+)/$',         view_gallery,   name="gallery"),
+    url(r'^gallery/(\d+)/del/$',     delete_gallery, name="delete_gallery"),
+    url(r'^gallery/(\d+)/del/(y)/$', delete_gallery, name='yes_delete_gallery'),
+    url(r'^gallery/(\d+)/edit/$',    edit_gallery,   name='edit_resource'),
+    url(r'^gallery/new/$',           edit_gallery,   name="new_gallery"),
+
+    url(r'^cat/(\w+)/$',             view_category,   name='category_resources'),
 )
 

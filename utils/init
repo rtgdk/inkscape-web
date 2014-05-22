@@ -29,7 +29,7 @@ echo ""
 echo "Copied static files from pythonenv to local static"
 echo ""
 
-$MANAGE loaddata $PWD/utils/data/admin_user.json
+$MANAGE loaddata $PWD/utils/data/auth.json
 echo ""
 echo "Default admin user added, password: 123456 (delete on live deployments)"
 echo ""

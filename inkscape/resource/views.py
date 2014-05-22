@@ -27,9 +27,40 @@ from django.db.models import Q
 
 from django.contrib.auth.models import User
 
-from .models import Resource, Category, License
-from .forms import ResourceFileForm
+from .models import Resource, Category, License, Gallery
+from .forms import ResourceFileForm, GalleryForm
 
+@login_required
+def delete_gallery(request, item_id, confirm='n'):
+    item = get_object_or_404(Gallery, id=item_id)
+    if item.user != request.user:
+        raise Http404
+    if confirm != 'y':
+        return render_to_response('resource/confirm.html', { 'item': item },
+            context_instance=RequestContext(request))
+    return redirect('my_resources')
+
+@login_required
+def edit_gallery(request, item_id=None):
+    item = item_id and get_object_or_404(Gallery, id=item_id)
+    c = { 'form': GalleryForm(instance=item) }
+    if request.method == 'POST':
+        c['form'] = GalleryForm(request.POST, request.FILES, instance=item)
+        if c['form'].is_valid():
+            item = c['form'].save(commit=False)
+            item.user = request.user
+            item.save()
+    return redirect('my_resources')
+
+@login_required
+def delete_resource(request, item_id, confirm='n'):
+    item = get_object_or_404(Resource, id=item_id)
+    if item.user != request.user:
+        raise Http404
+    if confirm != 'y':
+        return render_to_response('resource/confirm.html', { 'item': item },
+            context_instance=RequestContext(request))
+    return redirect('resource', item.id)
 
 @login_required
 def edit_resource(request, item_id=None):
@@ -59,7 +90,7 @@ def delete_resource(request, item_id, confirm='n'):
 
 @login_required
 def my_resources(request):
-    return view_resource(request, request.user.id)
+    return view_user(request, request.user.id)
 
 
 def view_category(request, category_id):
@@ -69,8 +100,16 @@ def view_category(request, category_id):
         'category': category,
         'list': Resource.objects.filter(category=category, published=True),
     }
-    render_to_response('resource/list.html', c,
-        context_instance=RequestContext(request))
+    return render_to_response('resource/category.html', c,
+             context_instance=RequestContext(request))
+
+def view_gallery(request, gallery_id):
+    gallery = get_object_or_404(Gallery, id=gallery_id)
+    c = {
+        'gallery': gallery,
+    }
+    return render_to_response('resource/gallery.html', c,
+             context_instance=RequestContext(request))
 
 
 def view_user(request, user_id):
@@ -78,10 +117,10 @@ def view_user(request, user_id):
     # Show items which are published, OR are the same user as the requester
     c = {
         'user': user,
-        'list': Resource.objects.filter(Q(user=user) & (
-          Q(user=request.user) | Q(published=True) )),
+        'items': Gallery.objects.filter(Q(user=user)),# & (
+          #Q(user=request.user) | Q(published=True) )),
     }
-    return render_to_response('resource/list.html', c,
+    return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))
 
 

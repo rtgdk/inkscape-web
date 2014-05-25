@@ -9,7 +9,18 @@
 
 {% for item in items %}
   <div class="galleryitem">
-    <a class="link" href="{% url "gallery" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/folder.svg{% endif %}" title="{{ item.name }}"/></a>
+    {% ifequal item todelete %}
+      <form method="POST" action="{% url "delete_gallery" item.id %}">
+        {% csrf_token %}
+        <div class="buttons"><p>{% trans "Confirm" %}</p><input type="submit" name="confirm" value="{% trans "Delete" %}"/></div>
+      <form>
+    {% else %}
+      <!--<a class="edit icon" href="{% url "edit_gallery" item.id %}"><img src="{{ DESIGN_URL }}/images/edit.svg"/></a>-->
+      {% ifequal user item.user %}
+        <a class="delete icon" href="{% url "delete_gallery" item.id %}"><img src="{{ DESIGN_URL }}/images/delete.svg"/></a>
+      {% endifequal %}
+      <a class="link" href="{% url "gallery" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/folder.svg{% endif %}" title="{{ item.name }}"/></a>
+    {% endifequal %}
     <p><a href="{% url "gallery" item.id %}">{{ item.name }}</a></p>
   </div>
 {% empty %}

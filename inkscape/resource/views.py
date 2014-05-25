@@ -31,14 +31,15 @@ from .models import Resource, Category, License, Gallery
 from .forms import ResourceFileForm, GalleryForm
 
 @login_required
-def delete_gallery(request, item_id, confirm='n'):
+def delete_gallery(request, item_id):
     item = get_object_or_404(Gallery, id=item_id)
     if item.user != request.user:
         raise Http404
-    if confirm != 'y':
-        return render_to_response('resource/confirm.html', { 'item': item },
-            context_instance=RequestContext(request))
-    return redirect('my_resources')
+    if request.method == 'POST':
+        if 'confirm' in request.POST:
+            item.delete()
+        return redirect('my_resources')
+    return view_user(request, request.user.id, item)
 
 @login_required
 def edit_gallery(request, item_id=None):
@@ -51,16 +52,6 @@ def edit_gallery(request, item_id=None):
             item.user = request.user
             item.save()
     return redirect('my_resources')
-
-@login_required
-def delete_resource(request, item_id, confirm='n'):
-    item = get_object_or_404(Resource, id=item_id)
-    if item.user != request.user:
-        raise Http404
-    if confirm != 'y':
-        return render_to_response('resource/confirm.html', { 'item': item },
-            context_instance=RequestContext(request))
-    return redirect('resource', item.id)
 
 @login_required
 def edit_resource(request, item_id=None):
@@ -112,11 +103,12 @@ def view_gallery(request, gallery_id):
              context_instance=RequestContext(request))
 
 
-def view_user(request, user_id):
+def view_user(request, user_id, todelete=None):
     user = get_object_or_404(User, id=user_id)
     # Show items which are published, OR are the same user as the requester
     c = {
         'user': user,
+        'todelete': todelete,
         'items': Gallery.objects.filter(Q(user=user)),# & (
           #Q(user=request.user) | Q(published=True) )),
     }

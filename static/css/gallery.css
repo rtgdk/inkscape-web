@@ -102,3 +102,35 @@ table.bioitem p a {
   width: 150px;
   vertical-align: middle;
 }
+
+.galleryitem a.icon {
+  position: absolute;
+  width: 0px;
+  height: 0px;
+}
+.galleryitem a.icon img {
+  position: relative;
+  float: left;
+  width: 16px;
+  height: 16px;
+  padding: 4px;
+  display: none;
+}
+.galleryitem a.delete img {
+  padding-left: 53px;
+}
+.galleryitem a.edit img {
+  float: right;
+  padding-right: 54px;
+}
+.galleryitem:hover a.icon img {
+  display: block; 
+}
+.galleryitem div.buttons {
+  min-width: 150px;
+  min-height: 150px;
+  display: block;
+}
+.galleryitem div.buttons p {
+  padding-top: 36px;
+}

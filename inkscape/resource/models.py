@@ -69,8 +69,8 @@ class Category(Model):
 class Resource(Model):
     user      = ForeignKey(User, related_name='resources')
     name      = CharField(max_length=64)
-    desc      = TextField(_('Description'))
-    category  = ForeignKey(Category, related_name='items')
+    desc      = TextField(_('Description'), **null)
+    category  = ForeignKey(Category, related_name='items', **null)
 
     created   = DateTimeField(default=now)
     edited    = DateTimeField(**null)
@@ -110,7 +110,7 @@ class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
     download = FileField(_('Consumable File'), **upto('file', blank=False))
 
-    license   = ForeignKey(License)
+    license   = ForeignKey(License, **null)
     owner     = BooleanField(_('I own this work'), default=True)
 
     def download_url(self):

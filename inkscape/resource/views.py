@@ -54,6 +54,24 @@ def edit_gallery(request, item_id=None):
     return redirect('my_resources')
 
 @login_required
+def add_to_gallery(request, gallery_id):
+    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
+    c = { 'gallery': gallery }
+    if request.method == 'POST':
+        form = ResourceFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            c['item']= form.save(commit=False)
+            c['item'].user = request.user
+            c['item'].save()
+            # XXX We can copy over settings fromt he gallery's defaults here
+            gallery.items.add(c['item'])
+        c['form'] = form 
+    return render_to_response('resource/ajax_add.txt', c,
+      context_instance=RequestContext(request),
+      content_type="text/plain")
+    
+
+@login_required
 def edit_resource(request, item_id=None):
     item = item_id and get_object_or_404(Resource, id=item_id)
     c = { 'form': ResourceFileForm(instance=item) }

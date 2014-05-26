@@ -36,6 +36,7 @@ urlpatterns = patterns('',
     url(r'^gallery/(\d+)/del/$',     delete_gallery, name="delete_gallery"),
     url(r'^gallery/(\d+)/del/(y)/$', delete_gallery, name='yes_delete_gallery'),
     url(r'^gallery/(\d+)/edit/$',    edit_gallery,   name='edit_gallery'),
+    url(r'^gallery/(\d+)/add/$',     add_to_gallery, name='add_to_gallery'),
     url(r'^gallery/new/$',           edit_gallery,   name="new_gallery"),
 
     url(r'^cat/(\w+)/$',             view_category,   name='category_resources'),

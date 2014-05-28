@@ -1,6 +1,10 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block "js" %}
+  <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
+{% endblock %}
+
 {% block content %}
 
 <h1>{{ gallery.name }}</h1>

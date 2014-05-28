@@ -31,6 +31,7 @@
   padding: 0px;
   margin: 0px;
   overflow: hidden;
+  word-wrap: break-word;
 }
 .galleryitem p a {
   background-color: #eef;

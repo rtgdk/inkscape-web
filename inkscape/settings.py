@@ -193,17 +193,6 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.google.GoogleOAuth2Backend',
     'social_auth.backends.google.GoogleBackend',
     'social_auth.backends.yahoo.YahooBackend',
-#    'social_auth.backends.browserid.BrowserIDBackend',
-#    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-#    'social_auth.backends.contrib.disqus.DisqusBackend',
-#    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-#    'social_auth.backends.contrib.orkut.OrkutBackend',
-#    'social_auth.backends.contrib.foursquare.FoursquareBackend',
-#    'social_auth.backends.contrib.github.GithubBackend',
-#    'social_auth.backends.contrib.vkontakte.VKontakteBackend',
-#    'social_auth.backends.contrib.live.LiveBackend',
-#    'social_auth.backends.contrib.skyrock.SkyrockBackend',
-#    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
     'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -215,9 +204,9 @@ SOUTH_MIGRATION_MODULES = {
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-LOGIN_URL          = '/auth/login/'
+LOGIN_URL          = '/person/register/login/'
 LOGIN_REDIRECT_URL = '/person/'
-LOGIN_ERROR_URL    = '/auth/login/'
+LOGIN_ERROR_URL    = '/person/register/login/'
 
 RECAPTCHA_USE_SSL = True
 

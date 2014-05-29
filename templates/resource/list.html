@@ -11,7 +11,7 @@
 
  {% ifequal user request.user %}
   <div class="galleryitem">
-    <div id="drop" class="link" href="{% url "new_resource" %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></div>
+    <div id="drop" class="link"><a href="{% url "new_resource" %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
     <p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
   </div>
  {% endifequal %}

@@ -143,7 +143,8 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
                   ret = xhr.responseText.slice(3).split('|')
                   p.innerHTML = '<a>' + ret[0] + '</a>';
                   img.src = ret[1];
-                  drop.parentNode.appendChild(drop);
+                  // Put the drop back where is was
+                  drop.parentNode.parentNode.appendChild(drop.parentNode);
                 }
               } else {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';

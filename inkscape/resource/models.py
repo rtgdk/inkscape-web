@@ -37,8 +37,11 @@ def upto(d, c='resources', blank=True, lots=False):
     dated = lots and ["%Y","%m"] or []
     return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
 
-def get_from_mime(path):
-    mime = mimetypes.guess_type(path, True)[0].split('/')
+def get_mime(path):
+    return (mimetypes.guess_type(path, True)[0] or 'text/plain').split('/')
+
+def get_file_type(path):
+    mime = get_mime(path)
     if mime[0] in ['image']:
         return mime[0]
     if mime[1][-2:] == 'ml':
@@ -151,12 +154,12 @@ class ResourceFile(Resource):
 
     def is_image(self):
         """Returns true if the download is an image (svg/png/jpeg/gif)"""
-        return get_from_mime(self.download.path) == 'image'
+        return get_file_type(self.download.path) == 'image'
 
     def save(self, *args, **kwargs):
         Resource.save(self, *args, **kwargs)
         if self.download and not self.thumbnail:
-            mime = mimetypes.guess_type(self.download.path, True)[0].split('/')
+            mime = get_mime(self.download.path)
             if mime[0] == 'image' and mime[1] in ['jpeg','gif','png']:
                 self.thumbnail.save(self.download.name, self.download)
             Resource.save(self, *args, **kwargs)
@@ -164,7 +167,7 @@ class ResourceFile(Resource):
     def icon(self):
         if not self.download:
             return None
-        mime = get_from_mime(self.download.path)
+        mime = get_file_type(self.download.path)
         if mime == 'image' and self.download.size < MAX_PREVIEW_SIZE:
             return self.download.url
         return os.path.join(DESIGN_URL, 'mime', mime + '.svg')

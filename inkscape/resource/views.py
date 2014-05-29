@@ -74,7 +74,7 @@ def add_to_gallery(request, gallery_id):
             # XXX We can copy over settings fromt he gallery's defaults here
             gallery.items.add(c['item'])
         c['form'] = form 
-    return render_to_response('resource/ajax_add.txt', c,
+    return render_to_response('resource/ajax/add.txt', c,
       context_instance=RequestContext(request),
       content_type="text/plain")
     
@@ -109,7 +109,6 @@ def delete_resource(request, item_id, confirm='n'):
 def my_resources(request):
     return view_user(request, request.user.id)
 
-
 def view_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     # We never show unpublished items, even to their owners
@@ -121,8 +120,17 @@ def view_category(request, category_id):
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
 
+def gallery_icon(request, gallery_id):
+    gallery = get_object_or_404(Gallery, id=gallery_id)
+    c = dict(image=gallery.items.all().order_by('created')[:3])
+    return render_to_response('resource/preview/three.svg', c,
+      context_instance=RequestContext(request),
+      content_type="image/svg+xml")
+
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
+    if not gallery.is_visible(request.user):
+        raise Http404
     c = {
         'user'       : gallery.user,
         'gallery'    : gallery,
@@ -148,7 +156,7 @@ def view_user(request, user_id, todelete=None):
 
 def view_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
-    if not item.is_visible(request.user.id):
+    if not item.is_visible(request.user):
         raise Http404
 
     return render_to_response('resource/item.html', {

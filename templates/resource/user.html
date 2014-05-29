@@ -3,8 +3,12 @@
 
 {% block content %}
 
-<h1>Galleries for {{ user.name }}</h1>
+ {% if items %}
+  <h1>Galleries for {{ user.name }}</h1>
 
-{% include "resource/galleries.html" %}
+  {% include "resource/galleries.html" %}
+ {% else %}
+  <h1>No Galleries Found</h1>
+ {% endif %}
 
 {% endblock %}

@@ -3,10 +3,12 @@
 
 {% block content %}
 
+{% if user.galleries.all %}
   <h1>Galleries</h1>
 
   {% with user.galleries.all as items %}
     {% include "resource/galleries.html" %}
   {% endwith %}
+{% endif %}
 
 {% endblock %}

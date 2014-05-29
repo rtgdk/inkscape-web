@@ -44,8 +44,9 @@ class UserForm(ModelForm):
         ModelForm.save(self)
 
 class UserDetailsForm(ModelForm):
+    ircpass = CharField(widget=PasswordInput(), required=False)
+
     class Meta:
         model = UserDetails
-        exclude = ('user',)
-
+        exclude = ('user','last_seen')
 

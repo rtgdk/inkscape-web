@@ -3,6 +3,17 @@
   border-bottom: 0px !important;
 }
 
+.socialicon {
+  padding: 2px;
+  margin-right: 5px;
+  float: right;
+  display: block;
+}
+.socialicon img {
+  width: 18px;
+  height: 18px;
+}
+
 #profile {
   background-image: linear-gradient(to bottom, #1A1A1A 0%, #000 100%);
   min-height: 128px;

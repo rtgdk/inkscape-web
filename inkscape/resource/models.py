@@ -100,7 +100,7 @@ class Resource(Model):
 
     created   = DateTimeField(default=now)
     edited    = DateTimeField(**null)
-    published = BooleanField(default=True)
+    published = BooleanField(default=False)
 
     thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
 
@@ -112,8 +112,11 @@ class Resource(Model):
     def get_absolute_url(self):
         return reverse('resource', args=[str(self.id)])
 
-    def is_visible(self, user_id):
-        return user_id == self.user.id or self.published
+    def is_visible(self, user):
+        return user == self.user or self.published
+
+    def is_new(self):
+        return not (self.desc and self.published and self.category)
 
     def save(self, *args, **kwargs):
         self.edited = now()
@@ -184,6 +187,9 @@ class Gallery(Model):
 
     def get_absolute_url(self):
         return reverse('gallery', args=[str(self.id)])
+
+    def is_visible(self, user):
+        return self.items.all().count() > 0 or self.user == user
 
 
 class ResourceUrl(Resource):

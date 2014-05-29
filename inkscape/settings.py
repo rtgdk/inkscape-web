@@ -122,6 +122,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
+    'inkscape.person.middleware.SetLastVisitMiddleware',
 )
 
 ROOT_URLCONF = 'inkscape.urls'
@@ -145,7 +146,7 @@ INSTALLED_APPS = (
     'reversion',
     'registration',
     'social_auth',
-    'easy_thumbnails',
+#    'easy_thumbnails',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -208,7 +209,7 @@ AUTHENTICATION_BACKENDS = (
 )
 
 SOUTH_MIGRATION_MODULES = {
-    'easy_thumbnails': 'easy_thumbnails.south_migrations',
+#    'easy_thumbnails': 'easy_thumbnails.south_migrations',
 }
 
 ACCOUNT_ACTIVATION_DAYS = 7

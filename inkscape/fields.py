@@ -6,6 +6,8 @@ from django.db.models.fields.related import SingleRelatedObjectDescriptor
 from django.db.models.fields.files import ImageField, ImageFieldFile
 from django.core.files.base import ContentFile
 
+from south.modelsinspector import add_introspection_rules
+
 from PIL import Image
 
 try:
@@ -43,6 +45,19 @@ class AutoOneToOneField(OneToOneField):
     def contribute_to_related_class(self, cls, related):
         setattr(cls, related.get_accessor_name(), AutoSingleRelatedObjectDescriptor(related))
 
+add_introspection_rules([
+    (
+            (AutoOneToOneField,),
+            [],
+            {
+                "to": ["rel.to", {}],
+                "to_field": ["rel.field_name", {"default_attr": "rel.to._meta.pk.name"}],
+                "related_name": ["rel.related_name", {"default": None}],
+                "db_index": ["db_index", {"default": True}],
+            },
+        )
+    ],
+  ["^inkscape\.fields\.AutoOneToOneField"])
 
 
 def _update_ext(filename, new_ext):
@@ -77,4 +92,19 @@ class ResizedImageField(ImageField):
         self.max_height = max_height
         self.format = format
         super(ResizedImageField, self).__init__(name, *args, **kwargs)
+
+add_introspection_rules([], ["^inkscape\.fields\.ResizedImageField"])
+rules = [
+        (
+            (ResizedImageField,),
+            [],
+            {
+                "name":       ["name", {}],
+                "max_width":  ["max_width", {'default': 100}],
+                "max_height": ["max_height", {'default': 100}],
+                "format":     ["format", {"default": "PNG"}],
+            },
+        )
+    ]
+add_introspection_rules(rules, ["^inkscape\.fields\.ResizedImageField"])
 

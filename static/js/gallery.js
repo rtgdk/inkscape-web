@@ -121,7 +121,7 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url) {
 
           var formData = new FormData();
           formData.append('download', file);
-          formData.append('name', file.name);
+          formData.append('name', "$"+file.name);
           formData.append('csrfmiddlewaretoken', getCookie('csrftoken'));
 
           var xhr = new XMLHttpRequest();
@@ -135,8 +135,8 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url) {
 
           xhr.onload = function () {
             if (xhr.status === 200) {
-              if (xhr.responseText.indexOf('OK') >= 0) {
-                p.innerHTML = '<a>'+file.name+'</a>';
+              if (xhr.responseText.slice(0,2) == 'OK') {
+                p.innerHTML = '<a>'+xhr.responseText.slice(3)+'</a>';
               } else {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';
               }

@@ -44,4 +44,9 @@ class ResourceFileForm(ModelForm):
             raise ValidationError("You need to have permission to post this work, or be the owner of the work.")
         return self.cleaned_data
 
+    def clean_name(self):
+        name = self.cleaned_data.get('name')
+        if name and name[0] == '$':
+            self.cleaned_data['name'] = name[1:].rsplit('.',1)[0].replace('_',' ').replace('-',' ').title()[:64]
+        return self.cleaned_data['name']
 

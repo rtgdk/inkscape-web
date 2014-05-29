@@ -16,9 +16,10 @@ function addEventHandler(obj, evt, handler) {
   } else { // Catch all
     obj['on'+evt] = handler;
   }
-}
+};
 
 function get_mime_icon(mimeid) {
+  if(!mimeid){ mimeid = "text/plain"; }
   var mime = mimeid.split("/");
   if(['image'].indexOf(mime[0]) >= 0) { return mime[0]; }
   if(mime[1].endsWith('ml')) { return 'xml'; }
@@ -60,19 +61,19 @@ String.prototype.endsWith = function(suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
 };
 
+function cancel(e) {
+  if (e.preventDefault) { e.preventDefault(); }
+  return false;
+};
 
-function registerDropZone(drop_id, gallery_id, post_url, media_url) {
 
-  var drop    = document.getElementById(drop_id);
-  var gallery = document.getElementById(gallery_id);
+function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
 
-  if(window.FileReader) { 
-
+ if(window.FileReader) { 
   addEventHandler(window, 'load', function() {
-    function cancel(e) {
-      if (e.preventDefault) { e.preventDefault(); }
-      return false;
-    }
+    var drop    = document.getElementById(drop_id);
+    var gallery = document.getElementById(gallery_id);
+
     // Tells the browser that we *can* drop on this target
     addEventHandler(drop, 'dragover', cancel);
     addEventHandler(drop, 'dragenter', cancel);
@@ -136,7 +137,14 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url) {
           xhr.onload = function () {
             if (xhr.status === 200) {
               if (xhr.responseText.slice(0,2) == 'OK') {
-                p.innerHTML = '<a>'+xhr.responseText.slice(3)+'</a>';
+                if(!keep) {
+                  item.parentNode.removeChild(item);
+                } else {
+                  ret = xhr.responseText.slice(3).split('|')
+                  p.innerHTML = '<a>' + ret[0] + '</a>';
+                  img.src = ret[1];
+                  drop.parentNode.appendChild(drop);
+                }
               } else {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';
               }

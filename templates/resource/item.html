@@ -19,7 +19,7 @@
    <a href="{% url "edit_resource" item.id %}">{% trans "Edit Resource" %}</a> |
    <a href="{% url "delete_resource" item.id %}">{% trans "Delete Resource" %}</a>
 {% else %}
-   {% trans "by" %} <a href="{% url "profile" item.user.id %}">{{ item.user.details }}</a>
+   {% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a>
 {% endifequal %}
 </p>
 

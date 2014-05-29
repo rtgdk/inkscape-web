@@ -19,18 +19,38 @@ Models for resource system, provides license, categories and resource downloads.
 """
 
 import os
+import mimetypes
 
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from django.utils.timezone import now
+from django.core.urlresolvers import reverse
 
+
+from inkscape.settings import DESIGN_URL, MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
+
 
 null = dict(null=True, blank=True)
 def upto(d, c='resources', blank=True, lots=False):
     dated = lots and ["%Y","%m"] or []
     return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
+
+def get_from_mime(path):
+    mime = mimetypes.guess_type(path, True)[0].split('/')
+    if mime[0] in ['image']:
+        return mime[0]
+    if mime[1][-2:] == 'ml':
+        return 'xml'
+    if 'zip' in mime[1] or 'compressed' in mime[1] or 'tar' in mime[1]:
+        return 'archive'
+    if mime[0] in ['text','application']:
+        if 'opendocument' in mime[1]:
+            return mime[1].split('.')[-1]
+        return mime[1]
+    return mime[0];
+
 
 class License(Model):
     name    = CharField(max_length=64)
@@ -65,6 +85,9 @@ class Category(Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('category_resources', args=[str(self.id)])
+
 
 class Resource(Model):
     user      = ForeignKey(User, related_name='resources')
@@ -83,12 +106,25 @@ class Resource(Model):
     def __unicode__(self):
         return self.name
 
+    def get_absolute_url(self):
+        return reverse('resource', args=[str(self.id)])
+
     def is_visible(self, user_id):
         return user_id == self.user.id or self.published
 
     def save(self, *args, **kwargs):
         self.edited = now()
         return Model.save(self, *args, **kwargs)
+
+    @property
+    def gallery(self):
+        return self.gallery_set.all()[0]
+
+    def icon(self):
+        """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
+        if self.thumbnail:
+            return self.thumbnail.url
+        return self.outer.icon() or os.path.join(DESIGN_URL, 'mime', 'unknown.svg')
 
     @property
     def outer(self):
@@ -98,12 +134,6 @@ class Resource(Model):
             elif hasattr(self, 'resourceurl'):
                 return self.resourceurl
         return self
-
-    def download(self):
-        return self.outer.download_url()
-
-    def download_url(self):
-        return self.link
 
 
 class ResourceFile(Resource):
@@ -121,7 +151,24 @@ class ResourceFile(Resource):
 
     def is_image(self):
         """Returns true if the download is an image (svg/png/jpeg/gif)"""
-        return download_url.rsplit('.', 1)[-1] in ['svg','png','jpeg','jpg']
+        return get_from_mime(self.download.path) == 'image'
+
+    def save(self, *args, **kwargs):
+        Resource.save(self, *args, **kwargs)
+        if self.download and not self.thumbnail:
+            mime = mimetypes.guess_type(self.download.path, True)[0].split('/')
+            if mime[0] == 'image' and mime[1] in ['jpeg','gif','png']:
+                self.thumbnail.save(self.download.name, self.download)
+            Resource.save(self, *args, **kwargs)
+
+    def icon(self):
+        if not self.download:
+            return None
+        mime = get_from_mime(self.download.path)
+        if mime == 'image' and self.download.size < MAX_PREVIEW_SIZE:
+            return self.download.url
+        return os.path.join(DESIGN_URL, 'mime', mime + '.svg')
+
 
 
 class Gallery(Model):
@@ -131,6 +178,9 @@ class Gallery(Model):
 
     def __unicode__(self):
         return self.name
+
+    def get_absolute_url(self):
+        return reverse('gallery', args=[str(self.id)])
 
 
 class ResourceUrl(Resource):

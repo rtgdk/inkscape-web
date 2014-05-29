@@ -7,6 +7,8 @@ import os
 
 gettext = lambda s: s
 
+MAX_PREVIEW_SIZE = 5 * 1024 * 1024
+
 SOUTH_TESTS_MIGRATE = False
 SERVE_STATIC = True
 REVISION = '???'

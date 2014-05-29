@@ -1,1 +1,1 @@
-{% if item %}OK|{{ item.name }}{% else %}FAILED:{{ form.errors }}{% endif %}
+{% if item %}OK|{{ item.name }}|{{ item.icon }}{% else %}FAILED:{{ form.errors }}{% endif %}

@@ -1,1 +1,13 @@
-{% for ance in ancestors %}{% if not forloop.last %} <a href="{{ ance.get_absolute_url }}">{{ ance.get_menu_title }}</a> &raquo; {% else %}{{ ance.get_menu_title }}{% endif %}{% endfor %}
+{% ifequal ancestors|length 1 %}
+  {% if breadcrumbs %}
+    {% for crumb in breadcrumbs %}
+      {% if not forloop.last %}
+        <a href="{{ crumb.0 }}">{{ crumb.1 }}</a> &raquo; 
+      {% else %}
+        {{ crumb.1 }}
+      {% endif %}
+    {% endfor %}
+  {% endif %}
+{% else %}
+  {% for ance in ancestors %}{% if not forloop.last %} <a href="{{ ance.get_absolute_url }}">{{ ance.get_menu_title }}</a> &raquo; {% else %}{{ ance.get_menu_title }}{% endif %}{% endfor %}
+{% endifequal %}

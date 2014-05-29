@@ -37,7 +37,7 @@ class ResourceFileForm(ModelForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license']
+        fields = ['download', 'name', 'desc', 'link', 'category', 'license']
 
     def clean(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:

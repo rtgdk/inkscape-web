@@ -21,6 +21,7 @@ Views for resource system, adding items, entering new categories for widgets etc
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 from django.db.models import Q
@@ -29,6 +30,11 @@ from django.contrib.auth.models import User
 
 from .models import Resource, Category, License, Gallery
 from .forms import ResourceFileForm, GalleryForm
+
+def breadcrumbs(*args):
+    yield ('/', _('Home'))
+    for model in args:
+        yield (model.get_absolute_url(), str(model))
 
 @login_required
 def delete_gallery(request, item_id):
@@ -63,6 +69,8 @@ def add_to_gallery(request, gallery_id):
             c['item']= form.save(commit=False)
             c['item'].user = request.user
             c['item'].save()
+            if not c['item'].download:
+                raise ValueError("File wasn't saved, WTF.")
             # XXX We can copy over settings fromt he gallery's defaults here
             gallery.items.add(c['item'])
         c['form'] = form 
@@ -108,6 +116,7 @@ def view_category(request, category_id):
     c = {
         'category': category,
         'list': Resource.objects.filter(category=category, published=True),
+        'breadcrumbs': breadcrumbs(category),
     }
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
@@ -115,7 +124,10 @@ def view_category(request, category_id):
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
     c = {
-        'gallery': gallery,
+        'user'       : gallery.user,
+        'gallery'    : gallery,
+        'items'      : gallery.items.filter(Q(user=request.user) | Q(published=True)),
+        'breadcrumbs': breadcrumbs(gallery.user, gallery),
     }
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
@@ -127,8 +139,8 @@ def view_user(request, user_id, todelete=None):
     c = {
         'user': user,
         'todelete': todelete,
-        'items': Gallery.objects.filter(Q(user=user)),# & (
-          #Q(user=request.user) | Q(published=True) )),
+        'items': Gallery.objects.filter(Q(user=user)),
+        'breadcrumbs': breadcrumbs(user),
     }
     return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))
@@ -139,6 +151,8 @@ def view_resource(request, item_id):
     if not item.is_visible(request.user.id):
         raise Http404
 
-    return render_to_response('resource/item.html', { 'item': item },
-        context_instance=RequestContext(request))
+    return render_to_response('resource/item.html', {
+      'item': item,
+      'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
+    }, context_instance=RequestContext(request))
 

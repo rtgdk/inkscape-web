@@ -5,6 +5,11 @@
 
 <h1>{{ category.name }}</h1>
 
+{% if category %}
+  <h1>{% blocktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
+  <p>{{ category.desc }}</p>
+{% endif %}
+
   {% with category.items.all as items %}
     {% include "resource/list.html" %}
   {% endwith %}

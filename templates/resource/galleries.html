@@ -7,9 +7,6 @@
   </div>
 {% endif %}
 
-<div id="added">
-</div>
-
 {% for item in items %}
   <div class="galleryitem" id="drop{{ item.id }}">
     {% ifequal item todelete %}
@@ -27,7 +24,7 @@
     <p><a href="{% url "gallery" item.id %}">{{ item.name }}</a></p>
   </div>
   <script>
-    registerDropZone('drop{{ item.id }}', 'added', '{% url "add_to_gallery" item.id %}', '{{ DESIGN_URL }}'); 
+    registerDropZone('drop{{ item.id }}', 'added', '{% url "add_to_gallery" item.id %}', '{{ DESIGN_URL }}', false); 
   </script>
 {% empty %}
 {% endfor %}
@@ -41,4 +38,8 @@
     </form>
   </div>
 {% endifequal %}
+
+<div id="added">
+  <!-- drop location -->
+</div>
 

@@ -126,6 +126,9 @@ class Resource(Model):
         self.edited = now()
         return Model.save(self, *args, **kwargs)
 
+    def is_file(self):
+        return type(self.outer) is ResourceFile
+
     @property
     def gallery(self):
         return self.gallery_set.all()[0]
@@ -156,9 +159,6 @@ class ResourceFile(Resource):
     def download_url(self):
         return self.download.url
 
-    def is_file(self):
-        return True
-
     def is_image(self):
         """Returns true if the download is an image (svg/png/jpeg/gif)"""
         return get_file_type(self.download.path) == 'image'
@@ -183,6 +183,7 @@ class ResourceFile(Resource):
 class GalleryManager(Manager):
     def for_user(self, user):
         return self.get_query_set().filter(Q(user=user.id) | Q(items__published=True)).distinct()
+
 
 class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries')
@@ -215,12 +216,10 @@ class ResourceUrl(Resource):
     def source_url(self):
         return self.source
 
-    def is_link(self):
-        return True
 
 
-VOTES = ['Likes', 'Dislikes', 'Verified', 'Promotes']
-VOTE_CHOICE = [(i, VOTES[i]) for i in range(len(VOTES))]
+VOTE_TYPES = ['Likes', 'Dislikes', 'Verified', 'Promotes']
+VOTE_CHOICE = list(enumerate(VOTE_TYPES))
 
 class Vote(Model):
     """Vote for a resource in some way"""

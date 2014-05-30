@@ -145,3 +145,32 @@ table.bioitem p a {
 .galleryitem div.buttons p {
   padding-top: 36px;
 }
+
+
+.imageitem {
+  border: 2px solid #888;
+  background-color: #aaa;
+  padding: 10px;
+  margin-top: 20px;
+  margin-bottom: 40px;
+}
+
+.imageitem .image {
+  border: 1px solid #888;
+  padding: 0px;
+  line-height: 0px;
+}
+
+.imageitem .image img {
+  max-width: 894px;
+  padding: 0px;
+  margin: 0px;
+}
+
+.imageitem .desc {
+  margin-top: 20px;
+  border: #bbb;
+  background-color: #eee;
+  min-height: 300px;
+}
+

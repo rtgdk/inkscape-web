@@ -3,12 +3,28 @@
 
 {% block content %}
 
-<h1>{{ item }}</h1>
+{% if item.is_file %}
+  {% with item.outer as item %}
+
+{% if item.is_image %}
+
+<div class="imageitem">
+  <div class="image">
+    <a href="{{ item.download.url }}"><img src="{{ item.download.url }}"></a>
+  </div>
+
+  <div class="desc">
+    <h2>{{ item.name }}</h2>
+    <p>{{ item.desc }}</p>
+  </div>
+</div>
+
+{% else %}
 
 <div class="preview">
 
-{% if item.thumb %}
-  <img src="{{ item.thumb.url }}"/>
+{% if item.thumbnail %}
+  <img src="{{ item.thumbnail.url }}"/>
 {% endif %}
 
 <p>{{ item.desc }}<br/>
@@ -24,5 +40,13 @@
 </p>
 
 </div>
+
+{% endif %}
+
+  {% endwith %}
+{% else %}
+<!--URL Resource handling here.-->
+{% endif %}
+
 
 {% endblock %}

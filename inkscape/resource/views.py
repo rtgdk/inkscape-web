@@ -137,7 +137,7 @@ def view_gallery(request, gallery_id):
         raise Http404
     c = {
         'user'       : gallery.user,
-        'items'      : gallery.items.for_user(request.id),
+        'items'      : gallery.items.for_user(request.user),
         'gallery'    : gallery,
         'breadcrumbs': breadcrumbs(gallery.user, gallery),
     }

@@ -32,6 +32,7 @@ def edit_profile(request):
     return render_to_response('person/edit.html', c,
         context_instance=RequestContext(request))
 
+
 from django.contrib.auth.decorators import user_passes_test
 @user_passes_test(lambda u: u.is_superuser)
 def view_profiles(request):
@@ -47,9 +48,12 @@ def view_profiles(request):
 def my_profile(request):
     return view_profile(request, request.user.id)
 
+
 def view_profile(request, user_id):
+    user = get_object_or_404(User, id=user_id)
     c = {
-        'user': get_object_or_404(User, id=user_id),
+        'user'  : user,
+        'items' : user.galleries.for_user(request.user),
     }
     return render_to_response('person/profile.html', c,
         context_instance=RequestContext(request))

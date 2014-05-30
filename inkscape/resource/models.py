@@ -91,6 +91,9 @@ class Category(Model):
     def get_absolute_url(self):
         return reverse('category_resources', args=[str(self.id)])
 
+class ResourceManager(Manager):
+    def for_user(self, user):
+        return self.get_query_set().filter(Q(user=user.id) | Q(published=True))
 
 class Resource(Model):
     user      = ForeignKey(User, related_name='resources')
@@ -105,6 +108,7 @@ class Resource(Model):
     thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
 
     link      = URLField(_('More Info URL'), **null)
+    objects   = ResourceManager()
 
     def __unicode__(self):
         return self.name
@@ -176,11 +180,16 @@ class ResourceFile(Resource):
         return os.path.join(DESIGN_URL, 'mime', mime + '.svg')
 
 
+class GalleryManager(Manager):
+    def for_user(self, user):
+        return self.get_query_set().filter(Q(user=user.id) | Q(items__published=True)).distinct()
 
 class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries')
     name      = CharField(max_length=64)
     items     = ManyToManyField(Resource)
+
+    objects   = GalleryManager()
 
     def __unicode__(self):
         return self.name
@@ -188,8 +197,11 @@ class Gallery(Model):
     def get_absolute_url(self):
         return reverse('gallery', args=[str(self.id)])
 
-    def is_visible(self, user):
-        return self.items.all().count() > 0 or self.user == user
+    def is_visible(self, user=None):
+        return self.user == user or self.items.for_user(user).count()
+
+    def __len__(self):
+        return self.items.count()
 
 
 class ResourceUrl(Resource):

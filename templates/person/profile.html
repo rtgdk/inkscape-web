@@ -3,12 +3,16 @@
 
 {% block content %}
 
-{% if user.galleries.all %}
+<div id="right-sidebar">
+	<h1>Last Seen</h1>
+	<p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }}{% else %}Never{% endif %}</p>
+</div>
+
+{% if items %}
   <h1>Galleries</h1>
 
-  {% with user.galleries.all as items %}
-    {% include "resource/galleries.html" %}
-  {% endwith %}
+  {% include "resource/galleries.html" %}
 {% endif %}
+
 
 {% endblock %}

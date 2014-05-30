@@ -109,23 +109,27 @@ def delete_resource(request, item_id, confirm='n'):
 def my_resources(request):
     return view_user(request, request.user.id)
 
+
 def view_category(request, category_id):
     category = get_object_or_404(Category, id=category_id)
     # We never show unpublished items, even to their owners
     c = {
+        'items': Resource.objects.filter(category=category, published=True),
         'category': category,
-        'list': Resource.objects.filter(category=category, published=True),
         'breadcrumbs': breadcrumbs(category),
     }
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
 
+
 def gallery_icon(request, gallery_id):
+    """This attempted to make exciting dynamic icons but doesn't work with Firefox"""
     gallery = get_object_or_404(Gallery, id=gallery_id)
     c = dict(image=gallery.items.all().order_by('created')[:3])
     return render_to_response('resource/preview/three.svg', c,
       context_instance=RequestContext(request),
       content_type="image/svg+xml")
+
 
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
@@ -133,8 +137,8 @@ def view_gallery(request, gallery_id):
         raise Http404
     c = {
         'user'       : gallery.user,
+        'items'      : gallery.items.for_user(request.id),
         'gallery'    : gallery,
-        'items'      : gallery.items.filter(Q(user=request.user) | Q(published=True)),
         'breadcrumbs': breadcrumbs(gallery.user, gallery),
     }
     return render_to_response('resource/gallery.html', c,
@@ -146,8 +150,8 @@ def view_user(request, user_id, todelete=None):
     # Show items which are published, OR are the same user as the requester
     c = {
         'user': user,
+        'items': user.galleries.for_user(request.user),
         'todelete': todelete,
-        'items': Gallery.objects.filter(Q(user=user)),
         'breadcrumbs': breadcrumbs(user),
     }
     return render_to_response('resource/user.html', c,

@@ -48,5 +48,5 @@ class UserDetailsForm(ModelForm):
 
     class Meta:
         model = UserDetails
-        exclude = ('user','last_seen')
+        exclude = ('user','last_seen','visits')
 

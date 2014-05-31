@@ -5,7 +5,18 @@
 
 <div id="right-sidebar">
 	<h1>Last Seen</h1>
-	<p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }}{% else %}Never{% endif %}</p>
+	<p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
+
+    <h1>Joined On</h1>
+    <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
+
+    <h1>Profile Visits</h1>
+	<p>{{ user.details.visits }}</p>
+    
+
+   {% ifequal user request.user %}
+     <a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
+   {% endifequal %}
 </div>
 
 {% if items %}

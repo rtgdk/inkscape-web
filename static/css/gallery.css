@@ -1,3 +1,10 @@
+.empty {
+  opacity: 0.5;
+}
+.unpublished {
+  opacity: 0.4;
+}
+
 .galleryitem {
   display: inline-block;
   border: solid #cce 2px;

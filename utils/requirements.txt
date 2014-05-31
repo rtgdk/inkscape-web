@@ -20,13 +20,12 @@ python-openid==2.2.4
 Django==1.5
 South==0.8.1
 django-haystack==2.0
-easy-thumbnails
-django-filer
 django-reset
 django-social-auth==0.7.22
 django-registration==1.0
-django-reversion
+django-reversion==1.8.0
 django-recaptcha
+django-user-sessions
 
 # Django-CMS Plugins
 django-cms==3.0

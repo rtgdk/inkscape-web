@@ -38,4 +38,5 @@ $MANAGE loaddata $PWD/utils/data/licenses.json
 
 ./utils/refresh-cms staging.
 
+./utils/refresh-geoip
 

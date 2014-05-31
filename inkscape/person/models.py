@@ -40,6 +40,7 @@ class UserDetails(Model):
     tbruser = CharField("Tumblr User", max_length=64, **null)
 
     last_seen = DateTimeField(**null)
+    visits    = IntegerField(default=0)
 
     def roll(self):
         if not self.user.is_active:

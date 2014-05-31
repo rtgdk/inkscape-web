@@ -1,0 +1,24 @@
+#!/bin/bash
+#
+# Does the same as syncdb but adds columns and such. Not a migration tool (use south!)
+# only useful during development to presever data while changing model structures.
+#
+set -e
+
+OUTPUT=".db.$1.json"
+
+if [ -n "$1" ]; then
+  echo "SyncPlus for APP '$1'"
+  ./utils/manage dumpdata $1 > $OUTPUT
+  echo " 1. Backup of '$1' complete."
+  echo ""
+  read -p "    Press [Enter] key when model is updated..."
+  echo ""
+  ./utils/manage reset $1
+  echo " 2. Structure for '$1' reset to new model"
+  ./utils/manage loaddata $OUTPUT
+  echo " 3. Data for '$1' reloaded into database"
+else
+  echo "$0 [app_name]"
+fi
+

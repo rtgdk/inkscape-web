@@ -112,7 +112,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
+    'user_sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -136,17 +136,16 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
+    'user_sessions',
     'haystack',
     'reversion',
     'registration',
     'social_auth',
-#    'easy_thumbnails',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -169,6 +168,7 @@ INSTALLED_APPS = (
     'inkscape.docs',
     'inkscape.resource',
 )
+SESSION_ENGINE = 'user_sessions.backends.db'
 
 CMS_TEMPLATES = (
     ('normal.html', 'Normal Page'),
@@ -209,4 +209,6 @@ LOGIN_REDIRECT_URL = '/person/'
 LOGIN_ERROR_URL    = '/person/register/login/'
 
 RECAPTCHA_USE_SSL = True
+
+GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 

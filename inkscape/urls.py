@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     url(r'^doc/',      include('inkscape.docs.urls')),
     (r'^',             include('social_auth.urls')),
     (r'^',             include('django.contrib.staticfiles.urls')),
+    url(r'',           include('user_sessions.urls', 'user_sessions')),
 )
 
 urlpatterns += i18n_patterns('',

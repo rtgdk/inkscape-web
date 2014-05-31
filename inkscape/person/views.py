@@ -51,6 +51,9 @@ def my_profile(request):
 
 def view_profile(request, user_id):
     user = get_object_or_404(User, id=user_id)
+    if request.user != user:
+        user.details.visits += 1
+        user.details.save()
     c = {
         'user'  : user,
         'items' : user.galleries.for_user(request.user),

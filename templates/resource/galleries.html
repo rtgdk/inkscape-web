@@ -8,7 +8,7 @@
 {% endif %}
 
 {% for item in items %}
-  <div class="galleryitem" id="drop{{ item.id }}">
+  <div class="{% if item.items.count %}galleryitem{% else %}galleryitem empty{% endif %}" id="drop{{ item.id }}">
     {% ifequal item todelete %}
       <form method="POST" action="{% url "delete_gallery" item.id %}">
         {% csrf_token %}

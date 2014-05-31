@@ -1,0 +1,11 @@
+#!/bin/bash
+
+echo "Getting GeoIP Database"
+
+mkdir -p $PWD/data/geoip
+wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCountry/GeoIP.dat.gz -O $PWD/data/geoip/GeoIP.dat.gz
+wget http://geolite.maxmind.com/download/geoip/database/GeoLiteCity.dat.gz -O $PWD/data/geoip/GeoLiteCity.dat.gz
+
+gunzip $PWD/data/geoip/GeoIP.dat.gz
+gunzip $PWD/data/geoip/GeoLiteCity.dat.gz
+

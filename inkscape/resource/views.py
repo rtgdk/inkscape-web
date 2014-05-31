@@ -163,8 +163,17 @@ def view_resource(request, item_id):
     if not item.is_visible(request.user):
         raise Http404
 
+    item.viewed += 1
+    item.save()
+
     return render_to_response('resource/item.html', {
       'item': item,
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
     }, context_instance=RequestContext(request))
+
+def down_resource(request, item_id):
+    item = get_object_or_404(Resource, id=item_id)
+    item.downed += 1
+    item.save()
+    return redirect(item.download.url)
 

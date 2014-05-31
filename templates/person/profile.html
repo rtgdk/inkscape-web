@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load i18n %}
+{% load user_sessions i18n future %}
 
 {% block content %}
 
@@ -15,6 +15,12 @@
     
 
    {% ifequal user request.user %}
+
+     <h1>Sessions</h1>
+     {% for session in user.sessions %}
+         <div>{{ session.ip }} ({{ object.ip|location }}) {{ session.user_agent|device }} {{ session.last_activity|timesince }} ago</div>
+     {% endfor %}
+
      <a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
    {% endifequal %}
 </div>

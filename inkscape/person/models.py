@@ -4,26 +4,13 @@ import inkscape.settings
 
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, Group
 from django.core.urlresolvers import reverse
 
 from inkscape.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 
-
-def forced_insert(self):
-    """Adds the first and last name as a full name or username"""
-    if self.first_name or self.last_name:
-        return self.get_full_name()
-    return self.username
-
-def get_url(self):
-    return reverse('view_profile', args=[str(self.id)])
-
-User.name = forced_insert
-User.__str__ = forced_insert
-User.get_absolute_url = get_url
+from .userextra import User, Group
 
 class UserDetails(Model):
     user  = AutoOneToOneField(User, related_name='details')

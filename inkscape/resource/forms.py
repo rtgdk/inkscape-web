@@ -33,16 +33,21 @@ class ResourceUrlForm(ModelForm):
 
 
 class ResourceFileForm(ModelForm):
-    #permission = BooleanField(label=_('I have permission'), required=False)
+    permission = BooleanField(label=_('I have permission'), required=False)
 
     class Meta:
         model = ResourceFile
-        fields = ['download', 'name', 'desc', 'link', 'category', 'license']
+        fields = ['name', 'desc', 'link', 'category', 'license']
 
     def clean(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:
             raise ValidationError("You need to have permission to post this work, or be the owner of the work.")
         return self.cleaned_data
+
+class ResourceAddForm(ModelForm):
+    class Meta:
+        model = ResourceFile
+        fields = ['download', 'name']
 
     def clean_name(self):
         name = self.cleaned_data.get('name')

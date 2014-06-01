@@ -29,7 +29,7 @@ from django.db.models import Q
 from django.contrib.auth.models import User
 
 from .models import Resource, Category, License, Gallery
-from .forms import ResourceFileForm, GalleryForm
+from .forms import ResourceFileForm, GalleryForm, ResourceAddForm
 
 def breadcrumbs(*args):
     yield ('/', _('Home'))
@@ -64,7 +64,7 @@ def add_to_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
     c = { 'gallery': gallery }
     if request.method == 'POST':
-        form = ResourceFileForm(request.POST, request.FILES)
+        form = ResourceAddForm(request.POST, request.FILES)
         if form.is_valid():
             c['item']= form.save(commit=False)
             c['item'].user = request.user
@@ -82,9 +82,9 @@ def add_to_gallery(request, gallery_id):
 @login_required
 def edit_resource(request, item_id=None):
     item = item_id and get_object_or_404(Resource, id=item_id)
-    c = { 'form': ResourceFileForm(instance=item) }
+    c = { 'form': ResourceFileForm(instance=item.outer) }
     if request.method == 'POST':
-        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item)
+        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item.outer)
         if c['form'].is_valid():
             item = c['form'].save(commit=False)
             item.user = request.user
@@ -165,11 +165,23 @@ def view_resource(request, item_id):
 
     item.viewed += 1
     item.save()
+    vote = item.votes.for_user(request.user).filter(vote__in=[0,1])
+    if not len(vote):
+        vote = (None,)
 
     return render_to_response('resource/item.html', {
       'item': item,
+      'vote': vote[0],
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
     }, context_instance=RequestContext(request))
+
+def like_resource(request, item_id, like_id="+"):
+    item = get_object_or_404(Resource, id=item_id)
+    like = item.votes.get_or_create(voter=request.user, vote__in=[0,1])[0]
+    like.vote = int(like_id != "+")
+    like.save()
+    return redirect("resource", item_id)
+    
 
 def down_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)

@@ -15,14 +15,38 @@
 
   <div class="desc">
     <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
-    <p>{{ item.desc }}</p>
+    <p>{{ item.desc }}Description of the image and the various things about it.</p>
   </div>
 
   <div class="side">
   {% ifequal item.user request.user %}
     <a href="{% url "edit_resource" item.id %}">{% trans "Edit" %}</a> |
-    <a href="{% url "delete_resource" item.id %}">{% trans "Delete" %}</a>
+    <a href="{% url "delete_resource" item.id %}">{% trans "Delete" %}</a> |
   {% endifequal %}
+    {% ifequal vote.vote 0 %}
+      Liked!
+    {% else %}
+      <a href="{% url "like" item.id "+" %}">Like this Image</a>
+    {% endifequal %} |
+
+    {% ifequal vote.vote 1 %}
+      Disliked!
+    {% else %}
+      <a href="{% url "like" item.id "-" %}">Dislike this Image</a>
+    {% endifequal %}
+  </div>
+
+  <div>
+   Category: {{ item.category }}
+   <h2>Status</h2>
+   Views: {{ item.viewed }}<br/>
+   Downloads: {{ item.downed }}<br/>
+   Liked: +{{ item.votes.likes }} / -{{ item.votes.dislikes }}<br/>
+   Area: 1900x3400<br/>
+   Size: 3.4 MB<br/>
+
+   <a href="{{ item.outer.license.link }}"><img src="{{ item.outer.license.icon.url }}" title="{{ item.outer.license }}"/></a>
+   
   </div>
 
 </div>

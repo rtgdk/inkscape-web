@@ -38,6 +38,7 @@ urlpatterns = patterns('',
     url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
     url(r'^item/(\d+)/download/$',down_resource,   name='download_resource'),
     url(r'^item/new/$',           edit_resource,   name='new_resource'),
+    url(r'^item/(\d+)([\+\-])$',  like_resource,   name='like'),
 
     url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
 

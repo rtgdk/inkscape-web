@@ -10,9 +10,12 @@
     <h1>Joined On</h1>
     <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
 
-    <h1>Profile Visits</h1>
-	<p>{{ user.details.visits }}</p>
-    
+    <h1>Stats</h1>
+    <table>
+      <tr><th scope="col">{% trans "Profile Visits:" %}</th><td>{{ user.details.visits }}</td></tr>
+      <tr><th scope="col">{% trans "Resource Views:" %}</th><td>{{ user.resources.views }}</td></tr>
+      <tr><th scope="col">{% trans "Resource Downloads:" %}</th><td>{{ user.resources.downloads }}</td></tr>
+    </table>
 
    {% ifequal user request.user %}
 

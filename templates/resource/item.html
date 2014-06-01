@@ -10,7 +10,7 @@
 
 <div class="imageitem">
   <div class="image">
-    <a href="{{ item.download.url }}"><img src="{{ item.download.url }}"></a>
+    <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
   </div>
 
   <div class="desc">

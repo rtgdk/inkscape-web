@@ -91,9 +91,17 @@ class Category(Model):
     def get_absolute_url(self):
         return reverse('category_resources', args=[str(self.id)])
 
+
 class ResourceManager(Manager):
     def for_user(self, user):
         return self.get_query_set().filter(Q(user=user.id) | Q(published=True))
+
+    def downloads(self):
+        return self.get_query_set().aggregate(Sum('downed')).values()[0]
+
+    def views(self):
+        return self.get_query_set().aggregate(Sum('viewed')).values()[0]
+
 
 class Resource(Model):
     user      = ForeignKey(User, related_name='resources')

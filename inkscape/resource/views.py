@@ -175,5 +175,5 @@ def down_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
     item.downed += 1
     item.save()
-    return redirect(item.download.url)
+    return redirect(item.outer.download.url)
 

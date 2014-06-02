@@ -130,6 +130,11 @@ class Resource(Model):
     def is_visible(self, user):
         return user == self.user or self.published
 
+    def years(self):
+        if self.created.year != self.edited.year:
+            return "%d-%d" % (self.created.year, self.edited.year)
+        return "%d" % self.edited.year
+
     def is_new(self):
         return not (self.desc and self.published and self.category)
 

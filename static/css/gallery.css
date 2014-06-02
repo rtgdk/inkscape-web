@@ -155,24 +155,20 @@ table.bioitem p a {
 
 
 .imageitem {
-  border: 4px;
-  border-bottom-color:#D55500;
-  border-bottom-style:solid;
-  background-color: #ccc;
-  background-image: linear-gradient(to bottom, #fff 0%, #CECECE 15%, #BFBFBF 20%);
+
   padding: 10px 20px 30px 20px;
   margin-top: 10px;
   margin-left:-20px;
   margin-right:-20px;
-  
+  margin-bottom:-55px;
   color:#333;
 }
 
 .imageitem .image {
   background-color:#111;
-  border: 1px solid #333;
-  background-image: linear-gradient(to bottom, #383838 0%, #1A1A1A 20%);
-  padding: 35px;
+
+  background-image: linear-gradient(to bottom, #2E2E2E 0%, #0E0E0E 5%);
+  padding: 50px 35px 0px 35px;
   line-height: 0px;
   text-align:center;
   border-radius: 10px 10px 0 0;
@@ -183,16 +179,16 @@ table.bioitem p a {
   padding: 0px;
   margin: 0px;
   border:none;
+  border-radius: 10px 10px 0 0;
 }
 
 .imageitem .desc {
-  margin: 5px 0px;
-  border: #bbb;
   padding:25px;
   background-color: #DCDCDC;
-  background-image: linear-gradient(to bottom, #BFBFBF 0%, #DCDCDC 60%);
+  background-image: linear-gradient(to bottom, #ffffff 0%, #ECECEC 30%);
+  border-radius: 8px;
   min-height: 300px;
-  border-radius: 10px 10px 0 0;
+  margin-right: 235px;
 }
 
 .imageitem h2 {
@@ -200,16 +196,134 @@ table.bioitem p a {
   color:#333333;
 }
 
-.imageitem .side {
+.imageitem .buttonbar {
   color:#333333;
+  clear:both;
+  padding:10px 0px;
+  overflow:hidden;
 }
-.imageitem .side a{
-  display:inline-block;
-  padding:2px;
+.imageitem .buttonbar form{
+float:left;
+}
+
+.imageitem .buttonbar form button{
+cursor:pointer;
+}
+
+.imageitem .buttonbar form button:hover{
+  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .20); 
+  z-index: 1;
+}
+
+.imageitem .buttonbar button{
+  z-index: 0;
+  position: relative;
+  float:left;
+  padding:4px 8px;
+  background:#ffffff;
+  border-style:solid;
+  border-width:1px 0px 1px 1px;
+  border-color:#999;
+  color:#333;
+  font-size:17px;
+  line-height:23px;
+  margin:0px;
+}
+.imageitem .buttonbar button#like,
+.imageitem .buttonbar button#dislike{
+background-image: url("../images/thumbs.svg");
+background-repeat:no-repeat;
+background-size: 20px 120px;
+width:40px;
+}
+.imageitem .buttonbar form button#like{
+background-position:center -61px;
+}
+.imageitem .buttonbar form button#dislike{
+background-position:center -90px;
+}
+.imageitem .buttonbar form button#like:hover,
+.imageitem .buttonbar button#like.active{
+background-position:center 4px ;
+}
+.imageitem .buttonbar form button#dislike:hover,
+.imageitem .buttonbar button#dislike.active{
+background-position:center -25px;
+}
+.imageitem .buttonbar button.active{
+  color:#D55500;
+}
+.imageitem .buttonbar button.active:hover {
+  box-shadow: none;
+  cursor: default;
+}
+.imageitem .buttonbar button.start{
+ border-radius: 9px 0px 0px 9px;
+ margin-left:5px;
+}
+.imageitem .buttonbar button.end{
+ border-radius: 0px 9px 9px 0px;
+ border-width:1px;
+ margin-right:5px;
+}
+.imageitem .buttonbar button.unique{
+ border-radius: 9px;
+ border-width:1px;
+ margin:0px 5px;
+ background-color:#D55500;
+ color:#FFFFFF;
+ border-color:#D55500;
+}
+.imageitem .buttonbar button.unique:hover{
+  box-shadow: 0px 0px 3px 3px rgba(255, 128, 0, .35); 
+}
+.imageitem .sideInfo{
+  padding: 15px 0px 0px 5px;
+  background-image: linear-gradient(to bottom, #ffffff 0%, #ECECEC 30%);
+  overflow:hidden;
+  margin-bottom:-15px;
+  min-height: 335px;
+  float: right;
+  border-radius: 0px 0px 8px 8px;
+}
+
+.imageitem .sideInfo h1 {
+  background-color: #ddd;
+  border-radius: 8px 0px 0px 8px;
+  padding:8px 12px;
+  margin-top: 4px;
+  font-size:22px !important;
+  font-weight: bold;
+  line-height:22px;
+  text-align: center;
+  width:200px;
+  white-space:wrap;
+  text-align:left;
+}
+.imageitem .sideInfo dl{
+  font-size:15px;
+  line-height:17px;
+  width:100%;
+  overflow:hidden;
+  padding:8px 12px;
+  margin:0px 0px 7px 0px;
+}
+.imageitem .sideInfo dd{
+  float:left;
+  margin:0px;
+}
+.imageitem .sideInfo dt{
+  padding:0px;
+  clear:left;
+  float:left;
+  margin-right:8px;
+  color:#888;
 }
 
 .imageitem .license{
- float:right;
- margin-top:-80px;
+    margin-left:8px;
 }
+
+
+
 

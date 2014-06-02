@@ -178,7 +178,7 @@ def view_resource(request, item_id):
 def like_resource(request, item_id, like_id="+"):
     item = get_object_or_404(Resource, id=item_id)
     like = item.votes.get_or_create(voter=request.user)[0]
-    like.vote = like_id != "+"
+    like.vote = like_id == "+"
     like.save()
     return redirect("resource", item_id)
     

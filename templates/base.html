@@ -124,7 +124,7 @@ InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -10px;"/><
 				</ul>
 				{% endblock %}
 			</div>
-			<p>{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.</p>
+			<p>{% block "foot" %}{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.{% endblock %}</p>
 		</div>
         <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
 		{% endblock %}

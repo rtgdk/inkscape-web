@@ -155,29 +155,61 @@ table.bioitem p a {
 
 
 .imageitem {
-  border: 2px solid #888;
-  background-color: #aaa;
-  padding: 10px;
-  margin-top: 20px;
-  margin-bottom: 40px;
+  border: 4px;
+  border-bottom-color:#D55500;
+  border-bottom-style:solid;
+  background-color: #ccc;
+  background-image: linear-gradient(to bottom, #fff 0%, #CECECE 15%, #BFBFBF 20%);
+  padding: 10px 20px 30px 20px;
+  margin-top: 10px;
+  margin-left:-20px;
+  margin-right:-20px;
+  
+  color:#333;
 }
 
 .imageitem .image {
-  border: 1px solid #888;
-  padding: 0px;
+  background-color:#111;
+  border: 1px solid #333;
+  background-image: linear-gradient(to bottom, #383838 0%, #1A1A1A 20%);
+  padding: 35px;
   line-height: 0px;
+  text-align:center;
+  border-radius: 10px 10px 0 0;
 }
 
 .imageitem .image img {
-  max-width: 894px;
+  max-width: 800px;
   padding: 0px;
   margin: 0px;
+  border:none;
 }
 
 .imageitem .desc {
-  margin-top: 20px;
+  margin: 5px 0px;
   border: #bbb;
-  background-color: #eee;
+  padding:25px;
+  background-color: #DCDCDC;
+  background-image: linear-gradient(to bottom, #BFBFBF 0%, #DCDCDC 60%);
   min-height: 300px;
+  border-radius: 10px 10px 0 0;
+}
+
+.imageitem h2 {
+  padding-bottom:7px;
+  color:#333333;
+}
+
+.imageitem .side {
+  color:#333333;
+}
+.imageitem .side a{
+  display:inline-block;
+  padding:2px;
+}
+
+.imageitem .license{
+ float:right;
+ margin-top:-80px;
 }
 

@@ -165,7 +165,7 @@ def view_resource(request, item_id):
 
     item.viewed += 1
     item.save()
-    vote = item.votes.for_user(request.user).filter(vote__in=[0,1])
+    vote = item.votes.for_user(request.user)
     if not len(vote):
         vote = (None,)
 
@@ -177,8 +177,8 @@ def view_resource(request, item_id):
 
 def like_resource(request, item_id, like_id="+"):
     item = get_object_or_404(Resource, id=item_id)
-    like = item.votes.get_or_create(voter=request.user, vote__in=[0,1])[0]
-    like.vote = int(like_id != "+")
+    like = item.votes.get_or_create(voter=request.user)[0]
+    like.vote = like_id != "+"
     like.save()
     return redirect("resource", item_id)
     

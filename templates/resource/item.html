@@ -19,6 +19,9 @@
   </div>
 
   <div class="side">
+    {% if item.link %}
+    <a href="{{ item.link }}">{% trans "More information" %}</a> |
+    {% endif %}
   {% ifequal item.user request.user %}
     <a href="{% url "edit_resource" item.id %}">{% trans "Edit" %}</a> |
     <a href="{% url "delete_resource" item.id %}">{% trans "Delete" %}</a> |
@@ -41,11 +44,11 @@
    <h2>Status</h2>
    Views: {{ item.viewed }}<br/>
    Downloads: {{ item.downed }}<br/>
-   Liked: +{{ item.votes.likes }} / -{{ item.votes.dislikes }}<br/>
+   Liked: +{{ item.votes.likes.count }} / -{{ item.votes.dislikes.count }}<br/>
    Area: 1900x3400<br/>
    Size: 3.4 MB<br/>
 
-   <a href="{{ item.outer.license.link }}"><img src="{{ item.outer.license.icon.url }}" title="{{ item.outer.license }}"/></a>
+   <a class="license" href="{{ item.outer.license.link }}"><img src="{{ item.outer.license.icon.url }}" title="{{ item.outer.license }}"/></a>
    
   </div>
 

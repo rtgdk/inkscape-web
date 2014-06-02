@@ -229,16 +229,12 @@ class ResourceUrl(Resource):
 
 
 
-VOTE_TYPES = ['Likes', 'Dislikes', 'Verified', 'Promotes']
-VOTE_CHOICE = list(enumerate(VOTE_TYPES))
-
-
 class VoteManager(Manager):
-    def __getattr__(self, name):
-        if name.title() in VOTE_TYPES:
-            return self.get_query_set().filter(vote=VOTE_TYPES.index(name.title())).count()
-        else:
-            raise KeyError("Can't get %s" % name)
+    def likes(self):
+        return self.get_query_set().filter(vote=True)
+
+    def dislikes(self):
+        return self.get_query_set().filter(vote=False)
 
     def for_user(self, user):
         return self.get_query_set().filter(Q(voter=user.id))
@@ -248,15 +244,15 @@ class Vote(Model):
     """Vote for a resource in some way"""
     resource = ForeignKey(Resource, related_name='votes')
     voter    = ForeignKey(User, related_name='votes')
-    vote     = IntegerField(_('Vote'), default=0, choices=VOTE_CHOICE)
+    vote     = BooleanField(_('Vote'), default=True)
 
     objects = VoteManager()
     
     def __str__(self):
-        return "%s -> %s -> %s " % (str(self.voter), self.votetype[1], str(self.resource))
+        return "%s -> %s -> %s " % (str(self.voter), self.votetype, str(self.resource))
 
     @property
     def votetype(self):
-        return VOTE_CHOICE[self.vote]
+        return self.vote and "Likes" or "Dislikes"
 
 

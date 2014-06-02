@@ -47,7 +47,7 @@
         <button id="like" class="{% if not item.link %}start{% endif %}{% if vote.vote %} active{% endif %}" >&nbsp;</button>
     </form>
     <form action="{% url "like" item.id "-" %}">
-        <button id="dislike" class="end{% if not vote.vote %} active{% endif %}" type="submit">&nbsp;</button>
+        <button id="dislike" class="end{% ifequal vote.vote False %} active{% endifequal %}" type="submit">&nbsp;</button>
     </form>
     <form action="{% url "download_resource" item.id %}">
         <button id="download" class="unique" type="submit">{% trans "Download" %}</button>

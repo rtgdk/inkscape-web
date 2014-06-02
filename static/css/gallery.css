@@ -175,6 +175,7 @@ table.bioitem p a {
 }
 
 .imageitem .image img {
+  background-color: white;
   max-width: 800px;
   padding: 0px;
   margin: 0px;

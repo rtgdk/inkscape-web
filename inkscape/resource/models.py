@@ -93,6 +93,9 @@ class Category(Model):
 
 
 class ResourceManager(Manager):
+    def get_query_set(self):
+        return Manager.get_query_set(self).order_by('-created')
+
     def for_user(self, user):
         return self.get_query_set().filter(Q(user=user.id) | Q(published=True))
 

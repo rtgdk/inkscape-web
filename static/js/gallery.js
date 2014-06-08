@@ -118,7 +118,9 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
           link.appendChild(img);
           item.appendChild(link);
           item.appendChild(p);
-          gallery.appendChild(item);
+          gallery.insertBefore(item, gallery.firstChild);
+          // Put the drop back where is was
+          gallery.insertBefore(drop.parentNode, gallery.firstChild);
 
           var formData = new FormData();
           formData.append('download', file);
@@ -141,10 +143,10 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
                   item.parentNode.removeChild(item);
                 } else {
                   ret = xhr.responseText.slice(3).split('|')
-                  p.innerHTML = '<a>' + ret[0] + '</a>';
+                  p.innerHTML = '<a href="'+ret[2]+'">' + ret[0] + '</a>';
                   img.src = ret[1];
-                  // Put the drop back where is was
-                  drop.parentNode.parentNode.appendChild(drop.parentNode);
+                  link.href = ret[2];
+                  item.setAttribute('class', "galleryitem unpublished");
                 }
               } else {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';

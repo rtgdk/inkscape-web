@@ -1,21 +1,26 @@
-{% load i18n %}
+{% load i18n pagination_tags %}
+
 
 <div id="gallery">
- {% for item in items %}
+ {% ifequal user request.user %}
+  {% autopaginate items 14 as resources %}
+  <div class="galleryitem">
+    <div id="drop" class="link"><a href="{% url "new_resource" %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
+    <p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
+  </div>
+ {% else %}
+  {% autopaginate items 15 as resources %}
+ {% endifequal %}
+ {% for item in resources %}
   <div class="{% if item.is_visible %}galleryitem{% else %}galleryitem unpublished{% endif %}">
     <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
     <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
   </div>
  {% empty %}
  {% endfor %}
-
- {% ifequal user request.user %}
-  <div class="galleryitem">
-    <div id="drop" class="link"><a href="{% url "new_resource" %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
-    <p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
-  </div>
- {% endifequal %}
 </div>
+
+{% paginate %}
 
 <script>
   registerDropZone('drop', 'gallery', '{% url "add_to_gallery" gallery.id %}', '{{ DESIGN_URL }}'); 

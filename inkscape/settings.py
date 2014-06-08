@@ -122,6 +122,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
+    'pagination.middleware.PaginationMiddleware',
     'inkscape.person.middleware.SetLastVisitMiddleware',
 )
 
@@ -151,6 +152,7 @@ INSTALLED_APPS = (
     'menus',   # helper for model independent hierarchical website navigation
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
+    'pagination',
     'djangocms_text_ckeditor',
     'djangocms_file',
     'djangocms_picture',

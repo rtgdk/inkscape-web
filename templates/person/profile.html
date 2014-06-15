@@ -1,9 +1,9 @@
 {% extends 'person/base.html' %}
-{% load user_sessions i18n future %}
+{% load user_session i18n future %}
 
 {% block content %}
 
-<div id="right-sidebar">
+<div id="right-sidebar" class="profileside">
 	<h1>Last Seen</h1>
 	<p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
 
@@ -20,11 +20,19 @@
    {% ifequal user request.user %}
 
      <h1>Sessions</h1>
+     <ol id="sessions">
      {% for session in user.sessions %}
-         <div>{{ session.ip }} ({{ object.ip|location }}) {{ session.user_agent|device }} {{ session.last_activity|timesince }} ago</div>
+         <li>
+           <div class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</div>
+           <div class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</div>
+           <span title="{{ session.ip }} / {{ session.last_activity|timesince }} ago">{{ object.ip|location }}</span>
+         </li>
      {% endfor %}
+     </ol>
 
-     <a href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
+     <div style="text-align: center;">
+     <a id="editprofile" href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
+     </div>
    {% endifequal %}
 </div>
 

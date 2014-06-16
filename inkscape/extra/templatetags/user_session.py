@@ -18,7 +18,7 @@ BROWSERS = {
   '-' : 'Unknown Browser',
 }
 DEVICES = {
-  'lin': ('Unknown Gnu/Linux', 'Linux', 'X11', {
+  'gnu': ('Unknown Gnu/Linux', 'Linux', 'X11', {
     'ubu': ('Ubuntu', 'buntu'),
     'deb': 'Debian',
     'rpm': 'Fedora',

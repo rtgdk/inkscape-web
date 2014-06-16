@@ -110,7 +110,7 @@
 }
 #sessions div {
   width: 20px;
-  height: 22px;
+  height: 20px;
   display: inline-block;
   overflow: hidden;
   position: relative;
@@ -122,12 +122,13 @@
 #sessions div.BR {
   background: url('../images/browser.svg');
 }
-#sessions div.lin { background-position: -20px; }
-#sessions div.ubu { background-position: -20px; }
+#sessions div.gnu { background-position: -20px; }
 #sessions div.win { background-position: -40px; }
 #sessions div.osx { background-position: -60px; }
 #sessions div.and { background-position: -80px; }
 #sessions div.ios { background-position: -100px; }
+#sessions div.bsd { background-position: -120px; }
+#sessions div.ubu { background-position: -140px; }
 
 #sessions div.ff { background-position: -20px; }
 #sessions div.sf { background-position: -40px; }

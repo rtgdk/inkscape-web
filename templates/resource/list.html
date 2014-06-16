@@ -15,6 +15,11 @@
   <div class="{% if item.is_visible %}galleryitem{% else %}galleryitem unpublished{% endif %}">
     <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
     <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
+    {% if item.is_visible %}
+      <div class="label">{{ item.license }}</div>
+    {% else %}
+      <p class="label">{% trans "Unpublished" %}</p>
+    {% endif %}
   </div>
  {% empty %}
  {% endfor %}

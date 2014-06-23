@@ -17,7 +17,7 @@
       <tr><th scope="col">{% trans "Resource Downloads:" %}</th><td>{{ user.resources.downloads }}</td></tr>
     </table>
 
-   {% ifequal user request.user %}
+   {% if user == request.user %}
 
      <h1>Sessions</h1>
      <ol id="sessions">
@@ -33,11 +33,11 @@
      <div style="text-align: center;">
      <a id="editprofile" href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
      </div>
-   {% endifequal %}
+   {% endif %}
 </div>
 
-{% if items %}
-  <h1>Galleries</h1>
+{% if items or user == request.user %}
+  <h1>InkSpaces</h1>
 
   {% include "resource/galleries.html" %}
 {% endif %}

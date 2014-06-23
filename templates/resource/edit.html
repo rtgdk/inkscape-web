@@ -1,32 +1,32 @@
-{% extends 'base.html' %}
 {% load i18n %}
 
-{% block content %}
-
-{% if item %}
-<h1>{% trans "Edit Item" %}</h1>
-{% else %}
-<h1>{% trans "Submit Item" %}</h1>
-{% endif %}
-
 <form method="post" enctype="multipart/form-data">
+ {% csrf_token %}
 
-{% csrf_token %}
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
 
-{{ form.non_field_errors }}
-
-<table class="block">
-    {% for field in form %}
-    <tr>
-        <th scope="row">{{ field.label }}:</th>
-        <td>{{ field }}</td>
-    </tr>
-    {% if field.errors %}<tr><td colspan="2" class='error'>{{ field.errors|striptags }}</td></tr>{% endif %}
+  <div class="sideInfo">
+    {% for field in form.auto %}
+      <h1 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}</h1>
+      {{ field }}
     {% endfor %}
-</table>
+  </div>
 
-<input type="submit" value="{% trans "Save" %}"/>
+  <div class="desc">
+    <h2>{{ form.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
+    <p>{{ form.desc }}</p>
+  </div>
+
+  <div class="buttonbar">
+    <button id="moreInfo" class="start" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+    {% if item.next %}
+      <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Save & Next" %}</button>
+    {% else %}
+      <button id="moreInfo" class="end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+    {% endif %}
+  </div>
 
 </form>
 
-{% endblock %}

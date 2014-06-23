@@ -24,7 +24,6 @@ from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
-from django.db.models import Q
 
 from django.contrib.auth.models import User
 
@@ -38,9 +37,7 @@ def breadcrumbs(*args):
 
 @login_required
 def delete_gallery(request, item_id):
-    item = get_object_or_404(Gallery, id=item_id)
-    if item.user != request.user:
-        raise Http404
+    item = get_object_or_404(Gallery, id=item_id, user=request.user)
     if request.method == 'POST':
         if 'confirm' in request.POST:
             item.delete()
@@ -49,7 +46,7 @@ def delete_gallery(request, item_id):
 
 @login_required
 def edit_gallery(request, item_id=None):
-    item = item_id and get_object_or_404(Gallery, id=item_id)
+    item = item_id and get_object_or_404(Gallery, id=item_id, user=request.user)
     c = { 'form': GalleryForm(instance=item) }
     if request.method == 'POST':
         c['form'] = GalleryForm(request.POST, request.FILES, instance=item)
@@ -81,17 +78,32 @@ def add_to_gallery(request, gallery_id):
 
 @login_required
 def edit_resource(request, item_id=None):
-    item = item_id and get_object_or_404(Resource, id=item_id)
-    c = { 'form': ResourceFileForm(instance=item.outer) }
+    item = item_id and get_object_or_404(Resource, id=item_id, user=request.user)
+    c = {
+      'form': ResourceFileForm(instance=item),
+      'item': item,
+    }
     if request.method == 'POST':
-        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item.outer)
+        if 'cancel' in request.POST:
+            if item.is_new:
+                return redirect('gallery', item.gallery.id)
+            return redirect('resource', item.id)
+        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item)
         if c['form'].is_valid():
             item = c['form'].save(commit=False)
-            item.user = request.user
+            if not item.user:
+                item.user = request.user
             item.save()
+            if 'next' in request.POST and item.next:
+                return redirect('edit_resource', item.next.id)
             return redirect('resource', item.id)
 
-    return render_to_response('resource/edit.html', c,
+    return render_to_response('resource/item.html', c,
+        context_instance=RequestContext(request))
+
+@login_required
+def new_resource(request):
+    return render_to_response('resource/create.html', {},
         context_instance=RequestContext(request))
 
 @login_required
@@ -163,6 +175,9 @@ def view_resource(request, item_id):
     if not item.is_visible(request.user):
         raise Http404
 
+    if item.is_new:
+        return redirect("edit_resource", item_id)
+
     item.viewed += 1
     item.save()
     vote = item.votes.for_user(request.user)
@@ -187,5 +202,5 @@ def down_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
     item.downed += 1
     item.save()
-    return redirect(item.outer.download.url)
+    return redirect(item.download.url)
 

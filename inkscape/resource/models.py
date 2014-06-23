@@ -27,6 +27,7 @@ from django.contrib.auth.models import User, Group
 from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 
+from model_utils.managers import InheritanceManager
 
 from inkscape.settings import DESIGN_URL, MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
@@ -36,23 +37,6 @@ null = dict(null=True, blank=True)
 def upto(d, c='resources', blank=True, lots=False):
     dated = lots and ["%Y","%m"] or []
     return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
-
-def get_mime(path):
-    return (mimetypes.guess_type(path, True)[0] or 'text/plain').split('/')
-
-def get_file_type(path):
-    mime = get_mime(path)
-    if mime[0] in ['image']:
-        return mime[0]
-    if mime[1][-2:] == 'ml':
-        return 'xml'
-    if 'zip' in mime[1] or 'compressed' in mime[1] or 'tar' in mime[1]:
-        return 'archive'
-    if mime[0] in ['text','application']:
-        if 'opendocument' in mime[1]:
-            return mime[1].split('.')[-1]
-        return mime[1]
-    return mime[0];
 
 
 class License(Model):
@@ -92,9 +76,9 @@ class Category(Model):
         return reverse('category_resources', args=[str(self.id)])
 
 
-class ResourceManager(Manager):
+class ResourceManager(InheritanceManager):
     def get_query_set(self):
-        return Manager.get_query_set(self).order_by('-created')
+        return InheritanceManager.get_query_set(self).select_subclasses('resourcefile').order_by('-created')
 
     def for_user(self, user):
         return self.get_query_set().filter(Q(user=user.id) | Q(published=True))
@@ -105,8 +89,12 @@ class ResourceManager(Manager):
     def views(self):
         return self.get_query_set().aggregate(Sum('viewed')).values()[0]
 
+    def new(self):
+        return self.get_query_set().filter(category__isnull=True)
+
 
 class Resource(Model):
+    is_file   = False
     user      = ForeignKey(User, related_name='resources')
     name      = CharField(max_length=64)
     desc      = TextField(_('Description'), **null)
@@ -122,81 +110,124 @@ class Resource(Model):
     viewed    = IntegerField(default=0)
     downed    = IntegerField(_('Downloaded'), default=0)
 
+    media_type = CharField(_('File Type'), max_length=64, **null)
+
     objects   = ResourceManager()
 
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.edited = now()
+        # This might need a save to work right??
+        self.media_type = mimetypes.guess_type(self.download.path, True)[0] or 'text/plain'
+        return Model.save(self, *args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('resource', args=[str(self.id)])
 
-    def is_visible(self, user):
-        return user == self.user or self.published
-
+    @property
     def years(self):
         if self.created.year != self.edited.year:
             return "%d-%d" % (self.created.year, self.edited.year)
         return "%d" % self.edited.year
 
+    def is_visible(self, user):
+        return user == self.user or self.published
+
+    @property
     def is_new(self):
-        return not (self.desc and self.published and self.category)
+        return not self.desc
 
-    def save(self, *args, **kwargs):
-        self.edited = now()
-        return Model.save(self, *args, **kwargs)
-
-    def is_file(self):
-        return type(self.outer) is ResourceFile
+    @property
+    def next(self):
+        """Get the next item in the gallery which needs information"""
+        try:
+            return self.gallery.items.new().exclude(pk=self.id)[0]
+        except IndexError:
+            return None
 
     @property
     def gallery(self):
-        return self.gallery_set.all()[0]
+        try:
+            return self.gallery_set.all()[0]
+        except IndexError:
+            return None
 
     def icon(self):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
         if self.thumbnail:
             return self.thumbnail.url
-        return self.outer.icon() or os.path.join(DESIGN_URL, 'mime', 'unknown.svg')
+        return os.path.join(DESIGN_URL, 'mime', self.file_type + '.svg')
 
     @property
-    def outer(self):
-        if type(self) is Resource:
-            if hasattr(self, 'resourcefile'):
-                return self.resourcefile
-            elif hasattr(self, 'resourceurl'):
-                return self.resourceurl
-        return self
+    def mime(self):
+        return self.media_type.split('/')
+
+    @property
+    def file_type(self):
+        mime = self.mime
+        if mime[0] in ['image']:
+            return mime[0]
+        if mime[1][-2:] == 'ml':
+            return 'xml'
+        if 'zip' in mime[1] or 'compressed' in mime[1] or 'tar' in mime[1]:
+            return 'archive'
+        if mime[0] in ['text','application']:
+            if 'opendocument' in mime[1]:
+                return mime[1].split('.')[-1]
+            return mime[1]
+        return mime[0];
+
+        return self.media_type
+
+    @property
+    def is_image(self):
+        return self.file_type == 'image'
+
+    @property
+    def is_raster(self):
+        return self.is_image and self.mime[1] in ['jpeg', 'gif', 'png']
+
+    @property
+    def download(self):
+        class NotLocalDownload(object):
+            def __init__(self, link):
+                self.link = link
+            def url(self):
+                return self.link
+            def path(self):
+                return '/'.join(self.link.split('/')[3:])
+        return NotLocalDownload(self.link)
+
 
 
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
-    download = FileField(_('Consumable File'), **upto('file', blank=False))
+    is_file = True
 
-    license   = ForeignKey(License, **null)
-    owner     = BooleanField(_('I own this work'), default=True)
+    download   = FileField(_('Consumable File'), **upto('file', blank=False))
 
-    def download_url(self):
-        return self.download.url
-
-    def is_image(self):
-        """Returns true if the download is an image (svg/png/jpeg/gif)"""
-        return get_file_type(self.download.path) == 'image'
+    license    = ForeignKey(License, **null)
+    owner      = BooleanField(_('I own this work'), default=True)
 
     def save(self, *args, **kwargs):
         Resource.save(self, *args, **kwargs)
+
         if self.download and not self.thumbnail:
-            mime = get_mime(self.download.path)
-            if mime[0] == 'image' and mime[1] in ['jpeg','gif','png']:
+            # We might be able to detect that the download has changed here.
+            if self.is_raster:
                 self.thumbnail.save(self.download.name, self.download)
+            elif self.thumbnail:
+                self.thumbnail = None
             Resource.save(self, *args, **kwargs)
 
+
+    @property
     def icon(self):
-        if not self.download:
-            return None
-        mime = get_file_type(self.download.path)
-        if mime == 'image' and self.download.size < MAX_PREVIEW_SIZE:
+        if self.is_image and self.download.size < MAX_PREVIEW_SIZE:
             return self.download.url
-        return os.path.join(DESIGN_URL, 'mime', mime + '.svg')
+        return super(Resource, self).icon
 
 
 class GalleryManager(Manager):
@@ -222,19 +253,6 @@ class Gallery(Model):
 
     def __len__(self):
         return self.items.count()
-
-
-class ResourceUrl(Resource):
-    """This is a resource that links to somewhere else"""
-    download = URLField(_('Consumable File'), **null)
-    source   = URLField(_('Source File'), **null)
-
-    def download_url(self):
-        return self.download
-
-    def source_url(self):
-        return self.source
-
 
 
 class VoteManager(Manager):

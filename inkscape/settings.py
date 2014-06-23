@@ -36,6 +36,7 @@ LANGUAGES = (
     ('ja', 'Japanese'),
     ('zh', 'Chinese'),
     ('zh-tw', 'Simplified Chinese'),
+    ('ko', 'Korean'),
 )
 
 SITE_ID = 1

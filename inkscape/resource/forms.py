@@ -20,29 +20,42 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Resource, ResourceFile, ResourceUrl, Gallery
+from .models import Resource, ResourceFile, Gallery
 
 class GalleryForm(ModelForm):
     class Meta:
         model = Gallery
         fields = ['name']
 
-class ResourceUrlForm(ModelForm):
-    class Meta:
-        model = ResourceUrl
-
-
 class ResourceFileForm(ModelForm):
     permission = BooleanField(label=_('I have permission'), required=False)
 
+    def __init__(self, *args, **kwargs):
+        ModelForm.__init__(self, *args, **kwargs)
+        for key in self.Meta.required:
+            self.fields[key].required = True
+
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license']
+        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner']
+        required = ['name', 'desc', 'category', 'license']
 
-    def clean(self):
+    def clean_owner(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:
             raise ValidationError("You need to have permission to post this work, or be the owner of the work.")
-        return self.cleaned_data
+        return self.cleaned_data.get('owner')
+
+    def _clean_fields(self):
+        super(ResourceFileForm, self)._clean_fields()
+        if 'owner' in self._errors:
+            self._errors['permission'] = self.errors['owner']
+
+    @property
+    def auto(self):
+        for field in list(self):
+            if field.name in ['name', 'desc']:
+                continue
+            yield field
 
 class ResourceAddForm(ModelForm):
     class Meta:

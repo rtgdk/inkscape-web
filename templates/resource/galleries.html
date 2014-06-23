@@ -33,8 +33,8 @@
   <div class="galleryitem">
     <form method="POST" action="{% url "new_gallery" %}">
       {% csrf_token %}
-      <div class="link"><input type="image" src="{{ DESIGN_URL }}/images/add.svg" alt="{% trans "New Gallery" %}"/></div>
-      <div class="input"><input name="name" value="" placeholder="{% trans "New Gallery Name" %}"/></div>
+      <div class="link"><input type="image" src="{{ DESIGN_URL }}/images/add.svg" alt="{% trans "New InkSpace" %}"/></div>
+      <div class="input"><input name="name" value="" placeholder="{% trans "New InkSpace Name" %}"/></div>
     </form>
   </div>
 {% endifequal %}

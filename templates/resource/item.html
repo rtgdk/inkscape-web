@@ -24,11 +24,7 @@
     </div>
   {% endif %}
 
-  {% if form %}
-    {% include "resource/edit.html" %}
-  {% else %}
-    {% include "resource/view.html" %}
-  {% endif %}
+  {% block "description" %}{% endblock %}
 
 {% endblock %}
 

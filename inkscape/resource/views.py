@@ -98,7 +98,7 @@ def edit_resource(request, item_id=None):
                 return redirect('edit_resource', item.next.id)
             return redirect('resource', item.id)
 
-    return render_to_response('resource/item.html', c,
+    return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
 
 @login_required
@@ -107,15 +107,18 @@ def new_resource(request):
         context_instance=RequestContext(request))
 
 @login_required
-def delete_resource(request, item_id, confirm='n'):
-    item = get_object_or_404(Resource, id=item_id)
-    if item.user != request.user:
-        raise Http404
-    if confirm != 'y':
-        return render_to_response('resource/confirm.html', { 'item': item },
+def delete_resource(request, item_id):
+    item = get_object_or_404(Resource, id=item_id, user=request.user)
+    gallery = item.gallery
+    if request.method == 'POST':
+        if 'confirm' in request.POST:
+            item.delete()
+        if gallery:
+            return redirect('gallery', gallery.id)
+        return redirect('my_resources')
+
+    return render_to_response('resource/delete.html', { 'delete': True, 'item': item },
             context_instance=RequestContext(request))
-    item.delete()
-    return redirect('my_resources')
 
 @login_required
 def my_resources(request):
@@ -184,7 +187,7 @@ def view_resource(request, item_id):
     if not len(vote):
         vote = (None,)
 
-    return render_to_response('resource/item.html', {
+    return render_to_response('resource/view.html', {
       'item': item,
       'vote': vote[0],
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),

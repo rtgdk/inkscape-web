@@ -1,7 +1,9 @@
+{% extends 'resource/item.html' %}
 {% load i18n %}
 
-<form method="post" enctype="multipart/form-data">
- {% csrf_token %}
+{% block "description" %}
+ <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
 
   <div id="errors">
     {{ form.non_field_errors }}
@@ -27,6 +29,6 @@
       <button id="moreInfo" class="end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
     {% endif %}
   </div>
-
-</form>
+ </form>
+{% endblock %}
 

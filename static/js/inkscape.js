@@ -12,6 +12,27 @@ $(document).ready(function() {
       if($("#toplogin"))adjustBar();
 });
 
+/* == PopUp implimentation == */
+function toggle(div_id) {
+    var el = document.getElementById(div_id);
+    if ( el.getAttribute('class') == 'show' ) {
+      el.setAttribute('class', '');
+    } else {
+      el.setAttribute('class', 'show');
+    }
+}
+function window_pos(popId) {
+    var pop = document.getElementById(popId);
+    pop.setAttribute('style', 'top: calc(50% - ' + (pop.clientHeight / 2) + 'px); '+
+                     'left: calc(50% - ' + (pop.clientWidth / 2) + 'px);');
+}
+function popUp(windowname) {
+    toggle('blanket');
+    toggle(windowname);     
+    window_pos(windowname);
+}
+/* End popup */
+
 jQuery.fn.getMaxHeight = function(){
     var ca = this.attr('class');
     var rval = [];

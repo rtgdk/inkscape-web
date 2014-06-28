@@ -1,0 +1,19 @@
+{% extends 'resource/item.html' %}
+{% load i18n %}
+
+{% block "description" %}
+ <form method="post">
+  {% csrf_token %}
+
+  <div id="errors">
+    <h2>Are you sure you want to delete this work?</h2>
+  </div>
+
+  <div class="buttonbar">
+    <button id="moreInfo" class="start" type="submit" name="cancel">{% trans "Cancel" %}</button>
+    <button id="moreInfo" class="end unique" type="submit" name="confirm">{% trans "Delete It!" %}</button>
+  </div>
+
+ </form>
+{% endblock %}
+

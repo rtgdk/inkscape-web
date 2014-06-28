@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-13 16:47+0000\n"
-"PO-Revision-Date: 2014-04-19 20:20+0000\n"
+"PO-Revision-Date: 2014-06-28 00:30+0000\n"
 "Last-Translator: Adolfo Jayme <fitoschido@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-04-20 05:46+0000\n"
-"X-Generator: Launchpad (build 16985)\n"
+"X-Launchpad-Export-Date: 2014-06-28 05:52+0000\n"
+"X-Generator: Launchpad (build 17077)\n"
 "Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
@@ -367,7 +367,7 @@ msgstr "Idioma"
 
 #: libs/cmsplugin_news/models.py:78
 msgid "Translated version of another news item."
-msgstr ""
+msgstr "Versión traducida de otra noticia."
 
 #: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
@@ -464,7 +464,7 @@ msgstr "O accede con"
 
 #: templates/base.html:63
 msgid "Profile Photo"
-msgstr ""
+msgstr "Foto de perfil"
 
 #: templates/base.html:65
 msgid "Admin"
@@ -472,7 +472,7 @@ msgstr "Administrador"
 
 #: templates/base.html:67
 msgid "My Profile"
-msgstr ""
+msgstr "Mi perfil"
 
 #: templates/base.html:68
 msgid "Logout"
@@ -485,7 +485,7 @@ msgstr "Síganos en:"
 #: templates/base.html:82 templates/base.html.py:84
 #: templates/search/search.html:5
 msgid "Search"
-msgstr ""
+msgstr "Buscar"
 
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
@@ -495,19 +495,19 @@ msgstr ""
 
 #: templates/base.html:114
 msgid "Website designed by"
-msgstr ""
+msgstr "Sitio web diseñado por"
 
 #: templates/base.html:114
 msgid "in Inkscape and developed by"
-msgstr ""
+msgstr "en Inkscape y desarrollado por"
 
 #: templates/base.html:114
 msgid "Website development guide"
-msgstr ""
+msgstr "Guía de desarrollo del sitio web"
 
 #: templates/base.html:114
 msgid "Here"
-msgstr ""
+msgstr "Aquí"
 
 #: templates/front.html:51
 msgid "Overview"
@@ -515,7 +515,7 @@ msgstr ""
 
 #: templates/front.html:52
 msgid "What is Inkscape and how can you get it?"
-msgstr ""
+msgstr "¿Qué es Inkscape y cómo obtenerlo?"
 
 #: templates/front.html:53
 msgid "Features"
@@ -527,7 +527,7 @@ msgstr ""
 
 #: templates/front.html:55
 msgid "Gallery"
-msgstr ""
+msgstr "Galería"
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."

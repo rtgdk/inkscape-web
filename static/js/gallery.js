@@ -120,7 +120,9 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
           item.appendChild(p);
           gallery.insertBefore(item, gallery.firstChild);
           // Put the drop back where is was
-          gallery.insertBefore(drop.parentNode, gallery.firstChild);
+          if(drop.parentNode.parentNode == gallery) {
+            gallery.insertBefore(drop.parentNode, gallery.firstChild);
+          }
 
           var formData = new FormData();
           formData.append('download', file);

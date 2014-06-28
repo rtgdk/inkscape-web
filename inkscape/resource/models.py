@@ -29,9 +29,10 @@ from django.core.urlresolvers import reverse
 
 from model_utils.managers import InheritanceManager
 
-from inkscape.settings import DESIGN_URL, MAX_PREVIEW_SIZE
+from inkscape.settings import DESIGN_URL, DESIGN_ROOT, MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
+from .utils import syntaxer
 
 null = dict(null=True, blank=True)
 def upto(d, c='resources', blank=True, lots=False):
@@ -158,7 +159,10 @@ class Resource(Model):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
         if self.thumbnail:
             return self.thumbnail.url
-        return os.path.join(DESIGN_URL, 'mime', self.file_type + '.svg')
+        for ft_icon in [self.file_type, self.is_text and 'plain' or 'unknown']: 
+            if os.path.exists(os.path.join(DESIGN_ROOT,'mime',ft_icon+'.svg')):
+                break
+        return os.path.join(DESIGN_URL, 'mime', ft_icon+'.svg')
 
     @property
     def mime(self):
@@ -176,10 +180,14 @@ class Resource(Model):
         if mime[0] in ['text','application']:
             if 'opendocument' in mime[1]:
                 return mime[1].split('.')[-1]
+            if mime[1][:2] == 'x-':
+                return mime[1][2:]
             return mime[1]
-        return mime[0];
+        return 'unknown'
 
-        return self.media_type
+    @property
+    def is_text(self):
+        return self.mime[0] == 'text' or self.mime[1] == 'javascript'
 
     @property
     def is_image(self):
@@ -223,11 +231,18 @@ class ResourceFile(Resource):
             Resource.save(self, *args, **kwargs)
 
 
-    @property
     def icon(self):
         if self.is_image and self.download.size < MAX_PREVIEW_SIZE:
             return self.download.url
-        return super(Resource, self).icon
+        return Resource.icon(self)
+
+    def as_text(self):
+        """Returns the contents as text"""
+        if self.is_text:
+            with open(self.download.path, 'r') as fhl:
+                text = fhl.read()
+                return [ (range(1,text.count("\n")), syntaxer(text)) ]
+        return "Not text!"
 
 
 class GalleryManager(Manager):

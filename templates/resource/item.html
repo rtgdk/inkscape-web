@@ -11,6 +11,14 @@
       <div class="image">
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
       </div>
+    {% elif item.is_text %}
+      <div class="text">
+        {% for lines, text in item.as_text %}
+          <pre id="lines">{% for i in lines %}{{ i }}.
+{% endfor %}</pre>
+          <pre id="as_text">{{ text }}</pre>
+        {% endfor %}
+      </div>
     {% else %}
       <div class="file">
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}"></a>

@@ -349,5 +349,15 @@ background-position:center -25px;
   visibility: visible;
 }
 
+.text {
+  border: 2px solid #fff;
+  line-height: 16px;
+}
+.text #lines {
+  float: left;
+  padding-top: 13px;
+  color: #777;
+  text-align: right;
+}
 
 

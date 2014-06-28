@@ -1,6 +1,20 @@
 {% extends 'resource/item.html' %}
 {% load i18n %}
 
+{% block css %}
+<style>
+  .image img {
+    max-width: 350px;
+    max-height: 150px;
+  }
+  .text pre {
+    overflow: hidden;
+    max-height: 200px;
+    border-bottom: 2px dashed #aaf;
+  }
+</style>
+{% endblock %}
+
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}

@@ -35,6 +35,7 @@ echo "Default admin user added, password: 123456 (delete on live deployments)"
 echo ""
 
 $MANAGE loaddata $PWD/utils/datums/licenses.json
+$MANAGE loaddata $PWD/utils/datums/categories.json
 
 ./utils/refresh-cms staging.
 

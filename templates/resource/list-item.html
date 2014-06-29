@@ -5,7 +5,7 @@
     <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
     {% if item.published %}
       <div class="label">
-        <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
+        <img src="{{ item.banner }}" title="{{item.file_type }} - {{ item.file_subtype }}">
         <img src="{{ item.license.banner.url }}" title="{{ item.license }}" class="l">
       </div>
     {% else %}

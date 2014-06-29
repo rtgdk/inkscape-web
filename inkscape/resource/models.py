@@ -164,9 +164,19 @@ class Resource(Model):
                 break
         return os.path.join(DESIGN_URL, 'mime', ft_icon+'.svg')
 
+    def banner(self):
+        for ft_icon in [self.file_subtype, 'unknown']:
+            if os.path.exists(os.path.join(DESIGN_ROOT,'mime','banner',ft_icon+'.svg')):
+                break
+        return os.path.join(DESIGN_URL, 'mime','banner',ft_icon+'.svg')
+
     @property
     def mime(self):
         return self.media_type.split('/')
+
+    @property
+    def file_subtype(self):
+        return self.mime[1].split('+')[0]
 
     @property
     def file_type(self):

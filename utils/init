@@ -24,11 +24,6 @@ MANAGE="./utils/manage"
 # Create tables, migrations etc
 ./utils/update
 
-$MANAGE collectstatic --noinput
-echo ""
-echo "Copied static files from pythonenv to local static"
-echo ""
-
 $MANAGE loaddata $PWD/utils/datums/auth.json
 echo ""
 echo "Default admin user added, password: 123456 (delete on live deployments)"

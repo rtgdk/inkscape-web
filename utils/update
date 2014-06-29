@@ -40,3 +40,8 @@ else
   fi
 fi 
 
+$MANAGE collectstatic --noinput
+echo ""
+echo "Copied static files from pythonenv to local static"
+echo ""
+

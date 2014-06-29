@@ -20,3 +20,13 @@ If this isn't done, admin won't be right:
 
 collectstatic --noinput
 
+This to fake person migrate:
+
+./utils/manage migrate person 0001 --fake
+
+Add RECAPTURE keys to local_settings.py
+
+reset resource app:
+
+./utils/manage reset resource
+

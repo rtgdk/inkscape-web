@@ -232,7 +232,7 @@ class ResourceFile(Resource):
 
 
     def icon(self):
-        if self.is_image and self.download.size < MAX_PREVIEW_SIZE:
+        if not self.thumbnail and self.is_image and self.download.size < MAX_PREVIEW_SIZE:
             return self.download.url
         return Resource.icon(self)
 

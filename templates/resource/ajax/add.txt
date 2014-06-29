@@ -1,1 +1,1 @@
-{% if item %}OK|{{ item.name }}|{{ item.icon }}|{% url "resource" item.id %}{% else %}FAILED:{{ form.errors }}{% endif %}
+{% if item %}OK|{% include "resource/list-item.html" %}{% else %}FAILED:{{ form.errors }}{% endif %}

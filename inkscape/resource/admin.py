@@ -20,7 +20,7 @@ from .models import *
 
 admin.site.register(License)
 admin.site.register(Category)
-admin.site.register(Resource)
+admin.site.register(ResourceFile)
 admin.site.register(Gallery)
 admin.site.register(Vote)
 

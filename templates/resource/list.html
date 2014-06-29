@@ -12,15 +12,7 @@
   {% autopaginate items 15 as resources %}
  {% endifequal %}
  {% for item in resources %}
-  <div class="{% if item.published %}galleryitem{% else %}galleryitem unpublished{% endif %}">
-    <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
-    <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
-    {% if item.published %}
-      <div class="label"><img src="{{ item.license.banner.url }}" title="{{ item.license }}"></div>
-    {% else %}
-      <p class="label">{% trans "Unpublished" %}</p>
-    {% endif %}
-  </div>
+   {% include "resource/list-item.html" %}
  {% empty %}
  {% endfor %}
 </div>

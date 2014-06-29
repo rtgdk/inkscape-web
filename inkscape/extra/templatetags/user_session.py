@@ -74,7 +74,7 @@ def browser_id(value, detail=False):
 def location(value):
     """Transform an IP address into an approximate location."""
     if value == '127.0.0.1':
-        return "Right here, localhost"
+        return "Right here"
     location = geoip() and geoip().city(value)
     if location and location['country_name']:
         if location['city']:

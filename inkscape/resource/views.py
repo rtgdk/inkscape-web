@@ -134,6 +134,13 @@ def delete_resource(request, item_id):
             context_instance=RequestContext(request))
 
 @login_required
+def publish_resource(request, item_id):
+    item = get_object_or_404(Resource, id=item_id, user=request.user)
+    item.published = True
+    item.save()
+    return redirect("gallery", item.gallery.id)
+
+@login_required
 def my_resources(request):
     return view_user(request, request.user.id)
 

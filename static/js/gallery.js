@@ -56,6 +56,23 @@ Function.prototype.bindToEventHandler = function bindToEventHandler() {
     handler.apply(this, boundParameters);
   }
 };
+function appendElement(par, type, props, content) {
+  var ele = document.createElement(type);
+  if(props) {
+    Object.keys(props).forEach(function (key) {
+      ele.setAttribute(key, props[key]);
+    });
+  }
+  if(content) { ele.innerHTML = content; }
+  if(par) { par.appendChild(ele); }
+  return ele;
+}
+function prependElement(par, type, props, content) {
+  var ele = appendElement(null, type, props, content);
+  par.insertBefore(ele, par.firstChild);
+  return ele;
+}
+
 
 String.prototype.endsWith = function(suffix) {
   return this.indexOf(suffix, this.length - suffix.length) !== -1;
@@ -89,12 +106,12 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
         var reader = new FileReader();
       
         addEventHandler(reader, 'loadend', function(e, file) {
-          var item = document.createElement("div");
-          item.setAttribute('class', 'galleryitem');
-          var link = document.createElement("a");
-          link.setAttribute('class', 'link');
+          var item = prependElement(gallery, "div",      {'class':'galleryitem'});
+          var link = appendElement(item,     'a',        {'class':'link'});
+          var img  = appendElement(link,     'img',      {'title':"New Upload: "+file});
+          var p    = appendElement(item,     'p',        {'class':'new'});
+          var progress = appendElement(p,    'progress', {'min':0, 'max':file.size});
 
-          var img = document.createElement("img"); 
           addEventHandler(img, 'error', function(e) {
             target = media_url + 'mime/unknown.svg';
             if(this.src != target) { this.src = target; }
@@ -106,19 +123,7 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
           } else {
               img.src = media_url + 'mime/' + icon + '.svg';
           }
-          img.setAttribute('title', "New Upload: "+file)
 
-          var p = document.createElement("p");
-          p.setAttribute('class', 'new');
-          var progress = document.createElement("progress");
-          progress.getAttribute('min', 0);
-          progress.getAttribute('max', file.size);
-          p.appendChild(progress);
-
-          link.appendChild(img);
-          item.appendChild(link);
-          item.appendChild(p);
-          gallery.insertBefore(item, gallery.firstChild);
           // Put the drop back where is was
           if(drop.parentNode.parentNode == gallery) {
             gallery.insertBefore(drop.parentNode, gallery.firstChild);
@@ -144,17 +149,15 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
                 if(!keep) {
                   item.parentNode.removeChild(item);
                 } else {
-                  ret = xhr.responseText.slice(3).split('|')
-                  p.innerHTML = '<a href="'+ret[2]+'">' + ret[0] + '</a>';
-                  img.src = ret[1];
-                  link.href = ret[2];
-                  item.setAttribute('class', "galleryitem unpublished");
+                  temp = document.createElement('div');
+                  temp.innerHTML = xhr.responseText.slice(3)
+                  item.parentNode.replaceChild(temp.children[0], item);
                 }
               } else {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';
               }
             } else {
-              document.write(xhr.responseText);
+              p.innerHTML = '<a title="'+xhr.status+'">ERROR ' + xhr.status + "!</a>";
             }
           };
           xhr.send(formData);

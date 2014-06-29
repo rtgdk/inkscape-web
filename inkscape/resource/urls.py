@@ -34,6 +34,7 @@ urlpatterns = patterns('',
 
     url(r'^item/(\d+)/$',         view_resource,   name='resource'),
     url(r'^item/(\d+)/del/$',     delete_resource, name='delete_resource'),
+    url(r'^item/(\d+)/pub/$',     publish_resource,name='publish_resource'),
     url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
     url(r'^item/(\d+)/download/$',down_resource,   name='download_resource'),
     url(r'^item/(\d+)([\+\-])$',  like_resource,   name='like'),

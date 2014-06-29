@@ -339,6 +339,9 @@ background-position:center -25px;
   border: 2px #e58 solid;
   text-align: center !important;
 }
+.unpublished .label a {
+  height: 1em;
+}
 .galleryitem .label {
   width: 148px;
   visibility: hidden;

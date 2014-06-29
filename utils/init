@@ -29,12 +29,12 @@ echo ""
 echo "Copied static files from pythonenv to local static"
 echo ""
 
-$MANAGE loaddata $PWD/utils/data/auth.json
+$MANAGE loaddata $PWD/utils/datums/auth.json
 echo ""
 echo "Default admin user added, password: 123456 (delete on live deployments)"
 echo ""
 
-$MANAGE loaddata $PWD/utils/data/licenses.json
+$MANAGE loaddata $PWD/utils/datums/licenses.json
 
 ./utils/refresh-cms staging.
 

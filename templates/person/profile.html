@@ -25,7 +25,7 @@
          <li>
            <div class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</div>
            <div class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</div>
-           <span title="{{ session.ip }} / {{ session.last_activity|timesince }} ago">{{ object.ip|location }}</span>
+           <span title="{{ session.ip }} / {{ session.last_activity|timesince }} ago">{{ session.ip|location }}</span>
          </li>
      {% endfor %}
      </ol>

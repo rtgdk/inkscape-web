@@ -42,20 +42,7 @@
     <form action="{% url "edit_resource" item.id %}">
         <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
     </form>
-    <form action="{% url "delete_resource" item.id %}" onsubmit="popUp('popup'); return false;">
-        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
-    </form>
-    <div id="blanket"></div>
-    <div id="popup">
-      <h1>{% trans "Delete" %}</h1>
-      <p>{% trans "Are you sure you want to delete" %} {{ item }}?</p>
-      <div class="buttons">
-        <button id="deleteConfirm" class="start" type="submit" onclick="popUp('popup');">{% trans "Cancel" %}</button>
-        <form action="{% url "delete_resource" item.id %}" method="post">
-          {% csrf_token %}
-          <button id="deleteConfirm" class="end unique" type="submit" name="confirm">{% trans "Confirm Delete" %}</button>
-        </form>
-     </div>
-    </div>
+
+    {% include "resource/delete_button.html" %}
   </div>
 {% endblock %}

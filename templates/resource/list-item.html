@@ -4,7 +4,10 @@
     <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
     <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
     {% if item.published %}
-      <div class="label"><img src="{{ item.license.banner.url }}" title="{{ item.license }}"></div>
+      <div class="label">
+        <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
+        <img src="{{ item.license.banner.url }}" title="{{ item.license }}" class="l">
+      </div>
     {% else %}
       {% if item.is_new %}
         <p class="label"><a href="{% url "edit_resource" item.id %}">{% trans "Edit Now" %}</a></p>

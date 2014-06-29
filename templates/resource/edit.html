@@ -37,7 +37,8 @@
 
   <div class="buttonbar">
     {% if item.next %}
-      <button id="moreInfo" class="start end unique" type="submit" name="next" value="1">{% trans "Save & Next" %}</button>
+      <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+      <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>
     {% else %}
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
     {% endif %}

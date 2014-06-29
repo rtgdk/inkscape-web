@@ -13,9 +13,9 @@
         <dt>Size</dt><dd>3.4 MB</dd>
     </dl>
 
-    {% if item.outer.license %}
-    <a class="license" href="{{ item.outer.license.link }}"><img src="{{ item.outer.license.icon.url }}" title="{% if item.outer.owner %}Copyright © {{ item.years }} {{ item.user.name }}
-{% endif %}{{ item.outer.license }}"/></a>
+    {% if item.license %}
+    <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
+{% endif %}{{ item.license }}"/></a>
     {% endif %}
    </div>   
 

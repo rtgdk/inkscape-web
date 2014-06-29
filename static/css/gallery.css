@@ -278,7 +278,7 @@ background-position:center -25px;
   background-image: linear-gradient(to bottom, #ffffff 0%, #ECECEC 30%);
   overflow:hidden;
   margin-bottom:-15px;
-  min-height: 335px;
+  min-height: 315px;
   float: right;
   border-radius: 0px 0px 8px 8px;
 }
@@ -340,7 +340,9 @@ background-position:center -25px;
   text-align: center !important;
 }
 .unpublished .label a {
-  height: 1em;
+  height: 0.5em;
+  padding: 3px;
+  line-height: 100%;
 }
 .galleryitem .label {
   width: 148px;
@@ -350,6 +352,15 @@ background-position:center -25px;
 }
 .galleryitem:hover .label {
   visibility: visible;
+}
+.galleryitem .label img {
+  position: relative;
+  right: -4px;
+  float: left;
+}
+.galleryitem .label img.l {
+  float: right;
+  left: -4px;
 }
 
 .text {

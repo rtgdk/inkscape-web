@@ -102,8 +102,21 @@ def edit_resource(request, item_id=None):
         context_instance=RequestContext(request))
 
 @login_required
-def new_resource(request):
-    return render_to_response('resource/create.html', {},
+def create_resource(request, gallery_id):
+    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
+    c = {
+      'gallery': gallery,
+      'form': ResourceFileForm(),
+    }
+    if request.method == 'POST':
+        c['form'] = ResourceFileForm(request.POST, request.FILES)
+        if c['form'].is_valid():
+            item = c['form'].save(commit=False)
+            item.user = request.user
+            item.save()
+            gallery.items.add(item)
+            return redirect('resource', item.id)
+    return render_to_response('resource/create.html', c,
         context_instance=RequestContext(request))
 
 @login_required

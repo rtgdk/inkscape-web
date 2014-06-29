@@ -5,8 +5,8 @@
  {% ifequal user request.user %}
   {% autopaginate items 14 as resources %}
   <div class="galleryitem">
-    <div id="drop" class="link"><a href="{% url "new_resource" %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
-    <p><a href="{% url "new_resource" %}">{% trans "Submit Resource" %}</a></p>
+    <div id="drop" class="link"><a href="{% url "new_resource" gallery.id %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
+    <p><a href="{% url "new_resource" gallery.id %}">{% trans "Submit Resource" %}</a></p>
   </div>
  {% else %}
   {% autopaginate items 15 as resources %}

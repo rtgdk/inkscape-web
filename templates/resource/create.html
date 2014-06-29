@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+ <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+<div class="item">
+  <h1>Upload New Resource</h1>
+
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
+
+  <div style="padding: 20px;">{{ form.download }}</div>
+
+  <div class="sideInfo">
+    {% for field in form.auto %}
+      <h1 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}</h1>
+      {{ field }}
+    {% endfor %}
+  </div>
+
+  <div class="desc">
+    <h2>{{ form.name }}</h2>
+    <p>{{ form.desc }}</p>
+  </div>
+
+  <div class="buttonbar">
+    <button id="moreInfo" class="start" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+    <button id="moreInfo" class="end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+  </div>
+</div>
+
+ </form>
+
+{% endblock %}
+

@@ -37,7 +37,7 @@ class ResourceFileForm(ModelForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner']
+        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
         required = ['name', 'desc', 'category', 'license']
 
     def clean_owner(self):
@@ -53,7 +53,7 @@ class ResourceFileForm(ModelForm):
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc']:
+            if field.name in ['name', 'desc', 'download']:
                 continue
             yield field
 

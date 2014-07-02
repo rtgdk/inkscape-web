@@ -46,6 +46,7 @@ if [ -d $TARGET ]; then
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
+    rsync -rtuv $TEST data/ $TARGET/data
     bzr revno > $TARGET/data/revision
   fi
 fi

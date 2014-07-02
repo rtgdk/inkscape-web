@@ -28,6 +28,7 @@ django-registration==1.0
 django-reversion==1.8.0
 django-recaptcha
 django-user-sessions
+django-cleanup
 
 # Django-CMS Plugins
 django-cms==3.0

@@ -33,7 +33,10 @@ from .forms import ResourceFileForm, GalleryForm, ResourceAddForm
 def breadcrumbs(*args):
     yield ('/', _('Home'))
     for model in args:
-        yield (model.get_absolute_url(), str(model))
+        if type(model) is str:
+            yield ("", model)
+        else:
+            yield (model.get_absolute_url(), str(model))
 
 @login_required
 def delete_gallery(request, item_id):
@@ -187,7 +190,7 @@ def view_user(request, user_id, todelete=None):
         'user': user,
         'items': user.galleries.for_user(request.user),
         'todelete': todelete,
-        'breadcrumbs': breadcrumbs(user),
+        'breadcrumbs': breadcrumbs(user, "Galleries"),
     }
     return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))

@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
     'pagination',
+    'django_cleanup',
     'djangocms_text_ckeditor',
     'djangocms_file',
     'djangocms_picture',

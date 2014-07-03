@@ -39,6 +39,8 @@ def breadcrumbs(*args):
     for model in args:
         if type(model) is str:
             yield ("", model)
+        elif model is None:
+            pass
         else:
             yield (model.get_absolute_url(), str(model))
 
@@ -85,15 +87,14 @@ def add_to_gallery(request, gallery_id):
 @login_required
 def paste_in(request):
     """Create a pasted text entry."""
-    gallery, created = Gallery.objects.get_or_create(name="Pasted Texts", user=request.user)
     if request.method == 'POST':
         res = ResourceFile()
         created = now().isoformat().split('.')[0]
         
         res.license = License.objects.get(pk=1)
         res.category = Category.objects.get(pk=9)
-        res.name = "Pasted Text on: %s" % created
-        res.desc = "Pasted Text"
+        res.name = _("Pasted Text on %s") % created
+        res.desc = _("-")
         res.user = request.user
         res.published = 1
 
@@ -101,9 +102,7 @@ def paste_in(request):
         buf.seek(0, 2)
         fil = InMemoryUploadedFile(buf, "text", "paste-%s.txt" % created, None, buf.tell(), None)
         res.download.save(fil.name, fil) # Does res.save()
-
-        gallery.items.add(res)
-        return redirect('resource', res.id)
+        return redirect('edit_resource', res.id)
     return redirect('home')
 
 @login_required

@@ -4,11 +4,23 @@
 {% block content %}
 
 <div id="right-sidebar" class="profileside">
-	<h1>Last Seen</h1>
-	<p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
 
-    <h1>Joined On</h1>
-    <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
+    {% if me %}
+     <h1>PasteBin</h1>
+     <div id="paste">
+      <form method="POST" action="{% url "pastebin" %}">
+        {% csrf_token %}
+        <textarea name="text" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
+        <input type="submit" value="{% trans "Paste!" %}"/>
+      </form>
+     </div>
+    {% else %}
+      <h1>Last Seen</h1>
+      <p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
+
+      <h1>Joined On</h1>
+      <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
+    {% endif %}
 
     <h1>Stats</h1>
     <table>
@@ -29,24 +41,10 @@
          </li>
      {% endfor %}
      </ol>
-
-     <div style="text-align: center;">
-     <a id="editprofile" href="{% url "edit_profile" %}">{% trans "Edit My Profile" %}</a>
-     </div>
    {% endif %}
 </div>
 
-{% if items or user == request.user %}
-  <h1>PasteBin</h1>
-
-  <div id="paste">
-  <form method="POST" action="{% url "pastebin" %}">
-    {% csrf_token %}
-    <textarea name="text" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
-    <input type="submit" value="{% trans "Paste!" %}"/>
-  </form>
-  </div>
-
+{% if items %}
   <h1>InkSpaces</h1>
 
   {% include "resource/galleries.html" %}

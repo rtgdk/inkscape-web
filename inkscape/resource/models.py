@@ -93,6 +93,9 @@ class ResourceManager(InheritanceManager):
     def new(self):
         return self.get_query_set().filter(category__isnull=True)
 
+    def pastes(self):
+        return self.get_query_set().filter(category=Category.objects.get(pk=9))
+
 
 class Resource(Model):
     is_file   = False

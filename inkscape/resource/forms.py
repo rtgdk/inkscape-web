@@ -27,6 +27,23 @@ class GalleryForm(ModelForm):
         model = Gallery
         fields = ['name']
 
+TEXT_TYPES = (
+  ('text/plain', "Plain Text"),
+  ('text/html',  "HTML"),
+  ('text/python', "Plain Text"),
+  ('text/plain', "Plain Text"),
+  ('text/plain', "Plain Text"),
+  ('text/plain', "Plain Text"),
+  ('text/plain', "Plain Text"),
+)
+class ResourcePasteForm(ModelForm):
+    media_type = ChoiceField(label=_('Text Format'), choices=TEXT_TYPES)
+
+    class Meta:
+        model = ResourceFile
+
+
+
 class ResourceFileForm(ModelForm):
     permission = BooleanField(label=_('I have permission'), required=False)
 

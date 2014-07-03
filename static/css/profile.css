@@ -136,3 +136,11 @@
 #sessions div.op { background-position: -80px; }
 #sessions div.ie { background-position: -100px; }
 
+#paste textarea {
+  height: 150px;
+  width: 720px;
+}
+#paste input {
+  min-height: 30px;
+  width: 720px;
+}

@@ -39,6 +39,8 @@ urlpatterns = patterns('',
     url(r'^item/(\d+)/download/$',down_resource,   name='download_resource'),
     url(r'^item/(\d+)([\+\-])$',  like_resource,   name='like'),
 
+    url(r'^paste/',               paste_in,        name='pastebin'),
+
     url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
 
     url(r'^cat/(\w+)/$',             view_category,   name='category_resources'),

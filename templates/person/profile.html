@@ -37,6 +37,16 @@
 </div>
 
 {% if items or user == request.user %}
+  <h1>PasteBin</h1>
+
+  <div id="paste">
+  <form method="POST" action="{% url "pastebin" %}">
+    {% csrf_token %}
+    <textarea name="text" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
+    <input type="submit" value="{% trans "Paste!" %}"/>
+  </form>
+  </div>
+
   <h1>InkSpaces</h1>
 
   {% include "resource/galleries.html" %}

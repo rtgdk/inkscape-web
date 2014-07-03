@@ -21,14 +21,18 @@ Views for resource system, adding items, entering new categories for widgets etc
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
+from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
+from django.utils.timezone import now
 from django.contrib.auth.models import User
 
-from .models import Resource, Category, License, Gallery
+from .models import Resource, ResourceFile, Category, License, Gallery
 from .forms import ResourceFileForm, GalleryForm, ResourceAddForm
+
+from cStringIO import StringIO
 
 def breadcrumbs(*args):
     yield ('/', _('Home'))
@@ -78,6 +82,29 @@ def add_to_gallery(request, gallery_id):
       context_instance=RequestContext(request),
       content_type="text/plain")
     
+@login_required
+def paste_in(request):
+    """Create a pasted text entry."""
+    gallery, created = Gallery.objects.get_or_create(name="Pasted Texts", user=request.user)
+    if request.method == 'POST':
+        res = ResourceFile()
+        created = now().isoformat().split('.')[0]
+        
+        res.license = License.objects.get(pk=1)
+        res.category = Category.objects.get(pk=9)
+        res.name = "Pasted Text on: %s" % created
+        res.desc = "Pasted Text"
+        res.user = request.user
+        res.published = 1
+
+        buf = StringIO(request.POST['text'])
+        buf.seek(0, 2)
+        fil = InMemoryUploadedFile(buf, "text", "paste-%s.txt" % created, None, buf.tell(), None)
+        res.download.save(fil.name, fil) # Does res.save()
+
+        gallery.items.add(res)
+        return redirect('resource', res.id)
+    return redirect('home')
 
 @login_required
 def edit_resource(request, item_id=None):

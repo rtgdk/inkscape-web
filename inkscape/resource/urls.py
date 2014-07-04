@@ -15,13 +15,15 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 try:
-    from django.conf.urls import patterns, url
+    from django.conf.urls import patterns, url, include
 except ImportError:
-    from django.conf.urls.defaults import patterns, url
+    from django.conf.urls.defaults import patterns, url, include
 
 from .views import *
 
 urlpatterns = patterns('',
+  url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
+  (r'^gallery/',    include(patterns('',
     url(r'^$',                    my_resources,    name='my_resources'),
 
     url(r'^(\d+)/$',              view_gallery,   name="gallery"),
@@ -43,6 +45,7 @@ urlpatterns = patterns('',
 
     url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
 
-    url(r'^cat/(\w+)/$',             view_category,   name='category_resources'),
+    url(r'^cat/(\w+)/$',          view_category,   name='category_resources'),
+  ))),
 )
 

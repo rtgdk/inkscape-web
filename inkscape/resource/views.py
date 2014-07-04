@@ -126,6 +126,8 @@ def edit_resource(request, item_id=None):
             item.save()
             if 'next' in request.POST and item.next:
                 return redirect('edit_resource', item.next.id)
+            if item.category and item.category.id == 1:
+                return redirect('pasted_item', item.id)
             return redirect('resource', item.id)
 
     return render_to_response('resource/edit.html', c,

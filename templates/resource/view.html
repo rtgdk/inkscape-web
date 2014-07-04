@@ -9,8 +9,10 @@
         <dt>Downloads</dt><dd>{{ item.downed }}</dd>
         <dt>Liked</dt><dd>{{ item.votes.likes.count }}</dd>
         <dt>Disliked</dt><dd>{{ item.votes.dislikes.count }}</dd>
-        <dt>Area</dt><dd>1900x3400</dd>
-        <dt>Size</dt><dd>3.4 MB</dd>
+        {% if item.mime.is_raster %}
+          <dt>Area</dt><dd>1900x3400</dd>
+        {% endif %}
+        <dt>Size</dt><dd>{{ item.download.size|filesizeformat }}</dd>
     </dl>
 
     {% if item.license %}

@@ -73,7 +73,7 @@
 							</form>
                         {% else %}
                         <p><img src="{{ request.user.details.roll.icon_url }}" title="{{ request.user.details.roll }}"/>
-                        {{ request.user.name }} 
+                        <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
                         <form  class="topdrop">
                             <a href="{% url "my_profile" %}"><img class="userphoto" src="{{ user.details.photo_url }}" alt="{% trans "Profile Photo" %}"/></a>
                           {% if request.user.is_staff %}

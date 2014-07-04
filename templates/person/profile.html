@@ -1,6 +1,7 @@
 {% extends 'person/base.html' %}
 {% load user_session i18n future %}
 
+
 {% block content %}
 
 <div id="right-sidebar" class="profileside">
@@ -29,18 +30,18 @@
       <tr><th scope="col">{% trans "Resource Downloads:" %}</th><td>{{ user.resources.downloads }}</td></tr>
     </table>
 
-   {% if user == request.user %}
+   {% if me %}
 
      <h1>Sessions</h1>
-     <ol id="sessions">
+     <div id="sessions">
      {% for session in user.sessions %}
-         <li>
+         <div>
            <div class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</div>
            <div class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</div>
            <span title="{{ session.ip }} / {{ session.last_activity|timesince }} ago">{{ session.ip|location }}</span>
-         </li>
+         </div>
      {% endfor %}
-     </ol>
+     </div>
    {% endif %}
 </div>
 

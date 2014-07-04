@@ -100,10 +100,10 @@
   height: 20px;
   vertical-align: middle;
 }
-#sessions li {
+#sessions > div {
   line-height: 20px;
 }
-#sessions div {
+#sessions > div > div { 
   width: 20px;
   height: 20px;
   display: inline-block;

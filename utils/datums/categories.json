@@ -1,12 +1,12 @@
 [
-  {"pk": 1, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Artwork", "desc": "Show off your Inkscape artwork."}},
-  {"pk": 2, "model": "resource.category", "fields": {"acceptable_licenses": [14], "name": "Screenshot", "desc": "Any screenshot of inksscape, it's tools or extensions."}},
-  {"pk": 9, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 14], "name": "UI Mockup", "desc": "An example or plan of how the user interface should look."}},
-  {"pk": 3, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Tutorial Image", "desc": "A step by step tutorial contained within an image."}},
-  {"pk": 4, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Tutorial Video", "desc": "A link to a video service where it shows what is possible wit inkscape."}},
-  {"pk": 5, "model": "resource.category", "fields": {"acceptable_licenses": [1, 8, 9, 10, 11, 12], "name": "Inkscape Extension", "desc": "A python package or link to a pypi installable package which contains an extension for inkscape."}},
-  {"pk": 6, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2], "name": "Inkscape Pallet", "desc": "An inkscape Colour Pallet containing useful and related colours."}},
-  {"pk": 7, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4], "name": "Inkscape Symbols", "desc": "An svg file containing multiple related symbols or useful components for use in the symbols dialog. i.e. a Stencil."}},
-  {"pk": 8, "model": "resource.category", "fields": {"acceptable_licenses": [9], "name": "Inkscape Build", "desc": "A build of Inkscape for any platform."}},
-  {"pk": 9, "model": "resource.category", "fields": {"acceptable_licenses": [1], "name": "PasteBin", "desc": "A pasted bit of text."}}
+  {"pk": 1, "model": "resource.category", "fields": {"acceptable_licenses": [1], "name": "PasteBin", "desc": "A pasted bit of text."}},
+  {"pk": 2, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Artwork", "desc": "Show off your Inkscape artwork."}},
+  {"pk": 3, "model": "resource.category", "fields": {"acceptable_licenses": [14], "name": "Screenshot", "desc": "Any screenshot of inksscape, it's tools or extensions."}},
+  {"pk": 4, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 14], "name": "UI Mockup", "desc": "An example or plan of how the user interface should look."}},
+  {"pk": 5, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Tutorial Image", "desc": "A step by step tutorial contained within an image."}},
+  {"pk": 6, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4, 5, 6, 7, 14], "name": "Tutorial Video", "desc": "A link to a video service where it shows what is possible wit inkscape."}},
+  {"pk": 7, "model": "resource.category", "fields": {"acceptable_licenses": [1, 8, 9, 10, 11, 12], "name": "Inkscape Extension", "desc": "A python package or link to a pypi installable package which contains an extension for inkscape."}},
+  {"pk": 8, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2], "name": "Inkscape Pallet", "desc": "An inkscape Colour Pallet containing useful and related colours."}},
+  {"pk": 9, "model": "resource.category", "fields": {"acceptable_licenses": [1, 2, 3, 4], "name": "Inkscape Symbols", "desc": "An svg file containing multiple related symbols or useful components for use in the symbols dialog. i.e. a Stencil."}},
+  {"pk": 10, "model": "resource.category", "fields": {"acceptable_licenses": [9], "name": "Inkscape Build", "desc": "A build of Inkscape for any platform."}}
 ]

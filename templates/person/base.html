@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "User Profile" %} | {{ user.name }}{% endblock %} 
+
 {% block css %}
   <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/profile.css" >
 {% endblock %}
@@ -32,6 +34,6 @@
 
   </div>
 
-{% block content %}Nothing{% endblock %}
+{% block content %}{% trans "Nothing" %}{% endblock %}
 
 {% endblock %}

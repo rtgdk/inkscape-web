@@ -3,15 +3,17 @@
 
 {% block "foot" %}This page designed by <a href="/">Jabiertxo Arraiza Cenoz</a>{% endblock %}
 
+{% block title %}{{ item.name }}{% endblock %}
+
 {% block content %}
 
 <div class="item">
   {% if item.is_file %}
-    {% if item.is_image %}
+    {% if item.mime.is_image %}
       <div class="image">
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
       </div>
-    {% elif item.is_text %}
+    {% elif item.mime.is_text %}
       <div class="text">
         {% for lines, text in item.as_text %}
           <pre id="lines">{% for i in lines %}{{ i }}.

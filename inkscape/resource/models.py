@@ -19,7 +19,6 @@ Models for resource system, provides license, categories and resource downloads.
 """
 
 import os
-import mimetypes
 
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
@@ -29,16 +28,13 @@ from django.core.urlresolvers import reverse
 
 from model_utils.managers import InheritanceManager
 
-from inkscape.settings import DESIGN_URL, DESIGN_ROOT, MAX_PREVIEW_SIZE
+from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
-from .utils import syntaxer
+from .utils import syntaxer, MimeType, upto, cached
+
 
 null = dict(null=True, blank=True)
-def upto(d, c='resources', blank=True, lots=False):
-    dated = lots and ["%Y","%m"] or []
-    return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
-
 
 class License(Model):
     name    = CharField(max_length=64)
@@ -94,7 +90,7 @@ class ResourceManager(InheritanceManager):
         return self.get_query_set().filter(category__isnull=True)
 
     def pastes(self):
-        return self.get_query_set().filter(category=Category.objects.get(pk=9))
+        return self.get_query_set().filter(category=Category.objects.get(pk=1))
 
 
 class Resource(Model):
@@ -123,8 +119,7 @@ class Resource(Model):
 
     def save(self, *args, **kwargs):
         self.edited = now()
-        # This might need a save to work right??
-        self.media_type = mimetypes.guess_type(self.download.path, True)[0] or 'text/plain'
+        self.media_type = str(MimeType(filename=self.download.path))
         return Model.save(self, *args, **kwargs)
 
     def get_absolute_url(self):
@@ -158,57 +153,16 @@ class Resource(Model):
         except IndexError:
             return None
 
+    @cached
+    def mime(self):
+        """Returns an encapsulated media_type as a MimeType object"""
+        return MimeType( self.media_type )
+
     def icon(self):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
         if self.thumbnail:
             return self.thumbnail.url
-        for ft_icon in [self.file_type, self.is_text and 'plain' or 'unknown']: 
-            if os.path.exists(os.path.join(DESIGN_ROOT,'mime',ft_icon+'.svg')):
-                break
-        return os.path.join(DESIGN_URL, 'mime', ft_icon+'.svg')
-
-    def banner(self):
-        for ft_icon in [self.file_subtype, 'unknown']:
-            if os.path.exists(os.path.join(DESIGN_ROOT,'mime','banner',ft_icon+'.svg')):
-                break
-        return os.path.join(DESIGN_URL, 'mime','banner',ft_icon+'.svg')
-
-    @property
-    def mime(self):
-        return self.media_type.split('/')
-
-    @property
-    def file_subtype(self):
-        return self.mime[1].split('+')[0]
-
-    @property
-    def file_type(self):
-        mime = self.mime
-        if mime[0] in ['image']:
-            return mime[0]
-        if mime[1][-2:] == 'ml':
-            return 'xml'
-        if 'zip' in mime[1] or 'compressed' in mime[1] or 'tar' in mime[1]:
-            return 'archive'
-        if mime[0] in ['text','application']:
-            if 'opendocument' in mime[1]:
-                return mime[1].split('.')[-1]
-            if mime[1][:2] == 'x-':
-                return mime[1][2:]
-            return mime[1]
-        return 'unknown'
-
-    @property
-    def is_text(self):
-        return self.mime[0] == 'text' or self.mime[1] == 'javascript'
-
-    @property
-    def is_image(self):
-        return self.file_type == 'image'
-
-    @property
-    def is_raster(self):
-        return self.is_image and self.mime[1] in ['jpeg', 'gif', 'png']
+        return self.mime().icon()
 
     @property
     def download(self):
@@ -237,7 +191,7 @@ class ResourceFile(Resource):
 
         if self.download and not self.thumbnail:
             # We might be able to detect that the download has changed here.
-            if self.is_raster:
+            if self.mime().is_raster():
                 self.thumbnail.save(self.download.name, self.download)
             elif self.thumbnail:
                 self.thumbnail = None
@@ -245,16 +199,16 @@ class ResourceFile(Resource):
 
 
     def icon(self):
-        if not self.thumbnail and self.is_image and self.download.size < MAX_PREVIEW_SIZE:
+        if not self.thumbnail and self.mime().is_image() and self.download.size < MAX_PREVIEW_SIZE:
             return self.download.url
         return Resource.icon(self)
 
     def as_text(self):
         """Returns the contents as text"""
-        if self.is_text:
+        if self.mime().is_text():
             with open(self.download.path, 'r') as fhl:
                 text = fhl.read()
-                return [ (range(1,text.count("\n")), syntaxer(text)) ]
+                return [ (range(1,text.count("\n")), syntaxer(text, self.mime())) ]
         return "Not text!"
 
 

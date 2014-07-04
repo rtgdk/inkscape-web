@@ -88,20 +88,21 @@ def add_to_gallery(request, gallery_id):
 def paste_in(request):
     """Create a pasted text entry."""
     if request.method == 'POST':
-        res = ResourceFile()
-        created = now().isoformat().split('.')[0]
-        
-        res.license = License.objects.get(pk=1)
-        res.category = Category.objects.get(pk=9)
-        res.name = _("Pasted Text on %s") % created
-        res.desc = _("-")
-        res.user = request.user
-        res.published = 1
+        cat = Category.objects.get(pk=1)
+        count = ResourceFile.objects.filter(user=request.user, category=cat).count()
 
+        res = ResourceFile(
+          license=License.objects.get(pk=1), category=cat,
+          name=_("Pasted Text #%d") % count, user=request.user,
+          desc="-", owner=True, published=True,
+        )
+        
+        filename = "pasted-%s-%d.txt" % (request.user.username, count)
         buf = StringIO(request.POST['text'])
         buf.seek(0, 2)
-        fil = InMemoryUploadedFile(buf, "text", "paste-%s.txt" % created, None, buf.tell(), None)
+        fil = InMemoryUploadedFile(buf, "text", filename, None, buf.tell(), None)
         res.download.save(fil.name, fil) # Does res.save()
+
         return redirect('edit_resource', res.id)
     return redirect('home')
 

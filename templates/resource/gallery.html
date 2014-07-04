@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}{% trans "Gallery" %} | {{ gallery.name }}{% endblock %}
+
 {% block "js" %}
   <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
 {% endblock %}

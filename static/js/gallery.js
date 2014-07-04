@@ -157,6 +157,7 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
                 p.innerHTML = '<a>'+xhr.responseText+'</a>';
               }
             } else {
+              // document.write(xhr.responseText); // This is useful, how to debug?
               p.innerHTML = '<a title="'+xhr.status+'">ERROR ' + xhr.status + "!</a>";
             }
           };

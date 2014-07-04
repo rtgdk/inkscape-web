@@ -92,7 +92,7 @@ class MimeType(object):
     def subtype(self):
         """Return the sub-type as a human readable thing"""
         value = self.minor.rsplit('+',1)[0]
-        for x in ['x-','script.','vnd.','ms-','windows-','oasis.opendocument.']:
+        for x in ['x-','script.','vnd.','ms-','windows-','oasis.opendocument.','microsoft.']:
             if value.startswith(x):
                 value = value[len(x):]
         return self.s_tr.get(value, value)
@@ -106,7 +106,8 @@ class MimeType(object):
         return value
 
     def is_text(self):
-        return self.type() in ['text','code']
+        # We test for both because javascript in code and html in document
+        return self.type() in ['text','code'] or self.major == 'text'
 
     def is_image(self):
         return self.major == 'image'

@@ -33,8 +33,14 @@ from inkscape.fields import ResizedImageField
 
 from .utils import syntaxer, MimeType, upto, cached
 
-
 null = dict(null=True, blank=True)
+
+class VisibleManager(Manager):
+    def get_query_set(self):
+        return Manager.get_query_set(self).filter(visible=True)
+
+    def full_list(self):
+        return Manager.get_query_set(self)
 
 class License(Model):
     name    = CharField(max_length=64)
@@ -48,7 +54,10 @@ class License(Model):
     nc  = BooleanField(_('Non-Commercial'), default=False)
     nd  = BooleanField(_('Non-Derivitive'), default=False)
 
+    visible  = BooleanField(default=True)
     replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
+
+    objects  = VisibleManager()
 
     def is_free(self):
         return not self.nc and not self.nd and not arr
@@ -64,7 +73,10 @@ class Category(Model):
     name     = CharField(max_length=64)
     desc     = TextField(**null)
 
+    visible  = BooleanField(default=True)
     acceptable_licenses = ManyToManyField(License)
+
+    objects  = VisibleManager()
 
     def __unicode__(self):
         return self.name
@@ -208,7 +220,7 @@ class ResourceFile(Resource):
         if self.mime().is_text():
             with open(self.download.path, 'r') as fhl:
                 text = fhl.read()
-                return [ (range(1,text.count("\n")), syntaxer(text, self.mime())) ]
+                return [ (range(1,text.count("\n")+1), syntaxer(text, self.mime())) ]
         return "Not text!"
 
 

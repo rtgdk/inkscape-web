@@ -247,6 +247,7 @@ image/tiff
 image/vasa
 image/vnd.dwg
 image/vnd.fpx
+image/vnd.microsoft.icon|image/icon
 image/vnd.net-fpx
 image/vnd.rn-realflash
 image/vnd.rn-realpix

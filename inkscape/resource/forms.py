@@ -21,41 +21,19 @@ from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 
 from .models import Resource, ResourceFile, Gallery
+from .utils import ALL_TEXT_TYPES
 
 class GalleryForm(ModelForm):
     class Meta:
         model = Gallery
         fields = ['name']
 
-TEXT_TYPES = (
-  ('text/plain', "Plain Text"),
-  ('text/html',  "HTML"),
-  ('text/python', "Plain Text"),
-  ('text/plain', "Plain Text"),
-  ('text/plain', "Plain Text"),
-  ('text/plain', "Plain Text"),
-  ('text/plain', "Plain Text"),
-)
-class ResourcePasteForm(ModelForm):
-    media_type = ChoiceField(label=_('Text Format'), choices=TEXT_TYPES)
 
-    class Meta:
-        model = ResourceFile
-
-
-
-class ResourceFileForm(ModelForm):
-    permission = BooleanField(label=_('I have permission'), required=False)
-
+class ResourceBaseForm(ModelForm):
     def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
         for key in self.Meta.required:
             self.fields[key].required = True
-
-    class Meta:
-        model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
-        required = ['name', 'desc', 'category', 'license']
 
     def clean_owner(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:
@@ -63,7 +41,7 @@ class ResourceFileForm(ModelForm):
         return self.cleaned_data.get('owner')
 
     def _clean_fields(self):
-        super(ResourceFileForm, self)._clean_fields()
+        ModelForm._clean_fields(self)
         if 'owner' in self._errors:
             self._errors['permission'] = self.errors['owner']
 
@@ -73,6 +51,26 @@ class ResourceFileForm(ModelForm):
             if field.name in ['name', 'desc', 'download']:
                 continue
             yield field
+
+class ResourceFileForm(ResourceBaseForm):
+    permission = BooleanField(label=_('I have permission'), required=False)
+
+    class Meta:
+        model = ResourceFile
+        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
+        required = ['name', 'desc', 'category', 'license']
+
+
+class ResourcePasteForm(ResourceBaseForm):
+    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+
+    class Meta:
+        model = ResourceFile
+        fields = ['name', 'desc', 'media_type', 'link', 'license', 'download']
+        required = ['name', 'license']
+
+# This allows paste to have a different set of options
+FORMS = {1: ResourcePasteForm}
 
 class ResourceAddForm(ModelForm):
     class Meta:

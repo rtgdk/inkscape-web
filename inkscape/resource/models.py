@@ -134,10 +134,13 @@ class Resource(Model):
 
     def save(self, *args, **kwargs):
         self.edited = now()
-        self.media_type = str(MimeType(filename=self.download.path))
+        if not self.media_type:
+            self.media_type = str(MimeType(filename=self.download.path))
         return Model.save(self, *args, **kwargs)
 
     def get_absolute_url(self):
+        if self.category.id == 1:
+            return reverse('pasted_item', args=[str(self.id)])
         return reverse('resource', args=[str(self.id)])
 
     @property

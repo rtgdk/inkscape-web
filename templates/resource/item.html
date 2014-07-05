@@ -14,7 +14,7 @@
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
       </div>
     {% elif item.mime.is_text %}
-      <div class="text">
+      <div class="text" title="{{ item.media_type }}">
         {% for lines, text in item.as_text %}
           <pre id="lines">{% for i in lines %}<a id="{{ i }}">{{ i }}</a>.
 {% endfor %}</pre>

@@ -23,6 +23,7 @@ from .views import *
 
 urlpatterns = patterns('',
   url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
+
   (r'^gallery/',    include(patterns('',
     url(r'^$',                    my_resources,    name='my_resources'),
 
@@ -41,7 +42,7 @@ urlpatterns = patterns('',
     url(r'^item/(\d+)/download/$',down_resource,   name='download_resource'),
     url(r'^item/(\d+)([\+\-])$',  like_resource,   name='like'),
 
-    url(r'^paste/',               paste_in,        name='pastebin'),
+    url(r'^paste/$',              paste_in,        name='pastebin'),
 
     url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
 

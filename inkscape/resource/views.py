@@ -30,7 +30,7 @@ from django.utils.timezone import now
 from django.contrib.auth.models import User
 
 from .models import Resource, ResourceFile, Category, License, Gallery
-from .forms import ResourceFileForm, GalleryForm, ResourceAddForm
+from .forms import FORMS, ResourceFileForm, GalleryForm, ResourceAddForm
 
 from cStringIO import StringIO
 
@@ -38,9 +38,11 @@ def breadcrumbs(*args):
     yield ('/', _('Home'))
     for model in args:
         if type(model) is str:
-            yield ("", model)
+            yield ("", _(model))
         elif model is None:
             pass
+        elif not hasattr(model, "get_absolute_url"):
+            raise ValueError("Refusing the make '%s' into a breadcrumb!" % str(model))
         else:
             yield (model.get_absolute_url(), str(model))
 
@@ -104,21 +106,23 @@ def paste_in(request):
         res.download.save(fil.name, fil) # Does res.save()
 
         return redirect('edit_resource', res.id)
-    return redirect('home')
+    return redirect('my_resources')
 
 @login_required
 def edit_resource(request, item_id=None):
     item = item_id and get_object_or_404(Resource, id=item_id, user=request.user)
+    form = FORMS.get(item and item.category and item.category.id or 0, ResourceFileForm)
     c = {
-      'form': ResourceFileForm(instance=item),
+      'form': form(instance=item),
       'item': item,
+      'breadcrumbs': breadcrumbs(item.user, item.gallery, item, "Edit"),
     }
     if request.method == 'POST':
         if 'cancel' in request.POST:
             if item.is_new:
                 return redirect('gallery', item.gallery.id)
             return redirect('resource', item.id)
-        c['form'] = ResourceFileForm(request.POST, request.FILES, instance=item)
+        c['form'] = form(request.POST, request.FILES, instance=item)
         if c['form'].is_valid():
             item = c['form'].save(commit=False)
             if not item.user:
@@ -126,9 +130,7 @@ def edit_resource(request, item_id=None):
             item.save()
             if 'next' in request.POST and item.next:
                 return redirect('edit_resource', item.next.id)
-            if item.category and item.category.id == 1:
-                return redirect('pasted_item', item.id)
-            return redirect('resource', item.id)
+            return redirect(item.get_absolute_url())
 
     return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
@@ -139,6 +141,7 @@ def create_resource(request, gallery_id):
     c = {
       'gallery': gallery,
       'form': ResourceFileForm(),
+      'breadcrumbs': breadcrumbs(request.user, gallery, "Upload New Resource"),
     }
     if request.method == 'POST':
         c['form'] = ResourceFileForm(request.POST, request.FILES)
@@ -162,8 +165,10 @@ def delete_resource(request, item_id):
             return redirect('gallery', gallery.id)
         return redirect('my_resources')
 
-    return render_to_response('resource/delete.html', { 'delete': True, 'item': item },
-            context_instance=RequestContext(request))
+    return render_to_response('resource/delete.html', {
+      'delete': True, 'item': item,
+      'breadcrumbs': breadcrumbs(item.user, item.gallery, item, "Delete"),
+      }, context_instance=RequestContext(request))
 
 @login_required
 def publish_resource(request, item_id):

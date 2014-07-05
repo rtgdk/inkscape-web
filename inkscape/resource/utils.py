@@ -38,13 +38,22 @@ MIME_DIR = 'mime'
 MIME_URL = os.path.join(DESIGN_URL, MIME_DIR)
 MIME_ROOT = os.path.join(DESIGN_ROOT, MIME_DIR)
 
+ALL_TEXT_TYPES = dict( (mimes[0], name)
+    for (name, alias, patterns, mimes) in lexers.get_all_lexers()
+      if mimes ).items()
+ALL_TEXT_TYPES.sort(key=lambda a: a[1])
 
 def syntaxer(text, mime):
     """Highlights text files based on their type"""
     if not pygments:
         return text
     formatter = formatters.HtmlFormatter(encoding='utf8')
-    lexer = lexers.guess_lexer(text)
+
+    if mime:
+        lexer = lexers.get_lexer_for_mimetype(str(mime))
+    else:
+        lexer = lexers.guess_lexer(text)
+
     return mark_safe(highlight(text, lexer, formatter))
 
 def upto(d, c='resources', blank=True, lots=False):

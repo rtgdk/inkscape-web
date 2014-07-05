@@ -32,7 +32,7 @@
 
   <div class="desc">
     <h2>{{ form.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
-    <p>{{ form.desc }}</p>
+    <p{% if form.desc.errors %} class="error"{% endif %}>{{ form.desc }}</p>
   </div>
 
   <div class="buttonbar">

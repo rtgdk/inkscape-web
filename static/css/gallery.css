@@ -187,6 +187,9 @@ table.bioitem p a {
   width: 100%;
   height: 300px;
 }
+.item .desc p.error textarea {
+  border: 2px #d00 solid;
+}
 
 .item h2 {
   padding-bottom:7px;

@@ -39,6 +39,9 @@ class VisibleManager(Manager):
     def get_query_set(self):
         return Manager.get_query_set(self).filter(visible=True)
 
+    def get(self, **kwargs):
+        return Manager.get_query_set(self).get(**kwargs)
+
     def full_list(self):
         return Manager.get_query_set(self)
 

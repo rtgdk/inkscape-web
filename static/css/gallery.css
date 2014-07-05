@@ -369,9 +369,12 @@ background-position:center -25px;
 }
 .text #lines {
   float: left;
-  padding-top: 13px;
   color: #777;
   text-align: right;
 }
 
+.text pre {
+  margin: 5px;
+  padding: 0px;
+}
 

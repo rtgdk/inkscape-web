@@ -2,15 +2,18 @@
 
 
 <div id="gallery">
- {% ifequal user request.user %}
+ {% if user == request.user and gallery %}
   {% autopaginate items 14 as resources %}
   <div class="galleryitem">
     <div id="drop" class="link"><a href="{% url "new_resource" gallery.id %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
     <p><a href="{% url "new_resource" gallery.id %}">{% trans "Submit Resource" %}</a></p>
   </div>
+  <script>
+    registerDropZone('drop', 'gallery', '{% url "add_to_gallery" gallery.id %}', '{{ DESIGN_URL }}'); 
+  </script>
  {% else %}
   {% autopaginate items 15 as resources %}
- {% endifequal %}
+ {% endif %}
  {% for item in resources %}
    {% include "resource/list-item.html" %}
  {% empty %}
@@ -19,7 +22,4 @@
 
 {% paginate %}
 
-<script>
-  registerDropZone('drop', 'gallery', '{% url "add_to_gallery" gallery.id %}', '{{ DESIGN_URL }}'); 
-</script>
 

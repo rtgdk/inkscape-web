@@ -5,9 +5,9 @@
 
 {% block content %}
 
-<h1>{{ category.name }}</h1>
-
-{% if category %}
+{% if user %}
+  <h1>{% blocktrans %}{{ user }}'s {{ category }}{% endblocktrans %}</h1>
+{% else %}
   <h1>{% blocktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
   <p>{{ category.desc }}</p>
 {% endif %}

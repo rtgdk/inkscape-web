@@ -85,7 +85,7 @@ class Category(Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('category_resources', args=[str(self.id)])
+        return reverse('resource_category', args=[str(self.id)])
 
 
 class ResourceManager(InheritanceManager):

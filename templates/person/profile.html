@@ -6,8 +6,8 @@
 
 <div id="right-sidebar" class="profileside">
 
+    <h1><a href="{% url "user_category" user.id 1 %}">PasteBin</a></h1>
     {% if me %}
-     <h1>PasteBin</h1>
      <div id="paste">
       <form method="POST" action="{% url "pastebin" %}">
         {% csrf_token %}

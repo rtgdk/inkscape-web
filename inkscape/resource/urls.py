@@ -44,9 +44,10 @@ urlpatterns = patterns('',
 
     url(r'^paste/$',              paste_in,        name='pastebin'),
 
-    url(r'^user/(\w+)/$',         view_user,       name='user_resources'),
+    url(r'^user/(\d+)/$',         view_user,       name='user_resources'),
 
-    url(r'^cat/(\w+)/$',          view_category,   name='category_resources'),
+    url(r'^category/(\d+)/$',       view_category,   name='resource_category'),
+    url(r'^category/(\d+)/(\d+)/$', view_category,   name='user_category'),
   ))),
 )
 

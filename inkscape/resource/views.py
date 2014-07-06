@@ -53,7 +53,7 @@ def delete_gallery(request, item_id):
         if 'confirm' in request.POST:
             item.delete()
         return redirect('my_resources')
-    return view_user(request, request.user.id, item)
+    return view_user(request, request.user.id, todelete=item)
 
 @login_required
 def edit_gallery(request, item_id=None):
@@ -182,13 +182,15 @@ def my_resources(request):
     return view_user(request, request.user.id)
 
 
-def view_category(request, category_id):
-    category = get_object_or_404(Category, id=category_id)
+def view_category(request, category_id, user_id=None):
+    category = Category.objects.get(pk=category_id)
+    user = user_id and get_object_or_404(User, pk=user_id)
     # We never show unpublished items, even to their owners
     c = {
-        'items': Resource.objects.filter(category=category, published=True),
+        'items': Resource.objects.filter(category=category, published=True, user=user),
         'category': category,
         'breadcrumbs': breadcrumbs(category),
+        'user': user,
     }
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
@@ -218,8 +220,9 @@ def view_gallery(request, gallery_id):
 
 
 def view_user(request, user_id, todelete=None):
-    user = get_object_or_404(User, id=user_id)
+    user = get_object_or_404(User, pk=user_id)
     # Show items which are published, OR are the same user as the requester
+    filters = {}
     c = {
         'user': user,
         'items': user.galleries.for_user(request.user),

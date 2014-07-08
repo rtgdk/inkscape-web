@@ -64,9 +64,9 @@ def credit(request, news_id=None):
                 obj.slug = slug
             obj.editor = request.user
             obj.updated = timezone.now()
-            if request.POST.get('publish', False):
-                obj.is_published = True
+            if not obj.is_published:
                 obj.pub_date = timezone.now()
+            obj.is_published = True
             obj.save()
             return redirect( obj.get_absolute_url() )
     else:

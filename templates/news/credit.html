@@ -32,12 +32,8 @@
     </table>
 
   <input type="submit" value="{% trans "Save" %}"/>
-  {% if object %}
-   {% if not object.is_published %}
+  {% if not object or not object.is_published %}
      <input type="submit" name="publish" value="{% trans "Publish" %}"/>
-   {% endif %}
-  {% else %}
-   <input type="submit" name="publish" value="{% trans "Publish" %}"/>
   {% endif %}
 
 </form>

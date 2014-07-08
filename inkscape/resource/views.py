@@ -181,7 +181,7 @@ def view_category(request, **kwargs):
     items = Resource.objects.filter(published=True)
     for i in ('category','user'):
         if kwargs.has_key(i+'_id'):
-            t = get_object_or_404(globals()[i.title()], pk=kwargs[i+'_id'])
+            t = globals()[i.title()].objects.get(pk=kwargs[i+'_id'])
             items = items.filter(**{i:t})
             c['o_'+i] = t
     c['breadcrumbs'] = breadcrumbs(*c.values())

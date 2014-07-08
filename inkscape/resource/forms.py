@@ -62,7 +62,7 @@ class ResourceBaseForm(ModelForm):
 
     def save(self, commit=False, **kwargs):
         obj = ModelForm.save(self, commit=False)
-        if not obj.user:
+        if not obj.id:
             obj.user = self.user
         obj.save(**kwargs)
         return obj

@@ -176,9 +176,11 @@ def my_resources(request):
     return view_user(request, request.user.id)
 
 
-def view_category(request, **kwargs):
+def view_list(request, **kwargs):
     c = {}
-    items = Resource.objects.filter(published=True)
+    items = Resource.objects.all()
+    if request.GET.get('pub', None) != 'All':
+        items = items.filter(published=pub)
     for i in ('category','user'):
         if kwargs.has_key(i+'_id'):
             t = globals()[i.title()].objects.get(pk=kwargs[i+'_id'])

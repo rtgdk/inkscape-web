@@ -25,7 +25,7 @@ urlpatterns = patterns('',
   url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
 
   (r'^gallery/',    include(patterns('',
-    url(r'^$',                    view_category,  name='galleries'),
+    url(r'^$',                    view_list,  name='galleries'),
     url(r'^me/$',                 my_resources,   name='my_resources'),
     url(r'^trash/$',              view_trash,     name='trash'),
 
@@ -48,9 +48,9 @@ urlpatterns = patterns('',
 
     url(r'^user/(\d+)/$',         view_user,       name='user_resources'),
 
-    url(r'^user/(?P<user_id>\d+)/flat/$',                     view_category, name='flat_resources'),
-    url(r'^category/(?P<category_id>\d+)/$',                  view_category, name='resource_category'),
-    url(r'^category/(?P<category_id>\d+)/(?P<user_id>\d+)/$', view_category, name='user_category'),
+    url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
+    url(r'^category/(?P<category_id>\d+)/$',                  view_list, name='resource_category'),
+    url(r'^category/(?P<category_id>\d+)/(?P<user_id>\d+)/$', view_list, name='user_category'),
   ))),
 )
 

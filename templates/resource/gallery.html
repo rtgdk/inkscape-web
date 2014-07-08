@@ -11,9 +11,9 @@
 
   <h1>{{ gallery.name }}</h1>
 
-  {% ifnotequal gallery.user request.user %}
+  {% if gallery.user != request.user %}
     <h2 style="padding-bottom: 12px;"><a href="{% url "view_profile" gallery.user.id %}">by {{ gallery.user.name }}</a></h2>
-  {% endifnotequal %}
+  {% endif %}
 
   {% include "resource/list.html" %}
 

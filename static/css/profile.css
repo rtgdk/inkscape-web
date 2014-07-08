@@ -94,6 +94,12 @@
   background-color: #eee;
   border-radius: 8px;
 }
+.profileside h1 a {
+  color: black;
+}
+.profileside progress {
+  width: 100%;
+}
 
 #sessions img {
   width: 20px;

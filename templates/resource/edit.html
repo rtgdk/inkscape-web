@@ -24,6 +24,7 @@
 
   <div id="errors">
     {{ form.non_field_errors }}
+    {{ form.download.errors }}
   </div>
 
   <div class="sideInfo">
@@ -35,7 +36,7 @@
 
   <div class="desc">
     <h2>{{ form.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
-    <p{% if form.desc.errors %} class="error"{% endif %}>{{ form.desc }}</p>
+    <p{% if form.desc.errors %} class="descerr"{% endif %}>{{ form.desc }}</p>
   </div>
 
   <div class="buttonbar">
@@ -49,7 +50,9 @@
 
     <button id="moreInfo" class="start" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
 
-    {% include "resource/delete_button.html" %}
+    {% with "delete_resource" as delurl %}
+      {% include "resource/delete_button.html" %}
+    {% endwith %}
 
   </div>
 {% endblock %}

@@ -104,6 +104,13 @@ class ResourceManager(InheritanceManager):
     def new(self):
         return self.get_query_set().filter(category__isnull=True)
 
+    def disk_usage(self):
+        # This could be done better by storing the file sizes
+        return sum(f.download.size for f in self.get_query_set())
+
+    def trash(self):
+        return self.get_query_set().filter(gallery__isnull=True).exclude(category=Category.objects.get(pk=1))
+
     def pastes(self):
         return self.get_query_set().filter(category=Category.objects.get(pk=1))
 
@@ -139,7 +146,7 @@ class Resource(Model):
         return Model.save(self, *args, **kwargs)
 
     def get_absolute_url(self):
-        if self.category.id == 1:
+        if self.category and self.category.id == 1:
             return reverse('pasted_item', args=[str(self.id)])
         return reverse('resource', args=[str(self.id)])
 
@@ -282,3 +289,16 @@ class Vote(Model):
         return self.vote and "Likes" or "Dislikes"
 
 
+class Quota(Model):
+    group    = ForeignKey(Group, related_name='quotas', unique=True, **null)
+    size     = IntegerField(_("Quota Size (bytes)"), default=102400)
+
+    def __str__(self):
+        return str(self.group)
+
+# I don't like this much
+def quota_for_user(user):
+    f = Q(group__in=user.groups.all()) | Q(group__isnull=True)
+    return Quota.objects.filter(f).aggregate(Max('size'))['size__max'] or 0
+
+User.quota = quota_for_user

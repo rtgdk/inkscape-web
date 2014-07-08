@@ -1,0 +1,25 @@
+{% extends 'resource/item.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% block title %}{% trans "Edit InkSpace" %}{% endblock %}</h1>
+
+<div class="item">
+
+ <form method="post">
+  {% csrf_token %}
+
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
+
+  {{ form }}
+
+  <div class="buttonbar">
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+  </div>
+ </form>
+</div>
+{% endblock %}
+

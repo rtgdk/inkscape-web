@@ -20,7 +20,7 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 
-from .models import Resource, ResourceFile, Gallery
+from .models import Resource, ResourceFile, Gallery, Model
 from .utils import ALL_TEXT_TYPES
 
 class GalleryForm(ModelForm):
@@ -30,20 +30,42 @@ class GalleryForm(ModelForm):
 
 
 class ResourceBaseForm(ModelForm):
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
+        if not isinstance(user, Model):
+            raise AttributeError("User needs to be a model of a user.")
+        self.user = user
         ModelForm.__init__(self, *args, **kwargs)
-        for key in self.Meta.required:
-            self.fields[key].required = True
+        if hasattr(self.Meta, 'required'):
+            for key in self.Meta.required:
+                self.fields[key].required = True
 
     def clean_owner(self):
         if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:
             raise ValidationError("You need to have permission to post this work, or be the owner of the work.")
         return self.cleaned_data.get('owner')
 
+    def clean_download(self):
+        if not self.instance or self.instance.download == self.cleaned_data['download']:
+            # Don't stop editing of existing resources, with no space.
+            return self.cleaned_data['download']
+
+        space = self.user.quota() - self.user.resources.disk_usage()
+        
+        if self.cleaned_data['download'].size > space:
+            raise ValidationError("Not enough space to upload this file.")
+        return self.cleaned_data['download']
+
     def _clean_fields(self):
         ModelForm._clean_fields(self)
         if 'owner' in self._errors:
             self._errors['permission'] = self.errors['owner']
+
+    def save(self, commit=False, **kwargs):
+        obj = ModelForm.save(self, commit=False)
+        if not obj.user:
+            obj.user = self.user
+        obj.save(**kwargs)
+        return obj
 
     @property
     def auto(self):
@@ -72,7 +94,7 @@ class ResourcePasteForm(ResourceBaseForm):
 # This allows paste to have a different set of options
 FORMS = {1: ResourcePasteForm}
 
-class ResourceAddForm(ModelForm):
+class ResourceAddForm(ResourceBaseForm):
     class Meta:
         model = ResourceFile
         fields = ['download', 'name']

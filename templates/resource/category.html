@@ -1,19 +1,28 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{{ category.name }}{% endblock %}
-
 {% block content %}
 
-{% if user %}
-  <h1>{% blocktrans %}{{ user }}'s {{ category }}{% endblocktrans %}</h1>
-{% else %}
-  <h1>{% blocktrans %}All {{ category }} Resources{% endblocktrans %}</h1>
-  <p>{{ category.desc }}</p>
-{% endif %}
+ <h1>
+ {% block title %}
+  {% if o_category %}
+   {% if o_user %}
+    {% blocktrans %}{{ name }}'s {{ o_category }}{% endblocktrans %}
+   {% else %}
+    {% blocktrans %}All {{ o_category }} Resources{% endblocktrans %}
+   {% endif %}
+  {% else %}
+   {% if o_user %}
+    {% blocktrans %}All {{ name }}'s Uploads{% endblocktrans %}
+   {% else %}
+    {% blocktrans %}All Uploads{% endblocktrans %}
+   {% endif %}
+  {% endif %}
+ {% endblock %}
+ </h1>
 
-  {% with category.items.all as items %}
-    {% include "resource/list.html" %}
-  {% endwith %}
+<p>{{ o_category.desc }}</p>
+
+{% include "resource/list.html" %}
 
 {% endblock %}

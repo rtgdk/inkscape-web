@@ -1,26 +1,17 @@
 {% load i18n %}
 
-{% if unowned %}
+<div id='errors'></div>
+
+{% if user.resources.trash.count and me %}
   <div class="galleryitem">
-    <a class="link" href="{% url "gallery" "0" %}"><img src="{{ DESIGN_URL }}/images/folder.svg" title="{% trans "Unowned Items" %}"/></a>
-    <p><a href="{% url "gallery" "0" %}">{% trans "Unowned Items" %}</a></p>
+    <a class="link" href="{% url "trash" %}"><img src="{{ DESIGN_URL }}/images/deleted.svg" title="{% trans "Unowned Items" %}"/></a>
+    <p><a href="{% url "trash" %}">{% trans "Trash" %} ({{ user.resources.trash.count }})</a></p>
   </div>
 {% endif %}
 
 {% for item in items %}
   <div class="{% if item.items.count %}galleryitem{% else %}galleryitem empty{% endif %}" id="drop{{ item.id }}">
-    {% ifequal item todelete %}
-      <form method="POST" action="{% url "delete_gallery" item.id %}">
-        {% csrf_token %}
-        <div class="buttons"><p>{% trans "Confirm" %}</p><input type="submit" name="confirm" value="{% trans "Delete" %}"/></div>
-      <form>
-    {% else %}
-      <!--<a class="edit icon" href="{% url "edit_gallery" item.id %}"><img src="{{ DESIGN_URL }}/images/edit.svg"/></a>-->
-      {% ifequal user item.user %}
-        <a class="delete icon" href="{% url "delete_gallery" item.id %}"><img src="{{ DESIGN_URL }}/images/delete.svg"/></a>
-      {% endifequal %}
-      <a class="link" href="{% url "gallery" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/folder.svg{% endif %}" title="{{ item.name }}"/></a>
-    {% endifequal %}
+    <a class="link" href="{% url "gallery" item.id %}"><img src="{% if item.thumbnail %}{{ item.thumbnail.url }}{% else %}{{ DESIGN_URL }}/images/folder.svg{% endif %}" title="{{ item.name }}"/></a>
     <p><a href="{% url "gallery" item.id %}">{{ item.name }}</a></p>
   </div>
   <script>
@@ -29,7 +20,7 @@
 {% empty %}
 {% endfor %}
 
-{% ifequal user request.user %}
+{% if me %}
   <div class="galleryitem">
     <form method="POST" action="{% url "new_gallery" %}">
       {% csrf_token %}
@@ -37,7 +28,7 @@
       <div class="input"><input name="name" value="" placeholder="{% trans "New InkSpace Name" %}"/></div>
     </form>
   </div>
-{% endifequal %}
+{% endif %}
 
 <div id="added">
   <!-- drop location -->

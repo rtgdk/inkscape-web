@@ -16,21 +16,23 @@
       </form>
      </div>
     {% else %}
-      <h1>Last Seen</h1>
+      <h1>{% trans "Last Seen" %}</h1>
       <p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
 
-      <h1>Joined On</h1>
+      <h1>{% trans "Joined On" %}</h1>
       <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
     {% endif %}
 
-    <h1>Stats</h1>
+    <h1>{% trans "Stats" %}</h1>
     <table>
       <tr><th scope="col">{% trans "Profile Visits:" %}</th><td>{{ user.details.visits }}</td></tr>
       <tr><th scope="col">{% trans "Resource Views:" %}</th><td>{{ user.resources.views }}</td></tr>
       <tr><th scope="col">{% trans "Resource Downloads:" %}</th><td>{{ user.resources.downloads }}</td></tr>
     </table>
-
    {% if me %}
+
+    <h1>{% trans "Upload Quota" %}</h1>
+    <progress value="{{ user.resources.disk_usage }}" max="{{ user.quota }}" title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}"></progress>
 
      <h1>Sessions</h1>
      <div id="sessions">
@@ -45,11 +47,8 @@
    {% endif %}
 </div>
 
-{% if items %}
-  <h1>InkSpaces</h1>
-
-  {% include "resource/galleries.html" %}
-{% endif %}
+<h1>InkSpaces (<a href="{% url "flat_resources" user.id %}">{% trans "All" %}</a>)</h1>
+{% include "resource/galleries.html" %}
 
 
 {% endblock %}

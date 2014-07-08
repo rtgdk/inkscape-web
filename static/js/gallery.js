@@ -7,6 +7,7 @@
  */
 
 var max_size = 3000000; // 3MB file limit on previews
+var debug = true;
 
 function addEventHandler(obj, evt, handler) {
   if(obj.addEventListener) { // W3C Method
@@ -154,10 +155,14 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
                   item.parentNode.replaceChild(temp.children[0], item);
                 }
               } else {
-                p.innerHTML = '<a>'+xhr.responseText+'</a>';
+                p.innerHTML = '<a>FAILED</a>';
+                err = document.getElementById('errors')
+                err.innerHTML = xhr.responseText;
+                err.setAttribute('class','errors');
               }
+            } else if(debug) {
+              document.write(xhr.responseText);
             } else {
-              // document.write(xhr.responseText); // This is useful, how to debug?
               p.innerHTML = '<a title="'+xhr.status+'">ERROR ' + xhr.status + "!</a>";
             }
           };

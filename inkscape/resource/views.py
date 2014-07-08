@@ -65,23 +65,21 @@ def edit_gallery(request, item_id=None):
             item = c['form'].save(commit=False)
             item.user = request.user
             item.save()
-    return redirect('my_resources')
+            return redirect('gallery', item.id)
+    return render_to_response('resource/gallery_edit.html', c,
+        context_instance=RequestContext(request))
+    
 
 @login_required
 def add_to_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
     c = { 'gallery': gallery }
     if request.method == 'POST':
-        form = ResourceAddForm(request.POST, request.FILES)
-        if form.is_valid():
-            c['item']= form.save(commit=False)
-            c['item'].user = request.user
-            c['item'].save()
-            if not c['item'].download:
-                raise ValueError("File wasn't saved, WTF.")
+        c['form'] = ResourceAddForm(request.user, request.POST, request.FILES)
+        if c['form'].is_valid():
+            c['item'] = c['form'].save()
             # XXX We can copy over settings fromt he gallery's defaults here
             gallery.items.add(c['item'])
-        c['form'] = form 
     return render_to_response('resource/ajax/add.txt', c,
       context_instance=RequestContext(request),
       content_type="text/plain")
@@ -93,6 +91,7 @@ def paste_in(request):
         cat = Category.objects.get(pk=1)
         count = ResourceFile.objects.filter(user=request.user, category=cat).count()
 
+        # This knowingly ignores the quota (delibrate)
         res = ResourceFile(
           license=License.objects.get(pk=1), category=cat,
           name=_("Pasted Text #%d") % count, user=request.user,
@@ -113,7 +112,7 @@ def edit_resource(request, item_id=None):
     item = item_id and get_object_or_404(Resource, id=item_id, user=request.user)
     form = FORMS.get(item and item.category and item.category.id or 0, ResourceFileForm)
     c = {
-      'form': form(instance=item),
+      'form': form(request.user, instance=item),
       'item': item,
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item, "Edit"),
     }
@@ -122,12 +121,9 @@ def edit_resource(request, item_id=None):
             if item.is_new:
                 return redirect('gallery', item.gallery.id)
             return redirect('resource', item.id)
-        c['form'] = form(request.POST, request.FILES, instance=item)
+        c['form'] = form(request.user, request.POST, request.FILES, instance=item)
         if c['form'].is_valid():
-            item = c['form'].save(commit=False)
-            if not item.user:
-                item.user = request.user
-            item.save()
+            item = c['form'].save()
             if 'next' in request.POST and item.next:
                 return redirect('edit_resource', item.next.id)
             return redirect(item.get_absolute_url())
@@ -140,15 +136,13 @@ def create_resource(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
     c = {
       'gallery': gallery,
-      'form': ResourceFileForm(),
+      'form': ResourceFileForm(request.user),
       'breadcrumbs': breadcrumbs(request.user, gallery, "Upload New Resource"),
     }
     if request.method == 'POST':
-        c['form'] = ResourceFileForm(request.POST, request.FILES)
+        c['form'] = ResourceFileForm(request.user, request.POST, request.FILES)
         if c['form'].is_valid():
-            item = c['form'].save(commit=False)
-            item.user = request.user
-            item.save()
+            item = c['form'].save()
             gallery.items.add(item)
             return redirect('resource', item.id)
     return render_to_response('resource/create.html', c,
@@ -182,16 +176,18 @@ def my_resources(request):
     return view_user(request, request.user.id)
 
 
-def view_category(request, category_id, user_id=None):
-    category = Category.objects.get(pk=category_id)
-    user = user_id and get_object_or_404(User, pk=user_id)
-    # We never show unpublished items, even to their owners
-    c = {
-        'items': Resource.objects.filter(category=category, published=True, user=user),
-        'category': category,
-        'breadcrumbs': breadcrumbs(category),
-        'user': user,
-    }
+def view_category(request, **kwargs):
+    c = {}
+    items = Resource.objects.filter(published=True)
+    for i in ('category','user'):
+        if kwargs.has_key(i+'_id'):
+            t = get_object_or_404(globals()[i.title()], pk=kwargs[i+'_id'])
+            items = items.filter(**{i:t})
+            c['o_'+i] = t
+    c['breadcrumbs'] = breadcrumbs(*c.values())
+    c['items'] = items
+    # I hate this hack, name should be available in the template, but it's not!
+    c['name'] = c.has_key('o_user') and c['o_user'].name()
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
 
@@ -204,30 +200,40 @@ def gallery_icon(request, gallery_id):
       context_instance=RequestContext(request),
       content_type="image/svg+xml")
 
+@login_required
+def view_trash(request):
+    c = {
+      'user': request.user,
+      'items': request.user.resources.trash,
+      'breadcrumbs': breadcrumbs(request.user, "Trash"),
+      'gallery': {'name': _("Your Trash Space"), 'user': request.user},
+    }
+    return render_to_response('resource/gallery.html', c,
+             context_instance=RequestContext(request))
 
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
     if not gallery.is_visible(request.user):
         raise Http404
     c = {
-        'user'       : gallery.user,
-        'items'      : gallery.items.for_user(request.user),
-        'gallery'    : gallery,
-        'breadcrumbs': breadcrumbs(gallery.user, gallery),
+      'user'       : gallery.user,
+      'items'      : gallery.items.for_user(request.user),
+      'gallery'    : gallery,
+      'breadcrumbs': breadcrumbs(gallery.user, gallery),
     }
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
 
 
-def view_user(request, user_id, todelete=None):
+def view_user(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     # Show items which are published, OR are the same user as the requester
     filters = {}
     c = {
-        'user': user,
-        'items': user.galleries.for_user(request.user),
-        'todelete': todelete,
-        'breadcrumbs': breadcrumbs(user, "Galleries"),
+      'user': user,
+      'me': user == request.user,
+      'items': user.galleries.for_user(request.user),
+      'breadcrumbs': breadcrumbs(user, "Galleries"),
     }
     return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))

@@ -41,7 +41,8 @@
     <form action="{% url "edit_resource" item.id %}">
         <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
     </form>
-
-    {% include "resource/delete_button.html" %}
+    {% with "delete_resource" as delurl %}
+      {% include "resource/delete_button.html" %}
+    {% endwith %}
   </div>
 {% endblock %}

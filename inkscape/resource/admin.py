@@ -14,7 +14,11 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+
+from django.utils.translation import ugettext_lazy as _
 from django.contrib import admin
+
+from django.template.defaultfilters import filesizeformat
 
 from .models import *
 
@@ -23,4 +27,17 @@ admin.site.register(Category)
 admin.site.register(ResourceFile)
 admin.site.register(Gallery)
 admin.site.register(Vote)
+
+class QuotaAdmin(admin.ModelAdmin):
+    list_display = ('name', 'quota_size')
+
+    def name(self, obj):
+        if obj.group:
+            return _("Quota for %s") % str(obj.group)
+        return _('Quota for Everyone')
+
+    def quota_size(self, obj):
+        return filesizeformat(obj.size)
+
+admin.site.register(Quota, QuotaAdmin)
 

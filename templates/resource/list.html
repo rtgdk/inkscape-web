@@ -1,8 +1,9 @@
 {% load i18n pagination_tags %}
 
+<div id='errors'></div>
 
 <div id="gallery">
- {% if user == request.user and gallery %}
+ {% if user == request.user and gallery.id %}
   {% autopaginate items 14 as resources %}
   <div class="galleryitem">
     <div id="drop" class="link"><a href="{% url "new_resource" gallery.id %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
@@ -12,13 +13,34 @@
     registerDropZone('drop', 'gallery', '{% url "add_to_gallery" gallery.id %}', '{{ DESIGN_URL }}'); 
   </script>
  {% else %}
+  {% if not items %}
+  <div class="galleryitem">
+    <div class="link"><a><img src="{{ DESIGN_URL }}/images/none.svg" title="{% trans "Nothing in this InkSpace" %}"/></a></div>
+    <p><a>{% trans "Nothing Yet" %}</a></p>
+  </div>
+  {% endif %}
   {% autopaginate items 15 as resources %}
  {% endif %}
  {% for item in resources %}
    {% include "resource/list-item.html" %}
- {% empty %}
  {% endfor %}
 </div>
+
+ {% if user == request.user and gallery.id %}
+ <div class="item">
+  <div class="buttonbar">
+    <form action="{% url "edit_gallery" gallery.id %}">
+        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
+    </form>
+   {% with gallery as item %}
+    {% with "delete_gallery" as delurl %}
+      {% include "resource/delete_button.html" %}
+    {% endwith %}
+   {% endwith %}
+  </div>
+ </div>
+ {% endif %}
+
 
 {% paginate %}
 

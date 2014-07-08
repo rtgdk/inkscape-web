@@ -114,39 +114,6 @@ table.bioitem p a {
   vertical-align: middle;
 }
 
-.galleryitem a.icon {
-  position: absolute;
-  width: 0px;
-  height: 0px;
-}
-.galleryitem a.icon img {
-  position: relative;
-  float: left;
-  width: 16px;
-  height: 16px;
-  padding: 4px;
-  display: none;
-}
-.galleryitem a.delete img {
-  padding-left: 53px;
-}
-.galleryitem a.edit img {
-  float: right;
-  padding-right: 54px;
-}
-.galleryitem:hover a.icon img {
-  display: block; 
-}
-.galleryitem div.buttons {
-  min-width: 150px;
-  min-height: 150px;
-  display: block;
-}
-.galleryitem div.buttons p {
-  padding-top: 36px;
-}
-
-
 .item {
   padding: 10px 20px 30px 20px;
   margin-top: 10px;
@@ -187,7 +154,7 @@ table.bioitem p a {
   width: 100%;
   height: 300px;
 }
-.item .desc p.error textarea {
+.item .desc p.descerr textarea {
   border: 2px #d00 solid;
 }
 
@@ -330,7 +297,7 @@ background-position:center -25px;
     margin-left:8px;
 }
 
-.empty {
+.empty a.link > img {
   opacity: 0.5;
 }
 .unpublished {

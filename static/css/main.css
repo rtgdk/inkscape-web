@@ -173,11 +173,13 @@ div.warning {
   padding: 4px;
   margin: 5px;
 }
-.messages .error {
+.error, .errors {
   border: 1px solid #dd7777;
   box-shadow: 0 0 5px #dd7777;
   background-color: #ffcccc;
   color: #220000;
+  width: 700px;
+  margin-bottom: 8px;
 }
 .messages li {
   padding: 6px;

@@ -180,7 +180,7 @@ def view_list(request, **kwargs):
     c = {}
     items = Resource.objects.all()
     if request.GET.get('pub', None) != 'All':
-        items = items.filter(published=pub)
+        items = items.filter(published=True)
     for i in ('category','user'):
         if kwargs.has_key(i+'_id'):
             t = globals()[i.title()].objects.get(pk=kwargs[i+'_id'])

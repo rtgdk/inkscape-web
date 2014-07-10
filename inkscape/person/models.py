@@ -55,12 +55,8 @@ class UserRoll(Model):
     group = OneToOneField(Group, related_name='roll')
     name  = CharField("User Roll", max_length=32)
     desc  = TextField(null=True, blank=True)
-    icon  = ImageField(_('Display Icon'),
-        upload_to=os.path.join(settings.MEDIA_ROOT, 'rollicons'))
+    icon  = ImageField(_('Display Icon'), upload_to='rollicons')
 
     def __unicode__(self):
         return self.name
-
-    def icon_url(self):
-        return os.path.join(settings.MEDIA_URL, *self.icon.url.split('/')[-2:])
 

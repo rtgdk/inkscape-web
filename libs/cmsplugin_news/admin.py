@@ -13,6 +13,7 @@ class NewsAdmin(admin.ModelAdmin):
     list_display = ('title', 'language', 'translation_of', 'is_published', 'pub_date')
     list_editable = ('is_published',)
     list_filter = ('is_published', )
+    readonly_fields = ('language',)
     search_fields = ['title', 'excerpt', 'content']
     prepopulated_fields = {'slug': ('title',)}
     form = NewsAdminForm

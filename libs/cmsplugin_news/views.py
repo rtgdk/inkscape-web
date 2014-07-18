@@ -11,6 +11,7 @@ from django.db.models import Q
 
 from django.utils.translation import ugettext_lazy as _
 from django.utils import timezone
+from django.utils.text import slugify
 
 
 def get_or_none(model, *args, **kwargs):
@@ -57,7 +58,7 @@ def credit(request, news_id=None):
                 obj.creator = request.user
                 obj.created = timezone.now()
             if not obj.slug:
-                slug = obj.title.lower().replace(' ','-')
+                slug = slugify(obj.title)
                 count = News.objects.filter(slug=slug).count()
                 if count > 0:
                     slug = "%s-%d" % (slug, count)

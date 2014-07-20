@@ -223,6 +223,9 @@ def view_gallery(request, gallery_id):
       'gallery'    : gallery,
       'breadcrumbs': breadcrumbs(gallery.user, gallery),
     }
+    if gallery.group:
+        c['breadcrumbs'] = breadcrumbs(gallery)
+
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
 

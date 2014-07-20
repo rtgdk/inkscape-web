@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
-{% block title %}{% trans "Gallery" %} | {{ gallery.name }}{% endblock %}
+{% block title %}{% trans "InkSpace" %} | {{ gallery.name }}{% endblock %}
 
 {% block "js" %}
   <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
@@ -9,12 +9,30 @@
 
 {% block content %}
 
-  <h1>{{ gallery.name }}</h1>
-
-  {% if gallery.user != request.user %}
-    <h2 style="padding-bottom: 12px;"><a href="{% url "view_profile" gallery.user.id %}">by {{ gallery.user.name }}</a></h2>
-  {% endif %}
+  <h1>{{ gallery.name }}
+  {% if gallery.user != request.user and not gallery.group %}
+    <span class="small"><a href="{% url "view_profile" gallery.user.id %}">by {{ gallery.user.name }}</a></span>
+  {% endif %}</h1>
 
   {% include "resource/list.html" %}
+
+ {% if gallery.user == request.user %}
+ <div class="item">
+  <div class="buttonbar">
+    <form action="{% url "edit_gallery" gallery.id %}">
+        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
+    </form>
+   {% with gallery as item %}
+    {% with "delete_gallery" as delurl %}
+      {% include "resource/delete_button.html" %}
+    {% endwith %}
+   {% endwith %}
+  </div>
+ </div>
+ {% endif %}
+
+ {% if gallery.group %}
+   <h6>{% trans "This InkSpace is administered by the group" %} "{{ gallery.group }}", {% trans "please contact inkscape administrators for additions or corrections." %}</h6>
+ {% endif %}
 
 {% endblock %}

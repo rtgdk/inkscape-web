@@ -256,9 +256,12 @@ class Gallery(Model):
         return reverse('gallery', args=[str(self.id)])
 
     def is_visible(self, user=None):
-        return self.user == user \
-            or self.items.for_user(user).count() \
-            or self.group in user.groups
+        return self.items.for_user(user).count() or self.is_editable(user)
+
+    def is_editable(self, user=None):
+        return user and user.id and (
+            self.user == user \
+              or (user.groups.count() and self.group in user.groups))
 
     def __len__(self):
         return self.items.count()

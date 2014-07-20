@@ -58,9 +58,9 @@ def delete_gallery(request, item_id):
 @login_required
 def edit_gallery(request, item_id=None):
     item = item_id and get_object_or_404(Gallery, id=item_id, user=request.user)
-    c = { 'form': GalleryForm(instance=item) }
+    c = { 'form': GalleryForm(request.user, instance=item) }
     if request.method == 'POST':
-        c['form'] = GalleryForm(request.POST, request.FILES, instance=item)
+        c['form'] = GalleryForm(request.user, request.POST, request.FILES, instance=item)
         if c['form'].is_valid():
             item = c['form'].save(commit=False)
             item.user = request.user
@@ -261,6 +261,8 @@ def view_resource(request, item_id):
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
     }, context_instance=RequestContext(request))
 
+
+@login_required
 def like_resource(request, item_id, like_id="+"):
     item = get_object_or_404(Resource, id=item_id)
     like = item.votes.get_or_create(voter=request.user)[0]

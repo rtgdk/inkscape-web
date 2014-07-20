@@ -29,20 +29,24 @@
         <button id="moreInfo" class="start" type="submit">{% trans "More information" %}</button>
     </form>
     {% endif %}
-    <form action="{% url "like" item.id "+" %}">
+    {% if request.user.id %}
+      <form action="{% url "like" item.id "+" %}">
         <button id="like" class="{% if not item.link %}start{% endif %}{% if vote.vote %} active{% endif %}" >&nbsp;</button>
-    </form>
-    <form action="{% url "like" item.id "-" %}">
+      </form>
+      <form action="{% url "like" item.id "-" %}">
         <button id="dislike" class="end{% ifequal vote.vote False %} active{% endifequal %}" type="submit">&nbsp;</button>
-    </form>
+      </form>
+    {% endif %}
     <form action="{% url "download_resource" item.id %}">
         <button id="download" class="unique start end" type="submit">{% trans "Download" %}</button>
     </form>
-    <form action="{% url "edit_resource" item.id %}">
-        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
-    </form>
-    {% with "delete_resource" as delurl %}
+    {% if item.user == request.user %}
+     <form action="{% url "edit_resource" item.id %}">
+       <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
+     </form>
+     {% with "delete_resource" as delurl %}
       {% include "resource/delete_button.html" %}
-    {% endwith %}
+     {% endwith %}
+    {% endif %}
   </div>
 {% endblock %}

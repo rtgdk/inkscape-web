@@ -26,7 +26,11 @@ from .utils import ALL_TEXT_TYPES
 class GalleryForm(ModelForm):
     class Meta:
         model = Gallery
-        fields = ['name']
+        fields = ['name','group']
+
+    def __init__(self, user, *args, **kwargs):
+        ModelForm.__init__(self, *args, **kwargs)
+        self.fields['group'].queryset = user.groups.all()
 
 
 class ResourceBaseForm(ModelForm):

@@ -201,7 +201,6 @@ class Resource(Model):
         return NotLocalDownload(self.link)
 
 
-
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
     is_file = True
@@ -244,6 +243,7 @@ class GalleryManager(Manager):
 
 class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries')
+    group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
     items     = ManyToManyField(Resource)
 
@@ -256,7 +256,9 @@ class Gallery(Model):
         return reverse('gallery', args=[str(self.id)])
 
     def is_visible(self, user=None):
-        return self.user == user or self.items.for_user(user).count()
+        return self.user == user \
+            or self.items.for_user(user).count() \
+            or self.group in user.groups
 
     def __len__(self):
         return self.items.count()

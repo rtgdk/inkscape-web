@@ -13,6 +13,9 @@
     <img id="photo" src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
 
    <div class="socialicons">
+     {% if user == request.user and user.is_staff %}
+       <a href="/admin/"><img src="{{ DESIGN_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administration" %}"/></a>
+     {% endif %}
      {% if user.details.dauser %}
        <a href="http://{{ user.details.dauser }}.deviantart.com/"><img src="{{ DESIGN_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
      {% endif %}

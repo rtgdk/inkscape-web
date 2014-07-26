@@ -16,7 +16,7 @@
 
   {% include "resource/list.html" %}
 
- {% if gallery.user == request.user %}
+ {% if gallery.user == request.user and gallery.id %}
  <div class="item">
   <div class="buttonbar">
     <form action="{% url "edit_gallery" gallery.id %}">

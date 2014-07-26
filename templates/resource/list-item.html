@@ -6,7 +6,9 @@
     {% if item.published %}
       <div class="label">
         <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
-        <img src="{{ item.license.banner.url }}" title="{{ item.license }}" class="l">
+        {% if item.license %}
+          <img src="{{ item.license.banner.url }}" title="{{ item.license }}" class="l">
+        {% endif %}
       </div>
     {% else %}
       {% if item.is_new %}

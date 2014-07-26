@@ -35,6 +35,13 @@ from .utils import syntaxer, MimeType, upto, cached
 
 null = dict(null=True, blank=True)
 
+DOMAINS = {
+  'inkscape.org': 'Inkscape Website',
+  'launchpad.net': 'Launchpad',
+  'deviantart.com': 'deviantArt',
+  'openclipart.org': 'OpenClipart (OCAL)',
+}
+
 class VisibleManager(Manager):
     def get_query_set(self):
         return Manager.get_query_set(self).filter(visible=True)
@@ -104,15 +111,15 @@ class ResourceManager(InheritanceManager):
     def new(self):
         return self.get_query_set().filter(category__isnull=True)
 
-    def disk_usage(self):
-        # This could be done better by storing the file sizes
-        return sum(f.download.size for f in self.get_query_set())
-
     def trash(self):
         return self.get_query_set().filter(gallery__isnull=True).exclude(category=Category.objects.get(pk=1))
 
     def pastes(self):
         return self.get_query_set().filter(category=Category.objects.get(pk=1))
+
+    def disk_usage(self):
+        # This could be done better by storing the file sizes
+        return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False))
 
 
 class Resource(Model):
@@ -142,8 +149,12 @@ class Resource(Model):
     def save(self, *args, **kwargs):
         self.edited = now()
         if not self.media_type:
-            self.media_type = str(MimeType(filename=self.download.path))
+            self.media_type = self.find_media_type()
         return Model.save(self, *args, **kwargs)
+
+    def find_media_type(self):
+        # We don't know how to find it for links yet.
+        return None
 
     def get_absolute_url(self):
         if self.category and self.category.id == 1:
@@ -181,7 +192,12 @@ class Resource(Model):
     @cached
     def mime(self):
         """Returns an encapsulated media_type as a MimeType object"""
-        return MimeType( self.media_type )
+        return MimeType( self.media_type or 'application/unknown' )
+
+    def link_from(self):
+        """Returns the domain name or useful name if known for link"""
+        domain = '.'.join(self.link.split("/")[2].split('.')[-2:])
+        return DOMAINS.get(domain, domain)
 
     def icon(self):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
@@ -221,6 +237,9 @@ class ResourceFile(Resource):
                 self.thumbnail = None
             Resource.save(self, *args, **kwargs)
 
+    def find_media_type(self):
+        """Returns the media type of the downloadable file"""
+        return str(MimeType(filename=self.download.path))
 
     def icon(self):
         if not self.thumbnail and self.mime().is_image() and self.download.size < MAX_PREVIEW_SIZE:

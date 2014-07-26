@@ -10,7 +10,7 @@
 <div class="item">
   {% if item.is_file %}
     {% if item.mime.is_image %}
-      <div class="image">
+      <div class="image only">
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
       </div>
     {% elif item.mime.is_text %}
@@ -22,15 +22,19 @@
         {% endfor %}
       </div>
     {% else %}
-      <div class="file">
+      <div class="image file">
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}"></a>
       </div>
     {% endif %}
   {% else %}
-    <div class="link">
+    <div class="image link">
+      <a href="{{ item.link }}" title="External Link: {{ item }}">
       {% if item.thumbnail %}
         <img src="{{ item.icon }}"/>
+      {% else %}
+        <img src="{{ DESIGN_URL }}images/link.svg"/>
       {% endif %}
+      </a>
     </div>
   {% endif %}
 

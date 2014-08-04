@@ -8,15 +8,15 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-13 16:47+0000\n"
-"PO-Revision-Date: 2014-04-13 19:15+0000\n"
+"PO-Revision-Date: 2014-08-03 21:34+0000\n"
 "Last-Translator: Hachmann <Unknown>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
-"X-Launchpad-Export-Date: 2014-04-14 05:45+0000\n"
-"X-Generator: Launchpad (build 16976)\n"
+"X-Launchpad-Export-Date: 2014-08-04 06:08+0000\n"
+"X-Generator: Launchpad (build 17147)\n"
 "Language: \n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
@@ -341,8 +341,8 @@ msgstr "Die Kurzform des Titels, die in URLs verwendet wird."
 #: libs/cmsplugin_news/models.py:54
 msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
-"Ein Schlagwort ist ein nur einmal vorkommender Kurzname, der den "
-"Nachrichtenartikel beschreibt."
+"Die Kurzform gehört zu genau diesem Nachrichtenartikel und darf nur ein "
+"einziges Mal verwendet werden."
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23

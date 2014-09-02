@@ -32,7 +32,7 @@
  {% endif %}
 
  {% if gallery.group %}
-   <h6>{% trans "This InkSpace is administered by the group" %} "{{ gallery.group }}", {% trans "please contact inkscape administrators for additions or corrections." %}</h6>
+   <h6>{% trans "This InkSpace is administered by the group" %} "{{ gallery.group }}", {% trans "please contact " %} <a href="{% url "contact" %}">inkscape administrators</a> {% trans "for additions or corrections." %}</h6>
  {% endif %}
 
 {% endblock %}

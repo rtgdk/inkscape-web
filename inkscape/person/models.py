@@ -16,7 +16,7 @@ class UserDetails(Model):
     user  = AutoOneToOneField(User, related_name='details')
     bio   = TextField(**null)
     photo = ResizedImageField(_('Photograph'), null=True, blank=True,
-              upload_to=os.path.join('photos'), max_width=190, max_height=190)
+              upload_to='photos', max_width=190, max_height=190)
 
     ircnick = CharField("IRC Nickname", max_length=20, **null)
     ircpass = CharField("Freenode Password (optional)", max_length=128, **null)

@@ -6,6 +6,13 @@ from django.utils.translation import ugettext_lazy as _
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
 
+class FeedbackForm(Form):
+    comment = CharField(
+        widget=Textarea(attrs={
+            'placeholder': 'Your comments or questions...'
+        }), required=True )
+
+
 class RegisForm(RegistrationForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))
 

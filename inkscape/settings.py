@@ -217,3 +217,6 @@ RECAPTCHA_USE_SSL = True
 
 GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 
+# This setting is for django-social-auth
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+

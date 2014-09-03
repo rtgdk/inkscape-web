@@ -65,11 +65,10 @@
 								<input name="password" id="toplogin-password" type="password">
 								<input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
 								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
-								<p id="toplogin-alternate"><span>{% trans "Or log in with" %}</span>
-								<a href="{% url "socialauth_begin" 'google' %}" id="toplogin-google"></a>
-								<a href="{% url "socialauth_begin" 'facebook' %}" id="toplogin-facebook"></a>
-                                <a href="{% url "socialauth_begin" 'twitter' %}" id="toplogin-twitter"></a>
-								<a href="{% url "socialauth_begin" 'yahoo' %}" id="toplogin-yahoo"></a>
+								<p id="toplogin-alternate">
+                                  <span>{% trans "Or log in with" %}</span>
+                                  {% include "social_logins.html" %}
+                                </p>
 							</form>
                         {% else %}
                         <p>

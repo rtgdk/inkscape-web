@@ -1,0 +1,6 @@
+{{ object.name }}
+{{ object.desc }}
+{{ object.link }}
+{{ object.category.name }}
+{% for gallery in object.galleries %}{{ gallery.name }} {% endfor %}
+{% if object.is_text %}{{ object.as_text %}{% endif %}

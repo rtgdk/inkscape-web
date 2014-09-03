@@ -268,11 +268,14 @@ def view_resource(request, item_id):
 
 
 @login_required
-def like_resource(request, item_id, like_id="+"):
+def like_resource(request, item_id, like_id):
     item = get_object_or_404(Resource, id=item_id)
-    like = item.votes.get_or_create(voter=request.user)[0]
-    like.vote = like_id == "+"
-    like.save()
+    (like, is_new) = item.votes.get_or_create(voter=request.user)
+    if not is_new and like_id == '-':
+        like.delete()
+    elif like_id == '+':
+        like.vote = True
+        like.save()
     return redirect("resource", item_id)
     
 

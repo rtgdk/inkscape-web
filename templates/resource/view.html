@@ -37,12 +37,15 @@
       <a href="{{ item.link }}" id="moreInfo" class="start">{% trans "External Link" %}</a>
     {% endif %}
     {% if request.user.id %}
-      <form action="{% url "like" item.id "+" %}">
-        <button id="like" class="{% if not item.link %}start{% endif %}{% if vote.vote %} active{% endif %}" >&nbsp;</button>
-      </form>
-      <form action="{% url "like" item.id "-" %}">
-        <button id="dislike" class="end{% ifequal vote.vote False %} active{% endifequal %}" type="submit">&nbsp;</button>
-      </form>
+      {% if not vote.vote %}
+        <form action="{% url "like" item.id "+" %}">
+          <button id="like" class="end {% if not item.link %}start{% endif %}" >&nbsp;</button>
+        </form>
+      {% else %}
+        <form action="{% url "like" item.id "-" %}">
+          <button id="like" class="end {% if not item.link %}start{% endif %} active" type="submit">&nbsp;</button>
+        </form>
+      {% endif %}
     {% endif %}
     <form action="{% url "download_resource" item.id %}">
         <button id="download" class="unique start end" type="submit">{% trans "Download" %}</button>

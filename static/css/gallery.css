@@ -211,23 +211,15 @@ width:40px;
 .item .buttonbar form button#like{
 background-position:center -61px;
 }
-.item .buttonbar form button#dislike{
-background-position:center -90px;
-}
 .item .buttonbar form button#like:hover,
 .item .buttonbar button#like.active{
 background-position:center 4px ;
 }
-.item .buttonbar form button#dislike:hover,
-.item .buttonbar button#dislike.active{
+.item .buttonbar form button#like.active:hover {
 background-position:center -25px;
 }
 .item .buttonbar .active{
   color:#D55500;
-}
-.item .buttonbar .active:hover {
-  box-shadow: none;
-  cursor: default;
 }
 .item .buttonbar .start{
  border-top-left-radius: 9px;

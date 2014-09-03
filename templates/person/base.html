@@ -27,8 +27,14 @@
      {% endif %}
     </div>
 
-    <h1 id="name">{% if user.first_name %}{{ user.first_name }} {{ user.last_name }}{% else %}{% trans "Anonymous" %}{% endif %}
-      <span id="username">{{ user.username }}</span>
+    <h1 id="name">
+      {% if user.first_name %}
+        {{ user.first_name }} {{ user.last_name }}
+        <span id="username">{{ user.username }}</span>
+      {% else %}
+        {{ user.username }}
+        <span id="username">{% trans "Anonymous" %}</span>
+      {% endif %}
       {% if me %}
       <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
       {% endif %}

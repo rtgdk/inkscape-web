@@ -63,11 +63,11 @@ def view_profiles(request):
 
 @login_required
 def my_profile(request):
-    return view_profile(request, request.user.id)
+    return view_profile(request, request.user.username)
 
 
-def view_profile(request, user_id):
-    user = get_object_or_404(User, id=user_id)
+def view_profile(request, username):
+    user = get_object_or_404(User, username=username)
     if request.user != user:
         user.details.visits += 1
         user.details.save()

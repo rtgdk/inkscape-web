@@ -99,7 +99,7 @@ def paste_in(request):
         )
         
         filename = "pasted-%s-%d.txt" % (request.user.username, count)
-        buf = StringIO(request.POST['text'])
+        buf = StringIO(request.POST['text'].encode('utf-8'))
         buf.seek(0, 2)
         fil = InMemoryUploadedFile(buf, "text", filename, None, buf.tell(), None)
         res.download.save(fil.name, fil) # Does res.save()

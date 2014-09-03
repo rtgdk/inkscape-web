@@ -141,6 +141,8 @@ def create_resource(request, gallery_id):
     }
     if request.method == 'POST':
         c['form'] = ResourceFileForm(request.user, request.POST, request.FILES)
+        if 'cancel' in request.POST:
+            return redirect('gallery', gallery_id)
         if c['form'].is_valid():
             item = c['form'].save()
             gallery.items.add(item)

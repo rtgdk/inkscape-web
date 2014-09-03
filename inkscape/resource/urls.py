@@ -21,36 +21,42 @@ except ImportError:
 
 from .views import *
 
+def url_tree(regex, *urls):
+    return url(regex, include(patterns('', *urls)))
+
+
 urlpatterns = patterns('',
   url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
 
-  (r'^gallery/',    include(patterns('',
-    url(r'^$',                    view_list,  name='galleries'),
-    url(r'^me/$',                 my_resources,   name='my_resources'),
-    url(r'^trash/$',              view_trash,     name='trash'),
+  url_tree(r'^gallery/',
+    url(r'^$',            view_list,        name='galleries'),
+    url(r'^me/$',         my_resources,     name='my_resources'),
+    url(r'^trash/$',      view_trash,       name='trash'),
+    url(r'^new/$',        edit_gallery,     name="new_gallery"),
+    url(r'^paste/$',      paste_in,         name='pastebin'),
 
-    url(r'^(\d+)/$',              view_gallery,   name="gallery"),
-    url(r'^(\d+)/del/$',          delete_gallery, name="delete_gallery"),
-    url(r'^(\d+)/edit/$',         edit_gallery,   name='edit_gallery'),
-    url(r'^(\d+)/add/$',          add_to_gallery, name='add_to_gallery'),
-    url(r'^(\d+)/new/$',          create_resource,name='new_resource'),
-    url(r'^(\d+)/icon/$',         gallery_icon,   name="gallery_icon"),
-    url(r'^new/$',                edit_gallery,   name="new_gallery"),
+    url_tree(r'^(?P<gallery_id>\d+)/',
+      url(r'^/$',         view_gallery,     name="gallery"),
+      url(r'^del/$',      delete_gallery,   name="delete_gallery"),
+      url(r'^edit/$',     edit_gallery,     name='edit_gallery'),
+      url(r'^add/$',      add_to_gallery,   name='add_to_gallery'),
+      url(r'^new/$',      create_resource,  name='new_resource'),
+      url(r'^icon/$',     gallery_icon,     name="gallery_icon"),
+    ),
 
-    url(r'^item/(\d+)/$',         view_resource,   name='resource'),
-    url(r'^item/(\d+)/del/$',     delete_resource, name='delete_resource'),
-    url(r'^item/(\d+)/pub/$',     publish_resource,name='publish_resource'),
-    url(r'^item/(\d+)/edit/$',    edit_resource,   name='edit_resource'),
-    url(r'^item/(\d+)/download/$',down_resource,   name='download_resource'),
-    url(r'^item/(\d+)([\+\-])$',  like_resource,   name='like'),
+    url_tree(r'^item/(?P<item_id>\d+)/',
+      url(r'^/$',         view_resource,    name='resource'),
+      url(r'^del/$',      delete_resource,  name='delete_resource'),
+      url(r'^pub/$',      publish_resource, name='publish_resource'),
+      url(r'^edit/$',     edit_resource,    name='edit_resource'),
+      url(r'^download/$', down_resource,    name='download_resource'),
+      url(r'^([\+\-])$',  like_resource,    name='like'),
+    ),
 
-    url(r'^paste/$',              paste_in,        name='pastebin'),
-
-    url(r'^user/(\d+)/$',         view_user,       name='user_resources'),
-
+    url(r'^user/(?P<user_id>\d+)/$',                          view_user, name='user_resources'),
     url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
     url(r'^category/(?P<category_id>\d+)/$',                  view_list, name='resource_category'),
     url(r'^category/(?P<category_id>\d+)/(?P<user_id>\d+)/$', view_list, name='user_category'),
-  ))),
+  ),
 )
 

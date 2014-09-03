@@ -247,12 +247,14 @@ class ResourceFile(Resource):
             return self.download.url
         return Resource.icon(self)
 
-    def as_text(self):
+    def as_lines(self):
         """Returns the contents as text"""
+        return [ (range(1,text.count("\n")+1), syntaxer(self.as_text(), self.mime())) ]
+
+    def as_text(self):
         if self.mime().is_text():
             with open(self.download.path, 'r') as fhl:
-                text = fhl.read()
-                return [ (range(1,text.count("\n")+1), syntaxer(text, self.mime())) ]
+                return fhl.read()
         return "Not text!"
 
 

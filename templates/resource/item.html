@@ -15,7 +15,7 @@
       </div>
     {% elif item.mime.is_text %}
       <div class="text" title="{{ item.media_type }}">
-        {% for lines, text in item.as_text %}
+        {% for lines, text in item.as_lines %}
           <pre id="lines">{% for i in lines %}<a id="{{ i }}">{{ i }}</a>.
 {% endfor %}</pre>
           <pre id="as_text">{{ text }}</pre>

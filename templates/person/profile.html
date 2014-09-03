@@ -6,7 +6,9 @@
 
 <div id="right-sidebar" class="profileside">
 
-    <h1><a href="{% url "user_category" user.id 1 %}">PasteBin</a></h1>
+    <h1><a href="{% url "flat_resources" user.id %}">{% trans "All Uploads" %}</a></h1>
+    
+    <h1><a href="{% url "user_category" user.id 1 %}">{% trans "PasteBin" %}</a></h1>
     {% if me %}
      <div id="paste">
       <form method="POST" action="{% url "pastebin" %}">
@@ -47,7 +49,7 @@
    {% endif %}
 </div>
 
-<h1>InkSpaces (<a href="{% url "flat_resources" user.id %}">{% trans "All" %}</a>)</h1>
+<h1>InkSpaces - {% trans "A Place to Upload" %}</h1>
 {% include "resource/galleries.html" %}
 
 

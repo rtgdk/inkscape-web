@@ -41,13 +41,15 @@ class ResourceBaseForm(ModelForm):
         ModelForm.__init__(self, *args, **kwargs)
         self.fields['desc'].widget.attrs['placeholder'] = _("Description of the upload")
         self.fields['name'].widget.attrs['placeholder'] = _("Name")
+        if self.instance:
+            del self.fields['owner']
         if hasattr(self.Meta, 'required'):
             for key in self.Meta.required:
                 self.fields[key].required = True
 
     def clean_owner(self):
         res = str(self.cleaned_data['owner'])
-        if res not in ('1','2'):
+        if res not in ('1','2') and not self.instance:
             raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))
         return res == '1'
 
@@ -90,6 +92,7 @@ class ResourceFileForm(ResourceBaseForm):
         model = ResourceFile
         fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
         required = ['name', 'desc', 'category', 'license']
+
 
 
 class ResourcePasteForm(ResourceBaseForm):

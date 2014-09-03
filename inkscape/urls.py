@@ -6,18 +6,17 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    (r'^admin/doc/',   include('django.contrib.admindocs.urls')),
-    (r'^admin/',       include(admin.site.urls)),
-    url(r'^person/',   include('inkscape.person.urls')),
-    url(r'^doc/',      include('inkscape.docs.urls')),
-    (r'^',             include('inkscape.resource.urls')),
-    (r'^',             include('social_auth.urls')),
-    (r'^',             include('django.contrib.staticfiles.urls')),
-    url(r'',           include('user_sessions.urls', 'user_sessions')),
+    url(r'^admin/',     include(admin.site.urls)),
+    url(r'^doc/',       include('inkscape.docs.urls')),
+    url(r'^',           include('django.contrib.staticfiles.urls')),
+    url(r'^',           include('user_sessions.urls', 'user_sessions')),
+    url(r'^',           include('social_auth.urls')),
 )
 
 urlpatterns += i18n_patterns('',
-    (r'^',             include('cms.urls')),
+    url(r'^person/',    include('inkscape.person.urls')),
+    url(r'^',           include('inkscape.resource.urls')),
+    url(r'^',           include('cms.urls')),
 )
 
 if settings.DEBUG:

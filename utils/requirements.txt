@@ -7,22 +7,21 @@
 docutils
 distribute>=0.6.28
 pillow==2.4.0
-Whoosh==2.4
-#launchpadlib
-#lazr.restfulclient
+Whoosh==2.6.0
 feedparser
 uwsgi
+pytz
 
 # Web libraries
 python-openid==2.2.4
 
 # Django libraries
-Django==1.5
+Django==1.6.5
 South==0.8.1
-django-haystack==2.0
+django-haystack==2.2.0
 django-reset
 django-pagination==1.0.5
-django-social-auth==0.7.22
+django-social-auth==0.7.28
 django-model-utils==2.0.3
 django-registration==1.0
 django-reversion==1.8.0

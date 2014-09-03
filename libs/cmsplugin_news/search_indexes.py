@@ -6,7 +6,7 @@ from cmsplugin_news.models import News
 class NewsIndex(SearchIndex, Indexable):
     text     = CharField(document=True, use_template=True)
     pub_date = DateTimeField(model_attr='pub_date')
-    language = CharField(stored=True, model_attr='language')
+    language = CharField(stored=True, model_attr='lang')
 
     def get_model(self):
         return News

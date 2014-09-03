@@ -90,6 +90,10 @@ class News(Model):
             ('translate', _('Translate News')),
         )
 
+    @property
+    def lang(self):
+        return self.language or 'en'
+
     def __unicode__(self):
         return self.title
 

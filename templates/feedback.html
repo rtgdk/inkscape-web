@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% trans "Contact Us" %}</h1>
+
+{% if form %}
+ <form method="post" enctype="multipart/form-data">
+  {% csrf_token %}
+
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
+
+  <div class="desc">
+    {{ form.comment }}
+  </div>
+
+  <div class="buttonbar">
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Send Comment or Question" %}</button>
+  </div>
+{% else %}
+  <h3>Thank you for submitting your comment or question. If you are logged in then you may recieve a reply to your configured email address.</h3>
+{% endif %}
+
+{% endblock %}
+

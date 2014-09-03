@@ -1,5 +1,5 @@
 [
-  {"pk": 1, "model": "resource.license", "fields": {"code": "PD", "name": "Publc Domain", "nc": false, "nd": false, "at": false, "sa": false, "replaced": null, 
+  {"pk": 1, "model": "resource.license", "fields": {"code": "PD", "name": "Public Domain", "nc": false, "nd": false, "at": false, "sa": false, "replaced": null, 
        "visible": true, 
        "link": "http://en.wikipedia.org/wiki/Public_Domain",
        "banner": "license/banner/pd.svg",

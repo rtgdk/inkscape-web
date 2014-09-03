@@ -15,7 +15,7 @@ from django.core.mail import send_mail
 def contact_us(request):
     form = FeedbackForm(request.POST or None)
     if form.is_valid():
-        sender = 'Annonymous User <unknown@inkscape.org>'
+        sender = 'Anonymous User <unknown@inkscape.org>'
         if request.user.is_authenticated():
             sender = request.user.email
             if request.user.first_name:

@@ -124,9 +124,9 @@ table.bioitem p a {
 }
 
 .item .image {
-  background-color:#111;
-  background-image: linear-gradient(to bottom, #2E2E2E 0%, #0E0E0E 5%);
-  padding: 50px 35px 0px 35px;
+  background-color: #333;
+  background-image: linear-gradient(to bottom, #2E2A2E 0%, #1E1E1E 35%);
+  padding: 20px 35px;
   line-height: 0px;
   text-align:center;
   border-radius: 10px 10px 0 0;
@@ -135,19 +135,17 @@ table.bioitem p a {
 .item .image img {
   background-color: white;
   max-width: 780px;
-  padding: 10px;
   margin: 0px;
   border:none;
-  border-radius: 10px 10px 0 0;
+  border-radius: 4px;
 }
 
 .item .desc {
-  padding: 25px 20px 4px 20px;
-  background-color: #DCDCDC;
-  background-image: linear-gradient(to bottom, #ffffff 0%, #ECECEC 30%);
-  border-radius: 8px;
+  padding: 10px 20px 4px 20px;
+  background-color: #eee;
   min-height: 300px;
   margin-right: 235px;
+  border-radius: 0px 0px 8px 8px;
 }
 .item .desc textarea {
   width: 100%;
@@ -242,10 +240,9 @@ background-position:center -25px;
 }
 .item .sideInfo{
   padding: 15px 0px 0px 5px;
-  background-image: linear-gradient(to bottom, #ffffff 0%, #ECECEC 30%);
+  background-color: #eee;
   overflow:hidden;
-  margin-bottom:-15px;
-  min-height: 315px;
+  min-height: 300px;
   float: right;
   border-radius: 0px 0px 8px 8px;
 }
@@ -260,7 +257,7 @@ background-position:center -25px;
 .item .sideInfo h1 {
   background-color: #ddd;
   border-radius: 8px 0px 0px 8px;
-  padding:8px 12px;
+  padding: 8px 12px 4px;
   margin-top: 4px;
   font-size:22px !important;
   font-weight: bold;

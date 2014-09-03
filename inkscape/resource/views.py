@@ -192,6 +192,7 @@ def view_list(request, **kwargs):
     c['items'] = items
     # I hate this hack, name should be available in the template, but it's not!
     c['name'] = c.has_key('o_user') and c['o_user'].name()
+    c['limit'] = 15
     return render_to_response('resource/category.html', c,
              context_instance=RequestContext(request))
 
@@ -211,6 +212,7 @@ def view_trash(request):
       'items': request.user.resources.trash,
       'breadcrumbs': breadcrumbs(request.user, "Trash"),
       'gallery': {'name': _("Your Trash Space"), 'user': request.user},
+      'limit': 200,
     }
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
@@ -224,6 +226,7 @@ def view_gallery(request, gallery_id):
       'items'      : gallery.items.for_user(request.user),
       'gallery'    : gallery,
       'breadcrumbs': breadcrumbs(gallery.user, gallery),
+      'limit'      : 15,
     }
     if gallery.group:
         c['breadcrumbs'] = breadcrumbs(gallery)
@@ -241,6 +244,7 @@ def view_user(request, user_id):
       'me': user == request.user,
       'items': user.galleries.for_user(request.user),
       'breadcrumbs': breadcrumbs(user, "Galleries"),
+      'limit': 15,
     }
     return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))

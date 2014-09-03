@@ -1,10 +1,13 @@
 {% load i18n pagination_tags %}
 
+{% if not user or user.resources.all.count == 0 %}
+  <p>If you would like to upload artwork to our InkSpace, please head over to <a href="{% url "profile" %}">your user profile</a>.</p>
+{% endif %}
+
 <div id='errors'></div>
 
 <div id="gallery">
  {% if user == request.user and gallery.id %}
-  {% autopaginate items 14 as resources %}
   <div class="galleryitem">
     <div id="drop" class="link"><a href="{% url "new_resource" gallery.id %}"><img src="{{ DESIGN_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
     <p><a href="{% url "new_resource" gallery.id %}">{% trans "Submit Resource" %}</a></p>
@@ -19,8 +22,8 @@
     <p><a>{% trans "Nothing Yet" %}</a></p>
   </div>
   {% endif %}
-  {% autopaginate items 15 as resources %}
  {% endif %}
+ {% autopaginate items limit as resources %}
  {% for item in resources %}
    {% include "resource/list-item.html" %}
  {% endfor %}

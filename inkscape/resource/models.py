@@ -335,3 +335,16 @@ def quota_for_user(user):
     return Quota.objects.filter(f).aggregate(Max('size'))['size__max'] or 0
 
 User.quota = quota_for_user
+
+# ------------- CMS ------------ #
+
+from cms.models import CMSPlugin
+
+class GalleryPlugin(CMSPlugin):
+    limit  = PositiveIntegerField(_('Number of items'))
+    source = ForeignKey(Gallery)
+
+class CategoryPlugin(CMSPlugin):
+    limit  = PositiveIntegerField(_('Number of items'))
+    source = ForeignKey(Category)
+

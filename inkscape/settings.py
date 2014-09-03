@@ -164,7 +164,6 @@ INSTALLED_APPS = (
     'djangocms_link',
     'cmsplugin_search',
     'cmsplugin_news',
-    'cmsplugin_brochure',
     'cmsplugin_pygments',
     'cmsplugin_launchpad',
     'cmsplugin_groupphoto',

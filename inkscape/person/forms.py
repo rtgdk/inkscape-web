@@ -27,11 +27,13 @@ class UserForm(ModelForm):
         fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
 
     def clean(self):
-        password1 = self.cleaned_data.get('password1')
-        password2 = self.cleaned_data.get('password2')
+        password1 = self.cleaned_data['password1']
+        password2 = self.cleaned_data['password2']
 
-        if password1 and password1 != password2:
-            raise ValidationError("Passwords don't match")
+        if password1 and password2:
+            if password1 != password2:
+                raise ValidationError("Passwords don't match")
+            self.cleaned_data['password'] = password1
 
 
         return self.cleaned_data
@@ -45,7 +47,7 @@ class UserForm(ModelForm):
         
 
     def save(self):
-        password = self.cleaned_data.get('password1')
+        password = self.cleaned_data.get('password', None)
         if password:
             self.instance.set_password(password)
         ModelForm.save(self)

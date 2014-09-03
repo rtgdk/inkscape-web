@@ -19,12 +19,9 @@
   border-radius: 4px;
   margin: 4px;
   border: medium none;
-/* This is buggy in firefox so removed.
-  opacity: 0.8;
- 
- .socialicons img:hover {
-  opacity: 1.0;
-*/
+} 
+.socialicons img:hover {
+  box-shadow: 0px 0px 3px 3px #888;
 }
 
 #profile {

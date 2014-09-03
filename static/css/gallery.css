@@ -324,6 +324,17 @@ background-position:center -25px;
 .galleryitem:hover .label {
   visibility: visible;
 }
+.galleryitem p.blank {
+  width: 50px;
+  text-align: center;
+  margin-left: -2px;
+  border-width: 0px 2px 2px;
+  border-style: solid;
+  border-color: #CCE;
+  border-radius: 0px 0px 8px 8px;
+  padding: 2px 0px;
+  background-color: #EEF;
+}
 .galleryitem .label img {
   position: relative;
   right: -4px;

@@ -32,6 +32,7 @@ from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
 from .utils import syntaxer, MimeType, upto, cached
+from inkscape.settings import DESIGN_URL
 
 null = dict(null=True, blank=True)
 
@@ -281,6 +282,11 @@ class Gallery(Model):
         return user and user.id and (
             self.user == user \
               or (user.groups.count() and self.group in user.groups))
+
+    def icon(self):
+        if self.items.all().count():
+            return self.items.all()[0].icon()
+        return os.path.join( DESIGN_URL,'images','folder.svg' )
 
     def __len__(self):
         return self.items.count()

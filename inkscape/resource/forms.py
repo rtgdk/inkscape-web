@@ -39,16 +39,17 @@ class ResourceBaseForm(ModelForm):
             raise AttributeError("User needs to be a model of a user.")
         self.user = user
         ModelForm.__init__(self, *args, **kwargs)
-        self.fields['desc'].widget.attrs['placeholder'] = _("Description")
+        self.fields['desc'].widget.attrs['placeholder'] = _("Description of the upload")
         self.fields['name'].widget.attrs['placeholder'] = _("Name")
         if hasattr(self.Meta, 'required'):
             for key in self.Meta.required:
                 self.fields[key].required = True
 
     def clean_owner(self):
-        if self.cleaned_data.get('permission') != True and self.cleaned_data.get('owner') == False:
-            raise ValidationError("You need to have permission to post this work, or be the owner of the work.")
-        return self.cleaned_data.get('owner')
+        res = str(self.cleaned_data['owner'])
+        if res not in ('1','2'):
+            raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))
+        return res == '1'
 
     def clean_download(self):
         if not self.instance or self.instance.download == self.cleaned_data['download']:
@@ -60,11 +61,6 @@ class ResourceBaseForm(ModelForm):
         if self.cleaned_data['download'].size > space:
             raise ValidationError("Not enough space to upload this file.")
         return self.cleaned_data['download']
-
-    def _clean_fields(self):
-        ModelForm._clean_fields(self)
-        if 'owner' in self._errors:
-            self._errors['permission'] = self.errors['owner']
 
     def save(self, commit=False, **kwargs):
         obj = ModelForm.save(self, commit=False)
@@ -80,8 +76,15 @@ class ResourceBaseForm(ModelForm):
                 continue
             yield field
 
+OWNS = (
+  (0, _('No permission')),
+  (1, _('I own the work')),
+  (2, _('I have permission')),
+)
+
 class ResourceFileForm(ResourceBaseForm):
-    permission = BooleanField(label=_('I have permission'), required=False)
+    owner = ChoiceField(choices=OWNS, label=_('Permission'))
+    published = BooleanField(label=_('Publicly Visible'), required=False)
 
     class Meta:
         model = ResourceFile

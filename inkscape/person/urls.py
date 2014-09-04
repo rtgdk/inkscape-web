@@ -5,7 +5,7 @@ except ImportError:
 
 from django.views.generic.base import TemplateView
 
-from registration.views import ActivationView as AV, RegistrationView
+from registration.backends.default.views import ActivationView as AV, RegistrationView
 
 from .forms import RegisForm
 

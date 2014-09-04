@@ -5,38 +5,43 @@
 
 # Python libraries (can't install on some machines using pip)
 docutils
-distribute>=0.6.28
+distribute==0.7.3
 pillow==2.4.0
 Whoosh==2.6.0
 feedparser
-uwsgi
+httplib2==0.9
+uwsgi==2.0.4
 pytz
 
 # Web libraries
 python-openid==2.2.4
+easy-thumbnails==2.0.1
 
 # Django libraries
 Django==1.6.5
-South==0.8.1
+South==1.0
 django-haystack==2.2.0
 django-reset
 django-pagination==1.0.5
 django-social-auth==0.7.28
 django-model-utils==2.0.3
 django-registration==1.0
+django-polymorphic==0.5.5
 django-reversion==1.8.0
+django-mptt==0.6.1
 django-recaptcha
-django-user-sessions
+django-user-sessions==1.0.0
 django-cleanup
 
 # Django-CMS Plugins
-django-cms==3.0
+# NOTE: We have problems with >3.0.2 with 404 errors on live.
+django-cms==3.0.1
 
-djangocms-text-ckeditor
-djangocms-file
-djangocms-picture
-djangocms-snippet
-djangocms-link
+djangocms-file==0.0.2
+djangocms-link==1.4.0
+djangocms-picture==0.0.4
+djangocms-snippet==1.1
+djangocms-text-ckeditor==2.3.0
 
 cmsplugin-pygments==0.7.3
 cmsplugin-filery==1.0.1

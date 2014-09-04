@@ -16,8 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
+<<<<<<< TREE
 "X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
+=======
+"X-Launchpad-Export-Date: 2014-04-14 05:45+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
+"Language: \n"
+>>>>>>> MERGE-SOURCE
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
@@ -339,10 +345,12 @@ msgid "Slug"
 msgstr "SEO URL"
 
 #: libs/cmsplugin_news/models.py:54
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
-"SEO URL je zkrácený název, který jedinečně identifikuje novinku pro tento den"
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
@@ -411,9 +419,16 @@ msgid "Archive"
 msgstr "Archiv"
 
 #: templates/base.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News Feed"
+<<<<<<< TREE
 msgstr "Kanál novinek"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:26
 msgid "WARNING!"
@@ -474,18 +489,32 @@ msgid "Or log in with"
 msgstr "Nebo se přihlaste pomocí"
 
 #: templates/base.html:63
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Profile Photo"
+<<<<<<< TREE
 msgstr "Upravit profil"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:65
 msgid "Admin"
 msgstr "Správce"
 
 #: templates/base.html:67
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "My Profile"
+<<<<<<< TREE
 msgstr "Upravit profil"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:68
 msgid "Logout"
@@ -537,9 +566,16 @@ msgid "Find out what Inkscape is capable of."
 msgstr ""
 
 #: templates/front.html:55
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Gallery"
+<<<<<<< TREE
 msgstr "Brožura galerie"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."
@@ -566,9 +602,16 @@ msgid "From"
 msgstr ""
 
 #: templates/brochure/list.html:14
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No items yet."
+<<<<<<< TREE
 msgstr "Prozatím žádné novinky"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -645,9 +688,16 @@ msgid "New English News Article"
 msgstr ""
 
 #: templates/news/credit.html:30
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish Date"
+<<<<<<< TREE
 msgstr "Zveřejněno"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
@@ -655,9 +705,16 @@ msgid "Save"
 msgstr ""
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish"
+<<<<<<< TREE
 msgstr "Zveřejněno"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
@@ -686,9 +743,16 @@ msgid "Read more"
 msgstr ""
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Latest News"
+<<<<<<< TREE
 msgstr "Nejnovější novinky"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
@@ -700,9 +764,16 @@ msgstr ""
 #: templates/news/news_archive_month.html:8
 #: templates/news/news_archive_year.html:5
 #: templates/news/news_archive_year.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News for"
+<<<<<<< TREE
 msgstr "Kanál novinek"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
@@ -713,9 +784,16 @@ msgid "No news for this month."
 msgstr ""
 
 #: templates/news/news_archive_year.html:13
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No news for this year"
+<<<<<<< TREE
 msgstr "Prozatím žádné novinky"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_detail.html:19
 msgid "This article is not published yet!"
@@ -758,17 +836,34 @@ msgid "Translation OK"
 msgstr ""
 
 #: templates/news/translation_option.html:15
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Original Updated"
+<<<<<<< TREE
 msgstr "Naposledy aktualizováno"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:16
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
+<<<<<<< TREE
 msgstr "Naposledy aktualizováno"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/edit.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit Profile"
 msgstr "Upravit profil"
 
@@ -777,23 +872,44 @@ msgid "Personal Details"
 msgstr ""
 
 #: templates/person/profile.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "User"
+<<<<<<< TREE
 msgstr "Uživatelské jméno"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:16
 msgid "Annonymous"
 msgstr ""
 
 #: templates/person/profile.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Biography"
+<<<<<<< TREE
 msgstr "Fotografie"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:29
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit My Profile"
+<<<<<<< TREE
 msgstr "Upravit profil"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:8
@@ -822,8 +938,13 @@ msgstr "Ahoj,"
 
 #: templates/registration/activation_email.txt:3
 msgid ""
+<<<<<<< TREE
 "This is an automatic email to help you complete your registration with www."
 "inkscape.org."
+=======
+"This is an automatic email to help you complete your registration with "
+"www.inkscape.org."
+>>>>>>> MERGE-SOURCE
 msgstr ""
 
 #: templates/registration/activation_email.txt:5
@@ -890,9 +1011,16 @@ msgid "Email Address"
 msgstr ""
 
 #: templates/registration/registration_form.html:45
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Register"
+<<<<<<< TREE
 msgstr "Zaregistrujte se."
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/edit.html:7 templates/resource/item.html:19
 msgid "Edit Resource"
@@ -923,8 +1051,12 @@ msgid "Search Results for"
 msgstr ""
 
 #: templates/search/search.html:25
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No results found."
+<<<<<<< TREE
 msgstr "Nenalezeno"
 
 #~ msgid ""
@@ -949,3 +1081,6 @@ msgstr "Nenalezeno"
 
 #~ msgid "Optional: Show only for this language"
 #~ msgstr "Volitené: Zobrazit pouze pro tento jazyk"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE

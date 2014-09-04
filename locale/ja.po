@@ -16,8 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=1; plural=0;\n"
+<<<<<<< TREE
 "X-Launchpad-Export-Date: 2013-12-30 04:46+0000\n"
 "X-Generator: Launchpad (build 16877)\n"
+=======
+"X-Launchpad-Export-Date: 2014-04-14 05:45+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
+"Language: ja\n"
+>>>>>>> MERGE-SOURCE
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
@@ -335,9 +341,16 @@ msgid "Slug"
 msgstr "スラグ"
 
 #: libs/cmsplugin_news/models.py:54
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "A slug is a short name which uniquely identifies the news item."
+<<<<<<< TREE
 msgstr "スラグはこの日のニュースアイテムを一意に識別する省略名です"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
@@ -359,10 +372,15 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
+<<<<<<< TREE
 "このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられ"
 "る。\n"
 "デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されるこ"
 "とに注意。"
+=======
+"このリンクはこのアイテムの絶対 URL に使用され、表示ロジックに置き換えられる。\n"
+"デフォルトではこれは \"content\" フィールドがからのアイテムにのみ適用されることに注意。"
+>>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:77
 msgid "Language"
@@ -407,9 +425,16 @@ msgid "Archive"
 msgstr "アーカイブ"
 
 #: templates/base.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News Feed"
+<<<<<<< TREE
 msgstr "News フィード"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:26
 msgid "WARNING!"
@@ -469,18 +494,32 @@ msgid "Or log in with"
 msgstr "または以下のアカウントでログイン"
 
 #: templates/base.html:63
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Profile Photo"
+<<<<<<< TREE
 msgstr "プロファイルの編集"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:65
 msgid "Admin"
 msgstr "管理"
 
 #: templates/base.html:67
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "My Profile"
+<<<<<<< TREE
 msgstr "プロファイルの編集"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:68
 msgid "Logout"
@@ -497,9 +536,13 @@ msgstr ""
 
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
+<<<<<<< TREE
 msgstr ""
 "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフ"
 "トウェアです。"
+=======
+msgstr "Inkscape は GPL ライセンスのもとで公開されているフリーでオープンソースなソフトウェアです。"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "Website designed by"
@@ -534,9 +577,16 @@ msgid "Find out what Inkscape is capable of."
 msgstr ""
 
 #: templates/front.html:55
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Gallery"
+<<<<<<< TREE
 msgstr "ギャラリーブローシャ"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."
@@ -563,9 +613,16 @@ msgid "From"
 msgstr ""
 
 #: templates/brochure/list.html:14
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No items yet."
+<<<<<<< TREE
 msgstr "ニュースはありません"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -643,9 +700,16 @@ msgid "New English News Article"
 msgstr ""
 
 #: templates/news/credit.html:30
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish Date"
+<<<<<<< TREE
 msgstr "公開"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
@@ -653,9 +717,16 @@ msgid "Save"
 msgstr ""
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish"
+<<<<<<< TREE
 msgstr "公開"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
@@ -684,9 +755,16 @@ msgid "Read more"
 msgstr ""
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Latest News"
+<<<<<<< TREE
 msgstr "最新のニュース"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
@@ -698,9 +776,16 @@ msgstr ""
 #: templates/news/news_archive_month.html:8
 #: templates/news/news_archive_year.html:5
 #: templates/news/news_archive_year.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News for"
+<<<<<<< TREE
 msgstr "News フィード"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
@@ -711,9 +796,16 @@ msgid "No news for this month."
 msgstr ""
 
 #: templates/news/news_archive_year.html:13
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No news for this year"
+<<<<<<< TREE
 msgstr "ニュースはありません"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_detail.html:19
 msgid "This article is not published yet!"
@@ -756,17 +848,34 @@ msgid "Translation OK"
 msgstr ""
 
 #: templates/news/translation_option.html:15
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Original Updated"
+<<<<<<< TREE
 msgstr "最終更新日"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:16
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
+<<<<<<< TREE
 msgstr "最終更新日"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/edit.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit Profile"
 msgstr "プロファイルの編集"
 
@@ -775,23 +884,44 @@ msgid "Personal Details"
 msgstr ""
 
 #: templates/person/profile.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "User"
+<<<<<<< TREE
 msgstr "ユーザー名"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:16
 msgid "Annonymous"
 msgstr ""
 
 #: templates/person/profile.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Biography"
+<<<<<<< TREE
 msgstr "写真"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:29
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit My Profile"
+<<<<<<< TREE
 msgstr "プロファイルの編集"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:8
@@ -820,8 +950,13 @@ msgstr "ようこそ"
 
 #: templates/registration/activation_email.txt:3
 msgid ""
+<<<<<<< TREE
 "This is an automatic email to help you complete your registration with www."
 "inkscape.org."
+=======
+"This is an automatic email to help you complete your registration with "
+"www.inkscape.org."
+>>>>>>> MERGE-SOURCE
 msgstr ""
 
 #: templates/registration/activation_email.txt:5
@@ -829,9 +964,14 @@ msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
+<<<<<<< TREE
 "以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正"
 "しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバー"
 "に貼り付けてください。"
+=======
+"以下のリンクをウェブブラウザーで開いてください。リンクが複数行に改行されて正しくページを開けない場合は、リンクをコピーしてウェブブラウザーのアドレスバーに"
+"貼り付けてください。"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_email_subject.txt:1
 msgid "Your registration on www.inkscape.org"
@@ -889,9 +1029,16 @@ msgid "Email Address"
 msgstr ""
 
 #: templates/registration/registration_form.html:45
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Register"
+<<<<<<< TREE
 msgstr "今すぐ登録する"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/edit.html:7 templates/resource/item.html:19
 msgid "Edit Resource"
@@ -922,8 +1069,12 @@ msgid "Search Results for"
 msgstr ""
 
 #: templates/search/search.html:25
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No results found."
+<<<<<<< TREE
 msgstr "ページが見つかりません"
 
 #~ msgid ""
@@ -949,3 +1100,6 @@ msgstr "ページが見つかりません"
 
 #~ msgid "Optional: Show only for this language"
 #~ msgstr "オプション: この言語でのみ表示"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE

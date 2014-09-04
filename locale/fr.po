@@ -8,16 +8,27 @@ msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-04-13 16:47+0000\n"
+<<<<<<< TREE
 "PO-Revision-Date: 2013-12-22 23:34+0000\n"
 "Last-Translator: Edouard <Unknown>\n"
+=======
+"PO-Revision-Date: 2014-04-20 08:55+0000\n"
+"Last-Translator: jazzynico <Unknown>\n"
+>>>>>>> MERGE-SOURCE
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n > 1;\n"
+<<<<<<< TREE
 "X-Launchpad-Export-Date: 2013-12-23 05:37+0000\n"
 "X-Generator: Launchpad (build 16872)\n"
+=======
+"X-Launchpad-Export-Date: 2014-04-21 04:55+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
+"Language: \n"
+>>>>>>> MERGE-SOURCE
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
@@ -338,11 +349,12 @@ msgid "Slug"
 msgstr "Label"
 
 #: libs/cmsplugin_news/models.py:54
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
-"Un label est un nom bref qui identifie de manière unique l'actualité pour un "
-"jour donné"
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
@@ -374,7 +386,11 @@ msgstr "Langue"
 
 #: libs/cmsplugin_news/models.py:78
 msgid "Translated version of another news item."
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduction d'un article écrit dans une autre langue"
+>>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
@@ -382,7 +398,11 @@ msgstr "Actualités"
 
 #: libs/cmsplugin_news/models.py:90
 msgid "Translate News"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduire des nouvelles"
+>>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
@@ -411,9 +431,16 @@ msgid "Archive"
 msgstr "Archives"
 
 #: templates/base.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News Feed"
+<<<<<<< TREE
 msgstr "Flux d'actualités"
+=======
+msgstr "Fil d'actualité"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:26
 msgid "WARNING!"
@@ -459,7 +486,11 @@ msgstr "Nom d’utilisateur"
 
 #: templates/base.html:51
 msgid "Log in"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Se connecter"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:52
 msgid "Not a member?"
@@ -474,18 +505,32 @@ msgid "Or log in with"
 msgstr "Ou connectez-vous avec"
 
 #: templates/base.html:63
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Profile Photo"
+<<<<<<< TREE
 msgstr "Modifier le profil"
+=======
+msgstr "Photo du profil"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:65
 msgid "Admin"
 msgstr "Administrateur"
 
 #: templates/base.html:67
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "My Profile"
+<<<<<<< TREE
 msgstr "Modifier le profil"
+=======
+msgstr "Mon profil"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:68
 msgid "Logout"
@@ -498,7 +543,11 @@ msgstr "Suivez nous sur :"
 #: templates/base.html:82 templates/base.html.py:84
 #: templates/search/search.html:5
 msgid "Search"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Rechercher"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
@@ -506,38 +555,73 @@ msgstr "Inkscape est un logiciel Libre et Open Source sous licence GPL"
 
 #: templates/base.html:114
 msgid "Website designed by"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Site conçu par"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "in Inkscape and developed by"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "avec Inkscape et créé par"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "Website development guide"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Guide de développement du site"
+>>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "Here"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Ici"
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:51
 msgid "Overview"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Aperçu"
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:52
 msgid "What is Inkscape and how can you get it?"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Découvrez et téléchargez Inkscape"
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:53
 msgid "Features"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Fonctionnalités"
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:54
 msgid "Find out what Inkscape is capable of."
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Découvrez ce qu'il est possible de faire avec Inkscape."
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:55
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Gallery"
 msgstr "Galerie"
 
@@ -551,7 +635,11 @@ msgstr ""
 
 #: templates/front.html:58
 msgid "Resources to help you get the most out of Inkscape."
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Ressources pour vous aider à tirer le meilleur d'Inkscape"
+>>>>>>> MERGE-SOURCE
 
 #: templates/paginator.html:5 templates/search/search.html:30
 msgid "Previous"
@@ -563,12 +651,23 @@ msgstr "Suivant"
 
 #: templates/brochure/list.html:4
 msgid "From"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "De"
+>>>>>>> MERGE-SOURCE
 
 #: templates/brochure/list.html:14
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No items yet."
+<<<<<<< TREE
 msgstr "Pas encore d'actualités"
+=======
+msgstr "Aucun article pour le moment."
+>>>>>>> MERGE-SOURCE
 
 #: templates/error/403.html:3
 msgid "Forbidden"
@@ -628,16 +727,28 @@ msgstr "Vous l'avez cassé !"
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "Edit"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Éditer"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "New News Article"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Nouvel article"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:14 templates/news/translation.html:14
 #: templates/registration/registration_form.html:13
 msgid "Please correct the errors below"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Merci de corriger les erreurs ci-dessous"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:18
 msgid "Edit English News Article"
@@ -645,57 +756,115 @@ msgstr ""
 
 #: templates/news/credit.html:20
 msgid "New English News Article"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Nouvel article en anglais"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:30
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish Date"
+<<<<<<< TREE
 msgstr "Publié"
+=======
+msgstr "Date de publication"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
 msgid "Save"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Enregistrer"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish"
+<<<<<<< TREE
 msgstr "Publié"
+=======
+msgstr "Publier"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Supprimer l'article"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:17
 msgid ""
 "This will delete the article and any translations associated with the "
 "article!"
 msgstr ""
+<<<<<<< TREE
+=======
+"Cette action supprimera l'article et toutes les traductions qui y sont "
+"associées  !"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:31
 msgid "Yes"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Oui"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:32
 msgid "No, I change my mind"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Non, j'ai changé d'avis"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/latest_news.html:2 templates/news/news_archive.html:17
 msgid "RSS Feed"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Flux RSS"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/latest_news.html:11 templates/news/list_item.html:8
 msgid "Read more"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Lire la suite"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Latest News"
+<<<<<<< TREE
 msgstr "Dernières actualités"
+=======
+msgstr "Dernières nouvelles"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Créer un articler"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_day.html:5
 #: templates/news/news_archive_day.html:8
@@ -703,105 +872,217 @@ msgstr ""
 #: templates/news/news_archive_month.html:8
 #: templates/news/news_archive_year.html:5
 #: templates/news/news_archive_year.html:8
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "News for"
+<<<<<<< TREE
 msgstr "Flux d'actualités"
+=======
+msgstr "Article de"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Pas d'article pour cette date"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_month.html:13
 msgid "No news for this month."
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Pas d'article pour ce mois"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_year.html:13
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No news for this year"
+<<<<<<< TREE
 msgstr "Pas encore d'actualités"
+=======
+msgstr "Pas d'article pour cette année"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_detail.html:19
 msgid "This article is not published yet!"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Cette article n'a pas encore été publié  !"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:5
 msgid "Translate News Article"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduire un article"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:17
 msgid "Translate News Article into"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduire un article en"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:20
 msgid "New Translations"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Nouvelles traductions"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:20
 msgid "Original"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Original"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:29
 msgid "Save Translation"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Enregistrer la traduction"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:5
 msgid "Edit This News"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Éditer cet article"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:8
 msgid "Delete This News"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Supprimer cet article"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:13
 msgid "Needs Translating"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduction nécessaire"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:13
 msgid "Translation OK"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Traduction validée"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:15
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Original Updated"
+<<<<<<< TREE
 msgstr "Dernière mise à jour"
+=======
+msgstr "Article original mis à jour"
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:16
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
+<<<<<<< TREE
 msgstr "Dernière mise à jour"
+=======
+msgstr "Traduction mise à jour"
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/edit.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit Profile"
 msgstr "Modifier le profil"
 
 #: templates/person/edit.html:24
 msgid "Personal Details"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Informations personnelles"
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:6
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "User"
+<<<<<<< TREE
 msgstr "Nom d’utilisateur"
+=======
+msgstr "Utilisateur"
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:16
 msgid "Annonymous"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Anonyme"
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Biography"
+<<<<<<< TREE
 msgstr "Photographie"
+=======
+msgstr "Biographie"
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:29
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Edit My Profile"
+<<<<<<< TREE
 msgstr "Modifier le profil"
+=======
+msgstr "Éditer mon profil"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:8
 msgid "Activation Complete"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Activation terminée"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_complete.html:10
 msgid ""
@@ -825,9 +1106,19 @@ msgstr "Bonjour,"
 
 #: templates/registration/activation_email.txt:3
 msgid ""
+<<<<<<< TREE
 "This is an automatic email to help you complete your registration with www."
 "inkscape.org."
+=======
+"This is an automatic email to help you complete your registration with "
+"www.inkscape.org."
+>>>>>>> MERGE-SOURCE
 msgstr ""
+<<<<<<< TREE
+=======
+"Ceci est un courriel envoyé automatiquement pour vous aider à terminer votre "
+"enregistrement sur le site www.inkscape.org."
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_email.txt:5
 msgid ""
@@ -840,28 +1131,54 @@ msgstr ""
 
 #: templates/registration/activation_email_subject.txt:1
 msgid "Your registration on www.inkscape.org"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Votre enregistrement sur le site www.inkscape.org"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/login.html:7
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
+<<<<<<< TREE
+=======
+"Votre nom d'utilisateur et votre mot de passe ne correspondaient pas. "
+"Essayez à nouveau."
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/login.html:23
 msgid "Login"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Connexion"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/logout.html:6
 msgid "Logout from Inkscape"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Déconnexion du site Inkscape"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/logout.html:8
 msgid "Thanks for using the Inkscape website. Hope to see you again soon!"
 msgstr ""
+<<<<<<< TREE
+=======
+"Merci de vous être connecté au site Inkscape. Nous espérons vous revoir "
+"bientôt  !"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_complete.html:4
 #: templates/registration/registration_complete.html:8
 msgid "Registration Complete"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Enregistrement terminé"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -876,6 +1193,11 @@ msgstr ""
 #: templates/registration/registration_complete.html:13
 msgid "If you don't receive it shortly, please check your spam folder."
 msgstr ""
+<<<<<<< TREE
+=======
+"Si vous ne le recevez pas après un bref délai, merci de vérifier votre "
+"dossier « indésirables »."
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:4
 msgid "New User Registeration"
@@ -883,52 +1205,104 @@ msgstr ""
 
 #: templates/registration/registration_form.html:8
 msgid "New User Registration"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Nouvel enregistrement"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:10
 msgid "Welcome, in order to register you must have a valid email address."
 msgstr ""
+<<<<<<< TREE
+=======
+"Bienvenu. Vous devez avoir une adresse de courriel valide pour vous "
+"enregistrer."
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:28
 msgid "Email Address"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Adresse de courriel"
+>>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:45
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Register"
+<<<<<<< TREE
 msgstr "Inscrivez-vous maintenant."
+=======
+msgstr "S’enregistrer"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/edit.html:7 templates/resource/item.html:19
 msgid "Edit Resource"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Éditer le fichier"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/edit.html:9 templates/resource/list.html:22
 msgid "Submit Resource"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Attacher un fichier"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/item.html:15 templates/resource/item.html.py:16
 msgid "Download"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Télécharger"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/item.html:20
 msgid "Delete Resource"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Supprimer le fichier"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/item.html:22
 msgid "by"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "par"
+>>>>>>> MERGE-SOURCE
 
 #: templates/resource/list.html:18
 msgid "No resources submitted yet."
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Aucun fichier n'a été attaché pour l'instant."
+>>>>>>> MERGE-SOURCE
 
 #: templates/search/search.html:9
 msgid "Search Results for"
+<<<<<<< TREE
 msgstr ""
+=======
+msgstr "Résultat de la recherche pour"
+>>>>>>> MERGE-SOURCE
 
 #: templates/search/search.html:25
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "No results found."
+<<<<<<< TREE
 msgstr "Non trouvé"
 
 #~ msgid ""
@@ -956,3 +1330,6 @@ msgstr "Non trouvé"
 
 #~ msgid "Optional: Show only for this language"
 #~ msgstr "Optionnel : Ne montrer que pour cette langue"
+=======
+msgstr "Aucun résultat."
+>>>>>>> MERGE-SOURCE

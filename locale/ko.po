@@ -1,210 +1,194 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Korean translation for inkscape-web
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-13 16:47+0000\n"
-<<<<<<< TREE
-"PO-Revision-Date: 2014-01-25 17:43+0000\n"
-=======
-"PO-Revision-Date: 2014-08-03 21:34+0000\n"
->>>>>>> MERGE-SOURCE
-"Last-Translator: Hachmann <Unknown>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-06-01 08:41+0000\n"
+"Last-Translator: Myeongjin <aranet100@gmail.com>\n"
+"Language-Team: Korean <ko@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-<<<<<<< TREE
-"X-Launchpad-Export-Date: 2014-01-26 04:51+0000\n"
-"X-Generator: Launchpad (build 16914)\n"
-=======
-"X-Launchpad-Export-Date: 2014-08-04 06:08+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
-"Language: \n"
->>>>>>> MERGE-SOURCE
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-06-02 05:52+0000\n"
+"X-Generator: Launchpad (build 17031)\n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
 msgid "Password"
-msgstr "Passwort"
+msgstr "비밀번호"
 
 #: inkscape/person/forms.py:8 templates/registration/registration_form.html:40
 msgid "Confirm"
-msgstr "Bestätigen"
+msgstr "확인"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr "Foto"
+msgstr "사진"
 
 #: inkscape/person/models.py:54
 msgid "Display Icon"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Icon anzeigen"
->>>>>>> MERGE-SOURCE
+msgstr "보이는 아이콘"
 
 #: inkscape/resource/forms.py:27
 msgid "I have permission to post this work"
-msgstr "Ich habe die Erlaubnis, dieses Werk zu veröffentlichen."
+msgstr "나는 이 작업을 게시할 권한이 있습니다"
 
 #: inkscape/resource/models.py:39
 msgid "License Banner"
-msgstr "Lizenz-Banner"
+msgstr "라이선스 배너"
 
 #: inkscape/resource/models.py:40
 msgid "License Icon"
-msgstr "Lizenz-Icon"
+msgstr "라이선스 아이콘"
 
 #: inkscape/resource/models.py:42
 msgid "Attribution"
-msgstr "Namensnennung"
+msgstr "특성"
 
 #: inkscape/resource/models.py:43
 msgid "Copyleft (Share Alike)"
-msgstr "Copyleft (Weiterverbreitung unter gleichen Bedingungen)"
+msgstr "카피레프트 (동일조건변경허락)"
 
 #: inkscape/resource/models.py:44
 msgid "Non-Commercial"
-msgstr "keine kommerzielle Nutzung"
+msgstr "비영리"
 
 #: inkscape/resource/models.py:45
 msgid "Non-Derivitive"
-msgstr "keine Bearbeitung"
+msgstr "변경금지"
 
 #: inkscape/resource/models.py:46
 msgid "All Rights Reserved"
-msgstr "Alle Rechte vorbehalten"
+msgstr "모든 권리 보유"
 
 #: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr "Beschreibung"
+msgstr "설명"
 
 #: inkscape/resource/models.py:71
 msgid "I own this work"
-msgstr "Dieses Werk gehört mir."
+msgstr "내가 이 일을 소유합니다"
 
 #: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr "Vorschaubild"
+msgstr "섬네일"
 
 #: inkscape/resource/models.py:74
 msgid "Consumable File"
-msgstr "Vorlagendatei"
+msgstr "소모할수 있는 파일"
 
 #: inkscape/resource/models.py:75
 msgid "Source File"
-msgstr "Quelldatei"
+msgstr "원본 파일"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr "Search apphook in german"
+msgstr "앱훅 검색"
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr "Galerie-Übersicht"
+msgstr "갤러리 브로슈어"
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
 #: templates/news/translation.html:21
 msgid "Title"
-msgstr "Titel"
+msgstr "제목"
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr "Link zur kompletten Liste"
+msgstr "전체 목록으로 연결"
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr "Ziel-Icon"
+msgstr "대상 아이콘"
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr "Quelltyp"
+msgstr "원본 유형"
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr "Art des durchzuführenden Parsens"
+msgstr "구문 분석할 종류."
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr "Link zu den Daten"
+msgstr "데이터 링크"
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
-msgstr ""
-"Link zu einem RSS-Feed oder anderen Daten, die regulär geparst werden können"
+msgstr "정규 구분 분석을 위해 RSS 피드나 다른 데이터로 연결합니다."
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr "Automatisch aktivieren"
+msgstr "자동으로 활성화"
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr "Alle neuen Einträge für den User sofort sichtbar machen"
+msgstr "사용자에게 직접 모든 새 항목을 보이도록 합니다"
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr "Letzes Update"
+msgstr "마지막 업데이트"
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:58
 msgid "Published"
-msgstr "Veröffentlicht"
+msgstr "게시됨"
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:67
 msgid "Link"
-msgstr "Link"
+msgstr "링크"
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr "Veröffentlichungsdatum"
+msgstr "게시 날짜"
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr "Aktiviert"
+msgstr "활성화됨"
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr "Datum im Index"
+msgstr "색인된 날짜"
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr "Anzahl der Elemente"
+msgstr "항목 수"
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr "Liste der Nutzergruppen"
+msgstr "사용자 목록 그룹"
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr "Anzeigestil"
+msgstr "보이기 스타일"
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr "Einfache Liste"
+msgstr "간단한 목록"
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr "Foto-Beschreibungen"
+msgstr "사진 머리"
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
-msgstr ""
+msgstr "사진 약력"
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr "Anzahl der Bugs auf Launchpad"
+msgstr "Launchpad 버그 개수"
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr "Projektname"
+msgstr "프로젝트 이름"
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
@@ -214,167 +198,158 @@ msgstr "Launchpad ID"
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 #: templates/person/profile.html:15
 msgid "Name"
-msgstr "Name"
+msgstr "이름"
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr "Status"
+msgstr "상태"
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr "Interne Launchpad ID"
+msgstr "안쪽 Launchpad ID"
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr "Name der Liste"
+msgstr "목록 이름"
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr "die vor dem angegebenen Datum erstellt wurden."
+msgstr "저건 주어진 날짜 이전에 만들어졌습니다."
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr "die nach dem angegebenen Datum erstellt wurden."
+msgstr "저건 주어진 날짜 이후에 만들어졌습니다."
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr "die nach dem angegebenen Datum verändert wurden."
+msgstr "저건 주어진 날짜 이후에 수정되었습니다."
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr "Bug ID oder Suchbegriffe"
+msgstr "버그 ID나 검색어."
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr "Alle Bugs"
+msgstr "모든 버그"
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr "Nur verlinkte."
+msgstr "링크된 것만"
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr "Nur nicht verlinkte."
+msgstr "링크되지 않은 것만"
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr "egal, ob sie mit Entwicklungszweigen verbunden sind oder nicht."
+msgstr "저건 분기에 연결되어 있거나 그렇지 않습니다"
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr "Keine Bugs anzeigen, die als Duplikat markiert wurden."
+msgstr "중복으로 표시된 버그는 생각합니다."
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr "Keine Bugs anzeigen, die sich auf eine bestimmte Serie beziehen."
+msgstr "일련을 대상으로 한 버그는 생각합니다."
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr "Ausschließlich miteinem der angegebenen Status-Werte."
+msgstr "주어진 상태 값의 하나로만."
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr "Nur mit einer der  angegebenen Dringlichkeitsstufen."
+msgstr "주어진 중요도의 하나로만."
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
-msgstr ""
-"Tags, die gesucht werden sollen. Um Tags auszuschließen, benutze '-tag'."
+msgstr "검색할 수 있는 태그. 제외하려면 '-tag'를 대신 사용하세요."
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
-msgstr "Irgendeiner der ausgewählten Tags."
+msgstr "선택된 태그 없음"
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr "Alle ausgewählten Tags."
+msgstr "모든 선택된 태그"
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
-msgstr "Suche nach irgendeinem oder allen der angegebenen Tags."
+msgstr "지정된 태그의 일부나 전부를 검색합니다."
 
 #: libs/cmsplugin_launchpad/models.py:148
 msgid "Only bugs targeted to this milestone."
-msgstr "Nur Bugs, die für diesen Meilenstein relevant sind."
+msgstr "이 이정표를 대상으로 한 태그만."
 
 #: libs/cmsplugin_launchpad/models.py:150
 msgid "Only bugs nominated for this series."
-msgstr "Nur Bugs, die für diese Serie wichtig sind."
+msgstr "일련에 대해 지명한 버그만."
 
 #: libs/cmsplugin_launchpad/models.py:222
 msgid "Low Bug Threshold"
-msgstr "Niedrige Bug-Schwelle"
+msgstr "낮은 버그 임계 값"
 
 #: libs/cmsplugin_launchpad/models.py:223
 msgid "Medium Bug Threshold"
-msgstr "Mittlere Bug-Schwelle"
+msgstr "가운데 버그 임계 값"
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr "Hohe Bug-Schwelle"
+msgstr "높은 버그 임계 값"
 
 #: libs/cmsplugin_news/admin.py:36
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] "%(count)d Nachricht wurde veröffentlicht"
-msgstr[1] "%(count)d Nachrichten wurden veröffentlicht"
+msgstr[0] "뉴스항목 %(count)d개가 게시되었습니다"
 
 #: libs/cmsplugin_news/admin.py:39
 msgid "Publish selected news"
-msgstr "Ausgewählte Nachricht veröffentlichen"
+msgstr "선택된 뉴스 게시"
 
 #: libs/cmsplugin_news/admin.py:46
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] "%(count)d Nachricht wurde zurückgezogen"
-msgstr[1] "%(count)d Nachrichten wurden zurückgezogen"
+msgstr[0] "뉴스항목 %(count)d개가 게시 취소되었습니다"
 
 #: libs/cmsplugin_news/admin.py:49
 msgid "Unpublish selected news"
-msgstr "Ausgewählte Nachricht zurückziehen"
+msgstr "선택된 뉴스 게시 취소"
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr "Nachrichten-App"
+msgstr "뉴스 앱"
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr "Aktuelle Nachrichten"
+msgstr "최신 뉴스"
 
 #: libs/cmsplugin_news/menu.py:21
 msgid "News menu"
-msgstr "Nachrichten-Menü"
+msgstr "뉴스 메뉴"
 
 #: libs/cmsplugin_news/models.py:53
 msgid "Slug"
-msgstr "Die Kurzform des Titels, die in URLs verwendet wird."
+msgstr "슬러그"
 
 #: libs/cmsplugin_news/models.py:54
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "A slug is a short name which uniquely identifies the news item."
-msgstr ""
-"Die Kurzform gehört zu genau diesem Nachrichtenartikel und darf nur ein "
-"einziges Mal verwendet werden."
+msgstr "슬러그는 뉴스 항목을 고유하게 식별하는 짧은 이름입니다."
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
 msgid "Excerpt"
-msgstr "Auszug"
+msgstr "발췌"
 
 #: libs/cmsplugin_news/models.py:56 templates/news/credit.html:28
 #: templates/news/translation.html:25
 msgid "Content"
-msgstr "Inhalt"
+msgstr "내용"
 
 #: libs/cmsplugin_news/models.py:59
 msgid "Publication date"
-msgstr "Veröffentlichungsdatum"
+msgstr "게시 날짜"
 
 #: libs/cmsplugin_news/models.py:68
 msgid ""
@@ -382,308 +357,207 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
-"Dieser Link wird als absolute URL für dieses Element verwendet und ersetzt "
-"die Ansichts-Logik. <br/>Beachte, dass dies standardmäßig nur für Elemente "
-"mit einem leeren \"Inhalts\"-Feld gilt."
+"이 링크는 이 항목에 대해 절대적 URL을 사용하고 뷰 로직을 바꿉니다. <br />기본적으로 이것은 빈 \"내용\" 필드로 된 항목에 "
+"적용되는 것을 참고하세요."
 
 #: libs/cmsplugin_news/models.py:77
 msgid "Language"
-msgstr "Sprache"
+msgstr "언어"
 
 #: libs/cmsplugin_news/models.py:78
 msgid "Translated version of another news item."
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Übersetzte Version eines anderen Nachrichten-Artikels"
->>>>>>> MERGE-SOURCE
+msgstr "다른 뉴스 항목의 번역된 버전입니다."
 
 #: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
-msgstr "Neuigkeiten"
+msgstr "뉴스"
 
 #: libs/cmsplugin_news/models.py:90
 msgid "Translate News"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Nachrichten übersetzen"
->>>>>>> MERGE-SOURCE
+msgstr "뉴스 번역"
 
 #: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
-msgstr "Anzahl der anzuzeigenden Nachrichten"
+msgstr "보여줄 뉴스 항목의 수"
 
 #: libs/cmsplugin_news/models.py:144
 msgid "Limits the number of items that will be displayed"
-msgstr "Begrenzt die Anzahl der Elemente, die angezeigt werden"
+msgstr "보여줄 항목의 수를 제한합니다"
 
 #: libs/cmsplugin_news/settings.py:20
 msgid "News feed"
-msgstr "News-Feed"
+msgstr "뉴스 피드"
 
 #: libs/cmsplugin_news/settings.py:21
 msgid "A feed full of news"
-msgstr "Ein Feed voller Nachrichten"
+msgstr "뉴스의 전체 피드"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:15
 msgid "No news yet"
-msgstr "Noch keine Neuigkeiten"
+msgstr "아직 뉴스가 없습니다"
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:17
 msgid "Archive"
-msgstr "Archiv"
+msgstr "보존"
 
 #: templates/base.html:8
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "News Feed"
-msgstr "News-Feed"
+msgstr "뉴스 피드"
 
 #: templates/base.html:26
 msgid "WARNING!"
-msgstr "WARNUNG!"
+msgstr "경고!"
 
 #: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
-"Diese Webseite ist nicht die Live-Webseite und sollte nur zu Testzwecken "
-"genutzt werden. Alles was Du speicherst, wird bei der nächsten "
-"Synchronisation mit der Live-Webseite verloren gehen."
+"이 웹사이트는 실시간 웹사이트가 이니며 테스트를 위해 사용되어야 합니다. 저장하는 어떠한 것도 실시간에서 다음 동기화에 바뀝니다."
 
 #: templates/base.html:26
 msgid "Please visit"
-msgstr "Besuche bitte"
+msgstr "웹사이트를 영구적으로 바꾸려면"
 
 #: templates/base.html:26
 msgid "the live website"
-msgstr "die Live-Webseite"
+msgstr "실시간 웹사이트"
 
 #: templates/base.html:26
 msgid "to make permanent changes to the website."
-msgstr "um dauerhafte Änderungen an der Webseite zu machen."
+msgstr "를 방문하세요."
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr "Draw Freely."
+msgstr "자유롭게 그리세요."
 
 #: templates/base.html:43
 msgid "Log in / Register"
-msgstr "Login / Registrierung"
+msgstr "로그인 / 등록"
 
 #: templates/base.html:46
 msgid "Already a member? Log in below."
-msgstr "Schon registriert? Logge Dich unten ein."
+msgstr "이미 구성원입니까? 아래에서 로그인하세요."
 
 #: templates/base.html:47 templates/person/profile.html:11
 #: templates/registration/registration_form.html:22
 msgid "Username"
-msgstr "Benutzername"
+msgstr "사용자 이름"
 
 #: templates/base.html:51
 msgid "Log in"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Anmelden"
->>>>>>> MERGE-SOURCE
+msgstr "로그인"
 
 #: templates/base.html:52
 msgid "Not a member?"
-msgstr "Noch nicht registriert?"
+msgstr "구성원이 아닙니까?"
 
 #: templates/base.html:52
 msgid "Register now."
-msgstr "Jetzt registrieren."
+msgstr "지금 등록하세요."
 
 #: templates/base.html:53
 msgid "Or log in with"
-msgstr "Oder melde Dich an mit"
+msgstr "또는 다음으로 로그인"
 
 #: templates/base.html:63
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Profile Photo"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Profilbild"
->>>>>>> MERGE-SOURCE
+msgstr "프로필 사진"
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr "Administrator"
+msgstr "관리"
 
 #: templates/base.html:67
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "My Profile"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Mein Profil"
->>>>>>> MERGE-SOURCE
+msgstr "내 프로필"
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr "Abmelden"
+msgstr "로그아웃"
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr "Folge uns auf:"
+msgstr "우리를 팔로우하세요:"
 
 #: templates/base.html:82 templates/base.html.py:84
 #: templates/search/search.html:5
 msgid "Search"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Suche"
->>>>>>> MERGE-SOURCE
+msgstr "검색"
 
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
-msgstr ""
-"Inkscape ist eine freie, quelloffene Software, die unter der GPL-Lizenz "
-"steht."
+msgstr "잉크스케이프는 GPL에 따라 허가된 자유 및 오픈 소스 소프트웨어입니다."
 
 #: templates/base.html:114
 msgid "Website designed by"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Webseiten-Design von"
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이브의 웹사이트의 디자인은:"
 
 #: templates/base.html:114
 msgid "in Inkscape and developed by"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "mit Inkscape und Entwicklung durch"
->>>>>>> MERGE-SOURCE
+msgstr "개발은:"
 
 #: templates/base.html:114
 msgid "Website development guide"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Webseiten-Entwicklerhandbuch"
->>>>>>> MERGE-SOURCE
+msgstr "웹사이트 개발 가이트"
 
 #: templates/base.html:114
 msgid "Here"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Hier"
->>>>>>> MERGE-SOURCE
+msgstr "여기"
 
 #: templates/front.html:51
 msgid "Overview"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Übersicht"
->>>>>>> MERGE-SOURCE
+msgstr "둘러보기"
 
 #: templates/front.html:52
 msgid "What is Inkscape and how can you get it?"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Was ist Inkscape und woher bekommt man es?"
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프는 무엇이며 어떻게 얻을 수 있나요?"
 
 #: templates/front.html:53
 msgid "Features"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Funktionen"
->>>>>>> MERGE-SOURCE
+msgstr "특징"
 
 #: templates/front.html:54
 msgid "Find out what Inkscape is capable of."
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Finde heraus, was Inkcape kann."
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프의 능력이 무엇인지 찾아보세요."
 
 #: templates/front.html:55
 msgid "Gallery"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Galerie"
->>>>>>> MERGE-SOURCE
+msgstr "갤러리"
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Galerie mit Kunstwerken der Inkscape-Community"
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프 공동체에서 작품의 쇼케이스입니다."
 
 #: templates/front.html:57
 msgid "Learning Resources"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Lernmaterialien"
->>>>>>> MERGE-SOURCE
+msgstr "학습 자료"
 
 #: templates/front.html:58
 msgid "Resources to help you get the most out of Inkscape."
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Diese Materialien helfen dir, das Beste aus Inkscape herauszuholen."
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프의 최대한 활용하는 데 도움이 되는 자료입니다."
 
 #: templates/paginator.html:5 templates/search/search.html:30
 msgid "Previous"
-msgstr "Zurück"
+msgstr "이전"
 
 #: templates/paginator.html:23 templates/search/search.html:32
 msgid "Next"
-msgstr "Weiter"
+msgstr "다음"
 
 #: templates/brochure/list.html:4
 msgid "From"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Von"
->>>>>>> MERGE-SOURCE
+msgstr "다음으로부터:"
 
 #: templates/brochure/list.html:14
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No items yet."
-<<<<<<< TREE
-msgstr "Noch keine Neuigkeiten"
-=======
-msgstr "Noch keine Einträge."
->>>>>>> MERGE-SOURCE
+msgstr "아직 항목이 없습니다."
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr "Unzulässig"
+msgstr "금지됨"
 
 #: templates/error/403.html:6
 msgid ""
@@ -694,14 +568,13 @@ msgid ""
 "for example.</p>\n"
 msgstr ""
 "\n"
-"<h1>Entschuldigung, Du darfst Dir diese Seite nicht anschauen.</h1>\n"
-"<p>Obwohl Du mit Inkscape alles machen kannst, was Du möchtest, kannst Du "
-"nicht alles mit der Inkscape-Webseite machen - wie zum Beispiel den Inhalt "
-"dieser Seite anschauen.</p>\n"
+"<h1>죄송하지만, 당신은 이것을 볼 수 없습니다</h1>\n"
+"<p>당신은 잉크스케이프에서 원하는 것을 할 수 있지만, 잉크스케이프 웹사이트에서 원하는 것을 할 수는 없습니다. 예를 들어, 당신은 이 "
+"문서의 내용을 볼 수 없습니다.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr "Nicht gefunden"
+msgstr "찾을 수 없음"
 
 #: templates/error/404.html:7
 msgid ""
@@ -713,175 +586,94 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
 "\n"
-"<h1>Seite nicht gefunden</h1>\n"
-"<p>Ich konnte nicht finden, wonach Du gesucht hast - das tut mir leid. In "
-"Zukunft haben wir vielleicht ein lustiges Bild, das Du Dir hier angucken "
-"könntest, aber im Moment ist es leider einfach nur langweilig.</p>\n"
-"<p>Wenn Du einem Link von unserer Seite gefolgt bist oder einen Link "
-"verwendet hast, der funktioniert hat, bevor wird diese schicke neue Webseite "
-"aufgesetzt haben, gib uns bitte Bescheid, damit wir es reparieren können.</"
-"p>\n"
-"<p>Wenn Du keine Ahnung hast, warum Du hier gelandet bist, möchtest Du "
-"vielleicht die <a href=\"/search\">Suche</a> verwenden um das zu finden, "
-"wonach Du suchst.</p>\n"
-"<p>Natürlich kann es auch sein, dass Du nur hierher gekommen bist, um zu "
-"sehen, wie die Fehler-404-Seite aussieht. Ich hoffe Du bist jetzt zufrieden."
-"</p>\n"
+"<h1>페이지를 찾을 수 없음</h1>\n"
+"<p>당신이 찾고 있는 것을 찾을 수 없습니다. 이 점에 대해 죄송합니다. 미래에 우리는 여기에 당신에게 재미있는 그림을 보여주겠지만 "
+"지금은 지루하겠습니다.</p>\n"
+"<p>우리 사이트에서 링크를 따라왔거나, 이 빛나는 새 웹사이트를 만들기 전에 작동하는데 사용하는 링크를 사용했다면, 우리에게 알려주시면 "
+"그것을 고치도록 하겠습니다.</p>\n"
+"<p>당신이 왜 여기에 왔는지 알 수 없다면, 어쩌면 당신이 찾고 있는 것을 찾을 수 있는지 보기 위해 <a "
+"href=\"/search\">검색</a>을 하고 싶을 수 있습니다.</p>\n"
+"<p>그럼 다시, 당신이 404 페이지가 어떻게 생겼는지 보려고 왔을 수도 있는 것이 항상 있습니다. 나는 당신이 만족하기를 "
+"바랍니다.</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr "Du hast es kaputt gemacht!"
+msgstr "그것을 깨뜨립니다!"
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "Edit"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Bearbeiten"
->>>>>>> MERGE-SOURCE
+msgstr "편집"
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "New News Article"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Neuer Nachrichten-Artikel"
->>>>>>> MERGE-SOURCE
+msgstr "새 뉴스 기사"
 
 #: templates/news/credit.html:14 templates/news/translation.html:14
 #: templates/registration/registration_form.html:13
 msgid "Please correct the errors below"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Bitte korrigiere unten die Fehler."
->>>>>>> MERGE-SOURCE
+msgstr "아래 오류를 수정해주세요"
 
 #: templates/news/credit.html:18
 msgid "Edit English News Article"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Englischen Nachrichten-Artikel bearbeiten"
->>>>>>> MERGE-SOURCE
+msgstr "영어 뉴스 기사 편집"
 
 #: templates/news/credit.html:20
 msgid "New English News Article"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Neuer Englischer Nachrichten-Artikel"
->>>>>>> MERGE-SOURCE
+msgstr "새 영어 뉴스 기사"
 
 #: templates/news/credit.html:30
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Publish Date"
-<<<<<<< TREE
-msgstr "Veröffentlicht"
-=======
-msgstr "Veröffentlichungsdatum"
->>>>>>> MERGE-SOURCE
+msgstr "게시 날짜"
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
 msgid "Save"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Speichern"
->>>>>>> MERGE-SOURCE
+msgstr "저장"
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Publish"
-<<<<<<< TREE
-msgstr "Veröffentlicht"
-=======
-msgstr "Veröffentlichen"
->>>>>>> MERGE-SOURCE
+msgstr "게시"
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Nachrichten-Artikel löschen"
->>>>>>> MERGE-SOURCE
+msgstr "뉴스 기사 삭제"
 
 #: templates/news/delete.html:17
 msgid ""
 "This will delete the article and any translations associated with the "
 "article!"
-msgstr ""
-<<<<<<< TREE
-=======
-"Der Artikel und alle Übersetzungen, die damit verbunden sind, werden "
-"hierdurch gelöscht!"
->>>>>>> MERGE-SOURCE
+msgstr "이는 기사, 기사와 관련된 번역을 삭제합니다!"
 
 #: templates/news/delete.html:31
 msgid "Yes"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Ja"
->>>>>>> MERGE-SOURCE
+msgstr "예"
 
 #: templates/news/delete.html:32
 msgid "No, I change my mind"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Nein, lieber doch nicht."
->>>>>>> MERGE-SOURCE
+msgstr "아니오, 마음을 바꿉니다"
 
 #: templates/news/latest_news.html:2 templates/news/news_archive.html:17
 msgid "RSS Feed"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "RSS-Feed"
->>>>>>> MERGE-SOURCE
+msgstr "RSS 피드"
 
 #: templates/news/latest_news.html:11 templates/news/list_item.html:8
 msgid "Read more"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Weiterlesen"
->>>>>>> MERGE-SOURCE
+msgstr "더 읽기"
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Latest News"
-<<<<<<< TREE
-msgstr "Aktuelle Nachrichten"
-=======
-msgstr "Neueste Nachrichten"
->>>>>>> MERGE-SOURCE
+msgstr "최신 뉴스"
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Nachrichten-Artikel verfassen"
->>>>>>> MERGE-SOURCE
+msgstr "뉴스 만들기"
 
 #: templates/news/news_archive_day.html:5
 #: templates/news/news_archive_day.html:8
@@ -889,451 +681,212 @@ msgstr "Nachrichten-Artikel verfassen"
 #: templates/news/news_archive_month.html:8
 #: templates/news/news_archive_year.html:5
 #: templates/news/news_archive_year.html:8
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "News for"
-<<<<<<< TREE
-msgstr "News-Feed"
-=======
-msgstr "Nachrichten vom"
->>>>>>> MERGE-SOURCE
+msgstr "다음의 뉴스:"
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Keine Nachrichten an diesem Datum."
->>>>>>> MERGE-SOURCE
+msgstr "이 날의 뉴스가 없습니다"
 
 #: templates/news/news_archive_month.html:13
 msgid "No news for this month."
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Für diesen Monat gibt es keine Einträge."
->>>>>>> MERGE-SOURCE
+msgstr "이번 달의 뉴스가 없습니다"
 
 #: templates/news/news_archive_year.html:13
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No news for this year"
-<<<<<<< TREE
-msgstr "Noch keine Neuigkeiten"
-=======
-msgstr "Für dieses Jahr gibt es keine Einträge."
->>>>>>> MERGE-SOURCE
+msgstr "올해의 뉴스가 없습니다"
 
 #: templates/news/news_detail.html:19
 msgid "This article is not published yet!"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Dieser Artikel wurde noch nicht veröffentlicht!"
->>>>>>> MERGE-SOURCE
+msgstr "이 기사는 아직 게시되지 않았습니다!"
 
 #: templates/news/translation.html:5
 msgid "Translate News Article"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Nachrichten-Artikel übersetzen"
->>>>>>> MERGE-SOURCE
+msgstr "뉴스 기사 번역"
 
 #: templates/news/translation.html:17
 msgid "Translate News Article into"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Den Nachrichten-Artikel übersetzen auf:"
->>>>>>> MERGE-SOURCE
+msgstr "다음 언어로 뉴스 기사 번역"
 
 #: templates/news/translation.html:20
 msgid "New Translations"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Neue Übersetzung"
->>>>>>> MERGE-SOURCE
+msgstr "새 번역"
 
 #: templates/news/translation.html:20
 msgid "Original"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Ursprungsversion"
->>>>>>> MERGE-SOURCE
+msgstr "원본"
 
 #: templates/news/translation.html:29
 msgid "Save Translation"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Übersetzung speichern"
->>>>>>> MERGE-SOURCE
+msgstr "번역 저장"
 
 #: templates/news/translation_option.html:5
 msgid "Edit This News"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Diesen Nachrichten-Artikel bearbeiten"
->>>>>>> MERGE-SOURCE
+msgstr "이 뉴스 편집"
 
 #: templates/news/translation_option.html:8
 msgid "Delete This News"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Diesen Nachrichten-Artikel löschen"
->>>>>>> MERGE-SOURCE
+msgstr "이 뉴스 삭제"
 
 #: templates/news/translation_option.html:13
 msgid "Needs Translating"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Übersetzung gesucht"
->>>>>>> MERGE-SOURCE
+msgstr "번역 필요"
 
 #: templates/news/translation_option.html:13
 msgid "Translation OK"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Fertig übersetzt"
->>>>>>> MERGE-SOURCE
+msgstr "번역 OK"
 
 #: templates/news/translation_option.html:15
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Original Updated"
-<<<<<<< TREE
-msgstr "Letzes Update"
-=======
-msgstr "Das Original wurde aktualisiert."
->>>>>>> MERGE-SOURCE
+msgstr "원본이 바뀜"
 
 #: templates/news/translation_option.html:16
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
-<<<<<<< TREE
-msgstr "Letzes Update"
-=======
-msgstr "Die Übersetzung wurde aktualisiert."
->>>>>>> MERGE-SOURCE
+msgstr "번역이 바뀜"
 
 #: templates/person/edit.html:6
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Edit Profile"
-msgstr "Profil bearbeiten"
+msgstr "프로필 편집"
 
 #: templates/person/edit.html:24
 msgid "Personal Details"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Persönliche Angaben"
->>>>>>> MERGE-SOURCE
+msgstr "자세한 개인 정보"
 
 #: templates/person/profile.html:6
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "User"
-<<<<<<< TREE
-msgstr "Benutzername"
-=======
-msgstr "Benutzer"
->>>>>>> MERGE-SOURCE
+msgstr "사용자"
 
 #: templates/person/profile.html:16
 msgid "Annonymous"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Anonym"
->>>>>>> MERGE-SOURCE
+msgstr "익명"
 
 #: templates/person/profile.html:19
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Biography"
-<<<<<<< TREE
-msgstr "Foto"
-=======
-msgstr "Biografie"
->>>>>>> MERGE-SOURCE
+msgstr "약력"
 
 #: templates/person/profile.html:29
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Edit My Profile"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Mein Profil bearbeiten"
->>>>>>> MERGE-SOURCE
+msgstr "내 프로필 편집"
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:8
 msgid "Activation Complete"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Aktivierung abgeschlossen"
->>>>>>> MERGE-SOURCE
+msgstr "활성화 완료"
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
-msgstr ""
-"Dein Nutzerkonto wurde erstellt. Bitte logge Dich mit Deinem Nutzernamen und "
-"Passwort ein."
+msgstr "사용자 계정이 만들어졌습니다. 사용자 이름과 비밀번호로 로그인하세요."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Wenn Du Probleme hast, <a href=\"/contact/?subject=Lost activation code"
-"\">schreibe uns</a> bitte."
+"어떠한 문제가 있다면, <a href=\"/contact/?subject=Lost activation code\">우리에게 "
+"연락</a>해주세요."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr "Hallo,"
+msgstr "안녕하세요,"
 
 #: templates/registration/activation_email.txt:3
 msgid ""
-<<<<<<< TREE
-"This is an automatic email to help you complete your registration with www."
-"inkscape.org."
-=======
 "This is an automatic email to help you complete your registration with "
 "www.inkscape.org."
->>>>>>> MERGE-SOURCE
-msgstr ""
-<<<<<<< TREE
-=======
-"Dies ist eine automatische Email, mit deren Hilfe Du Deine Registrierung bei "
-"www.inkscape.org abschließen kannst."
->>>>>>> MERGE-SOURCE
+msgstr "이는 www.inkscape.org 에 등록을 완료하는 것을 돕는 자동적인 이메일입니다."
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
-msgstr ""
-"Bitte öffne den folgenden Link mit Deinem Webbrowser. Falls der Link über "
-"mehrere Zeilen geht, musst Du ihn vielleicht in die Adressleiste kopieren."
+msgstr "웹 브라우저에서 다음 링크를 열어주세요. 링크가 여러 줄에 걸쳐 나눠진다면, 주소 표시줄에 그것을 복사할 필요가 있습니다."
 
 #: templates/registration/activation_email_subject.txt:1
 msgid "Your registration on www.inkscape.org"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Deine Registrierung auf www.inkscape.org"
->>>>>>> MERGE-SOURCE
+msgstr "www.inkscape.org 에 등록"
 
 #: templates/registration/login.html:7
 msgid "Your username and password didn't match. Please try again."
-msgstr ""
-<<<<<<< TREE
-=======
-"Benutzername und Passwort passen nicht zusammen. Bitte versuche es noch "
-"einmal!"
->>>>>>> MERGE-SOURCE
+msgstr "사용자 이름과 비밀번호가 일치하지 않습니다. 다시 시도하세요."
 
 #: templates/registration/login.html:23
 msgid "Login"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Anmelden"
->>>>>>> MERGE-SOURCE
+msgstr "로그인"
 
 #: templates/registration/logout.html:6
 msgid "Logout from Inkscape"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Von Inkscape abmelden"
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프에서 로그아웃"
 
 #: templates/registration/logout.html:8
 msgid "Thanks for using the Inkscape website. Hope to see you again soon!"
-msgstr ""
-<<<<<<< TREE
-=======
-"Danke, dass Du die Inkscape-Webseite besucht hast. Hoffentlich sehen wir uns "
-"bald wieder!"
->>>>>>> MERGE-SOURCE
+msgstr "잉크스케이프 웹사이트를 사용해주셔서 감사합니다. 곧 다시 보기를 기대합니다!"
 
 #: templates/registration/registration_complete.html:4
 #: templates/registration/registration_complete.html:8
 msgid "Registration Complete"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Registrierung abgeschlossen."
->>>>>>> MERGE-SOURCE
+msgstr "등록 완료"
 
 #: templates/registration/registration_complete.html:10
 msgid ""
 "Thank you for registering. You will very soon receive an email with a "
 "confirmation link. Please follow this link in order to complete your "
 "registration."
-msgstr ""
-"Danke für Deine Registrierung. Du bekommst bald eine Email mit einem "
-"Bestätigungs-Link. Bitte folge dem Link um Deine Registrierung abzuschließen."
+msgstr "등록해주셔서 감사합니다. 곧 확인 링크가 있는 이메일을 받게 됩니다. 등록을 완료하기 위해 이 링크를 따르세요."
 
 #: templates/registration/registration_complete.html:13
 msgid "If you don't receive it shortly, please check your spam folder."
-msgstr ""
-<<<<<<< TREE
-=======
-"Wenn sie nicht bald bei Dir ankommt, schau bitte auch in Deinen Spam-Ordner."
->>>>>>> MERGE-SOURCE
+msgstr "짧은 시간에 그것을 받지 못하면, 스팸 폴더를 확인해주세요."
 
 #: templates/registration/registration_form.html:4
 msgid "New User Registeration"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Als neuer Benutzer registrieren"
->>>>>>> MERGE-SOURCE
+msgstr "새 사용자 등록"
 
 #: templates/registration/registration_form.html:8
 msgid "New User Registration"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Als neuer Benutzer registrieren"
->>>>>>> MERGE-SOURCE
+msgstr "새 사용자 등록"
 
 #: templates/registration/registration_form.html:10
 msgid "Welcome, in order to register you must have a valid email address."
-msgstr ""
-<<<<<<< TREE
-=======
-"Willkommen! Um Dich registrieren zu können, benötigst Du eine gültige Email-"
-"Adresse."
->>>>>>> MERGE-SOURCE
+msgstr "환영합니다, 등록하기 위해서는 올바른 이메일 주소가 있어야 합니다."
 
 #: templates/registration/registration_form.html:28
 msgid "Email Address"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Email-Adresse"
->>>>>>> MERGE-SOURCE
+msgstr "이메일 주소"
 
 #: templates/registration/registration_form.html:45
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Register"
-<<<<<<< TREE
-msgstr "Jetzt registrieren."
-=======
-msgstr "Registrieren"
->>>>>>> MERGE-SOURCE
+msgstr "등록"
 
 #: templates/resource/edit.html:7 templates/resource/item.html:19
 msgid "Edit Resource"
-msgstr ""
+msgstr "자료 편집"
 
 #: templates/resource/edit.html:9 templates/resource/list.html:22
 msgid "Submit Resource"
-msgstr ""
+msgstr "자료 제출"
 
 #: templates/resource/item.html:15 templates/resource/item.html.py:16
 msgid "Download"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Herunterladen"
->>>>>>> MERGE-SOURCE
+msgstr "다운로드"
 
 #: templates/resource/item.html:20
 msgid "Delete Resource"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Ressource löschen"
->>>>>>> MERGE-SOURCE
+msgstr "자료 삭제"
 
 #: templates/resource/item.html:22
 msgid "by"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "von"
->>>>>>> MERGE-SOURCE
+msgstr "저자"
 
 #: templates/resource/list.html:18
 msgid "No resources submitted yet."
-msgstr ""
+msgstr "아직 자료를 제출하지 않았습니다."
 
 #: templates/search/search.html:9
 msgid "Search Results for"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Suchergebnisse für"
->>>>>>> MERGE-SOURCE
+msgstr "다음의 검색 결과:"
 
 #: templates/search/search.html:25
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No results found."
-<<<<<<< TREE
-msgstr "Nicht gefunden"
-
-#~ msgid ""
-#~ "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</"
-#~ "a> in Inkscape and developed by <a href=\"http://doctormo.org\">Martin "
-#~ "Owens</a>"
-#~ msgstr ""
-#~ "Die Webseite wurde in Inkscape von <a href=\"http://skymaiden.com"
-#~ "\">Hinerangi Courtenay</a> designt und von <a href=\"http://doctormo.org"
-#~ "\">Martin Owens</a> umgesetzt."
-
-#~ msgid "If there is a problem with your registration, please contact us:"
-#~ msgstr "Wenn Du Probleme mit der Registrierung hast, gib uns Bescheid:"
-
-#~ msgid ""
-#~ "If you don't receive it shortly, please check your spam folder. If it's "
-#~ "not there, please <a href=\"/contact/?subject=Lost activation code"
-#~ "\">contact us</a>."
-#~ msgstr ""
-#~ "Wenn sie nicht in Kürze bei Dir ankommt, schaue bitte auch im Spam-Ordner "
-#~ "nach. Wenn sie da auch nicht ist, dann <a href=\"/contact/?subject=Lost "
-#~ "activation code\">schreib uns</a> bitte."
-
-#~ msgid "Optional: Show only for this language"
-#~ msgstr "Optional: nur für diese Sprache anzeigen"
-=======
-msgstr "Keine Ergebnisse gefunden."
->>>>>>> MERGE-SOURCE
+msgstr "결과가 없습니다."

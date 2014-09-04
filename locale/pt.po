@@ -16,8 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=n != 1;\n"
+<<<<<<< TREE
 "X-Launchpad-Export-Date: 2013-12-14 06:02+0000\n"
 "X-Generator: Launchpad (build 16869)\n"
+=======
+"X-Launchpad-Export-Date: 2014-04-14 05:45+0000\n"
+"X-Generator: Launchpad (build 16976)\n"
+"Language: \n"
+>>>>>>> MERGE-SOURCE
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
@@ -524,9 +530,16 @@ msgid "Find out what Inkscape is capable of."
 msgstr ""
 
 #: templates/front.html:55
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Gallery"
+<<<<<<< TREE
 msgstr "Brochura de galeria"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."
@@ -627,9 +640,16 @@ msgid "New English News Article"
 msgstr ""
 
 #: templates/news/credit.html:30
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish Date"
+<<<<<<< TREE
 msgstr "Publicado"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
@@ -637,9 +657,16 @@ msgid "Save"
 msgstr ""
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Publish"
+<<<<<<< TREE
 msgstr "Publicado"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
@@ -668,9 +695,16 @@ msgid "Read more"
 msgstr ""
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Latest News"
+<<<<<<< TREE
 msgstr "Nome da lista"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
@@ -738,14 +772,28 @@ msgid "Translation OK"
 msgstr ""
 
 #: templates/news/translation_option.html:15
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Original Updated"
+<<<<<<< TREE
 msgstr "Última actualização"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:16
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
+<<<<<<< TREE
 msgstr "Última actualização"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/edit.html:6
 msgid "Edit Profile"
@@ -764,9 +812,16 @@ msgid "Annonymous"
 msgstr ""
 
 #: templates/person/profile.html:19
+<<<<<<< TREE
 #, fuzzy
+=======
+>>>>>>> MERGE-SOURCE
 msgid "Biography"
+<<<<<<< TREE
 msgstr "Fotografia"
+=======
+msgstr ""
+>>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:29
 msgid "Edit My Profile"
@@ -795,8 +850,13 @@ msgstr ""
 
 #: templates/registration/activation_email.txt:3
 msgid ""
+<<<<<<< TREE
 "This is an automatic email to help you complete your registration with www."
 "inkscape.org."
+=======
+"This is an automatic email to help you complete your registration with "
+"www.inkscape.org."
+>>>>>>> MERGE-SOURCE
 msgstr ""
 
 #: templates/registration/activation_email.txt:5

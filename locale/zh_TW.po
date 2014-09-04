@@ -1,198 +1,182 @@
-# SOME DESCRIPTIVE TITLE.
-# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
-# This file is distributed under the same license as the PACKAGE package.
-# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+# Chinese (Traditional) translation for inkscape-web
+# Copyright (c) 2014 Rosetta Contributors and Canonical Ltd 2014
+# This file is distributed under the same license as the inkscape-web package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2014.
 #
 msgid ""
 msgstr ""
-"Project-Id-Version: PACKAGE VERSION\n"
-"Report-Msgid-Bugs-To: \n"
+"Project-Id-Version: inkscape-web\n"
+"Report-Msgid-Bugs-To: FULL NAME <EMAIL@ADDRESS>\n"
 "POT-Creation-Date: 2014-04-13 16:47+0000\n"
-<<<<<<< TREE
-"PO-Revision-Date: 2014-01-25 17:43+0000\n"
-=======
-"PO-Revision-Date: 2014-08-03 21:34+0000\n"
->>>>>>> MERGE-SOURCE
-"Last-Translator: Hachmann <Unknown>\n"
-"Language-Team: LANGUAGE <LL@li.org>\n"
-"Language: \n"
+"PO-Revision-Date: 2014-05-02 12:30+0000\n"
+"Last-Translator: hanklu <Unknown>\n"
+"Language-Team: Chinese (Traditional) <zh_TW@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=2; plural=n != 1;\n"
-<<<<<<< TREE
-"X-Launchpad-Export-Date: 2014-01-26 04:51+0000\n"
-"X-Generator: Launchpad (build 16914)\n"
-=======
-"X-Launchpad-Export-Date: 2014-08-04 06:08+0000\n"
-"X-Generator: Launchpad (build 17147)\n"
-"Language: \n"
->>>>>>> MERGE-SOURCE
+"Plural-Forms: nplurals=1; plural=0;\n"
+"X-Launchpad-Export-Date: 2014-05-03 06:34+0000\n"
+"X-Generator: Launchpad (build 16985)\n"
 
 #: inkscape/person/forms.py:7 templates/base.html:49
 #: templates/registration/registration_form.html:34
 msgid "Password"
-msgstr "Passwort"
+msgstr "密碼"
 
 #: inkscape/person/forms.py:8 templates/registration/registration_form.html:40
 msgid "Confirm"
-msgstr "Bestätigen"
+msgstr "確認"
 
 #: inkscape/person/models.py:16
 msgid "Photograph"
-msgstr "Foto"
+msgstr "相片"
 
 #: inkscape/person/models.py:54
 msgid "Display Icon"
-<<<<<<< TREE
-msgstr ""
-=======
-msgstr "Icon anzeigen"
->>>>>>> MERGE-SOURCE
+msgstr "顯示圖標"
 
 #: inkscape/resource/forms.py:27
 msgid "I have permission to post this work"
-msgstr "Ich habe die Erlaubnis, dieses Werk zu veröffentlichen."
+msgstr "我擁有權限發表此作品"
 
 #: inkscape/resource/models.py:39
 msgid "License Banner"
-msgstr "Lizenz-Banner"
+msgstr ""
 
 #: inkscape/resource/models.py:40
 msgid "License Icon"
-msgstr "Lizenz-Icon"
+msgstr "使用條款圖標"
 
 #: inkscape/resource/models.py:42
 msgid "Attribution"
-msgstr "Namensnennung"
+msgstr "姓名標示"
 
 #: inkscape/resource/models.py:43
 msgid "Copyleft (Share Alike)"
-msgstr "Copyleft (Weiterverbreitung unter gleichen Bedingungen)"
+msgstr ""
 
 #: inkscape/resource/models.py:44
 msgid "Non-Commercial"
-msgstr "keine kommerzielle Nutzung"
+msgstr "非商業行為使用"
 
 #: inkscape/resource/models.py:45
 msgid "Non-Derivitive"
-msgstr "keine Bearbeitung"
+msgstr ""
 
 #: inkscape/resource/models.py:46
 msgid "All Rights Reserved"
-msgstr "Alle Rechte vorbehalten"
+msgstr ""
 
 #: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
 msgid "Description"
-msgstr "Beschreibung"
+msgstr "說明"
 
 #: inkscape/resource/models.py:71
 msgid "I own this work"
-msgstr "Dieses Werk gehört mir."
+msgstr ""
 
 #: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
-msgstr "Vorschaubild"
+msgstr "縮圖"
 
 #: inkscape/resource/models.py:74
 msgid "Consumable File"
-msgstr "Vorlagendatei"
+msgstr ""
 
 #: inkscape/resource/models.py:75
 msgid "Source File"
-msgstr "Quelldatei"
+msgstr "來源檔案"
 
 #: inkscape/search/cms_app.py:14
 msgid "search apphook"
-msgstr "Search apphook in german"
+msgstr ""
 
 #: libs/cmsplugin_brochure/cms_plugins.py:15
 msgid "Gallery Brochure"
-msgstr "Galerie-Übersicht"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:21 libs/cmsplugin_brochure/models.py:55
 #: libs/cmsplugin_news/models.py:52 templates/news/credit.html:24
 #: templates/news/translation.html:21
 msgid "Title"
-msgstr "Titel"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:23
 msgid "Link to Full Listing"
-msgstr "Link zur kompletten Liste"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:24
 msgid "Target Icon"
-msgstr "Ziel-Icon"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:27
 msgid "Source Type"
-msgstr "Quelltyp"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:28
 msgid "Kind of parsing to do."
-msgstr "Art des durchzuführenden Parsens"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:29
 msgid "Data Link"
-msgstr "Link zu den Daten"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:30
 msgid "Link to RSS feed or other data for regular parsing."
 msgstr ""
-"Link zu einem RSS-Feed oder anderen Daten, die regulär geparst werden können"
 
 #: libs/cmsplugin_brochure/models.py:31
 msgid "Automatically Enable"
-msgstr "Automatisch aktivieren"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:32
 msgid "Makes all new entries visible to the user directly"
-msgstr "Alle neuen Einträge für den User sofort sichtbar machen"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:33
 msgid "Last Updated"
-msgstr "Letzes Update"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:35 libs/cmsplugin_news/models.py:58
 msgid "Published"
-msgstr "Veröffentlicht"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:57 libs/cmsplugin_news/models.py:67
 msgid "Link"
-msgstr "Link"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:58
 msgid "Publication Date"
-msgstr "Veröffentlichungsdatum"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:61
 msgid "Enabled"
-msgstr "Aktiviert"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:62
 msgid "Indexed Date"
-msgstr "Datum im Index"
+msgstr ""
 
 #: libs/cmsplugin_brochure/models.py:75
 msgid "Number of items"
-msgstr "Anzahl der Elemente"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
-msgstr "Liste der Nutzergruppen"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:10
 msgid "Display Style"
-msgstr "Anzeigestil"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:12
 msgid "Simple List"
-msgstr "Einfache Liste"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:13
 msgid "Photo Heads"
-msgstr "Foto-Beschreibungen"
+msgstr ""
 
 #: libs/cmsplugin_groupphoto/models.py:14
 msgid "Photo Bios"
@@ -200,181 +184,174 @@ msgstr ""
 
 #: libs/cmsplugin_launchpad/cms_plugins.py:13
 msgid "Launchpad Bug Count"
-msgstr "Anzahl der Bugs auf Launchpad"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:48
 msgid "Project Name"
-msgstr "Projektname"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:49 libs/cmsplugin_launchpad/models.py:67
 #: libs/cmsplugin_launchpad/models.py:88
 msgid "Launchpad ID"
-msgstr "Launchpad ID"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
 #: templates/person/profile.html:15
 msgid "Name"
-msgstr "Name"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:68
 msgid "Status"
-msgstr "Status"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:89
 msgid "Internal Launchpad ID"
-msgstr "Interne Launchpad ID"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:115
 msgid "List Name"
-msgstr "Name der Liste"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:122
 msgid "That were created before the given date."
-msgstr "die vor dem angegebenen Datum erstellt wurden."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:124
 msgid "That have been created since the given date."
-msgstr "die nach dem angegebenen Datum erstellt wurden."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:126
 msgid "That have been modified since the given date."
-msgstr "die nach dem angegebenen Datum verändert wurden."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:128
 msgid "Bug ID or search text."
-msgstr "Bug ID oder Suchbegriffe"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:130
 msgid "All Bugs"
-msgstr "Alle Bugs"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:131
 msgid "Linked Only"
-msgstr "Nur verlinkte."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:132
 msgid "Not Linked Only"
-msgstr "Nur nicht verlinkte."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:133
 msgid "That are or are not linked to branches"
-msgstr "egal, ob sie mit Entwicklungszweigen verbunden sind oder nicht."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:135
 msgid "Omit bugs marked as duplicate."
-msgstr "Keine Bugs anzeigen, die als Duplikat markiert wurden."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:137
 msgid "Omit bugs targeted to a series."
-msgstr "Keine Bugs anzeigen, die sich auf eine bestimmte Serie beziehen."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:139
 msgid "Only with any of the given status values."
-msgstr "Ausschließlich miteinem der angegebenen Status-Werte."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:141
 msgid "Only with any of the given importances."
-msgstr "Nur mit einer der  angegebenen Dringlichkeitsstufen."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:143
 msgid "Tags to search. To exclude use '-tag' instead."
 msgstr ""
-"Tags, die gesucht werden sollen. Um Tags auszuschließen, benutze '-tag'."
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "Any Selected Tag"
-msgstr "Irgendeiner der ausgewählten Tags."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:145
 msgid "All Selected Tags"
-msgstr "Alle ausgewählten Tags."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:146
 msgid "Search for any or all of the tags specified."
-msgstr "Suche nach irgendeinem oder allen der angegebenen Tags."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:148
 msgid "Only bugs targeted to this milestone."
-msgstr "Nur Bugs, die für diesen Meilenstein relevant sind."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:150
 msgid "Only bugs nominated for this series."
-msgstr "Nur Bugs, die für diese Serie wichtig sind."
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:222
 msgid "Low Bug Threshold"
-msgstr "Niedrige Bug-Schwelle"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:223
 msgid "Medium Bug Threshold"
-msgstr "Mittlere Bug-Schwelle"
+msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:224
 msgid "High Bug Threshold"
-msgstr "Hohe Bug-Schwelle"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:36
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
-msgstr[0] "%(count)d Nachricht wurde veröffentlicht"
-msgstr[1] "%(count)d Nachrichten wurden veröffentlicht"
+msgstr[0] ""
+msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:39
 msgid "Publish selected news"
-msgstr "Ausgewählte Nachricht veröffentlichen"
+msgstr ""
 
 #: libs/cmsplugin_news/admin.py:46
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
-msgstr[0] "%(count)d Nachricht wurde zurückgezogen"
-msgstr[1] "%(count)d Nachrichten wurden zurückgezogen"
+msgstr[0] ""
+msgstr[1] ""
 
 #: libs/cmsplugin_news/admin.py:49
 msgid "Unpublish selected news"
-msgstr "Ausgewählte Nachricht zurückziehen"
+msgstr ""
 
 #: libs/cmsplugin_news/cms_app.py:10
 msgid "News App"
-msgstr "Nachrichten-App"
+msgstr ""
 
 #: libs/cmsplugin_news/cms_plugins.py:18
 #: libs/cmsplugin_news/templates/news/latest_news.html:3
 msgid "Latest news"
-msgstr "Aktuelle Nachrichten"
+msgstr ""
 
 #: libs/cmsplugin_news/menu.py:21
 msgid "News menu"
-msgstr "Nachrichten-Menü"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:53
 msgid "Slug"
-msgstr "Die Kurzform des Titels, die in URLs verwendet wird."
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:54
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "A slug is a short name which uniquely identifies the news item."
 msgstr ""
-"Die Kurzform gehört zu genau diesem Nachrichtenartikel und darf nur ein "
-"einziges Mal verwendet werden."
 
 #: libs/cmsplugin_news/models.py:55 templates/news/credit.html:26
 #: templates/news/translation.html:23
 msgid "Excerpt"
-msgstr "Auszug"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:56 templates/news/credit.html:28
 #: templates/news/translation.html:25
 msgid "Content"
-msgstr "Inhalt"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:59
 msgid "Publication date"
-msgstr "Veröffentlichungsdatum"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:68
 msgid ""
@@ -382,308 +359,204 @@ msgid ""
 "logic. <br />Note that by default this only applies for items with an empty "
 "\"content\" field."
 msgstr ""
-"Dieser Link wird als absolute URL für dieses Element verwendet und ersetzt "
-"die Ansichts-Logik. <br/>Beachte, dass dies standardmäßig nur für Elemente "
-"mit einem leeren \"Inhalts\"-Feld gilt."
 
 #: libs/cmsplugin_news/models.py:77
 msgid "Language"
-msgstr "Sprache"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:78
 msgid "Translated version of another news item."
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Übersetzte Version eines anderen Nachrichten-Artikels"
->>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:86 libs/cmsplugin_news/models.py:87
 msgid "News"
-msgstr "Neuigkeiten"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:90
 msgid "Translate News"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Nachrichten übersetzen"
->>>>>>> MERGE-SOURCE
 
 #: libs/cmsplugin_news/models.py:143
 msgid "Number of news items to show"
-msgstr "Anzahl der anzuzeigenden Nachrichten"
+msgstr ""
 
 #: libs/cmsplugin_news/models.py:144
 msgid "Limits the number of items that will be displayed"
-msgstr "Begrenzt die Anzahl der Elemente, die angezeigt werden"
+msgstr ""
 
 #: libs/cmsplugin_news/settings.py:20
 msgid "News feed"
-msgstr "News-Feed"
+msgstr ""
 
 #: libs/cmsplugin_news/settings.py:21
 msgid "A feed full of news"
-msgstr "Ein Feed voller Nachrichten"
+msgstr ""
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:15
 #: templates/news/latest_news.html:15
 msgid "No news yet"
-msgstr "Noch keine Neuigkeiten"
+msgstr ""
 
 #: libs/cmsplugin_news/templates/news/latest_news.html:17
 #: templates/news/latest_news.html:17
 msgid "Archive"
-msgstr "Archiv"
+msgstr ""
 
 #: templates/base.html:8
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "News Feed"
-msgstr "News-Feed"
+msgstr ""
 
 #: templates/base.html:26
 msgid "WARNING!"
-msgstr "WARNUNG!"
+msgstr ""
 
 #: templates/base.html:26
 msgid ""
 "This website is not the live website and should be used for testing. "
 "Anything you save will be replaced on the next sync from live."
 msgstr ""
-"Diese Webseite ist nicht die Live-Webseite und sollte nur zu Testzwecken "
-"genutzt werden. Alles was Du speicherst, wird bei der nächsten "
-"Synchronisation mit der Live-Webseite verloren gehen."
 
 #: templates/base.html:26
 msgid "Please visit"
-msgstr "Besuche bitte"
+msgstr ""
 
 #: templates/base.html:26
 msgid "the live website"
-msgstr "die Live-Webseite"
+msgstr ""
 
 #: templates/base.html:26
 msgid "to make permanent changes to the website."
-msgstr "um dauerhafte Änderungen an der Webseite zu machen."
+msgstr ""
 
 #: templates/base.html:36
 msgid "Draw Freely."
-msgstr "Draw Freely."
+msgstr ""
 
 #: templates/base.html:43
 msgid "Log in / Register"
-msgstr "Login / Registrierung"
+msgstr ""
 
 #: templates/base.html:46
 msgid "Already a member? Log in below."
-msgstr "Schon registriert? Logge Dich unten ein."
+msgstr ""
 
 #: templates/base.html:47 templates/person/profile.html:11
 #: templates/registration/registration_form.html:22
 msgid "Username"
-msgstr "Benutzername"
+msgstr ""
 
 #: templates/base.html:51
 msgid "Log in"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Anmelden"
->>>>>>> MERGE-SOURCE
 
 #: templates/base.html:52
 msgid "Not a member?"
-msgstr "Noch nicht registriert?"
+msgstr ""
 
 #: templates/base.html:52
 msgid "Register now."
-msgstr "Jetzt registrieren."
+msgstr ""
 
 #: templates/base.html:53
 msgid "Or log in with"
-msgstr "Oder melde Dich an mit"
+msgstr ""
 
 #: templates/base.html:63
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Profile Photo"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Profilbild"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/base.html:65
 msgid "Admin"
-msgstr "Administrator"
+msgstr ""
 
 #: templates/base.html:67
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "My Profile"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Mein Profil"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/base.html:68
 msgid "Logout"
-msgstr "Abmelden"
+msgstr ""
 
 #: templates/base.html:74
 msgid "Follow us on:"
-msgstr "Folge uns auf:"
+msgstr ""
 
 #: templates/base.html:82 templates/base.html.py:84
 #: templates/search/search.html:5
 msgid "Search"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Suche"
->>>>>>> MERGE-SOURCE
 
 #: templates/base.html:111
 msgid "Inkscape is Free and Open Source Software licensed under the GPL."
 msgstr ""
-"Inkscape ist eine freie, quelloffene Software, die unter der GPL-Lizenz "
-"steht."
 
 #: templates/base.html:114
 msgid "Website designed by"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Webseiten-Design von"
->>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "in Inkscape and developed by"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "mit Inkscape und Entwicklung durch"
->>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "Website development guide"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Webseiten-Entwicklerhandbuch"
->>>>>>> MERGE-SOURCE
 
 #: templates/base.html:114
 msgid "Here"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Hier"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:51
 msgid "Overview"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Übersicht"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:52
 msgid "What is Inkscape and how can you get it?"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Was ist Inkscape und woher bekommt man es?"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:53
 msgid "Features"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Funktionen"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:54
 msgid "Find out what Inkscape is capable of."
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Finde heraus, was Inkcape kann."
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:55
 msgid "Gallery"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Galerie"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:56
 msgid "Showcase of creations from the Inkscape community."
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Galerie mit Kunstwerken der Inkscape-Community"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:57
 msgid "Learning Resources"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Lernmaterialien"
->>>>>>> MERGE-SOURCE
 
 #: templates/front.html:58
 msgid "Resources to help you get the most out of Inkscape."
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Diese Materialien helfen dir, das Beste aus Inkscape herauszuholen."
->>>>>>> MERGE-SOURCE
 
 #: templates/paginator.html:5 templates/search/search.html:30
 msgid "Previous"
-msgstr "Zurück"
+msgstr ""
 
 #: templates/paginator.html:23 templates/search/search.html:32
 msgid "Next"
-msgstr "Weiter"
+msgstr ""
 
 #: templates/brochure/list.html:4
 msgid "From"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Von"
->>>>>>> MERGE-SOURCE
 
 #: templates/brochure/list.html:14
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No items yet."
-<<<<<<< TREE
-msgstr "Noch keine Neuigkeiten"
-=======
-msgstr "Noch keine Einträge."
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/error/403.html:3
 msgid "Forbidden"
-msgstr "Unzulässig"
+msgstr ""
 
 #: templates/error/403.html:6
 msgid ""
@@ -693,15 +566,10 @@ msgid ""
 "you like in the Inkscape website. You can't view the contents of this page, "
 "for example.</p>\n"
 msgstr ""
-"\n"
-"<h1>Entschuldigung, Du darfst Dir diese Seite nicht anschauen.</h1>\n"
-"<p>Obwohl Du mit Inkscape alles machen kannst, was Du möchtest, kannst Du "
-"nicht alles mit der Inkscape-Webseite machen - wie zum Beispiel den Inhalt "
-"dieser Seite anschauen.</p>\n"
 
 #: templates/error/404.html:3
 msgid "Not found"
-msgstr "Nicht gefunden"
+msgstr ""
 
 #: templates/error/404.html:7
 msgid ""
@@ -713,175 +581,84 @@ msgid ""
 "<p>If you've followed a link from our site, or are using a link that used to "
 "work before we made this shiny new website, please tell us and we'll fix it "
 "up.</p>\n"
-"<p>If you don't know why you got here, maybe you'd like to <a href=\"/search"
-"\">search</a> to see if you can find what you were looking for.</p>\n"
+"<p>If you don't know why you got here, maybe you'd like to <a "
+"href=\"/search\">search</a> to see if you can find what you were looking "
+"for.</p>\n"
 "<p>Then again, there's always the possibility that you came here just to see "
 "what the 404 page looked like. I hope you're satisfied.</p>\n"
 msgstr ""
-"\n"
-"<h1>Seite nicht gefunden</h1>\n"
-"<p>Ich konnte nicht finden, wonach Du gesucht hast - das tut mir leid. In "
-"Zukunft haben wir vielleicht ein lustiges Bild, das Du Dir hier angucken "
-"könntest, aber im Moment ist es leider einfach nur langweilig.</p>\n"
-"<p>Wenn Du einem Link von unserer Seite gefolgt bist oder einen Link "
-"verwendet hast, der funktioniert hat, bevor wird diese schicke neue Webseite "
-"aufgesetzt haben, gib uns bitte Bescheid, damit wir es reparieren können.</"
-"p>\n"
-"<p>Wenn Du keine Ahnung hast, warum Du hier gelandet bist, möchtest Du "
-"vielleicht die <a href=\"/search\">Suche</a> verwenden um das zu finden, "
-"wonach Du suchst.</p>\n"
-"<p>Natürlich kann es auch sein, dass Du nur hierher gekommen bist, um zu "
-"sehen, wie die Fehler-404-Seite aussieht. Ich hoffe Du bist jetzt zufrieden."
-"</p>\n"
 
 #: templates/error/500.html:3
 msgid "You broke it!"
-msgstr "Du hast es kaputt gemacht!"
+msgstr ""
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "Edit"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Bearbeiten"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
 msgid "New News Article"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Neuer Nachrichten-Artikel"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:14 templates/news/translation.html:14
 #: templates/registration/registration_form.html:13
 msgid "Please correct the errors below"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Bitte korrigiere unten die Fehler."
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:18
 msgid "Edit English News Article"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Englischen Nachrichten-Artikel bearbeiten"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:20
 msgid "New English News Article"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Neuer Englischer Nachrichten-Artikel"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:30
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Publish Date"
-<<<<<<< TREE
-msgstr "Veröffentlicht"
-=======
-msgstr "Veröffentlichungsdatum"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
 #: templates/resource/edit.html:28
 msgid "Save"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Speichern"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/credit.html:37 templates/news/credit.html.py:40
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Publish"
-<<<<<<< TREE
-msgstr "Veröffentlicht"
-=======
-msgstr "Veröffentlichen"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/delete.html:14
 msgid "Delete News Article"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Nachrichten-Artikel löschen"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:17
 msgid ""
 "This will delete the article and any translations associated with the "
 "article!"
 msgstr ""
-<<<<<<< TREE
-=======
-"Der Artikel und alle Übersetzungen, die damit verbunden sind, werden "
-"hierdurch gelöscht!"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:31
 msgid "Yes"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Ja"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/delete.html:32
 msgid "No, I change my mind"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Nein, lieber doch nicht."
->>>>>>> MERGE-SOURCE
 
 #: templates/news/latest_news.html:2 templates/news/news_archive.html:17
 msgid "RSS Feed"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "RSS-Feed"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/latest_news.html:11 templates/news/list_item.html:8
 msgid "Read more"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Weiterlesen"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive.html:5 templates/news/news_archive.html:19
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Latest News"
-<<<<<<< TREE
-msgstr "Aktuelle Nachrichten"
-=======
-msgstr "Neueste Nachrichten"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/news_archive.html:15
 msgid "Create News"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Nachrichten-Artikel verfassen"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_day.html:5
 #: templates/news/news_archive_day.html:8
@@ -889,312 +666,150 @@ msgstr "Nachrichten-Artikel verfassen"
 #: templates/news/news_archive_month.html:8
 #: templates/news/news_archive_year.html:5
 #: templates/news/news_archive_year.html:8
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "News for"
-<<<<<<< TREE
-msgstr "News-Feed"
-=======
-msgstr "Nachrichten vom"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/news_archive_day.html:14
 msgid "No news for this day"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Keine Nachrichten an diesem Datum."
->>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_month.html:13
 msgid "No news for this month."
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Für diesen Monat gibt es keine Einträge."
->>>>>>> MERGE-SOURCE
 
 #: templates/news/news_archive_year.html:13
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No news for this year"
-<<<<<<< TREE
-msgstr "Noch keine Neuigkeiten"
-=======
-msgstr "Für dieses Jahr gibt es keine Einträge."
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/news_detail.html:19
 msgid "This article is not published yet!"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Dieser Artikel wurde noch nicht veröffentlicht!"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:5
 msgid "Translate News Article"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Nachrichten-Artikel übersetzen"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:17
 msgid "Translate News Article into"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Den Nachrichten-Artikel übersetzen auf:"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:20
 msgid "New Translations"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Neue Übersetzung"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:20
 msgid "Original"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Ursprungsversion"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation.html:29
 msgid "Save Translation"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Übersetzung speichern"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:5
 msgid "Edit This News"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Diesen Nachrichten-Artikel bearbeiten"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:8
 msgid "Delete This News"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Diesen Nachrichten-Artikel löschen"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:13
 msgid "Needs Translating"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Übersetzung gesucht"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:13
 msgid "Translation OK"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Fertig übersetzt"
->>>>>>> MERGE-SOURCE
 
 #: templates/news/translation_option.html:15
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Original Updated"
-<<<<<<< TREE
-msgstr "Letzes Update"
-=======
-msgstr "Das Original wurde aktualisiert."
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/news/translation_option.html:16
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Translation Updated"
-<<<<<<< TREE
-msgstr "Letzes Update"
-=======
-msgstr "Die Übersetzung wurde aktualisiert."
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/person/edit.html:6
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Edit Profile"
-msgstr "Profil bearbeiten"
+msgstr ""
 
 #: templates/person/edit.html:24
 msgid "Personal Details"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Persönliche Angaben"
->>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:6
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "User"
-<<<<<<< TREE
-msgstr "Benutzername"
-=======
-msgstr "Benutzer"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/person/profile.html:16
 msgid "Annonymous"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Anonym"
->>>>>>> MERGE-SOURCE
 
 #: templates/person/profile.html:19
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Biography"
-<<<<<<< TREE
-msgstr "Foto"
-=======
-msgstr "Biografie"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/person/profile.html:29
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Edit My Profile"
-<<<<<<< TREE
-msgstr "Profil bearbeiten"
-=======
-msgstr "Mein Profil bearbeiten"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/registration/activation_complete.html:4
 #: templates/registration/activation_complete.html:8
 msgid "Activation Complete"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Aktivierung abgeschlossen"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_complete.html:10
 msgid ""
 "Your user account has been created. Please log in using your username and "
 "password."
 msgstr ""
-"Dein Nutzerkonto wurde erstellt. Bitte logge Dich mit Deinem Nutzernamen und "
-"Passwort ein."
 
 #: templates/registration/activation_complete.html:12
 msgid ""
 "If you have any problems, please <a href=\"/contact/?subject=Lost activation "
 "code\">contact us</a>."
 msgstr ""
-"Wenn Du Probleme hast, <a href=\"/contact/?subject=Lost activation code"
-"\">schreibe uns</a> bitte."
 
 #: templates/registration/activation_email.txt:1
 msgid "Hi,"
-msgstr "Hallo,"
+msgstr ""
 
 #: templates/registration/activation_email.txt:3
 msgid ""
-<<<<<<< TREE
-"This is an automatic email to help you complete your registration with www."
-"inkscape.org."
-=======
 "This is an automatic email to help you complete your registration with "
 "www.inkscape.org."
->>>>>>> MERGE-SOURCE
 msgstr ""
-<<<<<<< TREE
-=======
-"Dies ist eine automatische Email, mit deren Hilfe Du Deine Registrierung bei "
-"www.inkscape.org abschließen kannst."
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/activation_email.txt:5
 msgid ""
 "Please open the following link in your web browser. If the link is split "
 "over several lines, you may need to copy it in the address bar."
 msgstr ""
-"Bitte öffne den folgenden Link mit Deinem Webbrowser. Falls der Link über "
-"mehrere Zeilen geht, musst Du ihn vielleicht in die Adressleiste kopieren."
 
 #: templates/registration/activation_email_subject.txt:1
 msgid "Your registration on www.inkscape.org"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Deine Registrierung auf www.inkscape.org"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/login.html:7
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
-<<<<<<< TREE
-=======
-"Benutzername und Passwort passen nicht zusammen. Bitte versuche es noch "
-"einmal!"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/login.html:23
 msgid "Login"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Anmelden"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/logout.html:6
 msgid "Logout from Inkscape"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Von Inkscape abmelden"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/logout.html:8
 msgid "Thanks for using the Inkscape website. Hope to see you again soon!"
 msgstr ""
-<<<<<<< TREE
-=======
-"Danke, dass Du die Inkscape-Webseite besucht hast. Hoffentlich sehen wir uns "
-"bald wieder!"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_complete.html:4
 #: templates/registration/registration_complete.html:8
 msgid "Registration Complete"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Registrierung abgeschlossen."
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_complete.html:10
 msgid ""
@@ -1202,61 +817,30 @@ msgid ""
 "confirmation link. Please follow this link in order to complete your "
 "registration."
 msgstr ""
-"Danke für Deine Registrierung. Du bekommst bald eine Email mit einem "
-"Bestätigungs-Link. Bitte folge dem Link um Deine Registrierung abzuschließen."
 
 #: templates/registration/registration_complete.html:13
 msgid "If you don't receive it shortly, please check your spam folder."
 msgstr ""
-<<<<<<< TREE
-=======
-"Wenn sie nicht bald bei Dir ankommt, schau bitte auch in Deinen Spam-Ordner."
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:4
 msgid "New User Registeration"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Als neuer Benutzer registrieren"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:8
 msgid "New User Registration"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Als neuer Benutzer registrieren"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:10
 msgid "Welcome, in order to register you must have a valid email address."
 msgstr ""
-<<<<<<< TREE
-=======
-"Willkommen! Um Dich registrieren zu können, benötigst Du eine gültige Email-"
-"Adresse."
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:28
 msgid "Email Address"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Email-Adresse"
->>>>>>> MERGE-SOURCE
 
 #: templates/registration/registration_form.html:45
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "Register"
-<<<<<<< TREE
-msgstr "Jetzt registrieren."
-=======
-msgstr "Registrieren"
->>>>>>> MERGE-SOURCE
+msgstr ""
 
 #: templates/resource/edit.html:7 templates/resource/item.html:19
 msgid "Edit Resource"
@@ -1268,27 +852,15 @@ msgstr ""
 
 #: templates/resource/item.html:15 templates/resource/item.html.py:16
 msgid "Download"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Herunterladen"
->>>>>>> MERGE-SOURCE
 
 #: templates/resource/item.html:20
 msgid "Delete Resource"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Ressource löschen"
->>>>>>> MERGE-SOURCE
 
 #: templates/resource/item.html:22
 msgid "by"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "von"
->>>>>>> MERGE-SOURCE
 
 #: templates/resource/list.html:18
 msgid "No resources submitted yet."
@@ -1296,44 +868,8 @@ msgstr ""
 
 #: templates/search/search.html:9
 msgid "Search Results for"
-<<<<<<< TREE
 msgstr ""
-=======
-msgstr "Suchergebnisse für"
->>>>>>> MERGE-SOURCE
 
 #: templates/search/search.html:25
-<<<<<<< TREE
-#, fuzzy
-=======
->>>>>>> MERGE-SOURCE
 msgid "No results found."
-<<<<<<< TREE
-msgstr "Nicht gefunden"
-
-#~ msgid ""
-#~ "Website designed by <a href=\"http://skymaiden.com\">Hinerangi Courtenay</"
-#~ "a> in Inkscape and developed by <a href=\"http://doctormo.org\">Martin "
-#~ "Owens</a>"
-#~ msgstr ""
-#~ "Die Webseite wurde in Inkscape von <a href=\"http://skymaiden.com"
-#~ "\">Hinerangi Courtenay</a> designt und von <a href=\"http://doctormo.org"
-#~ "\">Martin Owens</a> umgesetzt."
-
-#~ msgid "If there is a problem with your registration, please contact us:"
-#~ msgstr "Wenn Du Probleme mit der Registrierung hast, gib uns Bescheid:"
-
-#~ msgid ""
-#~ "If you don't receive it shortly, please check your spam folder. If it's "
-#~ "not there, please <a href=\"/contact/?subject=Lost activation code"
-#~ "\">contact us</a>."
-#~ msgstr ""
-#~ "Wenn sie nicht in Kürze bei Dir ankommt, schaue bitte auch im Spam-Ordner "
-#~ "nach. Wenn sie da auch nicht ist, dann <a href=\"/contact/?subject=Lost "
-#~ "activation code\">schreib uns</a> bitte."
-
-#~ msgid "Optional: Show only for this language"
-#~ msgstr "Optional: nur für diese Sprache anzeigen"
-=======
-msgstr "Keine Ergebnisse gefunden."
->>>>>>> MERGE-SOURCE
+msgstr ""

@@ -1,5 +1,5 @@
 {% extends 'resource/item.html' %}
-{% load i18n %}
+{% load i18n extras %}
 
 {% block css %}
 <style>
@@ -35,8 +35,8 @@
   </div>
 
   <div class="desc">
-    <h2>{{ form.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
-    <p{% if form.desc.errors %} class="descerr"{% endif %}>{{ form.desc }}</p>
+    <h2>{{ form.name|placeholder:_("Resource Name") }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
+    <p{% if form.desc.errors %} class="descerr"{% endif %}>{{ form.desc|placeholder:_("Description of your artwork or resource") }}</p>
   </div>
 
   <div class="buttonbar">

@@ -39,9 +39,7 @@ class ResourceBaseForm(ModelForm):
             raise AttributeError("User needs to be a model of a user.")
         self.user = user
         ModelForm.__init__(self, *args, **kwargs)
-        self.fields['desc'].widget.attrs['placeholder'] = _("Description of the upload")
-        self.fields['name'].widget.attrs['placeholder'] = _("Name")
-        if self.instance:
+        if self.instance and 'owner' in self.fields:
             del self.fields['owner']
         if hasattr(self.Meta, 'required'):
             for key in self.Meta.required:

@@ -47,8 +47,8 @@ def breadcrumbs(*args):
             yield (model.get_absolute_url(), str(model))
 
 @login_required
-def delete_gallery(request, item_id):
-    item = get_object_or_404(Gallery, id=item_id, user=request.user)
+def delete_gallery(request, gallery_id):
+    item = get_object_or_404(Gallery, id=gallery_id, user=request.user)
     if request.method == 'POST':
         if 'confirm' in request.POST:
             item.delete()
@@ -56,8 +56,8 @@ def delete_gallery(request, item_id):
     return view_user(request, request.user.id, todelete=item)
 
 @login_required
-def edit_gallery(request, item_id=None):
-    item = item_id and get_object_or_404(Gallery, id=item_id, user=request.user)
+def edit_gallery(request, gallery_id=None):
+    item = gallery_id and get_object_or_404(Gallery, id=gallery_id, user=request.user)
     c = { 'form': GalleryForm(request.user, instance=item) }
     if request.method == 'POST':
         c['form'] = GalleryForm(request.user, request.POST, request.FILES, instance=item)

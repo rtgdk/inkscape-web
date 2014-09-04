@@ -11,7 +11,7 @@
 
   <h1>{{ gallery.name }}
   {% if gallery.user != request.user and not gallery.group %}
-    <span class="small"><a href="{% url "view_profile" gallery.user.id %}">by {{ gallery.user.name }}</a></span>
+    <span class="small"><a href="{% url "view_profile" gallery.user.username %}">by {{ gallery.user.name }}</a></span>
   {% endif %}</h1>
 
   {% include "resource/list.html" %}

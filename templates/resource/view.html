@@ -27,7 +27,7 @@
    </div>   
 
   <div class="desc">
-    <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.id %}">{{ item.user.details }}</a></span></h2>
+    <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
     <p>{{ item.desc }}</p>
   </div>
 

@@ -11,6 +11,9 @@ class NewsIndex(SearchIndex, Indexable):
     def get_model(self):
         return News
 
+    def get_updated_field(self):
+        return 'pub_date'
+
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.filter(is_published=True)

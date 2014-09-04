@@ -22,11 +22,19 @@ collectstatic --noinput
 
 This to fake person migrate:
 
-./utils/manage migrate person 0001 --fake
+migrate person 0001 --fake
+
+reset resource
+
+loaddata utils/datums/license.json
+loaddata utils/datums/categories.json
 
 Add RECAPTURE keys to local_settings.py
 
-reset resource app:
+ISSUE: Live had a problem with django_file_file table, migration 0002 attempted to create a new column 'target' but it wasn't allowed to be NULL. Er.
 
-./utils/manage reset resource
+Remove the old plugins:
+
+cms delete_orphaned_plugins
+
 

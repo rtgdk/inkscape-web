@@ -40,7 +40,7 @@ djangocms-link
 
 cmsplugin-pygments==0.7.3
 cmsplugin-filery==1.0.1
-cmsplugin-search==0.7.2
+cmsplugin-search==0.7.3
 
 # We'd enable this, but the system requires the geoip-devel package
 # geoip

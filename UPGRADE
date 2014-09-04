@@ -37,4 +37,5 @@ Remove the old plugins:
 
 cms delete_orphaned_plugins
 
+Copy GeoIP files into the right location.
 

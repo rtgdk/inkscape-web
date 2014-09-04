@@ -34,8 +34,7 @@ django-user-sessions==1.0.0
 django-cleanup
 
 # Django-CMS Plugins
-# NOTE: We have problems with >3.0.2 with 404 errors on live.
-django-cms==3.0.1
+django-cms==3.0.5
 
 djangocms-file==0.0.2
 djangocms-link==1.4.0

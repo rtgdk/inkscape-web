@@ -3,3 +3,6 @@
 cat ./utils/lang/all | xargs -i1 mkdir -p locale/1/LC_MESSAGES/
 cat ./utils/lang/all | xargs -i1 mv locale/1.po locale/1/LC_MESSAGES/django.po
 
+mkdir -p locale/en/LC_MESSAGES/
+mv locale/django.pot locale/en/LC_MESSAGES/django.po
+

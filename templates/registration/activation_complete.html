@@ -9,7 +9,7 @@
 
 <p>{% trans "Your user account has been created. Please log in using your username and password." %}</p>
 <p>
-{% blocktrans %}If you have any problems, please <a href="{% url "contact" %}?subject=Lost activation code">contact us</a>.{% endblocktrans %}
+{% trans "If you have any problems" %}, {% trans "please" %} <a href="{% url "contact" %}?subject=Lost activation code">{% trans "contact us" %}</a>.
 </p>
 
 {% endblock %}

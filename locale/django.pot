@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2014-04-13 16:47+0000\n"
+"POT-Creation-Date: 2014-09-04 02:47+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,74 +17,159 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-#: inkscape/person/forms.py:7 templates/base.html:49
+#: inkscape/extra/templatetags/user_session.py:84
+msgid "unknown"
+msgstr ""
+
+#: inkscape/person/forms.py:17
+msgid "Human Test"
+msgstr ""
+
+#: inkscape/person/forms.py:20 templates/base.html:64
 #: templates/registration/registration_form.html:34
 msgid "Password"
 msgstr ""
 
-#: inkscape/person/forms.py:8 templates/registration/registration_form.html:40
+#: inkscape/person/forms.py:21
+#: templates/registration/registration_form.html:40
 msgid "Confirm"
 msgstr ""
 
-#: inkscape/person/models.py:16
+#: inkscape/person/models.py:18
 msgid "Photograph"
 msgstr ""
 
-#: inkscape/person/models.py:54
+#: inkscape/person/models.py:58
 msgid "Display Icon"
 msgstr ""
 
-#: inkscape/resource/forms.py:27
-msgid "I have permission to post this work"
+#: inkscape/resource/admin.py:36
+#, python-format
+msgid "Quota for %s"
 msgstr ""
 
-#: inkscape/resource/models.py:39
-msgid "License Banner"
+#: inkscape/resource/admin.py:37
+msgid "Quota for Everyone"
 msgstr ""
 
-#: inkscape/resource/models.py:40
-msgid "License Icon"
+#: inkscape/resource/cms_plugins.py:14
+msgid "InkSpace Gallery"
 msgstr ""
 
-#: inkscape/resource/models.py:42
+#: inkscape/resource/cms_plugins.py:29
+msgid "InkSpace Category"
+msgstr ""
+
+#: inkscape/resource/forms.py:51
+msgid ""
+"You need to have permission to post this work, or be the owner of the work."
+msgstr ""
+
+#: inkscape/resource/forms.py:80
+msgid "No permission"
+msgstr ""
+
+#: inkscape/resource/forms.py:81
+msgid "I own the work"
+msgstr ""
+
+#: inkscape/resource/forms.py:82
+msgid "I have permission"
+msgstr ""
+
+#: inkscape/resource/forms.py:86
+msgid "Permission"
+msgstr ""
+
+#: inkscape/resource/forms.py:87
+msgid "Publicly Visible"
+msgstr ""
+
+#: inkscape/resource/forms.py:97
+msgid "Text Format"
+msgstr ""
+
+#: inkscape/resource/models.py:60
+msgid "License Banner (svg:80x15)"
+msgstr ""
+
+#: inkscape/resource/models.py:61
+msgid "License Icon (svg:100x40)"
+msgstr ""
+
+#: inkscape/resource/models.py:63
 msgid "Attribution"
 msgstr ""
 
-#: inkscape/resource/models.py:43
+#: inkscape/resource/models.py:64
 msgid "Copyleft (Share Alike)"
 msgstr ""
 
-#: inkscape/resource/models.py:44
+#: inkscape/resource/models.py:65
 msgid "Non-Commercial"
 msgstr ""
 
-#: inkscape/resource/models.py:45
+#: inkscape/resource/models.py:66
 msgid "Non-Derivitive"
 msgstr ""
 
-#: inkscape/resource/models.py:46
-msgid "All Rights Reserved"
+#: inkscape/resource/models.py:69
+msgid "Replaced by"
 msgstr ""
 
-#: inkscape/resource/models.py:68 libs/cmsplugin_brochure/models.py:22
+#: inkscape/resource/models.py:130 libs/cmsplugin_brochure/models.py:22
 #: libs/cmsplugin_brochure/models.py:56
 msgid "Description"
 msgstr ""
 
-#: inkscape/resource/models.py:71
-msgid "I own this work"
-msgstr ""
-
-#: inkscape/resource/models.py:73 libs/cmsplugin_brochure/models.py:59
+#: inkscape/resource/models.py:137 libs/cmsplugin_brochure/models.py:59
 msgid "Thumbnail"
 msgstr ""
 
-#: inkscape/resource/models.py:74
+#: inkscape/resource/models.py:139
+msgid "More Info URL"
+msgstr ""
+
+#: inkscape/resource/models.py:141
+msgid "Downloaded"
+msgstr ""
+
+#: inkscape/resource/models.py:143
+msgid "File Type"
+msgstr ""
+
+#: inkscape/resource/models.py:225
 msgid "Consumable File"
 msgstr ""
 
-#: inkscape/resource/models.py:75
-msgid "Source File"
+#: inkscape/resource/models.py:228
+msgid "I own this work"
+msgstr ""
+
+#: inkscape/resource/models.py:313
+msgid "Vote"
+msgstr ""
+
+#: inkscape/resource/models.py:327
+msgid "Quota Size (bytes)"
+msgstr ""
+
+#: inkscape/resource/models.py:344 inkscape/resource/models.py:348
+#: libs/cmsplugin_brochure/models.py:75
+msgid "Number of items"
+msgstr ""
+
+#: inkscape/resource/views.py:38
+msgid "Home"
+msgstr ""
+
+#: inkscape/resource/views.py:97
+#, python-format
+msgid "Pasted Text #%d"
+msgstr ""
+
+#: inkscape/resource/views.py:214
+msgid "Your Trash Space"
 msgstr ""
 
 #: inkscape/search/cms_app.py:14
@@ -157,10 +242,6 @@ msgstr ""
 msgid "Indexed Date"
 msgstr ""
 
-#: libs/cmsplugin_brochure/models.py:75
-msgid "Number of items"
-msgstr ""
-
 #: libs/cmsplugin_groupphoto/cms_plugins.py:11
 msgid "Group of Users List"
 msgstr ""
@@ -195,7 +276,7 @@ msgid "Launchpad ID"
 msgstr ""
 
 #: libs/cmsplugin_launchpad/models.py:66 libs/cmsplugin_launchpad/models.py:87
-#: templates/person/profile.html:15
+#: templates/resource/gallery_edit.html:18
 msgid "Name"
 msgstr ""
 
@@ -295,25 +376,25 @@ msgstr ""
 msgid "High Bug Threshold"
 msgstr ""
 
-#: libs/cmsplugin_news/admin.py:36
+#: libs/cmsplugin_news/admin.py:37
 #, python-format
 msgid "%(count)d newsitem was published"
 msgid_plural "%(count)d newsitems were published"
 msgstr[0] ""
 msgstr[1] ""
 
-#: libs/cmsplugin_news/admin.py:39
+#: libs/cmsplugin_news/admin.py:40
 msgid "Publish selected news"
 msgstr ""
 
-#: libs/cmsplugin_news/admin.py:46
+#: libs/cmsplugin_news/admin.py:47
 #, python-format
 msgid "%(count)d newsitem was unpublished"
 msgid_plural "%(count)d newsitems were unpublished"
 msgstr[0] ""
 msgstr[1] ""
 
-#: libs/cmsplugin_news/admin.py:49
+#: libs/cmsplugin_news/admin.py:50
 msgid "Unpublish selected news"
 msgstr ""
 
@@ -375,11 +456,11 @@ msgstr ""
 msgid "Translate News"
 msgstr ""
 
-#: libs/cmsplugin_news/models.py:143
+#: libs/cmsplugin_news/models.py:147
 msgid "Number of news items to show"
 msgstr ""
 
-#: libs/cmsplugin_news/models.py:144
+#: libs/cmsplugin_news/models.py:148
 msgid "Limits the number of items that will be displayed"
 msgstr ""
 
@@ -405,104 +486,112 @@ msgstr ""
 msgid "News Feed"
 msgstr ""
 
-#: templates/base.html:26
-msgid "WARNING!"
+#: templates/base.html:25
+msgid "Inkscape Website Developers"
 msgstr ""
 
-#: templates/base.html:26
+#: templates/base.html:28
 msgid ""
-"This website is not the live website and should be used for testing. "
-"Anything you save will be replaced on the next sync from live."
+"Inkscape is professional quality vector graphics software which runs on "
+"Windows, Mac OS X and Linux. It is used by design professionals and "
+"hobbyists worldwide, for creating a wide variety of graphics such as "
+"illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses "
+"the W3C open standard SVG (Scalable Vector Graphics) as its native format, "
+"and is free and open-source software."
 msgstr ""
 
-#: templates/base.html:26
-msgid "Please visit"
-msgstr ""
-
-#: templates/base.html:26
-msgid "the live website"
-msgstr ""
-
-#: templates/base.html:26
-msgid "to make permanent changes to the website."
-msgstr ""
-
-#: templates/base.html:36
-msgid "Draw Freely."
-msgstr ""
-
-#: templates/base.html:43
-msgid "Log in / Register"
-msgstr ""
-
-#: templates/base.html:46
-msgid "Already a member? Log in below."
-msgstr ""
-
-#: templates/base.html:47 templates/person/profile.html:11
-#: templates/registration/registration_form.html:22
-msgid "Username"
+#: templates/base.html:29
+msgid ""
+"inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,"
+"foss,floss,free software,libre software,libre,freedom,line,shape,diagram,"
+"flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,"
+"osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,"
+"casual,powerful,text,web,www,w3c,standard"
 msgstr ""
 
 #: templates/base.html:51
+msgid "Draw Freely."
+msgstr ""
+
+#: templates/base.html:58
+msgid "Log in / Register"
+msgstr ""
+
+#: templates/base.html:61
+msgid "Already a member? Log in below."
+msgstr ""
+
+#: templates/base.html:62 templates/registration/registration_form.html:22
+msgid "Username"
+msgstr ""
+
+#: templates/base.html:66
 msgid "Log in"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:67
 msgid "Not a member?"
 msgstr ""
 
-#: templates/base.html:52
+#: templates/base.html:67
 msgid "Register now."
 msgstr ""
 
-#: templates/base.html:53
+#: templates/base.html:69
 msgid "Or log in with"
 msgstr ""
 
-#: templates/base.html:63
+#: templates/base.html:78
 msgid "Profile Photo"
 msgstr ""
 
-#: templates/base.html:65
+#: templates/base.html:80
 msgid "Admin"
 msgstr ""
 
-#: templates/base.html:67
+#: templates/base.html:82
 msgid "My Profile"
 msgstr ""
 
-#: templates/base.html:68
+#: templates/base.html:83
 msgid "Logout"
 msgstr ""
 
-#: templates/base.html:74
+#: templates/base.html:89
 msgid "Follow us on:"
 msgstr ""
 
-#: templates/base.html:82 templates/base.html.py:84
+#: templates/base.html:96 templates/base.html.py:97
 #: templates/search/search.html:5
 msgid "Search"
 msgstr ""
 
-#: templates/base.html:111
-msgid "Inkscape is Free and Open Source Software licensed under the GPL."
+#: templates/base.html:128
+msgid "Inkscape is Free and Open Source Software licensed under the"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:130
 msgid "Website designed by"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:130
 msgid "in Inkscape and developed by"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:130
 msgid "Website development guide"
 msgstr ""
 
-#: templates/base.html:114
+#: templates/base.html:130
 msgid "Here"
+msgstr ""
+
+#: templates/feedback.html:6
+msgid "Contact Us"
+msgstr ""
+
+#: templates/feedback.html:21
+msgid "Send Comment or Question"
 msgstr ""
 
 #: templates/front.html:51
@@ -541,7 +630,8 @@ msgstr ""
 msgid "Previous"
 msgstr ""
 
-#: templates/paginator.html:23 templates/search/search.html:32
+#: templates/paginator.html:23 templates/resource/edit.html:45
+#: templates/search/search.html:32
 msgid "Next"
 msgstr ""
 
@@ -551,6 +641,60 @@ msgstr ""
 
 #: templates/brochure/list.html:14
 msgid "No items yet."
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:8
+msgid "Double-click to edit"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:13
+msgid "WARNING!"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:13
+msgid ""
+"This website is not the live website and should be used for testing. "
+"Anything you save will be replaced on the next sync from live."
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:13
+msgid "Please visit"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:13
+msgid "the live website"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:13
+msgid "to make permanent changes to the website."
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:38
+msgid "Live"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:39
+msgid "Draft"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:41
+msgid "Change"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:46
+msgid "Toggle toolbar"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:88
+msgid "Start"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:123
+msgid "This page has no preview!"
+msgstr ""
+
+#: templates/cms/toolbar/toolbar.html:124
+msgid "It is being redirected to:"
 msgstr ""
 
 #: templates/error/403.html:3
@@ -591,6 +735,8 @@ msgid "You broke it!"
 msgstr ""
 
 #: templates/news/credit.html:5 templates/news/delete.html:5
+#: templates/person/base.html:39 templates/resource/gallery.html:23
+#: templates/resource/view.html:55
 msgid "Edit"
 msgstr ""
 
@@ -616,11 +762,12 @@ msgid "Publish Date"
 msgstr ""
 
 #: templates/news/credit.html:34 templates/person/edit.html:38
-#: templates/resource/edit.html:28
+#: templates/resource/edit.html:44 templates/resource/edit.html.py:47
+#: templates/resource/gallery_edit.html:26
 msgid "Save"
 msgstr ""
 
-#: templates/news/credit.html:37 templates/news/credit.html.py:40
+#: templates/news/credit.html:36
 msgid "Publish"
 msgstr ""
 
@@ -727,6 +874,38 @@ msgstr ""
 msgid "Translation Updated"
 msgstr ""
 
+#: templates/person/base.html:4
+msgid "User Profile"
+msgstr ""
+
+#: templates/person/base.html:17
+msgid "Inkscape Website Administration"
+msgstr ""
+
+#: templates/person/base.html:20
+msgid "My deviantArt Account"
+msgstr ""
+
+#: templates/person/base.html:23
+msgid "My openClipart Profile"
+msgstr ""
+
+#: templates/person/base.html:26
+msgid "My Tumblr"
+msgstr ""
+
+#: templates/person/base.html:36
+msgid "Anonymous"
+msgstr ""
+
+#: templates/person/base.html:42
+msgid "hasn't written anything about themselves yet"
+msgstr ""
+
+#: templates/person/base.html:46
+msgid "Nothing"
+msgstr ""
+
 #: templates/person/edit.html:6
 msgid "Edit Profile"
 msgstr ""
@@ -735,20 +914,60 @@ msgstr ""
 msgid "Personal Details"
 msgstr ""
 
-#: templates/person/profile.html:6
-msgid "User"
+#: templates/person/profile.html:9 templates/resource/category.html:18
+msgid "All Uploads"
+msgstr ""
+
+#: templates/person/profile.html:11
+msgid "PasteBin"
 msgstr ""
 
 #: templates/person/profile.html:16
-msgid "Annonymous"
+msgid "Paste Your Bin Here..."
 msgstr ""
 
-#: templates/person/profile.html:19
-msgid "Biography"
+#: templates/person/profile.html:17
+msgid "Paste!"
 msgstr ""
 
-#: templates/person/profile.html:29
-msgid "Edit My Profile"
+#: templates/person/profile.html:21
+msgid "Last Seen"
+msgstr ""
+
+#: templates/person/profile.html:24
+msgid "Joined On"
+msgstr ""
+
+#: templates/person/profile.html:28
+msgid "Stats"
+msgstr ""
+
+#: templates/person/profile.html:30
+msgid "Profile Visits:"
+msgstr ""
+
+#: templates/person/profile.html:31
+msgid "Resource Views:"
+msgstr ""
+
+#: templates/person/profile.html:32
+msgid "Resource Downloads:"
+msgstr ""
+
+#: templates/person/profile.html:36
+msgid "Upload Quota"
+msgstr ""
+
+#: templates/person/profile.html:37
+msgid "of"
+msgstr ""
+
+#: templates/person/profile.html:39
+msgid "Sessions"
+msgstr ""
+
+#: templates/person/profile.html:52
+msgid "A Place to Upload"
 msgstr ""
 
 #: templates/registration/activation_complete.html:4
@@ -763,9 +982,15 @@ msgid ""
 msgstr ""
 
 #: templates/registration/activation_complete.html:12
-msgid ""
-"If you have any problems, please <a href=\"/contact/?subject=Lost activation "
-"code\">contact us</a>."
+msgid "If you have any problems"
+msgstr ""
+
+#: templates/registration/activation_complete.html:12
+msgid "please"
+msgstr ""
+
+#: templates/registration/activation_complete.html:12
+msgid "contact us"
 msgstr ""
 
 #: templates/registration/activation_email.txt:1
@@ -788,11 +1013,11 @@ msgstr ""
 msgid "Your registration on www.inkscape.org"
 msgstr ""
 
-#: templates/registration/login.html:7
+#: templates/registration/login.html:11
 msgid "Your username and password didn't match. Please try again."
 msgstr ""
 
-#: templates/registration/login.html:23
+#: templates/registration/login.html:26
 msgid "Login"
 msgstr ""
 
@@ -836,32 +1061,143 @@ msgstr ""
 msgid "Email Address"
 msgstr ""
 
-#: templates/registration/registration_form.html:45
+#: templates/registration/registration_form.html:46
+msgid "ReCapture"
+msgstr ""
+
+#: templates/registration/registration_form.html:52
 msgid "Register"
 msgstr ""
 
-#: templates/resource/edit.html:7 templates/resource/item.html:19
-msgid "Edit Resource"
+#: templates/resource/category.html:10
+#, python-format
+msgid "%(name)s's %(o_category)s"
 msgstr ""
 
-#: templates/resource/edit.html:9 templates/resource/list.html:22
-msgid "Submit Resource"
+#: templates/resource/category.html:12
+#, python-format
+msgid "All %(o_category)s Resources"
 msgstr ""
 
-#: templates/resource/item.html:15 templates/resource/item.html.py:16
-msgid "Download"
+#: templates/resource/category.html:16
+#, python-format
+msgid "All %(name)s's Uploads"
 msgstr ""
 
-#: templates/resource/item.html:20
-msgid "Delete Resource"
+#: templates/resource/create.html:4 templates/resource/create.html.py:12
+msgid "Upload New Resource"
 msgstr ""
 
-#: templates/resource/item.html:22
+#: templates/resource/create.html:34 templates/resource/delete.html:14
+#: templates/resource/delete_button.html:11 templates/resource/edit.html:51
+msgid "Cancel"
+msgstr ""
+
+#: templates/resource/create.html:35
+msgid "Upload"
+msgstr ""
+
+#: templates/resource/delete.html:15
+msgid "Delete It!"
+msgstr ""
+
+#: templates/resource/delete_button.html:4
+#: templates/resource/delete_button.html:8
+msgid "Delete"
+msgstr ""
+
+#: templates/resource/delete_button.html:9
+msgid "Are you sure you want to delete"
+msgstr ""
+
+#: templates/resource/delete_button.html:14
+msgid "Confirm Delete"
+msgstr ""
+
+#: templates/resource/edit.html:38
+msgid "Resource Name"
+msgstr ""
+
+#: templates/resource/edit.html:38 templates/resource/view.html:30
 msgid "by"
 msgstr ""
 
-#: templates/resource/list.html:18
-msgid "No resources submitted yet."
+#: templates/resource/edit.html:39
+msgid "Description of your artwork or resource"
+msgstr ""
+
+#: templates/resource/galleries.html:7
+msgid "Unowned Items"
+msgstr ""
+
+#: templates/resource/galleries.html:8
+msgid "Trash"
+msgstr ""
+
+#: templates/resource/galleries.html:29
+msgid "New InkSpace"
+msgstr ""
+
+#: templates/resource/galleries.html:30
+msgid "New InkSpace Name"
+msgstr ""
+
+#: templates/resource/gallery.html:4
+msgid "InkSpace"
+msgstr ""
+
+#: templates/resource/gallery.html:35
+msgid "This InkSpace is administered by the group"
+msgstr ""
+
+#: templates/resource/gallery.html:35
+msgid "please contact "
+msgstr ""
+
+#: templates/resource/gallery.html:35
+msgid "for additions or corrections."
+msgstr ""
+
+#: templates/resource/gallery_edit.html:6
+msgid "Edit InkSpace"
+msgstr ""
+
+#: templates/resource/gallery_edit.html:20
+msgid "Group"
+msgstr ""
+
+#: templates/resource/gallery_edit.html:21
+msgid ""
+"If you set the group, any member of this group can add items to this "
+"InkSpace."
+msgstr ""
+
+#: templates/resource/list-item.html:15
+msgid "Edit Now"
+msgstr ""
+
+#: templates/resource/list-item.html:17
+msgid "Publish Now"
+msgstr ""
+
+#: templates/resource/list.html:12 templates/resource/list.html.py:13
+msgid "Submit Resource"
+msgstr ""
+
+#: templates/resource/list.html:21
+msgid "Nothing in this InkSpace"
+msgstr ""
+
+#: templates/resource/list.html:22
+msgid "Nothing Yet"
+msgstr ""
+
+#: templates/resource/view.html:37
+msgid "External Link"
+msgstr ""
+
+#: templates/resource/view.html:51
+msgid "Download"
 msgstr ""
 
 #: templates/search/search.html:9

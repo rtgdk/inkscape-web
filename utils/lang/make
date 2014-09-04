@@ -1,5 +1,6 @@
 #!/bin/bash
 
+# We don't translate other people's work.
 GOTO="/tmp/anti-msg-stash"
 mkdir -p $GOTO
 mv pythonenv $GOTO/
@@ -7,9 +8,6 @@ mv pythonenv $GOTO/
 ./utils/lang/unpack
 
 /tmp/anti-msg-stash/pythonenv/bin/python ./inkscape/manage.py makemessages -a $@
-
-mv locale/en/LC_MESSAGES/django.po locale/django.pot
-rm -fr locale/en/LC_MESSAGES
 
 ./utils/lang/pack
 

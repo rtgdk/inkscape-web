@@ -5,21 +5,12 @@ except ImportError:
 
 from django.views.generic.base import TemplateView
 
-from inkscape.person.views import *
-from registration.backends.default.views import ActivationView as AV, \
-                                                RegistrationView
+from registration.views import ActivationView as AV, RegistrationView
 
 from .forms import RegisForm
 
-urlpatterns = patterns('inkscape.person.views',
-    url(r'^$',        'my_profile',      name='my_profile'),
-    url(r'^edit/$',   'edit_profile',    name='edit_profile'),
-    url(r'^faces/$',  'view_profiles',   name='faces'),
-    url(r'^contact/$','contact_us',      name='contact'),
-    url(r'^(?P<username>[\w-]+)/$', 'view_profile', name='view_profile'),
-)
 
-urlpatterns += patterns('django.contrib.auth.views',
+urlpatterns = patterns('django.contrib.auth.views',
     url(r'^login/',     'login',                name='auth_login'          ),
     url(r'^logout/',    'logout',               name='auth_logout'         ),
     url(r'^pwd/$',      'password_change',      name='password_change'     ),
@@ -40,4 +31,10 @@ urlpatterns += patterns('',
     url(r'^register/',                          include('registration.auth_urls')),
 )
 
-
+urlpatterns += patterns('inkscape.person.views',
+    url(r'^$',        'my_profile',      name='my_profile'),
+    url(r'^edit/$',   'edit_profile',    name='edit_profile'),
+    url(r'^faces/$',  'view_profiles',   name='faces'),
+    url(r'^contact/$','contact_us',      name='contact'),
+    url(r'^(?P<username>[\w-]+)/$', 'view_profile', name='view_profile'),
+)

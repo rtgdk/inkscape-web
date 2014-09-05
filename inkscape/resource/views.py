@@ -185,9 +185,14 @@ def view_list(request, **kwargs):
         items = items.filter(published=True)
     for i in ('category','user'):
         if kwargs.has_key(i+'_id'):
-            t = globals()[i.title()].objects.get(pk=kwargs[i+'_id'])
-            items = items.filter(**{i:t})
-            c['o_'+i] = t
+            cls = globals()[i.title()]
+            try:
+                t = cls.objects.get(pk=kwargs[i+'_id'])
+                items = items.filter(**{i:t})
+                c['o_'+i] = t
+            except cls.DoesNotExist:
+                items = []
+                break
     c['breadcrumbs'] = breadcrumbs(*c.values())
     c['items'] = items
     # I hate this hack, name should be available in the template, but it's not!

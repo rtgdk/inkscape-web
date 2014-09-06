@@ -7,14 +7,15 @@ from django.views.generic.base import TemplateView
 
 from registration.backends.default.views import ActivationView as AV, RegistrationView
 
-from .forms import RegisForm
-
+from .forms import RegisForm, PasswordForm
 
 urlpatterns = patterns('django.contrib.auth.views',
     url(r'^login/',     'login',                name='auth_login'          ),
     url(r'^logout/',    'logout',               name='auth_logout'         ),
-    url(r'^pwd/$',      'password_change',      name='password_change'     ),
-    url(r'^pwd/y/$',    'password_change_done', name='password_change_done'),
+    url(r'^pwd/$',      'password_reset', {'password_reset_form': PasswordForm }, name='password_reset'),
+    url(r'^pwd/(?P<uidb64>.+?)/(?P<token>.+)/$', 'password_reset_confirm', name='password_reset_confirm'),
+    url(r'^pwd/done/$', 'password_reset_complete', name='password_reset_complete'),
+    url(r'^pwd/sent/$', 'password_reset_done',     name='password_reset_done'),
 )
 
 AC = TemplateView.as_view(template_name='registration/activation_complete.html')

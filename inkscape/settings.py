@@ -139,17 +139,18 @@ INSTALLED_APPS = (
     'django_reset', # forward port of the "reset" command
     'django.contrib.sites',
     'django.contrib.auth',
+    'user_sessions',
+    'registration',
+    'social_auth',
+    'inkscape.person',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.admin',
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
-    'user_sessions',
     'haystack',
     'reversion',
-    'registration',
-    'social_auth',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -169,7 +170,6 @@ INSTALLED_APPS = (
     'cmsplugin_groupphoto',
     'inkscape.extra',
     'inkscape.search',
-    'inkscape.person',
     'inkscape.docs',
     'inkscape.resource',
 )

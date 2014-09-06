@@ -1,10 +1,12 @@
 
 from django.forms import *
-from .models import User, UserDetails
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth.forms import PasswordResetForm
 
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
+
+from .models import User, UserDetails
 
 class FeedbackForm(Form):
     comment = CharField(
@@ -12,6 +14,8 @@ class FeedbackForm(Form):
             'placeholder': 'Your comments or questions...'
         }), required=True )
 
+class PasswordForm(PasswordResetForm):
+    recaptcha = ReCaptchaField(label=_("Human Test"))
 
 class RegisForm(RegistrationForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))

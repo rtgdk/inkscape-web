@@ -220,3 +220,21 @@ GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 # This setting is for django-social-auth
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
+
+# ===== Migration to MySQL Special Code ===== #
+# Allows us an extra option for turning off key checks
+
+from django.db.backends.signals import connection_created
+import sys
+
+def turn_off_constraints(sender, connection, **kwargs):
+    if 'mysql' in connection.settings_dict['ENGINE']\
+      and connection.settings_dict.get('FOREIGN_KEY_CHECK') == True\
+      and not hasattr(connection, 'fk_check'):
+        sys.stderr.write("\n== TURNING OFF MYSQL FOREIGN KEY CHECKS!!==\n\n")
+        cursor = connection.cursor()
+        cursor.execute('SET foreign_key_checks = 0')
+        connection.fk_check = True
+
+connection_created.connect(turn_off_constraints)
+

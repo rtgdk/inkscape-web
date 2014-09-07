@@ -1,4 +1,16 @@
 
+ * Comment System
+  * For news
+  * For Artworks
+  * For users (Messaging?)
+ * Notification System
+  * For news
+  * For translators
+  * For new artworks
+  * For new favorites
+  * For new comments
+  * For new replies
+
 Please see the inkscape-web project's bug reports for general items todo.
 
 https://bugs.launchpad.com/inkscape-web

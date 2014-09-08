@@ -32,7 +32,7 @@ echo ""
 $MANAGE loaddata $PWD/utils/datums/licenses.json
 $MANAGE loaddata $PWD/utils/datums/categories.json
 
-./utils/refresh-cms staging.
+./utils/refresh-cms #staging.
 
 ./utils/refresh-geoip
 

@@ -7,7 +7,6 @@ DROP TABLE cmsplugin_launchpad_bugcountplugin;
 DROP TABLE cmsplugin_brochure_brochureplugin;
 ALTER TABLE cmsplugin_groupphotoplugin RENAME TO cmsplugin_groupphoto_groupphotoplugin;
 ALTER TABLE cmsplugin_bugcountplugin RENAME TO cmsplugin_launchpad_bugcountplugin;
-ALTER TABLE cmsplugin_brochureplugin RENAME TO cmsplugin_brochure_brochureplugin;
 
 ALTER TABLE cmsplugin_latestnewsplugin RENAME TO cmsplugin_news_latestnewsplugin;
 ALTER TABLE cmsplugin_pygmentsplugin RENAME TO cmsplugin_pygments_pygmentsplugin;

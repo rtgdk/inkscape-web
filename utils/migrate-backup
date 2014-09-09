@@ -65,6 +65,7 @@ UPDATES = {
   # Set the creator to admin account
   'cmsplugin_news.news': (
     [ set_to, 'creator', A_USER ],
+    [ set_to, 'editor', A_USER ],
   ),
 }
 

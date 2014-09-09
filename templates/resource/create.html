@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n extras %}
 
 {% block title %}{% trans "Upload New Resource" %}{% endblock %}
 
@@ -26,8 +26,8 @@
   </div>
 
   <div class="desc">
-    <h2>{{ form.name }}</h2>
-    <p>{{ form.desc }}</p>
+    <h2>{{ form.name|placeholder:_("Name or title") }}</h2>
+    <p>{{ form.desc|placeholder:_("Describe your upload here...") }}</p>
   </div>
 
   <div class="buttonbar">

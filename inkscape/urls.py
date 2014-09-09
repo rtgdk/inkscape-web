@@ -14,6 +14,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += i18n_patterns('',
+    url(r'^inline/',    include('inkscape.inline_templates.urls')),
     url(r'^person/',    include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),

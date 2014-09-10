@@ -121,6 +121,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'request.middleware.RequestMiddleware',
     'cms.middleware.language.LanguageCookieMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
@@ -149,6 +150,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
+    'request',
     'haystack',
     'reversion',
     'cms',     # django CMS itself

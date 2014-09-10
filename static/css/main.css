@@ -318,7 +318,6 @@ div.warning {
 .header .topdrop img.userphoto {
   width: 64px;
   height: 64px;
-  background-image: url(../images/photo.png);
   background-size: 64px;
   background-repeat: no-repeat;
   display: inline-block;

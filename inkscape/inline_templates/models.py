@@ -18,6 +18,7 @@
 import os
 import json
 
+from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 from django.db.models import *
 
@@ -27,7 +28,7 @@ null = {'null':True, 'blank':True}
 
 class InlineTemplate(Model):
     name  = CharField(_("Identifyable Name"), max_length=64)
-    base  = CharField(_("Test Base Template"), max_length=128)
+    base  = CharField(_("Test Base Template"), max_length=128, **null)
 
     code  = TextField(_("Template Code"))
     data  = TextField(_("Preview Data"), **null)
@@ -38,8 +39,17 @@ class InlineTemplate(Model):
     def get_absolute_url(self):
         return reverse('preview_template', kwargs={'template_id':str(self.id)})
 
-    def render(self, data=None):
+    def loaded_data(self, data=None):
         if not data:
-            data = json.loads(self.data)
-        return render_directly(self.code, data)
+            ret = json.loads(self.data)
+            if type(ret) is not dict:
+                return {}
+        return data
+
+    def render(self, data=None, test=False):
+        code = self.code
+        if test and self.base:
+            (name, block) = self.base.split('|')
+            code = "{%% extends \"%s\" %%}\n{%% block %s %%}\n%s\n{%% endblock %%}" % (name, block, self.code)
+        return render_directly(code, self.loaded_data(data))
 

@@ -19,7 +19,7 @@
 Views for resource system, adding items, entering new categories for widgets etc
 """
 
-from django.http import Http404
+from django.http import Http404, HttpResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -32,7 +32,7 @@ def preview(request, template_id):
     item = get_object_or_404(InlineTemplate, id=template_id)
     # We might at some point want to preview with some request context
     # But for now we're going to assume an empty context
-    #context = RequestContext(request)
-    #context.update(item.loaded_data())
-    return item.render()
+    context = RequestContext(request)
+    context.update(item.loaded_data())
+    return HttpResponse(item.render(context, test=True))
 

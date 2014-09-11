@@ -268,7 +268,7 @@ class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries')
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
-    items     = ManyToManyField(Resource)
+    items     = ManyToManyField(Resource, **null)
 
     objects   = GalleryManager()
 
@@ -339,12 +339,29 @@ User.quota = quota_for_user
 # ------------- CMS ------------ #
 
 from cms.models import CMSPlugin
+from inline_templates.models import InlineTemplate
 
 class GalleryPlugin(CMSPlugin):
-    limit  = PositiveIntegerField(_('Number of items'))
-    source = ForeignKey(Gallery)
+    limit    = PositiveIntegerField(_('Number of items'))
+    source   = ForeignKey(Gallery)
+    template = ForeignKey(InlineTemplate, **null)
+
+    render_template = False
+    @property
+    def render_template(self):
+        if self.template:
+            return self.template.get_template()
+        return "resource/list.html"
 
 class CategoryPlugin(CMSPlugin):
-    limit  = PositiveIntegerField(_('Number of items'))
-    source = ForeignKey(Category)
+    limit    = PositiveIntegerField(_('Number of items'))
+    source   = ForeignKey(Category)
+    template = ForeignKey(InlineTemplate, **null)
+
+    render_template = False
+    @property
+    def render_template(self):
+        if self.template:
+            return self.template.get_template()
+        return "resource/list.html"
 

@@ -20,7 +20,7 @@ def __str__(self):
     return smart_bytes(self.name())
 
 def __unicode__(self):
-    return text_string(self.name())
+    return smart_text(self.name())
 
 def get_absolute_url(self):
     return urlresolvers.reverse('view_profile', kwargs={'username':self.username})

@@ -20,11 +20,22 @@ import json
 
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.template.base import *
 from django.db.models import *
-
-from .base import render_directly
+from django.template import *
 
 null = {'null':True, 'blank':True}
+
+
+def render_directly(template, context):
+    if type(context) is not Context:
+        context = Context(context or {})
+    try:
+        templated = Template(template)
+        return templated.render(context)
+    except (VariableDoesNotExist, TemplateSyntaxError) as error:
+        raise ValueError(str(error))
+
 
 class InlineTemplate(Model):
     name  = CharField(_("Identifyable Name"), max_length=64)
@@ -52,4 +63,7 @@ class InlineTemplate(Model):
             (name, block) = self.base.split('|')
             code = "{%% extends \"%s\" %%}\n{%% block %s %%}\n%s\n{%% endblock %%}" % (name, block, self.code)
         return render_directly(code, self.loaded_data(data))
+
+    def get_template(self):
+        return Template(self.code)
 

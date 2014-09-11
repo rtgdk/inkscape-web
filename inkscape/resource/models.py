@@ -339,7 +339,7 @@ User.quota = quota_for_user
 # ------------- CMS ------------ #
 
 from cms.models import CMSPlugin
-from inline_templates.models import InlineTemplate
+from inkscape.inline_templates.models import InlineTemplate
 
 class GalleryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))

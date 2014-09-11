@@ -20,8 +20,7 @@ Protect InlineTemplate from coding errors.
 
 from django.forms import *
 
-from .models import InlineTemplate
-from .base import render_directly
+from .models import InlineTemplate, render_directly
 
 from splitjson.widgets import SplitJSONWidget
 

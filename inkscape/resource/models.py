@@ -283,8 +283,8 @@ class Gallery(Model):
 
     def is_editable(self, user=None):
         return user and user.id and (
-            self.user == user \
-              or (user.groups.count() and self.group in user.groups))
+            self.user == user or user.is_superuser \
+              or (user.groups.count() and self.group in user.groups.all()))
 
     def icon(self):
         if self.items.all().count():

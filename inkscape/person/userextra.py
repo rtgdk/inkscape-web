@@ -8,6 +8,7 @@ from django.db.models import Model
 from django.utils import timezone
 from types import FunctionType as function
 from django.core import urlresolvers
+from django.utils.encoding import smart_text, smart_bytes
 
 def name(self):
     """Adds the first and last name as a full name or username"""
@@ -16,7 +17,10 @@ def name(self):
     return self.username
 
 def __str__(self):
-        return self.name()
+    return smart_bytes(self.name())
+
+def __unicode__(self):
+    return text_string(self.name())
 
 def get_absolute_url(self):
     return urlresolvers.reverse('view_profile', kwargs={'username':self.username})

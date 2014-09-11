@@ -44,7 +44,7 @@ def breadcrumbs(*args):
         elif not hasattr(model, "get_absolute_url"):
             raise ValueError("Refusing the make '%s' into a breadcrumb!" % str(model))
         else:
-            yield (model.get_absolute_url(), str(model))
+            yield (model.get_absolute_url(), unicode(model))
 
 @login_required
 def delete_gallery(request, gallery_id):

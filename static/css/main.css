@@ -343,6 +343,33 @@ div.warning {
   margin: 0px;
   border-radius: 0 0 5px 5px;
 }
+#topmessages {
+  margin-left: 10px;
+}
+#topmessages .topdrop {
+  margin-left: -104px;
+  width: 120px;
+  border-radius: 5px 0 5px 5px;
+}
+#topmessages > p > a {
+  display: block;
+  width: 16px;
+  height: 12px;
+  background: url(../images/message.svg) 0 50% no-repeat;
+  text-decoration: none;
+  margin: 2px 0px;
+}
+#topmessages > p > a.alert {
+  box-shadow: 0px 0px 6px 0px #bacef9;
+  background-position: -16px;
+  animation: pulse 0.8s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
+}
+@keyframes pulse {
+    from { box-shadow: 0px 0px 0px 0px #bacef9; }
+    to { box-shadow: 0px 0px 8px 0px #bacef9; }
+} 
 #languages p img {
   padding-right: 4px;
 }
@@ -371,13 +398,14 @@ div.warning {
 .header #topdrops > li > p {
   display: block;
   border-radius: 0 0 5px 5px;
-  background: #333333 url("../images/down-arrow.png") right 6px center no-repeat;
+  background: #333333 right 6px center;
   margin: 0;
-  padding: 5px 20px 7px 10px;
+  padding: 5px 10px 7px 10px;
   margin-bottom:7px;
 }
 .header #topdrops p {
   cursor: default;
+  margin: 3px 0px 3px 0px;
 }
 .header #topdrops > li:hover > p {
   padding-bottom: 14px;

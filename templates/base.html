@@ -63,7 +63,6 @@
 							</form>
                         {% else %}
                         <p>
-
                         <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
                         <form  class="topdrop">
                             <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
@@ -75,6 +74,19 @@
                         </form>
                         {% endif %}
 						</li>
+                        {% if request.user.messages.all or True %} <!--If user has EVER had any messages-->
+                          <li id="topmessages">
+                           <p><a href="" {% if request.user.messages.new or True %}class="alert"{% endif %}>&nbsp;</a></p>
+                           <div class="topdrop"><!--
+                             <p><a href="">Translations (5)</a></p>
+                             <p><a href="">Comments (12)</a></p>
+                             <p><a href="">Likes (2)</a></p>
+                             <p><a href="">Messages (5)</a></p>-->
+                             <p style=""><a href="">All Messages</a></p>
+                             <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
+                           </div>
+                         </li>
+                        {% endif %}
 					</ul>
 					<div id="social">
                         <p>{% trans "Follow us on:" %} </p>

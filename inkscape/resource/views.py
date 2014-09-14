@@ -287,10 +287,19 @@ def like_resource(request, item_id, like_id):
         like.save()
     return redirect("resource", item_id)
     
+from sendfile import sendfile
+from inkscape import settings
 
-def down_resource(request, item_id):
+def down_resource(request, item_id, vt='d'):
     item = get_object_or_404(Resource, id=item_id)
-    item.downed += 1
+    if vt == 'd':
+        item.downed += 1
+    elif vt == 'v':
+        item.viewed += 1
     item.save()
-    return redirect(item.download.url)
+    url = item.download.path
+    if not settings.DEBUG:
+        # Correct for nginx redirect
+        url =  '/download' + url[6:]
+    return sendfile(request, url, attachment=True)
 

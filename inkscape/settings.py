@@ -217,6 +217,12 @@ GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 # This setting is for django-social-auth
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
+SENDFILE_BACKEND = 'sendfile.backends.development'
+if not DEBUG:
+    SENDFILE_BACKEND = 'sendfile.backends.nginx'
+    SENDFILE_ROOT = MEDIA_ROOT
+    SENDFILE_URL = MEDIA_URL
+
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

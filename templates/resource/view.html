@@ -4,27 +4,30 @@
 {% block "description" %}
  <div class="sideInfo">
    <h1>{% if item.category %}{{ item.category }}{% else %}Unpublished{% endif %}</h1>
-    {% if not item.is_file %}
-        <a class="link" href="{{ item.link }}"><img src="{{ DESIGN_URL }}/images/link_to.svg" title="Follow Link (external site)"/></a>
-    {% endif %}
+    
+   {% if not item.is_file %}
+     <a class="link" href="{{ item.link }}"><img src="{{ DESIGN_URL }}/images/link_to.svg" title="Follow Link (external site)"/></a>
+   {% endif %}
    <dl>
-        <dt>Views</dt><dd>{{ item.viewed }}</dd>
-     {% if item.is_file %}
-        <dt>Downloads</dt><dd>{{ item.downed }}</dd>
-        <dt>Liked</dt><dd>{{ item.votes.likes.count }}</dd>
-        <dt>Disliked</dt><dd>{{ item.votes.dislikes.count }}</dd>
-        <dt>Size</dt><dd>{{ item.download.size|filesizeformat }}</dd>
+     {% if item.is_file %}    
+       {% if item.mime.is_image %}
+         <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
+       {% endif %}
+       {% if item.mime.is_image and not item.license.nd or not item.mime.is_image %}
+         <dt>{% trans "Downloads" %}</dt><dd>{{ item.downed }}</dd>
+       {% endif %}
+       <dt>{% trans "Liked" %}</dt><dd>{{ item.votes.likes.count }}</dd>
+       <dt>{% trans "Size" %}</dt><dd>{{ item.download.size|filesizeformat }}</dd>
      {% else %}
-        <dt>Linked From</dt><dd>{{ item.link_from }}</dd>
+       <dt>{% trans "Linked From" %}</dt><dd>{{ item.link_from }}</dd>
      {% endif %}
-    </dl>
+   </dl>
 
-    {% if item.license %}
-    <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
+   {% if item.license %}
+     <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
 {% endif %}{{ item.license }}"/></a>
-    {% endif %}
-
-   </div>   
+   {% endif %}
+ </div>   
 
   <div class="desc">
     <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
@@ -47,9 +50,19 @@
         </form>
       {% endif %}
     {% endif %}
-    <form action="{% url "download_resource" item.id %}">
-        <button id="download" class="unique start end" type="submit">{% trans "Download" %}</button>
-    </form>
+    
+    {% if item.mime.is_image %}
+      <form action="{% url "view_resource" item.id %}">
+          <button id="view" class="unique start end" type="submit">{% trans "Full size view" %}</button>
+      </form>
+    {% endif %}
+    
+    {% if item.mime.is_image and not item.license.nd or not item.mime.is_image %}
+      <form action="{% url "download_resource" item.id %}">
+          <button id="download" class="unique start end" type="submit">{% trans "Download" %}</button>
+      </form>
+    {% endif %}
+    
     {% if item.user == request.user %}
      <form action="{% url "edit_resource" item.id %}">
        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>

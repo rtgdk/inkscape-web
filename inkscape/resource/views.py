@@ -291,11 +291,20 @@ from sendfile import sendfile
 from inkscape import settings
 
 def down_resource(request, item_id, vt='d'):
-    item = get_object_or_404(Resource, id=item_id)
-    if vt == 'd':
-        item.downed += 1
-    elif vt == 'v':
+    item = get _object_or_404(Resource, id=item_id)
+
+    # The view 'download' allows one to view an image in full screen glory
+    # which is technically a download, but we count it as a view and try and let
+    # the browser deal with showing the file.
+    if vt == 'v':
         item.viewed += 1
+        item.save()
+        return redirect(item.download.url)
+    
+    # Otherwise the user intends to download the file and we record it as such
+    # before passing the download path to nginx for delivery using a content
+    # despatch to force the browser into saving-as.
+    item.downed += 1
     item.save()
     url = item.download.path
     if not settings.DEBUG:

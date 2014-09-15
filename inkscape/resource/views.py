@@ -291,7 +291,7 @@ from sendfile import sendfile
 from inkscape import settings
 
 def down_resource(request, item_id, vt='d'):
-    item = get _object_or_404(Resource, id=item_id)
+    item = get_object_or_404(Resource, id=item_id)
 
     # The view 'download' allows one to view an image in full screen glory
     # which is technically a download, but we count it as a view and try and let

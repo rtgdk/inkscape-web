@@ -73,6 +73,12 @@ class UserAlertSetting(Model):
     def __str__(self):
         return "User Alert Setting"
 
+class UserAlertManager(Manager):
+    def new(self):
+        return self.get_query().filter(read=False)
+
+    def types(self):
+        return self.new() # plus type filter
 
 class UserAlert(Model):
     """A single altert for a specific user"""
@@ -80,20 +86,24 @@ class UserAlert(Model):
     alert   = ForeignKey(AlertType, releated_name='sent')
 
     subject = CharField(max_length=255)
+    body    = TextField(**null)
 
     created = DateTimeField(auto_now=True)
     read    = DateTimeField(**null)
 
-    link    = CharField(max_length=32, **null)
-    kwargs  = TextField(**null)
+    p_link  = CharField(max_length=255, **null)
+
+    objects = UserAlertManager()
 
     def __str__(self):
         return self.subject
 
     def get_absolute_url(self):
-        if self.link:
-            kwargs = kwargs and json.loads(self.kwargs) or None
-            return reverse(self.link, kwargs=kwargs)
+        if self.p_link and '?' in self.p_link:
+            (name, args) = self.p_link.split('?', 1)
+            kwargs = QueryDict(args, mutable=True)
+            args = kwargs.pop('args', None)
+            return reverse(name, kwargs=kwargs, args=args)
         return None
 
     def save(self, **kwargs):

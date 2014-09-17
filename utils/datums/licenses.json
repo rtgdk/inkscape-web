@@ -24,7 +24,7 @@
        "link": "https://creativecommons.org/licenses/by-nc/3.0/",
        "banner": "license/banner/cc-by-nc.svg",
        "icon": "license/icon/cc-by-nc.svg"}},
-  {"pk": 6, "model": "resource.license", "fields": {"code": "CC-BY-ND", "name": "Creative Commons Attribution Non-Derivitive 3.0", "nc": false, "nd": true, "at": true, "sa": false, "replaced": null,
+  {"pk": 6, "model": "resource.license", "fields": {"code": "CC-BY-ND", "name": "Creative Commons Attribution Non-Derivative 3.0", "nc": false, "nd": true, "at": true, "sa": false, "replaced": null,
        "visible": true, 
        "link": "https://creativecommons.org/licenses/by-nd/3.0/",
        "banner": "license/banner/cc-by-nd.svg",

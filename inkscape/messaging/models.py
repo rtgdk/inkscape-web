@@ -40,6 +40,19 @@ MSG_CAT = (
   ('T', 'System to Translator'),
 )
 
+"""
+NOTES to get my head right:
+
+ * The altert types are actually created by bits of code and we must make them
+   via this code too. Basically we register new alert types and this creates them
+   if they don't exist with a disabled and empty set of data.
+ * Then, the admin for the website can use the model as a type of CMS to specify
+   how the messages will look and maybe even translations... must think about that.
+
+...
+
+"""
+
 class AlertType(Model):
     """All Possible messages that users can recieve, acts as a template"""
     name     = CharField(max_length=64)
@@ -53,6 +66,10 @@ class AlertType(Model):
     category = CharField(max_length=1, choices=MSG_CAT, default='?')
     enabled  = BooleanField(default=False)
 
+    # These get copied into UserAlertSettings for this alert
+    default_hide  = BooleanField(default=False)
+    default_email = BooleanField(default=False)
+
     def send_to(self, user, data=None):
         if not self.group or self.group in user.groups:
             um = UserAlert(user=user, message=self)
@@ -63,6 +80,18 @@ class AlertType(Model):
     def __str__(self):
         return self.name
 
+class SettingsManager(Manager):
+    def get(self, **kwargs):
+        """Will return an empty setting for this user using defaults"""
+        try:
+            return Manager.get(self, **kwargs)
+        except self.model.DoesNotExist:
+            if 'alert' in kwargs and 'user' in kwargs and len(kwargs) == 2:
+                kwargs['hide'] = kwargs['alert'].default_hide
+                kwargs['email'] = kwargs['alert'].default_email
+                return self.model(**kwargs)
+            raise
+
 
 class UserAlertSetting(Model):
     user    = ForeignKey(User, related_name='alert_settings')
@@ -72,6 +101,7 @@ class UserAlertSetting(Model):
     
     def __str__(self):
         return "User Alert Setting"
+
 
 class UserAlertManager(Manager):
     def new(self):
@@ -98,6 +128,16 @@ class UserAlert(Model):
     def __str__(self):
         return self.subject
 
+    def is_hidden(self):
+        if self.read:
+            return True
+        return self.config.hide:
+
+    @property
+    def config(self):
+        # This should auto-create but not save.
+        return UserAlertSetting.objects.get(user=self.user, alert=self.alert)
+
     def get_absolute_url(self):
         if self.p_link and '?' in self.p_link:
             (name, args) = self.p_link.split('?', 1)
@@ -110,8 +150,6 @@ class UserAlert(Model):
         data = kwargs.pop('data', None)
         if not self.subject:
             self.subject = direct_render(self.alert.subject, data)
-        if isinstance(self.kwargs, dict):
-            self.kwargs = json.dumps(self.kwargs)
         Model.save(self, **kwargs)
 
 

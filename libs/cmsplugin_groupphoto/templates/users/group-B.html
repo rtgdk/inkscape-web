@@ -4,8 +4,8 @@
 
   <table class="bioitem">
     <tr>
-      <td class="img" rowspan="2"><a class="link" href="{% url "view_profile" user.id %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a></td>
-      <td><p title="{{ user.email }}"><a href="{% url "view_profile" user.id %}">{{ user.details }} ({{ user.username }})</a></p></td>
+      <td class="img" rowspan="2"><a class="link" href="{% url "view_profile" user.username %}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a></td>
+      <td><p title="{{ user.email }}"><a href="{% url "view_profile" user.username %}">{{ user.details }} ({{ user.username }})</a></p></td>
     </tr>
     <tr>
       <td><p class="bio">{{ user.details.bio|safe }}&nbsp;</p></td>

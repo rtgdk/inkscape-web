@@ -173,6 +173,7 @@ INSTALLED_APPS = (
     'inkscape.search',
     'inkscape.docs',
     'inkscape.resource',
+    'inkscape.messaging',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 

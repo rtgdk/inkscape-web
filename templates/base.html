@@ -72,17 +72,16 @@
                           <p id="toplogin-head"><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
                           <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
-                        {% endif %}
-						</li>
-                        {% if request.user.messages.all or True %} <!--If user has EVER had any messages-->
+                        {% endif %}</li>
+
+                        {% if request.user.alerts.all %} <!--If user has EVER had any messages-->
                           <li id="topmessages">
-                           <p><a href="" {% if request.user.messages.new or True %}class="alert"{% endif %}>&nbsp;</a></p>
-                           <div class="topdrop"><!--
-                             <p><a href="">Translations (5)</a></p>
-                             <p><a href="">Comments (12)</a></p>
-                             <p><a href="">Likes (2)</a></p>
-                             <p><a href="">Messages (5)</a></p>-->
-                             <p style=""><a href="">All Messages</a></p>
+                           <p><a href="" {% if request.user.alerts.new %}class="alert"{% endif %}>&nbsp;</a></p>
+                           <div class="topdrop">
+                             {% for t in request.user.alerts.types %}
+                             <p><a href="{{ t.0 }}">{{ t.1 }} ({{ t.2 }})</a></p>
+                             {% endfor %}
+                             <!--<p style=""><a href="">All Messages ({{ request.user.alerts.all.count }})</a></p>-->
                              <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
                            </div>
                          </li>

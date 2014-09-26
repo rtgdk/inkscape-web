@@ -27,7 +27,7 @@ from django.core.urlresolvers import reverse
 
 import json
 
-from .base import direct_render
+from .base import render_directly
 
 null = {'null':True, 'blank':True}
 
@@ -105,15 +105,15 @@ class UserAlertSetting(Model):
 
 class UserAlertManager(Manager):
     def new(self):
-        return self.get_query().filter(read=False)
+        return self.get_query_set().filter(read__isnull=True)
 
     def types(self):
-        return self.new() # plus type filter
+        return self.new().values('alert').annotate(count=Count('alert')).values_list('alert_id', 'alert__name', 'count')
 
 class UserAlert(Model):
     """A single altert for a specific user"""
     user    = ForeignKey(User, related_name='alerts')
-    alert   = ForeignKey(AlertType, releated_name='sent')
+    alert   = ForeignKey(AlertType, related_name='sent')
 
     subject = CharField(max_length=255)
     body    = TextField(**null)
@@ -131,7 +131,7 @@ class UserAlert(Model):
     def is_hidden(self):
         if self.read:
             return True
-        return self.config.hide:
+        return self.config.hide
 
     @property
     def config(self):
@@ -149,7 +149,7 @@ class UserAlert(Model):
     def save(self, **kwargs):
         data = kwargs.pop('data', None)
         if not self.subject:
-            self.subject = direct_render(self.alert.subject, data)
+            self.subject = render_directly(self.alert.subject, data)
         Model.save(self, **kwargs)
 
 

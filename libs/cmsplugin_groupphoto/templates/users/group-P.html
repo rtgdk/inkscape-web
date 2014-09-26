@@ -5,8 +5,8 @@
 {% for user in users %}
 
   <div class="galleryitem">
-    <a class="link" href="{% url "view_profile" user.user.id %}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
-    <p title="{{ user.email }}"><a href="{% url "view_profile" user.user.id %}">{{ user }}</a></p>
+    <a class="link" href="{% url "view_profile" user.user.username %}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
+    <p title="{{ user.email }}"><a href="{% url "view_profile" user.user.username %}">{{ user }}</a></p>
   </div>
 
 {% endfor %}

@@ -360,15 +360,17 @@ div.warning {
   margin: 2px 0px;
 }
 #topmessages > p > a.alert {
-  box-shadow: 0px 0px 6px 0px #bacef9;
   background-position: -16px;
   animation: pulse 0.8s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
 }
 @keyframes pulse {
-    from { box-shadow: 0px 0px 0px 0px #bacef9; }
-    to { box-shadow: 0px 0px 8px 0px #bacef9; }
+    0% { transform: rotate(-2deg); box-shadow: 0px 0px 0px 0px #bacef9; opacity: 1.0 }
+    20% { opacity: 0.4 }
+    30% { opacity: 1.0 }
+    40% { opacity: 0.4 }
+    100% { transform: rotate(2deg); box-shadow: 0px 0px 2px 0px #bacef9; opacity: 0.4 }
 } 
 #languages p img {
   padding-right: 4px;

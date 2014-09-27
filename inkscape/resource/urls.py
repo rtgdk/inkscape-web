@@ -29,7 +29,7 @@ urlpatterns = patterns('',
   url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
 
   url_tree(r'^gallery/',
-    url(r'^$',            view_list,        name='galleries'),
+    url(r'^$',            GalleryList(),    name='galleries'),
     url(r'^me/$',         my_resources,     name='my_resources'),
     url(r'^trash/$',      view_trash,       name='trash'),
     url(r'^new/$',        edit_gallery,     name="new_gallery"),

@@ -22,6 +22,7 @@ except ImportError:
 from .views import *
 
 urlpatterns = patterns('',
-  url(r'^(?P<template_id>\d+)/', preview, name="preview_template"),
+  url(r'^/$',              list_alerts, name="alerts"),
+  url(r'^(?P<slug>.+)/$',  list_alerts, name="alerts"),
 )
 

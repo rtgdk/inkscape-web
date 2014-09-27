@@ -36,6 +36,7 @@ from cStringIO import StringIO
 
 def breadcrumbs(*args):
     yield ('/', _('Home'))
+    # XXX We could automatically navigate items here using a parent meta type.
     for model in args:
         if type(model) is str:
             yield ("", _(model))
@@ -311,4 +312,15 @@ def down_resource(request, item_id, vt='d'):
         # Correct for nginx redirect
         url =  '/download' + url[6:]
     return sendfile(request, url, attachment=True)
+
+
+from pile.views import CategoryListView
+
+class GalleryList(CategoryListView):
+    model = Resource
+    cats = (
+#      ('media_type', _("Media Type")),
+      ('category', _("Media Category")),
+    )
+
 

@@ -15,8 +15,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-"""
-"""
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect

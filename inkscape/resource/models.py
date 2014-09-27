@@ -92,6 +92,10 @@ class Category(Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def value(self):
+        return self.pk
+
     def get_absolute_url(self):
         return reverse('resource_category', args=[str(self.id)])
 

@@ -151,6 +151,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'haystack',
     'reversion',
+    'pile',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation

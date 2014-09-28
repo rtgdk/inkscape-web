@@ -1,0 +1,177 @@
+/* CSS Taken from launchpad.net
+
+  - Copyright 2009 Canonical Ltd.
+              2014 Martin Owens.
+
+  License: AGPLv3 or later
+
+*/
+
+h2 {
+  padding-top: 0px;
+  margin-top: 0px;
+}
+
+.comment {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 1em 0 0.5em;
+  clear: both;
+  width: 100%;
+  text-align: left;
+}
+.comment .summary {
+  margin: 0.3em 0 0.3em 0;
+}
+
+.comment .details {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+}
+.comment .details div,
+.comment .footer div {
+  display: inline-block;
+}
+.comment .status {
+  border-right: 1px solid #ddd;
+  padding: 3px 12px;
+}
+.comment .details .index {
+  float: right;
+  border-left: 1px solid #ddd;
+  padding-left: 8px;
+  margin: 4px 8px;
+}
+.comment .details .title {
+  padding: 4px 8px;
+}
+
+.comment .body {
+  padding: 0.5em 6px 0;
+  min-height: 5em;
+}
+.comment .activity {
+  padding: 0.5em 12px;
+  background-color: #fafafa;
+  display: table-row;
+  width: 100%;
+}
+.comment .activity > div {
+  padding-left: 10px;
+  padding: 0.5em 12px;
+  display: table-cell;
+}
+.comment .activity .label {
+  font-weight: bold;
+  text-align: right;
+  vertical-align: middle;
+  padding: 0px 10px 0px 7px;
+  border-right: 1px solid #ddd;
+}
+.comment .activity .summary {
+  width: 100%;
+}
+
+.comment .content {
+  line-height: 1.4em;
+}
+.comment .footer {
+  background-color: #F8F8F8;
+  color: #666;
+  border-top: 1px solid #ddd;
+  text-align: left;
+}
+.comment .footer a {
+  margin-left: 1.5em;
+  display: block;
+  text-align: right;
+}
+
+.comment .text {
+  padding-bottom: 5px;
+}
+
+.comment #duplicate {
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  background-color: #ffe8f0;
+  font-weight: bold;
+  font-size: 120%;
+}
+
+.comment .details input {
+  border-radius: 0px;
+  width: calc(100% - 8px);
+  border: 0px;
+}
+.comment .entry {
+  margin: 0px;
+  padding: 0px;
+}
+.comment .existing {
+  display: inline-block;
+  width: calc(100% - 140px);
+  min-height: 80px;
+  padding: 10px;
+}
+.comment .existing > input {
+  margin: 20px;
+  width: calc(100% - 60px);
+}
+.comment > form > textarea {
+  border-radius: 0px;
+  min-height: 100px;
+  width: calc(100% - 130px);
+  display: table-cell;
+  margin: 0px;
+  border: 0px;
+}
+.comment > form > input[type="submit"] {
+  float: right;
+  width: 120px;
+  display: table-cell;
+  min-height: 109px;
+  border-radius: 0px;
+  text-align: center;
+  font-size: 30px;
+  background-color: #ccc;
+  text-shadow: 1px 1px 0px #999;
+  border: 1px solid #aaa;
+}
+.comment > form > input[type="submit"]:hover {
+  background-color: #ddd;
+}
+.comment > form > input.new {
+  background-color: #69B500;
+  text-shadow: 1px 1px 0px #457800;
+  border: 1px solid #499500;
+}
+.comment > form > input.new:hover {
+  background-color: #79C510;
+}
+
+/* Bug Types */
+
+#sidebar .url {
+  padding-left: 22px;
+}
+
+.url-launchpad {
+  background: no-repeat url("../images/url/launchpad.svg");
+}
+
+/* attachments */
+
+#sidebar li.file img {
+  width: 32px;
+  height: 32px;
+  position: relative;
+  float: left;
+  top: -5px;
+  padding-right: 3px;
+}
+#sidebar li.file {
+  margin-bottom: 14px;
+}
+

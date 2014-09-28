@@ -2,23 +2,23 @@
 {% load cms_tags sekizai_tags %}
 {% load menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
-	<head>
-		<meta charset="utf-8"/>
-		<link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
+  <head>
+    <meta charset="utf-8"/>
+    <link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
         <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
 
         <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css"/>
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/text.css"/>
-		<link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/text.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css"/>
         {% render_block "css" %}
         {% block css %}{% endblock %}
 
-		{% block extra-head %}{% endblock %}
+    {% block extra-head %}{% endblock %}
 
-		<title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
+    <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
 
-		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
         <script type="text/javascript" src="{{ DESIGN_URL }}js/inkscape.js"></script>
         <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
 
@@ -28,39 +28,39 @@
         <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
         <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
 
-	</head>
-	<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
+  </head>
+  <body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
 
       {% cms_toolbar %}
 
-		<div class="header">
-			<div id="cleartop">
-				<div id="logo">
-					<a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
-							 width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
+    <div class="header">
+      <div id="cleartop">
+        <div id="logo">
+          <a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
+               width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
                     <h1><a href="/" tabindex="-1">Inkscape</a></h1>
                     <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
-				</div>
-				<div id="header-right">
-					<ul id="topdrops">
+        </div>
+        <div id="header-right">
+          <ul id="topdrops">
                         {% language_chooser "languages.html" %}
-						<li id="toplogin">
+            <li id="toplogin">
                         {% if not request.user.is_authenticated %}
-						<p>{% trans "Log in / Register" %}</p>
-							<form class="topdrop" action="{% url "auth_login" %}" method="POST">
+            <p>{% trans "Log in / Register" %}</p>
+              <form class="topdrop" action="{% url "auth_login" %}" method="POST">
                                 {% csrf_token %}
-								<p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
-								<label for="toplogin-username">{% trans "Username" %}</label>
-								<input name="username" id="toplogin-username" type="text">
-								<label for="toplogin-password">{% trans "Password" %}</label>
-								<input name="password" id="toplogin-password" type="password">
-								<input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
-								<p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
-								<p id="toplogin-alternate">
+                <p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
+                <label for="toplogin-username">{% trans "Username" %}</label>
+                <input name="username" id="toplogin-username" type="text">
+                <label for="toplogin-password">{% trans "Password" %}</label>
+                <input name="password" id="toplogin-password" type="password">
+                <input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
+                <p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
+                <p id="toplogin-alternate">
                                   <span>{% trans "Or log in with" %}</span>
                                   {% include "social_logins.html" %}
                                 </p>
-							</form>
+              </form>
                         {% else %}
                         <p>
                         <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
@@ -79,59 +79,59 @@
                            <p><a href="" {% if request.user.alerts.new %}class="alert"{% endif %}>&nbsp;</a></p>
                            <div class="topdrop">
                              {% for t in request.user.alerts.types %}
-                             <p><a href="{{ t.0 }}">{{ t.1 }} ({{ t.2 }})</a></p>
+                               <p><a href="{% url "alerts" t.0 %}">{{ t.1 }} ({{ t.2 }})</a></p>
                              {% endfor %}
-                             <!--<p style=""><a href="">All Messages ({{ request.user.alerts.all.count }})</a></p>-->
+                             <p style=""><a href="{% url "alerts" %}">All Messages ({{ request.user.alerts.all.count }})</a></p>
                              <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
                            </div>
                          </li>
                         {% endif %}
-					</ul>
-					<div id="social">
+          </ul>
+          <div id="social">
                         <p>{% trans "Follow us on:" %} </p>
-					  <nav id="socialnav">
-					    <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);"/></a>
-					    <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
-					  </nav>
-					</div>
-					  <form id="topsearch" method="submit" action="{% url "search" %}">
+            <nav id="socialnav">
+              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);"/></a>
+              <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
+            </nav>
+          </div>
+            <form id="topsearch" method="submit" action="{% url "search" %}">
                         <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}"><input type="image" id="topsearch-button"
                           src="{{ DESIGN_URL }}images/search-button.svg" onerror="getPng(this);" alt="{% trans "Search" %}">
-					  </form>
-				</div>
-			</div>
-			<div class="nav"><ul id="menu">{% show_menu 1 100 100 %}</ul></div>
-		</div>
-		{% block supercontent %}
-		<div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
+            </form>
+        </div>
+      </div>
+      <div class="nav"><ul id="menu">{% show_menu 1 100 100 %}</ul></div>
+    </div>
+    {% block supercontent %}
+    <div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
             {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
-			{% block content %}{% endblock %}
-		</div></div>
-		{% endblock %}
-		{% block footer %}
-		<div class="footer">
-	        <a href="https://code.launchpad.net/inkscape-web"><img src="{{ DESIGN_URL }}/images/django.svg" title="This site is running:
+      {% block content %}{% endblock %}
+    </div></div>
+    {% endblock %}
+    {% block footer %}
+    <div class="footer">
+          <a href="https://code.launchpad.net/inkscape-web"><img src="{{ DESIGN_URL }}/images/django.svg" title="This site is running:
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
 InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -10px;"/></a>
-			<div class="nav">
-				{% block footer-nav %}
-				<ul>
-					{% for item in nav %}
-					<li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
-						{% for subitem in item %}
-						<li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
-						{% endfor %}
-					</ul></li>
-					{% endfor %}
-				</ul>
-				{% endblock %}
-			</div>
-			<p>{% block "foot" %}{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.{% endblock %}</p>
-		</div>
+      <div class="nav">
+        {% block footer-nav %}
+        <ul>
+          {% for item in nav %}
+          <li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
+            {% for subitem in item %}
+            <li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
+            {% endfor %}
+          </ul></li>
+          {% endfor %}
+        </ul>
+        {% endblock %}
+      </div>
+      <p>{% block "foot" %}{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.{% endblock %}</p>
+    </div>
         <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
-		{% endblock %}
+    {% endblock %}
       {% render_block "js" %}
-	</body>
+  </body>
 </html>
 

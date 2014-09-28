@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% load i18n pagination_tags pile %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/alert.css"/>
+{% endblock %}
+
+
+{% block content %}
+  <h1>New {{ alerttype }} Messages ({{ object_list.count }})</h1>
+
+  {% autopaginate object_list 15 as items %}
+
+  {% for object in items %}
+
+<div class="comment" id="alert_{{ object.id }}">
+  <div class="details">
+    {% if not object.viewed %}
+      <div class="status new">NEW!</div>
+    {% endif %}
+    <div class="title">{{ object.subject }}</div>
+    <div class="index">
+      <form class="view" action="{% url "alert.view" object.pk %}">
+        <button id="{{ object.pk }}">X</button>
+      </form>
+    </div>
+  </div>
+  {{ object.body }}
+</div>
+
+  {% paginate %}
+
+  {% empty %}
+    <h2>No messages or alerts to view</h2>
+  {% endfor %}
+
+<script>
+  $('.view').submit(function(){
+     jQuery.ajax({
+        url: $(this).attr("action"),
+        type: 'get',
+        success:function(data)
+        {
+            $('#alert_'+data).remove();
+        }, 
+     });
+
+    //var ret = $.get($(this).attr("action"), {'js':1}, function(data) {
+      //alert("Hello! " + data);
+      //$('#like_count').html(data);
+      //$('#likes').hide();
+    //});
+    return false;
+  });
+</script>
+
+{% endblock %}
+

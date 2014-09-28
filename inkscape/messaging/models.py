@@ -188,10 +188,11 @@ class UserAlertManager(Manager):
         return Manager.get_query_set(self).filter(deleted__isnull=True)
 
     def new(self):
-        return self.get_query_set().filter(read__isnull=True)
+        return self.get_query_set().filter(viewed__isnull=True)
 
     def types(self):
-        return self.new().values('alert').annotate(count=Count('alert')).values_list('alert_id', 'alert__name', 'count')
+        return self.new().values('alert').annotate(count=Count('alert'))\
+                  .values_list('alert__slug', 'alert__name', 'count')
 
 
 class UserAlert(Model):
@@ -217,7 +218,7 @@ class UserAlert(Model):
             self.save()
 
     def is_hidden(self):
-        if self.read:
+        if self.viewed or self.deleted:
             return True
         return self.config.hide
 

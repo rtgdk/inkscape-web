@@ -590,7 +590,7 @@ div.warning {
   border-right: 0 none;
   border-radius: 0 10px 0 0;
 }
-.footer {
+body > .footer {
   clear: both;
   border-top: 4px solid #0d0d0d;
   background-color: #333333;
@@ -602,32 +602,35 @@ div.warning {
   margin-bottom: 20px;
   line-height: 16px;
 }
-.footer a:link, .footer a:visited {
+body > .footer a:link, .footer a:visited {
   color: white;
   text-decoration: none;
 }
-.footer a:link:hover, .footer a:link:active, .footer a:visited:hover, .footer a:visited:active {
+body > .footer a:link:hover,
+body > .footer a:link:active,
+body > .footer a:visited:hover,
+body > .footer a:visited:active {
   color: white;
   text-decoration: underline;
 }
-.footer .nav > ul > li {
+body > .footer .nav > ul > li {
   float: left;
   width: 148.333px;
   margin-right: 5px;
   vertical-align: top;
   margin-bottom: 40px;
 }
-.footer .nav > ul > li > a {
+body > .footer .nav > ul > li > a {
   text-transform: uppercase;
   font-size: 14px;
 }
-.footer .nav > ul > li > ul {
+body > .footer .nav > ul > li > ul {
   padding: 25px 0 0 8px;
 }
-.footer .nav > ul > li > ul > li {
+body > .footer .nav > ul > li > ul > li {
   padding: 2px;
 }
-.footer p {
+body > .footer p {
   clear: left;
   text-align: center;
   font-size: 11px;
@@ -635,7 +638,7 @@ div.warning {
   margin: 0px 60px 0px 60px;
   top: -6px;
 }
-.footer .nav ul {
+body > .footer .nav ul {
   list-style-type: none;
   padding-left: 0;
 }

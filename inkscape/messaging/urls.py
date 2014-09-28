@@ -21,8 +21,11 @@ except ImportError:
 
 from .views import *
 
+
 urlpatterns = patterns('',
-  url(r'^/$',              list_alerts, name="alerts"),
-  url(r'^(?P<slug>.+)/$',  list_alerts, name="alerts"),
+  url(r'^(?P<alert_id>\d+)/view/', mark_viewed, name="alert.view"),
+
+  url(r'^$',                    AlertList(), name="alerts"),
+  url(r'^(?P<alerttype>.+)/$',  AlertList(), name="alerts"),
 )
 

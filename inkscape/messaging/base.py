@@ -22,6 +22,29 @@ controls in their system and they just don't have that yet.
 
 from django.template import *
 from django.template.base import *
+from django.template.loader import (
+    TemplateDoesNotExist, template_source_loaders, get_template as load_loaders
+)
+
+import os
+
+def get_template(template_name):
+    """We load a template name and return it's contents rather than a Template object"""
+    global template_source_loaders
+
+    # Try and use as much of the django logic as possible
+    if not template_source_loaders:
+        load_loaders(template_name)
+        from django.template.loader import template_source_loaders
+
+    for loader in template_source_loaders:
+        for filename in loader.get_template_sources(template_name):
+            # They should always exist, but check for weird template loaders
+            if os.path.isfile(filename):
+                with open(filename, 'r') as fhl:
+                    return fhl.read()
+
+    raise TemplateDoesNotExist(template_name)
 
 
 def render_directly(template, context):

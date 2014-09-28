@@ -7,3 +7,5 @@ site.register(AlertType)
 site.register(UserAlert)
 site.register(UserAlertSetting)
 
+site.register(Message)
+

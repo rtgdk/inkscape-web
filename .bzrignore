@@ -25,3 +25,4 @@ static/ckeditor_plugins
 static/djangocms_text_ckeditor
 static/css/cms.ckeditor.css
 static/js/cms.ckeditor.js
+locale

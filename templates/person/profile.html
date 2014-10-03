@@ -19,10 +19,10 @@
      </div>
     {% else %}
       <h1>{% trans "Last Seen" %}</h1>
-      <p>{% if user.details.last_seen %}{{ user.details.last_seen|timesince }} ago{% else %}Never{% endif %}</p>
+      <p>{% if user.details.last_seen %}{% blocktrans with user.details.last_seen|timesince as time_since %}{{time_since}} ago{% endblocktrans %}{% else %}{% trans "Never" %}{% endif %}</p>
 
       <h1>{% trans "Joined On" %}</h1>
-      <p>{{ user.date_joined }}<br/>{{ user.date_joined|timesince }} ago</p>
+      <p>{{ user.date_joined }}<br/>{% blocktrans with user.date_joined|timesince as time_since%}{{time_since}} ago{% endblocktrans %}</p>
     {% endif %}
 
     <h1>{% trans "Stats" %}</h1>
@@ -42,7 +42,7 @@
          <div>
            <div class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</div>
            <div class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</div>
-           <span title="{{ session.ip }} / {{ session.last_activity|timesince }} ago">{{ session.ip|location }}</span>
+           <span title="{{ session.ip }} / {% blocktrans with session.last_activity|timesince as time_since%}{{time_since}} ago{% endblocktrans %}">{{ session.ip|location }}</span>
          </div>
      {% endfor %}
      </div>

@@ -125,6 +125,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'inkscape.person.middleware.SetLastVisitMiddleware',
 )

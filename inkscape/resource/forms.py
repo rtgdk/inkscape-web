@@ -43,11 +43,18 @@ class ResourceBaseForm(ModelForm):
             for key in self.Meta.required:
                 self.fields[key].required = True
 
-    def clean_owner(self):
-        res = str(self.cleaned_data['owner'])
-        if res not in ('1','2') and not self.instance:
-            raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))
-        return res == '1'
+        if 'owner' in self.fields:
+            f = self.fields['owner']
+            f.to_python = self.ex_clean_owner(f.to_python)
+        
+    def ex_clean_owner(self, f):
+        """We want to clean owner, but django to_python validator catches our error
+           before we get a chance to explain it to the user. Intercept in this crazy way."""
+        def _internal(val):
+            if val in (None, u'None'):
+                raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))
+            return f(val)
+        return _internal
 
     def clean_download(self):
         if not self.instance or self.instance.download == self.cleaned_data['download']:
@@ -74,14 +81,8 @@ class ResourceBaseForm(ModelForm):
                 continue
             yield field
 
-OWNS = (
-  (0, _('No permission')),
-  (1, _('I own the work')),
-  (2, _('I have permission')),
-)
 
 class ResourceFileForm(ResourceBaseForm):
-    owner = ChoiceField(choices=OWNS, label=_('Permission'))
     published = BooleanField(label=_('Publicly Visible'), required=False)
 
     class Meta:

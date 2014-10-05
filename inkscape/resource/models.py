@@ -221,6 +221,11 @@ class Resource(Model):
                 return '/'.join(self.link.split('/')[3:])
         return NotLocalDownload(self.link)
 
+OWNS = (
+  (None, _('No permission')),
+  (True, _('I own the work')),
+  (False, _('I have permission')),
+)
 
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
@@ -229,7 +234,7 @@ class ResourceFile(Resource):
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
 
     license    = ForeignKey(License, **null)
-    owner      = BooleanField(_('I own this work'), default=True)
+    owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     def save(self, *args, **kwargs):
         Resource.save(self, *args, **kwargs)

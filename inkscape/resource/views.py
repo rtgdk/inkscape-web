@@ -21,7 +21,6 @@ Views for resource system, adding items, entering new categories for widgets etc
 
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
@@ -29,10 +28,8 @@ from django.template import RequestContext
 from django.utils.timezone import now
 from django.contrib.auth.models import User
 
-from .models import Resource, ResourceFile, Category, License, Gallery
-from .forms import FORMS, ResourceFileForm, GalleryForm, ResourceAddForm
-
-from cStringIO import StringIO
+from .models import Resource, ResourceFile, Gallery
+from .forms import *
 
 def breadcrumbs(*args):
     yield ('/', _('Home'))
@@ -84,29 +81,25 @@ def add_to_gallery(request, gallery_id):
     return render_to_response('resource/ajax/add.txt', c,
       context_instance=RequestContext(request),
       content_type="text/plain")
+
     
 @login_required
 def paste_in(request):
     """Create a pasted text entry."""
+    c = {
+        'paste': True,
+        'form': ResourcePasteForm(request.user),
+        'breadcrumbs': breadcrumbs(request.user, "New Paste"),
+    }
+
     if request.method == 'POST':
-        cat = Category.objects.get(pk=1)
-        count = ResourceFile.objects.filter(user=request.user, category=cat).count()
+        c['form'] = ResourcePasteForm(request.user, request.POST)
+        if c['form'].is_valid():
+            return redirect('resource', c['form'].save().id)
 
-        # This knowingly ignores the quota (delibrate)
-        res = ResourceFile(
-          license=License.objects.get(pk=1), category=cat,
-          name=_("Pasted Text #%d") % count, user=request.user,
-          desc="-", owner=True, published=True,
-        )
-        
-        filename = "pasted-%s-%d.txt" % (request.user.username, count)
-        buf = StringIO(request.POST['text'].encode('utf-8'))
-        buf.seek(0, 2)
-        fil = InMemoryUploadedFile(buf, "text", filename, None, buf.tell(), None)
-        res.download.save(fil.name, fil) # Does res.save()
+    return render_to_response('resource/create.html', c,
+        context_instance=RequestContext(request))
 
-        return redirect('edit_resource', res.id)
-    return redirect('my_resources')
 
 @login_required
 def edit_resource(request, item_id=None):

@@ -43,18 +43,31 @@ ALL_TEXT_TYPES = dict( (mimes[0], name)
       if mimes ).items()
 ALL_TEXT_TYPES.sort(key=lambda a: a[1])
 
+class CodeHtmlFormatter(formatters.HtmlFormatter):
+
+    def wrap(self, source, outfile):
+        return self._wrap_code(source)
+
+    def _wrap_code(self, source):
+        yield 0, '<ol id="lines">'
+        for i, t in source:
+            yield i, "<li><code>%s</code></li>" % t
+        yield 0, '</ol>'
+
+
 def syntaxer(text, mime):
     """Highlights text files based on their type"""
     if not pygments:
         return text
-    formatter = formatters.HtmlFormatter(encoding='utf8')
+    formatter = CodeHtmlFormatter(encoding='utf8')
 
     try:
         lexer = lexers.get_lexer_for_mimetype(str(mime))
     except:
         lexer = lexers.guess_lexer(text)
 
-    return mark_safe(highlight(text, lexer, formatter))
+    return mark_safe(''.join(highlight(text, lexer, formatter)))
+
 
 def upto(d, c='resources', blank=True, lots=False):
     """Quick and easy upload to location"""

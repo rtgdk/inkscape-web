@@ -6,39 +6,31 @@
 {% block title %}{{ item.name }}{% endblock %}
 
 {% block content %}
-
-<div class="item">
+ <div class="item">
   {% if item.is_file %}
     {% if item.mime.is_image %}
       <div class="image only">
-        <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}"></a>
+        <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}" alt="Image"></a>
       </div>
     {% elif item.mime.is_text %}
-      <div class="text" title="{{ item.media_type }}">
-        {% for lines, text in item.as_lines %}
-          <pre id="lines">{% for i in lines %}<a id="{{ i }}">{{ i }}</a>.
-{% endfor %}</pre>
-          <pre id="as_text">{{ text }}</pre>
-        {% endfor %}
-      </div>
+      <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
     {% else %}
       <div class="image file">
-        <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}"></a>
+        <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}" alt="File Icon"></a>
       </div>
     {% endif %}
   {% else %}
     <div class="image link">
       <a href="{{ item.link }}" title="External Link: {{ item }}">
       {% if item.thumbnail %}
-        <img src="{{ item.icon }}"/>
+        <img src="{{ item.icon }}" alt="Item Image"/>
       {% else %}
-        <img src="{{ DESIGN_URL }}images/link.svg"/>
+        <img src="{{ DESIGN_URL }}images/link.svg" alt="Item Link"/>
       {% endif %}
       </a>
     </div>
   {% endif %}
-
   {% block "description" %}{% endblock %}
-
+ </div>
 {% endblock %}
 

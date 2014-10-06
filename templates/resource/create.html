@@ -1,7 +1,17 @@
 {% extends 'base.html' %}
 {% load i18n extras %}
 
-{% block title %}{% trans "Upload New Resource" %}{% endblock %}
+{% block css %}
+<style>
+  #download {
+    padding: 20px;
+  }
+  #download textarea {
+    width: 100%;
+    min-height: 350px;
+  }
+</style>
+{% endblock %}
 
 {% block content %}
 
@@ -9,14 +19,22 @@
   {% csrf_token %}
 
 <div class="item">
-  <h1>{% trans "Upload New Resource" %}</h1>
+  <h1>
+   {% block title %}
+    {% if paste %}
+     {% trans "New Paste" %}
+    {% else %}
+     {% trans "Upload New Resource" %}
+    {% endif %}
+   {% endblock %}
+  </h1>
 
   <div id="errors">
     {{ form.non_field_errors }}
     {{ form.download.errors }}
   </div>
 
-  <div style="padding: 20px;">{{ form.download }}</div>
+  <div id="download">{{ form.download|placeholder:_("Paste your text here") }}</div>
 
   <div class="sideInfo">
     {% for field in form.auto %}

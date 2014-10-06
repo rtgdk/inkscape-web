@@ -3,32 +3,28 @@
 {% load menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
+    <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
     <meta charset="utf-8"/>
-    <link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
-        <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
 
-        <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
+    <link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
+    <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
+    <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
     <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/text.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css"/>
-        {% render_block "css" %}
-        {% block css %}{% endblock %}
-
+    {% render_block "css" %}
+    {% block css %}{% endblock %}
     {% block extra-head %}{% endblock %}
 
-    <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
-
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-        <script type="text/javascript" src="{{ DESIGN_URL }}js/inkscape.js"></script>
-        <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
+    <script type="text/javascript" src="{{ DESIGN_URL }}js/inkscape.js"></script>
+    <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
 
-        <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
-        <meta name="Copyright" content="Developers, AGPLv3" />
-
-        <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
-        <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
-
+    <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
+    <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
+    <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
   </head>
+
   <body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
 
       {% cms_toolbar %}
@@ -49,7 +45,7 @@
             <p>{% trans "Log in / Register" %}</p>
               <form class="topdrop" action="{% url "auth_login" %}" method="POST">
                                 {% csrf_token %}
-                <p id="toplogin-head">{% trans "Already a member? Log in below." %}</p>
+                <p>{% trans "Already a member? Log in below." %}</p>
                 <label for="toplogin-username">{% trans "Username" %}</label>
                 <input name="username" id="toplogin-username" type="text">
                 <label for="toplogin-password">{% trans "Password" %}</label>
@@ -67,10 +63,10 @@
                         <form  class="topdrop">
                             <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
                           {% if request.user.is_staff %}
-                            <p id="toplogin-head"><a href="/admin/">{% trans "Admin" %}</a></p>
+                            <p><a href="/admin/">{% trans "Admin" %}</a></p>
                           {% endif %}
-                          <p id="toplogin-head"><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
-                          <p id="toplogin-head"><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
+                          <p><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
+                          <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                         </form>
                         {% endif %}</li>
 
@@ -90,13 +86,13 @@
           <div id="social">
                         <p>{% trans "Follow us on:" %} </p>
             <nav id="socialnav">
-              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);"/></a>
+              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
               <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
             </nav>
           </div>
-            <form id="topsearch" method="submit" action="{% url "search" %}">
-                        <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}"><input type="image" id="topsearch-button"
-                          src="{{ DESIGN_URL }}images/search-button.svg" onerror="getPng(this);" alt="{% trans "Search" %}">
+            <form id="topsearch" method="get" action="{% url "search" %}">
+              <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}">
+              <input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.svg" onerror="getPng(this);" alt="{% trans "Search" %}">
             </form>
         </div>
       </div>

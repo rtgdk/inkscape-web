@@ -349,14 +349,24 @@ background-position:center -25px;
   border: 2px solid #fff;
   line-height: 16px;
 }
-.text #lines {
-  float: left;
-  color: #777;
-  text-align: right;
+.text code {
+  white-space: pre-wrap;
+  color: black;
+  font-size: 140%;
+}
+.text ol {
+  font-family: "Liberation Mono","Ubuntu Mono",mono;
+  border: 1px dotted #eee;
+  background: #fff;
+  color: #FFF;
+  overflow: hidden;
+  padding: 7px 0px 7px 3rem;
+}
+.text li {
+  color: #aaa;
+  background-color: white;
+  border-bottom: 1px dotted #eee;
+  font-size: 75%;
 }
 
-.text pre {
-  margin: 5px;
-  padding: 0px;
-}
 

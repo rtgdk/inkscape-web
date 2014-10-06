@@ -19,9 +19,15 @@ Forms for the gallery system
 """
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
+from django.utils.text import slugify
 
-from .models import Resource, ResourceFile, Gallery, Model
+from .models import Category, Resource, ResourceFile, Gallery, Model
 from .utils import ALL_TEXT_TYPES
+
+from django.core.files.uploadedfile import InMemoryUploadedFile
+from cStringIO import StringIO
+
+__all__ = ('FORMS', 'GalleryForm', 'ResourceFileForm', 'ResourcePasteForm', 'ResourceAddForm')
 
 class GalleryForm(ModelForm):
     class Meta:
@@ -36,7 +42,7 @@ class GalleryForm(ModelForm):
 class ResourceBaseForm(ModelForm):
     def __init__(self, user, *args, **kwargs):
         if not isinstance(user, Model):
-            raise AttributeError("User needs to be a model of a user.")
+            raise AttributeError("User needs to be a model of a user (got %s)." % type(user).__name__)
         self.user = user
         ModelForm.__init__(self, *args, **kwargs)
         if hasattr(self.Meta, 'required'):
@@ -94,14 +100,63 @@ class ResourceFileForm(ResourceBaseForm):
 
 class ResourcePasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+    download   = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+
+    def __init__(self, user, data=None, *args, **kwargs):
+        # These are shown items values, for default values see save()
+        i = dict(
+            download='', desc='-', license=1, media_type='text/plain',
+            name=_("Pasted Text #%d") % ResourceFile.objects.all().count(),
+        )
+        i.update(kwargs.pop('initial', {}))
+        kwargs['initial'] = i
+
+        d = data and dict((key, data.get(key, i[key])) for key in i.keys())
+
+        super(ResourcePasteForm, self).__init__(user, d, *args, **kwargs)
+
+    def _clean_fields(self):
+        for key in self.initial:
+            self.cleaned_data.setdefault(self.initial[key])
+        return super(ResourcePasteForm, self)._clean_fields()
+
+    def clean_download(self):
+        text = self.cleaned_data['download']
+        # We don't call super clean_download because it would check the quota.
+        # Text pastes are exempt from the quota system and are always allowed.
+        if len(text) < 200:
+            raise ValidationError("Text is too small for the pastebin.")
+
+        filename = "pasted-%s.txt" % slugify(self.cleaned_data['name'])
+        buf = StringIO(text.encode('utf-8'))
+        buf.seek(0, 2)
+
+        return InMemoryUploadedFile(buf, "text", filename, None, buf.tell(), None)
+
+    def save(self, **kwargs):
+        obj = super(ResourcePasteForm, self).save(**kwargs)
+        if not obj.category and obj.id:
+            obj.category = Category.objects.get(pk=1)
+            obj.owner = True
+            obj.published = True
+            obj.save()
+        return obj
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'media_type', 'link', 'license', 'download']
+        fields = ['name', 'desc', 'media_type', 'license', 'link', 'download']
         required = ['name', 'license']
 
+class ResourceEditPasteForm(ResourceBaseForm):
+    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+    class Meta:
+        model = ResourceFile
+        fields = ['name', 'desc', 'media_type', 'license', 'link']
+        required = ['name', 'license']
+
+
 # This allows paste to have a different set of options
-FORMS = {1: ResourcePasteForm}
+FORMS = {1: ResourceEditPasteForm}
 
 class ResourceAddForm(ResourceBaseForm):
     class Meta:

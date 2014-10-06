@@ -13,7 +13,7 @@
      <div id="paste">
       <form method="POST" action="{% url "pastebin" %}">
         {% csrf_token %}
-        <textarea name="text" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
+        <textarea name="download" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
         <input type="submit" value="{% trans "Paste!" %}"/>
       </form>
      </div>

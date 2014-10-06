@@ -258,8 +258,7 @@ class ResourceFile(Resource):
 
     def as_lines(self):
         """Returns the contents as text"""
-        text = self.as_text()
-        return [ ( range(1,text.count("\n")+1), syntaxer(text, self.mime())) ]
+        return syntaxer(self.as_text(), self.mime())
 
     def as_text(self):
         if self.mime().is_text():

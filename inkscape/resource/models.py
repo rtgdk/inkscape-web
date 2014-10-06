@@ -263,7 +263,7 @@ class ResourceFile(Resource):
     def as_text(self):
         if self.mime().is_text():
             with open(self.download.path, 'r') as fhl:
-                return fhl.read()
+                return fhl.read().decode('utf-8')
         return "Not text!"
 
 

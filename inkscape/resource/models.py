@@ -177,7 +177,7 @@ class Resource(Model):
 
     @property
     def is_new(self):
-        return not self.desc
+        return not self.category
 
     @property
     def next(self):

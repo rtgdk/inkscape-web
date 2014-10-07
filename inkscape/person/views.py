@@ -60,7 +60,6 @@ def view_profiles(request):
         context_instance=RequestContext(request))
 
 
-
 @login_required
 def my_profile(request):
     return view_profile(request, request.user.username)
@@ -78,4 +77,17 @@ def view_profile(request, username):
     }
     return render_to_response('person/profile.html', c,
         context_instance=RequestContext(request))
+
+@login_required
+def add_friend(request):
+    # XXX to-do
+    to_user = get_object_or_404(User, username=request.GET.get('u', '-1'))
+    friendship = request.user.friends.create(friend=to_user)
+    return HttpResponse(friendship.pk)
+
+@login_required
+def rem_friend(request, friend_id):
+    friendship = get_object_or_404(Friend, pk=friend_id, user=request.user)
+    friendship.delete()
+    return HttpResponse(1)
 

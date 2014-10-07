@@ -30,21 +30,18 @@ class AlertList(CategoryListView):
     model = UserAlert
     opts = (
       ('alert', 'slug'),
+#      ('', ''),
     )
     def get_queryset(self, *args, **kwargs):
         query = CategoryListView.get_queryset(self, *args, **kwargs)
         return query.filter(viewed__isnull=True)
 
-#    def get_context_data(self, **kwargs):
-#        data = ListView.get_context_data(self, **kwargs)
-#        return data
+# XXX View to send a message to another user
 
 @login_required
 def mark_viewed(request, alert_id):
     alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
     alert.view()
-    #if not js:
-    #    return redirect('alerts')
     return HttpResponse(alert.pk)
 
 

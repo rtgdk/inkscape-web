@@ -35,9 +35,14 @@ from .base import render_directly, get_template
 def created_alert(sender, instance, created=False, **kwargs):
      """Connect this method to the post_save signal and it will
         create an alert when the sender *creates* a new object."""
-     slug = sender.__name__.lower()
      if not created:
          return
+     edited_alert(sender, instance, created, **kwargs)
+
+def edited_alert(sender, instance, created=False, **kwargs):
+     """Connect this method to the post_save signal and it will
+        create an alert when the sender edits any object."""
+     slug = sender.__name__.lower()
      config = dict(
          template="alerts/%s.html" % slug,
          name = _("Alert for %s") % slug,

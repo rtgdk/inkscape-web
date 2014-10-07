@@ -70,9 +70,9 @@
                         </form>
                         {% endif %}</li>
 
-                        {% if request.user.alerts.all %} <!--If user has EVER had any messages-->
+                        {% if request.user.alerts.all %} <!--If user has any read or new alerts-->
                           <li id="topmessages">
-                           <p><a href="" {% if request.user.alerts.new %}class="alert"{% endif %}>&nbsp;</a></p>
+                           <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
                            <div class="topdrop">
                              {% for t in request.user.alerts.types %}
                                <p><a href="{% url "alerts" t.0 %}">{{ t.1 }} ({{ t.2 }})</a></p>

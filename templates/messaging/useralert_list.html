@@ -21,9 +21,15 @@
     {% endif %}
     <div class="title">{{ object.subject }}</div>
     <div class="index">
-      <form class="view" action="{% url "alert.view" object.pk %}">
-        <button id="{{ object.pk }}">X</button>
-      </form>
+      {% if not object.viewed %}
+        <form class="runner" action="{% url "alert.view" object.pk %}">
+          <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">-</button>
+        </form>
+      {% else %}
+        <form class="runner" action="{% url "alert.delete" object.pk %}">
+          <button id="{{ object.pk }}" title="{% trans "Delete Alert" %}">X</button>
+        </form>
+      {% endif %}
     </div>
   </div>
   {{ object.body }}
@@ -36,7 +42,7 @@
   {% endfor %}
 
 <script>
-  $('.view').submit(function(){
+  $('.runner').submit(function(){
      jQuery.ajax({
         url: $(this).attr("action"),
         type: 'get',

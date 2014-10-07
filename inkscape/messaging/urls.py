@@ -24,6 +24,7 @@ from .views import *
 
 urlpatterns = patterns('',
   url(r'^(?P<alert_id>\d+)/view/', mark_viewed, name="alert.view"),
+  url(r'^(?P<alert_id>\d+)/delete/', mark_deleted, name='alert.delete'),
 
   url(r'^$',                    AlertList(), name="alerts"),
   url(r'^(?P<alerttype>.+)/$',  AlertList(), name="alerts"),

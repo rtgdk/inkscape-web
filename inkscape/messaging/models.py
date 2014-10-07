@@ -219,13 +219,10 @@ class UserAlert(Model):
     def delete(self):
         if not self.deleted:
             self.deleted = now()
-            self.reed()
             self.save()
 
     def is_hidden(self):
-        if self.viewed or self.deleted:
-            return True
-        return self.config.hide
+        return self.viewed or self.deleted or self.config.hide
 
     @property
     def config(self):

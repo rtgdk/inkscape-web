@@ -30,11 +30,8 @@ class AlertList(CategoryListView):
     model = UserAlert
     opts = (
       ('alert', 'slug'),
-#      ('', ''),
+      ('new', 'viewed__isnull'),
     )
-    def get_queryset(self, *args, **kwargs):
-        query = CategoryListView.get_queryset(self, *args, **kwargs)
-        return query.filter(viewed__isnull=True)
 
 # XXX View to send a message to another user
 
@@ -43,5 +40,12 @@ def mark_viewed(request, alert_id):
     alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
     alert.view()
     return HttpResponse(alert.pk)
+
+@login_required
+def mark_deleted(request, alert_id):
+    alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
+    alert.delete()
+    return HttpResponse(alert.pk)
+
 
 

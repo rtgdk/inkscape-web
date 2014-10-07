@@ -94,7 +94,7 @@ class ResourceFileForm(ResourceBaseForm):
     class Meta:
         model = ResourceFile
         fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
-        required = ['name', 'desc', 'category', 'license']
+        required = ['name', 'category', 'license']
 
 
 

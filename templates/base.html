@@ -75,7 +75,7 @@
                            <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
                            <div class="topdrop">
                              {% for t in request.user.alerts.types %}
-                               <p><a href="{% url "alerts" t.0 %}">{{ t.1 }} ({{ t.2 }})</a></p>
+                               <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
                              {% endfor %}
                              <p style=""><a href="{% url "alerts" %}">All Messages ({{ request.user.alerts.all.count }})</a></p>
                              <p style="padding-top: 6px;"><a href="">Message Settings</a></p>

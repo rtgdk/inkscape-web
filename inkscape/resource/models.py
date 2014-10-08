@@ -140,7 +140,7 @@ class Resource(Model):
 
     thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
 
-    link      = URLField(_('More Info URL'), **null)
+    link      = URLField(_('External Link'), **null)
     viewed    = IntegerField(default=0)
     downed    = IntegerField(_('Downloaded'), default=0)
 

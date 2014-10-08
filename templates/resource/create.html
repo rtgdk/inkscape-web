@@ -38,13 +38,13 @@
 
   <div class="sideInfo">
     {% for field in form.auto %}
-      <h1 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}</h1>
+      <h1 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}{% if field.field.required %} *{% endif %}</h1>
       {{ field }}
     {% endfor %}
   </div>
 
   <div class="desc">
-    <h2>{{ form.name|placeholder:_("Name or title") }}</h2>
+    <h2>{{ form.name|placeholder:_("Name or title") }} *</h2>
     <p>{{ form.desc|placeholder:_("Describe your upload here...") }}</p>
   </div>
 

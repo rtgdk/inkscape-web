@@ -29,7 +29,7 @@ from django.core.urlresolvers import reverse
 from pile.models import null
 
 from .base import render_directly, get_template
-
+from collections import defaultdict
 
 
 def created_alert(sender, instance, created=False, **kwargs):
@@ -94,6 +94,7 @@ class AlertType(Model):
 
     subject  = CharField(_("Subject Template"), max_length=255)
     body     = TextField(_("Body Template"))
+    created  = DateTimeField(_("Created Date"), default=now)
     
     category = CharField(_("Type Category"), max_length=1, choices=MSG_CAT, default='?')
     enabled  = BooleanField(default=False)
@@ -196,8 +197,16 @@ class UserAlertManager(Manager):
         return self.get_query_set().filter(viewed__isnull=True)
 
     def types(self):
-        return self.new().values('alert').annotate(count=Count('alert'))\
-                  .values_list('alert__slug', 'alert__name', 'count')
+        counts = defaultdict(int)
+        names = {}
+        # We'd use count and distinct to do this login in the db, but it's flakey
+        for (slug, name, count) in self.new().values('alert')\
+          .annotate(count=Count('alert')).values_list('alert__slug',\
+            'alert__name', 'count').order_by('alert__created'):
+            counts[slug] += count
+            names[slug] = name # Last is most recent
+        for slug in names.keys():
+            yield (slug, names[slug], counts[slug])
 
 
 class UserAlert(Model):

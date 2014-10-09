@@ -29,7 +29,7 @@ from .models import UserAlert
 class AlertList(CategoryListView):
     model = UserAlert
     opts = (
-      ('alert', 'slug'),
+      ('alerttype', 'alert__slug'),
       ('new', 'viewed__isnull'),
     )
 

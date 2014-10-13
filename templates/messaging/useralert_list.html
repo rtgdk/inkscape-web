@@ -12,14 +12,26 @@
 
   {% autopaginate object_list 15 as items %}
 
+<script>
+  function reply_message(msg_id) {
+    var f = document.getElementById('form-'+msg_id);
+    f.setAttribute('onsubmit','');
+    f.setAttribute('method','post');
+    document.getElementById('body-'+msg_id).setAttribute('style','');
+    return false;
+  }
+</script>
+
   {% for object in items %}
 
 <div class="comment" id="alert_{{ object.id }}">
   <div class="details">
-    {% if not object.viewed %}
-      <div class="status new">NEW!</div>
-    {% endif %}
-    <div class="title">{{ object.subject }}</div>
+    <div class="title">
+      {% if not object.viewed %}
+        <img src="{{ DESIGN_URL }}images/action-email.png" alt="New" title="New Message"/>
+      {% endif %}
+      {{ object.subject }}
+    </div>
     <div class="index">
       {% if not object.viewed %}
         <form class="runner" action="{% url "alert.view" object.pk %}">
@@ -31,6 +43,7 @@
         </form>
       {% endif %}
     </div>
+    <div class="index">{{ object.created|timetag }}</div>
   </div>
   {{ object.body }}
 </div>

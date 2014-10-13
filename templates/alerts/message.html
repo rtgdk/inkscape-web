@@ -1,3 +1,19 @@
 User Message||Messages from other users of Inkscape.org
 {{ message.subject }}
-{{ message.body }}
+{% load i18n %}
+ <form action="{% url "message.new" %}" method="get" onSubmit="return reply_message('{{ message.pk }}');" id="form-{{ message.pk }}">
+  {% csrf_token %}
+  <input type="hidden" name="reply_to" value="{{ message.pk }}"/>
+  <div class="body">
+    <div class="text"><p>{{ message.body }}</p></div>
+  </div>
+  <div class="body" style="display: none" id="body-{{ message.pk }}">
+    <textarea name="body"></textarea>
+  </div>
+  <div class="footer">
+   <div class="status">from {{ message.sender }}</div>
+   <div class="index">
+       <input type="submit" value="{% trans "Reply" %}"/>
+   </div>
+  </div>
+ </form>

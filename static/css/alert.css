@@ -32,19 +32,28 @@ h2 {
 .comment .details div,
 .comment .footer div {
   display: inline-block;
+  min-height: 24px;
 }
 .comment .status {
   border-right: 1px solid #ddd;
   padding: 3px 12px;
 }
-.comment .details .index {
+.comment .details .index,
+.comment .footer .index {
   float: right;
   border-left: 1px solid #ddd;
   padding-left: 8px;
-  margin: 4px 8px;
+  margin: 3px 8px;
 }
 .comment .details .title {
   padding: 4px 8px;
+}
+.comment .details .title > img {
+  vertical-align: middle;
+  margin-right: 4px;
+  animation: pulse 1s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
 }
 
 .comment .body {
@@ -83,9 +92,9 @@ h2 {
   text-align: left;
 }
 .comment .footer a {
-  margin-left: 1.5em;
   display: block;
   text-align: right;
+  color: #d55500;
 }
 
 .comment .text {
@@ -149,6 +158,10 @@ h2 {
 }
 .comment > form > input.new:hover {
   background-color: #79C510;
+}
+.comment textarea {
+  width: 95%;
+  min-height: 64px;
 }
 
 /* Bug Types */

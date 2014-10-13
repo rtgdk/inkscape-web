@@ -36,8 +36,8 @@ def created_alert(sender, instance, created=False, **kwargs):
      """Connect this method to the post_save signal and it will
         create an alert when the sender *creates* a new object."""
      if not created:
-         return
-     edited_alert(sender, instance, created, **kwargs)
+         return False
+     return edited_alert(sender, instance, created, **kwargs)
 
 def edited_alert(sender, instance, created=False, **kwargs):
      """Connect this method to the post_save signal and it will
@@ -54,6 +54,7 @@ def edited_alert(sender, instance, created=False, **kwargs):
          raise ValueError("Expected user object as recipient for alert. Found %s" % type(creator).__name__)
      alert_type = AlertType.objects.get_alert(slug, **config)
      alert_type.send_to(creator, **{slug: instance})
+     return True
 
 
 MSG_CAT = (
@@ -98,6 +99,10 @@ class AlertType(Model):
     
     category = CharField(_("Type Category"), max_length=1, choices=MSG_CAT, default='?')
     enabled  = BooleanField(default=False)
+
+    # Useful for email enable
+    #email_subject = CharField(_("Email Subject Template"), max_length=255)
+    #email_body    = TextField(_("Email Body Template"))
 
     # These get copied into UserAlertSettings for this alert
     default_hide  = BooleanField(default=False)
@@ -185,13 +190,23 @@ class UserAlertSetting(Model):
     hide    = BooleanField(_("Hide Alerts"), default=True)
     email   = BooleanField(_("Send Email Alert"), default=False)
     
+    objects = SettingsManager()
+
     def __str__(self):
         return "User Alert Setting"
 
 
 class UserAlertManager(Manager):
+    def __init__(self, target=None):
+        self.target = target
+        super(UserAlertManager, self).__init__()
+
     def get_query_set(self):
-        return Manager.get_query_set(self).filter(deleted__isnull=True)
+        queryset = super(UserAlertManager, self).get_query_set()
+        if self.target:
+            ct = UserAlertObject.target.get_content_type(obj=self.target)
+            queryset = queryset.filter(data__table=ct, data__o_id=self.target.pk)
+        return queryset.filter(deleted__isnull=True).order_by('-created')
 
     def new(self):
         return self.get_query_set().filter(viewed__isnull=True)
@@ -207,6 +222,9 @@ class UserAlertManager(Manager):
             names[slug] = name # Last is most recent
         for slug in names.keys():
             yield (slug, names[slug], counts[slug])
+
+    def mark_viewed(self):
+        return self.get_query_set().filter(viewed__isnull=True).update(viewed=now())
 
 
 class UserAlert(Model):
@@ -250,8 +268,10 @@ class UserAlert(Model):
         return render_directly( self.alert.body, self.data.as_dict() )
 
     def send_email(self):
-        # XXX Send email, todo!
-        pass
+        if self.user.email and self.config.email:
+            subject = render_directly( self.alert.email_subject, self.data.as_dict() )
+            body    = rendar_directly( self.alert.email_body, self.data.as_dict() )
+            return EmailMultiAlternatives(subject, body, None, self.user.email)
 
     def save(self, **kwargs):
         create = not bool(self.created)
@@ -281,8 +301,26 @@ class UserAlertObject(Model):
     objects = ObjectManager()
 
 
-# -------- Start Example App -------- #
+def get_my_alerts():
+    """Gives your alert using object a reverse_name to UserAlert Manager.
+         Basically a list of alerts for this object just like a normal ForeignKey.
 
+     class Thing(Model):
+          ...
+          alerts = get_my_alerts()
+
+     thing_instance.alerts.all()
+
+    """
+    def _inner(self):
+        manager = UserAlertManager(target=self)
+        manager.model = UserAlert # Weak init, not reverse attached
+        return manager
+    return property(_inner)
+
+
+
+# -------- Start Example App -------- #
 
 class Message(Model):
     """
@@ -296,6 +334,7 @@ class Message(Model):
     created   = DateTimeField(default=now)
 
     alert_user = 'recipient'
+    alerts = get_my_alerts()
 
     def get_root(self, children=None):
         """Returns the root message for the thread"""
@@ -310,6 +349,17 @@ class Message(Model):
     def __str__(self):
         return "Message from %s to %s @ %s" % (unicode(self.sender), unicode(self.recipient), str(self.created))
 
+import sys
+def created_message(sender, instance, **kwargs):
+    """Shows overloading of alert signal to process replies as read"""
+    if created_alert(sender, instance, **kwargs):
+        if instance.reply_to:
+            instance.reply_to.alerts.mark_viewed()
+        else:
+            sys.stderr.write("Not a Reply?\n")
+    else:
+        sys.stderr.write("Not Created?\n")
 
-signals.post_save.connect(created_alert, sender=Message, dispatch_uid="message")
+signals.post_save.connect(created_message, sender=Message, dispatch_uid="message")
+
 

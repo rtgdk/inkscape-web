@@ -1,0 +1,33 @@
+{% load i18n pile %}
+
+  <a class="project teaser well" href="{{ project.get_absolute_url }}">
+    {% if project.teaser_image %}
+    <img src="{{ project.teaser_image.path }}" />
+    {% endif %}
+
+    <h3>{{ project.translated.title }}</h3>
+
+    <div class="status">
+        {% if project.author %}
+        <label class="author">{% trans "Author" %}:</label>
+        <span class="author">{{ project.author }}</span>
+        {% endif %}
+
+        <label class="goal">{% trans "Goal" %}:</label>
+        <span class="goal">{{ project.goal_display }}</span>
+
+        <label class="remaining">{% trans "Remaining" %}:</label>
+        <span class="remaining">{{ project.end|timeuntil }}</span>
+    </div>
+
+    <div class="progress bar">
+        <div class="bar" style="width: {{ project.percent }}%"></div>
+        <div class="info">
+            <strong>{% trans "Achieved" %}:</strong>
+            {{ project.achieved_display }}
+        </div>
+    </div>
+
+    <p>{{ project.translated.teaser_text|truncatewords:54 }}</p>
+  </a>
+

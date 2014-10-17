@@ -269,8 +269,8 @@ class UserAlert(Model):
 
     def send_email(self):
         if self.user.email and self.config.email:
-            subject = render_directly( self.alert.email_subject, self.data.as_dict() )
-            body    = rendar_directly( self.alert.email_body, self.data.as_dict() )
+            subject = render_directly(self.alert.email_subject, self.data.as_dict())
+            body    = render_directly(self.alert.email_body, self.data.as_dict())
             return EmailMultiAlternatives(subject, body, None, self.user.email)
 
     def save(self, **kwargs):

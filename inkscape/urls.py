@@ -6,7 +6,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^admin/',     include(admin.site.urls)),
     url(r'^doc/',       include('inkscape.docs.urls')),
     url(r'^',           include('django.contrib.staticfiles.urls')),
     url(r'^',           include('user_sessions.urls', 'user_sessions')),
@@ -14,7 +13,9 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += i18n_patterns('',
+    url(r'^admin/',     include(admin.site.urls)),
     url(r'^inline/',    include('inkscape.inline_templates.urls')),
+    url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^person/',    include('inkscape.person.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
     url(r'^',           include('inkscape.resource.urls')),

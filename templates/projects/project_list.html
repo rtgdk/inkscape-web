@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+{% load i18n pagination_tags %}
+
+{% block css %}
+  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/projects.css"/>
+{% endblock %}
+
+{% block content %}
+  <h1>{% block title %}{% trans "Inkscape Projects" %}{% endblock %}</h1>
+
+  {% autopaginate object_list 22 as items %}
+
+  <div class="project-list">
+    <div class="item">
+        {% for project in items %}
+            {% include "projects/project_item.html"  %}
+        {% empty %}
+            {% trans "Sorry, no projects found" %}
+        {% endfor %}
+    </div>
+  </div>
+
+  {% paginate %}
+
+{% endblock %}
+

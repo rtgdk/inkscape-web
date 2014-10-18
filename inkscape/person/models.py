@@ -60,3 +60,19 @@ class UserRoll(Model):
     def __unicode__(self):
         return self.name
 
+# ===== CMS Plugins ===== #
+
+
+from cms.models import CMSPlugin
+
+class GroupPhotoPlugin(CMSPlugin):
+    STYLES = (
+      ('L', _('Simple List')),
+      ('P', _('Photo Heads')),
+      ('B', _('Photo Bios')),
+    )
+
+    source = ForeignKey(Group)
+    style  = CharField(_('Display Style'), max_length=1, choices=STYLES)
+
+

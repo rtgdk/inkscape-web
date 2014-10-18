@@ -31,7 +31,7 @@ from model_utils.managers import InheritanceManager
 from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
-from .utils import syntaxer, MimeType, upto, cached
+from .utils import syntaxer, MimeType, upto, cached, video_embed
 from inkscape.settings import DESIGN_URL
 
 null = dict(null=True, blank=True)
@@ -178,6 +178,14 @@ class Resource(Model):
     @property
     def is_new(self):
         return not self.category
+
+    @property
+    def is_video(self):
+        return bool(self.video)
+
+    @property
+    def video(self):
+        return video_embed(self.link)
 
     @property
     def next(self):

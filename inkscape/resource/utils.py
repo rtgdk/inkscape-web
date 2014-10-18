@@ -22,6 +22,7 @@ It converts all the weird and wacky mime types out there into more simple
 and segregated forms and provides a way to get icons for them.
 """
 
+import re
 import os
 import mimetypes
 
@@ -145,6 +146,21 @@ class MimeType(object):
 
     def banner(self):
         return self.icon('banner')
+
+
+YOUTUBE = (r'(https?://)?(www\.)?'
+   '(youtube|youtu|youtube-nocookie)\.(com|be/)'
+   '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
+VIMEO = r'(http:\/\/)?(www\.)?(vimeo\.com)(\/channels\/.+)?\/(.+)/?'
+
+def video_embed(url):
+    match = re.match(YOUTUBE, url)
+    if match:
+        return {'type':'youtube', 'id':match.group(6)}
+    match = re.match(VIMEO, url)
+    if match:
+        return {'type':'vimeo', 'id':match.group(5)}
+
 
 if __name__ == '__main__':
     # Test our coverage of intended conversions.

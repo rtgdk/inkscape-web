@@ -263,11 +263,13 @@ def view_resource(request, item_id):
     if not len(vote):
         vote = (None,)
 
-    return render_to_response('resource/view.html', {
+    c = {
       'item': item,
       'vote': vote[0],
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
-    }, context_instance=RequestContext(request))
+    }
+    return render_to_response('resource/view.html', c,
+               context_instance=RequestContext(request))
 
 
 @login_required

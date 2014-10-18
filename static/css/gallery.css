@@ -369,4 +369,8 @@ background-position:center -25px;
   font-size: 75%;
 }
 
+.video iframe {
+  width: 780px;
+  height: 540px;
+}
 

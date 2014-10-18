@@ -1,9 +1,5 @@
 {% load i18n pagination_tags %}
 
-{% if not user.resources.all %}
-  <p>If you would like to upload artwork to InkSpace, please head over to <a href="{% url "my_profile" %}">your user profile</a>.</p>
-{% endif %}
-
 <div id='errors'></div>
 
 <div id="gallery">

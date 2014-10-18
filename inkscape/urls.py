@@ -14,7 +14,6 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^admin/',     include(admin.site.urls)),
-    url(r'^inline/',    include('inkscape.inline_templates.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^person/',    include('inkscape.person.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),

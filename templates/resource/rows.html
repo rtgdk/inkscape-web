@@ -1,0 +1,23 @@
+{% load i18n pagination_tags %}
+
+<div id='errors'></div>
+
+{% autopaginate items limit as resources %}
+
+<div class="photos"/>
+  {% for item in resources %}
+    <table class="bioitem">
+      <tr>
+        <td class="img" rowspan="2"><a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a></td>
+        <td><p title="{{ item.name }}"><a href="{% url "resource" item.id %}">{{ item.name }}</a></p></td>
+      </tr>
+      <tr>
+        <td><p class="bio">{{ item.desc }}&nbsp;</p></td>
+      </tr>
+    </table>
+  {% endfor %}
+</div>
+
+{% paginate %}
+
+

@@ -355,29 +355,27 @@ User.quota = quota_for_user
 # ------------- CMS ------------ #
 
 from cms.models import CMSPlugin
-from inkscape.inline_templates.models import InlineTemplate
+
+DISPLAYS = (
+  ('list', _("Gallery List")),
+  ('rows', _("Gallery Rows")),
+)
 
 class GalleryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))
     source   = ForeignKey(Gallery)
-    template = ForeignKey(InlineTemplate, **null)
+    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
 
-    render_template = False
     @property
     def render_template(self):
-        if self.template:
-            return self.template.get_template()
-        return "resource/list.html"
+        return "resource/%s.html" % self.display or 'list'
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))
     source   = ForeignKey(Category)
-    template = ForeignKey(InlineTemplate, **null)
+    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
 
-    render_template = False
     @property
     def render_template(self):
-        if self.template:
-            return self.template.get_template()
-        return "resource/list.html"
+        return "resource/%s.html" % self.display or 'list'
 

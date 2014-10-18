@@ -1,7 +1,23 @@
+
+
+import os
 import sys
-from os.path import join, dirname
-from django.conf import settings
+import email
 import django
+import logging
+
+from django.conf import settings
+from os.path import join, dirname
+
+def get_versions(project_dir):
+    """return the bzr revision number and version of the project"""
+
+    version_file = os.path.join(project_dir, 'version')
+    if not os.path.exists(version_file):
+        return ("E?", "E?")
+
+    emai_msg = email.message_from_file(open(version_file))
+    return (emai_msg["version"], emai_msg["inkscape"])
 
 
 def bzr_revision():

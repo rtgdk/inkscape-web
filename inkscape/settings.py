@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from django.conf import global_settings
-from utils import *
+from versions import *
 import sys
 import os
 
@@ -62,7 +62,7 @@ except ImportError:
 
 sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
-(VERSION_STRING, INKSCAPE_VERSION) = get_bzr_version(PROJECT_PATH, DEBUG)
+(VERSION_STRING, INKSCAPE_VERSION) = get_versions(PROJECT_PATH)
 
 LOCALE_PATHS = os.path.join(PROJECT_PATH, 'locale'),
 
@@ -178,9 +178,10 @@ INSTALLED_APPS = (
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 CMS_TEMPLATES = (
-    ('normal.html', 'Normal Page'),
-    ('front.html', 'Front Page'),
-    ('super.html', 'Full Screen'),
+    ('cms/normal.html',   'Normal Page'),
+    ('cms/withside.html', 'Side Bar Page'),
+    ('cms/front.html',    'Front Page'),
+    ('cms/super.html',    'Full Screen'),
 )
 CMS_APPLICATIONS_URLS = (
     ('cmsplugin_news.urls', 'News'),

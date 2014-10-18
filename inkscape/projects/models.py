@@ -28,6 +28,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
 from pile.models import null
+from inkscape.fields import ResizedImageField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
@@ -45,9 +46,9 @@ class Project(Model):
     title  = CharField(_('Title'), max_length=100)
     slug   = SlugField(unique=True)
 
-    banner   = ResizedImageFieldFile(_("Banner Logo"), max_height=120, max_width=650,
+    banner   = ResizedImageField(_("Banner Logo"), max_height=120, max_width=650,
                           upload_to=os.path.join('project', 'banner'))
-    logo     = ResizedImageFieldFile(_("Banner Logo"), max_height=150, max_width=150,
+    logo     = ResizedImageField(_("Banner Logo"), max_height=150, max_width=150,
                           upload_to=os.path.join('project', 'logo'))
 
     duration = IntegerField(_('Expected Duration in Days'))
@@ -131,7 +132,7 @@ class ProjectUpdate(Model):
     """A project should always have at least one update with it's primary description"""
 
     describe = TextField(_("Description"))
-    image    = ImageField(_("Image"), height_field=400, width_field=400,
+    image    = ResizedImageField(_("Image"), max_height=400, max_width=400,
                      upload_to=os.path.join('project', 'update', '%Y'), **null)
 
     creator  = ForeignKey(User, default=get_user)

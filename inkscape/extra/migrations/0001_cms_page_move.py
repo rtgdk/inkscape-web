@@ -9,7 +9,8 @@ class Migration(DataMigration):
     def forwards(self, orm):
         """We've moved templates from / to /cms/"""
         for page in orm['cms.Page'].objects.all():
-            if page.template and page.template[:4] != 'cms/':
+            # We need to make sure not to replace variables like 'INHERIT'
+            if page.template and page.template[-5:] == '.html' and page.template[:4] != 'cms/':
                 page.template = 'cms/' + page.template
                 page.save()
 

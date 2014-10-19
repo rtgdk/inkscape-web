@@ -13,6 +13,7 @@ data/woosh_search
 data/media/cms_page_media
 data/media/photos
 data/media/resources
+data/media/project
 data/media/content.json.gz
 data/media
 data/backup

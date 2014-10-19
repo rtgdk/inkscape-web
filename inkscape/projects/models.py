@@ -21,6 +21,7 @@ from django.db.models import *
 
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
+from django.utils.text import slugify
 
 from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
@@ -46,9 +47,9 @@ class Project(Model):
     title  = CharField(_('Title'), max_length=100)
     slug   = SlugField(unique=True)
 
-    banner   = ResizedImageField(_("Banner Logo"), max_height=120, max_width=650,
+    banner   = ResizedImageField(_("Banner (120x650)"), max_height=120, max_width=650,
                           upload_to=os.path.join('project', 'banner'))
-    logo     = ResizedImageField(_("Banner Logo"), max_height=150, max_width=150,
+    logo     = ResizedImageField(_("Logo (150x150)"), max_height=150, max_width=150,
                           upload_to=os.path.join('project', 'logo'))
 
     duration = IntegerField(_('Expected Duration in Days'))
@@ -92,7 +93,7 @@ class Project(Model):
 
 class Worker(Model):
     """Acts as both a statement of assignment and application process"""
-    project  = ForeignKey(User, related_name='workers')
+    project  = ForeignKey(Project, related_name='workers')
     user     = ForeignKey(User, related_name='works')
 
     plan     = TextField(**null)
@@ -131,6 +132,7 @@ class Criteria(Model):
 class ProjectUpdate(Model):
     """A project should always have at least one update with it's primary description"""
 
+    project  = ForeignKey(Project, related_name='updates')
     describe = TextField(_("Description"))
     image    = ResizedImageField(_("Image"), max_height=400, max_width=400,
                      upload_to=os.path.join('project', 'update', '%Y'), **null)

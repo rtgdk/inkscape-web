@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n comments %}
+
 
 {% block "foot" %}This page designed by <a href="/">Jabiertxo Arraiza Cenoz</a>{% endblock %}
 
@@ -40,5 +41,43 @@
   {% endif %}
   {% block "description" %}{% endblock %}
  </div>
+ <div class="comments">
+   {% get_comment_count for item as comment_count %}
+   <p>{{ comment_count }} comments:</p>
+   {% get_comment_list for item as comment_list %}
+   {% for comment in comment_list %}
+     <div class="comment">
+       <div class="cpostedonby">On {{comment.submit_date}}, <a href="{% url 'view_profile' comment.user.username %}">{{comment.user}}</a> wrote:</div>
+       <div class="ctext">{{comment.comment}}</div>
+     </div>
+   {% endfor %}
+   
+   {% if user.is_authenticated %}
+     <div class="cform">
+	<div>Write a comment:</div>
+       {% get_comment_form for item as form %}
+       <form action="{% comment_form_target %}" method="POST">
+         {% csrf_token %}
+         {{ form.comment }}
+         <div style="display:none;">{{ form.honeypot }}</div>
+         {{ form.content_type }}
+         {{ form.object_pk }}
+         {{ form.timestamp }}
+         {{ form.security_hash }}
+         <input type="hidden" name="next" value="{% url 'resource' item.id %}" />
+         <input type="submit" value="Add comment" id="id_submit" />
+    </form>
+     </div>
+   {% else %}
+     <div>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment!</div>
+   {% endif %}
+ </div>
 {% endblock %}
+
+<!--Todo: error handling for form, css, taking out of here and putting into another template, 
+correct target for the form or correct urls.py, editing of other related templates, 
+handling of long comments ("Read more...", js?), pagination?, deleting/hiding of comments (staff, original commenter), 
+flagging for the comment (logged-in users?), i18n for the date (some filter?), translatable strings, 
+adapt for multiple/no/single comment, (js for more beauty), (more useful admin interface), 
+connect to messaging system, preferences for comments in messaging -->
 

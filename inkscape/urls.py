@@ -19,6 +19,7 @@ urlpatterns += i18n_patterns('',
     url(r'^alerts/',    include('inkscape.alerts.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
+    url(r'^comments/',  include('django_comments.urls')),
 )
 
 if settings.DEBUG:

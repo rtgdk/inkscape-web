@@ -1,0 +1,21 @@
+{% load i18n comments %}
+
+{% get_comment_form for item as form %}
+  <form action="{% comment_form_target %}" method="POST">
+    {% csrf_token %}
+    <div class="comment">
+      <div class="details">
+	<div class="title">{% trans "Add a New Comment:" %}</div>
+      </div>
+      <div class="body">
+        {{ form.comment }}
+        {{ form.honeypot }}
+        {{ form.content_type }}
+        {{ form.object_pk }}
+        {{ form.timestamp }}
+        {{ form.security_hash }}
+      <input type="hidden" name="next" value="{% url 'resource' item.id %}" />
+      </div>
+      <div class="footer"><input type="submit" value="Send" id="id_submit" /></div>
+    </div>   
+  </form>

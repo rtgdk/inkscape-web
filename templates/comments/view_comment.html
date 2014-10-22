@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n comments %}
+
+{% block content %}
+  <h1>Comment</h1>
+    <div class="comment">
+      <div class="details">
+        <div class="title">
+          <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
+          <div><a href="{% url 'view_profile' comment.user.username %}">{{comment.user}}</a> wrote on {{comment.submit_date}}:</div>
+        </div>
+        <div class="index"><a href=""> #{{ forloop.counter0|add:"1" }}</a></div>
+      </div>
+      <div class="body">
+        <div class="text"><p>{{comment.comment}}</p></div>
+      </div>
+    </div>
+{% endblock %}

@@ -42,6 +42,8 @@ h2 {
   border-left: 1px solid #ddd;
   padding-left: 8px;
   margin: 4px 8px;
+  vertical-align: middle;
+  line-height: 28px;
 }
 .comment .details .title {
   padding: 4px 8px;

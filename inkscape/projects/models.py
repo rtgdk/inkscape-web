@@ -112,13 +112,26 @@ class Worker(Model):
 class Deliverable(Model):
     """A single deliverable item"""
     project  = ForeignKey(Project, related_name='deliverables')
-    content  = CharField(_('Deliverable'), max_length=255)
+    name     = CharField(_('Deliverable'), max_length=255)
     sort     = IntegerField(default=0)
 
-    complete = BooleanField(default=False)
+    targeted = DateField(**null)
+    finished = DateField(**null)
     
     def __str__(self):
-        return self.content
+        return self.name
+
+
+class Task(Model):
+    """A task or sub-task of a deliverable stage"""
+    delive = ForeignKey(Deliverable, related_name='tasks')
+    name   = CharField(_('Task'), max_length=255)
+
+    targeted = DateField(**null)
+    finished = DateField(**null)
+    
+    def __str__(self):
+        return self.name
 
 
 class Criteria(Model):

@@ -8,14 +8,14 @@
 }
 .debugwarn a span {
   color: red !important;
-/*  animation: warning 1s;
+  animation: warning 1s;
   animation-direction: alternate;
   animation-iteration-count: infinite;
 }
 @keyframes warning {
     0% { opacity: 1.0 }
     90% { opacity: 1.0 }
-    100% { opacity: 0.0 }*/
+    100% { opacity: 0.0 }
 }
 
 /* generic content styles */

@@ -10,9 +10,9 @@
  {% if item.is_video %}
    <div class="image video">
     {% if item.video.type == "youtube" %}
-      <iframe src="http://www.youtube.com/embed/{{ item.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
+      <iframe src="https://www.youtube.com/embed/{{ item.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
     {% elif item.video.type == "vimeo" %}
-      <iframe id="videoPlayer" src="//player.vimeo.com/video/{{ item.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+      <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ item.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     {% endif %}
   </div>
  {% elif item.is_file %}

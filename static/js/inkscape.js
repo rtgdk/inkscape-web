@@ -13,13 +13,15 @@ function onOff(e) {
   var b = $("#shield #banners > div").get(e.index());
   $(b).toggleClass('current', e.hasClass('current'));
 }
+function selectBanner() {
+  if(currentTab) onOff(currentTab);
+  currentTab = $(this).parent();
+  onOff(currentTab);
+}
 function furnishTabs() {
   $("#shield > .tabs").children("li").each(function(){
-    $(this).children("a:first-child").click(function() {
-      if(currentTab) onOff(currentTab);
-      currentTab = $(this).parent();
-      onOff(currentTab);
-    });
+    $(this).children("a:first-child").mouseover(selectBanner);
+    $(this).children("a:first-child").click(selectBanner);
   });
   currentTab = $("#shield > .tabs li.current");
 }

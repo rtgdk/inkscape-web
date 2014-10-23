@@ -1,4 +1,8 @@
-{% load i18n comments %}
+{% load i18n comments sekizai_tags %}
+
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/comments.css" media="all" />
+{% endaddtoblock %}
 
 <div class="comments">
   {% include "comments/new_list.html" %}
@@ -16,5 +20,5 @@
 handling of long comments ("Read more...", js?), pagination?, deleting/hiding of comments (staff, original commenter), 
 flagging for the comment (logged-in users?), i18n for the date (some filter?), translatable strings, 
 adapt for multiple/no/single comment, (js for more beauty), (more useful admin interface), 
-connect to messaging system, preferences for comments in messaging -->
+connect to messaging system, preferences for comments in messaging, replace DESIGN_URL by STATIC_URL -->
 

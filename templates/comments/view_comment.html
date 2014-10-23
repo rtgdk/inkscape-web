@@ -1,5 +1,11 @@
 {% extends 'base.html' %}
-{% load i18n comments %}
+{% load i18n comments sekizai_tags %}
+
+{% block css %}
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/comments.css" media="all" />
+{% endaddtoblock %}
+{% endblock %}
 
 {% block content %}
   <h1>Comment</h1>
@@ -16,3 +22,5 @@
       </div>
     </div>
 {% endblock %}
+
+<!-- todo: replace DESIGN_URL with STATIC_URL -->

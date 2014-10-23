@@ -147,6 +147,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
+    'rosetta',
     'haystack',
     'reversion',
     'pile',

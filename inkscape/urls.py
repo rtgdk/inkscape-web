@@ -6,6 +6,7 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
+    url(r'^rosetta/',   include('rosetta.urls')),
     url(r'^doc/',       include('inkscape.docs.urls')),
     url(r'^',           include('django.contrib.staticfiles.urls')),
     url(r'^',           include('user_sessions.urls', 'user_sessions')),

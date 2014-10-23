@@ -66,7 +66,7 @@ jQuery.fn.getMaxHeight = function(){
 
 function menu(){
     var elementHeight=$("#menu").children("li:first-child").height();
-    $("#menu").css('margin-left',"10px");
+    $("#menu").css('margin-left',"50px");
     var containerHeight=$("#menu").height();
     var i = 0;
     var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";

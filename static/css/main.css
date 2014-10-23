@@ -6,21 +6,18 @@
   font-weight: normal;
   font-style: normal;
 }
-#debugwarn {
-  border: 3px solid red;
-  padding: 8px;
-  font-size: 10pt;
-  color: #922;
-  background-color: white;
-  position: fixed;
-  top: 38px;
-  left: 5px;
-  max-width: 130px;
-  z-index: 10000;
-  border-radius: 15px;
-  box-shadow: 4px 4px 5px #ee9999;
-  font-family: 'CallunaRegular', 'Liberation Sans', sans-serif;
+.debugwarn a span {
+  color: red !important;
+  animation: warning 1s;
+  animation-direction: alternate;
+  animation-iteration-count: infinite;
 }
+@keyframes warning {
+    0% { opacity: 1.0 }
+    90% { opacity: 1.0 }
+    100% { opacity: 0.0 }
+}
+
 /* generic content styles */
 body {
   width: 960px;
@@ -691,7 +688,6 @@ a.roundel img {
   background-color: white;
   background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100px);
   line-height: 140%;
-  margin-top: -70px;
 }
 #columns > .column {
   height: 100%;

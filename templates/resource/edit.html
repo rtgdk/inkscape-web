@@ -1,31 +1,18 @@
 {% extends 'resource/item.html' %}
 {% load i18n extras %}
 
-{% block css %}
-<style>
-  .image img {
-    max-width: 350px;
-    max-height: 150px;
-  }
-  .text {
-    overflow: hidden;
-    max-height: 200px;
-    border-bottom: 2px dashed #aaf;
-  }
-  .item .sideInfo {
-    min-height: 402px;
-  } 
-</style>
-{% endblock %}
-
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
-  <div id="errors">
-    {{ form.non_field_errors }}
-    {{ form.download.errors }}
+  {% if form.download %}
+  <div class="image upload">
+    <div id="upload">{{ form.download|placeholder:_("Paste your text here") }}</div>
+    {% if form.download.errors %}
+      <div class="errors">{{ form.download.errors }}</div>
+    {% endif %}
   </div>
+  {% endif %}
 
   <div class="sideInfo">
     {% for field in form.auto %}
@@ -35,7 +22,13 @@
   </div>
 
   <div class="desc">
-    <h2>{{ form.name|placeholder:_("Resource Name") }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
+    <h2>{{ form.name|placeholder:_("Resource Name") }}
+      {% if item %}
+        <span class="by">{% trans "by" %}
+          <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a>
+        </span>
+      {% endif %}
+    </h2>
     <p{% if form.desc.errors %} class="descerr"{% endif %}>{{ form.desc|placeholder:_("Description of your artwork or resource") }}</p>
   </div>
 
@@ -48,11 +41,13 @@
     {% endif %}
  </form>
 
-    <button id="moreInfo" class="start" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
 
-    {% with "delete_resource" as delurl %}
-      {% include "resource/delete_button.html" %}
-    {% endwith %}
+    <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+    {% if item %}
+      {% with "delete_resource" as delurl %}
+        {% include "resource/delete_button.html" %}
+      {% endwith %}
+    {% endif %}
 
   </div>
 {% endblock %}

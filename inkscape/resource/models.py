@@ -36,6 +36,9 @@ from inkscape.settings import STATIC_URL
 
 null = dict(null=True, blank=True)
 
+__all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'Gallery',
+           'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin')
+
 DOMAINS = {
   'inkscape.org': 'Inkscape Website',
   'launchpad.net': 'Launchpad',

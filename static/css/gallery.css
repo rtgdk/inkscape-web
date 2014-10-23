@@ -115,11 +115,10 @@ table.bioitem p a {
 }
 
 .item {
-  padding: 10px 20px 30px 20px;
+  padding: 10px 20px 0px;
   margin-top: 10px;
   margin-left:-20px;
   margin-right:-20px;
-  margin-bottom:-55px;
   color:#333;
 }
 
@@ -143,13 +142,13 @@ table.bioitem p a {
 .item .desc {
   padding: 10px 20px 4px 20px;
   background-color: #eee;
-  min-height: 300px;
+  min-height: 350px;
   margin-right: 235px;
   border-radius: 0px 0px 8px 8px;
 }
 .item .desc textarea {
   width: 100%;
-  height: 300px;
+  height: 260px;
 }
 .item .desc p.descerr textarea {
   border: 2px #d00 solid;
@@ -367,9 +366,55 @@ float:left;
   border-bottom: 1px dotted #eee;
   font-size: 75%;
 }
-
+.edit .image img {
+  max-width: 350px;
+  max-height: 150px;
+}
+.edit .text {
+  overflow: hidden;
+  max-height: 200px;
+  border-bottom: 2px dashed #aaf;
+}
+.item .sideInfo {
+  min-height: 350px;
+}
 .item .video iframe {
   width: 780px;
   height: 540px;
 }
-
+.item .upload {
+  border-radius: 0px;
+  background-image: none;
+  padding: 0px;
+}
+.item .padding {
+  padding: 5px;
+}
+#upload {
+  padding: 20px;
+  background-color: #ddd;
+  background-image: linear-gradient(to top, #2E2A2E 0%, #1E1E1E 35%);
+  border-bottom: 5px white solid;
+}
+#upload textarea {
+  width: 100%;
+  min-height: 350px;
+}
+#upload {
+  color: transparent;
+}
+#upload input {
+  color: white;
+}
+#upload a {
+  display: none;
+}
+.errors {
+  background-color: white;
+  border: 2px #800 solid;
+  padding: 4px;
+  color: #800;
+}
+#item-title {
+  display: none;
+}

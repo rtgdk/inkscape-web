@@ -28,7 +28,7 @@ from django.template import RequestContext
 from django.utils.timezone import now
 from django.contrib.auth.models import User
 
-from .models import Resource, ResourceFile, Gallery
+from .models import *
 from .forms import *
 
 def breadcrumbs(*args):
@@ -97,7 +97,7 @@ def paste_in(request):
         if c['form'].is_valid():
             return redirect('resource', c['form'].save().id)
 
-    return render_to_response('resource/create.html', c,
+    return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
 
 
@@ -141,7 +141,7 @@ def create_resource(request, gallery_id):
             item = c['form'].save()
             gallery.items.add(item)
             return redirect('resource', item.id)
-    return render_to_response('resource/create.html', c,
+    return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
 
 @login_required

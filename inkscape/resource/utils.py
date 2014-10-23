@@ -33,11 +33,11 @@ except ImportError:
     pygments = False
 
 from django.utils.safestring import mark_safe
-from inkscape.settings import DESIGN_URL, DESIGN_ROOT
+from inkscape.settings import STATIC_URL, STATIC_ROOT
 
 MIME_DIR = 'mime'
-MIME_URL = os.path.join(DESIGN_URL, MIME_DIR)
-MIME_ROOT = os.path.join(DESIGN_ROOT, MIME_DIR)
+MIME_URL = os.path.join(STATIC_URL, MIME_DIR)
+MIME_ROOT = os.path.join(STATIC_ROOT, MIME_DIR)
 
 ALL_TEXT_TYPES = dict( (mimes[0], name)
     for (name, alias, patterns, mimes) in lexers.get_all_lexers()

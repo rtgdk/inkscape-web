@@ -32,7 +32,7 @@ from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
 from .utils import syntaxer, MimeType, upto, cached, video_embed
-from inkscape.settings import DESIGN_URL
+from inkscape.settings import STATIC_URL
 
 null = dict(null=True, blank=True)
 
@@ -305,7 +305,7 @@ class Gallery(Model):
     def icon(self):
         if self.items.all().count():
             return self.items.all()[0].icon()
-        return os.path.join( DESIGN_URL,'images','folder.svg' )
+        return os.path.join( STATIC_URL,'images','folder.svg' )
 
     def __len__(self):
         return self.items.count()

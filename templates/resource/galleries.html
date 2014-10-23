@@ -4,7 +4,7 @@
 
 {% if user.resources.trash.count and me %}
   <div class="galleryitem">
-    <a class="link" href="{% url "trash" %}"><img src="{{ DESIGN_URL }}/images/deleted.svg" title="{% trans "Unowned Items" %}"/></a>
+    <a class="link" href="{% url "trash" %}"><img src="{{ STATIC_URL }}/images/deleted.svg" title="{% trans "Unowned Items" %}"/></a>
     <p><a href="{% url "trash" %}">{% trans "Trash" %}</a></p>
     <p class="label blank">{{ user.resources.trash.count }}</p>
   </div>
@@ -17,7 +17,7 @@
     <p class="label blank">{{ item.items.all.count }}</p>
   </div>
   <script>
-    registerDropZone('drop{{ item.id }}', 'added', '{% url "add_to_gallery" item.id %}', '{{ DESIGN_URL }}', false); 
+    registerDropZone('drop{{ item.id }}', 'added', '{% url "add_to_gallery" item.id %}', '{{ STATIC_URL }}', false); 
   </script>
 {% empty %}
 {% endfor %}
@@ -26,7 +26,7 @@
   <div class="galleryitem">
     <form method="POST" action="{% url "new_gallery" %}">
       {% csrf_token %}
-      <div class="link"><input type="image" src="{{ DESIGN_URL }}/images/add.svg" alt="{% trans "New InkSpace" %}"/></div>
+      <div class="link"><input type="image" src="{{ STATIC_URL }}/images/add.svg" alt="{% trans "New InkSpace" %}"/></div>
       <div class="input"><input name="name" value="" placeholder="{% trans "New InkSpace Name" %}"/></div>
     </form>
   </div>

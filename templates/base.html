@@ -6,45 +6,45 @@
     <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
     <meta charset="utf-8"/>
 
-    <link rel="shortcut icon" href="{{ DESIGN_URL }}images/inkscape-logo.png"/>
+    <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-logo.png"/>
     <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
     <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
-    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/main.css"/>
-    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/text.css"/>
-    <link rel="stylesheet"    type="text/css" href="{{ DESIGN_URL }}css/gallery.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
+    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
     {% render_block "css" %}
     {% block css %}{% endblock %}
     {% block extra-head %}{% endblock %}
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="{{ DESIGN_URL }}js/inkscape.js"></script>
-    <script type="text/javascript" src="{{ DESIGN_URL }}js/gallery.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% trans "Inkscape is professional quality vector graphics software which runs on Windows, Mac OS X and Linux. It is used by design professionals and hobbyists worldwide, for creating a wide variety of graphics such as illustrations, icons, logos, diagrams, maps and web graphics. Inkscape uses the W3C open standard SVG (Scalable Vector Graphics) as its native format, and is free and open-source software." %}" />
     <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
   </head>
 
-  <body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
+<body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
+  {% cms_toolbar %}
 
-      {% cms_toolbar %}
+  <div class="header">
+    <div id="cleartop">
+      <div id="logo">
+        <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.svg{% endblock %}"
+           width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
+        <h1><a href="/" tabindex="-1">Inkscape</a></h1>
+        <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
+      </div>
+      <div id="header-right">
+        <ul id="topdrops">
+          {% language_chooser "languages.html" %}
 
-    <div class="header">
-      <div id="cleartop">
-        <div id="logo">
-          <a href="/"><img src="{% block logo-url %}{{ DESIGN_URL }}images/inkscape-logo.svg{% endblock %}"
-               width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
-                    <h1><a href="/" tabindex="-1">Inkscape</a></h1>
-                    <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
-        </div>
-        <div id="header-right">
-          <ul id="topdrops">
-                        {% language_chooser "languages.html" %}
-            <li id="toplogin">
-                        {% if not request.user.is_authenticated %}
-            <p>{% trans "Log in / Register" %}</p>
+          <li id="toplogin">
+            {% if not request.user.is_authenticated %}
+              <p><a href="{% url "auth_login" %}">{% trans "Log in / Register" %}</a></p>
               <form class="topdrop" action="{% url "auth_login" %}" method="POST">
-                                {% csrf_token %}
+                {% csrf_token %}
                 <p>{% trans "Already a member? Log in below." %}</p>
                 <label for="toplogin-username">{% trans "Username" %}</label>
                 <input name="username" id="toplogin-username" type="text">
@@ -53,46 +53,47 @@
                 <input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
                 <p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
                 <p id="toplogin-alternate">
-                                  <span>{% trans "Or log in with" %}</span>
-                                  {% include "social_logins.html" %}
-                                </p>
+                  <span>{% trans "Or log in with" %}</span>
+                  {% include "social_logins.html" %}
+                </p>
               </form>
-                        {% else %}
-                        <p>
-                        <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
-                        <form  class="topdrop">
-                            <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
-                          {% if request.user.is_staff %}
-                            <p><a href="/admin/">{% trans "Admin" %}</a></p>
-                          {% endif %}
-                          <p><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
-                          <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
-                        </form>
-                        {% endif %}</li>
+            {% else %}
+              <p>
+                <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
+                <form  class="topdrop">
+                  <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                  {% if request.user.is_staff %}
+                    <p><a href="/admin/">{% trans "Admin" %}</a></p>
+                  {% endif %}
+                  <p><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
+                  <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
+                </form>
+              {% endif %}
+            </li>
 
-                        {% if request.user.alerts.all %} <!--If user has any read or new alerts-->
-                          <li id="topmessages">
-                           <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
-                           <div class="topdrop">
-                             {% for t in request.user.alerts.types %}
-                               <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
-                             {% endfor %}
-                             <p style="padding-top: 20px;"><a href="{% url "alerts" %}">All Messages ({{ request.user.alerts.all.count }})</a></p>
-                             <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
-                           </div>
-                         </li>
-                        {% endif %}
+            {% if request.user.alerts.all %} <!--If user has any read or new alerts-->
+              <li id="topmessages">
+                <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
+                <div class="topdrop">
+                  {% for t in request.user.alerts.types %}
+                    <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
+                  {% endfor %}
+                  <p style="padding-top: 20px;"><a href="{% url "alerts" %}">All Messages ({{ request.user.alerts.all.count }})</a></p>
+                  <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
+                </div>
+              </li>
+            {% endif %}
           </ul>
           <div id="social">
                         <p>{% trans "Follow us on:" %} </p>
             <nav id="socialnav">
-              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ DESIGN_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
+              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ STATIC_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
               <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
             </nav>
           </div>
             <form id="topsearch" method="get" action="{% url "search" %}">
-              <input type="text" name="q" id="topsearch-q" placeholder="{% trans "Search" %}">
-              <input type="image" id="topsearch-button" src="{{ DESIGN_URL }}images/search-button.svg" onerror="getPng(this);" alt="{% trans "Search" %}">
+              <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
+              <button alt="{% trans "Search" %}"><img src="{{ STATIC_URL }}images/search.svg"/></button>
             </form>
         </div>
       </div>
@@ -106,10 +107,10 @@
     {% endblock %}
     {% block footer %}
     <div class="footer">
-          <a href="https://code.launchpad.net/inkscape-web"><img src="{{ DESIGN_URL }}/images/django.svg" title="This site is running:
+          <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="This site is running:
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
-InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -10px; onerror="getPng(this);"/></a>
+InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px; onerror="getPng(this);"/></a>
       <div class="nav">
         {% block footer-nav %}
         <ul>

@@ -4,29 +4,29 @@
 {% block title %}{% trans "User Profile" %} | {{ user.name }}{% endblock %} 
 
 {% block css %}
-  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/profile.css" >
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
 {% endblock %}
 
 {% block supercontent %}
 
   <div id="profile" style="background-color: #1c1c1c; color: white;">
-    <img id="photo" src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
+    <img id="photo" src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
 
    <div class="socialicons">
      {% if user.is_staff %}
-       {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ DESIGN_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administration" %}"/></a>
+       {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administration" %}"/></a>
      {% endif %}
      {% if user.details.dauser %}
-       <a href="http://{{ user.details.dauser }}.deviantart.com/"><img src="{{ DESIGN_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
+       <a href="http://{{ user.details.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
      {% endif %}
      {% if user.details.ocuser %}
-       <a href="https://openclipart.org/user-detail/{{ user.details.ocuser }}"><img src="{{ DESIGN_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
+       <a href="https://openclipart.org/user-detail/{{ user.details.ocuser }}"><img src="{{ STATIC_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
      {% endif %}
      {% if user.details.tbruser %}
-       <a href="http://{{ user.details.tbruser }}.tumblr.com/"><img src="{{ DESIGN_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
+       <a href="http://{{ user.details.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
      {% endif %}
      {% if request.user and request.user != user %}
-       <a href="{% url "message.new" %}?recipient={{ user.pk }}"><img src="{{ DESIGN_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
+       <a href="{% url "message.new" %}?recipient={{ user.pk }}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
      {% endif %}
     </div>
 

@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% load i18n %}
 {% block alltitle %}{% trans "You broke it!" %}{% endblock %}
-{% block logo-url %}{{ DESIGN_URL }}images/linked-image-not-found.png{% endblock %}
+{% block logo-url %}{{ STATIC_URL }}images/linked-image-not-found.png{% endblock %}
 {% block body-pageid %}500{% endblock %}
 {% block content %}
 <h1>{% trans You were eaten by a Gru! %}</h1>

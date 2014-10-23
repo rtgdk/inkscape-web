@@ -1,74 +1,17 @@
 {% extends "base.html" %}
-{% load cms_tags %}
-{% load i18n %}
-
-{% block extra-head %}
-  <link href="{{ DESIGN_URL }}css/front.css" rel="stylesheet" type="text/css"/>
-		<script>
-			function addClass(n, c) {
-				if (!n.className) n.className = c;
-				else if ((" " + n.className + " ").indexOf(" " + c + " ") < 0) n.className += " " + c;
-			}
-			
-			function removeClass(n, c) {
-				n.className = (" " + n.className + " ").replace(" " + c + " ", " ").replace(/^\s\s*/, '').replace(/\s\s*$/, '');
-			}
-
-			function frontTabGo(e) {
-				removeClass(document.getElementById("front-banner-tab-" + frontTabGo.current).firstChild, 'current');
-				removeClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
-				frontTabGo.current = e.getAttribute('href').replace(/^#front-banner-/, '');
-				addClass(e, 'show');
-				addClass(e, 'current');
-				addClass(document.getElementById("front-banner-" + frontTabGo.current), 'current');
-				return false;
-			}
-			frontTabGo.current = "overview";
-		</script>
-{% endblock %}
+{% load i18n cms_tags %}
 
 {% block supercontent %}
-	<div id="front-banner-container">
-		<div id="front-banners">
-			<div id="front-banner-overview" class="front-banner current top right buttons-right one-day-in-farm">
-                {% placeholder banner_one %}
-			</div>
-
-			<div id="front-banner-features" class="front-banner top right buttons-right telescope">
-                {% placeholder banner_two %}
-			</div>
-
-			<div id="front-banner-gallery" class="front-banner top right buttons-right greenguy">
-                {% placeholder banner_three %}
-			</div>
-
-			<div id="front-banner-learning" class="front-banner top right buttons-right sunset">
-                {% placeholder banner_four %}
-			</div>
-		</div>
-
-		<ul id="front-banner-tabs">
-			<li id="front-banner-tab-overview"><a href="#front-banner-overview" class="current" onclick="return frontTabGo(this)"><strong>{% trans "Overview" %}</strong><span></span>
-				{% trans "What is Inkscape and how can you get it?" %}</a></li>
-			<li id="front-banner-tab-features"><a href="#front-banner-features" onclick="return frontTabGo(this)"><strong>{% trans "Features" %}</strong><span></span>
-				{% trans "Find out what Inkscape is capable of." %}</a></li>
-			<li id="front-banner-tab-gallery"><a href="#front-banner-gallery" onclick="return frontTabGo(this)"><strong>{% trans "Gallery" %}</strong><span></span>
-				{% trans "Showcase of creations from the Inkscape community." %}</a></li>
-			<li id="front-banner-tab-learning"><a href="#front-banner-learning" onclick="return frontTabGo(this)"><strong>{% trans "Learning Resources" %}</strong><span></span>
-				{% trans "Resources to help you get the most out of Inkscape." %}</a></li>
-		</ul>
-	</div>
-
-	<div id="content">
-		<div class="column1">
-            {% placeholder column_one %}
-		</div>
-		<div class="column2">
-            {% placeholder column_two %}
-		</div>
-		<div class="column3">
-            {% placeholder column_three %}
-		</div>
-		<br>
-	</div>
+  {% placeholder front_body %}
+  <div id="columns">
+    <div class="column">
+      {% placeholder column_one %}
+    </div>
+    <div class="column">
+      {% placeholder column_two %}
+    </div>
+    <div class="column">
+      {% placeholder column_three %}
+    </div>
+  </div>
 {% endblock %}

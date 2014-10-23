@@ -65,18 +65,16 @@ jQuery.fn.getMaxHeight = function(){
 }
 
 function menu(){
-    var elementHeight=0;
-    var containerHeight=1;
+    var elementHeight=$("#menu").children("li:first-child").height();
+    var containerHeight=$("#menu").height();
     var i = 0;
     var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
     while(containerHeight > elementHeight){
         $("#menu").children("li").each(function(){
-            if(i != 0){
-                var a = $(this).children("a:first-child");
-                a.css('font-size',onePixelLess);
-                a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
-                a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
-            }
+            var a = $(this).children("a:first-child");
+            a.css('font-size',onePixelLess);
+            a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
+            a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
             elementHeight = $(this).height();
         })
         i++;

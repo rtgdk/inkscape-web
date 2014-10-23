@@ -1,0 +1,29 @@
+{% load sekizai_tags %}
+
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
+
+<div id="shield">
+  <div id="banners">
+    {% for tab in tabs %}
+      <div {% if tab == tabs.0 %}class="current"{% endif %} style="background-image: url({{ tab.download.url }});">
+        <div>
+          {% if tab.banner_text %}
+            <p class="text">{{ tab.banner_text }}</p>
+          {% endif %}
+          {% if tab.btn_text %}
+            <a class="button" href="{{ tab.btn_link }}">{{ tab.btn_text }}{% if tab.btn_icon %}<img src="{{ STATIC_URL }}images/{{ tab.btn_icon }}.svg" />{% endif %}</a>
+          {% endif %}
+          {% if tab.banner_foot %}
+            <p class="foot">{{ tab.banner_foot }}</p>
+          {% endif %}
+        </div>
+        <p><a href="{{ tab.link }}" rel="author"><em>{{ tab.name }}</em> by {{ tab.user.name }}</a></p>
+      </div>
+    {% endfor %}
+  </div>
+  <ul class="tabs">
+    {% for tab in tabs %}
+      <li {% if tab == tabs.0 %}class="current"{% endif %}><a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong><img src="{{ tab.tab_cat.icon.url }}"/> {{ tab.tab_text }}</a></li>
+    {% endfor %}
+  </ul>
+</div>

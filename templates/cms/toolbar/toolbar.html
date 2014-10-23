@@ -9,10 +9,6 @@
 
 	{# start: toolbar #}
 	<div class="cms_toolbar">
-        {% if DEBUG %}
-        <div id="debugwarn"><strong>{% trans "WARNING!" %}</strong> {% trans "This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live." %} {% trans "Please visit" %} <a href="http://inkscape.org">{% trans "the live website" %}</a> {% trans "to make permanent changes to the website." %}
-        </div>
-        {% endif %}
 
 		<div class="cms_toolbar-left">
 			{% include "cms/toolbar/items/logo.html" %}
@@ -21,6 +17,9 @@
 			{% include "cms/toolbar/items/login.html" %}
 			{% else %}
 			<ul class="cms_toolbar-item cms_toolbar-item-navigation">
+				{% if DEBUG %}
+					<li class="debugwarn"><a href=""><span title="{% trans "This website is not the live website and should be used for testing. Anything you save will be replaced on the next sync from live. " %} {% trans "Please visit the live website to make permanent changes." %}">{% trans "NOT LIVE!" %}</span></a>
+				{% endif %}
 				{% for item in request.toolbar.get_left_items %}
 					{{ item.render }}
 				{% endfor %}

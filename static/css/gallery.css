@@ -180,7 +180,8 @@ float:left;
 }
 
 .item .buttonbar button,
-.item .buttonbar a
+.item .buttonbar a,
+.item .buttonbar input
 {
   cursor:pointer;
   z-index: 0;
@@ -199,22 +200,21 @@ float:left;
   display: inline-block;
   line-height: 25px;
 }
-.item .buttonbar button#like,
-.item .buttonbar button#dislike{
-background-image: url("../images/thumbs.svg");
-background-repeat:no-repeat;
-background-size: 20px 120px;
-width:40px;
+.item .buttonbar button#like {
+  background-image: url("../images/thumbs.svg");
+  background-repeat:no-repeat;
+  background-size: 20px 120px;
+  width:40px;
 }
 .item .buttonbar form button#like{
-background-position:center -61px;
+  background-position:center -61px;
 }
 .item .buttonbar form button#like:hover,
 .item .buttonbar button#like.active{
-background-position:center 4px ;
+  background-position:center 4px ;
 }
 .item .buttonbar form button#like.active:hover {
-background-position:center -25px;
+  background-position:center -25px;
 }
 .item .buttonbar .active{
   color:#D55500;
@@ -345,16 +345,16 @@ background-position:center -25px;
   left: -4px;
 }
 
-.text {
+.item .text {
   border: 2px solid #fff;
   line-height: 16px;
 }
-.text code {
+.item .text code {
   white-space: pre-wrap;
   color: black;
   font-size: 140%;
 }
-.text ol {
+.item .text ol {
   font-family: "Liberation Mono","Ubuntu Mono",mono;
   border: 1px dotted #eee;
   background: #fff;
@@ -362,14 +362,14 @@ background-position:center -25px;
   overflow: hidden;
   padding: 7px 0px 7px 3rem;
 }
-.text li {
+.item .text li {
   color: #aaa;
   background-color: white;
   border-bottom: 1px dotted #eee;
   font-size: 75%;
 }
 
-.video iframe {
+.item .video iframe {
   width: 780px;
   height: 540px;
 }

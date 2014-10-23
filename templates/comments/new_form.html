@@ -5,7 +5,7 @@
     {% csrf_token %}
     <div class="comment">
       <div class="details">
-	<div class="title">{% trans "Add a New Comment:" %}</div>
+	<div class="title">{% trans "Leave a comment:" %}</div>
       </div>
       <div class="body">
         {{ form.comment }}
@@ -16,6 +16,6 @@
         {{ form.security_hash }}
       <input type="hidden" name="next" value="{% url 'resource' item.id %}" />
       </div>
-      <div class="footer"><input type="submit" value="Send" id="id_submit" /></div>
+      <div class="footer"><div class="buttonbar"><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
     </div>   
   </form>

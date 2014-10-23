@@ -18,6 +18,7 @@ urlpatterns += i18n_patterns('',
     url(r'^person/',    include('inkscape.person.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
     url(r'^comments/',  include('django_comments.urls')),
+    url(r'^search/',    include('inkscape.search.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
 )
@@ -28,6 +29,6 @@ if settings.DEBUG:
     urlpatterns = patterns('django.views.static',
       # This urls will be covered over by apache
       (r'^admin/media/(?P<path>.*)$', 'serve', {'document_root': admin_root}),
-      (r'^design/(?P<path>.*)$', 'serve', {'document_root': settings.STATIC_ROOT}),
+      (r'^static/(?P<path>.*)$', 'serve', {'document_root': settings.STATIC_ROOT}),
       (r'^media/(?P<path>.*)$', 'serve', {'document_root': settings.MEDIA_ROOT}),
     ) + urlpatterns

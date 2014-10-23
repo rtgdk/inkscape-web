@@ -1,7 +1,7 @@
 {% load i18n comments sekizai_tags %}
 
 {% addtoblock "css" %}
-  <link rel="stylesheet" type="text/css" href="{{ DESIGN_URL }}css/comments.css" media="all" />
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
 {% endaddtoblock %}
 
 <div class="comments">
@@ -12,13 +12,18 @@
     {% include "comments/new_form.html" %}
     
   {% else %}
-    <div>Please <a href="{% url 'auth_login' %}">log in</a> to leave a comment!</div>
+    {% url 'auth_login' as login_url %}
+    {% blocktrans %}
+      <div>Please <a href="{{login_url}}">log in</a> to leave a comment!</div>
+    {% endblocktrans %}
   {% endif %}
 </div>
 
-<!--Todo: error handling for form, remove superfluous and tweak remaining css, editing of/redirecting to other related templates (esp. view_comment, view_thread, preview,...) 
-handling of long comments ("Read more...", js?), pagination?, deleting/hiding of comments (staff, original commenter), 
-flagging for the comment (logged-in users?), i18n for the date (some filter?), translatable strings, 
+<!--Todo: error handling for form, remove superfluous and tweak remaining css, editing of/redirecting to other related templates 
+(esp. view_comment, view_thread, preview,...) 
+handling of long comments ("Read more...", js?), pagination?, 
+deleting/hiding of comments (staff, original commenter), 
+flagging for the comment (logged-in users?),
 adapt for multiple/no/single comment, (js for more beauty), (more useful admin interface), 
-connect to messaging system, preferences for comments in messaging, replace DESIGN_URL by STATIC_URL -->
+connect to messaging system, preferences for comments in messaging -->
 

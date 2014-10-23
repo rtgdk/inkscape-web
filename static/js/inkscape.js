@@ -1,16 +1,34 @@
+/* Page loading processes */
+$(document).ready(function() {
+  if($("#menu"))menu();
+  if($('[class|="maxHeight"]')[0])maxHeight();
+  if($("#toplogin"))adjustBar();
+  if($("#shield .tabs"))furnishTabs();
+});
+
+/* Front page code for tabs */
+var currentTab = null;
+function onOff(e) {
+  e.toggleClass('current');
+  var b = $("#shield #banners > div").get(e.index());
+  $(b).toggleClass('current', e.hasClass('current'));
+}
+function furnishTabs() {
+  $("#shield > .tabs").children("li").each(function(){
+    $(this).children("a:first-child").click(function() {
+      if(currentTab) onOff(currentTab);
+      currentTab = $(this).parent();
+      onOff(currentTab);
+    });
+  });
+  currentTab = $("#shield > .tabs li.current");
+}
 
 function getPng(t) {
   if(t.src.slice(-3)=='svg') {
     t.src = t.src.slice(0,-3) + "png";
   }
 }
-
-/* Resize menu bar code (for translations) */
-$(document).ready(function() {
-      if($("#menu"))menu();
-      if($('[class|="maxHeight"]')[0])maxHeight();
-      if($("#toplogin"))adjustBar();
-});
 
 /* == PopUp implimentation == */
 function toggle(div_id) {
@@ -54,9 +72,10 @@ function menu(){
     while(containerHeight > elementHeight){
         $("#menu").children("li").each(function(){
             if(i != 0){
-                $(this).children("a:first-child").css('font-size',onePixelLess);
-                $(this).children("a:first-child").css('padding-left',parseInt($(this).children("a:first-child").css('padding-left'))-1 + "px");
-                $(this).children("a:first-child").css('padding-right',parseInt($(this).children("a:first-child").css('padding-right'))-1 + "px");
+                var a = $(this).children("a:first-child");
+                a.css('font-size',onePixelLess);
+                a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
+                a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
             }
             elementHeight = $(this).height();
         })

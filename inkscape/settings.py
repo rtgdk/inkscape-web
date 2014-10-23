@@ -83,14 +83,11 @@ MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
 MEDIA_URL = '/media/'
 
 # Place where media can be served from in development mode
-STATIC_ROOT = os.path.join(PROJECT_PATH, 'static')
+STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
+STATICFILES_DIRS = os.path.join(PROJECT_PATH, 'static'),
 
 # Place where static files can be seen online
 STATIC_URL = '/static/'
-
-# Out Static url was eaten by the CMS Gru
-DESIGN_ROOT = STATIC_ROOT
-DESIGN_URL = '/design/'
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -181,7 +178,7 @@ SESSION_ENGINE = 'user_sessions.backends.db'
 CMS_TEMPLATES = (
     ('cms/normal.html',   'Normal Page'),
     ('cms/withside.html', 'Side Bar Page'),
-    ('cms/front.html',    'Front Page'),
+    ('cms/front.html',    'Three Column Page'),
     ('cms/super.html',    'Full Screen'),
 )
 CMS_APPLICATIONS_URLS = (

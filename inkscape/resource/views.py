@@ -305,7 +305,7 @@ def down_resource(request, item_id, vt='d'):
     url = item.download.path
     if not settings.DEBUG:
         # Correct for nginx redirect
-        url =  '/download' + url[6:]
+        url =  '/get' + url[6:]
     return sendfile(request, url, attachment=True)
 
 

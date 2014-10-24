@@ -86,8 +86,8 @@ function menu(){
 
 function adjustBar(){
     var tw = parseInt( $("#toplogin").width() );
-    var fw = parseInt( $("#toplogin").children("form").width() );
-    $("#toplogin").children("form").css('margin-left', (tw-fw-20)+"px");
+    var fw = parseInt( $("#toplogin").children(".topdrop").width() );
+    $("#toplogin").children(".topdrop").css('margin-left', (tw-fw-20)+"px");
 }
 
 function maxHeight(){

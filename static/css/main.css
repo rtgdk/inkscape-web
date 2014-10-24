@@ -630,6 +630,16 @@ hr {
   width: 200px;
   padding: 0 0 20px 20px;
 }
+#right-sidebar th{
+  font-size:14px;
+  font-weight:normal;
+  text-align:right;
+  padding-left:4px;
+}
+#right-sidebar td{
+  font-size:14px;
+  font-weight:bold;
+}
 #right-sidebar ul {
   padding-left: 20px;
 }

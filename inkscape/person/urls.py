@@ -26,7 +26,7 @@ RG = RegistrationView.as_view(form_class=RegisForm)
 urlpatterns += patterns('',
     url(r'^activate/complete/$',                AC,           name='registration_activation_complete'),
     url(r'^activate/(?P<activation_key>\w+)/$', AV.as_view(), name='registration_activate'),
-    url(r'^register/$',                         RG,           name='registration_register'),
+    url(r'^register/$',                         RG,           name='auth_register'),
     url(r'^register/complete/$',                RC,           name='registration_complete'),
     url(r'^register/closed/$',                  RK,           name='registration_disallowed'),
     url(r'^register/',                          include('registration.auth_urls')),

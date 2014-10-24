@@ -1,14 +1,32 @@
 {% extends 'base.html' %}
-{% load i18n comments %}
+
+{% load i18n comments extras %}
 
 
 {% block "foot" %}This page designed by <a href="/">Jabiertxo Arraiza Cenoz</a>{% endblock %}
 
-{% block title %}{{ item.name }}{% endblock %}
-
 {% block content %}
- <div class="item">
- {% if item.is_video %}
+
+ {% if form and form.non_field_errors %}
+  <div class="errors">
+    {{ form.non_field_errors }}
+  </div>
+ {% endif %}
+
+  <h1 id='item-title'>
+   {% block title %}
+    {% if item %}
+      {% if form %}{% trans "Edit" %} | {% endif %}{{ item.name }}
+    {% elif paste %}
+     {% trans "New Paste" %}
+    {% else %}
+     {% trans "Upload New Resource" %}
+    {% endif %}
+   {% endblock %}
+  </h1>
+
+ <div class="item{% if form %} edit{% endif %}">
+ {% if not form and item.is_video %}
    <div class="image video">
     {% if item.video.type == "youtube" %}
       <iframe src="https://www.youtube.com/embed/{{ item.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
@@ -28,7 +46,7 @@
         <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}" alt="File Icon"></a>
       </div>
     {% endif %}
-  {% else %}
+  {% elif item %}
     <div class="image link">
       <a href="{{ item.link }}" title="External Link: {{ item }}">
       {% if item.thumbnail %}
@@ -38,7 +56,10 @@
       {% endif %}
       </a>
     </div>
+  {% elif form %}
+    <div class="image padding"></div>
   {% endif %}
+
   {% block "description" %}{% endblock %}
  </div>
 {% endblock %}

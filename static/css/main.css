@@ -29,6 +29,9 @@ body {
   font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
+#menu{
+  margin-left:50px;
+}
 :link, :visited {
   text-decoration: none;
   color: #d55500;
@@ -268,7 +271,7 @@ div.toc ul {
   background-repeat: no-repeat;
   display: inline-block;
   float: left;
-  margin-right: 6px;
+  margin-right: 8px;
   font-size: 0px;
 }
 .header #topdrops {
@@ -350,7 +353,8 @@ div.toc ul {
 }
 .header #topdrops p {
   cursor: default;
-  margin: 3px 0px 3px 0px;
+  margin: 1px 0px 3px 0px;
+  font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
 .header #topdrops > li:hover > p {
   padding-bottom: 14px;
@@ -361,6 +365,10 @@ div.toc ul {
   width: 220px;
   border-radius: 5px 0px 5px 5px;
   margin-left: -20px;
+}
+#toplogin-alternate {
+  display: inline-block;
+  padding: 10px 10px 0px;
 }
 #toplogin p {
   margin-top: 0;
@@ -378,15 +386,21 @@ div.toc ul {
   color: white;
   font-size: 90%;
 }
-#toplogin-submit {
+.topdrop p {
+  font-size: 15px !important;
+}
+.button {
   font-size: 14px;
   margin-top: 12px;
   width: 100px;
   padding: 3px;
   float: left;
 }
+.button:first-child {
+  float: right;
+}
 #toplogin-username, #toplogin-password {
-  width: 212px;
+  width: 208px;
   font-size: 14px;
   padding: 3px;
 }

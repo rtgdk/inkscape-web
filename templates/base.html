@@ -43,31 +43,35 @@
           <li id="toplogin">
             {% if not request.user.is_authenticated %}
               <p><a href="{% url "auth_login" %}">{% trans "Log in / Register" %}</a></p>
-              <form class="topdrop" action="{% url "auth_login" %}" method="POST">
-                {% csrf_token %}
-                <p>{% trans "Already a member? Log in below." %}</p>
-                <label for="toplogin-username">{% trans "Username" %}</label>
-                <input name="username" id="toplogin-username" type="text">
-                <label for="toplogin-password">{% trans "Password" %}</label>
-                <input name="password" id="toplogin-password" type="password">
-                <input id="toplogin-submit" type="submit" value="{% trans "Log in" %}">
-                <p id="toplogin-register">{% trans "Not a member?" %}<br><a href="/person/register/">{% trans "Register now." %}</a></p>
+              <div class="topdrop">
+                <form action="{% url "auth_login" %}" method="POST">
+                  {% csrf_token %}
+                  <label for="toplogin-username">{% trans "Username" %}</label>
+                  <input name="username" id="toplogin-username" type="text">
+                  <label for="toplogin-password">{% trans "Password" %}</label>
+                  <input name="password" id="toplogin-password" type="password">
+                  <input class="button" type="submit" value="{% trans "Log in" %}">
+                </form>
+                <form action="{% url "auth_register" %}" method="GET">
+                  <input class="button" type="submit" value="{% trans "Register Now" %}"/>
+                </form>
+                <!--<p id="toplogin-register">{% trans "Not a member?" %}<br/><a href="/person/register/">{% trans "Register now." %}</a></p>-->
                 <p id="toplogin-alternate">
-                  <span>{% trans "Or log in with" %}</span>
+                  <span>{% trans "Or log in using:" %}</span>
                   {% include "social_logins.html" %}
                 </p>
-              </form>
+              </div>
             {% else %}
               <p>
                 <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
-                <form  class="topdrop">
+                <div  class="topdrop">
                   <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
                   {% if request.user.is_staff %}
                     <p><a href="/admin/">{% trans "Admin" %}</a></p>
                   {% endif %}
                   <p><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
                   <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
-                </form>
+                </div>
               {% endif %}
             </li>
 

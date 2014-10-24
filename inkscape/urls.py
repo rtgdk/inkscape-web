@@ -24,3 +24,7 @@ urlpatterns += i18n_patterns('',
     url(r'^',           include('cms.urls')),
 )
 
+for e in ('403','404','500'):
+    locals()['handler'+e] = 'views.error'+e
+    urlpatterns += patterns('', url('^error/'+e+'/', 'views.error'+e, name='error'+e))
+

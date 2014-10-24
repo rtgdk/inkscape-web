@@ -1,14 +1,12 @@
-{% extends "base.html" %}
+{% extends "error/base.html" %}
 {% load i18n %}
-{% block alltitle %}{% trans "Not found" %} | Inkscape{% endblock %}
-{% block logo-url %}{{ STATIC_URL }}images/linked-image-not-found.png{% endblock %}
-{% block body-pageid %}404{% endblock %}
-{% block content %}
-{% blocktrans %}
-<h1>Page not found</h1>
-<p>Couldn't find what you were looking for. Sorry about that. In the future we might have a funny image here for you to look at but at the moment it's just boring.</p>
-<p>If you've followed a link from our site, or are using a link that used to work before we made this shiny new website, please tell us and we'll fix it up.</p>
-<p>If you don't know why you got here, maybe you'd like to <a href="/search">search</a> to see if you can find what you were looking for.</p>
-<p>Then again, there's always the possibility that you came here just to see what the 404 page looked like. I hope you're satisfied.</p>
-{% endblocktrans %}
+
+
+{% block "error-msg" %}
+  {% blocktrans %}
+    <p>Couldn't find what you were looking for.</p>
+    <p>If you don't know why you got here, maybe you'd like to <a href="/search/">search</a> to see if you can find what you were looking for.</p>
+    <hr/>
+    <p>If you've followed a link from our site, or are using a link that used to work before, please tell us <a href="https://bugs.launchpad.net/inkscape-web">here</a> and we'll fix it.</p>
+  {% endblocktrans %}
 {% endblock %}

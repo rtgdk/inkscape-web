@@ -1,0 +1,20 @@
+{% load i18n comments %}
+
+<div class="comment">
+  <div class="details">
+    <div class="title">
+      <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
+      <div>
+        {% url 'view_profile' comment.user.username as profile_url %}
+        {% blocktrans with comment.user as user_name and comment.submit_date as comment_date %}
+          <a href="{{profile_url}}">{{user_name}}</a> wrote on {{comment_date}}:
+        {% endblocktrans %}
+      </div>
+    </div>   
+    <div class="index"><a href=""> #{{ forloop.counter0|add:"1" }}</a></div>
+    <a title="Report this comment" class="flag" href="/comments/flag/{{ comment.id }}/"></a>
+  </div>
+  <div class="body">
+    <div class="text"><p>{{comment.comment}}</p></div>
+  </div>
+</div>

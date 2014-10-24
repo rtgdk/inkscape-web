@@ -8,9 +8,7 @@
   {% include "comments/new_list.html" %}
 
   {% if user.is_authenticated %}
-  
     {% include "comments/new_form.html" %}
-    
   {% else %}
     {% url 'auth_login' as login_url %}
     {% blocktrans %}

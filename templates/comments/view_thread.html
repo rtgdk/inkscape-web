@@ -15,23 +15,7 @@
   <p>{{ comment_count }} comments:</p>
   {% get_comment_list for item as comment_list %}
   {% for comment in comment_list %}
-    <div class="comment">
-      <div class="details">
-        <div class="title">
-          <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
-           <div>
-            {% url 'view_profile' comment.user.username as profile_url %}
-            {% blocktrans with comment.user as user_name and comment.submit_date as comment_date %}
-              <a href="{{profile_url}}">{{user_name}}</a> wrote on {{comment_date}}:
-            {% endblocktrans %}
-          </div>
-        </div>
-        <div class="index"><a href=""> #{{ forloop.counter0|add:"1" }}</a></div>
-      </div>
-      <div class="body">
-        <div class="text"><p>{{comment.comment}}</p></div>
-      </div>
-    </div>
+    {% include "comments/single_comment.html" %}
   {% endfor %}
 {% endblock %}
 

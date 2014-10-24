@@ -37,9 +37,9 @@
   {% if item.is_file %}
   <div class="buttonbar">
     {% if item.link %}
-      <a href="{{ item.link }}" id="moreInfo" class="start">{% trans "External Link" %}</a>
+      <a href="{{ item.link }}" id="moreInfo" class="start{% if request.user.id == item.user.id %} end{% endif %}">{% trans "External Link" %}</a>
     {% endif %}
-    {% if request.user.id %}
+    {% if request.user.id and request.user != item.user %}
       {% if not vote.vote %}
         <form action="{% url "like" item.id "+" %}">
           <button id="like" class="end {% if not item.link %}start{% endif %}" >&nbsp;</button>

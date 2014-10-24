@@ -343,6 +343,39 @@ float:left;
   float: right;
   left: -4px;
 }
+.pagination .page {
+  display: inline-block;
+  font-size: 22px;
+  padding: 1px 2px;
+  vertical-align: middle;
+  border-width:1px;
+  border-color:#ddd;
+  border-style:solid;
+}
+.pagination a.page:hover {
+  text-decoration:none;
+  background-color:#F4F1E5;
+  border-color:#FD941D;
+}
+.pagination .prev {
+  display: inline-block;
+  padding: 0px 6px;
+  vertical-align: middle;
+}
+.pagination .next {
+  display: inline-block;
+  padding: 0px 6px;
+  vertical-align: middle;
+}
+
+.pagination .disabled {
+     color: #999;
+}
+.pagination .current{
+  border-width:1px;
+  border-color:#ddd;
+  border-style:solid;
+}
 
 .item .text {
   border: 2px solid #fff;

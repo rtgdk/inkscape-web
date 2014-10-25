@@ -7,7 +7,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^rosetta/',   include('rosetta.urls')),
     url(r'^doc/',       include('inkscape.docs.urls')),
     url(r'^',           include('user_sessions.urls', 'user_sessions')),
     url(r'^',           include('social_auth.urls')),
@@ -16,6 +15,7 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^admin/',     include(admin.site.urls)),
+    url(r'^rosetta/',   include('rosetta.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^person/',    include('inkscape.person.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),

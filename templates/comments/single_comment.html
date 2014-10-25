@@ -3,7 +3,7 @@
 <div class="comment">
   <div class="details">
     <div class="title">
-      <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
+      <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
       <div>
         {% url 'view_profile' comment.user.username as profile_url %}
         {% blocktrans with comment.user as user_name and comment.submit_date as comment_date %}

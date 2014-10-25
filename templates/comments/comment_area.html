@@ -8,7 +8,14 @@
   {% include "comments/new_list.html" %}
 
   {% if user.is_authenticated %}
-    {% include "comments/new_form.html" %}
+    {% if user.email %}
+      {% include "comments/new_form.html" %}
+    {% else %}
+      {% url 'edit_profile' as profile_url %}
+      {% blocktrans %}
+        <div>Please <a href="{{profile_url}}">add an email address to your profile</a> to leave a comment!</div>
+      {% endblocktrans %}
+    {% endif %}
   {% else %}
     {% url 'auth_login' as login_url %}
     {% blocktrans %}

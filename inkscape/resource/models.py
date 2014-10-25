@@ -324,11 +324,15 @@ class VoteManager(Manager):
     def for_user(self, user):
         return self.get_query_set().filter(Q(voter=user.id))
 
+    def items(self):
+        f = dict( ('votes__'+a,b) for (a,b) in self.core_filters.items() )
+        return Resource.objects.filter(**f)
+
 
 class Vote(Model):
     """Vote for a resource in some way"""
     resource = ForeignKey(Resource, related_name='votes')
-    voter    = ForeignKey(User, related_name='votes')
+    voter    = ForeignKey(User, related_name='favorites')
     vote     = BooleanField(_('Vote'), default=True)
 
     objects = VoteManager()

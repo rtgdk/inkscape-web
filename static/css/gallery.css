@@ -237,13 +237,14 @@ float:left;
 .item .buttonbar .unique:hover{
   box-shadow: 0px 0px 3px 3px rgba(255, 128, 0, .35); 
 }
-.item .sideInfo{
-  padding: 15px 0px 0px 5px;
+.item .sideInfo {
+  padding: 5px 0px 15px 0px;
   background-color: #eee;
   overflow:hidden;
-  min-height: 300px;
+  min-height: 345px;
   float: right;
   border-radius: 0px 0px 8px 8px;
+  text-align:center;
 }
 .item .sideInfo .link {
   display: block;
@@ -255,14 +256,13 @@ float:left;
 
 .item .sideInfo h1 {
   background-color: #ddd;
-  border-radius: 8px 0px 0px 8px;
   padding: 8px 12px 4px;
   margin-top: 4px;
-  font-size:22px !important;
+  font-size:18px !important;
   font-weight: bold;
   line-height:22px;
   text-align: center;
-  width:200px;
+  width:205px;
   white-space:wrap;
   text-align:left;
 }
@@ -295,6 +295,7 @@ float:left;
 
 .item .license{
     margin-left:8px;
+    float:left;
 }
 
 .empty a.link > img {
@@ -376,9 +377,6 @@ float:left;
   max-height: 200px;
   border-bottom: 2px dashed #aaf;
 }
-.item .sideInfo {
-  min-height: 350px;
-}
 .item .video iframe {
   width: 780px;
   height: 540px;
@@ -392,9 +390,8 @@ float:left;
   padding: 5px;
 }
 #upload {
-  padding: 20px;
-  background-color: #ddd;
-  background-image: linear-gradient(to top, #2E2A2E 0%, #1E1E1E 35%);
+  padding: 10px;
+  background-color: #333;
   border-bottom: 5px white solid;
 }
 #upload textarea {

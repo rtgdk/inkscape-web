@@ -6,6 +6,12 @@
   font-weight: normal;
   font-style: normal;
 }
+@font-face {
+  font-family: 'Ubuntu';
+  font-style: normal;
+  font-weight: 400;
+  src: local('Ubuntu'), url(../fonts/ubuntu.woff) format('woff');
+}
 .debugwarn a span {
   color: red !important;
   animation: warning 1s;
@@ -389,14 +395,14 @@ div.toc ul {
 .topdrop p {
   font-size: 15px !important;
 }
-.button {
+.topdrop .button {
   font-size: 14px;
   margin-top: 12px;
   width: 100px;
   padding: 3px;
   float: left;
 }
-.button:first-child {
+.topdrop .button:first-child {
   float: right;
 }
 #toplogin-username, #toplogin-password {
@@ -618,12 +624,21 @@ hr {
   background-color: #d2d2d2;
   border: 0;
   height: 1px;
-  width: 100%;
 }
 #right-sidebar {
   float: right;
   width: 200px;
   padding: 0 0 20px 20px;
+}
+#right-sidebar th{
+  font-size:14px;
+  font-weight:normal;
+  text-align:right;
+  padding-left:4px;
+}
+#right-sidebar td{
+  font-size:14px;
+  font-weight:bold;
 }
 #right-sidebar ul {
   padding-left: 20px;

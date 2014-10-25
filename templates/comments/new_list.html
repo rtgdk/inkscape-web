@@ -3,7 +3,9 @@
 <div>   
   {% get_comment_list for comment_subject as comment_list %}
   {% for comment in comment_list %}
-    {% include "comments/single_comment.html" %}
+    {% with forloop.counter0|add:1 as comment_counter %}
+      {% include "comments/single_comment.html" %}
+    {% endwith %}
   {% endfor %}
 </div>
 

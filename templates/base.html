@@ -8,15 +8,17 @@
 
     <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-logo.png"/>
     <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
-    <link rel="stylesheet"    type="text/css" href="http://fonts.googleapis.com/css?family=Ubuntu"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
+
     {% render_block "css" %}
+    {% render_block "js" %}
+
     {% block css %}{% endblock %}
     {% block extra-head %}{% endblock %}
 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
 
@@ -132,7 +134,6 @@ InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px; one
     </div>
         <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
     {% endblock %}
-      {% render_block "js" %}
   </body>
 </html>
 

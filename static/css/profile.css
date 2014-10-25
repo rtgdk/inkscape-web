@@ -39,6 +39,7 @@
 #profile #bio {
   width: 100%;
   margin: 0px;
+  line-height:130%;
 }
 
 #profile #photo {
@@ -64,8 +65,8 @@
   background-color: #DEDEDE;
   color: #000;
   margin-bottom: 10px;
-  border-radius: 10px;
-  padding: 5px 7px;
+  border-radius: 5px;
+  padding: 6px 8px;
   vertical-align: middle;
   position: relative;
 }
@@ -73,7 +74,7 @@
   background-color: #D55500;
 }
 #profile #edit:hover {
-  box-shadow: 0px 0px 2px 2px #fff;
+  box-shadow: 0px 0px 2px 2px #aaa;
   z-index: 1;
 }
 #profile #edit a {
@@ -88,7 +89,8 @@
   font-size: 16pt;
   text-align: center;
   background-color: #eee;
-  border-radius: 8px;
+  border-radius: 4px;
+  margin-top:10px;
 }
 .profileside h1 a {
   color: black;

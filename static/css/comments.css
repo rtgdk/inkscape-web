@@ -48,6 +48,30 @@ h2 {
   vertical-align: middle;
 }
 
+.comment .footer .buttonbar #cochint {
+  font-size: smaller;
+  vertical-align: middle;
+  float: none;
+  padding: 4px 8px;
+}
+
+.comment .footer .buttonbar #cochint a,
+.comment .footer .buttonbar #cochint a:hover {
+  display: inline;
+  border: none;
+  padding: 0;
+  box-shadow: none;
+  float: none;
+  margin: 0;
+  color: #d55500;
+  background-color: inherit;
+  font-size: inherit;
+}
+
+.comment .footer .buttonbar #cochint a:hover {
+  text-decoration: underline;
+}
+
 .comment .status {
   border-right: 1px solid #ddd;
   padding: 3px 12px;

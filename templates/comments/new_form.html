@@ -1,6 +1,6 @@
 {% load i18n comments %}
 
-{% get_comment_form for item as form %}
+{% get_comment_form for comment_subject as form %}
 
 <form action="{% comment_form_target %}" method="POST">
   {% csrf_token %}
@@ -15,8 +15,10 @@
       {{ form.object_pk }}
       {{ form.timestamp }}
       {{ form.security_hash }}
-    <input type="hidden" name="next" value="{% url 'resource' item.id %}" />
+    <input type="hidden" name="next" value="{% url 'resource' comment_subject.id %}" />
     </div>
-    <div class="footer"><div class="buttonbar"><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
+    <div class="footer"><div class="buttonbar"><div id="cochint">{% blocktrans %}Please read Inkscape's <a href="">Code of Conduct</a> before posting.{% endblocktrans %}</div><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
   </div>   
 </form>
+
+<!-- todo: insert Code of Conduct url -->

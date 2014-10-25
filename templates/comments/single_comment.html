@@ -1,4 +1,4 @@
-{% load i18n comments %}
+{% load i18n comments pile %}
 
 <div class="comment">
   <div class="details">
@@ -11,10 +11,12 @@
         {% endblocktrans %}
       </div>
     </div>   
-    <div class="index"><a href=""> #{{ forloop.counter0|add:"1" }}</a></div>
+    <div class="index"><a href=""> #{{ forloop.counter0|add:1 }}</a></div>
     <a title="Report this comment" class="flag" href="/comments/flag/{{ comment.id }}/"></a>
   </div>
   <div class="body">
     <div class="text"><p>{{comment.comment}}</p></div>
   </div>
 </div>
+
+<!--needs |timetag for the date, but this kills the grammar (wrote [date ago] / wrote on [date]?)-->

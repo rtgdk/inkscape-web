@@ -75,7 +75,9 @@
     {% endif %}
   </div>
   {% endif %}
-
-  {% include "comments/comment_area.html" %}
+ 
+  {% with item as comment_subject %}
+     {% include "comments/comment_area.html" %}
+  {% endwith %}
   
 {% endblock %}

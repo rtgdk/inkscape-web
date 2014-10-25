@@ -1,20 +1,7 @@
 {% load i18n comments %}
 
-<div>
-  {% get_comment_count for item as comment_count %}
-    
-  <p>   
-    {% if comment_count == 0 %}
-      {% trans "No comments yet." %}
-    {% else %}
-      {% blocktrans count counter=comment_count %}
-        There is one comment:
-      {% plural %}
-        There are {{ counter }} comments:
-      {% endblocktrans %}
-    {% endif %}
-  </p>
-  {% get_comment_list for item as comment_list %}
+<div>   
+  {% get_comment_list for comment_subject as comment_list %}
   {% for comment in comment_list %}
     {% include "comments/single_comment.html" %}
   {% endfor %}

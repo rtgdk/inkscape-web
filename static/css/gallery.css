@@ -143,10 +143,11 @@ table.bioitem p a {
   background-color: #fff;
   border-radius: 0px 0px 0px 8px;
   border: 1px #ddd solid;
+  width: 100%;
 }
 .item .desc > div {
   padding: 10px 20px;
-  min-height: 350px;
+  min-height: 200px;
 }
 .item .desc textarea {
   width: 100%;

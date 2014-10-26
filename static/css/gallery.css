@@ -139,35 +139,36 @@ table.bioitem p a {
   border-radius: 4px;
 }
 
-.item .desc {
+.item .info {
   background-color: #fff;
-  border-radius: 0px 0px 0px 8px;
+  border-radius: 0px 0px 8px 8px;
   border: 1px #ddd solid;
+}
+.item .desc {
   width: 100%;
 }
-.item .desc > div {
-  padding: 10px 20px;
+.item .info > div {
+  padding: 6px 20px;
   min-height: 200px;
 }
-.item .desc textarea {
+.item .info textarea {
   width: 100%;
   height: 260px;
 }
-.item .desc p.descerr textarea {
+.item .info p.infoerr textarea {
   border: 2px #d00 solid;
 }
-.item div.desc,
-.item div.sideInfo {
+.item div.info > div {
   display: table-cell;
 }
 
 .item h2 {
   font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
+  font-size: 17pt;
   background-color: #eee;
-  border-width: 1px 0px;
-  border-color: #ddd;
-  border-style: solid;
-  padding: 10px 20px;
+  border-width: 1px #ddd solid;
+  margin: 0px;
+  padding: 16px 20px 10px;
   color:#333333;
 }
 .item h2 span.by {
@@ -176,15 +177,13 @@ table.bioitem p a {
   white-space: nowrap;
 }
 
-.item .sideInfo {
-  padding: 5px 0px 15px 0px;
-  background-color: #fff;
+.item .side {
+  padding: 0px 0px 15px 0px;
   overflow:hidden;
-  border-radius: 0px 0px 8px 0px;
   text-align:center;
-  border-left: 12px white solid;
+  border-left: 1px #ddd solid;
 }
-.item .sideInfo .link {
+.item .side .link {
   display: block;
   position: relative;
   top: -44px;
@@ -192,23 +191,23 @@ table.bioitem p a {
   height: 0px;
 }
 
-.item .sideInfo h2 {
+.item .side h2 {
   font-size:18px !important;
   font-weight: bold;
-  padding: 8px 12px 4px;
+  padding: 6px 6px 4px;
   width:205px;
   white-space:wrap;
   line-height:22px;
-  border-width: 1px;
+  border: 1px #ddd solid;
 }
-.item .sideInfo h1.error {
+.item .side h1.error {
   background-color: #e66;
 }
-.item .sideInfo input,
-.item .sideInfo select {
+.item .side input,
+.item .side select {
   width: 217px;
 }
-.item .sideInfo dl{
+.item .side dl{
   font-size:15px;
   line-height:17px;
   width:100%;
@@ -216,11 +215,11 @@ table.bioitem p a {
   padding:8px 12px;
   margin:0px 0px 7px 0px;
 }
-.item .sideInfo dd{
+.item .side dd{
   float:left;
   margin:0px;
 }
-.item .sideInfo dt{
+.item .side dt{
   padding:0px;
   clear:left;
   float:left;
@@ -346,3 +345,19 @@ table.bioitem p a {
 #item-title {
   display: none;
 }
+
+.info button {
+  border: 1px #ddd solid;
+  background-color: #eee;
+  padding: 3px;
+  width: 100%;
+  margin-top: 3px;
+  cursor: pointer;
+}
+.info button:hover {
+  background-color: #fff;
+}
+.license img {
+  padding: 8px;
+}
+

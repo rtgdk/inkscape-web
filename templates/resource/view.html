@@ -2,33 +2,32 @@
 {% load i18n pile %}
 
 {% block "description" %}
-<div>
-  <div class="desc">
+  <div class="info">
     <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
-    <div>{{ item.desc|linebreaks }}</div>
-  </div>
+    <div class="desc">{{ item.desc|linebreaks }}</div>
 
- <div class="sideInfo">
-   <h2>{% if item.category %}{{ item.category }}{% else %}Unpublished{% endif %}</h2>
+    <div class="side">
+      <h2>{% if item.category %}{{ item.category }}{% else %}Unpublished{% endif %}</h2>
     
-   {% if not item.is_file %}
-     <a class="link" href="{{ item.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="Link" title="Follow Link (external site)"/></a>
-   {% endif %}
-   <dl>
-     {% if item.is_file %}    
-       {% if item.mime.is_image %}
-         <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
-       {% endif %}
-       {% if not item.mime.is_image or not item.license.nd %}
-         <dt>{% trans "Downloads" %}</dt><dd>{{ item.downed }}</dd>
-       {% endif %}
-       <dt>{% trans "Liked" %}</dt><dd>{{ item.votes.likes.count }}</dd>
-       <dt>{% trans "Size" %}</dt><dd>{{ item.download.size|filesizeformat }}</dd>
-     {% else %}
-       <dt>{% trans "Linked From" %}</dt><dd>{{ item.link_from }}</dd>
-     {% endif %}
-     <dt>{% trans "Created" %}</dt><dd>{{ item.created|timetag }}</dd>
-   </dl>
+      {% if not item.is_file %}
+        <a class="link" href="{{ item.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="Link" title="Follow Link (external site)"/></a>
+      {% endif %}
+      <dl>
+        {% if item.is_file %}    
+          {% if item.mime.is_image %}
+            <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
+          {% endif %}
+          {% if not item.mime.is_image or not item.license.nd %}
+            <dt>{% trans "Downloads" %}</dt><dd>{{ item.downed }}</dd>
+          {% endif %}
+          <dt>{% trans "Liked" %}</dt><dd>{{ item.votes.likes.count }}</dd>
+          <dt>{% trans "Size" %}</dt><dd>{{ item.download.size|filesizeformat }}</dd>
+        {% else %}
+          <dt>{% trans "Linked From" %}</dt><dd>{{ item.link_from }}</dd>
+        {% endif %}
+        <dt>{% trans "Created" %}</dt><dd>{{ item.created|timetag }}</dd>
+        <dt>{% trans "Type" %}</dt><dd>{{ item.media_type }}</dd>
+      </dl>
 
    {% if item.license %}
      <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
@@ -36,9 +35,10 @@
    {% endif %}
 
   {% if item.is_file %}
-  <div class="buttonbar">
-    {% if item.link %}
-      <a href="{{ item.link }}" id="moreInfo" class="start{% if request.user.id == item.user.id %} end{% endif %}">{% trans "External Link" %}</a>
+    {% if item.link and not item.is_video %}
+        <form action="{{ item.link }}">
+          <button id="link">Link</button>
+        </form>
     {% endif %}
     {% if request.user.id and request.user != item.user %}
       {% if not vote.vote %}
@@ -74,11 +74,10 @@
       {% include "resource/delete_button.html" %}
      {% endwith %}
     {% endif %}
-  </div>
   {% endif %}
 
+    </div>
  </div>   
-</div>
 
  
   {% with item as comment_subject %}

@@ -161,6 +161,10 @@ table.bioitem p a {
 .item div.info > div {
   display: table-cell;
 }
+.item div.info h2 input {
+  width: 100%;
+  font-size: 14pt;
+}
 
 .item h2 {
   font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
@@ -182,6 +186,7 @@ table.bioitem p a {
   overflow:hidden;
   text-align:center;
   border-left: 1px #ddd solid;
+  vertical-align: top;
 }
 .item .side .link {
   display: block;

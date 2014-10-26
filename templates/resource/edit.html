@@ -14,14 +14,7 @@
   </div>
   {% endif %}
 
-  <div class="sideInfo">
-    {% for field in form.auto %}
-      <h1 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}{% if field.field.required %} *{% endif %}</h1>
-      {{ field }}
-    {% endfor %}
-  </div>
-
-  <div class="desc">
+  <div class="info">
     <h2>{{ form.name|placeholder:_("Resource Name") }}
       {% if item and not form %}
         <span class="by">{% trans "by" %}
@@ -29,7 +22,16 @@
         </span>
       {% endif %}
     </h2>
-    <p{% if form.desc.errors %} class="descerr"{% endif %}>{{ form.desc|placeholder:_("Description of your artwork or resource") }}</p>
+  <div class="desc{% if form.desc.errors %} descerr{% endif %}">
+    {{ form.desc|placeholder:_("Description of your artwork or resource") }}
+  </div>
+  <div class="side">
+    {% for field in form.auto %}
+      <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+      {{ field }}
+    {% endfor %}
+  </div>
+
   </div>
 
   <div class="buttonbar">

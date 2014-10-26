@@ -30,8 +30,9 @@
       </dl>
 
    {% if item.license %}
-     <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
-{% endif %}{{ item.license }}"/></a>
+     <a class="license" href="{{ item.license.link }}">
+       <img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}{% endif %}{{ item.license }}"/>
+     </a>
    {% endif %}
 
   {% if item.is_file %}

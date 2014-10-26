@@ -57,17 +57,17 @@
 .pagination .page {
   display: inline-block;
   font-size: 22px;
-  padding: 0px 2px;
+ padding:0px 1px;
   vertical-align: middle;
 }
 .pagination .prev {
   display: inline-block;
-  padding: 0px 4px;
+  padding: 0px 3px;
   vertical-align: middle;
 }
 .pagination .next {
   display: inline-block;
-  padding: 0px 4px;
+  padding: 0px 3px;
   vertical-align: middle;
 }
 .pagination .disabled {

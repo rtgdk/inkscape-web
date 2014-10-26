@@ -26,7 +26,7 @@ def url_tree(regex, *urls):
 
 
 urlpatterns = patterns('',
-  url(r'^paste/(\d+)/','inkscape.resource.views.view_resource', name="pasted_item"),
+  url(r'^p(\d+)/',        view_resource,    name="pasted_item"),
 
   url_tree(r'^gallery/',
     url(r'^$',            GalleryList(),    name='galleries'),
@@ -44,6 +44,11 @@ urlpatterns = patterns('',
       url(r'^icon/$',     gallery_icon,     name="gallery_icon"),
     ),
 
+    url_tree(r'^c/(?P<category_id>\d+)/',
+      url(r'^$',                  view_list, name='resource_category'),
+      url(r'^(?P<user_id>\d+)/$', view_list, name='user_category'),
+    ),
+
     url_tree(r'^item/(?P<item_id>\d+)/',
       url(r'^$',          view_resource,    name='resource'),
       url(r'^del/$',      delete_resource,  name='delete_resource'),
@@ -56,8 +61,6 @@ urlpatterns = patterns('',
 
     url(r'^user/(?P<user_id>\d+)/$',                          view_user, name='user_resources'),
     url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
-    url(r'^category/(?P<category_id>\d+)/$',                  view_list, name='resource_category'),
-    url(r'^category/(?P<category_id>\d+)/(?P<user_id>\d+)/$', view_list, name='user_category'),
   ),
 )
 

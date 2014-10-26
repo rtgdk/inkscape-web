@@ -8,8 +8,8 @@
 
 {% if user.photo %}
   <div class="galleryitem">
-    <a class="link" href="{% url "view_profile" user.user.username %}"><img src="{{ user.photo.url }}" title="{{ user }}"/></a>
-    <p title="{{ user.email }}"><a href="{% url "view_profile" user.user.username %}">{{ user }}</a></p>
+    <a class="link" href="{{ user.get_absolute_url }}"><img src="{{ user.photo.url }}" title="{{ user }}"/></a>
+    <p title="{{ user.email }}"><a href="{{ user.get_absolute_url }}">{{ user }}</a></p>
   </div>
 {% else %}
 .

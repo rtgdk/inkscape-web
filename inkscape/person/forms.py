@@ -8,12 +8,6 @@ from captcha.fields import ReCaptchaField
 
 from .models import User, UserDetails
 
-class FeedbackForm(Form):
-    comment = CharField(
-        widget=Textarea(attrs={
-            'placeholder': 'Your comments or questions...'
-        }), required=True )
-
 class PasswordForm(PasswordResetForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))
 

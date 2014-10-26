@@ -57,7 +57,6 @@
                 <form action="{% url "auth_register" %}" method="GET">
                   <input class="button" type="submit" value="{% trans "Register Now" %}"/>
                 </form>
-                <!--<p id="toplogin-register">{% trans "Not a member?" %}<br/><a href="/person/register/">{% trans "Register now." %}</a></p>-->
                 <p id="toplogin-alternate">
                   <span>{% trans "Or log in using:" %}</span>
                   {% include "social_logins.html" %}
@@ -65,13 +64,13 @@
               </div>
             {% else %}
               <p>
-                <a href="{% url "my_profile" %}">{{ request.user.name }}</a>&nbsp;
+                <a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;
                 <div  class="topdrop">
-                  <a href="{% url "my_profile" %}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                  <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
                   {% if request.user.is_staff %}
                     <p><a href="/admin/">{% trans "Admin" %}</a></p>
                   {% endif %}
-                  <p><a href="{% url "my_profile" %}">{% trans "My Profile" %}</a></p>
+                  <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
                   <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
                 </div>
               {% endif %}

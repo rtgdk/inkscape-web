@@ -14,10 +14,8 @@
     <div class="index"><a href="">#{{ comment_counter }}</a></div>
     
     {% if request.user.is_authenticated %}
-      <a title="Report this comment" class="flag" href="/comments/flag/{{ comment.id }}/"></a>
-      {% with "comments-flag" as flagurl %}
-        {% include "comments/flag_button.html" %}
-      {% endwith %}
+      <a title="{% trans "Report Comment" %}" class="flag" href="/comments/flag/{{ comment.id }}/"></a>
+      <script>popUpLink("{% trans "Are you sure you want to report this comment?" %}", "{% trans "Cancel" %}", "{% trans "Report" %}");</script>
     {% endif %}
   </div>
   <div class="body">

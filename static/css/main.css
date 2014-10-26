@@ -596,23 +596,6 @@ body > .footer .nav ul {
 #final-footer :link:active {
   color: #ff7e28;
 }
-a.button {
-  padding: 12px;
-  text-decoration: none;
-  font-size: 14px;
-  display: block;
-  background: #eeeeee;
-  background-image: linear-gradient(to bottom, #ffffff, #b4b4b4);
-  border: 1px solid #999999;
-  border-radius: 7px;
-  color: #333333;
-  outline: 0;
-}
-a.button:hover, a.button:focus, a.button:active {
-  text-decoration: none;
-  background: white;
-  background-image: linear-gradient(to bottom, white, #c6c6c6);
-}
 #left-column {
   float: left;
   width: 680px;
@@ -696,9 +679,7 @@ a.roundel img {
   left:0px;
   width:100%;
   height:100%;
-  display: none;
 }
-
 #popup {
   background-color: white;
   border: 6px solid #800;
@@ -706,7 +687,6 @@ a.roundel img {
   padding: 15px;
   position: fixed;
   z-index: 9002;
-  display: none;
 }
 
 #columns {

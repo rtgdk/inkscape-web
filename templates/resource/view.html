@@ -1,9 +1,15 @@
 {% extends 'resource/item.html' %}
-{% load i18n %}
+{% load i18n pile %}
 
 {% block "description" %}
+<div>
+  <div class="desc">
+    <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
+    <div>{{ item.desc|linebreaks }}</div>
+  </div>
+
  <div class="sideInfo">
-   <h1>{% if item.category %}{{ item.category }}{% else %}Unpublished{% endif %}</h1>
+   <h2>{% if item.category %}{{ item.category }}{% else %}Unpublished{% endif %}</h2>
     
    {% if not item.is_file %}
      <a class="link" href="{{ item.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="Link" title="Follow Link (external site)"/></a>
@@ -21,18 +27,13 @@
      {% else %}
        <dt>{% trans "Linked From" %}</dt><dd>{{ item.link_from }}</dd>
      {% endif %}
+     <dt>{% trans "Created" %}</dt><dd>{{ item.created|timetag }}</dd>
    </dl>
 
    {% if item.license %}
      <a class="license" href="{{ item.license.link }}"><img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}
 {% endif %}{{ item.license }}"/></a>
    {% endif %}
- </div>   
-
-  <div class="desc">
-    <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
-    <p>{{ item.desc|linebreaks }}</p>
-  </div>
 
   {% if item.is_file %}
   <div class="buttonbar">
@@ -75,6 +76,10 @@
     {% endif %}
   </div>
   {% endif %}
+
+ </div>   
+</div>
+
  
   {% with item as comment_subject %}
      {% include "comments/comment_area.html" %}

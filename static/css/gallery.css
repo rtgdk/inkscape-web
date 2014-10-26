@@ -140,11 +140,13 @@ table.bioitem p a {
 }
 
 .item .desc {
-  padding: 10px 20px 4px 20px;
-  background-color: #eee;
+  background-color: #fff;
+  border-radius: 0px 0px 0px 8px;
+  border: 1px #ddd solid;
+}
+.item .desc > div {
+  padding: 10px 20px;
   min-height: 350px;
-  margin-right: 235px;
-  border-radius: 0px 0px 8px 8px;
 }
 .item .desc textarea {
   width: 100%;
@@ -153,98 +155,33 @@ table.bioitem p a {
 .item .desc p.descerr textarea {
   border: 2px #d00 solid;
 }
+.item div.desc,
+.item div.sideInfo {
+  display: table-cell;
+}
 
 .item h2 {
-  padding-bottom:7px;
+  font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
+  background-color: #eee;
+  border-width: 1px 0px;
+  border-color: #ddd;
+  border-style: solid;
+  padding: 10px 20px;
   color:#333333;
 }
-
-.item .buttonbar {
-  color:#333333;
-  clear:both;
-  padding:10px 0px;
-  overflow:hidden;
-  height: 60px;
-}
-.item .buttonbar form{
-float:left;
+.item h2 span.by {
+  font-size: 60%;
+  padding-left: 4px;
+  white-space: nowrap;
 }
 
-
-.item .buttonbar button:hover,
-.item .buttonbar a:hover{
-  box-shadow: 0px 0px 2px 2px rgba(0, 0, 0, .20); 
-  z-index: 1;
-  text-decoration: none;
-}
-
-.item .buttonbar button,
-.item .buttonbar a,
-.item .buttonbar input
-{
-  cursor:pointer;
-  z-index: 0;
-  position: relative;
-  float:left;
-  padding:4px 8px;
-  background:#ffffff;
-  border: 1px solid #999;
-  border-right: 0px;
-  color:#333;
-  font-size:17px;
-  line-height:23px;
-  margin:0px;
-}
-.item .buttonbar a {
-  display: inline-block;
-  line-height: 25px;
-}
-.item .buttonbar button#like {
-  background-image: url("../images/thumbs.svg");
-  background-repeat:no-repeat;
-  background-size: 20px 120px;
-  width:40px;
-}
-.item .buttonbar form button#like{
-  background-position:center -61px;
-}
-.item .buttonbar form button#like:hover,
-.item .buttonbar button#like.active{
-  background-position:center 4px ;
-}
-.item .buttonbar form button#like.active:hover {
-  background-position:center -25px;
-}
-.item .buttonbar .active{
-  color:#D55500;
-}
-.item .buttonbar .start{
- border-top-left-radius: 9px;
- border-bottom-left-radius: 9px;
- margin-left:5px;
-}
-.item .buttonbar .end{
- border-top-right-radius: 9px;
- border-bottom-right-radius: 9px;
- border-right: 1px solid #999;
- margin-right: 5px;
-}
-.item .buttonbar .unique{
- background-color:#D55500;
- border-color:#D44400;
- color:#FFFFFF;
-}
-.item .buttonbar .unique:hover{
-  box-shadow: 0px 0px 3px 3px rgba(255, 128, 0, .35); 
-}
 .item .sideInfo {
   padding: 5px 0px 15px 0px;
-  background-color: #eee;
+  background-color: #fff;
   overflow:hidden;
-  min-height: 345px;
-  float: right;
-  border-radius: 0px 0px 8px 8px;
+  border-radius: 0px 0px 8px 0px;
   text-align:center;
+  border-left: 12px white solid;
 }
 .item .sideInfo .link {
   display: block;
@@ -254,17 +191,14 @@ float:left;
   height: 0px;
 }
 
-.item .sideInfo h1 {
-  background-color: #ddd;
-  padding: 8px 12px 4px;
-  margin-top: 4px;
+.item .sideInfo h2 {
   font-size:18px !important;
   font-weight: bold;
-  line-height:22px;
-  text-align: center;
+  padding: 8px 12px 4px;
   width:205px;
   white-space:wrap;
-  text-align:left;
+  line-height:22px;
+  border-width: 1px;
 }
 .item .sideInfo h1.error {
   background-color: #e66;
@@ -291,11 +225,6 @@ float:left;
   float:left;
   margin-right:8px;
   color:#888;
-}
-
-.item .license{
-    margin-left:8px;
-    float:left;
 }
 
 .empty a.link > img {

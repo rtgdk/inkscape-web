@@ -1,17 +1,5 @@
 {% load i18n %}
 
-    <form action="{% url delurl item.id %}" onsubmit="popUp('popup'); return false;">
+    <form action="{% url delurl item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url delurl item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
         <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
     </form>
-    <div id="blanket"></div>
-    <div id="popup">
-      <h1>{% trans "Delete" %}</h1>
-      <p>{% trans "Are you sure you want to delete" %} {{ item }}?</p>
-      <div class="buttons">
-        <button class="start" type="submit" onclick="popUp('popup');">{% trans "Cancel" %}</button>
-        <form action="{% url delurl item.id %}" method="post">
-          {% csrf_token %}
-          <button class="end unique" type="submit" name="confirm">{% trans "Confirm Delete" %}</button>
-        </form>
-     </div>
-    </div>

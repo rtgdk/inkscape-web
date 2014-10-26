@@ -85,8 +85,8 @@ function cancel(e) {
 };
 
 
-function registerDropZone(drop_id, gallery_id, post_url, media_url, keep=true) {
-
+function registerDropZone(drop_id, gallery_id, post_url, media_url, keep) {
+ if(keep==undefined){ keep=true; }
  if(window.FileReader) { 
   addEventHandler(window, 'load', function() {
     var drop    = document.getElementById(drop_id);

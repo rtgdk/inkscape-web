@@ -31,7 +31,7 @@
 
   <div class="desc">
     <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{{ item.user.get_absolute_url }}">{{ item.user.details }}</a></span></h2>
-    <p>{{ item.desc|linebreaks }}</p>
+    <p>{{ item.desc|urlize|linebreaks }}</p>
   </div>
 
   {% if item.is_file %}

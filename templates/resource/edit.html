@@ -34,7 +34,7 @@
 
   </div>
 
-  <div class="buttonbar">
+  <div class="buttonfoot">
     {% if item.next %}
       <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
       <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>
@@ -46,9 +46,9 @@
 
     <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
     {% if item %}
-      {% with "delete_resource" as delurl %}
-        {% include "resource/delete_button.html" %}
-      {% endwith %}
+     <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url delurl item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
+    </form>
     {% endif %}
 
   </div>

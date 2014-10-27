@@ -16,6 +16,10 @@
         {% if item.is_file %}    
           {% if item.mime.is_image %}
             <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
+            <dt>{% trans "Area" %}</dt><dd> 1024x768</dd>
+          {% elif item.mime.is_text %}
+            <dt>{% trans "Words" %}</dt><dd> 17</dd>
+            <dt>{% trans "Lines" %}</dt><dd> 6</dd>
           {% endif %}
           {% if not item.mime.is_image or not item.license.nd %}
             <dt>{% trans "Downloads" %}</dt><dd>{{ item.downed }}</dd>
@@ -34,7 +38,10 @@
        <img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}{% endif %}{{ item.license }}"/>
      </a>
    {% endif %}
+  </div>
+ </div>   
 
+  <div class="buttonfoot">
   {% if item.is_file %}
     {% if item.link and not item.is_video %}
         <form action="{{ item.link }}">
@@ -71,14 +78,13 @@
      <form action="{% url "edit_resource" item.id %}">
        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
      </form>
-     {% with "delete_resource" as delurl %}
-      {% include "resource/delete_button.html" %}
-     {% endwith %}
+     <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete Upload" %}","{% trans "Are you sure you want to delete this upload?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
+    </form>
     {% endif %}
   {% endif %}
+  </div>
 
-    </div>
- </div>   
 
  
   {% with item as comment_subject %}

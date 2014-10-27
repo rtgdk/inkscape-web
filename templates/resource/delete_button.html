@@ -1,5 +1,0 @@
-{% load i18n %}
-
-    <form action="{% url delurl item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url delurl item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
-        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
-    </form>

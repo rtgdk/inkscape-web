@@ -2,7 +2,10 @@
 @font-face {
   font-family: 'CallunaRegular';
   src: url("../fonts/calluna-regular-webfont.eot");
-  src: local("☺"), url("../fonts/calluna-regular-webfont.woff") format("woff"), url("../fonts/calluna-regular-webfont.ttf") format("truetype"), url("../fonts/calluna-regular-webfont.svg#webfontV868CxYz") format("svg");
+  src: local("☺"),
+       url("../fonts/calluna-regular-webfont.woff") format("woff"),
+       url("../fonts/calluna-regular-webfont.ttf") format("truetype"),
+       url("../fonts/calluna-regular-webfont.svg#webfontV868CxYz") format("svg");
   font-weight: normal;
   font-style: normal;
 }
@@ -44,6 +47,12 @@ body {
 }
 :link:hover, :link:active, :visited:hover, :visited:active {
   text-decoration: underline;
+}
+form {
+  display: inline-block;
+}
+form.block {
+  display: block;
 }
 ul, ol {
   padding: 0 0 0 30px;

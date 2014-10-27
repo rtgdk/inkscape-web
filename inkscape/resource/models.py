@@ -103,6 +103,14 @@ class Category(Model):
         return reverse('resource_category', args=[str(self.id)])
 
 
+class Tag(Model):
+    name     = CharField(max_length=16)
+    parent   = ForeignKey('self', **null)
+    
+    def __str__(self):
+        return self.name
+
+
 class ResourceManager(InheritanceManager):
     def get_query_set(self):
         return InheritanceManager.get_query_set(self).select_subclasses('resourcefile').order_by('-created')
@@ -136,6 +144,7 @@ class Resource(Model):
     name      = CharField(max_length=64)
     desc      = TextField(_('Description'), **null)
     category  = ForeignKey(Category, related_name='items', **null)
+    tags      = ManyToManyField(Tag, related_name='resources', **null)
 
     created   = DateTimeField(default=now)
     edited    = DateTimeField(**null)

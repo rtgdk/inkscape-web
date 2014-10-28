@@ -13,12 +13,12 @@
         <div id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
       {% endif %}
 
-      {% if request.user.id and request.user != item.user %}
-        <div id="vote"><a
-            {% if not vote.vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
-                        {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}"{% endif %}
+      <div id="vote"><a
+        {% if not request.user.id or request.user == item.user %}
+                                href="#" title="{% trans "Favorites" %}" class="disabled"
+        {% elif not vote.vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                      {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
           >&nbsp;</a><p>{{ item.votes.likes.count }}</p></div>
-      {% endif %}
     </h2>
     <div class="desc">{{ item.desc|linebreaks }}</div>
 

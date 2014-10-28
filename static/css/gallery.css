@@ -387,12 +387,16 @@ table.bioitem p a {
   vertical-align: middle;
   border-radius: 8px 0px 0px 8px;
   background-repeat: no-repeat;
-  background-size: 32px 64px;
   background-position: 0px -32px;
 }
 .info h2 > div a:hover {
   text-decoration: none;
   background-position: 0px 0px;
+}
+.info h2 > div a.disabled {
+  background-position: 0px -32px;
+  opacity: 0.5;
+  cursor: default;
 }
 .info h2 > div p {
   margin: 0px;
@@ -412,4 +416,10 @@ div#download a {
 }
 div#vote a {
   background-image: url("../images/icons/vote.svg");
+}
+div#vote a.remove {
+  background-position: -32px -32px;
+}
+div#vote a.remove:hover {
+  background-position: -32px 0px;
 }

@@ -25,13 +25,14 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
 from django.utils.timezone import now
 from django.core.urlresolvers import reverse
+from django.core.files.images import get_image_dimensions
 
 from model_utils.managers import InheritanceManager
 
 from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
-from .utils import syntaxer, MimeType, upto, cached, video_embed
+from .utils import syntaxer, MimeType, upto, cached, text_count, video_embed
 from inkscape.settings import STATIC_URL
 
 null = dict(null=True, blank=True)
@@ -157,6 +158,8 @@ class Resource(Model):
     downed    = IntegerField(_('Downloaded'), default=0)
 
     media_type = CharField(_('File Type'), max_length=64, **null)
+    media_x    = IntegerField(**null)
+    media_y    = IntegerField(**null)
 
     objects   = ResourceManager()
 
@@ -165,13 +168,22 @@ class Resource(Model):
 
     def save(self, *args, **kwargs):
         self.edited = now()
-        if not self.media_type:
+        if self.has_file_changed():
+            if not self.pk:
+                Model.save(self, *args, **kwargs)
             self.media_type = self.find_media_type()
+            (self.media_x, self.media_y) = self.find_media_coords()
         return Model.save(self, *args, **kwargs)
+
+    def has_file_changed(self):
+        return False
 
     def find_media_type(self):
         # We don't know how to find it for links yet.
         return None
+
+    def find_media_coords(self):
+        return (None, None)
 
     def get_absolute_url(self):
         if self.category and self.category.id == 1:
@@ -259,7 +271,7 @@ class ResourceFile(Resource):
     def save(self, *args, **kwargs):
         Resource.save(self, *args, **kwargs)
 
-        if self.download and not self.thumbnail:
+        if self.download and self.has_file_changed():
             # We might be able to detect that the download has changed here.
             if self.mime().is_raster():
                 self.thumbnail.save(self.download.name, self.download)
@@ -267,9 +279,21 @@ class ResourceFile(Resource):
                 self.thumbnail = None
             Resource.save(self, *args, **kwargs)
 
+    def has_file_changed(self):
+        if self.pk is not None:
+            return ResourceFile.objects.get(pk=self.pk).download != self.download
+        return True
+
     def find_media_type(self):
         """Returns the media type of the downloadable file"""
         return str(MimeType(filename=self.download.path))
+
+    def find_media_coords(self):
+        if self.mime().is_image():
+            return get_image_dimensions(self.download.file)
+        elif self.mime().is_text():
+            return text_count(self.as_text())
+        return (None, None)
 
     def icon(self):
         if not self.thumbnail and self.mime().is_image() and self.download.size < MAX_PREVIEW_SIZE:

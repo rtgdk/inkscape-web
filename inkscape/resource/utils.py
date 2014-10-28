@@ -69,6 +69,16 @@ def syntaxer(text, mime):
 
     return mark_safe(''.join(highlight(text, lexer, formatter)))
 
+def text_count(text):
+    num_lines = 0
+    num_words = 0
+    num_chars = 0
+    for line in text.strip().split("\n"):
+        words = line.split()
+        num_lines += 1
+        num_words += len(words)
+        num_chars += len(line)
+    return (num_lines, num_words)
 
 def upto(d, c='resources', blank=True, lots=False):
     """Quick and easy upload to location"""

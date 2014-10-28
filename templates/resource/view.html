@@ -10,6 +10,13 @@
    {% endif %}
    <dl>
      {% if item.is_file %}    
+          {% if item.mime.is_image %}
+            <dt>{% trans "Area" %}</dt><dd> {{ item.media_x }}x{{ item.media_y }}</dd>
+          {% elif item.mime.is_text %}
+            <dt>{% trans "Lines" %}</dt><dd> {{ item.media_x }}</dd>
+            <dt>{% trans "Words" %}</dt><dd> {{ item.media_y }}</dd>
+          {% endif %}
+
        {% if item.mime.is_image %}
          <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
        {% endif %}

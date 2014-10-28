@@ -145,10 +145,18 @@ table.bioitem p a {
 }
 .item .desc {
   width: 100%;
-}
-.item .info > div {
   padding: 6px 20px;
   min-height: 200px;
+}
+.item .side {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 10px;
+}
+.item .side h2 {
+  background-color: #eee;
 }
 .item .info textarea {
   width: 100%;
@@ -157,36 +165,32 @@ table.bioitem p a {
 .item .info p.infoerr textarea {
   border: 2px #d00 solid;
 }
-.item div.info > div {
+.item div.desc,
+.item div.side {
   display: table-cell;
 }
 .item div.info h2 input {
   width: 100%;
   font-size: 14pt;
 }
-
+.item .title {
+  background-color: #eee;
+  border-width: 1px #ddd solid;
+  padding: 16px 20px 10px;
+}
 .item h2 {
   font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
   font-size: 17pt;
-  background-color: #eee;
-  border-width: 1px #ddd solid;
-  margin: 0px;
-  padding: 16px 20px 10px;
   color:#333333;
+  border: 0px;
+  margin: 0px;
 }
-.item h2 span.by {
-  font-size: 60%;
+.item div.by {
+  font-size: 70%;
   padding-left: 4px;
   white-space: nowrap;
 }
 
-.item .side {
-  padding: 0px 0px 15px 0px;
-  overflow:hidden;
-  text-align:center;
-  border-left: 1px #ddd solid;
-  vertical-align: top;
-}
 .item .side .link {
   display: block;
   position: relative;
@@ -370,16 +374,15 @@ table.bioitem p a {
   float: right;
 }
 
-.info h2 > div {
+.info .tog {
   background-color: white;
   float: right;
   display: inline-block;
   border: 1px #ddd solid;
   border-radius: 8px;
-  margin-top: -8px;
   margin-left: 8px;
 }
-.info h2 > div a {
+.info .tog a {
   border-right: 1px #ddd solid;
   width: 32px;
   height: 32px;
@@ -389,16 +392,16 @@ table.bioitem p a {
   background-repeat: no-repeat;
   background-position: 0px -32px;
 }
-.info h2 > div a:hover {
+.info .tog a:hover {
   text-decoration: none;
   background-position: 0px 0px;
 }
-.info h2 > div a.disabled {
+.info .tog a.disabled {
   background-position: 0px -32px;
   opacity: 0.5;
   cursor: default;
 }
-.info h2 > div p {
+.info .tog p {
   margin: 0px;
   padding: 4px;
   display: inline-block;

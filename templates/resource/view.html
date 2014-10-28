@@ -3,23 +3,26 @@
 
 {% block "description" %}
   <div class="info">
-    <h2>{{ item.name }}
-      <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span>
-
+    <div class="title">
       {% if item.mime.is_image %}
-        <div id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
+        <div class="tog" id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
       {% endif %}
       {% if not item.mime.is_image or not item.license.nd %}
-        <div id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
+        <div class="tog" id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
       {% endif %}
 
-      <div id="vote"><a
+      <div class="tog" id="vote"><a
         {% if not request.user.id or request.user == item.user %}
                                 href="#" title="{% trans "Favorites" %}" class="disabled"
         {% elif not vote.vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
                       {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
           >&nbsp;</a><p>{{ item.votes.likes.count }}</p></div>
-    </h2>
+
+      <h2>{{ item.name }}</h2>
+      <div class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></div>
+
+    </div>
+
     <div class="desc">{{ item.desc|linebreaks }}</div>
 
     <div class="side">
@@ -51,7 +54,7 @@
         </a>
       {% endif %}
       {% if item.link and not item.is_video %}
-        <h2><a href="{{ item.link }}">Link</a></h2>
+        <p><a href="{{ item.link }}">Link</a></p>
       {% endif %}
     </div>
   </div>   

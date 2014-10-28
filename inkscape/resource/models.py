@@ -32,7 +32,7 @@ from model_utils.managers import InheritanceManager
 from inkscape.settings import MAX_PREVIEW_SIZE
 from inkscape.fields import ResizedImageField
 
-from .utils import syntaxer, MimeType, upto, cached, text_count, video_embed
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed
 from inkscape.settings import STATIC_URL
 
 null = dict(null=True, blank=True)
@@ -169,8 +169,7 @@ class Resource(Model):
     def save(self, *args, **kwargs):
         self.edited = now()
         if self.has_file_changed():
-            if not self.pk:
-                Model.save(self, *args, **kwargs)
+            delattr(self, '_mime')
             self.media_type = self.find_media_type()
             (self.media_x, self.media_y) = self.find_media_coords()
         return Model.save(self, *args, **kwargs)
@@ -269,28 +268,26 @@ class ResourceFile(Resource):
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     def save(self, *args, **kwargs):
-        Resource.save(self, *args, **kwargs)
-
         if self.download and self.has_file_changed():
             # We might be able to detect that the download has changed here.
             if self.mime().is_raster():
                 self.thumbnail.save(self.download.name, self.download)
             elif self.thumbnail:
                 self.thumbnail = None
-            Resource.save(self, *args, **kwargs)
+        Resource.save(self, *args, **kwargs)
 
     def has_file_changed(self):
-        if self.pk is not None:
-            return ResourceFile.objects.get(pk=self.pk).download != self.download
-        return True
+        return not self.download._committed
 
     def find_media_type(self):
         """Returns the media type of the downloadable file"""
         return str(MimeType(filename=self.download.path))
 
     def find_media_coords(self):
-        if self.mime().is_image():
+        if self.mime().is_raster():
             return get_image_dimensions(self.download.file)
+        elif self.mime().is_image():
+            return svg_coords(self.as_text())
         elif self.mime().is_text():
             return text_count(self.as_text())
         return (None, None)
@@ -305,9 +302,12 @@ class ResourceFile(Resource):
         return syntaxer(self.as_text(), self.mime())
 
     def as_text(self):
-        if self.mime().is_text():
-            with open(self.download.path, 'r') as fhl:
-                return fhl.read().decode('utf-8')
+        if self.mime().is_text() or 'svg' in str(self.mime()):
+            import sys
+            sys.stderr.write(str(self.media_type))
+            self.download.file.open()
+            self.download.file.seek(0)
+            return self.download.file.read().decode('utf-8')
         return "Not text!"
 
 

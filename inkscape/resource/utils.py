@@ -80,6 +80,15 @@ def text_count(text):
         num_chars += len(line)
     return (num_lines, num_words)
 
+def svg_coords(svg):
+    from xml.dom.minidom import parseString, Node
+    try:
+        doc = parseString(svg).documentElement
+        return (int(float(doc.getAttribute('width'))),
+                int(float(doc.getAttribute('height'))))
+    except IOError:
+        return (-1,-1)
+
 def upto(d, c='resources', blank=True, lots=False):
     """Quick and easy upload to location"""
     dated = lots and ["%Y","%m"] or []

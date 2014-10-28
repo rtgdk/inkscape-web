@@ -39,7 +39,6 @@
             <dt>{% trans "Words" %}</dt><dd> 17</dd>
             <dt>{% trans "Lines" %}</dt><dd> 6</dd>
           {% endif %}
-          <dt>{% trans "Liked" %}</dt><dd>{{ item.votes.likes.count }}</dd>
           <dt>{% trans "Size" %}</dt><dd>{{ item.download.size|filesizeformat }}</dd>
         {% else %}
           <dt>{% trans "Linked From" %}</dt><dd>{{ item.link_from }}</dd>

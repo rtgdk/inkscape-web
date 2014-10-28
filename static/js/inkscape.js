@@ -33,23 +33,37 @@ function getPng(t) {
 }
 
 /* == PopUp implimentation == */
-function toggle(div_id) {
-    var el = document.getElementById(div_id);
-    if ( el.getAttribute('class') == 'show' ) {
-      el.setAttribute('class', '');
+function popUp(title, msg, href, cancel, ok) {
+    if(document.getElementById('blanket')) {
+      $('#blanket').remove();
+      $('#popup').remove();
+    } else if(title) {
+      $('body').append( "<div id='blanket'/>" );
+      $('#blanket').click(popUp); // Cancel when clicking outside
+      $('body').append( "<div id='popup'/>" );
+      $('#popup').append( "<h1>" + title + "</h1>" ).append( "<p>" + msg + "</p>" )
+                 .append( "<form class='buttons' action='"+href+"' method='POST'/>");
+      $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
+                          .append("<button class='start'>" + cancel + "</button>")
+                          .append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
+      $('#popup .buttons .start').click(popUp);
+      $('#popup').css({
+        'top': 'calc(50% - ' + ($('#popup').innerHeight() / 2) + 'px)',
+        'left': 'calc(50% - ' + ($('#popup').innerWidth() / 2) + 'px)',
+      });
     } else {
-      el.setAttribute('class', 'show');
+      return true;
     }
+    return false;
 }
-function window_pos(popId) {
-    var pop = document.getElementById(popId);
-    pop.setAttribute('style', 'top: calc(50% - ' + (pop.clientHeight / 2) + 'px); '+
-                     'left: calc(50% - ' + (pop.clientWidth / 2) + 'px);');
-}
-function popUp(windowname) {
-    toggle('blanket');
-    toggle(windowname);     
-    window_pos(windowname);
+function popUpLink(msg, cancel, ok) {
+  // Allows a link to fail gracefully.
+  var a = document.currentScript.previousElementSibling;
+  $( document ).ready( function() {
+    var href = a.href;
+    a.onclick = function() { return popUp(a.title, msg, href, cancel, ok); };
+    a.href = '#nowhere'
+  });
 }
 /* End popup */
 

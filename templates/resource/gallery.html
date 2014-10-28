@@ -23,9 +23,9 @@
         <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
     </form>
    {% with gallery as item %}
-    {% with "delete_gallery" as delurl %}
-      {% include "resource/delete_button.html" %}
-    {% endwith %}
+     <form action="{% url "delete_gallery" item.id %}" onsubmit='return popUp("{% trans "Delete Gallery" %}","{% trans "Are you sure you want to delete this gallery?" %}","{% url "delete_gallery" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
+    </form>
    {% endwith %}
   </div>
  </div>

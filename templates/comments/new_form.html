@@ -2,7 +2,7 @@
 
 {% get_comment_form for comment_subject as form %}
 
-<form action="{% comment_form_target %}" method="POST">
+<form action="{% comment_form_target %}" method="POST" class="block">
   {% csrf_token %}
   <div class="comment">
     <div class="details">
@@ -20,5 +20,3 @@
     <div class="footer"><div class="buttonbar"><div id="cochint">{% blocktrans %}Please read Inkscape's <a href="">Code of Conduct</a> before posting.{% endblocktrans %}</div><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
   </div>   
 </form>
-
-<!-- todo: insert Code of Conduct url -->

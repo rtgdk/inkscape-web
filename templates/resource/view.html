@@ -3,7 +3,23 @@
 
 {% block "description" %}
   <div class="info">
-    <h2>{{ item.name }} <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span></h2>
+    <h2>{{ item.name }}
+      <span class="by">{% trans "by" %} <a href="{% url "view_profile" item.user.username %}">{{ item.user.details }}</a></span>
+
+      {% if item.mime.is_image %}
+        <div id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
+      {% endif %}
+      {% if not item.mime.is_image or not item.license.nd %}
+        <div id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
+      {% endif %}
+
+      {% if request.user.id and request.user != item.user %}
+        <div id="vote"><a
+            {% if not vote.vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                        {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}"{% endif %}
+          >&nbsp;</a><p>{{ item.votes.likes.count }}</p></div>
+      {% endif %}
+    </h2>
     <div class="desc">{{ item.desc|linebreaks }}</div>
 
     <div class="side">
@@ -15,14 +31,10 @@
       <dl>
         {% if item.is_file %}    
           {% if item.mime.is_image %}
-            <dt>{% trans "Views" %}</dt><dd>{{ item.viewed }}</dd>
             <dt>{% trans "Area" %}</dt><dd> 1024x768</dd>
           {% elif item.mime.is_text %}
             <dt>{% trans "Words" %}</dt><dd> 17</dd>
             <dt>{% trans "Lines" %}</dt><dd> 6</dd>
-          {% endif %}
-          {% if not item.mime.is_image or not item.license.nd %}
-            <dt>{% trans "Downloads" %}</dt><dd>{{ item.downed }}</dd>
           {% endif %}
           <dt>{% trans "Liked" %}</dt><dd>{{ item.votes.likes.count }}</dd>
           <dt>{% trans "Size" %}</dt><dd>{{ item.download.size|filesizeformat }}</dd>
@@ -33,60 +45,31 @@
         <dt>{% trans "Type" %}</dt><dd>{{ item.media_type }}</dd>
       </dl>
 
-   {% if item.license %}
-     <a class="license" href="{{ item.license.link }}">
-       <img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}{% endif %}{{ item.license }}"/>
-     </a>
-   {% endif %}
-  </div>
- </div>   
-
-  <div class="buttonfoot">
-  {% if item.is_file %}
-    {% if item.link and not item.is_video %}
-        <form action="{{ item.link }}">
-          <button id="link">Link</button>
-        </form>
-    {% endif %}
-    {% if request.user.id and request.user != item.user %}
-      {% if not vote.vote %}
-        <form action="{% url "like" item.id "+" %}">
-          <button id="like" class="end {% if not item.link %}start{% endif %}" >&nbsp;</button>
-        </form>
-      {% else %}
-        <form action="{% url "like" item.id "-" %}">
-          <button id="like" class="end {% if not item.link %}start{% endif %} active" type="submit">&nbsp;</button>
-        </form>
+      {% if item.license %}
+        <a class="license" href="{{ item.license.link }}">
+          <img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}{% endif %}{{ item.license }}"/>
+        </a>
       {% endif %}
-    {% endif %}
-    
-    {% if item.mime.is_image %}
-      <form action="{% url "view_resource" item.id %}">
-          <button id="view" class="unique start end" type="submit">{% trans "Full size view" %}</button>
-      </form>
-    {% endif %}
-    
-    {% if not item.mime.is_image or not item.license.nd %}
-      <form action="{% url "download_resource" item.id %}">
-          <button id="download" class="unique start end" type="submit">{% trans "Download" %}</button>
-      </form>
-    {% endif %}
+      {% if item.link and not item.is_video %}
+        <h2><a href="{{ item.link }}">Link</a></h2>
+      {% endif %}
+    </div>
+  </div>   
 
+  {% if item.is_file %}
     <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
-
     {% if item.user == request.user %}
+  <div id="item-footer">
      <form action="{% url "edit_resource" item.id %}">
        <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
      </form>
      <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete Upload" %}","{% trans "Are you sure you want to delete this upload?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
         <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
     </form>
+  </div>
     {% endif %}
   {% endif %}
-  </div>
 
-
- 
   {% with item as comment_subject %}
      {% include "comments/comment_area.html" %}
   {% endwith %}

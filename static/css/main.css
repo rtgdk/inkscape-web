@@ -691,11 +691,15 @@ a.roundel img {
 }
 #popup {
   background-color: white;
-  border: 6px solid #800;
+  border: 1px solid #ddd;
   opacity: 1.0 !important;
   padding: 15px;
   position: fixed;
   z-index: 9002;
+  min-height: 130px;
+  min-width: 400px;
+  text-align: center;
+  border-radius: 8px;
 }
 
 #columns {

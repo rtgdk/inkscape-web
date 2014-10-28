@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load i18n comments sekizai_tags %}
+
+{% block css %}
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
+{% endaddtoblock %}
+{% endblock %}
+
+{% block content %}
+    <h1>{% blocktrans with comment_subject.name as comment_subject %}All comments for {{comment_subject}}{% endblocktrans %}</h1>
+  {% include comments/new_list.html %}
+{% endblock %}

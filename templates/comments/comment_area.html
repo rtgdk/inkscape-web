@@ -1,0 +1,25 @@
+{% load i18n comments sekizai_tags %}
+
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
+{% endaddtoblock %}
+
+<div class="comments">
+  {% include "comments/new_list.html" %}
+
+  {% if user.is_authenticated %}
+    {% if user.email %}
+      {% include "comments/new_form.html" %}
+    {% else %}
+      {% url 'edit_profile' as profile_url %}
+      <div>
+        {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!{% endblocktrans %}
+      </div>
+    {% endif %}
+  {% else %}
+    {% url 'auth_login' as login_url %}
+    <div>
+      {% blocktrans %}Please <a href="{{login_url}}">log in</a> to leave a comment!{% endblocktrans %}
+    </div>
+  {% endif %}
+</div>

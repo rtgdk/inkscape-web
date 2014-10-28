@@ -1,0 +1,22 @@
+{% load i18n comments %}
+
+{% get_comment_form for comment_subject as form %}
+
+<form action="{% comment_form_target %}" method="POST" class="block">
+  {% csrf_token %}
+  <div class="comment">
+    <div class="details">
+      <div class="title">{% trans "Leave a comment:" %}</div>
+    </div>
+    <div class="body">
+      {{ form.comment }}
+      {{ form.honeypot }}
+      {{ form.content_type }}
+      {{ form.object_pk }}
+      {{ form.timestamp }}
+      {{ form.security_hash }}
+    <input type="hidden" name="next" value="{% url 'resource' comment_subject.id %}" />
+    </div>
+    <div class="footer"><div class="buttonbar"><div id="cochint">{% blocktrans %}Please read Inkscape's <a href="">Code of Conduct</a> before posting.{% endblocktrans %}</div><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
+  </div>   
+</form>

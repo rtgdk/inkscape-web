@@ -205,9 +205,9 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-LOGIN_URL          = '/person/register/login/'
-LOGIN_REDIRECT_URL = '/person/'
-LOGIN_ERROR_URL    = '/person/register/login/'
+LOGIN_URL          = '/user/register/login/'
+LOGIN_ERROR_URL    = '/user/register/login/'
+LOGIN_REDIRECT_URL = '/user/'
 
 RECAPTCHA_USE_SSL = True
 

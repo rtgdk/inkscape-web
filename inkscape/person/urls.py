@@ -19,6 +19,7 @@ RG = RegistrationView.as_view(form_class=RegisForm)
 
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',
+    url(r'^$',          'my_profile',              name='my_profile'),
     url(r'^login/',     'login',                   name='auth_login'),
     url(r'^logout/',    'logout',                  name='auth_logout'),
     url(r'^pwd/$',      'password_reset', {'password_reset_form': PasswordForm }, name='password_reset'),

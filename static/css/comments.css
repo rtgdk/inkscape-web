@@ -115,7 +115,7 @@ h2 {
   cursor: pointer;
 }
 
-.comment .details .flag:hover {
+.comment .details .flag:hover, .comment .details .flag.flagged {
   background-position: center 0;
 }
 .comment .body {

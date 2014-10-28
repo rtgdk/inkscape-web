@@ -12,23 +12,36 @@
       {% include "comments/new_form.html" %}
     {% else %}
       {% url 'edit_profile' as profile_url %}
-      {% blocktrans %}
-        <div>You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!</div>
-      {% endblocktrans %}
+      <div>
+        {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!{% endblocktrans %}
+      </div>
     {% endif %}
   {% else %}
     {% url 'auth_login' as login_url %}
-    {% blocktrans %}
-      <div>Please <a href="{{login_url}}">log in</a> to leave a comment!</div>
-    {% endblocktrans %}
+    <div>
+      {% blocktrans %}Please <a href="{{login_url}}">log in</a> to leave a comment!{% endblocktrans %}
+    </div>
   {% endif %}
 </div>
 
-<!--Todo: error handling for form, remove superfluous and tweak remaining css, editing of/redirecting to other related templates 
-(esp. view_comment, view_thread, preview,...), the index link in a comment needs content, Cancel button for comment error form, 
-handling of long comments ("Read more...", js?), pagination?, the CoC link needs to be added,
-deleting/hiding of comments (staff, original commenter), 
-flagging for the comment (logged-in users?),
-(js for more beauty), (more useful admin interface), 
-connect to messaging system, preferences for comments in messaging, resolve not being able to comment if the user does not have a username -->
+<!--
+Todo: 
+- error handling for form(s)
+- remove superfluous and tweak remaining css
+- editing of/redirecting to/removal of unnecessary other related templates (esp. view_comment, view_thread, preview,...)
+- Cancel button for comment error form needs to redirect to page showing comment subject 
+- deleting/hiding of comments (staff, original commenter)
+- more useful admin interface
+- connect to messaging system
+- allow setting preferences for comments in messaging 
+- ideas: 
+    - handling of long comments ("Read more...", js?)
+    - pagination?
+    - Jabier: upvoting
+- doctormo offered to help:
+    - the index link in a comment needs content
+    - the CoC link needs content
+    - pile timetag needs localization and 'on'
+    - flagging for the comment: js-button
+-->
 

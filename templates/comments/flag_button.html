@@ -1,17 +1,17 @@
 {% load i18n %}
 
-    <form action="{% url flagurl comment.id %}" onsubmit="popUp('popup'); return false;">
-        <button id="deleteSide" class="flag" title="Report this comment" type="submit"></button>
+<form action="{% url flagurl comment.id %}" onsubmit="popUp('popup'); return false;">
+    <button id="deleteSide" class="flag" title="Report this comment" type="submit"></button>
+</form>
+<div id="blanket"></div>
+<div id="popup">
+  <h1>{% trans "Report comment" %}</h1>
+  <p>{% trans "Are you sure you want to report this comment?" %}</p>
+  <div class="buttons">
+    <button class="start" type="submit" onclick="popUp('popup');">{% trans "Cancel" %}</button>
+    <form action="{% url flagurl comment.id %}" method="post">
+      {% csrf_token %}
+      <button class="end unique" type="submit" name="confirm">{% trans "Report" %}</button>
     </form>
-    <div id="blanket"></div>
-    <div id="popup">
-      <h1>{% trans "Report comment" %}</h1>
-      <p>{% trans "Are you sure you want to report this comment?" %}</p>
-      <div class="buttons">
-        <button class="start" type="submit" onclick="popUp('popup');">{% trans "Cancel" %}</button>
-        <form action="{% url flagurl comment.id %}" method="post">
-          {% csrf_token %}
-          <button class="end unique" type="submit" name="confirm">{% trans "Report" %}</button>
-        </form>
-     </div>
-    </div>
+  </div>
+</div>

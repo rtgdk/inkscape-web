@@ -3,7 +3,8 @@
 <div class="comment">
   <div class="details">
     <div class="title">
-      <img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
+      {% url 'view_profile' comment.user.username as profile_url %}
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
         {% url 'view_profile' comment.user.username as profile_url %}
         {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date %}
@@ -14,15 +15,22 @@
     <div class="index"><a href="">#{{ comment_counter }}</a></div>
     
     {% if request.user.is_authenticated %}
-      <a title="Report this comment" class="flag" href="/comments/flag/{{ comment.id }}/"></a>
+      <a title={% trans "Report this comment" %} class="flag
+        {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged{% endifequal %}{% endfor %}" 
+        href="/comments/flag/{{ comment.id }}/"></a>
       {% with "comments-flag" as flagurl %}
         {% include "comments/flag_button.html" %}
       {% endwith %}
     {% endif %}
   </div>
   <div class="body">
-    <div class="text"><p>{{comment.comment}}</p></div>
+    <div class="text"><p>{{comment.comment|urlize|linebreaks}}</p></div>
   </div>
 </div>
 
-<!--needs |timetag for the date, but this still needs an update to pile for making a nice sentence-->
+<!--
+- needs |timetag for the date, but this still needs an update to pile for making a nice sentence, 
+- remove 'details' in urls
+- replace view_profile url with <a href="{{ item.user.get_absolute_url }}">{{ item.user.details }}</a>
+- would be nice to show people that they themselves have flagged a comment
+-->

@@ -6,51 +6,28 @@
 {% block content %}
   <form action="{% comment_form_target %}" method="post">{% csrf_token %}
     {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-    {% if form.errors %}
-    <h1>{% if form.errors|length == 1 %}{% trans "Please write a comment or cancel:" %}{% else %}{% trans "Please correct the errors below" %}{% endif %}</h1>
-    {% else %}
-    <!-- left this in, in case we ever want to enable comment preview -->
-<!--    <h1>{% trans "Preview your comment" %}</h1>
+    <h1>{% trans "Please write a comment or cancel:" %}</h1> 
+
     <div class="comment">
       <div class="details">
-        <div class="title">
-          <img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ DESIGN_URL }}images/photo.png{% endif %}"/>
-          <div>
-            {% url 'view_profile' request.user.username as profile_url %}
-            {% blocktrans with request.user as user_name %}
-              <a href="{{profile_url}}">{{user_name}}</a> wrote:
-            {% endblocktrans %}
-          </div>
-        </div>
+        <div class="title">{% trans "Leave a comment:" %}</div>
       </div>
       <div class="body">
-        <div class="text"><p>{{comment}}</p></div>
+        {{ form.comment }}
+        {{ form.honeypot }}
+        {{ form.content_type }}
+        {{ form.object_pk }}
+        {{ form.timestamp }}
+        {{ form.security_hash }}
       </div>
-    </div>
-      <p>
-      {% trans "and" %} <input type="submit" name="submit" class="submit-post" value="{% trans "Post your comment" %}" id="submit" /> {% trans "or make changes" %}:
-      </p>-->
-    {% endif %}
-
-  <div class="comment">
-    <div class="details">
-      <div class="title">{% trans "Leave a comment:" %}</div>
-    </div>
-    <div class="body">
-      {{ form.comment }}
-      {{ form.honeypot }}
-      {{ form.content_type }}
-      {{ form.object_pk }}
-      {{ form.timestamp }}
-      {{ form.security_hash }}
-    </div>
-    <div class="footer">
-      <div class="buttonbar">
-        <a class="unique start end" id="cancel" href="">{% trans "Cancel" %}<a/>
-        <input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" />
+      <div class="footer">
+        <div class="buttonbar">
+          <a class="unique start end" id="cancel" href="">{% trans "Cancel" %}<a/>
+          <input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" />
+        </div>
       </div>
-    </div>
-  </div>   
-</form>
-    
+    </div>   
+  </form>   
 {% endblock %}
+
+<!--template name does not fit its purpose, change to comment_form_only or similar-->

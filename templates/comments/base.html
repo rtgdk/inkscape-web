@@ -2,10 +2,9 @@
 {% load i18n comments sekizai_tags %}
 
 {% block css %}
-{% addtoblock "css" %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
-{% endaddtoblock %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
+  {% endaddtoblock %}
 {% endblock %}
 
-{% block content %}
-{% endblock %}
+{% block content %}{% endblock %}

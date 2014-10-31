@@ -1,25 +1,20 @@
 {% extends "base.html" %}
-{% load i18n %}
 
+{% load i18n %}
 {% load cms_tags sekizai_tags %}
 
-{% block title %}{{ object.title }}{% endblock %}
-{% block body-pageid %}news-full{% endblock %}
-{% block css %}
-{% addtoblock 'css' %}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/news-full.css" media="all" />
-{% endaddtoblock %}
-{% endblock %}
-
 {% block content %}
-{% include "news/translation_option.html" %}
-  <h1>{{ object.title }}</h1>
+  {% addtoblock 'css' %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/news-full.css" media="all" />
+  {% endaddtoblock %}
+
+  {% include "news/translation_option.html" %}
+  <h1>{% block title %}{{ object.title }}{% endblock %}</h1>
   <p class="postdate">{{ object.pub_date }}</p>
   {% if not object.is_published %}
-  <div class="warning">{% trans "This article is not published yet!" %}</div>
+    <div class="warning">{% trans "This article is not published yet!" %}</div>
   {% endif %}
   {{ object.content|safe }}
-
 
 {% endblock %}
 

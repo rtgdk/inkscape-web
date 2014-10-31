@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
+{% load sekizai_tags %}
 {% load i18n pagination_tags pile %}
 
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
-{% endblock %}
-
-
 {% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
+  {% endaddtoblock %}
+
   <h1>New {{ alerttype }} Messages ({{ object_list.count }})</h1>
 
   {% autopaginate object_list 15 as items %}

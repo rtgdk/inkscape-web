@@ -1,10 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n comments sekizai_tags %}
+{% load sekizai_tags %}
 
-{% block css %}
-  {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
-  {% endaddtoblock %}
-{% endblock %}
+{% block contentclasses %}{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />{% endaddtoblock %}{% endblock %}
 
-{% block content %}{% endblock %}

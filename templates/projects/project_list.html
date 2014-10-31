@@ -2,11 +2,11 @@
 
 {% load i18n pagination_tags %}
 
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/projects.css"/>
-{% endblock %}
-
 {% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/projects.css"/>
+  {% endaddtoblock %}
+
   <h1>{% block title %}{% trans "Inkscape Projects" %}{% endblock %}</h1>
 
   {% autopaginate object_list 22 as items %}

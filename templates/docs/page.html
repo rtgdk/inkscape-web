@@ -1,13 +1,14 @@
 {% extends 'base.html' %}
 
-{% block extra-head %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/docs.css" >
-{% endblock %}
+{% load sekizai_tags %}
 
 {% block content %}
+  {% addtoblock "css" %}
+      <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/docs.css" >
+  {% endaddtoblock %}
 
-<h1>{{ title }}</h1>
+  <h1>{% block title %}{{ title }}{% endblock %}</h1>
 
-{{ content|safe }}
+  {{ content|safe }}
 
 {% endblock %}

@@ -2,21 +2,18 @@
 {% load cms_tags sekizai_tags %}
 {% load i18n %}
 
-{% block title %}{% trans "Latest News" %}{% endblock %}
 {% block body-pageid %}news-archive{% endblock %}
-{% block css %}
-{% addtoblock 'css' %}
-<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/news-archive.css" media="all" />
-{% endaddtoblock %}
-{% endblock %}
 
 {% block content %}
-{% if perms.cmsplugin_news.create %}
-  <div style="text-align: right;"><a href="{% url "news_create" %}"><img src="{{ STATIC_URL }}/images/add.svg" alt="{% trans "Create News" %}" style="float: right;"/></a></div>
-{% else %}
-  <a style="float: right;" href="{% url "news_rss" %}"><img src="{{ STATIC_URL }}/images/action-subscribe.png" alt="{% trans "RSS Feed" %}"/></a>
-{% endif %}
-  <h1>{% trans "Latest News" %}</h1>
+  {% addtoblock 'css' %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/news-archive.css" media="all" />
+  {% endaddtoblock %}
+  {% if perms.cmsplugin_news.create %}
+    <div style="text-align: right;"><a href="{% url "news_create" %}"><img src="{{ STATIC_URL }}/images/add.svg" alt="{% trans "Create News" %}" style="float: right;"/></a></div>
+  {% else %}
+    <a style="float: right;" href="{% url "news_rss" %}"><img src="{{ STATIC_URL }}/images/action-subscribe.png" alt="{% trans "RSS Feed" %}"/></a>
+  {% endif %}
+  <h1>{% block title %}{% trans "Latest News" %}{% endblock %}</h1>
   {% for object in latest %}
     {% include "news/list_item.html" %}
   {% endfor %}

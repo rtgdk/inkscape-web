@@ -1,13 +1,12 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n sekizai_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ user.name }}{% endblock %} 
 
-{% block css %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
-{% endblock %}
-
 {% block supercontent %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
+  {% endaddtoblock %}
 
   <div id="profile" style="background-color: #1c1c1c; color: white;">
     <img id="photo" src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
@@ -46,6 +45,5 @@
 
   </div>
 
-{% block content %}{% trans "Nothing" %}{% endblock %}
-
+  {% block content %}{% trans "Nothing" %}{% endblock %}
 {% endblock %}

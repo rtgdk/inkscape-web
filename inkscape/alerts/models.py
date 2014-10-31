@@ -24,6 +24,7 @@ from django.contrib.auth.models import User, Group
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+from django.core.mail.message import EmailMultiAlternatives
 from django.core.urlresolvers import reverse
 
 from pile.models import null
@@ -101,8 +102,8 @@ class AlertType(Model):
     enabled  = BooleanField(default=False)
 
     # Useful for email enable
-    #email_subject = CharField(_("Email Subject Template"), max_length=255)
-    #email_body    = TextField(_("Email Body Template"))
+    email_subject = CharField(_("Email Subject Template"), max_length=255, **null)
+    email_body    = TextField(_("Email Body Template"), **null)
 
     # These get copied into UserAlertSettings for this alert
     default_hide  = BooleanField(default=False)
@@ -271,7 +272,7 @@ class UserAlert(Model):
         if self.user.email and self.config.email:
             subject = render_directly(self.alert.email_subject, self.data.as_dict())
             body    = render_directly(self.alert.email_body, self.data.as_dict())
-            return EmailMultiAlternatives(subject, body, None, self.user.email)
+            return EmailMultiAlternatives(subject, body, None, (self.user.email,))
 
     def save(self, **kwargs):
         create = not bool(self.created)

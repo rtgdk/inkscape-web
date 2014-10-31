@@ -88,7 +88,7 @@ class Project(Model):
         return self.finished and 100.0 or 0.0
 
     def get_absolute_url(self):
-        return reverse('project', self.slug)
+        return reverse('project', kwargs={'project_id': self.slug})
 
 
 class Worker(Model):

@@ -1,0 +1,44 @@
+{% extends "comments/base.html" %}
+
+{% load i18n comments sekizai_tags %}
+
+{% block css %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />
+  {% endaddtoblock %}
+{% endblock %}
+
+{% block title %}{% trans "Comment moderation" %}{% endblock %}
+
+{% block content %}
+    <div class="comments">
+      {% include "comments/new_list.html" %}
+
+      {% if user.is_authenticated %}
+	{% if user.email %}
+	  {% include "comments/new_form.html" %}
+	{% else %}
+	  {% url 'edit_profile' as profile_url %}
+	  <div>
+	    {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!{% endblocktrans %}
+	  </div>
+	{% endif %}
+      {% else %}
+	{% url 'auth_login' as login_url %}
+	<div>
+	  {% blocktrans %}Please <a href="{{login_url}}">log in</a> to leave a comment!{% endblocktrans %}
+	</div>
+      {% endif %}
+    </div>
+{% endblock %}
+
+<!--- 
+Todo:
+- show all flagged comments with username, date, contents and object they belong to
+- show option to delete comment
+- show option to remove flags
+- show who flagged the comment
+- save who deleted a comment 
+- optional form to write down the reason why a comment was removed and send that as an email to the commentor 
+- optional form which informs an admin that the commentor is a spammer and asks for account deletion 
+-->

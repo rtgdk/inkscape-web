@@ -50,7 +50,7 @@
                   <label for="toplogin-password">{% trans "Password" %}</label>
                   <input name="password" id="toplogin-password" type="password">
                   <input class="button" type="submit" value="{% trans "Log in" %}">
-                  <input name="next" type="hidden" value="{{ request.path }}"/
+                  <input name="next" type="hidden" value="{{ request.path }}"/>
                 </form>
                 <form action="{% url "auth_register" %}" method="GET">
                   <input class="button" type="submit" value="{% trans "Register Now" %}"/>
@@ -69,7 +69,7 @@
                     <p><a href="/admin/">{% trans "Admin" %}</a></p>
                   {% endif %}
                   <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
-                  <p><a href="{% url "auth_logout" %}">{% trans "Logout" %}</a></p>
+                  <p><a href="{% url "auth_logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></p>
                 </div>
               {% endif %}
             </li>

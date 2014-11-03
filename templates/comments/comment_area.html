@@ -4,8 +4,9 @@
 
 
 <div id="comments">
+  {% get_comment_list for comment_subject as comment_list %}
   {% include "comments/new_list.html" %}
-
+  
   {% if user.is_authenticated %}
     {% if user.email %}
       {% include "comments/new_form.html" %}
@@ -22,3 +23,5 @@
     </div>
   {% endif %}
 </div>
+
+<!-- todo: replace comment.get_content_object_url with comment.get_absolute_url or %get_comment_permalink comment% in all templates, if there won't be a single comment view page -->

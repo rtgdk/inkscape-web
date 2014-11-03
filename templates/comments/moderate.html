@@ -1,6 +1,6 @@
 {% extends "comments/base.html" %}
 
-{% load i18n comments sekizai_tags %}
+{% load i18n comments sekizai_tags pile %}
 
 {% block css %}
   {% addtoblock "css" %}
@@ -11,34 +11,61 @@
 {% block title %}{% trans "Comment moderation" %}{% endblock %}
 
 {% block content %}
+  {% if perms.django_comments.delete_comment %}
+    <p>Can delete comments!</p>
+  {% endif %}
     <div class="comments">
-      {% include "comments/new_list.html" %}
+      {% get_comment_list for comment_subject as comment_list|dictsortreversed:"flags.count" %} <!--how do I get all comments? how do I get their subject?-->
+      <div>   
+        {% for comment in comment_list %}
+          {% with forloop.counter0|add:1 as comment_counter %}
+            <div class="comment">
+              <div class="details">
+                <div class="title">
+                  {% url 'view_profile' comment.user.username as profile_url %}
+                  <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+                  <div>
+                    {% url 'view_profile' comment.user.username as profile_url %}
+                    {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date %}
+                      <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ comment.get_content_object_url }}">this</a>:
+                    {% endblocktrans %}
+                  </div>
+                </div>   
+                <div class="index"><a href="">#{{ comment_counter }}</a></div>
+                  <a title='{% trans "Flags" %}' class="flag flagged" href="/comments/flag/{{ comment.id }}/">{{ comment.flags.count }}</a>
+                </div>
+                
+              <div class="body">
+                <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
+              </div>
+              <div class="footer"><div class="buttonbar"><a href=""><button>Moderate comment</button></a></div></div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
 
-      {% if user.is_authenticated %}
-	{% if user.email %}
-	  {% include "comments/new_form.html" %}
-	{% else %}
-	  {% url 'edit_profile' as profile_url %}
-	  <div>
-	    {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!{% endblocktrans %}
-	  </div>
-	{% endif %}
-      {% else %}
-	{% url 'auth_login' as login_url %}
-	<div>
-	  {% blocktrans %}Please <a href="{{login_url}}">log in</a> to leave a comment!{% endblocktrans %}
-	</div>
-      {% endif %}
     </div>
 {% endblock %}
 
 <!--- 
 Todo:
-- show all flagged comments with username, date, contents and object they belong to
-- show option to delete comment
-- show option to remove flags
-- show who flagged the comment
-- save who deleted a comment 
-- optional form to write down the reason why a comment was removed and send that as an email to the commentor 
-- optional form which informs an admin that the commentor is a spammer and asks for account deletion 
+
+- add page into django's structure
+- restrict access to the page and make access possible for the persons who need it
+- adapt css
+- show all flagged comments with x username/profile link, x date, x contents and x object/object link they belong to
+- sort them by number of flags and date
+- x show number of flags
+- x show option to moderate comment
+- clicking on that should bring the moderator to a page with a single comment only:
+  - this shows the same info about that comment, plus:
+  - who flagged the comment
+  - option to remove all flags of the comment
+  - option to delete comment (this will only hide it, not really delete)
+  - form for moderators to write down the reason why a comment was removed and send that as an email to the commentor, 
+    if possible already containing a placeholder text which only needs to be edited a bit. Copy of that mail also sent 
+    to admins
+  - optional checkbox which informs an admin that the commentor is a spammer and asks for account deletion / other escalation steps
+  - saves who hid the comment / removed flags
+  - somehow record / display some kind of 'user history', so repeated infringements of CoC can be followed up/consequences be taken
 -->

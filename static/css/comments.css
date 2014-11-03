@@ -98,6 +98,12 @@
   vertical-align: middle;
 }
 
+.comment .footer .buttonbar button {
+  float: left;
+  margin: 4px 8px;
+  vertical-align: middle;
+}
+
 .comment .footer .buttonbar #cochint {
   font-size: smaller;
   vertical-align: middle;

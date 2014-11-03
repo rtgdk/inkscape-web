@@ -22,10 +22,13 @@
       </div>
       <div class="footer">
         <div class="buttonbar">
-          <a class="unique start end" id="cancel" href="">{% trans "Cancel" %}<a/>
+          <a class="unique start end" id="cancel" href=""><button id="cancel">{% trans "Cancel" %}</button><a/>
           <input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" />
         </div>
       </div>
     </div>   
   </form>   
 {% endblock %}
+
+<!--todo: insert a useful link for the cancel button. Problem: comment isn't saved yet, so the only source for the object_pk / content_type is the form,
+but that only produces form fields...-->

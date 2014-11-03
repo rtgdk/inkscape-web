@@ -91,6 +91,25 @@ class ShieldPlugin(CMSPlugin):
     def render_template(self):
         return "cms/shield.html"
 
+    def get_translatable_content(self):
+        """Build a dictionary of translatable fields"""
+        tr_fields = {}
+        for (i, obj) in enumerate(self.tabs.all()):
+            for field in obj._meta.fields:
+                if field and isinstance(field, (CharField, TextField))\
+                   and not field.choices and field.editable and field.name\
+                   and field.name not in ('btn_link', 'link'):
+                    content = getattr(obj, field.name)
+                    if content:
+                        tr_fields['%s_%d' % (field.name, i)] = content
+        return tr_fields
+
+    def set_translatable_content(self, content):
+        """Set the generated content back"""
+        # XXX Take content and put into manytomany content here.
+        self.save()
+        return True
+
     def copy_relations(self, oldinstance):
         for tab in oldinstance.tabs.all():
             (obj, new) = Tab.objects.get_or_create(draft=tab, defaults=fab(tab))

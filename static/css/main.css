@@ -395,7 +395,10 @@ div.toc ul {
   display: block;
 }
 #toplogin input {
-  display: block;
+  display: inline-block;
+}
+#toplogin form {
+  display: inline;
 }
 #topdrops p a {
   color: white;

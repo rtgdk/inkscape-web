@@ -303,8 +303,6 @@ class ResourceFile(Resource):
 
     def as_text(self):
         if self.mime().is_text() or 'svg' in str(self.mime()):
-            import sys
-            sys.stderr.write(str(self.media_type))
             self.download.file.open()
             self.download.file.seek(0)
             return self.download.file.read().decode('utf-8')

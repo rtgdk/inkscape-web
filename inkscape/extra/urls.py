@@ -7,4 +7,5 @@ from .views import *
 
 urlpatterns = patterns('',
     url(r'^contact-admin/', contact_us, name='contact'),
+    url(r'^moderation/', Moderation.as_view(), name="moderation"),
 )

@@ -15,7 +15,7 @@
     <p>Can delete comments!</p>
   {% endif %}
     <div class="comments">
-      {% get_comment_list for comment_subject as comment_list|dictsortreversed:"flags.count" %} <!--how do I get all comments? how do I get their subject?-->
+      
       <div>   
         {% for comment in comment_list %}
           {% with forloop.counter0|add:1 as comment_counter %}
@@ -26,8 +26,8 @@
                   <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
                   <div>
                     {% url 'view_profile' comment.user.username as profile_url %}
-                    {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date %}
-                      <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ comment.get_content_object_url }}">this</a>:
+                    {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
+                      <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
                     {% endblocktrans %}
                   </div>
                 </div>   
@@ -50,11 +50,11 @@
 <!--- 
 Todo:
 
-- add page into django's structure
+- x add page into django's structure
 - restrict access to the page and make access possible for the persons who need it
 - adapt css
-- show all flagged comments with x username/profile link, x date, x contents and x object/object link they belong to
-- sort them by number of flags and date
+- x show all x public and x flagged comments with x username/profile link, x date, x contents and x object/ x object link they belong to
+- sort them by x number of flags and date
 - x show number of flags
 - x show option to moderate comment
 - clicking on that should bring the moderator to a page with a single comment only:

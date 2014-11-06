@@ -1,0 +1,63 @@
+{% extends "comments/base.html" %}
+
+{% load i18n comments pile pagination_tags %}
+
+{% block title %}{% trans "Review Flagged Comments" %}{% endblock %}
+
+{% block content %}
+
+    <h1>{% trans "Review flagged Comments" %}</h1>
+    
+    <div class="comments">  
+      <div>   
+        {% autopaginate comment_list 10 as commentslist %}
+        {% for comment in commentslist %}
+          {% with forloop.counter0|add:1 as comment_counter %}
+            <div class="comment">
+              <div class="details">
+                <div class="title">
+                  {% url 'view_profile' comment.user.username as profile_url %}
+                  <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+                  <div>
+                    {% url 'view_profile' comment.user.username as profile_url %}
+                    {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
+                      <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
+                    {% endblocktrans %}
+                  </div>
+                </div>   
+                <div class="index"><a href="">#{{ comment_counter }}</a></div>
+                  <div class="flagcount">{{ comment.flags.count }}</div> 
+                  <div title='{% trans "Flags" %}' class="flag flagged"></div>
+                </div>
+                
+              <div class="body">
+                <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
+              </div>
+              <div class="footer"><div class="buttonbar"><a href=""><button>Moderate comment</button></a></div></div>
+            </div>
+          {% endwith %}
+        {% endfor %}
+      </div>
+    {% paginate %}
+    </div>
+{% endblock %}
+
+<!--- 
+Todo:
+
+- adapt css
+
+- clicking on button at comment should bring the moderator to a page with a single comment only:
+  - this shows the same info about that comment, plus:
+  - who flagged the comment
+  - option to remove all flags of the comment
+  - option to delete comment (this will only hide it, not really delete)
+  - form for moderators to write down the reason why a comment was removed and send that as an email to the commentor, 
+    if possible already containing a placeholder text which only needs to be edited a bit. Copy of that mail also sent 
+    to admins
+  - optional checkbox which informs an admin that the commentor is a spammer and asks for account deletion / other escalation steps
+  - saves who hid the comment / removed flags
+  - somehow record / display some kind of 'user history', so repeated infringements of CoC can be followed up/consequences be taken
+  
+- add page with recent comments
+-->

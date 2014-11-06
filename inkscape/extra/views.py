@@ -27,16 +27,23 @@ def contact_us(request):
         return render_to_response('feedback.html', {}, RequestContext(request))
     return render_to_response('feedback.html', { 'form': form }, RequestContext(request))
 
-class Moderation(generic.ListView):
-    template_name = 'comments/moderate.html'
+class ModerateFlagged(generic.ListView):
+    template_name = 'comments/moderate_flagged.html'
     context_object_name = 'comment_list'
     
-    @method_decorator(permission_required("django_comments.delete_comment"))
+    #prevent people who do not have comment moderation rights from accessing moderation page, shows 403 instead
+    @method_decorator(permission_required("django_comments.can_moderate", raise_exception=True))
+    def dispatch(self, *args, **kwargs):
+        return super(ModerateFlagged, self).dispatch(*args, **kwargs)
+    
+    #get all non-hidden, flagged comments and reverse order them by number of flags
+    def get_queryset(self):
+      return django_comments.Comment.objects.all().filter(is_removed=0).annotate(flag_count=Count('flags')).filter(flag_count__gt=0).order_by("-flag_count")
+    
+class Moderation(generic.TemplateView):
+    template_name = 'comments/moderation.html'
+  
+    #prevent people who do not have comment moderation rights from accessing moderation page, shows 403 instead
+    @method_decorator(permission_required("django_comments.can_moderate", raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(Moderation, self).dispatch(*args, **kwargs)
-    
-    def get_queryset(self):
-      return django_comments.Comment.objects.all().filter(is_removed=0).filter(flags__comment_id__gt=0).annotate(flag_count=Count('flags')).order_by("-flag_count")
-    
-#somehow show a 404 or a text saying 'would you like to help with commments moderation?" 
-#instead of login page for logged in users who don't have permission and accidentally discover the moderation page

@@ -67,12 +67,19 @@
   width: 20px;
   height: 20px;
   background-position: center -40px;
-  cursor: pointer;
+}
+
+.comment .details a.flag {
+    cursor: pointer;
 }
 
 .comment .details .flag:hover, 
 .comment .details .flag.flagged {
   background-position: center 0;
+}
+
+.comment .details .flagcount {
+  float: right;
 }
 
 .comment .body {

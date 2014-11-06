@@ -24,6 +24,7 @@ urlpatterns += i18n_patterns('',
     url(r'^',           include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
+    url(r'$^',          'none', name='cms_usersettings_change'),
 )
 
 for e in ('403','404','500'):

@@ -12,7 +12,7 @@
   {% autopaginate object_list 22 as items %}
 
   <div class="project-list">
-    <div class="item">
+    <div class="project-item">
         {% for project in items %}
             {% include "projects/project_item.html"  %}
         {% empty %}

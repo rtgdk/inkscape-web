@@ -271,7 +271,7 @@ class ResourceFile(Resource):
         if self.download and self.has_file_changed():
             # We might be able to detect that the download has changed here.
             if self.mime().is_raster():
-                self.thumbnail.save(self.download.name, self.download)
+                self.thumbnail.save(self.download.name, self.download, save=False)
             elif self.thumbnail:
                 self.thumbnail = None
         Resource.save(self, *args, **kwargs)

@@ -593,6 +593,23 @@ body > .footer .nav ul {
   list-style-type: none;
   padding-left: 0;
 }
+a.button {
+  padding: 12px;
+  text-decoration: none;
+  font-size: 14px;
+  display: block;
+  background: #eeeeee;
+  background-image: linear-gradient(to bottom, #ffffff, #b4b4b4);
+  border: 1px solid #999999;
+  border-radius: 7px;
+  color: #333333;
+  outline: 0;
+}
+a.button:hover, a.button:focus, a.button:active {
+  text-decoration: none;
+  background: white;
+  background-image: linear-gradient(to bottom, white, #c6c6c6);
+}
 #final-footer {
   text-align: center;
   color: #999999;

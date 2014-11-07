@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^admin/',     include(admin.site.urls)),
-    url(r'^rosetta/',   include('rosetta.urls')),
+#    url(r'^rosetta/',   include('rosetta.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
     url(r'^comments/',  include('django_comments.urls')),
@@ -24,9 +24,10 @@ urlpatterns += i18n_patterns('',
     url(r'^',           include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
+    url(r'$^',          'none', name='cms_usersettings_change'),
 )
 
 for e in ('403','404','500'):
-    locals()['handler'+e] = 'views.error'+e
-    urlpatterns += patterns('', url('^error/'+e+'/', 'views.error'+e, name='error'+e))
+    locals()['handler'+e] = 'inkscape.views.error'+e
+    urlpatterns += patterns('', url('^error/'+e+'/', 'inkscape.views.error'+e, name='error'+e))
 

@@ -89,6 +89,13 @@ STATICFILES_DIRS = os.path.join(PROJECT_PATH, 'static'),
 # Place where static files can be seen online
 STATIC_URL = '/static/'
 
+LOCALE_PATHS = (
+  os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),
+)
+ROSETTA_EXTRA_PATHS = (
+  os.path.join(PROJECT_PATH, 'data', 'locale', 'inkscape'),
+)
+
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
     'django.template.loaders.filesystem.Loader',
@@ -147,7 +154,6 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
-    'rosetta',
     'haystack',
     'reversion',
     'pile',
@@ -163,6 +169,7 @@ INSTALLED_APPS = (
     'djangocms_picture',
     'djangocms_snippet',
     'djangocms_link',
+#    'djangocms_rosetta',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',

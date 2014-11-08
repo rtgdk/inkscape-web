@@ -27,14 +27,14 @@
                   </div>
                 </div>   
                 <div class="index"><a href="">#{{ comment_counter }}</a></div>
-                  <div class="flagcount">{{ comment.flags.count }}</div> 
+                  <div class="flagcount">{{ comment.flags.count }}</div>
                   <div title='{% trans "Flags" %}' class="flag flagged"></div>
                 </div>
                 
               <div class="body">
                 <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
               </div>
-              <div class="cfooter"><div class="buttonbar"><a href="{% url 'moderate_comment' comment.pk %}" class="button">Moderate comment</a></div></div>
+              <div class="cfooter"><div class="buttonbar"><a href="{% url 'moderate_comment' comment.pk %}?next={% url "moderate_flagged" %}" class="button">Moderate comment</a></div></div>
             </div>
           {% endwith %}
         {% endfor %}
@@ -48,6 +48,6 @@ Todo:
 
 - adapt css
 - for moderate-comment-page:
-  - saves who hid the comment / removed flags
+  - saves who hid the comment
   - somehow record / display some kind of 'user history', so repeated infringements of CoC can be followed up/consequences be taken
 -->

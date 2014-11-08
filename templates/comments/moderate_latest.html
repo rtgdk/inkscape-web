@@ -26,14 +26,21 @@
                   </div>
                 </div>   
                 <div class="index"><a href="">#{{ comment_counter }}</a></div>
-                  <div class="flagcount">{{ comment.flags.count }}</div> 
-                  <div title='{% trans "Flags" %}' class="flag flagged"></div>
-                </div>
+                {% with comment.flags.count as num_flags %}
+                  {% for flag in comment.flags.all %}
+                    {% ifequal flag.flag "moderator approval" %}
+                      <div>Approved</div>
+                    {% endifequal %}
+                  {% endfor %}
+                <div class="flagcount">{{ num_flags }}</div>
+                {% endwith %}
+                <div title='{% trans "Flags" %}' class="flag flagged"></div>
+              </div>
                 
               <div class="body">
                 <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
               </div>
-              <div class="cfooter"><div class="buttonbar"><a class="button" href="{% url 'moderate_comment' comment.pk %}">Moderate comment</a></div></div>
+              <div class="cfooter"><div class="buttonbar"><a class="button" href="{% url 'moderate_comment' comment.pk %}?next={% url "moderate_latest" %}">Moderate comment</a></div></div>
             </div>
           {% endwith %}
         {% endfor %}
@@ -41,3 +48,5 @@
     {% paginate %}
     </div>
 {% endblock %}
+
+<!-- todo: CSS for 'Approved' -->

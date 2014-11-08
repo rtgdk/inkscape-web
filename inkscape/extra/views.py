@@ -46,9 +46,9 @@ class ModerateFlagged(generic.ListView):
     def dispatch(self, *args, **kwargs):
         return super(ModerateFlagged, self).dispatch(*args, **kwargs)
     
-    #get all non-hidden, flagged comments and reverse order them by number of flags
+    #get all non-hidden, flagged, unapproved comments and reverse order them by number of flags
     def get_queryset(self):
-      return django_comments.Comment.objects.all().filter(is_removed=0).annotate(flag_count=Count('flags')).filter(flag_count__gt=0).order_by("-flag_count")
+      return django_comments.Comment.objects.all().filter(is_removed=0).exclude(flags__flag="moderator approval").annotate(flag_count=Count('flags')).filter(flag_count__gt=0).order_by("-flag_count")
     
 class ModerateLatest(generic.ListView):
     template_name = 'comments/moderate_latest.html'
@@ -71,4 +71,5 @@ class ModerateComment(generic.DetailView):
     @method_decorator(permission_required("django_comments.can_moderate", raise_exception=True))
     def dispatch(self, *args, **kwargs):
         return super(ModerateComment, self).dispatch(*args, **kwargs)
-    
+
+#todo: don't count moderator approval flags in ModerateLatest query and pass the counted removal suggestion flags value to the template.    

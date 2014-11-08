@@ -2,14 +2,13 @@
 
 {% load i18n comments pile pagination_tags %}
 
-{% block title %}{% trans "Review Flagged Comments" %}{% endblock %}
+{% block title %}{% trans "Review Latest Comments" %}{% endblock %}
 
 {% block content %}
-
-    <h1>{% trans "Review flagged Comments" %}</h1>
+    <h1>{% trans "Review latest Comments" %}</h1>
     
     <div class="comments">
-    <h2>{% trans "This is a list of all comments reported by our users" %} ({{ comment_list|length }}):</h2>
+      <h2>{% trans "These are the comments made by our users within the last 30 days" %} ({{ comment_list|length }}):</h2>
       <div>   
         {% autopaginate comment_list 10 as commentslist %}
         {% for comment in commentslist %}
@@ -34,7 +33,7 @@
               <div class="body">
                 <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
               </div>
-              <div class="cfooter"><div class="buttonbar"><a href="{% url 'moderate_comment' comment.pk %}" class="button">Moderate comment</a></div></div>
+              <div class="cfooter"><div class="buttonbar"><a class="button" href="{% url 'moderate_comment' comment.pk %}">Moderate comment</a></div></div>
             </div>
           {% endwith %}
         {% endfor %}
@@ -42,12 +41,3 @@
     {% paginate %}
     </div>
 {% endblock %}
-
-<!--- 
-Todo:
-
-- adapt css
-- for moderate-comment-page:
-  - saves who hid the comment / removed flags
-  - somehow record / display some kind of 'user history', so repeated infringements of CoC can be followed up/consequences be taken
--->

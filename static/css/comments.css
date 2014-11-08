@@ -26,7 +26,7 @@
   border-radius: 8px 8px 0 0;
 }
 .comment .details div,
-.comment .footer div {
+.comment .cfooter div {
   display: inline-block;
 }
 
@@ -93,33 +93,36 @@
 
 /* CSS for comment form */
 
-.comment .footer .buttonbar {
+.comment .cfooter .buttonbar {
   width: 100%;
   height: auto;
   padding: 0px;
 }
 
-.comment .footer .buttonbar input {
+.comment .cfooter .buttonbar input,
+.comment .cfooter .buttonbar .button,
+.comments .button {
   float: right;
   margin: 4px 8px;
   vertical-align: middle;
+  padding: 0 6px;
 }
 
-.comment .footer .buttonbar button {
+.comment .cfooter .buttonbar button {
   float: left;
   margin: 4px 8px;
   vertical-align: middle;
 }
 
-.comment .footer .buttonbar #cochint {
+.comment .cfooter .buttonbar #cochint {
   font-size: smaller;
   vertical-align: middle;
   float: none;
   padding: 4px 8px;
 }
 
-.comment .footer .buttonbar #cochint a,
-.comment .footer .buttonbar #cochint a:hover {
+.comment .cfooter .buttonbar #cochint a,
+.comment .cfooter .buttonbar #cochint a:hover {
   display: inline;
   border: none;
   padding: 0;
@@ -131,15 +134,16 @@
   font-size: inherit;
 }
 
-.comment .footer .buttonbar #cochint a:hover {
+.comment .cfooter .buttonbar #cochint a:hover {
   text-decoration: underline;
 }
 
-.comment #id_comment {
+.comment #id_comment,
+.comments #message {
   width: 99%;
 }
 
-.comment .footer {
+.comment .cfooter {
   background-color: #F8F8F8;
   color: #666;
   border-top: 1px solid #ddd;
@@ -150,3 +154,30 @@
     display: none;
 }
 
+.comments #hidecomment,
+.comments #approvecomment {
+  float: left;
+  width: 46%;
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  margin: 1%;
+  padding: 8px;
+  min-height: 30em;
+  background-color: #eee;
+}
+
+/*.comments #flaggers {
+  clear: both;
+}*/
+
+.comments .button.moderation {
+  float: none;
+  padding: 12px;
+  text-align: center;
+  margin: 2em;
+}
+
+.comments #chooseaction {
+  display: block;
+  text-align: center;
+}

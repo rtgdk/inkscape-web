@@ -1,0 +1,83 @@
+{% extends "comments/base.html" %}
+
+{% load i18n comments pile %}
+
+{% block title %}{% trans "Review Flagged Comments" %}{% endblock %}
+
+{% block content %}
+
+<h1>{% trans "Moderate Comment" %}</h1>
+
+<div class="comments">
+  <p>{% trans "You can do two things here" %}:</p>
+    <ul>
+      <li>{% trans "Approve this comment: future reports of this comment will be ignored." %}</li>
+      <li>{% trans "Hide this comment: the comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
+    </ul>
+  
+  <div class="comment">
+    <div class="details">
+      <div class="title">
+        {% url 'view_profile' comment.user.username as profile_url %}
+        <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+        <div>
+          {% url 'view_profile' comment.user.username as profile_url %}
+          {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
+            <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
+          {% endblocktrans %}
+        </div>
+      </div>   
+      
+      <div class="index"><a href="">#{{ comment_counter }}</a></div>
+      <div class="flagcount">{{ comment.flags.count }}</div> 
+      <div title='{% trans "Flags" %}' class="flag flagged"></div>
+    </div>
+          
+    <div class="body">
+      <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>     
+    </div> 
+  </div>
+  
+  <div id="flaggers">
+    <p>{% trans "This comment was reported by" %}:
+      {% for flag in comment.flags.all %}{% url 'view_profile' flag.user.username as flagger_url %}<a href="{{ flagger_url }}">{{ flag.user.username }} </a> {% endfor %}
+    </p>
+  </div>
+  
+  <div id="chooseaction">
+    <div id="hidecomment">
+      <h3>{% trans "Hide Comment" %}</h3>
+
+      <form action="">
+        <textarea name="message" id="message" cols="50" rows="25">Hi {{ comment.user.username }}!
+
+The Inkscape Community Moderators noticed that someone reported your comment at 
+https://www.inkscape.org{% get_comment_permalink comment %} .
+You wrote:
+
+{{ comment.comment }}
+          
+In accordance with our Community Code of Conduct (https://www.inkscape.org/community/coc), we remove your comment, because 
+INSERT REASON HERE.
+
+As a user of this website, please adhere to our Code of Conduct and be considerate and courteous towards other users. 
+
+Best regards,
+Inkscape Community Moderators</textarea>
+        <label>{% trans "This needs the attention of a site administrator" %}:<input type="checkbox" name="adminactionrequired"/></label><br/>
+        <input type="submit" class="button" action="" value="{% trans "Hide comment and send message to commentor" %}" />
+      </form>  
+    </div>
+    
+    <div id="approvecomment">
+      <h3>{% trans "Approve Comment or Cancel" %}</h3>
+      <a href="" class="button moderation">{% trans "Approve Comment" %}</a> or
+      <a href="{% url "moderation" %}" class="button moderation">{% trans "Cancel" %}</a>
+    </div>
+  </div>
+  
+</div>
+{% endblock %}
+
+<!--todo: do something with the posted data - i.e. send message to commentor, to admin, remove flags/make them ignored, hide comment,
+handle errors. Adding a breadcrumb navigation would be nice. -->

@@ -11,7 +11,9 @@
     <h2>{% trans "What would you like to do?" %}</h2>
     <ul>
       <li><a href="{% url "moderate_flagged" %}" >{% trans "Moderate comments reported by other users" %}</a></li>
-      <li><a href="" >{% trans "Review the latest comments for quality" %}</a></li>
+      <li><a href="{% url "moderate_latest" %}" >{% trans "Review the latest comments for quality" %}</a></li>
     </ul>
   </div>
 {% endblock %}
+
+<!-- todo: breadcrumbs on subpages would be great -->

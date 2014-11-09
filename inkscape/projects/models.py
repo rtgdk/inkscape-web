@@ -29,7 +29,7 @@ from django.contrib.contenttypes.models import ContentType
 from django.core.urlresolvers import reverse
 
 from pile.models import null
-from inkscape.fields import ResizedImageField
+from pile.fields import ResizedImageField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
@@ -47,9 +47,11 @@ class Project(Model):
     title  = CharField(_('Title'), max_length=100)
     slug   = SlugField(unique=True)
 
-    banner   = ResizedImageField(_("Banner (120x650)"), max_height=120, max_width=650,
+    banner   = ResizedImageField(_("Banner (120x920)"), max_height=120, max_width=920,
+                                                        min_height=90, min_width=600,
                           upload_to=os.path.join('project', 'banner'))
     logo     = ResizedImageField(_("Logo (150x150)"), max_height=150, max_width=150,
+                                                      min_height=150, min_width=150,
                           upload_to=os.path.join('project', 'logo'))
 
     duration = IntegerField(_('Expected Duration in Days'))
@@ -88,7 +90,7 @@ class Project(Model):
         return self.finished and 100.0 or 0.0
 
     def get_absolute_url(self):
-        return reverse('project', kwargs={'project_id': self.slug})
+        return reverse('project', kwargs={'slug': self.slug})
 
 
 class Worker(Model):

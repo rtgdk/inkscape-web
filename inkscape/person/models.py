@@ -6,7 +6,7 @@ from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
-from inkscape.fields import ResizedImageField, AutoOneToOneField
+from pile.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 

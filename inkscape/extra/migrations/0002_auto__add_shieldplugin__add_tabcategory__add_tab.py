@@ -18,7 +18,7 @@ class Migration(SchemaMigration):
         db.create_table(u'extra_tabcategory', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
             ('name', self.gf('django.db.models.fields.CharField')(max_length=22)),
-            ('icon', self.gf('inkscape.fields.ResizedImageField')(max_width=32, max_length=100, name='icon', max_height=32)),
+            ('icon', self.gf('pile.fields.ResizedImageField')(max_width=32, max_length=100, name='icon', max_height=32)),
         ))
         db.send_create_signal(u'extra', ['TabCategory'])
 
@@ -130,7 +130,7 @@ class Migration(SchemaMigration):
         },
         u'extra.tabcategory': {
             'Meta': {'object_name': 'TabCategory'},
-            'icon': ('inkscape.fields.ResizedImageField', [], {'max_width': '32', 'max_length': '100', 'name': "'icon'", 'max_height': '32'}),
+            'icon': ('pile.fields.ResizedImageField', [], {'max_width': '32', 'max_length': '100', 'name': "'icon'", 'max_height': '32'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '22'})
         },
@@ -169,7 +169,7 @@ class Migration(SchemaMigration):
             'media_type': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'thumbnail': ('inkscape.fields.ResizedImageField', [], {'name': "'thumbnail'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
+            'thumbnail': ('pile.fields.ResizedImageField', [], {'name': "'thumbnail'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'resources'", 'to': u"orm['auth.User']"}),
             'viewed': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },

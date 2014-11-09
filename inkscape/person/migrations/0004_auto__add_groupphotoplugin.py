@@ -96,9 +96,9 @@ class Migration(SchemaMigration):
             'ircpass': ('django.db.models.fields.CharField', [], {'max_length': '128', 'null': 'True', 'blank': 'True'}),
             'last_seen': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
             'ocuser': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
-            'photo': ('inkscape.fields.ResizedImageField', [], {'name': "'photo'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
+            'photo': ('pile.fields.ResizedImageField', [], {'name': "'photo'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
             'tbruser': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
-            'user': ('inkscape.fields.AutoOneToOneField', [], {'related_name': "'details'", 'unique': 'True', 'to': u"orm['auth.User']"}),
+            'user': ('pile.fields.AutoOneToOneField', [], {'related_name': "'details'", 'unique': 'True', 'to': u"orm['auth.User']"}),
             'visits': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },
         u'person.userroll': {

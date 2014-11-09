@@ -11,9 +11,9 @@ class Migration(SchemaMigration):
         # Adding model 'UserDetails'
         db.create_table(u'person_userdetails', (
             (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('inkscape.fields.AutoOneToOneField')(related_name='details', unique=True, to=orm['auth.User'])),
+            ('user', self.gf('pile.fields.AutoOneToOneField')(related_name='details', unique=True, to=orm['auth.User'])),
             ('bio', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('photo', self.gf('inkscape.fields.ResizedImageField')(name='photo', max_height=190, max_length=100, max_width=190, blank=True, null=True)),
+            ('photo', self.gf('pile.fields.ResizedImageField')(name='photo', max_height=190, max_length=100, max_width=190, blank=True, null=True)),
         ))
         db.send_create_signal(u'person', ['UserDetails'])
 
@@ -77,8 +77,8 @@ class Migration(SchemaMigration):
             'Meta': {'object_name': 'UserDetails'},
             'bio': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
             u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'photo': ('inkscape.fields.ResizedImageField', [], {'name': "'photo'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
-            'user': ('inkscape.fields.AutoOneToOneField', [], {'related_name': "'details'", 'unique': 'True', 'to': u"orm['auth.User']"})
+            'photo': ('pile.fields.ResizedImageField', [], {'name': "'photo'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
+            'user': ('pile.fields.AutoOneToOneField', [], {'related_name': "'details'", 'unique': 'True', 'to': u"orm['auth.User']"})
         },
         u'person.userroll': {
             'Meta': {'object_name': 'UserRoll'},

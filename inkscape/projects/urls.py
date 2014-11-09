@@ -23,7 +23,7 @@ from .views import *
 
 
 urlpatterns = patterns('',
-  url(r'^$',                       ProjectList(), name="projects"),
-  url(r'^(?P<project_id>[\w-]+)/', ProjectView(), name="project"),
+  url(r'^$',                   ProjectList(), name="projects"),
+  url(r'^(?P<slug>[\w-]+)/$',  ProjectView(), name="project"),
 )
 

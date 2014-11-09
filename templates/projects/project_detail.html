@@ -1,0 +1,62 @@
+{% extends "base.html" %}
+
+{% load i18n pile %}
+
+{% block title %}{% trans "Project" %} | {{ object.title }}{% endblock %}
+
+{% block content %}
+
+  <style>
+.banner img {
+  max-width: 920px;
+  max-height: 120px;
+  min-width: 600px;
+  min-height: 90px;
+  display: inline-block;
+}
+.banner {
+  text-align: center;
+}
+  </style>
+
+  <div class="banner">
+    <img src="{{ object.banner.url }}" title="{{ object.title }}"/>
+  </div>
+
+  <div>
+    <div id="left-column">
+        <h1>Project Updates</h1>
+        {% for update in object.updates.all %}
+            {% if update.image %}
+              <img src="{{ update.image.url }}" style="float: left;"/>
+            {% endif %}
+            <p>{{ update.describe }}</p>
+            <hr/>
+        {% endfor %}
+    </div>
+    <div id="right-sidebar">
+      <a class="project teaser well" href="{{ object.get_absolute_url }}">
+       <div class="status">
+        <label class="author">{% trans "Proposed By" %}:</label>
+        <span class="author">{{ object.proposer }}</span>
+
+        <label class="goal">{% trans "Goal" %}:</label>
+        <span class="goal">{{ object.funding.goal }} $1000</span>
+
+        <label class="remaining">{% trans "Remaining" %}:</label>
+        <span class="remaining">{{ object.finished|timeuntil }}</span>
+       </div>
+
+       <div class="progress bar">
+        <div class="bar" style="width: 50%"></div>
+        <div class="info">
+            <strong>{% trans "Achieved" %}:</strong>
+            $500
+        </div>
+       </div>
+      </a>
+    </div>
+  </div>
+
+
+{% endblock %}

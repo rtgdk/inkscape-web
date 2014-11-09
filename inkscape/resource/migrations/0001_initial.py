@@ -53,7 +53,7 @@ class Migration(SchemaMigration):
             ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
             ('edited', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
             ('published', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('thumbnail', self.gf('inkscape.fields.ResizedImageField')(name='thumbnail', max_height=190, max_length=100, max_width=190, blank=True, null=True)),
+            ('thumbnail', self.gf('pile.fields.ResizedImageField')(name='thumbnail', max_height=190, max_length=100, max_width=190, blank=True, null=True)),
             ('link', self.gf('django.db.models.fields.URLField')(max_length=200, null=True, blank=True)),
             ('viewed', self.gf('django.db.models.fields.IntegerField')(default=0)),
             ('downed', self.gf('django.db.models.fields.IntegerField')(default=0)),
@@ -219,7 +219,7 @@ class Migration(SchemaMigration):
             'media_type': ('django.db.models.fields.CharField', [], {'max_length': '64', 'null': 'True', 'blank': 'True'}),
             'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
             'published': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'thumbnail': ('inkscape.fields.ResizedImageField', [], {'name': "'thumbnail'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
+            'thumbnail': ('pile.fields.ResizedImageField', [], {'name': "'thumbnail'", 'max_height': '190', 'max_length': '100', 'max_width': '190', 'blank': 'True', 'null': 'True'}),
             'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'resources'", 'to': u"orm['auth.User']"}),
             'viewed': ('django.db.models.fields.IntegerField', [], {'default': '0'})
         },

@@ -30,8 +30,8 @@ from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
 from cms.models import CMSPlugin
+from pile.fields import ResizedImageField
 
-from inkscape.fields import ResizedImageField
 from inkscape.resource.models import ResourceFile
 
 null = dict(null=True, blank=True)

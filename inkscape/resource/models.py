@@ -30,8 +30,8 @@ from django.core.files.images import get_image_dimensions
 from model_utils.managers import InheritanceManager
 
 from inkscape.settings import MAX_PREVIEW_SIZE
-from inkscape.fields import ResizedImageField
 
+from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed
 from inkscape.settings import STATIC_URL
 

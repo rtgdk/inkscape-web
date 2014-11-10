@@ -406,7 +406,7 @@ class GalleryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resource/%s.html" % self.display or 'list'
+        return "resource/%s.html" % (self.display or 'list')
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))
@@ -415,5 +415,5 @@ class CategoryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resource/%s.html" % self.display or 'list'
+        return "resource/%s.html" % (self.display or 'list')
 

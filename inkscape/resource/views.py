@@ -225,8 +225,9 @@ def view_gallery(request, gallery_id):
       'items'      : gallery.items.for_user(request.user),
       'gallery'    : gallery,
       'breadcrumbs': breadcrumbs(gallery.user, gallery),
+      'limit'      : 15 - gallery.is_editable(request.user),
     }
-    c['limit'] = 15 - gallery.is_editable(request.user)
+    
     if gallery.group:
         c['breadcrumbs'] = breadcrumbs(gallery)
 
@@ -243,8 +244,9 @@ def view_user(request, user_id):
       'me': user == request.user,
       'items': user.galleries.for_user(request.user),
       'breadcrumbs': breadcrumbs(user, "Galleries"),
+      'limit'      : 15 - (user == request.user),
     }
-    c['limit'] = 15 - (user == request.user)
+    
     return render_to_response('resource/user.html', c,
         context_instance=RequestContext(request))
 

@@ -20,7 +20,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
-from pile.views import DetailView, CategoryListView
+from pile.views import DetailView, CategoryListView, breadcrumbs
 from .models import Project
 
 class ProjectList(CategoryListView):
@@ -32,6 +32,22 @@ class ProjectList(CategoryListView):
       ('complete', 'completed__isnull'),
     )
 
+    def get_context_data(self, **kwargs):
+        data = CategoryListView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+        )
+        return data
+
+
 class ProjectView(DetailView):
     model = Project
+
+    def get_context_data(self, **kwargs):
+        data = DetailView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+            data['object'],
+        )
+        return data
 

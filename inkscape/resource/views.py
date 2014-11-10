@@ -27,22 +27,10 @@ from django.template import RequestContext
 
 from django.utils.timezone import now
 from django.contrib.auth.models import User
+from pile.views import breadcrumbs
 
 from .models import *
 from .forms import *
-
-def breadcrumbs(*args):
-    yield ('/', _('Home'))
-    # XXX We could automatically navigate items here using a parent meta type.
-    for model in args:
-        if type(model) is str:
-            yield ("", _(model))
-        elif model is None:
-            pass
-        elif not hasattr(model, "get_absolute_url"):
-            raise ValueError("Refusing the make '%s' into a breadcrumb!" % str(model))
-        else:
-            yield (model.get_absolute_url(), unicode(model))
 
 @login_required
 def delete_gallery(request, gallery_id):

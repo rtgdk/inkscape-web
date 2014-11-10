@@ -46,3 +46,13 @@ site.register(Project, ProjectAdmin)
 site.register(ProjectType)
 site.register(Criteria)
 
+class TaskInline(TabularInline):
+    model = Task
+    extra = 3
+
+class DeliverableAdmin(ModelAdmin):
+    list_display = ('name', 'project', 'finished')
+    inlines = (TaskInline,)
+
+site.register(Deliverable, DeliverableAdmin)
+

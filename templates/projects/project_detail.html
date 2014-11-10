@@ -25,7 +25,6 @@
         {% endfor %}
     </div>
     <div id="right-sidebar">
-      <a class="project" href="{{ object.get_absolute_url }}">
        <div class="status">
         <label class="author">{% trans "Proposed By" %}:</label>
         <span class="author">{{ object.proposer }}</span>
@@ -43,7 +42,21 @@
             $500
         </div>
        </div>
-      </a>
+
+       {% if object.started %}
+       <h3>Project Progress</h3>
+       <ol class="checklist">
+         {% for del in object.deliverables.all %}
+           <li{% if del.finished %} class="done"{% endif %}>{{ del }}</li>
+           <ul>
+           {% for task in del.tasks.all %}
+             <li{% if task.finished %} class="done"{% endif %}>{{ task }}</li>
+           {% endfor %}
+           </ul>
+         {% endfor %}
+       </ol>
+       {% endif %}
+
     </div>
   </div>
 

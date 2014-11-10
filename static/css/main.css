@@ -668,7 +668,11 @@ hr {
   height: 1px;
   width: 100%;
 }
- 
+
+ol.checklist > li.done {
+    font-weight: bold;
+}
+
 ol.checklist ul {
     list-style: none;
     padding: 0px;

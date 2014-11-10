@@ -120,6 +120,9 @@ class Deliverable(Model):
     targeted = DateField(**null)
     finished = DateField(**null)
     
+    class Meta:
+        ordering = 'sort',
+
     def __str__(self):
         return self.name
 
@@ -132,6 +135,9 @@ class Task(Model):
     targeted = DateField(**null)
     finished = DateField(**null)
     
+    class Meta:
+        ordering = 'targeted',
+
     def __str__(self):
         return self.name
 

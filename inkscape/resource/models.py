@@ -402,18 +402,18 @@ DISPLAYS = (
 class GalleryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))
     source   = ForeignKey(Gallery)
-    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
+    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, default='list')
 
     @property
     def render_template(self):
-        return "resource/%s.html" % self.display or 'list'
+        return "resource/%s.html" % self.display
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items'))
     source   = ForeignKey(Category)
-    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
+    display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, default='list')
 
     @property
     def render_template(self):
-        return "resource/%s.html" % self.display or 'list'
+        return "resource/%s.html" % self.display
 

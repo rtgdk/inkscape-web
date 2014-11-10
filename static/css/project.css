@@ -1,0 +1,40 @@
+
+.project {
+  display: inline-block;
+  text-align: center;
+  width: 260px;
+  height: 400px;
+  overflow: hidden;
+  margin: 10px;
+  padding: 10px;
+  border: 2px solid #ccc;
+}
+.project img {
+  width: 200px;
+  height: 200px;
+  padding: 5px;
+  border: 2px solid #ccc;
+}
+.project .progress {
+  background-color: red;
+}
+.project .bar {
+  background-color: green;
+  width: 0%;
+  height: 22px;
+  display: block;
+}
+
+.banner img {
+  max-width: 920px;
+  max-height: 120px;
+  min-width: 600px;
+  min-height: 90px;
+  display: inline-block;
+}
+
+.banner {
+  text-align: center;
+}
+
+

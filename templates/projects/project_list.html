@@ -4,7 +4,7 @@
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/projects.css"/>
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
   {% endaddtoblock %}
 
   <h1>{% block title %}{% trans "Inkscape Projects" %}{% endblock %}</h1>
@@ -14,6 +14,8 @@
   <div class="project-list">
     <div class="project-item">
         {% for project in items %}
+            {% include "projects/project_item.html"  %}
+            {% include "projects/project_item.html"  %}
             {% include "projects/project_item.html"  %}
         {% empty %}
             {% trans "Sorry, no projects found" %}

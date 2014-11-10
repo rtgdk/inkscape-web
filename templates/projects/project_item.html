@@ -6,6 +6,7 @@
     <h3>{{ project.title }}</h3>
 
     <div class="status">
+      <!--
         <label class="author">{% trans "Proposed By" %}:</label>
         <span class="author">{{ project.proposer }}</span>
 
@@ -14,14 +15,14 @@
 
         <label class="remaining">{% trans "Remaining" %}:</label>
         <span class="remaining">{{ project.finished|timeuntil }}</span>
+       -->
     </div>
 
-    <div class="progress bar">
-        <div class="bar" style="width: 50%"></div>
-        <div class="info">
-            <strong>{% trans "Achieved" %}:</strong>
-            $500
-        </div>
+    <div class="progress">
+      <div class="bar" style="width: 50%">
+         <strong>{% trans "Achieved" %}:</strong>
+         $500
+      </div>
     </div>
 
     <p>{{ project.updates.all.0.describe|truncatewords:54 }}</p>

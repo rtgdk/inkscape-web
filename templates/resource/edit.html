@@ -46,7 +46,7 @@
 
     <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
     {% if item %}
-     <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url delurl item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+     <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
         <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
     </form>
     {% endif %}

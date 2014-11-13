@@ -15,7 +15,7 @@
      {% if user.is_staff %}
        {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administration" %}"/></a>
      {% endif %}
-     {% if moderator %}
+     {% if user.is_moderator %}
        {% if user == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderation" %}"/></a>
      {% endif %}
      {% if user.details.dauser %}

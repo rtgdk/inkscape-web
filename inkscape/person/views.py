@@ -57,7 +57,6 @@ def view_profile(request, username):
         'user'  : user,
         'items' : user.galleries.for_user(request.user),
         'me'    : user == request.user,
-        'moderator' : user.has_perm("comments.can_moderate")
     }
     return render_to_response('person/profile.html', c,
         context_instance=RequestContext(request))

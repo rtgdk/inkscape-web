@@ -10,6 +10,12 @@
     
     <div class="comments">
     <h2>{% trans "This is a list of all comments reported by our users" %} ({{ comment_list|length }}):</h2>
+    <p>{% trans "You can do two things here" %}:</p>
+      <ul>
+        <li>{% trans "Approve comment: future reports of this comment will be ignored." %}</li>
+        <li>{% trans "Hide comment: the comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
+      </ul>
+
       <div>   
         {% autopaginate comment_list 10 as commentslist %}
         {% for comment in commentslist %}
@@ -34,7 +40,16 @@
               <div class="body">
                 <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
               </div>
-              <div class="cfooter"><div class="buttonbar"><a href="{% url 'moderate_comment' comment.pk %}?next={% url "moderate_flagged" %}" class="button">Moderate comment</a></div></div>
+              <div class="cfooter">
+                <div class="buttonbar">
+                  <a href="{% url 'hide_comment' comment.pk %}?next={% url "moderate_flagged" %}" class="button">Hide comment</a>
+                  <form action='{% url "comments-approve"  comment.id %}' method="post">
+                    {% csrf_token %}
+                    <input type="hidden" name="next" value="{% url "moderate_flagged" %}"/>
+                    <input type="submit" class="button moderation" value='{% trans "Approve Comment" %}'/>
+                  </form>
+                </div>
+              </div>
             </div>
           {% endwith %}
         {% endfor %}

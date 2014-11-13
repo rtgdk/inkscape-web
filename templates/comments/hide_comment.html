@@ -6,15 +6,9 @@
 
 {% block content %}
 
-<h1>{% trans "Moderate Comment" %}</h1>
+<h1>{% trans "Hide Comment" %}</h1>
 
-<div class="comments">
-  <p>{% trans "You can do two things here" %}:</p>
-    <ul>
-      <li>{% trans "Approve this comment: future reports of this comment will be ignored." %}</li>
-      <li>{% trans "Hide this comment: the comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
-    </ul>
-  
+<div class="comments">  
   <div class="comment">
     <div class="details">
       <div class="title">
@@ -26,7 +20,7 @@
             <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
           {% endblocktrans %}
         </div>
-      </div>   
+      </div>  
       
       <div class="index"><a href="">#{{ comment_counter }}</a></div>
       <div class="flagcount">{{ comment.flags.count }}</div> 
@@ -44,13 +38,16 @@
     </p>
   </div>
   
-  <div id="chooseaction">
-    <div id="hidecomment">
-      <h3>{% trans "Hide Comment" %}</h3>
-
-      <form action='{% url "comments-delete"  comment.id %}' method="post">
-        {% csrf_token %}
-        <textarea name="message" id="message" cols="50" rows="25">Hi {{ comment.user.username }}!
+  <form class="block" action='{% url "comments-delete"  comment.id %}' method="post">
+  {% csrf_token %}
+    <div class="comment">
+      <div class="details">
+        <div class="title">{% trans "Edit message to the person who made the comment" %}:</div>
+      </div>
+        
+        <div class="body">
+        
+          <textarea name="message" id="message" cols="50" rows="25">Hi {{ comment.user.username }}!
 
 The Inkscape Community Moderators noticed that someone reported your comment at 
 https://www.inkscape.org{{ comment.get_content_object_url }} .
@@ -65,23 +62,18 @@ As a user of this website, please adhere to our Code of Conduct and be considera
 
 Best regards,
 Inkscape Community Moderators</textarea>
-        <label>{% trans "This needs the attention of a site administrator" %}:<input type="checkbox" name="adminactionrequired"/></label><br/>
-        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-        <input type="submit" class="button" value='{% trans "Hide comment and send message to commentor" %}' />
-      </form>  
+        </div>
+        
+        <div class="cfooter">
+          <div class="buttonbar">           
+            <label class="forcheckbox">{% trans "This needs the attention of an administrator" %}:<input type="checkbox" name="adminactionrequired"/></label>
+            <a class="button" href='{% url "moderation" %}'>{% trans "Cancel" %}</a>
+            <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+            <input type="submit" class="button" value='{% trans "Hide comment and send message" %}' />
+          </div>
+        </div>
     </div>
-    
-    <div id="approvecomment">
-      <h3>{% trans "Approve Comment or Cancel" %}</h3>
-      <form action='{% url "comments-approve"  comment.id %}' method="post">
-        {% csrf_token %}
-        <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-        <input type="submit" class="button moderation" value='{% trans "Approve Comment" %}'/>
-      </form>
-      <p>or</p>
-      <a href='{% url "moderation" %}' class="button moderation">{% trans "Cancel" %}</a>
-    </div>
-  </div>
+  </form> 
   
 </div>
 {% endblock %}

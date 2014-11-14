@@ -33,7 +33,7 @@ function getPng(t) {
 }
 
 /* == PopUp implimentation == */
-function popUp(title, msg, href, cancel, ok) {
+function popUp(title, msg, href, cancel, ok, next) {
     if(document.getElementById('blanket')) {
       $('#blanket').remove();
       $('#popup').remove();
@@ -44,8 +44,11 @@ function popUp(title, msg, href, cancel, ok) {
       $('#popup').append( "<h1>" + title + "</h1>" ).append( "<p>" + msg + "</p>" )
                  .append( "<form class='buttons' action='"+href+"' method='POST'/>");
       $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
-                          .append("<button class='start'>" + cancel + "</button>")
-                          .append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
+                          .append("<button class='start'>" + cancel + "</button>");
+      if(next){
+        $('#popup .buttons').append("<input type='hidden' name='next' value="+next+"/>");
+      }  
+      $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
       $('#popup .buttons .start').click(popUp);
       $('#popup').css({
         'top': 'calc(50% - ' + ($('#popup').innerHeight() / 2) + 'px)',
@@ -56,12 +59,12 @@ function popUp(title, msg, href, cancel, ok) {
     }
     return false;
 }
-function popUpLink(msg, cancel, ok) {
+function popUpLink(msg, cancel, ok, next) {
   // Allows a link to fail gracefully.
   var a = document.currentScript.previousElementSibling;
   $( document ).ready( function() {
     var href = a.href;
-    a.onclick = function() { return popUp(a.title, msg, href, cancel, ok); };
+    a.onclick = function() { return popUp(a.title, msg, href, cancel, ok, next); };
     a.href = '#nowhere'
   });
 }

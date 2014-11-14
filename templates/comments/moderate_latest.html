@@ -11,50 +11,15 @@
       <h2>{% trans "These are the comments made by our users within the last 30 days" %} ({{ comment_list|length }}):</h2>
       <p>{% trans "You can do two things here" %}:</p>
       <ul>
-        <li>{% trans "Approve comment: future reports of this comment will be ignored." %}</li>
-        <li>{% trans "Hide comment: the comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
+        <li><strong>{% trans "Approve Comment" %}:</strong> {% trans "Future reports of this comment will be ignored." %}</li>
+        <li><strong>{% trans "Hide Comment" %}:</strong> {% trans "The comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
       </ul>
       <div>   
+        {% url "moderate_latest" as next_url %}
         {% autopaginate comment_list 10 as commentslist %}
         {% for comment in commentslist %}
           {% with forloop.counter0|add:1 as comment_counter %}
-            <div class="comment">
-              <div class="details">
-                <div class="title">
-                  {% url 'view_profile' comment.user.username as profile_url %}
-                  <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
-                  <div>
-                    {% url 'view_profile' comment.user.username as profile_url %}
-                    {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
-                      <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
-                    {% endblocktrans %}
-                  </div>
-                </div>   
-                <div class="index"><a href="">#{{ comment_counter }}</a></div>
-                {% with comment.flags.count as num_flags %}
-                  {% for flag in comment.flags.all %}
-                    {% ifequal flag.flag "moderator approval" %}
-                      <div>Approved</div>
-                    {% endifequal %}
-                  {% endfor %}
-                <div class="flagcount">{{ num_flags }}</div>
-                {% endwith %}
-                <div title='{% trans "Flags" %}' class="flag flagged"></div>
-              </div>
-                
-              <div class="body">
-                <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
-              </div>
-              <div class="cfooter"><div class="buttonbar">
-                  <a href="{% url 'hide_comment' comment.pk %}?next={% url "moderate_latest" %}" class="button">Hide comment</a>
-                  <form action='{% url "comments-approve"  comment.id %}' method="post">
-                    {% csrf_token %}
-                    <input type="hidden" name="next" value="{% url "moderate_latest" %}"/>
-                    <input type="submit" class="button moderation" value='{% trans "Approve Comment" %}'/>
-                  </form>
-                </div>
-              </div>
-            </div>
+            {% include "comments/moderate_single_comment.html" %}
           {% endwith %}
         {% endfor %}
       </div>

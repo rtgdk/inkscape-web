@@ -1,0 +1,41 @@
+{% load i18n comments pile %}
+
+<div class="comment">
+  <div class="details">
+    <div class="title">
+      {% url 'view_profile' comment.user.username as profile_url %}
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      <div>
+	{% url 'view_profile' comment.user.username as profile_url %}
+	{% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
+	  <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
+	{% endblocktrans %}
+      </div>
+    </div>   
+    <div class="index"><a href="">#{{ comment_counter }}</a></div>
+      {% for flag in comment.flags.all %}
+        {% ifequal flag.flag "moderator approval" %}
+          <div>Approved</div>
+        {% endifequal %}
+      {% endfor %}
+      <div class="flagcount">{{ comment.flags.count }}</div>
+      <div title='{% trans "Flags" %}' class="flag flagged"></div>
+    </div>
+    
+  <div class="body">
+    <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
+  </div>
+  
+  {% if not hide %}
+  <div class="cfooter">
+    <div class="buttonbar">
+      
+      <a href="{% url 'hide_comment' comment.pk %}?next={{ next_url }}" class="button">Hide comment</a>
+      
+      <a title="{% trans "Approve Comment" %}" class="button" href="{% url "comments-approve" comment.id %}">Approve Comment</a>
+      <script>popUpLink('{% trans "Are you sure you want to approve this comment?" %}', '{% trans "Cancel" %}', '{% trans "Approve" %}', '{{ next_url }}');</script> 
+
+    </div>
+  </div>
+  {% endif %}
+</div>

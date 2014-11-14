@@ -9,13 +9,12 @@
     <h1>{% trans "Review flagged Comments" %}</h1>
     
     <div class="comments">
-    <h2>{% trans "This is a list of all comments reported by our users" %} ({{ comment_list|length }}):</h2>
     <p>{% trans "You can do two things here" %}:</p>
       <ul>
         <li><strong>{% trans "Approve Comment" %}:</strong> {% trans "Future reports of this comment will be ignored." %}</li>
         <li><strong>{% trans "Hide Comment" %}:</strong> {% trans "The comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
       </ul>
-
+      <h2>{% trans "This is a list of all comments reported by our users" %} ({{ comment_list|length }}):</h2>
       <div>
         {% url "moderate_flagged" as next_url %}
         {% autopaginate comment_list 10 as commentslist %}

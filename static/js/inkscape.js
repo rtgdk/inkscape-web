@@ -46,7 +46,7 @@ function popUp(title, msg, href, cancel, ok, next) {
       $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
                           .append("<button class='start'>" + cancel + "</button>");
       if(next){
-        $('#popup .buttons').append("<input type='hidden' name='next' value="+next+"/>");
+        $('#popup .buttons').append("<input type='hidden' name='next' value='"+next+"'/>");
       }  
       $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
       $('#popup .buttons .start').click(popUp);

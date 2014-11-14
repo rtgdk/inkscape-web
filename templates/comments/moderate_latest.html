@@ -7,13 +7,13 @@
 {% block content %}
     <h1>{% trans "Review latest Comments" %}</h1>
     
-    <div class="comments">
-      <h2>{% trans "These are the comments made by our users within the last 30 days" %} ({{ comment_list|length }}):</h2>
+    <div class="comments"> 
       <p>{% trans "You can do two things here" %}:</p>
       <ul>
         <li><strong>{% trans "Approve Comment" %}:</strong> {% trans "Future reports of this comment will be ignored." %}</li>
         <li><strong>{% trans "Hide Comment" %}:</strong> {% trans "The comment will no longer be shown on the website and the person who made this comment gets a message about the reason for this." %}</li>
       </ul>
+      <h2>{% trans "These are the comments made by our users within the last 30 days" %} ({{ comment_list|length }}):</h2>
       <div>   
         {% url "moderate_latest" as next_url %}
         {% autopaginate comment_list 10 as commentslist %}

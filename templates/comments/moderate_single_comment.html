@@ -1,6 +1,13 @@
 {% load i18n comments pile %}
 
-<div class="comment">
+{% for flag in comment.flags.all %}
+  {% if flag.flag == "moderator approval" %}
+    Approved
+  {% endif %}
+{% endfor %}
+
+
+<div class="comment {% if comment.is_removed %} removed {% endif %}">
   <div class="details">
     <div class="title">
       {% url 'view_profile' comment.user.username as profile_url %}
@@ -11,13 +18,13 @@
 	  <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
 	{% endblocktrans %}
       </div>
-    </div>   
-    <div class="index"><a href="">#{{ comment_counter }}</a></div>
-      {% for flag in comment.flags.all %}
-        {% ifequal flag.flag "moderator approval" %}
-          <div>Approved</div>
-        {% endifequal %}
-      {% endfor %}
+    </div>
+    <div class="index"><div class="commentstatus">
+      {% if comment.is_removed %}{% trans "hidden" %}
+      {% elif comment.is_public %}{% trans "public" %}
+      
+      {% endif %}</div>
+    </div>
       <div class="flagcount">{{ comment.flags.count }}</div>
       <div title='{% trans "Flags" %}' class="flag flagged"></div>
     </div>
@@ -26,7 +33,7 @@
     <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
   </div>
   
-  {% if not hide %}
+  {% if not onhidepage and not comment.is_removed %}
   <div class="cfooter">
     <div class="buttonbar">
       

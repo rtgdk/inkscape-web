@@ -42,9 +42,9 @@ class ModerateLatest(generic.ListView):
     def dispatch(self, *args, **kwargs):
         return super(ModerateLatest, self).dispatch(*args, **kwargs)
     
-    #get all non-hidden comments from the last 30 days
+    #get all comments from the last 30 days, including hidden ones
     def get_queryset(self):
-      return django_comments.Comment.objects.all().filter(is_removed=0).filter(submit_date__gt=timezone.now() - timedelta(days=30)).order_by("-submit_date")
+      return django_comments.Comment.objects.all().filter(submit_date__gt=timezone.now() - timedelta(days=30)).order_by("-submit_date")
     
 class HideComment(generic.DetailView):
     model = django_comments.Comment

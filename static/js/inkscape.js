@@ -6,6 +6,22 @@ $(document).ready(function() {
   if($("#shield .tabs"))furnishTabs();
 });
 
+function getCookie(name) {
+  var cookieValue = null;
+  if (document.cookie && document.cookie != '') {
+    var cookies = document.cookie.split(';');
+    for (var i = 0; i < cookies.length; i++) {
+      var cookie = jQuery.trim(cookies[i]);
+      // Does this cookie string begin with the name we want?
+      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+        break;
+      }
+    }
+  }
+  return cookieValue;
+};
+
 /* Front page code for tabs */
 var currentTab = null;
 function onOff(e) {
@@ -33,7 +49,7 @@ function getPng(t) {
 }
 
 /* == PopUp implimentation == */
-function popUp(title, msg, href, cancel, ok) {
+function popUp(title, msg, href, cancel, ok, next) {
     if(document.getElementById('blanket')) {
       $('#blanket').remove();
       $('#popup').remove();
@@ -44,24 +60,28 @@ function popUp(title, msg, href, cancel, ok) {
       $('#popup').append( "<h1>" + title + "</h1>" ).append( "<p>" + msg + "</p>" )
                  .append( "<form class='buttons' action='"+href+"' method='POST'/>");
       $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
-                          .append("<button class='start'>" + cancel + "</button>")
-                          .append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
+                          .append("<button class='start'>" + cancel + "</button>");
+      if(next){
+        $('#popup .buttons').append("<input type='hidden' name='next' value="+next+"/>");
+      }  
+      $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
       $('#popup .buttons .start').click(popUp);
       $('#popup').css({
         'top': 'calc(50% - ' + ($('#popup').innerHeight() / 2) + 'px)',
         'left': 'calc(50% - ' + ($('#popup').innerWidth() / 2) + 'px)',
       });
     } else {
+      alert("No title specified!");
       return true;
     }
     return false;
 }
-function popUpLink(msg, cancel, ok) {
+function popUpLink(msg, cancel, ok, next) {
   // Allows a link to fail gracefully.
   var a = document.currentScript.previousElementSibling;
   $( document ).ready( function() {
     var href = a.href;
-    a.onclick = function() { return popUp(a.title, msg, href, cancel, ok); };
+    $(a).click( function() { return popUp(a.title, msg, href, cancel, ok, next); } );
     a.href = '#nowhere'
   });
 }

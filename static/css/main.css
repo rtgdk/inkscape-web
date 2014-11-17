@@ -98,6 +98,12 @@ video {
 }
 th[scope="row"] { text-align: right; }
 th[scope="col"] { text-align: center; }
+
+/* for IE */
+a img {
+  border: 0px;
+}
+
 /* for Tables of Contents on long pages */
 div.toc {
   float: right;

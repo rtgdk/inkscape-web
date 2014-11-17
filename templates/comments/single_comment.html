@@ -16,7 +16,7 @@
     <div class="index"><a href="">#{{ comment_counter }}</a></div>
     
     {% if request.user.is_authenticated %}
-      <a title="{% trans "Report Comment" %}" class="flag {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged{% endifequal %}{% endfor %}" href="{% url "comments-flag" comment.id %}"></a>
+      <a title="{% trans "Report Comment" %}" class="flag {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged {% endifequal %}{% endfor %}" href="{% url "comments-flag" comment.id %}"></a>
       <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ comment.get_absolute_url }}");</script> 
     {% endif %}
   </div>
@@ -25,4 +25,4 @@
   </div>
 </div>
 
-<!-- todo: needs a link in the index field to view_comment page or to something else or no link at all? View_comment page still needs to be added to the urls-->
+<!-- todo: needs a better counter in the index field which survives pagination. Link in index could be removed -->

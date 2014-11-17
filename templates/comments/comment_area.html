@@ -5,9 +5,6 @@
 
 <div id="comments">
 
-  {% if request.GET.thank %}
-  Thank you!
-  {% endif %}
   {% get_comment_list for comment_subject as comment_list %}
   {% include "comments/new_list.html" %}
   

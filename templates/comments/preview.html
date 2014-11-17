@@ -4,10 +4,15 @@
 {% block title %}{% trans "Write a comment" %}{% endblock %}
 
 {% block content %}
-  <form action="{% comment_form_target %}" method="post">{% csrf_token %}
-    {% if next %}<div><input type="hidden" name="next" value="{{ next }}" /></div>{% endif %}
-    <h1>{% trans "Please write a comment or cancel:" %}</h1> 
-
+  <h2>{% trans "Please write a comment or cancel:" %}</h2>
+  
+  {% for field in form %}
+    {% if field.errors %}{{ field.errors }}{% endif %}
+  {% endfor %}
+  
+  
+  <form class="block" action="{% comment_form_target %}" method="post">{% csrf_token %}
+    {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
     <div class="comment">
       <div class="details">
         <div class="title">{% trans "Leave a comment:" %}</div>
@@ -22,13 +27,10 @@
       </div>
       <div class="cfooter">
         <div class="buttonbar">
-          <a class="unique start end" id="cancel" href=""><button id="cancel">{% trans "Cancel" %}</button><a/>
-          <input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" />
+          <a class="button" id="cancel" href="{{ next }}">{% trans "Cancel" %}</a>
+          <input class="button" type="submit" value="{% trans "Send" %}" id="id_submit" />
         </div>
       </div>
     </div>   
   </form>   
 {% endblock %}
-
-<!--todo: insert a useful link for the cancel button. Problem: comment isn't saved yet, so the only source for the object_pk / content_type is the form,
-but that only produces form fields...-->

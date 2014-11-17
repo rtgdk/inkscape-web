@@ -4,7 +4,6 @@ from django.contrib.auth.decorators import login_required, permission_required
 
 from django.db.models import Count
 from django.views import generic
-#from pile.views import *
 from django.utils.decorators import method_decorator
 from django.utils import timezone
 from datetime import timedelta

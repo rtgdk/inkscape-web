@@ -1,4 +1,4 @@
-{% load comments %}
+{% load comments i18n %}
 
 <div> 
   {% with comment_list|dictsortreversed:"submit_date" as comments_list %}   
@@ -9,5 +9,3 @@
     {% endfor %}
   {% endwith %}
 </div>
-
-

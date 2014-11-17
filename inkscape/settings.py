@@ -178,6 +178,7 @@ INSTALLED_APPS = (
     'inkscape.docs',
     'inkscape.resource',
     'inkscape.alerts',
+    'inkscape.moderation',
     'inkscape.projects',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'

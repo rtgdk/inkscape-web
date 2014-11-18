@@ -9,7 +9,7 @@
       {% include "comments/single_comment.html" %}
     {% endwith %}
     <form action="." method="post">{% csrf_token %}
-      <input type="hidden" name="next" value="{{ comment.get_absolute_url }}" id="next" />
+      <input type="hidden" name="next" value="{% url 'resource' comment_subject.id %}?thankyou=flag" id="next" />
       <p class="submit">
         <input type="submit" name="submit" value="{% trans "Report" %}" /> {% trans "or" %} <a href="{{ comment.get_absolute_url }}">{% trans "Cancel" %}</a>
       </p>

@@ -13,11 +13,11 @@
         {% endblocktrans %}
       </div>
     </div>   
-    <div class="index"><a href="">#{{ comment_counter }}</a></div>
+    <div class="index"><a href="{% get_comment_permalink comment %}">#{{ comment_counter }}</a></div>
     
     {% if request.user.is_authenticated %}
       <a title="{% trans "Report Comment" %}" class="flag {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged {% endifequal %}{% endfor %}" href="{% url "comments-flag" comment.id %}"></a>
-      <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ comment.get_absolute_url }}");</script> 
+      <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'resource' comment_subject.id %}?thankyou=flag");</script> 
     {% endif %}
   </div>
   <div class="body">

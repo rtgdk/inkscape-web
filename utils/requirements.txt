@@ -38,7 +38,7 @@ django-contrib-comments==1.5
 #djangocms-rosetta==0.8.1
 
 # Django-CMS Plugins
-django-cms==3.0.5
+django-cms==3.0.6
 
 djangocms-file==0.0.2
 djangocms-link==1.4.0

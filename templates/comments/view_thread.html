@@ -2,11 +2,8 @@
 {% load i18n comments %}
 
 {% block content %}
-
   <h1>{% block title %}{% blocktrans with comment_subject.name as subject %}All comments for {{ subject }}{% endblocktrans %}{% endblock %}</h1>
-
   {% include comments/new_list.html %}
-
 {% endblock %}
 
 <!-- page is not used -->

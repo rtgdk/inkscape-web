@@ -11,9 +11,7 @@
 
 
 <div class="comments">
- {% with onhidepage=1 %}
-   {% include 'comments/moderate_single_comment.html' %}
- {% endwith %}
+   {% include 'comments/moderate_single_comment.html' with onhidepage=1 %}
   <div id="flaggers">
     <p>{% trans "This comment was reported by" %}:
       {% for flag in comment.flags.all %}{% url 'view_profile' flag.user.username as flagger_url %}<a href="{{ flagger_url }}">{{ flag.user.username }}</a>&nbsp;  {% endfor %}

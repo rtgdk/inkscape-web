@@ -3,9 +3,7 @@
 
 {% block content %}
   <h1>{% trans "Comment" }</h1>
-  {% with comment_counter=1 %}
-    {% include "comments/single_comment.html" %}
-  {% endwith %}
+  {% include "comments/single_comment.html" with comment_counter=1 %}
 {% endblock %}
 
 <!-- page is not used -->

@@ -98,6 +98,12 @@ video {
 }
 th[scope="row"] { text-align: right; }
 th[scope="col"] { text-align: center; }
+
+/* for IE */
+a img {
+  border: 0px;
+}
+
 /* for Tables of Contents on long pages */
 div.toc {
   float: right;
@@ -297,6 +303,7 @@ div.toc ul {
 }
 .header #topdrops > li:hover .topdrop {
   display: block;
+  box-shadow: 0px 9px 7px #111;
 }
 .header #topdrops #languages {
   margin-right: 10px;
@@ -368,7 +375,7 @@ div.toc ul {
 }
 .header #topdrops p {
   cursor: default;
-  margin: 1px 0px 3px 0px;
+  margin: 1px 0px 3px 72px;
   font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
 .header #topdrops > li:hover > p {

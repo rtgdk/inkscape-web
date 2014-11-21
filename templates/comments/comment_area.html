@@ -1,8 +1,13 @@
 {% load i18n comments sekizai_tags %}
 
-<div class="comments">
-  {% include "comments/new_list.html" %}
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />{% endaddtoblock %}
 
+
+<div id="comments">
+
+  {% get_comment_list for comment_subject as comment_list %}
+  {% include "comments/new_list.html" %}
+  
   {% if user.is_authenticated %}
     {% if user.email %}
       {% include "comments/new_form.html" %}
@@ -19,3 +24,5 @@
     </div>
   {% endif %}
 </div>
+
+<!-- todo: replace comment.get_content_object_url with comment.get_absolute_url or %get_comment_permalink comment% in all templates, if there won't be a single comment view page -->

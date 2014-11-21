@@ -7,4 +7,4 @@ from .views import *
 
 urlpatterns = patterns('',
     url(r'^contact-admin/', contact_us, name='contact'),
-)
+    )

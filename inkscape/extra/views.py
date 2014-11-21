@@ -19,6 +19,4 @@ def contact_us(request):
         recipients = [ "%s <%s>" % (a,b) for (a,b) in ADMINS ]
         send_mail("Website Feedback", form.cleaned_data['comment'], sender, recipients)
         return render_to_response('feedback.html', {}, RequestContext(request))
-    return render_to_response('feedback.html', { 'form': form }, RequestContext(request))
-
-
+    return render_to_response('feedback.html', { 'form': form }, RequestContext(request))   

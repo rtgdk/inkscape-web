@@ -5,13 +5,11 @@
 
 {% block content %}
   <h2>{% trans "Do you really want to report this comment?" %}</h2>
-    {% with comment_counter=1 %}
-      {% include "comments/single_comment.html" %}
-    {% endwith %}
-    <form action="." method="post">{% csrf_token %}
-      {% if next %}<div><input type="hidden" name="next" value="{{ next }}" id="next" /></div>{% endif %}
-      <p class="submit">
-      <input type="submit" name="submit" value="{% trans "Report" %}" /> or <a href="{{ comment.get_absolute_url }}">cancel</a>
-      </p>
-    </form>
+  {% include "comments/single_comment.html" with comment_counter=1 %}
+  <form action="." method="post">{% csrf_token %}
+    <input type="hidden" name="next" value="{% url 'resource' comment.object_pk %}?thankyou=flag" id="next" />
+    <p class="submit">
+      <input type="submit" name="submit" value="{% trans "Report" %}" /> {% trans "or" %} <a href="{{ comment.get_absolute_url }}">{% trans "Cancel" %}</a>
+    </p>
+  </form>
 {% endblock %}

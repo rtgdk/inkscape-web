@@ -1,6 +1,7 @@
 {% load i18n comments pile %}
 
 <div class="comment">
+  <a name="c{{ comment.id }}"></a>
   <div class="details">
     <div class="title">
       {% url 'view_profile' comment.user.username as profile_url %}
@@ -12,14 +13,16 @@
         {% endblocktrans %}
       </div>
     </div>   
-    <div class="index"><a href="">#{{ comment_counter }}</a></div>
+    <div class="index"><a href="{% get_comment_permalink comment %}">#{{ comment_counter }}</a></div>
     
     {% if request.user.is_authenticated %}
-      <a title="{% trans "Report Comment" %}" class="flag {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged{% endifequal %}{% endfor %}" href="/comments/flag/{{ comment.id }}/"></a>
-      <script>popUpLink("{% trans "Are you sure you want to report this comment?" %}", "{% trans "Cancel" %}", "{% trans "Report" %}");</script>
+      <a title="{% trans "Report Comment" %}" class="flag {% for flag in comment.flags.all %}{% ifequal flag.user request.user %}flagged {% endifequal %}{% endfor %}" href="{% url "comments-flag" comment.id %}"></a>
+      <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'resource' comment.object_pk %}?thankyou=flag");</script> 
     {% endif %}
   </div>
   <div class="body">
-    <div class="text"><p>{{comment.comment|urlize|linebreaks}}</p></div>
+    <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
   </div>
 </div>
+
+<!-- todo: needs a better counter in the index field which survives pagination. Link in index could be removed -->

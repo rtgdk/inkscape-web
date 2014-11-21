@@ -27,6 +27,9 @@ def get_absolute_url(self):
 
 def sessions(self):
     return self.session_set.filter(expire_date__gt=timezone.now())
+  
+def is_moderator(self):
+  return self.has_perm("comments.can_moderate")
 
 local = locals().items()
 

@@ -4,6 +4,9 @@
 {% block title %}{% trans "Thanks for flagging" %}.{% endblock %}
 
 {% block content %}
-  <h1>{% trans "Thanks for taking the time to improve the quality of discussion on our site" %}.</h1>
-  <div><a href="">{% trans "Return to previous page" %}</div>
+  <h1>{% trans "Thank you!" %}</h1>
+  <p>{% trans "It's great that you take the time to improve the quality of discussion on our site!" %}</p>
+  <div><a href="{{ comment.get_absolute_url }}"><button>{% trans "Return to previous page" %}</button></a></div>
 {% endblock %}
+
+<!-- This page is never shown. todo: beautify -->

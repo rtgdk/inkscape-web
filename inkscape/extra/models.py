@@ -87,10 +87,6 @@ def fab(obj):
                 not f in obj._meta.parents.values()])
 
 class ShieldPlugin(CMSPlugin):
-    @property
-    def render_template(self):
-        return "cms/shield.html"
-
     def get_translatable_content(self):
         """Build a dictionary of translatable fields"""
         tr_fields = {}

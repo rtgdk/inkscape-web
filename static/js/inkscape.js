@@ -105,7 +105,7 @@ function menu(){
     var containerHeight=$("#menu").height();
     var i = 0;
     var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
-    while(containerHeight > elementHeight){
+    while(containerHeight > elementHeight && i < 100){
         $("#menu").children("li").each(function(){
             var a = $(this).children("a:first-child");
             a.css('font-size',onePixelLess);
@@ -130,7 +130,7 @@ function maxHeight(){
         var containerHeight=$(this).getMaxHeight();
         var textSize;
         var i = 0;
-        while(containerHeight < elementHeight){
+        while(containerHeight < elementHeight && i < 100){
             textSize =  parseInt($(this).css('font-size'));
             if(textSize == 5) break;
            if(i != 0){

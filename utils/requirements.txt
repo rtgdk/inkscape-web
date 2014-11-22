@@ -5,6 +5,7 @@
 
 # Python libraries (can't install on some machines using pip)
 docutils==0.11
+python-dateutil==2.2
 Pillow==2.4.0
 Whoosh==2.6.0
 feedparser==5.1.3

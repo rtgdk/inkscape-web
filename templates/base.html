@@ -1,6 +1,6 @@
 {% load i18n %}<!DOCTYPE html>
 {% load cms_tags sekizai_tags %}
-{% load menu_tags %}
+{% load extras menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
@@ -103,7 +103,7 @@
             </form>
         </div>
       </div>
-      <div class="nav"><ul id="menu">{% show_menu 1 100 100 %}</ul></div>
+      <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
     </div>
     {% block supercontent %}
     <div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">

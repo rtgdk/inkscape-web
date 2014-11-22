@@ -55,10 +55,10 @@
                 <form action="{% url "auth_register" %}" method="GET">
                   <input class="button" type="submit" value="{% trans "Register Now" %}"/>
                 </form>
-                <p id="toplogin-alternate">
+                <div id="toplogin-alternate">
                   <span>{% trans "Or log in using:" %}</span>
                   {% include "social_logins.html" %}
-                </p>
+                </div>
               </div>
             {% else %}
               <p>

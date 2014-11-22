@@ -704,6 +704,20 @@ a.roundel img {
   padding: 3px;
 }
 
+.warning {
+  border: 2px solid #5c3566;
+  border-radius: 8px;
+  background: 12px center url(../images/delete.svg) no-repeat;
+  background-color: #75507b;
+  color: white;
+  padding: 12px 52px;
+  margin: 4px 30px;
+}
+.warning a {
+  color: white;
+  font-weight: bold;
+}
+
 /* popup provider */
 #blanket {
   background-color:#111;

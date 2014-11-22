@@ -69,7 +69,7 @@
                     <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
                   {% endif %}
                   {% if request.user.is_staff %}
-                    <p><a href="/admin/">{% trans "Admin" %}</a><p/>
+                    <p><a href="/admin/">{% trans "Administration" %}</a><p/>
                   {% endif %}
                   <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
                   <p><a href="{% url "auth_logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></p>

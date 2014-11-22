@@ -1,4 +1,4 @@
-{% extends "comments/base.html" %}
+{% extends "moderation/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Moderators' Area" %}{% endblock %}
@@ -6,8 +6,8 @@
 {% block content %}
   <div>
     <h1>{% trans "Welcome to the Moderators' Area!" %}</h1>
-    <p>{% trans "Hi! It's great to see you here! Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}
-    </p>
+    <div class="warning">{% trans "Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}</div>
+
     <h2>{% trans "What would you like to do?" %}</h2>
     <ul>
       <li><a href="{% url "moderate_flagged" %}" >{% trans "Moderate comments reported by other users" %}</a></li>

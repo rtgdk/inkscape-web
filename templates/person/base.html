@@ -13,10 +13,10 @@
 
    <div class="socialicons">
      {% if user.is_staff %}
-       {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administration" %}"/></a>
+       {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administrator" %}"/></a>
      {% endif %}
      {% if user.is_moderator %}
-       {% if user == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderation" %}"/></a>
+       {% if user == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderator" %}"/></a>
      {% endif %}
      {% if user.details.dauser %}
        <a href="http://{{ user.details.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>

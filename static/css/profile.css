@@ -20,8 +20,8 @@
   margin: 4px;
   border: medium none;
 } 
-.socialicons img:hover {
-  box-shadow: 0px 0px 3px 3px #888;
+.socialicons a > img:hover {
+  box-shadow: 0px 0px 3px 2px #888;
 }
 
 #profile {

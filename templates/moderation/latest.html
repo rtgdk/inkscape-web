@@ -19,7 +19,7 @@
         {% autopaginate comment_list 10 as commentslist %}
         {% for comment in commentslist %}
           {% with forloop.counter0|add:1 as comment_counter %}
-            {% include "comments/moderate_single_comment.html" %}
+            {% include "moderation/item.html" %}
           {% endwith %}
         {% endfor %}
       </div>

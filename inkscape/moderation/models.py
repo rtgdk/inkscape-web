@@ -31,12 +31,34 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.text import slugify
 
+from .meta_manager import meta_manager_getter
+
 # We're going to start with fixed flag types
 FLAG_TYPES = (
     ('flag',    _('Removal Suggestion')),
     ('delete',  _('Moderator Deletion')),
     ('approve', _('Moderator Approval')),
 )
+
+class FlagManager(Manager):
+    """Generated content based on Flag"""
+    def categories(self):
+        query = self.get_query_set()
+        for content_type in query.values_list('content_type', flat=True).distinct():
+            yield Flag.meta_manager(ContentType.objects.get(pk=content_type).model_class())
+
+    def get_or_create(self, **kwargs):
+        if 'content_object' in kwargs:
+            obj = kwargs.pop('content_object')
+            kwargs['object_pk'] = obj.pk
+            kwargs['content_type'] = ContentType.objects.get_for_model(type(obj))
+        return super(FlagManager, self).get_or_create(**kwargs)
+
+    def flag_item(self, obj, user, flag='flag'):
+        """Actually perform the flagging of a comment from a request."""
+        flag, created = self.get_or_create(content_object=obj, flag=flag, user=user)
+        return flag
+
 
 @python_2_unicode_compatible
 class Flag(Model):
@@ -59,43 +81,15 @@ class Flag(Model):
     object_pk      = TextField(_('object ID'))
     content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
 
+    objects = FlagManager()
+
     class Meta:
         unique_together = [('user', 'object_pk', 'content_type', 'flag')]
 
     def __str__(self):
-        return "%s flag of %s %s by %s" % (self.flag, self.content_type,
-            self.comment_id, self.user.get_username())
+        return "%s of %s %s by %s" % (self.flag, self.content_type,
+            self.object_pk, self.user.get_username())
 
-#
-# WARNING! High magic field ahead. Do not read unless level 12 Rincewind class wizzard.
-#
-# This creates a method which can be used to get flags of any object via that object's
-# own use of the function. Shunting the related manager on top of the original just like
-# ForeignKey's related_name but with GenericforeignKey
-#
-
-def meta_manager_getter(rel, rel_name='content_object'):
-    class MetaManager(rel._default_manager.__class__):
-        def __init__(self, instance):
-            super(MetaManager, self).__init__()
-            self.instance = instance
-
-        def get_query_set(self):
-            queryset = super(MetaManager, self).get_query_set()
-            if self.instance:
-                field = getattr(self.instance, rel_name)
-                ct = rel.__class__.target.get_content_type(obj=self.instance)
-                queryset = queryset.filter(**{
-                    '%s' % field.ct_field: ct,
-                    '%s' % field.fk_field: field.pk
-                })
-            return queryset
-
-    def _outer():
-        def _inner(self):
-            return MetaManager(self)
-        return property(_inner)
-    return _outer
 
 get_my_flags = meta_manager_getter(Flag)
 

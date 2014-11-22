@@ -1,4 +1,4 @@
-{% extends "moderation/base.html" %}
+{% extends "comments/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "Moderators' Area" %}{% endblock %}
@@ -7,6 +7,16 @@
   <div>
     <h1>{% trans "Welcome to the Moderators' Area!" %}</h1>
     <div class="warning">{% trans "Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}</div>
+
+    {% for category in categories %}
+
+      <h2>{{ category }}</h2>
+
+      {% for object in category.latest_objects %}
+        {% include category.template|default:"moderation/item.html" %}
+      {% endfor %}
+
+   {% endfor %}
 
     <h2>{% trans "What would you like to do?" %}</h2>
     <ul>

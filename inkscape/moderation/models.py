@@ -31,7 +31,7 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.text import slugify
 
-from .meta_manager import meta_manager_getter
+from .meta_manager import meta_manager_getter, isclass
 
 # We're going to start with fixed flag types
 FLAG_TYPES = (
@@ -40,12 +40,15 @@ FLAG_TYPES = (
     ('approve', _('Moderator Approval')),
 )
 
+from django.template import loader
+
 class FlagManager(Manager):
     """Generated content based on Flag"""
     def categories(self):
         query = self.get_query_set()
         for content_type in query.values_list('content_type', flat=True).distinct():
-            yield Flag.meta_manager(ContentType.objects.get(pk=content_type).model_class())
+            ct = ContentType.objects.get(pk=content_type)
+            yield Flag.meta_manager(ct.model_class())
 
     def get_or_create(self, **kwargs):
         if 'content_object' in kwargs:
@@ -58,6 +61,17 @@ class FlagManager(Manager):
         """Actually perform the flagging of a comment from a request."""
         flag, created = self.get_or_create(content_object=obj, flag=flag, user=user)
         return flag
+
+    def latest(self):
+        return self.get_query_set().order_by('-flaged')[:5]
+
+    def template(self):
+        try:
+            template = 'moderation/items/%s.html' % str(self).lower()
+            loader.get_template(template)
+            return template
+        except Exception:
+            return None
 
 
 @python_2_unicode_compatible

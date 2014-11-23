@@ -17,24 +17,26 @@
 #
 from django.shortcuts import render
 
-from django.contrib.auth.decorators import login_required, permission_required
-
 from django.db.models import Count
-from django.utils.decorators import method_decorator
 from django.utils import timezone
 from datetime import timedelta
 
 from pile.views import *
 
 from .models import *
-from .mixins import ModeratorRequiredMixin
+from .mixins import *
 
 
-class Moderation(ModeratorRequiredMixin, View):
+class Moderation(ModeratorRequired, View):
     template_name = 'moderation/index.html'
 
+    def get_context_data(self, **data):
+        data = super(Moderation, self).get_context_data(**data)
+        data['categories'] = Flag.objects.categories()
+        return data
 
-class ModerateFlagged(ModeratorRequiredMixin, CategoryListView):
+
+class ModerateFlagged(ModeratorRequired, CategoryListView):
     template_name = 'moderation/flagged.html'
     
     def get_queryset(self):
@@ -45,15 +47,19 @@ class ModerateFlagged(ModeratorRequiredMixin, CategoryListView):
         #.annotate(flag_count=Count('flags')).filter(flag_count__gt=0).order_by("-flag_count")
 
 
-class ModerateLatest(ModeratorRequiredMixin, CategoryListView):
+class ModerateLatest(ModeratorRequired, CategoryListView):
     template_name = 'moderation/latest.html'
     
     def get_queryset(self):
         """get all comments from the last 30 days, including hidden ones"""
         return Flag.objects.all().filter(submit_date__gt=timezone.now() - timedelta(days=30)).order_by("-submit_date")
     
-class HideComment(ModeratorRequiredMixin, DetailView):
+class HideComment(ModeratorRequired, DetailView):
     model = Flag
     template_name = 'comments/hide_comment.html'
-    
+
+class ApproveComment(ModeratorRequired, DetailView):
+    model = Flag
+    pass
+
 #todo: don't count moderator approval flags in ModerateLatest query and pass the counted removal suggestion flags value to the template. 

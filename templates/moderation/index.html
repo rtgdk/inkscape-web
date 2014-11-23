@@ -12,7 +12,7 @@
 
       <h2>{{ category }}</h2>
 
-      {% for object in category.latest_objects %}
+      {% for object in category.latest %}
         {% include category.template|default:"moderation/item.html" %}
       {% endfor %}
 

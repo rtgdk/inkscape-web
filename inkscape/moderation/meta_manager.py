@@ -24,7 +24,12 @@ ForeignKey's related_name but with GenericforeignKey
 #
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
+from django.db.models.query import QuerySet
 from inspect import isclass
+
+from django.db.models import *
+
+import sys
 
 def meta_manager_getter(rel, rel_name='content_object'):
     class MetaManager(rel._default_manager.__class__):
@@ -34,20 +39,29 @@ def meta_manager_getter(rel, rel_name='content_object'):
             if not self.model:
                 self.model = rel
 
+        @property
+        def instance_class(self):
+            return isclass(self.instance) and self.instance or type(self.instance)
+
+        def __str__(self):
+            return self.instance and self.instance_class.__name__ or "MetaManager"
+
         def get_query_set(self):
             queryset = super(MetaManager, self).get_query_set()
             if self.instance:
-                if isclass(self.instance):
-                    i_cls = self.instance
-                else:
-                    i_cls = type(self.instance)
-
-                ct = ContentType.objects.get_for_model(i_cls)
+                ct = ContentType.objects.get_for_model(self.instance_class)
                 field = getattr(rel, rel_name)
 
                 queryset = queryset.filter(**{field.ct_field: ct})
                 if not isclass(self.instance):
-                    queryset = queryset.filter(**{field.fk_field: field.pk})
+                    queryset = queryset.filter(**{field.fk_field: self.instance.pk})
+                else:
+                    #queryset = queryset.aggregate(count=Count(field.fk_field))._clone(klass=QuerySet)
+                    queryset.query.add_aggregate(Count(field.fk_field), self.model, 'count', is_summary=True)
+                    queryset.query.group_by = [field.fk_field]
+
+            sys.stderr.write("Query: %s\n" % str(queryset.query))
+
             return queryset
 
     rel.meta_manager = MetaManager

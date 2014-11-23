@@ -19,10 +19,19 @@
 Basic mixin classes for moderators
 """
 
-class ModeratorRequiredMixin(object):
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import login_required, permission_required
+
+class ModeratorRequired(object):
     """Prevent people who do not have comment moderation rights from
        accessing moderation page, shows 403 instead."""
     @method_decorator(permission_required("moderation.can_moderate", raise_exception=True))
     def dispatch(self, request, *args, **kwargs):
-        return super(ModeratorRequiredMixin, self).dispatch(request, *args, **kwargs)
+        return super(ModeratorRequired, self).dispatch(request, *args, **kwargs)
+
+class UserRequired(object):
+    """Only allow a logged in user for flagging"""
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kwargs):
+        return super(UserRequired, self).dispatch(request, *args, **kwargs)
 

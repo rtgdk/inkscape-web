@@ -375,8 +375,11 @@ div.toc ul {
 }
 .header #topdrops p {
   cursor: default;
-  margin: 1px 0px 3px 72px;
+  margin: 1px 0px;
   font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+}
+.header #toplogin p {
+  margin: 1px 0px 3px 72px;
 }
 .header #topdrops > li:hover > p {
   padding-bottom: 14px;

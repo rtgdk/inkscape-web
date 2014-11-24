@@ -34,7 +34,7 @@
     <h1>{% trans "Upload Quota" %}</h1>
     <progress value="{{ user.resources.disk_usage }}" max="{{ user.quota }}" title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}"></progress>
 
-     <h1 title="Sessions are stored only as long as you are logged in and the ip-address is never recorded.">{% trans "Sessions" %}</h1>
+     <h1 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h1>
      <div id="sessions">
      {% for session in user.sessions %}
          <div>
@@ -51,7 +51,7 @@
 {% include "resource/galleries.html" %}
 
 {% if request.user.favorites.all %}
-  <h1>Favorite Artworks</h1>
+  <h1>{% trans "Favorite Artworks" %}</h1>
   {% with 4 as limit %}
     {% with request.user.favorites.items as items %}
       {% include "resource/list.html" %}

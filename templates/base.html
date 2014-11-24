@@ -69,7 +69,7 @@
                     <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
                   {% endif %}
                   {% if request.user.is_staff %}
-                    <p><a href="/admin/">{% trans "Administration" %}</a><p/>
+                    <p><a href="/admin/">{% trans "Administration" %}</a></p>
                   {% endif %}
                   <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
                   <p><a href="{% url "auth_logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></p>
@@ -84,8 +84,8 @@
                   {% for t in request.user.alerts.types %}
                     <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
                   {% endfor %}
-                  <p style="padding-top: 20px;"><a href="{% url "alerts" %}">All Messages ({{ request.user.alerts.all.count }})</a></p>
-                  <p style="padding-top: 6px;"><a href="">Message Settings</a></p>
+                  <p style="padding-top: 20px;"><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
+                  <p style="padding-top: 6px;"><a href="">{% trans "Message Settings" %}</a></p>
                 </div>
               </li>
             {% endif %}

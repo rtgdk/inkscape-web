@@ -32,7 +32,7 @@ class Moderation(ModeratorRequired, View):
 
     def get_context_data(self, **data):
         data = super(Moderation, self).get_context_data(**data)
-        data['categories'] = Flag.objects.categories()
+        data['categories'] = MODERATED_CATEGORIES
         return data
 
 

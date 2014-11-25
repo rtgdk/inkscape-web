@@ -18,11 +18,17 @@
 Moderation is achieved using a generic flagging model and some further
  User monitoring which should allow users to manage each other in a
  healthy community atmosphere.
-
 """
 
+#
+# Note about implementation: We would have used GenericForeignKey
+#  but the support for back references and aggregations in django 1.6.5
+#  was so bad that it just didn't work.
+#
+
 from django.db.models import *
-from django.contrib.contenttypes.generic import GenericForeignKey
+
+from django.template import loader
 from django.contrib.contenttypes.models import ContentType
 
 from django.conf import settings
@@ -31,7 +37,9 @@ from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.text import slugify
 
-from .meta_manager import meta_manager_getter, isclass
+import fix_django
+
+MODERATED = getattr(settings, 'MODERATED_MODELS', [])
 
 # We're going to start with fixed flag types
 FLAG_TYPES = (
@@ -40,38 +48,20 @@ FLAG_TYPES = (
     ('approve', _('Moderator Approval')),
 )
 
-from django.template import loader
+class TargetManager(Manager):
+    def get_query_set(self):
+        # This requires fix_django.
+        return Manager.get_query_set(self).annotate(count=Count('target')).order_by('-flagged')
+
+    def recent(self):
+        return self.get_query_set()[:5]
+
 
 class FlagManager(Manager):
-    """Generated content based on Flag"""
-    def categories(self):
-        query = self.get_query_set()
-        for content_type in query.values_list('content_type', flat=True).distinct():
-            ct = ContentType.objects.get(pk=content_type)
-            yield Flag.meta_manager(ct.model_class())
-
-    def get_or_create(self, **kwargs):
-        if 'content_object' in kwargs:
-            obj = kwargs.pop('content_object')
-            kwargs['object_pk'] = obj.pk
-            kwargs['content_type'] = ContentType.objects.get_for_model(type(obj))
-        return super(FlagManager, self).get_or_create(**kwargs)
-
-    def flag_item(self, obj, user, flag='flag'):
-        """Actually perform the flagging of a comment from a request."""
-        flag, created = self.get_or_create(content_object=obj, flag=flag, user=user)
-        return flag
-
-    def latest(self):
-        return self.get_query_set().order_by('-flaged')[:5]
-
-    def template(self):
-        try:
-            template = 'moderation/items/%s.html' % str(self).lower()
-            loader.get_template(template)
-            return template
-        except Exception:
-            return None
+    def get_or_create(self, *args, **kwargs):
+        if self.model is Flag:
+            return get_flag_cls(**kwargs).objects.get_or_create(*args, **kwargs)
+        return Manager.get_or_create(self, *args, **kwargs)
 
 
 @python_2_unicode_compatible
@@ -86,25 +76,67 @@ class Flag(Model):
     design users are only allowed to flag a comment with a given flag once;
     if you want rating look elsewhere.
     """
-    user    = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Flagging User'), related_name="flaged_objects")
-    flag    = CharField(_('Flag Type'), max_length=16, choices=FLAG_TYPES, db_index=True)
-    flaged  = DateTimeField(_('Date Flagged'), default=now)
-
-    # We can tag/flag any object with this meta-object key
-    content_type   = ForeignKey(ContentType, related_name="content_type_set_for_%(class)s")
-    object_pk      = TextField(_('object ID'))
-    content_object = GenericForeignKey(ct_field="content_type", fk_field="object_pk")
-
-    objects = FlagManager()
+    user     = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Flagging User'), related_name="flagged")
+    flag     = CharField(_('Flag Type'), max_length=16, choices=FLAG_TYPES, db_index=True)
+    flagged  = DateTimeField(_('Date Flagged'), default=now, db_index=True)
+    target   = None
 
     class Meta:
-        unique_together = [('user', 'object_pk', 'content_type', 'flag')]
+        get_latest_by = 'flagged'
 
     def __str__(self):
-        return "%s of %s %s by %s" % (self.flag, self.content_type,
-            self.object_pk, self.user.get_username())
+        return "%s of %s by %s" % (self.flag, str(self.target), str(self.user))
 
 
-get_my_flags = meta_manager_getter(Flag)
+def template_ok(t):
+    try:
+        return loader.get_template(t) and t
+    except Exception:
+        return None
 
+def get_flag_cls(target='', **kwargs):
+    return globals().get(target+'Flag', Flag)
+
+def create_flag_model(klass):
+    class Meta:
+        unique_together = [('target')]
+    def _get_unique_checks(self, exclude=False):
+        """Because of the cross-model relationship, we must add unique checks"""
+        (a,b) = Flag._get_unique_checks(self, exclude=exclude)
+        return [(type(self), ['target', 'user', 'flag'])], b
+
+    # Set up a dictionary to simulate declarations within a class
+    attrs = {
+      '__module__': __name__,
+      'Meta'      : Meta,
+      't_model'   : klass,
+      'target'    : ForeignKey(klass, related_name='flags', db_index=True),
+      '_get_unique_checks': _get_unique_checks,
+      'template'  : template_ok('moderation/items/%s.html' % klass.__name__.lower()),
+      'targets'   : TargetManager(),
+      'objects'   : FlagManager(),
+    }
+
+    local_name = klass.__name__ + 'Flag'
+    return (local_name, type(local_name, (Flag,), attrs))
+
+#
+# We create a new model per moderated class, these are NOT upgradable (NO schema migrations).
+#
+class FlagCategory(object):
+    def __init__(self, label, cls):
+        self.label   = label
+        self.klass   = cls
+        self.objects = cls.objects
+        self.targets = cls.targets
+
+    def __unicode__(self):
+        return self.label
+
+MODERATED_CATEGORIES = []
+for (app_model, label) in MODERATED:
+    ct = ContentType.objects.get_by_natural_key(*app_model.split('.'))
+    (local_name, new_cls) = create_flag_model(ct.model_class())
+    locals()[local_name] = new_cls
+    MODERATED_CATEGORIES.append( FlagCategory(label, new_cls) )
 

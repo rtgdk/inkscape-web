@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 
+from django.utils.translation import ugettext_lazy as _
 from django.conf import global_settings
 from versions import *
 import sys
@@ -183,11 +184,15 @@ INSTALLED_APPS = (
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 
+MODERATED_MODELS = (
+    ('auth.user', _('Website User')),
+)
+
 CMS_TEMPLATES = (
-    ('cms/normal.html',   'Normal Page'),
-    ('cms/withside.html', 'Side Bar Page'),
-    ('cms/front.html',    'Three Column Page'),
-    ('cms/super.html',    'Full Screen'),
+    ('cms/normal.html',   _('Normal Page')),
+    ('cms/withside.html', _('Side Bar Page')),
+    ('cms/front.html',    _('Three Column Page')),
+    ('cms/super.html',    _('Full Screen')),
 )
 CMS_APPLICATIONS_URLS = (
     ('cmsplugin_news.urls', 'News'),

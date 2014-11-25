@@ -4,26 +4,26 @@
 {% block title %}{% trans "Moderators' Area" %}{% endblock %}
 
 {% block content %}
-  <div>
     <h1>{% trans "Welcome to the Moderators' Area!" %}</h1>
     <div class="warning">{% trans "Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}</div>
 
     {% for category in categories %}
+     {% if category.targets.recent %}
+      <h2>{% trans "Flagged" %} {{ category }}s</h2>
 
-      <h2>{{ category }}</h2>
-
-      {% for object in category.latest %}
-        {% include category.template|default:"moderation/item.html" %}
+      {% for object in category.targets.recent %}
+        {% include flag.template|default:"moderation/item.html" %}
       {% endfor %}
+     {% endif %}
 
    {% endfor %}
-
+<!--
     <h2>{% trans "What would you like to do?" %}</h2>
     <ul>
       <li><a href="{% url "moderate_flagged" %}" >{% trans "Moderate comments reported by other users" %}</a></li>
       <li><a href="{% url "moderate_latest" %}" >{% trans "Review the latest comments for quality" %}</a></li>
     </ul>
-  </div>
+-->
 {% endblock %}
 
 <!-- todo: breadcrumbs on subpages would be great -->

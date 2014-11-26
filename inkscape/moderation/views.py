@@ -26,17 +26,23 @@ from .models import *
 from .mixins import *
 
 
-class FlagObject(UserRequired, View):
+class FlagObject(UserRequired, DetailView):
     template_name = 'moderation/flag.html'
 
-    def get(self, request, app, name, pk):
-        ct = ContentType.objects.get_by_natural_key(app, name)
-        obj = get_object_or_404(ct.model_class(), pk=pk)
-        (flag, created) = obj.flag()
-        if created:
-            # <process form cleaned data>
-            return redirect('success')
-        return redirect('already-flagged')
+    def get_object(self):
+        ct = ContentType.objects.get_by_natural_key(self.kwargs['app'], self.kwargs['name'])
+        return get_object_or_404(ct.model_class(), pk=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        (flag, created) = obj.flag() if request.POST.get('confirm', False) else (None, False)
+        return self.render_to_response({
+          'object': obj, 'flag': flag, 'created': created,
+          'next': self.next_url()
+        })
+
+    def next_url(self, **data):
+        return self.request.POST.get('next', self.request.META.get('HTTP_REFERER', ''))
 
 
 class Moderation(ModeratorRequired, View):

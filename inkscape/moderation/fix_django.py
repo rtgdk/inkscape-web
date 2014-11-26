@@ -1,3 +1,19 @@
+#
+# Copyright 2014, Martin Owens <doctormo@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 """
 Django ORM is very broken (1.6.5) when it comes to aggregations and then ordering.
 
@@ -7,11 +23,11 @@ are rendered impossible because of it.
 
 An argument could be made that ordering and selecting by a column that's grouped away
 doesn't make sense. But this argument is flawed, because it ignores the effect of
-super group sorting and first off the top access. (which is what SQL DBs do)
+super group sorting and first off the top access (i.e. Max/Min) to do top, bottom access.
 
-We're NOT being careful here and we believe the functionality in django is WRONG.
-Including this code in your project may result in some third party apps failing.
-But we've never seen any that do fail.
+This code should only effect flags, but it'd going to be run by everything calling sql
+in your django project since it patches in code to the core of django. It might also
+break in future versions of django. BEWARE!
 """
 
 from django.db.models.sql.compiler import SQLCompiler
@@ -25,7 +41,7 @@ def replacement_method(self, having_group_by, ordering_group_by):
     qn = self.quote_name_unless_alias
     result, params = [], []
     seen = set()
-    cols = self.query.group_by# + having_group_by + select_cols
+    cols = self.query.group_by
     if cols and len(cols) > 4:
         # Worry here that django has done something crazy
         cols = [cols[-1]]

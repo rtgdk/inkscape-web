@@ -60,6 +60,9 @@ class TargetManager(Manager):
     def recent(self):
         return self.get_query_set().filter(status=1)[:5]
 
+    def get_status(self, obj):
+        return (self.get_query_set().filter(target=obj).values_list('status', flat=True) or [0])[0]
+
 
 class FlagManager(Manager):
     def get_or_create(self, *args, **kwargs):
@@ -127,8 +130,8 @@ def add_reverse_links(ct, flag):
     model = ct.model_class()
     model.flag         = lambda self: flag.objects.get_or_create(target=self)
     model.flag_url     = lambda self: reverse('flag', kwargs=dict(app=ct.app_label, name=ct.name, pk=self.pk)) 
-    model.is_flagged   = lambda self: flag.objects.get_status(self) == 1
-    model.is_moderated = lambda self: flag.objects.get_status(self) == 10
+    model.is_flagged   = lambda self: flag.targets.get_status(self) == 1
+    model.is_moderated = lambda self: flag.targets.get_status(self) == 10
 
 class FlagCategory(object):
     def __init__(self, label, cls):

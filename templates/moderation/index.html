@@ -10,20 +10,14 @@
     {% for category in categories %}
      {% if category.targets.recent %}
       <h2>{% trans "Flagged" %} {{ category }}s</h2>
+      <span><a href="{% url "moderate_flagged" %}" >{% trans "See All Reports" %}</a></span>
+      <span><a href="{% url "moderate_latest" %}" >{% trans "See Latest Objects" %}</a></span>
 
       {% for object in category.targets.recent %}
         {% include flag.template|default:"moderation/item.html" %}
       {% endfor %}
      {% endif %}
-
    {% endfor %}
-<!--
-    <h2>{% trans "What would you like to do?" %}</h2>
-    <ul>
-      <li><a href="{% url "moderate_flagged" %}" >{% trans "Moderate comments reported by other users" %}</a></li>
-      <li><a href="{% url "moderate_latest" %}" >{% trans "Review the latest comments for quality" %}</a></li>
-    </ul>
--->
 {% endblock %}
 
 <!-- todo: breadcrumbs on subpages would be great -->

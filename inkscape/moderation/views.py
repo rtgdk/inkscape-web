@@ -15,8 +15,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-from django.shortcuts import render
-
+from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
@@ -25,6 +24,19 @@ from pile.views import *
 
 from .models import *
 from .mixins import *
+
+
+class FlagObject(UserRequired, View):
+    template_name = 'moderation/flag.html'
+
+    def get(self, request, app, name, pk):
+        ct = ContentType.objects.get_by_natural_key(app, name)
+        obj = get_object_or_404(ct.model_class(), pk=pk)
+        (flag, created) = obj.flag()
+        if created:
+            # <process form cleaned data>
+            return redirect('success')
+        return redirect('already-flagged')
 
 
 class Moderation(ModeratorRequired, View):
@@ -43,8 +55,6 @@ class ModerateFlagged(ModeratorRequired, CategoryListView):
         """get all non-hidden, flagged, unapproved comments and reverse
            order them by number of flags"""
         return Flag.objects.all()
-        #filter(is_removed=0).exclude(flags__flag="moderator approval")
-        #.annotate(flag_count=Count('flags')).filter(flag_count__gt=0).order_by("-flag_count")
 
 
 class ModerateLatest(ModeratorRequired, CategoryListView):

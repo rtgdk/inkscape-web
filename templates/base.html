@@ -110,6 +110,13 @@
       <div id="content"{% block contentclasses %}{% endblock %}>
         <div class="wrapper">
           {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+          {% if messages %}
+              <ul id="messages">
+              {% for message in messages %}
+                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
           {% block content %}{% endblock %}
         </div>
       </div>

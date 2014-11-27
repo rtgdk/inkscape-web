@@ -60,14 +60,36 @@ class TargetManager(Manager):
     def recent(self):
         return self.get_query_set().filter(status=1)[:5]
 
-    def get_status(self, obj):
-        return (self.get_query_set().filter(target=obj).values_list('status', flat=True) or [0])[0]
+    def get_status(self):
+        return (self.get_query_set().values_list('status', flat=True) or [0])[0]
+
+    def is_flagged(self):
+        return self.get_status() == 1
+
+    def is_approved(self):
+        return self.get_status() == 5
+
+    def is_deleted(self):
+        return self.get_status() == 10
+
+    def i_flagged(self):
+        return self.exists(user=get_user)
 
     def exists(self, **kwargs):
         try:
             return bool(self.get(**kwargs))
         except self.model.DoesNotExist:
             return False
+
+    def flag_url(self):
+        obj = getattr(self, 'instance', None)
+        if obj:
+            ct = ContentType.objects.get_for_model(type(obj))
+            (app, key) = ct.natural_key()
+            return reverse('flag', kwargs=dict(app=app, name=key, pk=obj.pk))
+
+    def flag(self):
+        return flag.objects.get_or_create(target=getattr(self, 'instance', None))
 
 
 class FlagManager(Manager):
@@ -132,16 +154,6 @@ def create_flag_model(klass):
     local_name = klass.__name__ + 'Flag'
     return (local_name, type(local_name, (Flag,), attrs))
 
-def add_reverse_links(ct, flag):
-    """Adds some methods to the original model to back-link it to Flags"""
-    (app, key) = ct.natural_key()
-    model = ct.model_class()
-    model.flag         = lambda self: flag.objects.get_or_create(target=self)
-    model.flag_url     = lambda self: reverse('flag', kwargs=dict(app=app, name=key, pk=self.pk)) 
-    model.is_flagged   = lambda self: flag.targets.get_status(self) == 1
-    model.is_moderated = lambda self: flag.targets.get_status(self) == 10
-    model.i_flagged    = lambda self: flag.targets.exists(target=self, user=get_user)
-
 class FlagCategory(object):
     def __init__(self, label, cls):
         self.label   = label
@@ -159,5 +171,4 @@ for (app_model, label) in MODERATED:
     (local_name, new_cls) = create_flag_model(ct.model_class())
     locals()[local_name] = new_cls
     MODERATED_CATEGORIES.append( FlagCategory(label, new_cls) )
-    add_reverse_links(ct, new_cls)
 

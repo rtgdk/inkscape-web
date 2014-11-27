@@ -15,10 +15,13 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
+from django.contrib import messages
 from django.shortcuts import render, get_object_or_404, render_to_response, redirect
 from django.db.models import Count
 from django.utils import timezone
 from datetime import timedelta
+
+from django.utils.translation import ugettext_lazy as _
 
 from pile.views import *
 
@@ -36,10 +39,11 @@ class FlagObject(UserRequired, DetailView):
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
         (flag, created) = obj.flag() if request.POST.get('confirm', False) else (None, False)
-        return self.render_to_response({
-          'object': obj, 'flag': flag, 'created': created,
-          'next': self.next_url()
-        })
+        if created:
+            messages.success(request, _('Moderators have been notified of the issue you have reported.'))
+        else:
+            messages.warning(request, _('You have already flagged this item for attention.'))
+        return redirect(self.next_url())
 
     def next_url(self, **data):
         return self.request.POST.get('next', self.request.META.get('HTTP_REFERER', ''))

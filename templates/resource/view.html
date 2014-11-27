@@ -4,8 +4,8 @@
 {% block "description" %}
   <div class="info">
     <div class="title">
-      {% if item.flag_url and item.user != request.user %}
-        <div class="tog" id="flag"><a {% if item.i_flagged %}class="remove"{% else %}href="{{ item.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a></div>
+      {% if item.moderation and item.user != request.user %}
+        <div class="tog" id="flag"><a {% if item.moderation.i_flagged %}class="remove"{% else %}href="{{ item.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a></div>
       {% endif %}
 
       {% if item.mime.is_image %}

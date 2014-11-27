@@ -206,14 +206,14 @@ def view_trash(request):
 
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
-    if not gallery.is_visible(request.user):
+    if not gallery.is_visible():
         raise Http404
     c = {
       'user'       : gallery.user,
       'items'      : gallery.items.for_user(request.user),
       'gallery'    : gallery,
       'breadcrumbs': breadcrumbs(gallery.user, gallery),
-      'limit'      : 15 - gallery.is_editable(request.user),
+      'limit'      : 15 - gallery.is_editable(),
     }
     
     if gallery.group:
@@ -241,7 +241,7 @@ def view_user(request, user_id):
 
 def view_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
-    if not item.is_visible(request.user):
+    if not item.is_visible():
         raise Http404
 
     if item.is_new:

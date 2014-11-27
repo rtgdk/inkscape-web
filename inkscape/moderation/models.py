@@ -63,6 +63,12 @@ class TargetManager(Manager):
     def get_status(self, obj):
         return (self.get_query_set().filter(target=obj).values_list('status', flat=True) or [0])[0]
 
+    def exists(self, **kwargs):
+        try:
+            return bool(self.get(**kwargs))
+        except self.model.DoesNotExist:
+            return False
+
 
 class FlagManager(Manager):
     def get_or_create(self, *args, **kwargs):
@@ -109,6 +115,7 @@ def template_ok(t):
 def get_flag_cls(target='', **kwargs):
     return globals().get(target+'Flag', Flag)
 
+
 def create_flag_model(klass):
     """Create a brand new Model for each Flag type, using Flag as a base class
        these are NOT upgradable (NO schema migrations)."""
@@ -116,7 +123,7 @@ def create_flag_model(klass):
     attrs = {
       '__module__': __name__,
       't_model'   : klass,
-      'target'    : ForeignKey(klass, related_name='flags', db_index=True),
+      'target'    : ForeignKey(klass, related_name='moderation', db_index=True),
       'template'  : template_ok('moderation/items/%s.html' % klass.__name__.lower()),
       'targets'   : TargetManager(),
       'objects'   : FlagManager(),
@@ -127,11 +134,13 @@ def create_flag_model(klass):
 
 def add_reverse_links(ct, flag):
     """Adds some methods to the original model to back-link it to Flags"""
+    (app, key) = ct.natural_key()
     model = ct.model_class()
     model.flag         = lambda self: flag.objects.get_or_create(target=self)
-    model.flag_url     = lambda self: reverse('flag', kwargs=dict(app=ct.app_label, name=ct.name, pk=self.pk)) 
+    model.flag_url     = lambda self: reverse('flag', kwargs=dict(app=app, name=key, pk=self.pk)) 
     model.is_flagged   = lambda self: flag.targets.get_status(self) == 1
     model.is_moderated = lambda self: flag.targets.get_status(self) == 10
+    model.i_flagged    = lambda self: flag.targets.exists(target=self, user=get_user)
 
 class FlagCategory(object):
     def __init__(self, label, cls):

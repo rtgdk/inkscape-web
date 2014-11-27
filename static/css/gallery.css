@@ -410,6 +410,9 @@ table.bioitem p a {
   background-repeat: no-repeat;
   background-position: 0px -32px;
 }
+.info .tog a:last-child {
+  border-radius: 8px;
+}
 .info .tog a:hover {
   text-decoration: none;
   background-position: 0px 0px;
@@ -438,9 +441,13 @@ div#download a {
 div#vote a {
   background-image: url("../images/icons/vote.svg");
 }
-div#vote a.remove {
+div#flag a {
+  background-image: url("../images/icons/flag.svg");
+}
+div.tog a.remove {
   background-position: -32px -32px;
 }
-div#vote a.remove:hover {
+div.tog a.remove:hover {
   background-position: -32px 0px;
 }
+

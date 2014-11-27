@@ -1,5 +1,6 @@
 {% load i18n %}
 
+{% if item.is_visible %}
   <div class="{% if item.published %}galleryitem{% else %}galleryitem unpublished{% endif %}">
     <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
     <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
@@ -18,3 +19,5 @@
       {% endif %}
     {% endif %}
   </div>
+{% endif %}
+

@@ -105,34 +105,50 @@
       </div>
       <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
     </div>
+
     {% block supercontent %}
-    <div id="content"{% block contentclasses %}{% endblock %}><div class="wrapper">
-            {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
-      {% block content %}{% endblock %}
-    </div></div>
+      <div id="content"{% block contentclasses %}{% endblock %}>
+        <div class="wrapper">
+          {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+          {% block content %}{% endblock %}
+        </div>
+      </div>
     {% endblock %}
+
     {% block footer %}
-    <div class="footer">
-          <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="This site is running:
+      <div class="footer">
+        <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="This site is running:
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
 InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px; onerror="getPng(this);"/></a>
-      <div class="nav">
-        {% block footer-nav %}
-        <ul>
-          {% for item in nav %}
-          <li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
-            {% for subitem in item %}
-            <li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
+        <div class="nav">
+          {% block footer-nav %}
+          <ul>
+            {% for item in nav %}
+            <li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
+              {% for subitem in item %}
+              <li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
+              {% endfor %}
+            </ul></li>
             {% endfor %}
-          </ul></li>
-          {% endfor %}
-        </ul>
-        {% endblock %}
+          </ul>
+          {% endblock %}
+        </div>
+        <p>
+          {% block "foot" %}
+            {% trans "Inkscape is Free and Open Source Software licensed under the" %}
+            <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
+          {% endblock %}
+        </p>
       </div>
-      <p>{% block "foot" %}{% trans "Inkscape is Free and Open Source Software licensed under the" %} <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.{% endblock %}</p>
-    </div>
-        <p id="final-footer">{% trans "Website designed by" %} <a href="http://skymaiden.com">Hinerangi Courtenay</a> {% trans "in Inkscape and developed by" %} <a href="http://doctormo.org">Martin Owens</a> - {% trans "Website development guide" %}: <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Here" %}</a></p>
+
+      <p id="final-footer">{% trans "Website designed by" %}
+        <a href="http://skymaiden.com">Hinerangi Courtenay</a>
+        {% trans "in Inkscape and developed by" %}
+        <a href="http://doctormo.org">Martin Owens</a> - 
+        <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Website development guide" %}</a>
+      </p>
+
     {% endblock %}
   </body>
 </html>

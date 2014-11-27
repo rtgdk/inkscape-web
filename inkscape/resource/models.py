@@ -35,6 +35,9 @@ from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed
 from inkscape.settings import STATIC_URL
 
+# Thread-safe current user middleware getter.
+from cms.utils.permissions import get_current_user as get_user
+
 null = dict(null=True, blank=True)
 
 __all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'Gallery',
@@ -136,12 +139,12 @@ class ResourceManager(InheritanceManager):
 
     def disk_usage(self):
         # This could be done better by storing the file sizes
-        return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False))
+        return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
 
 
 class Resource(Model):
     is_file   = False
-    user      = ForeignKey(User, related_name='resources')
+    user      = ForeignKey(User, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
     desc      = TextField(_('Description'), **null)
     category  = ForeignKey(Category, related_name='items', **null)
@@ -195,8 +198,8 @@ class Resource(Model):
             return "%d-%d" % (self.created.year, self.edited.year)
         return "%d" % self.edited.year
 
-    def is_visible(self, user):
-        return user == self.user or self.published
+    def is_visible(self):
+        return get_user() == self.user or self.published
 
     @property
     def is_new(self):
@@ -276,6 +279,9 @@ class ResourceFile(Resource):
                 self.thumbnail = None
         Resource.save(self, *args, **kwargs)
 
+    def is_visible(self):
+        return Resource.is_visible(self) and os.path.exists(self.download.path)
+
     def has_file_changed(self):
         return not self.download._committed
 
@@ -315,7 +321,7 @@ class GalleryManager(Manager):
 
 
 class Gallery(Model):
-    user      = ForeignKey(User, related_name='galleries')
+    user      = ForeignKey(User, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
     items     = ManyToManyField(Resource, **null)
@@ -328,17 +334,19 @@ class Gallery(Model):
     def get_absolute_url(self):
         return reverse('gallery', args=[str(self.id)])
 
-    def is_visible(self, user=None):
-        return self.items.for_user(user).count() or self.is_editable(user)
+    def is_visible(self):
+        return self.items.for_user(get_user()).count() or self.is_editable()
 
-    def is_editable(self, user=None):
+    def is_editable(self):
+        user = get_user()
         return user and user.id and (
             self.user == user or user.is_superuser \
               or (user.groups.count() and self.group in user.groups.all()))
 
     def icon(self):
-        if self.items.all().count():
-            return self.items.all()[0].icon()
+        for item in self.items.all():
+            if item.is_visible():
+                return item.icon()
         return os.path.join( STATIC_URL,'images','folder.svg' )
 
     def __len__(self):

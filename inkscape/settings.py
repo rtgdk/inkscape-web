@@ -164,7 +164,6 @@ INSTALLED_APPS = (
     'south',   # intelligent schema and data migrations
     'sekizai', # for javascript and css management
     'pagination',
-    'django_comments',
     'djangocms_text_ckeditor',
     'djangocms_file',
     'djangocms_picture',
@@ -180,12 +179,15 @@ INSTALLED_APPS = (
     'inkscape.resource',
     'inkscape.alerts',
     'inkscape.moderation',
+    'django_comments',
     'inkscape.projects',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
-    ('auth.user', _('Website User')),
+    ('auth.user',               _('Website User')),
+    ('resource.resourcefile',   _('Gallery Resource')),
+    ('django_comments.comment', _('User Comment')),
 )
 
 CMS_TEMPLATES = (

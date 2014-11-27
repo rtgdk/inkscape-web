@@ -25,10 +25,6 @@
    {% endblock %}
   </h1>
 
- {% ifequal request.GET.thankyou "flag" %}
-   <h3>{% trans "Thank you for improving the quality of discussion on the Inkscape website!" %}<h3>
- {% endifequal %}
-  
  <div class="item{% if form %} edit{% endif %}">
  {% if not form and item.is_video %}
    <div class="image video">

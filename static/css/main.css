@@ -707,16 +707,38 @@ a.roundel img {
   padding: 3px;
 }
 
-.warning {
-  border: 2px solid #5c3566;
+#messages {
+  margin-bottom: 12px;
+}
+#messages li {
+  border: 2px solid #888;
   border-radius: 8px;
-  background: 12px center url(../images/delete.svg) no-repeat;
-  background-color: #75507b;
   color: white;
   padding: 12px 52px;
   margin: 4px 30px;
+  background: 9px center url(../images/messages/none.svg) no-repeat;
 }
-.warning a {
+#messages .info {
+  background-image: url(../images/messages/info.svg);
+  background-color: #3465a4;
+  border-color: #204a87;
+}
+#messages .success {
+  background-image: url(../images/messages/success.svg);
+  background-color: #73d216;
+  border-color: #4e9a06;
+}
+#messages .warning {
+  background-image: url(../images/messages/warning.svg);
+  background-color: #f57900;
+  border-color: #ce5c00;
+}
+#messages .error {
+  background-image: url(../images/messages/error.svg);
+  background-color: #cc0000;
+  border-color: #a40000;
+}
+#messages a {
   color: white;
   font-weight: bold;
 }

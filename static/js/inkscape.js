@@ -64,7 +64,7 @@ function popUp(title, msg, href, cancel, ok, next) {
       if(next){
         $('#popup .buttons').append("<input type='hidden' name='next' value='"+next+"'/>");
       }  
-      $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm'>" + ok + "</button>");
+      $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm' value='true'>" + ok + "</button>");
       $('#popup .buttons .start').click(popUp);
       $('#popup').css({
         'top': 'calc(50% - ' + ($('#popup').innerHeight() / 2) + 'px)',

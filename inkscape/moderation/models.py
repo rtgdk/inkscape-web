@@ -89,7 +89,7 @@ class TargetManager(Manager):
             return reverse('flag', kwargs=dict(app=app, name=key, pk=obj.pk))
 
     def flag(self):
-        return flag.objects.get_or_create(target=getattr(self, 'instance', None))
+        return self.get_or_create(target=getattr(self, 'instance', None), user=get_user())
 
 
 class FlagManager(Manager):

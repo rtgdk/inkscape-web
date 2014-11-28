@@ -5,7 +5,10 @@
   <div class="info">
     <div class="title">
       {% if item.moderation and item.user != request.user %}
-        <div class="tog" id="flag"><a {% if item.moderation.i_flagged %}class="remove"{% else %}href="{{ item.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a></div>
+        <div class="tog single" id="flag">
+          <a {% if item.moderation.i_flagged %}class="remove"{% else %}href="{{ item.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
+          <script>popUpLink('{% trans "Are you sure you want to report this resource?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'resource' item.pk %}");</script>
+        </div>
       {% endif %}
 
       {% if item.mime.is_image %}

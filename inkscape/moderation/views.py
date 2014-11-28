@@ -38,8 +38,10 @@ class FlagObject(UserRequired, DetailView):
 
     def post(self, request, *args, **kwargs):
         obj = self.get_object()
-        (flag, created) = obj.flag() if request.POST.get('confirm', False) else (None, False)
-        if created:
+        (flag, created) = obj.moderation.flag() if request.POST.get('confirm', False) else (None, None)
+        if not flag:
+            messages.error(request, _('Moderators could not be informed because an error occured.'))
+        elif created:
             messages.success(request, _('Moderators have been notified of the issue you have reported.'))
         else:
             messages.warning(request, _('You have already flagged this item for attention.'))

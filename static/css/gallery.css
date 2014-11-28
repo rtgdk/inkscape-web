@@ -410,8 +410,8 @@ table.bioitem p a {
   background-repeat: no-repeat;
   background-position: 0px -32px;
 }
-.info .tog a:last-child {
-  border-radius: 8px;
+.info .single a {
+  border-radius: 8px !important;
 }
 .info .tog a:hover {
   text-decoration: none;

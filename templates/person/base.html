@@ -13,7 +13,12 @@
 
    <div class="socialicons">
      {% if user.moderation %}
-       <a href="{{ user.moderation.flag_url }}"><img src="{{ STATIC_URL }}/images/social/flag.svg" title="{% trans "Flag User to Moderators" %}"/></a>
+       {% if user.moderation.i_flagged %}
+         <img src="{{ STATIC_URL }}/images/social/flag.svg" title="{% trans "You have flagged this user." %}"/>
+       {% else %}
+         <a href="{{ user.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{{ STATIC_URL }}/images/social/flag.svg"/></a>
+         <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'view_profile' user.username %}");</script>
+       {% endif %}
      {% endif %}
      {% if user.is_staff %}
        {% if user == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administrator" %}"/></a>

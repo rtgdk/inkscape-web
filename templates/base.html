@@ -47,7 +47,7 @@
                   {% csrf_token %}
                   <label for="toplogin-username">{% trans "Username" %}</label>
                   <input name="username" id="toplogin-username" type="text">
-                  <label for="toplogin-password">{% trans "Password" %}</label>
+                  <label for="toplogin-password">{% trans "Password" %} (<a href="{% url "password_reset" %}">{% trans "reset" %}</a>)</label>
                   <input name="password" id="toplogin-password" type="password">
                   <input class="button" type="submit" value="{% trans "Log in" %}">
                   <input name="next" type="hidden" value="{{ request.path }}"/>

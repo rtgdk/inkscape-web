@@ -6,15 +6,20 @@ except ImportError:
 
 from .views import *
 
+def url_tree(regex, *urls):
+    return url(regex, include(patterns('', *urls)))
+
 urlpatterns = patterns('',
-    url(r'^$',                     Moderation(),      name="moderation"),
-    url(r'^flagged/$',             ModerateFlagged(), name="moderate_flagged"),
-    url(r'^latest/$',              ModerateLatest(),  name="moderate_latest"),
+  url(r'^$',                   Moderation(),      name="moderation"),
 
-    url(r'^hide/(?P<pk>\d+)/$',    HideComment(),     name="moderator.hide"),
-    url(r'^approve/(?P<pk>\d+)/$', ApproveComment(),  name="moderator.approve"),
+  url_tree(r'^(?P<app>[\w-]+)/(?P<name>[\w-]+)/',
+    url(r'^flagged/$',         ModerateFlagged(), name="moderation.flagged"),
+    url(r'^latest/$',          ModerateLatest(),  name="moderation.latest"),
 
-    url(r'^(?P<app>[\w-]+)/(?P<name>[\w-]+)/(?P<pk>\d+)/$',
-                                   FlagObject(),      name='flag'),
-
+    url_tree(r'^(?P<pk>\d+)/',
+      url(r'^$',               FlagObject(),      name='moderation.flag'),
+      url(r'^hide/$',          HideComment(),     name="moderation.hide"),
+      url(r'^approve/$',       ApproveComment(),  name="moderation.approve"),
+    )
+  )
 )

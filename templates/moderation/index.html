@@ -10,8 +10,8 @@
     {% for category in categories %}
      {% if category.targets.recent %}
       <h2>{% trans "Flagged" %} {{ category }}s</h2>
-      <span><a href="{% url "moderate_flagged" %}" >{% trans "See All Reports" %}</a></span>
-      <span><a href="{% url "moderate_latest" %}" >{% trans "See Latest Objects" %}</a></span>
+      <span><a href="{{ category.targets.flag_url }}" >{% trans "See All Reports" %}</a></span>
+      <span><a href="{{ category.targets.latest_url }}" >{% trans "See Latest Objects" %}</a></span>
 
       {% for object in category.targets.recent %}
         {% include flag.template|default:"moderation/item.html" %}

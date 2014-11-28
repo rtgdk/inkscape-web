@@ -84,9 +84,11 @@ class TargetManager(Manager):
     def flag_url(self):
         obj = getattr(self, 'instance', None)
         if obj:
-            ct = ContentType.objects.get_for_model(type(obj))
-            (app, key) = ct.natural_key()
-            return reverse('flag', kwargs=dict(app=app, name=key, pk=obj.pk))
+            return reverse('moderation.flag', kwargs=dict(pk=obj.pk, **self.model._url_keys()))
+        return reverse('moderation.flagged', kwargs=dict(**self.model._url_keys()))
+
+    def latest_url(self):
+        return reverse('moderation.latest', kwargs=dict(**self.model._url_keys()))
 
     def flag(self):
         return self.get_or_create(target=getattr(self, 'instance', None), user=get_user())
@@ -126,6 +128,17 @@ class Flag(Model):
         """Because of the cross-model relationship, we must add unique checks"""
         (a,b) = Flag._get_unique_checks(self, exclude=exclude)
         return [(type(self), ['target', 'user', 'flag'])], b
+
+    @classmethod
+    def _url_keys(cls):
+        ct = ContentType.objects.get_for_model(cls.t_model)
+        return dict(zip( ('app', 'name'), ct.natural_key()) )
+
+    def hide_url(self):
+        return reverse('moderation.hide', kwargs=dict(pk=self.pk, **self._url_keys()))
+
+    def approve_url(self):
+        return reverse('moderation.approve', kwargs=dict(pk=self.pk, **self._url_keys()))
 
 
 def template_ok(t):

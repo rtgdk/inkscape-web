@@ -2,8 +2,8 @@
 
 <ul>
   <li>{{ object }} ({{ object.count|default:0 }}) [
-    <a href="{% url "moderator.hide" object.id %}">Hide</a> |
-    <a href="{% url "moderator.approve" object.id %}">Approve</a>
+    <a href="{{ object.hide_url }}">Hide</a> |
+    <a href="{{ object.approve_url }}">Approve</a>
   ]</li>
 </ul>
 

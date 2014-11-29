@@ -1,4 +1,4 @@
-{% load i18n comments %}
+{% load i18n comments extras %}
 
 {% get_comment_form for comment_subject as form %}
 
@@ -9,7 +9,7 @@
       <div class="title">{% trans "Leave a comment:" %}</div>
     </div>
     <div class="body">
-      {{ form.comment }}
+      {{ form.comment|tabindex:8 }}
       {{ form.honeypot }}
       {{ form.content_type }}
       {{ form.object_pk }}
@@ -17,6 +17,11 @@
       {{ form.security_hash }}
     <input type="hidden" name="next" value="{% url 'resource' comment_subject.id %}" />
     </div>
-    <div class="cfooter"><div class="buttonbar"><div id="cochint">{% blocktrans %}Please read Inkscape's <a href="/community/coc">Code of Conduct</a> before posting.{% endblocktrans %}</div><input class="unique start end" type="submit" value="{% trans "Send" %}" id="id_submit" /></div></div>
+    <div class="cfooter">
+      <div class="buttonbar">
+        <div id="cochint">{% blocktrans %}Please read Inkscape's <a tabindex="10" href="/community/coc">Code of Conduct</a> before posting.{% endblocktrans %}</div>
+        <input tabindex="9" class="unique start end" type="submit" value="{% trans "Submit Comment" %}" id="id_submit" />
+      </div>
+    </div>
   </div>   
 </form>

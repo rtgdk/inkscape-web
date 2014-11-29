@@ -13,6 +13,11 @@ def add_placeholder(form, text=None):
     form.field.widget.attrs.update({ "placeholder": text })
     return form
 
+@register.filter("tabindex")
+def add_tabindex(form, number):
+    form.field.widget.attrs.update({ "tabindex": number })
+    return form
+
 @register.filter("root_nudge")
 def root_nudge(root, page):
     """

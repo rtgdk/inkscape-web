@@ -4,23 +4,23 @@
 {% block title %}{% trans "Flag Item" %}{% endblock %}
 
 {% block content %}
- {% if flag %}
-  {% if created %}
-   <h1>{% trans "Item Flagged" %}</h1>
-   <p>{% trans "Thank you for helping moderate this website and it's content, a moderator will review your post soon." %}</p>
+  {% if flag_type == 10 %}
+    <h1>{% trans "Hide Item" %}</h1>
+    <p>{% trans "Are you sure you want to hide this item?" %}
+  {% elif flag_type == 5 %}
+    <h1>{% trans "Approve Item" %}</h1>
+    <p>{% trans "Are you sure you want to approve this item?" %}</p>
   {% else %}
-   <h1>{% trans "Item Already Flagged" %}</h1>
-   <p>{% trans "Thank you for helping moderate this website, you've already flagged this item and so we're just waiting for a moderator." %}</p>
+    <h1>{% trans "Flag Item" %}</h1>
+    <p>{% trans "Are you sure you want to flag this content?" %}
   {% endif %}
- {% else %}
-  <h1>{% trans "Flag Item" %}</h1>
-  <p>{% trans "Are you sure you want to flag this content?" %}
+
   <p>{{ object }}</p>
+
   <form method="POST" action=".">
    {% csrf_token %}
    <input type="hidden" name="next" value="{{ next }}"/>
-   <input type="submit" name="confirm" value="{% trans "Confirm Flagging" %}"/>
+   <input type="submit" name="confirm" value="{% trans "Confirm" %}"/>
    <input type="submit" name="cancel" value="{% trans "Cancel" %}"/>
   </form>
- {% endif %}
 {% endblock %}

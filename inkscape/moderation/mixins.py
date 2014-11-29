@@ -19,8 +19,45 @@
 Basic mixin classes for moderators
 """
 
-from django.utils.decorators import method_decorator
+from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.decorators import method_decorator
+from django.shortcuts import get_object_or_404, redirect
+
+from pile.views import DetailView
+from .models import ContentType
+
+class FunctionView(DetailView):
+    """Access to moderator objects from urls makes things easier"""
+    def get_model(self):
+        ct = ContentType.objects.get_by_natural_key(self.kwargs['app'], self.kwargs['name'])
+        return ct.model_class()
+
+    def get_object(self):
+        return get_object_or_404(self.get_model(), pk=self.kwargs['pk'])
+
+    def post(self, request, *args, **kwargs):
+        ret = self.function() if request.POST.get('confirm', False) else None
+        if not ret:
+            messages.error(request, self.confirm)
+        elif isinstance(ret, tuple) and not ret[-1]:
+            messages.warning(request, self.warning)
+        else:
+            messages.success(request, self.created)
+        return redirect(self.next_url())
+
+    def function(self):
+        obj = self.get_object()
+        return obj.moderation.flag(self.flag)
+
+    def next_url(self, **data):
+        return self.request.POST.get('next', self.request.META.get('HTTP_REFERER', '/')) or '/'
+
+    def get_context_data(self, **data):
+        data = super(FunctionView, self).get_context_data(**data)
+        data['flag_type'] = self.flag
+        return data
+
 
 class ModeratorRequired(object):
     """Prevent people who do not have comment moderation rights from
@@ -28,6 +65,7 @@ class ModeratorRequired(object):
     @method_decorator(permission_required("moderation.can_moderate", raise_exception=True))
     def dispatch(self, request, *args, **kwargs):
         return super(ModeratorRequired, self).dispatch(request, *args, **kwargs)
+
 
 class UserRequired(object):
     """Only allow a logged in user for flagging"""

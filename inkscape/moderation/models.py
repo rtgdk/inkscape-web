@@ -90,8 +90,8 @@ class TargetManager(Manager):
     def latest_url(self):
         return reverse('moderation.latest', kwargs=dict(**self.model._url_keys()))
 
-    def flag(self):
-        return self.get_or_create(target=getattr(self, 'instance', None), user=get_user())
+    def flag(self, flag=1):
+        return self.get_or_create(target=getattr(self, 'instance', None), flag=flag)
 
 
 class FlagManager(Manager):

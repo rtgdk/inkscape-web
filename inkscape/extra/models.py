@@ -32,13 +32,13 @@ from django.core.urlresolvers import reverse
 from cms.models import CMSPlugin
 from pile.fields import ResizedImageField
 
-from inkscape.resource.models import ResourceFile
+from inkscape.resource.models import License, User
 
 null = dict(null=True, blank=True)
 
 class TabCategory(Model):
     name   = CharField(max_length=22)
-    icon   = ResizedImageField(_('Icon'), 32, 32, upload_to='icons')
+    icon   = ResizedImageField(_('Icon'), 32, 32, upload_to='shields/icons')
 
     def __unicode__(self):
         return self.name
@@ -47,7 +47,13 @@ BTNS = (
   ('download', _('Download Icon')),
 )
 
-class Tab(ResourceFile):
+class Tab(Model):
+    link     = URLField(_('External Link'), **null)
+    name     = CharField(max_length=64)
+    user     = ForeignKey(User, related_name='front_tabs', **null)
+    download = FileField(_('Background'), upload_to='shields/backgrounds')
+    license  = ForeignKey(License)
+
     order    = IntegerField(editable=True, **null)
 
     tab_name = CharField(_("Heading"), max_length=64)

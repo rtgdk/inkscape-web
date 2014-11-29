@@ -1,48 +1,45 @@
 {% load i18n comments pile %}
 
-{% for flag in comment.flags.all %}
-  {% if flag.flag == "moderator approval" %}
-    Approved
-  {% endif %}
-{% endfor %}
-
-
-<div class="comment {% if comment.is_removed %} removed {% endif %}">
+<div class="comment {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
+  
   <div class="details">
     <div class="title">
-      {% url 'view_profile' comment.user.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      {% url 'view_profile' object.user.username as profile_url %}
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.user.details.photo %}{{ object.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
-        { url 'view_profile' comment.user.username as profile_url %}
-        {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date and comment.get_content_object_url as the_url %}
+        {% url 'view_profile' object.user.username as profile_url %}
+        {% blocktrans with object.user as user_name and object.target.submit_date|timetag as comment_date and object.target.get_content_object_url as the_url %}
           <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
         {% endblocktrans %}
       </div>
     </div>
-    <div class="index"><div class="commentstatus">
-      {% if comment.is_removed %}{% trans "hidden" %}
-      {% elif comment.is_public %}{% trans "public" %}
-      
-      {% endif %}</div>
+    <div class="index">
+      <div class="commentstatus">
+        {% if object.target.moderation.is_deleted %}{% trans "deleted" %}
+        {% elif object.target.moderation.is_approved %}{% trans "approved" %}
+        {% else %}{% trans "public" %}
+        {% endif %}
+      </div>
     </div>
-      <div class="flagcount">{{ comment.flags.count }}</div>
-      <div title='{% trans "Flags" %}' class="flag flagged"></div>
-    </div>
+    <div class="flagcount">{{ object.count }}</div>
+    <div title='{% trans "Flags" %}' class="flag {% if object.count > 0 %}flagged{% endif %}"></div>
+  </div>
     
   <div class="body">
-    <div class="text"><p>{{ comment.comment|urlize|linebreaks }}</p></div>
+    <div class="text"><p>{{ object.target.comment|urlize|linebreaks }}</p></div>
   </div>
   
-  {% if not onhidepage and not comment.is_removed %}
+  {% if not object.target.moderation.is_deleted %}
   <div class="cfooter">
-    <div class="buttonbar">
-      
-      <a href="{ url 'hide_comment' comment.pk %}?next={{ next_url }}" class="button">Hide comment</a>
-      
-      <a title="{% trans "Approve Comment" %}" class="button" href="{ url "comments-approve" comment.id %}?next={{ next_url }}">{% trans "Approve Comment" %}</a>
-      <script>popUpLink('{% trans "Are you sure you want to approve this comment?" %}', '{% trans "Cancel" %}', '{% trans "Approve" %}', '{{ next_url }}');</script> 
-
-    </div>
+    <div class="buttonbar">  
+        <a class="button" title='{% trans "Hide Comment" %}' href="{{ object.hide_url }}" >Hide comment</a>
+        <script>popUpLink('{% trans "Are you sure you want to hide this comment?" %}', '{% trans "Cancel" %}', '{% trans "Hide" %}', "{{ resource.url }}");</script>   
+        {% if not object.target.moderation.is_approved %}
+          <a title='{% trans "Approve Comment" %}' class="button" href='{{ object.approve_url }}'>{% trans "Approve Comment" %}</a>
+          <script>popUpLink('{% trans "Are you sure you want to approve this comment?" %}', '{% trans "Cancel" %}', '{% trans "Approve" %}', '{{ resource.url }}');</script>
+        {% endif %}
+   </div>
   </div>
   {% endif %}
+ 
 </div>

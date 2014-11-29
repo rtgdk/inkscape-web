@@ -9,7 +9,7 @@
 
     {% for category in categories %}
      {% if category.targets.recent %}
-      <h2>{% trans "Flagged" %} {{ category }}s</h2>
+      <h2>{% blocktrans %}Flagged {{ category }}s{% endblocktrans %}</h2>
       <span><a href="{{ category.targets.flag_url }}" >{% trans "See All Reports" %}</a></span>
       <span><a href="{{ category.targets.latest_url }}" >{% trans "See Latest Objects" %}</a></span>
 

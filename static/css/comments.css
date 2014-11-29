@@ -57,8 +57,10 @@
 }
 
 .comment .details .flag,
-.comment.removed .details .flag,
-.comment.removed .details .flag.flagged {
+.comment.hidden .details .flag,
+.comment.hidden .details .flag.flagged,
+.comment.approved .details .flag,
+.comment.approved .details .flag.flagged {
   float: right;
   vertical-align: middle;
   line-height: 28px;
@@ -89,21 +91,29 @@
   float: left;
 }
 
+.comment.approved .details .commentstatus {
+  color: #589967;
+}
+
 .comment .body {
   padding: 1%;
   min-height: 4em;
 }
 
-.comment.removed .details {
+.comment.hidden .details {
   color: #777;
   background-color: #ccc;
 }
 
-.comment.removed a {
+.comment.approved .details {
+  background-color: #cae1cf;
+}
+
+.comment.hidden a {
   color: #333;
 }
 
-.comment.removed .body {
+.comment.hidden .body {
   background-color: #eee;
   color: #777;
 }

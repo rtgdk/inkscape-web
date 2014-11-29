@@ -1,6 +1,5 @@
 #
-# Copyright 2014, Maren Hachmann <maren@goos-habermann.de>
-#                 Martin Owens <doctormo@gmail.com>
+# Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
 # This program is free software: you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by

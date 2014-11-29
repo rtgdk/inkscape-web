@@ -35,7 +35,7 @@
     <div class="index">
       {% if not object.viewed %}
         <form class="runner" action="{% url "alert.view" object.pk %}">
-          <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">-</button>
+          <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">&#10004;</button>
         </form>
       {% else %}
         <form class="runner" action="{% url "alert.delete" object.pk %}">

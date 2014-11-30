@@ -1,0 +1,263 @@
+/* CSS Taken from launchpad.net
+
+  - Copyright 2009 Canonical Ltd.
+              2014 Martin Owens.
+
+  License: AGPLv3 or later
+
+*/
+
+/* CSS for moderation item display */
+/* General */
+.moderation {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 1em 0 0.5em;
+  clear: both;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.moderation .details {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+.moderation .details div,
+.moderation .mfooter div {
+  display: inline-block;
+}
+
+.moderation .details .index {
+  float: right;
+  border-left: 1px solid #ddd;
+  padding-left: 8px;
+  margin: 0px 8px;
+  vertical-align: middle;
+  line-height: 28px;
+}
+
+.moderation .details .title {
+  padding: 4px 8px;
+}
+
+.moderation .details .title div {
+  margin-left: 50px;
+}
+
+.moderation .details .userphoto {
+  width: 42px;
+  position: absolute;
+  margin-top: -12px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  box-shadow: 0px 0px 3px 2px rgba(0,0,0,0.2);
+}
+
+.moderation .details .flag,
+.moderation.hidden .details .flag,
+.moderation.hidden .details .flag.flagged,
+.moderation.approved .details .flag,
+.moderation.approved .details .flag.flagged {
+  float: right;
+  vertical-align: middle;
+  line-height: 28px;
+  margin: 5px 0px 8px 8px;
+  background-image: url("../images/icons/flags.svg");
+  background-repeat: no-repeat;
+  background-size: 20px 60px;
+  width: 20px;
+  height: 20px;
+  background-position: center -40px;
+}
+
+.moderation .details a.flag {
+    cursor: pointer;
+}
+
+.moderation .details .flag:hover, 
+.moderation .details .flag.flagged {
+  background-position: center 0;
+}
+
+.moderation .details .flagcount {
+  float: right;
+}
+
+.moderation .details .moderationstatus {
+  text-transform: uppercase;
+  float: left;
+}
+
+.moderation.approved .details .moderationstatus {
+  color: #589967;
+}
+
+.moderation .body {
+  padding: 1%;
+  min-height: 4em;
+}
+
+.moderation.hidden .details {
+  color: #777;
+  background-color: #ccc;
+}
+
+.moderation.approved .details {
+  background-color: #cae1cf;
+}
+
+.moderation.hidden a {
+  color: #333;
+}
+
+.moderation.hidden .body {
+  background-color: #eee;
+  color: #777;
+}
+
+/* Comments only */
+
+.moderation .text {
+  padding-bottom: 5px;
+}
+
+/* Resources only */
+
+.resourcepic,
+.resourcedesc,
+.resourceinfo {
+  display: table-cell;
+}
+
+.resourcepic {
+  width: 250px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.resourcepic .aligner {
+  display: inline;
+  vertical-align: middle;
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.resourcepic img {
+  max-width: 230px;
+  max-height: 200px;
+  display: inline-block;
+  margin: auto;
+  vertical-align: middle;
+}
+.resourcepic iframe {
+  width: 230px;
+  margin: auto;
+  display: block;
+}
+
+.resourcepic .button {
+  width: 60%;
+  text-align: center;
+  display:block;
+  margin: 10px;
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: bottom;
+  padding: 6px;
+}
+
+.resourcedesc {
+  padding: 6px 20px;
+  min-height: 200px;
+  width: 340px;
+  vertical-align: top;
+}
+
+.resourceinfo {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 10px;
+  width: 250px;
+}
+
+.resourceinfo dl {
+  font-size: 15px;
+  line-height: 17px;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 12px;
+  margin: 0px 0px 7px 0px;
+}
+
+.resourceinfo dd {
+  float: left;
+  margin: 0px;
+}
+
+.resourceinfo dt {
+  padding:0px;
+  clear:left;
+  float:left;
+  margin-right:8px;
+  color:#888;
+}
+
+/* CSS for footer and form */
+
+.moderation .mfooter .buttonbar {
+  width: 100%;
+  height: auto;
+  padding: 0px;
+}
+
+.moderation .mfooter .buttonbar input,
+.moderation .mfooter .buttonbar .button,
+.moderations .button {
+  float: right;
+  margin: 4px 8px;
+  vertical-align: middle;
+  padding: 0 6px;
+}
+
+.moderation .mfooter .buttonbar button {
+  float: left;
+  margin: 4px 8px;
+  vertical-align: middle;
+}
+
+.moderation #id_comment,
+.moderation .body #message {
+  width: 99%;
+}
+
+.moderation .mfooter {
+  background-color: #F8F8F8;
+  color: #666;
+  border-top: 1px solid #ddd;
+  text-align: left;
+}
+
+.moderation .mfooter label.forcheckbox {
+  float: left;
+  margin: 0 6px;
+}
+
+.moderation #id_honeypot {
+    display: none;
+}
+
+.moderation #hidecomment {
+  border: 1px solid #ddd;
+  border-radius: 7px;
+  padding: 12px;
+  min-height: 30em;
+  background-color: #eee;
+}

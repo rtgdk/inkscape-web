@@ -99,7 +99,7 @@
           </div>
             <form id="topsearch" method="get" action="{% url "search" %}">
               <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
-              <button alt="{% trans "Search" %}"><img src="{{ STATIC_URL }}images/search.svg"/></button>
+              <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
             </form>
         </div>
       </div>
@@ -127,7 +127,7 @@
         <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="This site is running:
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
-InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px; onerror="getPng(this);"/></a>
+InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px;" onerror="getPng(this);"/></a>
         <div class="nav">
           {% block footer-nav %}
           <ul>

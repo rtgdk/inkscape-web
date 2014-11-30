@@ -14,7 +14,7 @@
       <span><a href="{{ category.targets.latest_url }}" >{% trans "See Latest Objects" %}</a></span>
 
       {% for object in category.targets.recent %}
-        {% include flag.template|default:"moderation/item.html" %}
+        {% include category.template|default:"moderation/item.html" %}
       {% endfor %}
      {% endif %}
    {% endfor %}

@@ -38,7 +38,7 @@ class Moderation(ModeratorRequired, View):
 
     def get_context_data(self, **data):
         data = super(Moderation, self).get_context_data(**data)
-        data['categories'] = MODERATED_CATEGORIES
+        data['categories'] = MODERATED_SELECTIONS
         return data
 
 

@@ -30,6 +30,7 @@ from django.db.models import *
 
 from django.template import loader
 from django.contrib.contenttypes.models import ContentType
+from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 
 from django.conf import settings
@@ -43,6 +44,7 @@ from cms.utils.permissions import get_current_user as get_user
 
 import fix_django
 
+UserModel = get_user_model()
 MODERATED = getattr(settings, 'MODERATED_MODELS', [])
 
 # We're going to start with fixed flag types
@@ -73,7 +75,7 @@ class TargetManager(Manager):
         return self.get_status() == 10
 
     def i_flagged(self):
-        return self.exists(user=get_user)
+        return self.exists(flagger=get_user())
 
     def exists(self, **kwargs):
         try:
@@ -102,6 +104,15 @@ class FlagManager(Manager):
 
 
 @python_2_unicode_compatible
+class FlagCategory(Model):
+    name = CharField(max_length=128)
+    flag = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
+
+    def __str__(self):
+        return self.name
+
+
+@python_2_unicode_compatible
 class Flag(Model):
     """
     Records a flag on any object. A flag could be:
@@ -113,21 +124,25 @@ class Flag(Model):
     design users are only allowed to flag a comment with a given flag once;
     if you want rating look elsewhere.
     """
-    user     = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Flagging User'), related_name="flagged", default=get_user)
-    flagged  = DateTimeField(_('Date Flagged'), default=now, db_index=True)
-    flag     = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
-    target   = None
+    flagger    = ForeignKey(UserModel, verbose_name=_('Flagging User'), related_name="flagged", default=get_user)
+    implicated = ForeignKey(UserModel, verbose_name=_('Implicated User'),
+                                       related_name="flags_against", null=True, blank=True)
+    category   = ForeignKey(FlagCategory, related_name="flags", null=True, blank=True)
+    accusation = TextField(null=True, blank=True)
+    flagged    = DateTimeField(_('Date Flagged'), default=now, db_index=True)
+    flag       = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
+    target     = None
 
     class Meta:
         get_latest_by = 'flagged'
 
     def __str__(self):
-        return "%s of %s by %s" % (self.flag, str(self.target), str(self.user))
+        return "%s of %s by %s" % (self.flag, str(self.target), str(self.flagger))
 
     def _get_unique_checks(self, exclude=False):
         """Because of the cross-model relationship, we must add unique checks"""
         (a,b) = Flag._get_unique_checks(self, exclude=exclude)
-        return [(type(self), ['target', 'user', 'flag'])], b
+        return [(type(self), ['target', 'flagger', 'flag'])], b
 
     @classmethod
     def _url_keys(cls):
@@ -140,6 +155,14 @@ class Flag(Model):
     def approve_url(self):
         return reverse('moderation.approve', kwargs=dict(pk=self.pk, **self._url_keys()))
 
+    def save(self, *args, **kwargs):
+        # Add owner object when specified by the target class
+        if self.t_user == '-self':
+            self.implicated = self.target
+        elif self.t_user:
+            self.implicated = getattr(self.target, self.t_user)
+        return super(Flag, self).save(*args, **kwargs)
+
 
 def template_ok(t):
     try:
@@ -150,6 +173,19 @@ def template_ok(t):
 def get_flag_cls(target='', **kwargs):
     return globals().get(target+'Flag', Flag)
 
+def get_user_for(klass):
+    if klass is UserModel:
+        return '-self'
+    ret = []
+    for field in klass._meta.fields:
+        try:
+            if field.rel.to is UserModel:
+                ret.append(field)
+        except AttributeError:
+            pass
+    if len(ret) > 1:
+        raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
+    return ret and ret[0].name or None
 
 def create_flag_model(klass):
     """Create a brand new Model for each Flag type, using Flag as a base class
@@ -158,6 +194,7 @@ def create_flag_model(klass):
     attrs = {
       '__module__': __name__,
       't_model'   : klass,
+      't_user'    : get_user_for(klass),
       'target'    : ForeignKey(klass, related_name='moderation', db_index=True),
       'template'  : template_ok('moderation/items/%s.html' % klass.__name__.lower()),
       'targets'   : TargetManager(),
@@ -167,21 +204,22 @@ def create_flag_model(klass):
     local_name = klass.__name__ + 'Flag'
     return (local_name, type(local_name, (Flag,), attrs))
 
-class FlagCategory(object):
+class FlagSection(object):
     def __init__(self, label, cls):
         self.label   = label
         self.klass   = cls
         self.objects = cls.objects
         self.targets = cls.targets
+        self.template = cls.template
 
     def __unicode__(self):
         return self.label
 
-MODERATED_CATEGORIES = []
+MODERATED_SELECTIONS = []
 MODERATED_INDEX = {}
 for (app_model, label) in MODERATED:
     ct = ContentType.objects.get_by_natural_key(*app_model.split('.'))
     (local_name, new_cls) = create_flag_model(ct.model_class())
     locals()[local_name] = new_cls
-    MODERATED_CATEGORIES.append( FlagCategory(label, new_cls) )
+    MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
 

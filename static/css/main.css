@@ -154,6 +154,23 @@ div.toc ul {
   color: #666666;
 }
 
+.reginfo {
+  border: 1px solid #284c69;
+  box-shadow: 0 0 5px #284c69;
+  background-color: #dbe7f1;
+  color: #221100;
+  overflow:hidden;
+  border-radius: 8px;
+}
+
+div.reginfo {
+    width: 400px;
+    padding: 0 14px 0 14px;
+    float: right;
+    margin: 0 30px;
+}
+
+
 /* social styling */
 #social {
   clear: both;
@@ -810,4 +827,85 @@ a.roundel img {
   font-weight: bold;
 }
 
+/* Hackfest donation page css */
 
+.donationlist {
+  list-style: none;
+  background-color: #ccffaa;
+  padding: 15px;
+  border-radius: 8px;
+}
+
+.donationlist li {
+  margin: 4px 0;
+}
+
+.paypalbutton {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 20px;
+}
+
+input[type=radio].donationradio {
+  position:absolute; 
+  z-index:-1000; 
+  left:-1000px; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height:1px; 
+  width:1px; 
+  margin:-1px; 
+  padding:0; 
+  border:0;
+}
+
+input[type=radio].donationradio + label.donationlabel {
+  padding-left:27px;
+  height:18px; 
+  display:inline-block;
+  line-height:18px;
+  background-repeat:no-repeat;
+  background-position: 0 0;
+  font-size:15px;
+  vertical-align:middle;
+  cursor:pointer;
+}
+
+input[type=radio].donationradio:checked + label.donationlabel {
+  background-position: 0 -18px;
+}
+
+label.donationlabel {
+  background-image:url(../images/donationradio.png);
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+div.donationpicparagraph img {
+  float: right;
+  margin: 20px;
+}
+
+div.donationlogo {
+  float: left;
+  margin-top: -40px;
+  margin-left: 30px;
+}
+
+.donationheadline {
+  font-size: 240%;
+  font-weight: normal;
+  line-height: 35px;
+  margin: 20px;
+  float: left;
+  font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+}
+
+p.pclear {
+  clear: both;
+}

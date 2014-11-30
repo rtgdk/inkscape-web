@@ -1,6 +1,6 @@
 {% load i18n comments pile %}
 
-<div class="comment {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
+<div class="moderation {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
   
   <div class="details">
     <div class="title">
@@ -8,13 +8,13 @@
       <a href="{{profile_url}}"><img class="userphoto" src="{% if object.user.details.photo %}{{ object.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
         {% url 'view_profile' object.user.username as profile_url %}
-        {% blocktrans with object.user as user_name and object.target.submit_date|timetag as comment_date and object.target.get_content_object_url as the_url %}
-          <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}} about <a href="{{ the_url }}">this</a>:
+        {% blocktrans with object.user as user_name and object.target.submit_date|timetag as creation_date and object.target.get_content_object_url as the_url %}
+          <a href="{{profile_url}}">{{user_name}}</a> wrote {{creation_date}} about <a href="{{ the_url }}">this</a>:
         {% endblocktrans %}
       </div>
     </div>
     <div class="index">
-      <div class="commentstatus">
+      <div class="moderationstatus">
         {% if object.target.moderation.is_deleted %}{% trans "deleted" %}
         {% elif object.target.moderation.is_approved %}{% trans "approved" %}
         {% else %}{% trans "public" %}
@@ -30,9 +30,9 @@
   </div>
   
   {% if not object.target.moderation.is_deleted %}
-  <div class="cfooter">
+  <div class="mfooter">
     <div class="buttonbar">  
-        <a class="button" title='{% trans "Hide Comment" %}' href="{{ object.hide_url }}" >Hide comment</a>
+        <a class="button" title='{% trans "Hide Comment" %}' href="{{ object.hide_url }}" >{% trans "Hide Comment" %}</a>
         <script>popUpLink('{% trans "Are you sure you want to hide this comment?" %}', '{% trans "Cancel" %}', '{% trans "Hide" %}', "{{ resource.url }}");</script>   
         {% if not object.target.moderation.is_approved %}
           <a title='{% trans "Approve Comment" %}' class="button" href='{{ object.approve_url }}'>{% trans "Approve Comment" %}</a>

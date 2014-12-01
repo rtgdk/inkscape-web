@@ -1,0 +1,78 @@
+{% load i18n %}
+
+<html>
+  <head>
+    <title>{% if mirror %}{{ mirror.name }} - {% endif %}{% trans "Inkscape Mirrors" %}</title>
+    <style>
+td {
+  padding: 12px;
+}
+th:first-child {
+  text-align: left;
+}
+    </style>
+  </head>
+
+  <body>
+    
+   {% if mirror %}
+     <h1>{{ mirror.name }}</h1>
+
+     {% if mirror.sync_count < 4 %}
+        <p><strong>{% trans "Mirror Instructions:" %}</strong> {% trans "Copy this URL and use it to download all the resource files that need to be mirrored. You can use wget or other basic mirroring software to refresh all the files." %} Please contact the <a href="{% url "contact" %}">Webadmins</a> if you have any problems. (this message will self distruct in T{{ "-4"|add:mirror.sync_count }})</p>
+     {% endif %}
+
+   {% else %}
+     <h1>Inkscape Download Mirrors</h1>
+
+     <p>Welcome to the mirrors resource page, this page is not meant for public consumption but as an overview of the mirrors available for inkscape downloads.</p>
+
+     <table>
+      <tr>
+        <th>{% trans "Alive" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Last Sync" %}</th>
+        <th>{% trans "Last Check" %}</th>
+        <th>{% trans "Capacity" %}</th>
+      </tr>
+      {% for mirror in mirrors %}
+        <tr>
+          <td title="HTTP:{{ mirror.chk_return }}">{% if mirror.chk_return == 200 %}Online{% else %}Disabled{% endif %}</td>
+          <td><a href="{{ mirror.url }}">{{ mirror.name }}</a></td>
+          <td>{{ mirror.sync_time|date:"Y-m-d H:i:s" }} ({{ mirror.sync_count }} times)</td>
+          <td>{{ mirror.chk_time|date:"Y-m-d H:i:s" }}</li>
+          <td>{{ mirror.capacity }}MB/s</td>
+        </tr>
+      {% endfor %}
+     </table>
+
+   {% endif %}
+
+    <h2>{% trans "All Inkscape Downloads" %}</h2>
+
+    <table>
+      <tr>
+        <th>{% trans "Filename" %}</th>
+        <th>{% trans "Size" %}</th>
+        <th>{% trans "Last Modified" %}</th>
+      </tr>
+      {% for item in items %}
+        <tr>
+          {% if mirror %}
+            <td><a href="{% url "mirror.item" mirror.uuid item.filename %}">{{ item }}</a></td>
+          {% else %}
+            <td><a href="{{ item.download.url }}">{{ item }}</a></td>
+          {% endif %}
+          <td>{{ item.download.size|filesizeformat }}</td>
+          <td>{{ item.edited|date:"Y-m-d H:i:s" }}</td>
+        </tr>
+      {% endfor %}
+    </table>
+
+  <hr/>
+
+  <p>Last Updated: {{ now|date:"Y-m-d H:i:s" }}</p>
+
+  </body>
+</html>
+

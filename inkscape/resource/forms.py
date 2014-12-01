@@ -20,14 +20,16 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
+from django.db.models import Model
+from django.utils.timezone import now
 
-from .models import Category, Resource, ResourceFile, Gallery, Model
+from .models import *
 from .utils import ALL_TEXT_TYPES
 
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from cStringIO import StringIO
 
-__all__ = ('FORMS', 'GalleryForm', 'ResourceFileForm', 'ResourcePasteForm', 'ResourceAddForm')
+__all__ = ('FORMS', 'GalleryForm', 'ResourceFileForm', 'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
 
 class GalleryForm(ModelForm):
     class Meta:
@@ -49,6 +51,9 @@ class ResourceBaseForm(ModelForm):
             for key in self.Meta.required:
                 self.fields[key].required = True
 
+        if not self.user.has_perm('resource.change_resourcemirror'):
+            self.fields.pop('mirror', None)
+
         if 'owner' in self.fields:
             f = self.fields['owner']
             f.to_python = self.ex_clean_owner(f.to_python)
@@ -61,6 +66,13 @@ class ResourceBaseForm(ModelForm):
                 raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))
             return f(val)
         return _internal
+
+    def clean_mirror(self):
+        """Update the edited time/date if mirror flag changed"""
+        ret = self.cleaned_data['mirror']
+        if self.instance and ret != self.instance.mirror:
+            self.instance.edited = now()
+        return ret
 
     def clean_download(self):
         if not self.instance or self.instance.download == self.cleaned_data['download']:
@@ -93,7 +105,7 @@ class ResourceFileForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download']
+        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download', 'mirror']
         required = ['name', 'category', 'license', 'owner']
 
 
@@ -147,6 +159,7 @@ class ResourcePasteForm(ResourceBaseForm):
         fields = ['name', 'desc', 'media_type', 'license', 'link', 'download']
         required = ['name', 'license']
 
+
 class ResourceEditPasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     class Meta:
@@ -168,4 +181,10 @@ class ResourceAddForm(ResourceBaseForm):
         if name and name[0] == '$':
             self.cleaned_data['name'] = name[1:].rsplit('.',1)[0].replace('_',' ').replace('-',' ').title()[:64]
         return self.cleaned_data['name']
+
+
+class MirrorAddForm(ModelForm):
+    class Meta:
+        model  = ResourceMirror
+        fields = ['name', 'url', 'capacity']
 

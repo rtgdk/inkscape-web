@@ -32,6 +32,8 @@ from pile.views import breadcrumbs
 from .models import *
 from .forms import *
 
+import os
+
 @login_required
 def delete_gallery(request, gallery_id):
     item = get_object_or_404(Gallery, id=gallery_id, user=request.user)
@@ -131,6 +133,7 @@ def create_resource(request, gallery_id):
             return redirect('resource', item.id)
     return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
+
 
 @login_required
 def delete_resource(request, item_id):
@@ -288,12 +291,24 @@ def down_resource(request, item_id, vt='d'):
         item.viewed += 1
         item.save()
         return redirect(item.download.url)
-    
+
     # Otherwise the user intends to download the file and we record it as such
     # before passing the download path to nginx for delivery using a content
     # despatch to force the browser into saving-as.
     item.downed += 1
     item.save()
+
+    # If the item is mirrored, then we need to select a good mirror to use
+    if item.mirror:
+        mirror = ResourceMirror.objects.select_mirror(item.edited)
+        if mirror:
+            response = render_to_response('resource/mirror-item.html', {
+                 'mirror': mirror,
+                 'item': item,
+                 'url': mirror.get_url(item),
+               }, context_instance=RequestContext(request))
+            response['refresh'] = "3; url=%s" % mirror.get_url(item)
+            return response
     url = item.download.path
     if not settings.DEBUG:
         # Correct for nginx redirect
@@ -301,7 +316,36 @@ def down_resource(request, item_id, vt='d'):
     return sendfile(request, url, attachment=True)
 
 
-from pile.views import CategoryListView
+def mirror_resources(request, uuid=None):
+    mirror = get_object_or_404(ResourceMirror, uuid=uuid) if uuid else None
+    c = {
+      'mirror'     : mirror,
+      'items'      : ResourceFile.objects.filter(mirror=True),
+      'now'        : now(),
+      'mirrors'    : ResourceMirror.objects.all(),
+    }
+    if mirror:
+        mirror.do_sync()
+    return render_to_response('resource/mirror.html', c,
+        context_instance=RequestContext(request))
+
+
+def mirror_resource(request, uuid, filename):
+    mirror = get_object_or_404(ResourceMirror, uuid=uuid)
+    item = get_object_or_404(ResourceFile, download=os.path.join('resources', 'file', filename))
+    url = item.download.path
+    if not settings.DEBUG:
+        # Correct for nginx redirect
+        url =  '/get' + url[6:]
+    return sendfile(request, url, attachment=True)
+
+
+from pile.views import CategoryListView, CreateView
+
+class MirrorAdd(CreateView):
+    model      = ResourceMirror
+    form_class = MirrorAddForm
+
 
 class GalleryList(CategoryListView):
     model = Resource

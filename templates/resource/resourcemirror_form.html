@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+
+<h1>{% block title %}{% trans "Add Inkscape Mirror" %}{% endblock %}</h1>
+
+<p>Thank you for volunterring to join the inkscape mirror pool. Each mirror will be made available to users downloading large files from inkscape's website depending on their hosting capacity.</p>
+
+<div class="item">
+ <form method="post">
+  {% csrf_token %}
+
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
+
+  <table>
+    {% for field in form %}
+      <tr><th scope="col">{{ field.label }}:</th><td>{{ field }}</td></tr>
+    {% endfor %}
+  </table>  
+
+  <div class="buttonbar">
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+  </div>
+ </form>
+</div>
+{% endblock %}
+

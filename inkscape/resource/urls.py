@@ -28,6 +28,15 @@ def url_tree(regex, *urls):
 urlpatterns = patterns('',
   url(r'^p(\d+)/',        view_resource,    name="pasted_item"),
 
+  url_tree('^mirror/',
+    url(r'^$',                        mirror_resources, name="mirror"),
+    url(r'^add/$',                    MirrorAdd(),      name='mirror.add'),
+    url_tree(r'^(?P<uuid>[\w-]+)/',
+      url(r'^$',                      mirror_resources, name="mirror"),
+      url(r'^file/(?P<filename>.+)$', mirror_resource,  name="mirror.item"),
+    ),
+  ),
+
   url_tree(r'^gallery/',
     url(r'^$',            GalleryList(),    name='galleries'),
     url(r'^me/$',         my_resources,     name='my_resources'),

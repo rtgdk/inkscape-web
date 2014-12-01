@@ -35,13 +35,15 @@ from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed
 from inkscape.settings import STATIC_URL
 
+from uuid import uuid4
+
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
 
 null = dict(null=True, blank=True)
 
-__all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'Gallery',
-           'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin')
+__all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'ResourceMirror',
+           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin')
 
 DOMAINS = {
   'inkscape.org': 'Inkscape Website',
@@ -170,8 +172,8 @@ class Resource(Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        self.edited = now()
         if self.has_file_changed():
+            self.edited = now()
             delattr(self, '_mime')
             self.media_type = self.find_media_type()
             (self.media_x, self.media_y) = self.find_media_coords()
@@ -270,6 +272,8 @@ class ResourceFile(Resource):
     license    = ForeignKey(License, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
+    mirror     = BooleanField(default=False)
+
     def save(self, *args, **kwargs):
         if self.download and self.has_file_changed():
             # We might be able to detect that the download has changed here.
@@ -278,6 +282,9 @@ class ResourceFile(Resource):
             elif self.thumbnail:
                 self.thumbnail = None
         Resource.save(self, *args, **kwargs)
+
+    def filename(self):
+        return os.path.basename(self.download.name)
 
     def is_visible(self):
         return Resource.is_visible(self) and os.path.exists(self.download.path)
@@ -313,6 +320,67 @@ class ResourceFile(Resource):
             self.download.file.seek(0)
             return self.download.file.read().decode('utf-8')
         return "Not text!"
+
+
+class MirrorManager(Manager):
+    def select_mirror(self, update=None):
+        """Selects the next best mirror randomly from the mirror pool"""
+        query = self.get_query_set().filter(chk_return=200)
+        if update:
+            query = query.filter(sync_time__gte=update)
+        # Attempt to weight the mirrors (needs CS review)
+        import random
+        total = sum(mirror.capacity for mirror in query)
+        compare = random.uniform(0, total)
+        upto = 0
+        for mirror in query:
+            if upto + mirror.capacity > compare:
+                return mirror
+            upto += mirror.capacity
+        return None
+
+
+
+class ResourceMirror(Model):
+    uuid     = CharField(_("Unique Identifier"), max_length=64, default=uuid4)
+    name     = CharField(max_length=64)
+    manager  = ForeignKey(User, default=get_user)
+    url      = URLField(_("Full Base URL"))
+    capacity = PositiveIntegerField(_("Capacity (MB/s)"))
+    created  = DateTimeField(default=now)
+
+    sync_time  = DateTimeField(**null)
+    sync_count = PositiveIntegerField(default=0)
+
+    chk_time   = DateTimeField(_("Check Time Date"), **null)
+    chk_return = IntegerField(_("Check Returned HTTP Code"), **null)
+
+    objects = MirrorManager()
+
+    @property
+    def host(self):
+        return self.url.split('/')[2]
+
+    def get_absolute_url(self):
+        return reverse('mirror', kwargs={'uuid': self.uuid})
+
+    def do_sync(self):
+        self.sync_time = now()
+        self.sync_count += 1
+        return self.save()
+
+    def do_check(self):
+        raise NotImplementedError("Mirror Checking Not available yet.")
+        self.chk_return = 200
+        self.chk_time   = now()
+        self.save()
+
+    def get_url(self, item):
+        filename = os.path.basename(item.download.name)
+        return os.path.join(self.url, 'file', filename)
+
+    def __str__(self):
+        return "Mirror '%s' from '%s'" % (self.name, self.host)
 
 
 class GalleryManager(Manager):

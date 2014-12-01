@@ -29,6 +29,6 @@ def root_nudge(root, page):
     This tag stops django-cms interfering by correcting menus input when needed.
     """
     is_draft = page and page.publisher_is_draft or False
-    page = Page.objects.get(is_home=True, publisher_is_draft=is_draft)
-    return root + int(page.in_navigation)
+    for page in Page.objects.filter(is_home=True, publisher_is_draft=is_draft):
+        return root + int(page.in_navigation)
 

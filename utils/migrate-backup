@@ -37,6 +37,12 @@ def add_to(field, r, row, **kwargs):
         return True
     return False
 
+def update_cms(field, row, **kwargs):
+    if '.html' in row[field] and not row[field].startswith('cms/'):
+        row[field] = "cms/" + row[field]
+        return True
+    return False
+
 TRACK = defaultdict(list)
 def unique(field, item, row, model, delete, **kwargs):
     global TRACK
@@ -56,7 +62,7 @@ except ValueError:
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
-    [ set_to, 'is_home', 1, 'parent', None ],
+    [ update_cms, 'template' ],
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],

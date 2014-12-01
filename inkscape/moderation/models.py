@@ -215,11 +215,19 @@ class FlagSection(object):
     def __unicode__(self):
         return self.label
 
+from django.db.utils import OperationalError
+
 MODERATED_SELECTIONS = []
 MODERATED_INDEX = {}
 for (app_model, label) in MODERATED:
-    ct = ContentType.objects.get_by_natural_key(*app_model.split('.'))
-    (local_name, new_cls) = create_flag_model(ct.model_class())
-    locals()[local_name] = new_cls
-    MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
+    try:
+        ct = ContentType.objects.get_by_natural_key(*app_model.split('.'))
+    except OperationalError:
+        pass
+    except ContentType.DoesNotExist:
+        pass
+    else:
+        (local_name, new_cls) = create_flag_model(ct.model_class())
+        locals()[local_name] = new_cls
+        MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
 

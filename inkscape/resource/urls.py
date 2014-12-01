@@ -65,6 +65,7 @@ urlpatterns = patterns('',
       url(r'^edit/$',     edit_resource,    name='edit_resource'),
       url(r'^download/$', down_resource,    name='download_resource', kwargs={'vt':'d'}),
       url(r'^view/$',     down_resource,    name='view_resource',     kwargs={'vt':'v'}),
+      url(r'^readme.txt$',down_readme,      name='resource.readme'),
       url(r'^(?P<like_id>[\+\-])$', like_resource, name='like'),
     ),
 

@@ -278,6 +278,13 @@ def like_resource(request, item_id, like_id):
         like.save()
     return redirect("resource", item_id)
     
+def down_readme(request, item_id):
+    item = get_object_or_404(Resource, id=item_id)
+    return render_to_response('resource/readme.txt', { 'item': item },
+      context_instance=RequestContext(request),
+      content_type="text/plain")
+
+
 from sendfile import sendfile
 from inkscape import settings
 

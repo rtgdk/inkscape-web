@@ -74,3 +74,10 @@ def rem_friend(request, friend_id):
     friendship.delete()
     return HttpResponse(1)
 
+def gpg_key(request, username):
+    user = get_object_or_404(Resource, username=username)
+    return render_to_response('person/gpgkey.txt', { 'user': user },
+      context_instance=RequestContext(request),
+      content_type="text/plain")
+
+

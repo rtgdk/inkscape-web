@@ -33,7 +33,7 @@ except ImportError:
     pygments = False
 
 from django.utils.safestring import mark_safe
-from inkscape.settings import STATIC_URL, STATIC_ROOT
+from inkscape.settings import STATIC_URL, STATIC_ROOT, MEDIA_ROOT
 
 MIME_DIR = 'mime'
 MIME_URL = os.path.join(STATIC_URL, MIME_DIR)
@@ -180,6 +180,12 @@ def video_embed(url):
     if match:
         return {'type':'vimeo', 'id':match.group(5)}
 
+
+def gpg_verify(user, sig, data):
+    import gnupg
+    gpg = gnupg.GPG(gnupghome=os.path.join(MEDIA_ROOT, 'gnupg'))
+    gpg.import_keys(str(user.details.gpg_key))
+    return bool(gpg.verify_file(sig, data.path))
 
 if __name__ == '__main__':
     # Test our coverage of intended conversions.

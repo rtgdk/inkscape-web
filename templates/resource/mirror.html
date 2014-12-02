@@ -55,6 +55,8 @@ th:first-child {
         <th>{% trans "Filename" %}</th>
         <th>{% trans "Size" %}</th>
         <th>{% trans "Last Modified" %}</th>
+        <th>{% trans "Signature" %}</th>
+        <th>{% trans "ReadMe" %}</th>
       </tr>
       {% for item in items %}
         <tr>
@@ -65,6 +67,12 @@ th:first-child {
           {% endif %}
           <td>{{ item.download.size|filesizeformat }}</td>
           <td>{{ item.edited|date:"Y-m-d H:i:s" }}</td>
+          {% if item.signature %}
+            <td><a href="{{ item.signature.url }}">.sig</a></td>
+          {% else %}
+            <td>-</td>
+          {% endif %}
+          <td><a href="{% url "resource.readme" item.pk %}">readme.txt</a></td>
         </tr>
       {% endfor %}
     </table>

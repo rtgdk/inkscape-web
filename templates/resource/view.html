@@ -59,6 +59,17 @@
           <img src="{{ item.license.icon.url }}" alt="{{ item.license }}" title="{% if item.owner %}Copyright © {{ item.years }} {{ item.user.name }}{% endif %}{{ item.license }}"/>
         </a>
       {% endif %}
+
+      {% if item.signature %}
+         <a class="signature" href="{{ item.signature.url }}">
+           {% if item.is_verified %}
+             <img src="{{ STATIC_URL }}images/sig_verified.svg" title="Verified (signed by user)"/>
+           {% else %}
+             <img src="{{ STATIC_URL }}images/sig_broken.svg" title="Broken Signature!"/>
+           {% endif %}
+         </a>
+      {% endif %}
+
       {% if item.link and not item.is_video %}
         <p><a href="{{ item.link }}">{% trans "Link" %}</a></p>
       {% endif %}

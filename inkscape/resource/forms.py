@@ -53,6 +53,8 @@ class ResourceBaseForm(ModelForm):
 
         if not self.user.has_perm('resource.change_resourcemirror'):
             self.fields.pop('mirror', None)
+        if not self.user.details.gpg_key:
+            self.fields.pop('signature', None)
 
         if 'owner' in self.fields:
             f = self.fields['owner']
@@ -105,7 +107,7 @@ class ResourceFileForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'published', 'owner', 'download', 'mirror']
+        fields = ['name', 'desc', 'link', 'category', 'license', 'signature', 'published', 'mirror', 'owner', 'download']
         required = ['name', 'category', 'license', 'owner']
 
 

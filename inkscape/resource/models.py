@@ -32,7 +32,7 @@ from model_utils.managers import InheritanceManager
 from inkscape.settings import MAX_PREVIEW_SIZE
 
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify
 from inkscape.settings import STATIC_URL
 
 from uuid import uuid4
@@ -272,6 +272,8 @@ class ResourceFile(Resource):
     license    = ForeignKey(License, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
+    signature  = FileField(_('GPG Signature'), **upto('sigs'))
+    verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
 
     def save(self, *args, **kwargs):
@@ -285,6 +287,15 @@ class ResourceFile(Resource):
 
     def filename(self):
         return os.path.basename(self.download.name)
+
+    def is_verified(self):
+        if not self.signature:
+            return False
+        if not self.verified:
+            self.verified = gpg_verify(self.user, self.signature, self.download)
+            if self.verified:
+                self.save()
+        return self.verified
 
     def is_visible(self):
         return Resource.is_visible(self) and os.path.exists(self.download.path)

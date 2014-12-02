@@ -25,9 +25,11 @@ class UserDetails(Model):
     dauser  = CharField("deviantArt User", max_length=64, **null)
     ocuser  = CharField("openClipArt User", max_length=64, **null)
     tbruser = CharField("Tumblr User", max_length=64, **null)
+    gpg_key = TextField("GPG Public Key", **null)
 
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
+
 
     def roll(self):
         if not self.user.is_active:

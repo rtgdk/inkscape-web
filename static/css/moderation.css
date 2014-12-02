@@ -47,6 +47,10 @@
   margin-left: 50px;
 }
 
+.moderation .title.user {
+  font-weight: bold;
+}
+
 .moderation .details .userphoto {
   width: 42px;
   position: absolute;
@@ -165,7 +169,8 @@
   width: 60%;
   text-align: center;
   display:block;
-  margin: 10px;
+  margin-top: 10px;
+  margin-bottom: 0px;
   margin-left: auto;
   margin-right: auto;
   vertical-align: bottom;

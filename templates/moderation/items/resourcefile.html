@@ -4,13 +4,12 @@
     
   <div class="details">
     <div class="title">
-      {% url 'view_profile' object.user.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.user.details.photo %}{{ object.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      {% url 'view_profile' object.implicated.username as profile_url %}
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.details.photo %}{{ object.implicated.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
-        {% url 'view_profile' object.user.username as profile_url %}
-        {% blocktrans with object.user as user_name and object.target.created|timetag as creation_date and object.target.get_absolute_url as the_url %}
-          <a href="{{profile_url}}">{{user_name}}</a> uploaded <a href="{{ the_url }}">this</a>:
-        {% endblocktrans %}
+          {% blocktrans with object.implicated as user_name and object.target.get_absolute_url as the_url and object.target.name as resource_name %}
+            <a href="{{profile_url}}">{{user_name}}</a> posted <a href="{{ the_url }}">{{ resource_name }}</a>
+          {% endblocktrans %}: 
       </div>
     </div>
     <div class="index">
@@ -61,7 +60,7 @@
     <div class="resourcedesc">
       {{ object.target.desc|truncatewords:60|urlize|linebreaks }}
       {% if object.target.link and not object.target.is_video %}
-        <p><a href="{{ object.target.link }}">{% trans "Link" %}: {{ object.target.link }}</a></p>
+        <p>{% trans "Link" %}: <a href="{{ object.target.link }}">{{ object.target.link }}</a></p>
       {% endif %}
     </div>
 
@@ -108,10 +107,10 @@
   {% if not object.target.moderation.is_deleted %}
   <div class="mfooter">
     <div class="buttonbar">  
-        <a class="button" title='{% trans "Hide Resource" %}' href="{{ object.hide_url }}" >{% trans "Hide Resource" %}</a>
+        <a class="button" title='{% trans "Hide Resource" %}' href="{{ object.hide_url }}" >{% trans "Hide" %}</a>
         <script>popUpLink('{% trans "Are you sure you want to hide this resource?" %}', '{% trans "Cancel" %}', '{% trans "Hide" %}', "{{ resource.url }}");</script>   
         {% if not object.target.moderation.is_approved %}
-          <a title='{% trans "Approve Resource" %}' class="button" href='{{ object.approve_url }}'>{% trans "Approve Resource" %}</a>
+          <a title='{% trans "Approve Resource" %}' class="button" href='{{ object.approve_url }}'>{% trans "Approve" %}</a>
           <script>popUpLink('{% trans "Are you sure you want to approve this resource?" %}', '{% trans "Cancel" %}', '{% trans "Approve" %}', '{{ resource.url }}');</script>
         {% endif %}
    </div>

@@ -6,8 +6,8 @@
 
   <div id="right-sidebar" class="profileside">
     <h1><a href="{% url "flat_resources" user.id %}">{% trans "All Uploads" %}</a></h1>
-    {% if user.gpg_key %}
-    <h1><a href="{% url "user_gpgkey" user.id %}">{% trans "Public GPG Key" %}</a></h1>
+    {% if user.details.gpg_key %}
+    <h1><a href="{% url "user_gpgkey" user.username %}">{% trans "Public GPG Key" %}</a></h1>
     {% endif %}
     <h1><a href="{% url "user_category" user.id 1 %}">{% trans "PasteBin" %}</a></h1>
     {% if me %}

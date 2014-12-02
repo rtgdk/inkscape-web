@@ -55,6 +55,12 @@ class ResourceBaseForm(ModelForm):
             self.fields.pop('mirror', None)
         if not self.user.details.gpg_key:
             self.fields.pop('signature', None)
+        if not self.instance or not self.instance.mime().is_image():
+            self.fields.pop('preview', None)
+
+        for field in ('download', 'thumbnail', 'signature'):
+            if field in self.fields:
+                self.fields[field].widget = FileInput()
 
         if 'owner' in self.fields:
             f = self.fields['owner']
@@ -107,7 +113,7 @@ class ResourceFileForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'signature', 'published', 'mirror', 'owner', 'download']
+        fields = ['name', 'desc', 'link', 'category', 'license', 'owner', 'thumbnail', 'signature', 'published', 'mirror', 'download']
         required = ['name', 'category', 'license', 'owner']
 
 

@@ -10,7 +10,7 @@
 
   <h1>{{ gallery.name }}
   {% if gallery.user != request.user and not gallery.group %}
-    <span class="small"><a href="{{ gallery.user.get_absolute_url }}">by {{ gallery.user.name }}</a></span>
+    <span class="small"><a href="{{ gallery.user.get_absolute_url }}">{% trans "by" %} {{ gallery.user.name }}</a></span>
   {% endif %}</h1>
 
   {% include "resource/list.html" %}
@@ -31,7 +31,8 @@
  {% endif %}
 
  {% if gallery.group %}
-   <h6>{% trans "This InkSpace is administered by the group" %} "{{ gallery.group }}", {% trans "please contact " %} <a href="{% url "contact" %}">inkscape administrators</a> {% trans "for additions or corrections." %}</h6>
+ {% url "contact" as contact_url %}
+   <h6>{% blocktrans with gallery.group as gallery_group %}This InkSpace is administered by the group '{{ gallery_group }}'. Please contact <a href="{{contact_url}}">Inkscape administrators</a> for additions or corrections.{% endblocktrans %}</h6>
  {% endif %}
 
 {% endblock %}

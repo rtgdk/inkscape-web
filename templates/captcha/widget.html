@@ -2,7 +2,6 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 <script type="text/javascript">
-    {# changed the theme, too, to make it fit better to the sites design #}
     var DjangoRecaptchaOptions = {"lang": "{{LANGUAGE_CODE}}",
                                   "theme" : 'white'};
     if (typeof RecaptchaOptions !== 'object') {
@@ -14,7 +13,7 @@
     }
 </script>
 
-{# English as fallback, the language code given in the link is ignored by google anyhow, it takes the language from the 'options' object if javascript is activated in browser #}
+{# English as fallback, the language code given in the link is ignored by google, it takes the language from the 'options' object if javascript is activated in browser #}
 <script type="text/javascript" src="{{api_server}}/challenge?k={{public_key}}&hl=en{{error_param}}"></script>
 <noscript>
   <iframe src="{{api_server}}/noscript?k={{public_key}}&hl={{LANGUAGE_CODE}}{{error_param}}" height="300" width="500" frameborder="0"></iframe><br />

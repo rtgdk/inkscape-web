@@ -17,7 +17,7 @@
   <h2>{% trans "Translate News Article into" %} {{ language }}</h2>
 
     <table>
-      <tr><th scope="col" colspan="2">{% trans "New Translations" %}</th><th>{% trans "Original" %}</th></tr>
+      <tr><th scope="col" colspan="2">{% trans "New Translation" %}</th><th>{% trans "Original" %}</th></tr>
       <tr><th scope="row">{% trans "Title" %}:</th><td>{{ form.title }}</td><td>{{ original.title }}</td>
       {% if form.title.errors %}<tr class="error"><td colspan="2">{{ form.title.errors|join:", " }}</td></tr>{% endif %}
       <tr><th scope="row">{% trans "Excerpt" %}:</th><td>{{ form.excerpt }}</td><td>{{ original.excerpt }}</td>

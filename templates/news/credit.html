@@ -2,7 +2,7 @@
 
 {% load i18n %}
 
-{% block title %}{% if object %}{% trans "Edit" %} '{{ object.title }}'{% else %}{% trans "New News Article" %}{% endif %}{% endblock %}
+{% block title %}{% if object %}{% blocktrans with object.title as news_title %}Edit '{{ news_title }}'{% endblocktrans %}{% else %}{% trans "New News Article" %}{% endif %}{% endblock %}
 {% block body-pageid %}news-edit{% endblock %}
 
 {% block content %}

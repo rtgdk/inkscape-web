@@ -37,11 +37,11 @@
             {% endif %}
         {% elif object.target.is_file %}
           {% if object.target.mime.is_image %}
-              <a href="{{ object.target.get_absolute_url }}"><img src="{{ object.target.download.url }}" alt="Image"></a>
+              <a href="{{ object.target.get_absolute_url }}"><img src="{{ object.target.download.url }}" alt="{% trans "Image" %}"></a>
           {% elif object.target.mime.is_text %}
             <a href="{{ object.target.get_absolute_url }}"><img src="{{ STATIC_URL }}mime/text.svg" title="{{ object.target.media_type }}"/></a>
           {% else %}
-              <a href="{% url "download_resource" object.target.id %}"><img src="{{ object.target.icon }}" alt="File Icon"></a>
+              <a href="{% url "download_resource" object.target.id %}"><img src="{{ object.target.icon }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
         {% elif object.target %}
             <a href="{{ object.target.link }}" title="{% trans "External Link" %}: {{ object.target }}">

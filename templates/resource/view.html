@@ -63,9 +63,9 @@
       {% if item.signature %}
          <a class="signature" href="{{ item.signature.url }}">
            {% if item.is_verified %}
-             <img src="{{ STATIC_URL }}images/sig_verified.svg" title="Verified (signed by user)"/>
+             <img src="{{ STATIC_URL }}images/sig_verified.svg" title="{% trans "Verified (signed by user)" %}"/>
            {% else %}
-             <img src="{{ STATIC_URL }}images/sig_broken.svg" title="Broken Signature!"/>
+             <img src="{{ STATIC_URL }}images/sig_broken.svg" title="{% trans "Broken Signature!" %}"/>
            {% endif %}
          </a>
       {% endif %}

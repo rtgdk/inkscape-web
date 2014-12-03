@@ -13,7 +13,7 @@
     {{ form.non_field_errors }}
   </div>
 
-  <p>{% trans "Don't forget to say who you are and a way to contact you such as an email address if you need to get a response back." %}</p>
+  <p>{% trans "Don't forget to say who you are and to mention a way to contact you, such as an email address, if you need to get a response back." %}</p>
   <div class="desc">
     {{ form.comment }}
   </div>
@@ -22,7 +22,7 @@
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Send Comment or Question" %}</button>
   </div>
 {% else %}
-  <h3>Thank you for submitting your comment or question. If you are logged in then you may recieve a reply to your configured email address.</h3>
+  <h3>{% trans "Thank you for submitting your comment or question. If you are logged in then you may receive a reply to your configured email address." %}</h3>
 {% endif %}
 
 {% endblock %}

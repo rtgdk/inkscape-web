@@ -2,10 +2,10 @@
 
 <ul>
   <li>{{ object }} ({{ object.count|default:0 }}) [
-    <a title="{% trans "Hide Item" %}" href="{{ object.hide_url }}">Hide</a>
+    <a title="{% trans "Hide Item" %}" href="{{ object.hide_url }}">{% trans "Hide" %}</a>
     <script>popUpLink('{% trans "Are you sure you want to hide this item?" %}', '{% trans "Cancel" %}', '{% trans "Hide" %}', "{{ resource.url }}");</script>
     |
-    <a title="{% trans "Approve Item" %}" href="{{ object.approve_url }}">Approve</a>
+    <a title="{% trans "Approve Item" %}" href="{{ object.approve_url }}">{% trans "Approve" %}</a>
     <script>popUpLink('{% trans "Are you sure you want to approve this item?" %}', '{% trans "Cancel" %}', '{% trans "Approve" %}', "{{ resource.url }}");</script>
   ]</li>
 </ul>

@@ -15,7 +15,7 @@
 
   <div>
     <div id="left-column">
-        <h1>Project Updates</h1>
+        <h1>{% trans "Project Updates" %}</h1>
         {% for update in object.updates.all %}
             {% if update.image %}
               <img src="{{ update.image.url }}" style="float: left;"/>
@@ -44,7 +44,7 @@
        </div>
 
        {% if object.started %}
-       <h3>Project Progress</h3>
+       <h3>{% trans "Project Progress" %}</h3>
        <ol class="checklist">
          {% for del in object.deliverables.all %}
            <li{% if del.finished %} class="done"{% endif %}>{{ del }}</li>

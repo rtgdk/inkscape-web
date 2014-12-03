@@ -1,11 +1,13 @@
-User Message||Messages from other users of Inkscape.org
+{% load i18n %}
+
+{% trans "User Message" %}||{% trans "Messages from other users of Inkscape.org" %}
 {{ message.subject }}
 <div class="body">
   <div class="text"><p>{{ message.body }}</p></div>
 </div>
 <div class="footer">
-   <div class="status">from {{ message.sender }}</div>
+   <div class="status">{% trans "from" %} {{ message.sender }}</div>
    <div class="index">
-     <a href="{% url "message.new" %}?reply_to={{ message.pk }}">Reply</a>
+     <a href="{% url "message.new" %}?reply_to={{ message.pk }}">{% trans "Reply" %}</a>
    </div>
 </div>

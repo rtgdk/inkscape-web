@@ -1,4 +1,4 @@
-{% load sekizai_tags %}
+{% load sekizai_tags i18n %}
 
 {% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
 
@@ -17,7 +17,7 @@
             <p class="foot">{{ tab.banner_foot }}</p>
           {% endif %}
         </div>
-        <p><a href="{{ tab.link }}" rel="author"><em>{{ tab.name }}</em> by {{ tab.user.name }}</a></p>
+        <p><a href="{{ tab.link }}" rel="author"><em>{{ tab.name }}</em> {% trans "by" %} {{ tab.user.name }}</a></p>
       </div>
     {% endfor %}
   </div>

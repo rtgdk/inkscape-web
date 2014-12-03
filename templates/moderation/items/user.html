@@ -6,9 +6,7 @@
   <div class="details">
     <div class="title user">
       {% url 'view_profile' object.target.username as profile_url %}
-          {% blocktrans with object.target as user_name and object.target.get_absolute_url as the_url and object.target.name as resource_name %}
-            <a href="{{profile_url}}">{{user_name}}</a>
-          {% endblocktrans %}
+      <a href="{{ profile_url }}">{{ object.target.username }}</a>
     </div>
     <div class="index">
       <div class="moderationstatus">
@@ -42,7 +40,7 @@
       <dl> 
       <dt>{% trans "Name" %}</dt>
         <dd>{% if object.target.first_name %}
-          {{ objext.target.first_name }} {{ object.target.last_name }}
+          {{ object.target.first_name }} {{ object.target.last_name }}
         {% else %}
           {{ object.target.username }}
         {% endif %}

@@ -4,11 +4,11 @@
 {% block content %}
 
  {% if items %}
-  <h1>InkSpaces for {{ user.name }}</h1>
+  <h1>{% trans "InkSpaces for" %} {{ user.name }}</h1>
 
   {% include "resource/galleries.html" %}
  {% else %}
-  <h1>No InkSpaces Found</h1>
+  <h1>{% trans "No InkSpaces Found" %}</h1>
  {% endif %}
 
 {% endblock %}

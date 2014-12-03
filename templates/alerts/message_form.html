@@ -5,9 +5,9 @@
 {% block content %}
 
 {% if reply_to %}
-  <h1>Reply To Message</h1>
+  <h1>{% trans "Reply To Message" %}</h1>
 {% else %}
-  <h1>New Message</h1>
+  <h1>{% trans "New Message" %}</h1>
 {% endif %}
 
 <form method="post" action=".">

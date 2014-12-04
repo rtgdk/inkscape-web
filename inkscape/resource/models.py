@@ -418,7 +418,7 @@ class Gallery(Model):
 
     def is_editable(self):
         user = get_user()
-        return user and user.id and (
+        return user and (not user.id is None) and (
             self.user == user or user.is_superuser \
               or (user.groups.count() and self.group in user.groups.all()))
 

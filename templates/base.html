@@ -39,8 +39,8 @@
         <ul id="topdrops">
           {% language_chooser "languages.html" %}
 
-          <li id="toplogin">
-            {% if not request.user.is_authenticated %}
+          {% if not request.user.is_authenticated %}
+            <li id="toplogin">
               <p><a href="{% url "auth_login" %}">{% trans "Log in / Register" %}</a></p>
               <div class="topdrop">
                 <form action="{% url "auth_login" %}" method="POST">
@@ -60,103 +60,104 @@
                   {% include "social_logins.html" %}
                 </div>
               </div>
-            {% else %}
-              <p>
-                <a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;
-                <div  class="topdrop">
-                  <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
-                  {% if request.user.is_moderator %}
-                    <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
-                  {% endif %}
-                  {% if request.user.is_staff %}
-                    <p><a href="/admin/">{% trans "Administration" %}</a></p>
-                  {% endif %}
-                  <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
-                  <p><a href="{% url "auth_logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></p>
-                </div>
-              {% endif %}
+            </li>
+          {% else %}
+            <li id="toplogin">
+              <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;</p>
+              <div  class="topdrop">
+                <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.details.photo %}{{ request.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                {% if request.user.is_moderator %}
+                  <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
+                {% endif %}
+                {% if request.user.is_staff %}
+                  <p><a href="/admin/">{% trans "Administration" %}</a></p>
+                {% endif %}
+                <p><a href="{{ request.user.get_absolute_url }}">{% trans "My Profile" %}</a></p>
+                <p><a href="{% url "auth_logout" %}?next={{ request.path }}">{% trans "Logout" %}</a></p>
+              </div>
             </li>
 
-            {% if request.user.alerts.all %} <!--If user has any read or new alerts-->
-              <li id="topmessages">
-                <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
-                <div class="topdrop">
-                  {% for t in request.user.alerts.types %}
-                    <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
-                  {% endfor %}
-                  <p style="padding-top: 20px;"><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
-                  <p style="padding-top: 6px;"><a href="">{% trans "Message Settings" %}</a></p>
-                </div>
-              </li>
-            {% endif %}
-          </ul>
-          <div id="social">
-                        <p>{% trans "Follow us on:" %} </p>
-            <nav id="socialnav">
-              <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ STATIC_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
-              <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
-            </nav>
-          </div>
-            <form id="topsearch" method="get" action="{% url "search" %}">
-              <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
-              <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
-            </form>
-        </div>
-      </div>
-      <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
-    </div>
-
-    {% block supercontent %}
-      <div id="content"{% block contentclasses %}{% endblock %}>
-        <div class="wrapper">
-          {% if messages %}
-              <ul id="messages">
-              {% for message in messages %}
-                <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-              {% endfor %}
-            </ul>
+            <li id="topmessages">
+              <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
+              <div class="topdrop">
+                {% for t in request.user.alerts.types %}
+                  <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
+                {% endfor %}
+                {% if request.user.alerts.all %}
+                  <p><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
+                {% endif %}
+                <p style="padding-top: 6px;"><a href="{% url "alert.settings" %}">{% trans "Message Settings" %}</a></p>
+              </div>
+            </li>
           {% endif %}
-          {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
-          {% block content %}{% endblock %}
-        </div>
-      </div>
-    {% endblock %}
+        </ul>
 
-    {% block footer %}
-      <div class="footer">
-        <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
+        <div id="social">
+          <p>{% trans "Follow us on:" %} </p>
+          <nav id="socialnav">
+            <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ STATIC_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
+            <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
+          </nav>
+        </div>
+        <form id="topsearch" method="get" action="{% url "search" %}">
+          <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
+          <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
+        </form>
+      </div>
+    </div>
+    <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
+  </div>
+
+  {% block supercontent %}
+    <div id="content"{% block contentclasses %}{% endblock %}>
+      <div class="wrapper">
+        {% if messages %}
+          <ul id="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+        {% block content %}{% endblock %}
+      </div>
+    </div>
+  {% endblock %}
+
+  {% block footer %}
+    <div class="footer">
+      <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
 InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px;" onerror="getPng(this);"/></a>
-        <div class="nav">
-          {% block footer-nav %}
-          <ul>
-            {% for item in nav %}
-            <li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
-              {% for subitem in item %}
-              <li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
-              {% endfor %}
-            </ul></li>
+      <div class="nav">
+        {% block footer-nav %}
+        <ul>
+          {% for item in nav %}
+          <li><a href="{{ item.href }}"{% if item.current %} class="current"{% endif %}>{{ item.title }}</a><ul>
+            {% for subitem in item %}
+            <li><a href="{{ subitem.href }}">{{ subitem.title }}</a></li>
             {% endfor %}
-          </ul>
-          {% endblock %}
-        </div>
-        <p>
-          {% block "foot" %}
-            {% trans "Inkscape is Free and Open Source Software licensed under the" %}
-            <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
-          {% endblock %}
-        </p>
+          </ul></li>
+          {% endfor %}
+        </ul>
+        {% endblock %}
       </div>
-
-      <p id="final-footer">{% trans "Website designed by" %}
-        <a href="http://skymaiden.com">Hinerangi Courtenay</a>
-        {% trans "in Inkscape and developed by" %}
-        <a href="http://doctormo.org">Martin Owens</a> - 
-        <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Website development guide" %}</a>
+      <p>
+        {% block "foot" %}
+          {% trans "Inkscape is Free and Open Source Software licensed under the" %}
+          <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
+        {% endblock %}
       </p>
+    </div>
 
-    {% endblock %}
-  </body>
+    <p id="final-footer">{% trans "Website designed by" %}
+      <a href="http://skymaiden.com">Hinerangi Courtenay</a>
+      {% trans "in Inkscape and developed by" %}
+      <a href="http://doctormo.org">Martin Owens</a> - 
+      <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Website development guide" %}</a>
+    </p>
+
+  {% endblock %}
+</body>
 </html>
-

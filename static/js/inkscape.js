@@ -4,12 +4,15 @@ $(document).ready(function() {
   if($('[class|="maxHeight"]')[0])maxHeight();
   if($("#toplogin"))adjustBar();
   if($("#shield .tabs"))furnishTabs();
-  $("#toplogin input").focus(focused);
-  $("#toplogin input").focusout(focused);
+  $("#toplogin input").focus(true, focused);
+  $("#toplogin input").focusout(false, focused);
 });
 
-function focused() {
-  $( this ).closest("li").toggleClass('focused');
+function focused(unhide) {
+  var target = $( this ).closest("li");
+  // This delay is needed because unfocus will kill the tab-next process
+  // before the next item can re-focus the list item target.
+  setTimeout( function () { target.toggleClass('focused', unhide.data); }, 100);
 }
 
 function getCookie(name) {

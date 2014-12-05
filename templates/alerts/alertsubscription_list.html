@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load sekizai_tags %}
+{% load i18n pagination_tags pile %}
+
+{% block content %}
+
+  <h1>{% trans "Your Alert Settings" %}</h1>
+
+  <form method="POST" action=".">
+
+  <table class="list">
+    <tr>
+     <th scope="col">{% trans "Alert Type" %}</th>
+     <th scope="col">{% trans "Hide Any Alerts" %}</th>
+     <th scope="col">{% trans "Send Email Too" %}</th>
+    </tr>
+
+  {% for object in settings %}
+    <tr {% cycle "odd" "even" %}>
+      <td title="{{ object.alert.desc }}">{{ object.alert.name }}</td>
+      <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
+      <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>
+    </tr>
+  {% endfor %}
+  </table>
+
+  <input type="submit" value="{% trans "Save Settings" %}"/>
+
+  </form>
+
+  <h2>{% trans "Subscriptions" %}</h2>
+
+  {% autopaginate object_list 15 as items %}
+  {% for object in items %}
+    <div>{{ object.target }} <a href="">delete</a></div>
+  {% empty %}
+    <div>{% trans "No alert subscripts" %}</div>
+  {% endfor %}
+
+  {% paginate %}
+
+{% endblock %}
+

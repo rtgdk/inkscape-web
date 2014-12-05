@@ -23,8 +23,9 @@ from .views import *
 
 
 urlpatterns = patterns('',
-  url(r'^(?P<alert_id>\d+)/view/',   mark_viewed,  name="alert.view"),
-  url(r'^(?P<alert_id>\d+)/delete/', mark_deleted, name='alert.delete'),
+  url(r'^(?P<alert_id>\d+)/view/',   mark_viewed,     name="alert.view"),
+  url(r'^(?P<alert_id>\d+)/delete/', mark_deleted,    name='alert.delete'),
+  url(r'^settings/$',                SettingsList(),  name='alert.settings'),
 
   # Example message system
   url(r'^message/new/$',             CreateMessage(), name="message.new"),

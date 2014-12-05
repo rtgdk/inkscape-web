@@ -48,12 +48,6 @@ body {
 :link:hover, :link:active, :visited:hover, :visited:active {
   text-decoration: underline;
 }
-form {
-  display: inline-block;
-}
-form.block {
-  display: block;
-}
 ul, ol {
   padding: 0 0 0 30px;
   margin: 0.5ex 0;
@@ -909,3 +903,26 @@ div.donationlogo {
 p.pclear {
   clear: both;
 }
+
+table.list {
+  width: 100%;
+  border: 1px solid #ccc;
+  border-collapse: collapse;
+  border-spacing: 0px 0px;
+}
+table.list th {
+  background-color: #ddd;
+  padding: 4px;
+}
+table.list td {
+  text-align: center;
+  padding: 4px;
+}
+table.list th:first-child,
+table.list td:first-child {
+  text-align: left;
+}
+table.list tr.odd td {
+  background-color: #eee;
+}
+

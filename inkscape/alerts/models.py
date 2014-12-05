@@ -184,6 +184,12 @@ class SettingsManager(Manager):
                 return self.model(**kwargs)
             raise
 
+    def get_all(self, user):
+        ret = []
+        for alert_type in AlertType.objects.filter(enabled=True):
+            ret.append(self.get(user=user, alert=alert_type))
+        return ret
+
 
 class UserAlertSetting(Model):
     user    = ForeignKey(User, related_name='alert_settings')
@@ -320,6 +326,16 @@ def get_my_alerts():
     return property(_inner)
 
 
+class AlertSubscription(Model):
+    alert  = ForeignKey(AlertType, related_name='subscriptions')
+    user   = ForeignKey(User, related_name='alert_subscriptions')
+
+    table  = ForeignKey(ContentType, **null)
+    o_id   = PositiveIntegerField(null=True)
+    target = GenericForeignKey('table', 'o_id')
+
+    def __str__(self):
+        return "User Subscription"
 
 # -------- Start Example App -------- #
 
@@ -356,10 +372,6 @@ def created_message(sender, instance, **kwargs):
     if created_alert(sender, instance, **kwargs):
         if instance.reply_to:
             instance.reply_to.alerts.mark_viewed()
-        else:
-            sys.stderr.write("Not a Reply?\n")
-    else:
-        sys.stderr.write("Not Created?\n")
 
 signals.post_save.connect(created_message, sender=Message, dispatch_uid="message")
 

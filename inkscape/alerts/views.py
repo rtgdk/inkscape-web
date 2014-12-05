@@ -24,7 +24,7 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
 from pile.views import CreateView, CategoryListView
-from .models import User, UserAlert, Message
+from .models import User, UserAlert, Message, UserAlertSetting, AlertSubscription
 
 class AlertList(CategoryListView):
     model = UserAlert
@@ -56,6 +56,21 @@ def mark_deleted(request, alert_id):
     alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
     alert.delete()
     return HttpResponse(alert.pk)
+
+@login_required
+def watch_object(request, obj_id):
+    pass
+
+class SettingsList(CategoryListView):
+    model = AlertSubscription
+
+    def get_queryset(self, **kwargs):
+        return super(SettingsList, self).get_queryset(**kwargs).filter(user=self.request.user)
+
+    def get_context_data(self, **data):
+        data = super(SettingsList, self).get_context_data(**data)
+        data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
+        return data
 
 
 class CreateMessage(CreateView):

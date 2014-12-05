@@ -312,9 +312,16 @@ div.reginfo {
 .header #topdrops > li {
   float: left;
 }
-.header #topdrops > li:hover .topdrop {
+.header #topdrops > li:hover > .topdrop,
+.header #topdrops > li.focused > .topdrop {
   display: block;
   box-shadow: 0px 9px 7px #111;
+}
+.header #topdrops > li:hover > p,
+.header #topdrops > li.focused > p {
+  padding-bottom: 14px;
+  margin-bottom: 0px;
+  border-radius: 0;
 }
 .header #topdrops #languages {
   margin-right: 10px;
@@ -391,11 +398,6 @@ div.reginfo {
 }
 .header #toplogin p {
   margin: 1px 0px 3px 72px;
-}
-.header #topdrops > li:hover > p {
-  padding-bottom: 14px;
-  margin-bottom: 0px;
-  border-radius: 0;
 }
 #toplogin .topdrop {
   width: 220px;

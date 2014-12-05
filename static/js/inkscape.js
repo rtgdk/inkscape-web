@@ -4,7 +4,13 @@ $(document).ready(function() {
   if($('[class|="maxHeight"]')[0])maxHeight();
   if($("#toplogin"))adjustBar();
   if($("#shield .tabs"))furnishTabs();
+  $("#toplogin input").focus(focused);
+  $("#toplogin input").focusout(focused);
 });
+
+function focused() {
+  $( this ).closest("li").toggleClass('focused');
+}
 
 function getCookie(name) {
   var cookieValue = null;

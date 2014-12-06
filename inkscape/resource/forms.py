@@ -56,10 +56,10 @@ class ResourceBaseForm(ModelForm):
         if not self.user.details.gpg_key:
             self.fields.pop('signature', None)
         if not self.instance or not self.instance.mime().is_image():
-            self.fields.pop('preview', None)
+            self.fields.pop('thumbnail', None)
 
         for field in ('download', 'thumbnail', 'signature'):
-            if field in self.fields:
+            if field in self.fields and self.fields[field].widget is ClearableFileInput:
                 self.fields[field].widget = FileInput()
 
         if 'owner' in self.fields:
@@ -83,15 +83,13 @@ class ResourceBaseForm(ModelForm):
         return ret
 
     def clean_download(self):
-        if not self.instance or self.instance.download == self.cleaned_data['download']:
-            # Don't stop editing of existing resources, with no space.
-            return self.cleaned_data['download']
-
-        space = self.user.quota() - self.user.resources.disk_usage()
-        
-        if self.cleaned_data['download'].size > space:
-            raise ValidationError("Not enough space to upload this file.")
-        return self.cleaned_data['download']
+        download = self.cleaned_data['download']
+        # Don't check the size of existing uploads or not-saved items
+        if self.instance and self.instance.download != download:
+            space = self.user.quota() - self.user.resources.disk_usage()
+            if download.size > space:
+                raise ValidationError("Not enough space to upload this file.")
+        return download
 
     def save(self, commit=False, **kwargs):
         obj = ModelForm.save(self, commit=False)

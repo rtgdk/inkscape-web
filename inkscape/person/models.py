@@ -18,14 +18,14 @@ class UserDetails(Model):
     photo = ResizedImageField(_('Photograph'), null=True, blank=True,
               upload_to='photos', max_width=190, max_height=190)
 
-    ircnick = CharField("IRC Nickname", max_length=20, **null)
-    ircpass = CharField("Freenode Password (optional)", max_length=128, **null)
-    ircdev  = BooleanField("Join Developer Channel", default=False)
+    ircnick = CharField(_('IRC Nickname'), max_length=20, **null)
+    ircpass = CharField(_('Freenode Password (optional)'), max_length=128, **null)
+    ircdev  = BooleanField(_('Join Developer Channel'), default=False)
 
-    dauser  = CharField("deviantArt User", max_length=64, **null)
-    ocuser  = CharField("openClipArt User", max_length=64, **null)
-    tbruser = CharField("Tumblr User", max_length=64, **null)
-    gpg_key = TextField("GPG Public Key", **null)
+    dauser  = CharField(_('deviantArt User'), max_length=64, **null)
+    ocuser  = CharField(_('openClipArt User'), max_length=64, **null)
+    tbruser = CharField(_('Tumblr User'), max_length=64, **null)
+    gpg_key = TextField(_('GPG Public Key'), **null)
 
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
@@ -55,7 +55,7 @@ class UserDetails(Model):
 
 class UserRoll(Model):
     group = OneToOneField(Group, related_name='roll')
-    name  = CharField("User Roll", max_length=32)
+    name  = CharField(_('User Roll'), max_length=32)
     desc  = TextField(null=True, blank=True)
     icon  = ImageField(_('Display Icon'), upload_to='rollicons')
 

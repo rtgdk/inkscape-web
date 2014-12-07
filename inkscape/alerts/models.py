@@ -95,7 +95,7 @@ class AlertType(Model):
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 
     subject  = CharField(_("Subject Template"), max_length=255)
-    body     = TextField(_("Body Template"))
+    body     = TextField(_("Body Template"), max_length=8192)
     created  = DateTimeField(_("Created Date"), default=now)
     
     category = CharField(_("Type Category"), max_length=1, choices=MSG_CAT, default='?')
@@ -103,7 +103,7 @@ class AlertType(Model):
 
     # Useful for email enable
     email_subject = CharField(_("Email Subject Template"), max_length=255, **null)
-    email_body    = TextField(_("Email Body Template"), **null)
+    email_body    = TextField(_("Email Body Template"), max_length=8192, **null)
 
     # These get copied into UserAlertSettings for this alert
     default_hide  = BooleanField(default=False)
@@ -347,7 +347,7 @@ class Message(Model):
     recipient = ForeignKey(User, related_name="messages")
     reply_to  = ForeignKey('self', related_name="replies", **null)
     subject   = CharField(max_length=128)
-    body      = TextField(_("Message Body"), **null)
+    body      = TextField(_("Message Body"), max_length=8192, **null)
     created   = DateTimeField(default=now)
 
     alert_user = 'recipient'

@@ -91,7 +91,7 @@ class License(Model):
 
 class Category(Model):
     name     = CharField(max_length=64)
-    desc     = TextField(**null)
+    desc     = TextField(max_length=1024, **null)
 
     visible  = BooleanField(default=True)
     acceptable_licenses = ManyToManyField(License)
@@ -148,7 +148,7 @@ class Resource(Model):
     is_file   = False
     user      = ForeignKey(User, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
-    desc      = TextField(_('Description'), **null)
+    desc      = TextField(_('Description'), max_length=8192, **null)
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 

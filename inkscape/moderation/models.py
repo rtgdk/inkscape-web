@@ -128,7 +128,7 @@ class Flag(Model):
     implicated = ForeignKey(UserModel, verbose_name=_('Implicated User'),
                                        related_name="flags_against", null=True, blank=True)
     category   = ForeignKey(FlagCategory, related_name="flags", null=True, blank=True)
-    accusation = TextField(null=True, blank=True)
+    accusation = TextField(max_length=1024, null=True, blank=True)
     flagged    = DateTimeField(_('Date Flagged'), default=now, db_index=True)
     flag       = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
     target     = None

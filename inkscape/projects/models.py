@@ -27,6 +27,7 @@ from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse
+from django.core.validators import MaxLengthValidator
 
 from pile.models import null
 from pile.fields import ResizedImageField
@@ -98,7 +99,7 @@ class Worker(Model):
     project  = ForeignKey(Project, related_name='workers')
     user     = ForeignKey(User, related_name='works')
 
-    plan     = TextField(max_length=8192, **null)
+    plan     = TextField(validators=[MaxLengthValidator(8192)], **null)
 
     created  = DateTimeField(auto_now_add=True, db_index=True)
     vetted   = DateTimeField(**null)
@@ -144,7 +145,7 @@ class Task(Model):
 
 class Criteria(Model):
     content  = CharField(_('Criteria'), max_length=255)
-    detail   = TextField(max_length=4096, **null)
+    detail   = TextField(validators=[MaxLengthValidator(4096)], **null)
     
     def __str__(self):
         return self.content
@@ -154,7 +155,7 @@ class ProjectUpdate(Model):
     """A project should always have at least one update with it's primary description"""
 
     project  = ForeignKey(Project, related_name='updates')
-    describe = TextField(_("Description"), max_length=12288)
+    describe = TextField(_("Description"), validators=[MaxLengthValidator(12288)])
     image    = ResizedImageField(_("Image"), max_height=400, max_width=400,
                      upload_to=os.path.join('project', 'update', '%Y'), **null)
 

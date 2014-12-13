@@ -1,7 +1,7 @@
 {% extends 'resource/item.html' %}
 {% load i18n pile %}
 
-{% block headerdesc %}{% if item %}{{item.name}} {% trans "by" %} {{ item.user.details }}{% if item.desc %}: {{ item.desc}}{% endif %}{% endif %}{% endblock %}
+{% block headerdesc %}{{item.name}} {% trans "by" %} {{ item.user.details }}{% if item.desc %}: {{ item.desc}}{% endif %}{% endblock %}
 
 {% block "description" %}
   <div class="info">

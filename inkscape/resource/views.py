@@ -139,8 +139,14 @@ def create_resource(request, gallery_id):
             return redirect('gallery', gallery_id)
         if c['form'].is_valid():
             item = c['form'].save()
+            tags_list = c['form'].cleaned_data.get('tags')
+            for tag in tags_list:
+                item.tags.add(Tag.objects.create(name=tag,parent=item.id))
             gallery.items.add(item)
             return redirect('resource', item.id)
+        else:
+            print c['form'].errors;
+
     return render_to_response('resource/edit.html', c,
         context_instance=RequestContext(request))
 

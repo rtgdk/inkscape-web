@@ -94,6 +94,9 @@ function menu(){
             elementHeight = $(this).height();
         })
         i++;
+        if( i > 20){
+            break;
+        }
         containerHeight = $("#menu").height();
     }
 }

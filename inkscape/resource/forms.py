@@ -83,7 +83,7 @@ class ResourceBaseForm(ModelForm):
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc', 'download']:
+            if field.name in ['name', 'desc', 'tags', 'download']:
                 continue
             yield field
 
@@ -144,14 +144,14 @@ class ResourcePasteForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'media_type', 'license', 'link', 'download']
+        fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link', 'download']
         required = ['name', 'license']
 
 class ResourceEditPasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'media_type', 'license', 'link']
+        fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link']
         required = ['name', 'license']
 
 

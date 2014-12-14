@@ -1,5 +1,10 @@
 {% extends 'resource/item.html' %}
 {% load i18n extras %}
+{% load staticfiles %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/bootstrap-tagsinput.css' %}">
+{% endblock %}
 
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
@@ -24,6 +29,11 @@
     </h2>
   <div class="desc{% if form.desc.errors %} descerr{% endif %}">
     {{ form.desc|placeholder:_("Description of your artwork or resource") }}
+    <script type="text/javascript" src="{% static 'js/bootstrap-tagsinput.js' %}"></script>
+    {{ form.tags|placeholder:_("Tags of your artwork or resource") }}
+    <script>
+      $('#id_tags').tagsinput();
+    </script>
   </div>
   <div class="side">
     {% for field in form.auto %}

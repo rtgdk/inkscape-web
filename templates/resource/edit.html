@@ -1,6 +1,8 @@
 {% extends 'resource/item.html' %}
 {% load i18n extras %}
 
+{% block title %}{% trans "Edit Resource" %}{% endblock %}
+
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}

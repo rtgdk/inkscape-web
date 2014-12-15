@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>{% trans "The Faces of Inkscape Users" %}</h1>
+<h1>{% block title %}{% trans "The Faces of Inkscape Users" %}{% endblock %}</h1>
 
 {% for user in users %}
 

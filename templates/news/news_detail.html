@@ -14,7 +14,7 @@
   {% if not object.is_published %}
     <div class="warning">{% trans "This article is not published yet!" %}</div>
   {% endif %}
-  {{ object.content|safe }}
+  {% block headerdesc %}{{ object.content|safe }}{% endblock %}
 
 {% endblock %}
 

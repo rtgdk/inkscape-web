@@ -2,6 +2,8 @@
 
 {% load i18n pagination_tags pile %}
 
+{% block title %}{% trans "Write Message" %} | {{ user.name }}{% endblock %} 
+
 {% block content %}
 
 {% if reply_to %}

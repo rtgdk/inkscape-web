@@ -3,6 +3,8 @@
 {% load sekizai_tags %}
 {% load i18n pagination_tags pile %}
 
+{% block title %}{% trans "Messages" %}{% endblock %} 
+
 {% block content %}
   {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>

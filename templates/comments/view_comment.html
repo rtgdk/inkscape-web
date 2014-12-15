@@ -2,7 +2,7 @@
 {% load i18n comments sekizai_tags %}
 
 {% block content %}
-  <h1>{% trans "Comment" }</h1>
+  <h1>{% block title %}{% trans "Comment" %}{% endblock %}</h1>
   {% include "comments/single_comment.html" with comment_counter=1 %}
 {% endblock %}
 

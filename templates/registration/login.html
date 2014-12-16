@@ -5,7 +5,7 @@
 
 <div style="text-align: center;">
 
-<h1>{% trans "User Login" %}</h1>
+<h1>{% block title %}{% trans "User Login" %}{% endblock %}</h1>
 
 {% if form.errors %}
 <p>{% trans "Your username and password didn't match. Please try again." %}</p>

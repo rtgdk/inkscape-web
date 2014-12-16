@@ -52,7 +52,7 @@
       <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
       {% endif %}
     </h1> 
-    <p id="bio">{% if user.details.bio %}{{ user.details.bio }}{% else %}{{ user }} {% trans "hasn't written anything about themselves yet" %}{% endif %}</p>
+    <p id="bio">{% block headerdesc %}{% if user.details.bio %}{{ user.details.bio }}{% else %}{{ user }} {% trans "hasn't written anything about themselves yet" %}{% endif %}{% endblock %}</p>
 
   </div>
 

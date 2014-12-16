@@ -3,7 +3,7 @@
 
 {% block content %}
 
-<h1>{% trans "Contact Us" %}</h1>
+<h1>{% block title %}{% trans "Contact Us" %}{% endblock %}</h1>
 
 {% if form %}
  <form method="post" enctype="multipart/form-data">

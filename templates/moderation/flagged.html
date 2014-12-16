@@ -2,10 +2,8 @@
 
 {% load i18n comments pile pagination_tags %}
 
-{% block title %}{% trans "Review Flagged Comments" %}{% endblock %}
-
 {% block content %}
-    <h1>{% trans "Review flagged Comments" %}</h1>
+    <h1>{% block title %}{% trans "Review Flagged" %}{% endblock %}</h1>
     
     <div class="comments">
     <p>{% trans "You can do two things here" %}:</p>

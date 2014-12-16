@@ -3,6 +3,8 @@
 {% load i18n %}
 {% load cms_tags sekizai_tags %}
 
+{% block headerdesc %}{{ object.excerpt }}{% endblock %}
+
 {% block content %}
   {% addtoblock 'css' %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/news-full.css" media="all" />

@@ -87,6 +87,22 @@ h3 {
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
 }
+
+span.align-right img {
+    display: block;
+    float: right;
+    margin: 1ex 0 1ex 1.5em;
+}
+span.align-left img {
+    display: block;
+    float: left;
+    margin: 1ex 1.5em 1ex 0;
+}
+span.align-center img {
+    display: block;
+    margin: 1ex auto;
+}
+
 video {
   margin-bottom: 30px;
 }

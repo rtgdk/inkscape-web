@@ -10,7 +10,7 @@
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
   {% endaddtoblock %}
 
-  <h1>{% blocktrans %}New {{ alerttype }} Messages{% endblocktrans %} ({{ object_list.count }})</h1>
+  <h1>{% blocktrans %}New Messages{% endblocktrans %} ({{ object_list.count }})</h1>
 
   {% autopaginate object_list 15 as items %}
 

@@ -26,6 +26,7 @@ from django.contrib.auth.models import User, Group
 from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 from django.core.files.images import get_image_dimensions
+from django.core.validators import MaxLengthValidator
 
 from model_utils.managers import InheritanceManager
 
@@ -91,7 +92,7 @@ class License(Model):
 
 class Category(Model):
     name     = CharField(max_length=64)
-    desc     = TextField(max_length=1024, **null)
+    desc     = TextField(validators=[MaxLengthValidator(1024)], **null)
 
     visible  = BooleanField(default=True)
     acceptable_licenses = ManyToManyField(License)
@@ -148,7 +149,7 @@ class Resource(Model):
     is_file   = False
     user      = ForeignKey(User, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
-    desc      = TextField(_('Description'), max_length=8192, **null)
+    desc      = TextField(_('Description'), validators=[MaxLengthValidator(8192)], **null)
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 

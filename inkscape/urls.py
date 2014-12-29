@@ -15,7 +15,7 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^admin/',     include(admin.site.urls)),
-#    url(r'^rosetta/',   include('rosetta.urls')),
+    #url(r'^tr/',        include('cmsrosetta.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
     url(r'^comments/',  include('django_comments.urls')),

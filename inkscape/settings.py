@@ -47,6 +47,12 @@ I18N_DOMAIN = 'inkscape'
 
 GOOGLE_ANID = None
 
+# Place where uploaded files can be seen online
+MEDIA_URL = '/media/'
+
+# Place where static files can be seen online
+STATIC_URL = '/static/'
+
 # We import a number of key variables here, if this fails, we don't work!
 import logging
 try:
@@ -80,15 +86,9 @@ if os.path.isfile(REV_FILE):
 # Place where files can be uploaded
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
 
-# Place where uploaded files can be seen online
-MEDIA_URL = '/media/'
-
 # Place where media can be served from in development mode
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
 STATICFILES_DIRS = os.path.join(PROJECT_PATH, 'static'),
-
-# Place where static files can be seen online
-STATIC_URL = '/static/'
 
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),
@@ -170,7 +170,7 @@ INSTALLED_APPS = (
     'djangocms_picture',
     'djangocms_snippet',
     'djangocms_link',
-#    'djangocms_rosetta',
+    #'cmsrosetta',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',

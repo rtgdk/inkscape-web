@@ -114,7 +114,7 @@ class ShieldPlugin(CMSPlugin):
 
     def copy_relations(self, oldinstance):
         for tab in oldinstance.tabs.all():
-            (obj, new) = Tab.objects.get_or_create(draft=tab, defaults=fab(tab))
+            (obj, new) = Tab.objects.get_or_create(draft=tab, shield=self, defaults=fab(tab))
             obj.draft = tab
             obj.shield = self
             obj.save()

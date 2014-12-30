@@ -36,7 +36,7 @@ urlpatterns = patterns('',
 
   url_tree(r'', 'inkscape.person.views',
     url(r'^user/$',                   'my_profile',      name='my_profile'),
-    url_tree(r'^~(?P<username>[\w-]+)', 'inkscape.person.views',
+    url_tree(r'^~(?P<username>[\w\.-]+)', 'inkscape.person.views',
       url(r'^/?$',                    'view_profile',    name='view_profile'),
       url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
     ),

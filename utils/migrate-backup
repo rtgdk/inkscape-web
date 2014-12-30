@@ -12,6 +12,7 @@ import json
 
 from collections import defaultdict
 from subprocess import PIPE, Popen
+from urllib2 import urlopen
 
 VERBOSE = '-v' in sys.argv
 if VERBOSE:
@@ -51,6 +52,31 @@ def unique(field, item, row, model, delete, **kwargs):
     else:
         TRACK[model].append(row[field])
 
+LIVE_URL = 'https://inkscape.org/media'
+LOCAL_MEDIA = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'data', 'media'))
+def download(field, row, **kwargs):
+    """Downloads a media item from live website"""
+    if not os.path.exists(LOCAL_MEDIA):
+        raise IOError("Can't find local media directory: %s" % str(LOCAL_MEDIA))
+
+    media = row[field]
+    local_path = os.path.join(LOCAL_MEDIA, media)
+    local_dir  = os.path.dirname(local_path)
+
+    if os.path.isfile(local_path):
+        sys.stderr.write("Skipping: %s\n" % media)
+        return True
+
+    sys.stderr.write("Downloading: %s\n" % media)
+    response = urlopen('%s/%s' % (LIVE_URL, media))
+
+    if not os.path.isdir(local_dir):
+        os.makedirs(local_dir)
+
+    with open(local_path, 'wb') as fhl:
+        fhl.write(response.read())
+    
 
 MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
 try:
@@ -72,6 +98,13 @@ UPDATES = {
   'cmsplugin_news.news': (
     [ set_to, 'creator', A_USER ],
     [ set_to, 'editor', A_USER ],
+  ),
+  'extra.tabcategory': (
+    [ download, 'icon' ],
+  ),
+  'extra.tab': (
+    [ download, 'download' ],
+    [ set_to, 'user', A_USER ],
   ),
 }
 

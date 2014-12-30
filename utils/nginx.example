@@ -1,0 +1,53 @@
+server {
+    listen              80;
+    listen              443 ssl;
+    server_name         inkscape.org www.inkscape.org 140.211.15.230;
+    root                /var/www/www.inkscape.org;
+    expires             30d;
+
+    ssl_certificate     /etc/ssl/nginx/ssl.crt;
+    ssl_certificate_key /etc/ssl/nginx/ssl.key;
+    ssl_protocols       TLSv1 TLSv1.1 TLSv1.2;
+    ssl_ciphers         EECDH+ECDSA+AESGCM:EECDH+aRSA+AESGCM:EECDH+ECDSA+SHA384:EECDH+ECDSA+SHA256:EECDH+aRSA+SHA384:EECDH+aRSA+SHA256:EECDH+aRSA+RC4:EECDH:EDH+aRSA:RC4:!aNULL:!eNULL:!LOW:!3DES:!MD5:!EXP:!PSK:!SRP:!DSS;
+
+    access_log /var/www/www.inkscape.org/logs/nginx/access.log;
+    error_log /var/www/www.inkscape.org/logs/nginx/error.log;
+
+    client_max_body_size 120M;
+
+    rewrite ^(.*).php $1.html permanent;
+
+    location /static/ {
+      alias /var/www/www.inkscape.org/data/static/;
+      # Enable CORS for web-fonts via caching service
+      if ($request_uri ~* ^.*?\.(eot)|(ttf)|(woff)$){
+        add_header Access-Control-Allow-Origin *;
+      }
+    }
+
+    location /media/ { # MEDIA_URL
+        alias /var/www/www.inkscape.org/data/media/;
+    }
+
+    location /get/ { # Used by sendfile to redirect internally for downloads
+        alias /var/www/www.inkscape.org/data/media/;
+        internal;
+    }
+
+    location / {
+        # Redirect here so non-ssl requests to media don't fail
+        if ($server_port = 80) {
+            return 301 https://inkscape.org$request_uri;
+        }
+        if ($host != "inkscape.org") {
+            return 301 https://inkscape.org$request_uri;
+        }
+        expires off;
+        gzip_static on;
+        include uwsgi_params;
+        uwsgi_pass unix:///var/www/www.inkscape.org/data/wsgi.sock;
+
+        # Upgrade root for serving upgrade message
+        #alias /var/www/www.inkscape.org/static/upgrade/;
+    }
+}

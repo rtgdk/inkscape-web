@@ -14,7 +14,8 @@ urlpatterns = patterns('',
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns('',
-    url(r'^admin/',     include(admin.site.urls)),
+    url(r'^admin/lookups/', include('ajax_select.urls')),
+    url(r'^admin/',         include(admin.site.urls)),
     #url(r'^tr/',        include('cmsrosetta.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
@@ -25,7 +26,6 @@ urlpatterns += i18n_patterns('',
     url(r'^',           include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
-    url(r'$^',          'none', name='cms_usersettings_change'),
 )
 
 for e in ('403','404','500'):

@@ -156,6 +156,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
+    'ajax_select',
     'haystack',
     'reversion',
     'pile',
@@ -239,6 +240,13 @@ if not DEBUG:
     SENDFILE_ROOT = MEDIA_ROOT
     SENDFILE_URL = MEDIA_URL
 
+AJAX_LOOKUP_CHANNELS = {
+  'user'    : {'model':'auth.User', 'search_field':'username'},
+  'resource': {'model':'resource.ResourceFile', 'search_field':'name'},
+}
+
+AJAX_SELECT_BOOTSTRAP = True # Loads from google, Do NOT like
+AJAX_SELECT_INLINES = 'inline'
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

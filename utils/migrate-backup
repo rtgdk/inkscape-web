@@ -68,8 +68,12 @@ def download(field, row, **kwargs):
         sys.stderr.write("Skipping: %s\n" % media)
         return True
 
-    sys.stderr.write("Downloading: %s\n" % media)
-    response = urlopen('%s/%s' % (LIVE_URL, media))
+    try:
+        response = urlopen('%s/%s' % (LIVE_URL, media))
+        sys.stderr.write("Downloading: %s\n" % media)
+    except Exception:
+        sys.stderr.write("Error getting: %s\n" % media)
+        return False
 
     if not os.path.isdir(local_dir):
         os.makedirs(local_dir)
@@ -98,6 +102,12 @@ UPDATES = {
   'cmsplugin_news.news': (
     [ set_to, 'creator', A_USER ],
     [ set_to, 'editor', A_USER ],
+  ),
+  'djangocms_file.file': (
+    [ download, 'file' ],
+  ),
+  'djangocms_picture.picture': (
+    [ download, 'image' ],
   ),
   'extra.tabcategory': (
     [ download, 'icon' ],

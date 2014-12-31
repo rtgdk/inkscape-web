@@ -46,10 +46,11 @@ def get_template(template_name):
 
     raise TemplateDoesNotExist(template_name)
 
-
 def render_directly(template, context):
     if type(context) is not Context:
         context = Context(context or {})
+    if 'i18n' not in template:
+        template = "{% load i18n %}\n" + template
     try:
         templated = Template(template)
         return templated.render(context)

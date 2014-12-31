@@ -1,7 +1,6 @@
-{% load i18n %}
-
-{% trans "User Message" %}||{% trans "Messages from other users of Inkscape.org" %}
+User Message||Messages from other users of Inkscape.org
 {{ message.subject }}
+{% load i18n %}
 <div class="body">
   <div class="text"><p>{{ message.body }}</p></div>
 </div>

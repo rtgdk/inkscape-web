@@ -53,10 +53,10 @@
 <h1>InkSpaces - {% trans "A Place to Upload" %}</h1>
 {% include "resource/galleries.html" %}
 
-{% if request.user.favorites.all %}
+{% if user.favorites.all %}
   <h1>{% trans "Favorite Artworks" %}</h1>
   {% with 4 as limit %}
-    {% with request.user.favorites.items as items %}
+    {% with user.favorites.items as items %}
       {% include "resource/list.html" %}
     {% endwith %}
   {% endwith %}

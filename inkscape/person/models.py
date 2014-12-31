@@ -26,7 +26,7 @@ class UserDetails(Model):
     dauser  = CharField(_('deviantArt User'), max_length=64, **null)
     ocuser  = CharField(_('openClipArt User'), max_length=64, **null)
     tbruser = CharField(_('Tumblr User'), max_length=64, **null)
-    gpg_key = TextField(_('GPG Public Key'), validators=[MaxLengthValidator(8192)], **null)
+    gpg_key = TextField(_('GPG Public Key'), validators=[MaxLengthValidator(262144)], **null)
 
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)

@@ -149,7 +149,7 @@ class Resource(Model):
     is_file   = False
     user      = ForeignKey(User, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
-    desc      = TextField(_('Description'), validators=[MaxLengthValidator(8192)], **null)
+    desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 

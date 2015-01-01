@@ -30,5 +30,5 @@ urlpatterns += i18n_patterns('',
 
 for e in ('403','404','500'):
     locals()['handler'+e] = 'inkscape.views.error'+e
-    urlpatterns += patterns('', url('^error/'+e+'/', 'inkscape.views.error'+e, name='error'+e))
+    urlpatterns += patterns('', url('^error/'+e+'/$', 'inkscape.views.error'+e, name='error'+e))
 

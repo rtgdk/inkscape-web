@@ -842,6 +842,14 @@ a.roundel img {
   font-weight: bold;
 }
 
+/* style for contents on HTTP error pages */
+div.errtext { 
+  max-width: 400px;
+  margin-right: auto;
+  margin-left: auto;
+  text-align: center;
+}
+
 /* Hackfest donation page css */
 div.donationpicparagraph img {
   float: right;
@@ -859,8 +867,6 @@ div.donationlogo {
   font-size: 240%;
   font-weight: normal;
   line-height: 35px;
-/*  margin: 20px;*/
-/*  float: left;*/
   font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
 

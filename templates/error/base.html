@@ -4,10 +4,7 @@
 {% block body-pageid %}{{ error }}{% endblock %}
 
 {% block content %}
-  <style>
-    p { max-width: 400px; margin-right: auto; margin-left: auto; }
-  </style>
-  <div style="text-align: center;">
+  <div class="errtext">
     <img src="{{ STATIC_URL }}images/{{ error }}.svg" title="{{ error }} {{ title }}"/>
     <h1>{% block "title" %}{{ title }}{% endblock %}</h1>
     {% block "error-msg" %}{% endblock %}

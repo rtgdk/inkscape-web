@@ -22,7 +22,7 @@ class Command(BaseCommand):
         self.show_urls(urls.urlpatterns)
 
     def urls_name(self, uc):
-        if isinstance(uc, list):
+        if isinstance(uc, list) and uc:
             return self.urls_name(uc[0])
         elif hasattr(uc, '__file__'):
             return uc.__file__.split('../')[-1].split('site-packages/')[-1][:-1]

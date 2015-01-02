@@ -80,12 +80,16 @@ def text_count(text):
         num_chars += len(line)
     return (num_lines, num_words)
 
+def coord(n):
+    """Removes any units"""
+    return int(float(''.join(c for c in n if c in '.0123456789')))
+
 def svg_coords(svg):
     from xml.dom.minidom import parseString, Node
     try:
         doc = parseString(svg).documentElement
-        return (int(float(doc.getAttribute('width'))),
-                int(float(doc.getAttribute('height'))))
+        return (coord(doc.getAttribute('width')),
+                coord(doc.getAttribute('height')))
     except IOError:
         return (-1,-1)
 

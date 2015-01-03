@@ -25,10 +25,10 @@ from django.http import Http404
 from django.shortcuts import render_to_response, redirect
 from django.template import RequestContext
 
-from inkscape.settings import STATIC_ROOT, STATIC_URL
+from inkscape.settings import MEDIA_ROOT, MEDIA_URL
 
 def get_path(uri):
-    path = os.path.join(STATIC_ROOT, 'doc', uri)
+    path = os.path.join(MEDIA_ROOT, 'doc', uri)
     if not os.path.exists(path):
         raise Http404
     return path
@@ -46,7 +46,7 @@ def page(request, uri):
         elif '<div id="preface">' in content:
             content = content.split('<div id="preface">',1)[-1]
         content = content.split('<div id="footer">')[0]
-        content = content.replace('src="', 'src="%s/' % os.path.join(STATIC_URL, 'doc', *uri.split('/')[:-1]))
+        content = content.replace('src="', 'src="%s/' % os.path.join(MEDIA_URL, 'doc', *uri.split('/')[:-1]))
     c = {
         'title': title,
         'content': content,

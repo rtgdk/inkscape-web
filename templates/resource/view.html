@@ -16,8 +16,10 @@
       {% if item.mime.is_image %}
         <div class="tog" id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
       {% endif %}
-      {% if not item.mime.is_image or not item.license.nd %}
-        <div class="tog" id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
+      {% if item.download %}
+        {% if not item.mime.is_image or not item.license.nd %}
+          <div class="tog" id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
+        {% endif %}
       {% endif %}
 
       <div class="tog" id="vote"><a

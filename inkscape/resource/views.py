@@ -289,7 +289,7 @@ from sendfile import sendfile
 from inkscape import settings
 
 def down_resource(request, item_id, vt='d'):
-    item = get_object_or_404(Resource, id=item_id)
+    item = get_object_or_404(ResourceFile, id=item_id)
 
     # The view 'download' allows one to view an image in full screen glory
     # which is technically a download, but we count it as a view and try and let
@@ -316,6 +316,11 @@ def down_resource(request, item_id, vt='d'):
                }, context_instance=RequestContext(request))
             response['refresh'] = "3; url=%s" % mirror.get_url(item)
             return response
+    return redirect(item.download.url)
+    # Content-Disposition code here allows downloads to work better. XXX
+    # The thinking here is that it must a) redirect to a fastly cache just
+    # Like the above, BUT include the attachment sendfile part to improve
+    # user experence for images and similar files.
     url = item.download.path
     if not settings.DEBUG:
         # Correct for nginx redirect

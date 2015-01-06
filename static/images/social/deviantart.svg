@@ -1,23 +1,95 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
-<svg xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:cc="http://creativecommons.org/ns#" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:svg="http://www.w3.org/2000/svg" xmlns="http://www.w3.org/2000/svg" version="1.1" width="18" height="18" id="svg2">
-  <defs id="defs4" />
-  <metadata id="metadata7">
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   version="1.1"
+   width="18"
+   height="18"
+   id="svg2"
+   inkscape:version="0.48.4 r9939"
+   sodipodi:docname="deviantart.svg"
+   inkscape:export-filename="/tmp/da.logo.png"
+   inkscape:export-xdpi="18"
+   inkscape:export-ydpi="18">
+  <title
+     id="title3769">Deviant Art Logo</title>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1280"
+     inkscape:window-height="960"
+     id="namedview11"
+     showgrid="false"
+     inkscape:zoom="13.111111"
+     inkscape:cx="19.898822"
+     inkscape:cy="12.055929"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <defs
+     id="defs4" />
+  <metadata
+     id="metadata7">
     <rdf:RDF>
-      <cc:Work rdf:about="">
+      <cc:Work
+         rdf:about="">
         <dc:format>image/svg+xml</dc:format>
-        <dc:type rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>Deviant Art Logo</dc:title>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>deviantart.com</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:rights>
+          <cc:Agent>
+            <dc:title>deviantart.com</dc:title>
+          </cc:Agent>
+        </dc:rights>
+        <dc:publisher>
+          <cc:Agent>
+            <dc:title>deviantart.com</dc:title>
+          </cc:Agent>
+        </dc:publisher>
       </cc:Work>
     </rdf:RDF>
   </metadata>
-  <g transform="translate(-603.7,-708.5)" id="layer1">
-    <rect width="17.35" height="17.35" x="604" y="708.8" id="rect3050" style="color:#000000;fill:#40504c;stroke:#374743;stroke-width:0.6517" />
-    <g transform="matrix(0.5991,-0.1545,0.1485,0.6235,108.5,359.1)" id="g4994" style="fill:#d0dd20;stroke:#d0dd20;stroke-width:1.6">
-      <path d="m 640.9,746.4 0,-2 c -0.2,-6 7.8,-11.4 12.7,-12.1 l 0,1.1 c -5.7,1.9 -7.5,6 -7.8,10.9 l 9,0 0,-16.7 2.8,-0.7 0.1,19.5 -16.8,0 z" id="path4561" style="color:#000000" />
-      <path d="m 661.4,737.5 2.9,0.6 0,6.4 8.2,0 c 0,-7.6 -5.8,-11 -13.4,-11 l 0.1,-1 c 10.1,0 17.9,5.7 17.9,12.9 l 0,1 -15.7,0 0,-8.9 z" id="path4563" style="color:#000000" />
-    </g>
+  <g
+     transform="translate(-604.001,-708.14901)"
+     id="layer1">
+    <rect
+       width="18.002001"
+       height="18.002001"
+       x="604"
+       y="708.14801"
+       id="rect3050"
+       style="color:#000000;fill:#475c4d;fill-opacity:1;stroke:none" />
   </g>
-  <style type="text/css" id="style26" />
+  <style
+     type="text/css"
+     id="style26" />
+  <g
+     id="g12"
+     transform="matrix(0.00298993,0,0,-0.00298993,-7.6626108,26.208722)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 6913.19,7096.63 0.04,0 41.93,80.02 0,812.1 -812.1,0 -81.06,-81.74 -383.2,-730.26 -120.49,-81.3 -1367.65,0 0,-1115.24 751.88,0 66.97,-81.01 -776.89,-1484.7 -0.04,0 -41.92,-80.03 0,-812.1 812.1,0 81.05,81.74 383.2,730.26 120.5,81.3 1367.65,0 0,1115.25 -751.88,0 -66.89,81.55 776.8,1484.16"
+       style="fill:#47bb3a;fill-opacity:1;fill-rule:nonzero;stroke:none"
+       id="path16" />
+  </g>
 </svg>

@@ -44,9 +44,14 @@ def register_alert(slug, cls, **kwargs):
     })
     # XXX Created datetime could be checked against the file of the cls
     # so items canbe updated with changes (especially for default options)
-    (item, created) = ALERT_TYPE.objects.get_or_create(slug=slug, defaults=kwargs)
-    SIGNALS[slug] = (item, cls(slug))
-    cls.signal.connect(SIGNALS[slug][1].call, sender=cls.sender, dispatch_uid=slug)
+    try:
+        (item, created) = ALERT_TYPE.objects.get_or_create(slug=slug, defaults=kwargs)
+    except Exception as error:
+        pass
+    else:
+        SIGNALS[slug] = (item, cls(slug))
+        cls.signal.connect(SIGNALS[slug][1].call, sender=cls.sender, dispatch_uid=slug)
+  
     #responses = cls.signal.send(cls.sender, instance=cls.sender.objects.all()[0], created=True)
     #sys.stderr.write("Responses: %s\n" % str(responses))
 

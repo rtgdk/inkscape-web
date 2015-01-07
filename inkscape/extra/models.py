@@ -120,3 +120,25 @@ class ShieldPlugin(CMSPlugin):
             obj.save()
 
 
+# Add an alert when a page is edited for anyone subscribed
+from inkscape.alerts.models import *
+from cms.models import Page
+import cms.signals as cms_signals
+
+class PagePublishedAlert(BaseAlert):
+    name     = _("Page Published Alerts")
+    desc     = _("An alert is sent each time a page is published (not edited).")
+    category = CATEGORY_SYSTEM_TO_USER
+    signal   = cms_signals.post_publish
+    sender   = Page
+
+    subject  = _("Page Published: ") + "{{ instance }}"
+    email_subject = _("Page Published: ") + "{{ instance }}"
+
+    def call(self, sender, **kwargs):
+        from reversion import get_for_object
+        kwargs['revision'] = get_for_object(kwargs['instance'])[0].revision
+        return super(PagePublishedAlert, self).call(sender, **kwargs)
+
+register_alert('cms_page_published', PagePublishedAlert)
+

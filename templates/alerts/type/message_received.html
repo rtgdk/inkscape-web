@@ -1,0 +1,10 @@
+{% load i18n %}
+<div class="body">
+  <div class="text"><p>{{ instance.body }}</p></div>
+</div>
+<div class="footer">
+   <div class="status">{% trans "from" %} {{ instance.sender }}</div>
+   <div class="index">
+     <a href="{% url "message.new" instance.sender.username %}?reply_to={{ instance.pk }}">{% trans "Reply" %}</a>
+   </div>
+</div>

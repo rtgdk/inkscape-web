@@ -20,11 +20,13 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
 from pile.views import CreateView, CategoryListView
 from .models import User, UserAlert, Message, UserAlertSetting, AlertSubscription
+from .signals import SIGNALS
 
 class AlertList(CategoryListView):
     model = UserAlert
@@ -58,8 +60,35 @@ def mark_deleted(request, alert_id):
     return HttpResponse(alert.pk)
 
 @login_required
-def watch_object(request, obj_id):
-    pass
+def subscribe(request, slug, pk=None):
+    (alert, alerter) = SIGNALS.get(slug, (None, None))
+    if not alerter or alerter.private:
+        raise Http404()
+
+    model = alerter.sender
+    obj = pk and get_object_or_404(model, pk=pk)
+
+    if request.method == 'POST':
+        (item, created, deleted) = AlertSubscription.objects.get_or_create(
+                                     alert=alert, user=request.user, target=pk)
+        if deleted:
+            messages.warning(request, _("Deleted %d previous subscriptions (supseeded)") % deleted)
+        if created:
+            messages.info(request, _('Subscription created!'))
+        else:
+            messages.warning(request, _('Already subscribed to this!'))
+        return redirect('alert.settings')
+
+    return render_to_response('alerts/subscribe.html', {
+        'alert': alert,
+        'object': obj,
+      }, context_instance=RequestContext(request))
+
+@login_required
+def unsubscribe(request, pk):
+    sub = get_object_or_404(AlertSubscription, pk=pk, user=request.user)
+    sub.delete()
+    return redirect('alert.settings')
 
 class SettingsList(CategoryListView):
     model = AlertSubscription
@@ -91,18 +120,17 @@ class CreateMessage(CreateView):
         msg = self.gost('reply_to', None)
         if msg:
             # If we ever want to restrict who can reply, do it here first.
-            msg = get_object_or_404(Message, pk=msg, recipient=self.request.user)
+            msg = get_object_or_404(self.model, pk=msg, recipient=self.request.user)
         return msg
 
     def get_initial(self):
         """Add reply to subject initial data"""
         initial = super(CreateMessage, self).get_initial()
+        self.recipient = get_object_or_404(User, username=self.kwargs.get('username',''))
         rto = self.get_reply_to()
         if rto:
             initial['subject'] = (rto.reply_to and "Re: " or "") + rto.subject
             self.recipient = rto.sender
-        else:
-            self.recipient = get_object_or_404(User, pk=int(self.gost('recipient', 0)))
         initial['recipient'] = self.recipient.pk
         return initial
 

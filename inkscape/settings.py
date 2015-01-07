@@ -175,6 +175,7 @@ INSTALLED_APPS = (
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',
+    'inkscape.cmsdiff',
     'inkscape.extra',
     'inkscape.search',
     'inkscape.docs',

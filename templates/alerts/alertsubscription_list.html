@@ -35,7 +35,12 @@
 
   {% autopaginate object_list 15 as items %}
   {% for object in items %}
-    <div>{{ object.target }} <a href="">delete</a></div>
+    <div>{{ object.alert.obj.name }} ({% if object.target %}Item {{ object.target }}{% else %}All{% endif %})
+      <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" object.pk %}'>
+        {% csrf_token %}
+        <input type='submit' value='{% trans "Unsubscribe" %}'/>
+      </form>
+    </div>
   {% empty %}
     <div>{% trans "No alert subscripts" %}</div>
   {% endfor %}

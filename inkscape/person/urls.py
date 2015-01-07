@@ -17,6 +17,12 @@ RC = TemplateView.as_view(template_name='registration/registration_complete.html
 RK = TemplateView.as_view(template_name='registration/registration_closed.html')
 RG = RegistrationView.as_view(form_class=RegisForm)
 
+USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'inkscape.person.views',
+  url(r'^/?$',                    'view_profile',    name='view_profile'),
+  url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
+)
+add_user_url = USER_URLS.url_patterns.append
+
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',
     url(r'^login/',     'login',                   name='auth_login'),
@@ -33,16 +39,10 @@ urlpatterns = patterns('',
     url(r'^register/closed/$',                  RK,           name='registration_disallowed'),
     url(r'^register/',                          include('registration.auth_urls')),
   ),
-
   url_tree(r'', 'inkscape.person.views',
     url(r'^user/$',                   'my_profile',      name='my_profile'),
     url(r'^user/edit/$',              'edit_profile',    name='edit_profile'),
-
-    url_tree(r'^~(?P<username>[\w\.@-]+)', 'inkscape.person.views',
-      url(r'^/?$',                    'view_profile',    name='view_profile'),
-      url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
-    ),
-
     url(r'^faces/$',                  'view_profiles',   name='faces'),
   ),
+  USER_URLS,
 )

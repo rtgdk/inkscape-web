@@ -873,3 +873,27 @@ div.donationlogo {
 p.pclear {
   clear: both;
 }
+
+ins {
+  color: black;
+  background-color: green;
+}
+del {
+  color: black;
+  background-color: red;
+}
+del a, ins a {
+  color: black;
+}
+div.diff div.page {
+  border: 2px solid #ddd;
+  background-color: #eee;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+div.diff ins,
+div.diff del {
+  border: 2px solid #ddd;
+  padding: 3px;
+  text-decoration: none;
+}

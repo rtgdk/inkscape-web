@@ -30,109 +30,43 @@ from django.core.validators import MaxLengthValidator
 
 from pile.models import null
 
-from .base import render_directly, get_template
+from .base import *
+from .signals import *
 from collections import defaultdict
-
-
-def created_alert(sender, instance, created=False, **kwargs):
-     """Connect this method to the post_save signal and it will
-        create an alert when the sender *creates* a new object."""
-     if not created:
-         return False
-     return edited_alert(sender, instance, created, **kwargs)
-
-def edited_alert(sender, instance, created=False, **kwargs):
-     """Connect this method to the post_save signal and it will
-        create an alert when the sender edits any object."""
-     slug = sender.__name__.lower()
-     config = dict(
-         template="alerts/%s.html" % slug,
-         name = _("Alert for %s") % slug,
-         desc = _("No Description for alert %s") % slug
-     )
-     config.update( getattr(sender, 'alert_config', {}) )
-     creator = getattr(instance, getattr(sender, 'alert_user', 'creator'))
-     if not isinstance(creator, User):
-         raise ValueError("Expected user object as recipient for alert. Found %s" % type(creator).__name__)
-     alert_type = AlertType.objects.get_alert(slug, **config)
-     alert_type.send_to(creator, **{slug: instance})
-     return True
-
-
-MSG_CAT = (
-  ('?', 'Unknown'),
-  ('U', 'User to User'),
-  ('S', 'System to User'),
-  ('A', 'Admin to User'),
-  ('P', 'User to Admin'),
-  ('T', 'System to Translator'),
-)
-
-class AlertManager(Manager):
-    def get_alert(self, slug, template=None, **kwargs):
-        """
-            Will create an alert type if not available yet.
-            If will also create a new AlertType if the previous AlertType is not enabled,
-              this is a way of freezing the previous type and regenerating a new one without
-              distrupting the messages users already have.
-        """
-        if template:
-            (item, created) = self.get_or_create(enabled=True, slug=slug, defaults=kwargs)
-            if created:
-                item.set_template(template)
-            return item
-        try:
-            return self.get(slug=slug)
-        except AlertType.DoesNotExist:
-            return None
-
 
 class AlertType(Model):
     """All Possible messages that users can recieve, acts as a template"""
-    name     = CharField(_("Type Name"),        max_length=64)
-    desc     = CharField(_("Type Description"), max_length=255)
     slug     = CharField(_("URL Slug"),         max_length=32)
-
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 
-    subject  = CharField(_("Subject Template"), max_length=255)
-    body     = TextField(_("Body Template"), validators=[MaxLengthValidator(8192)])
-    created  = DateTimeField(_("Created Date"), default=now)
+    created  = DateTimeField(_("Created Date"), auto_now_add=now)
     
-    category = CharField(_("Type Category"), max_length=1, choices=MSG_CAT, default='?')
+    category = CharField(_("Type Category"), max_length=1, choices=ALERT_CATEGORIES, default='?')
     enabled  = BooleanField(default=False)
-
-    # Useful for email enable
-    email_subject = CharField(_("Email Subject Template"), max_length=255, **null)
-    email_body    = TextField(_("Email Body Template"), validators=[MaxLengthValidator(8192)], **null)
 
     # These get copied into UserAlertSettings for this alert
     default_hide  = BooleanField(default=False)
     default_email = BooleanField(default=False)
 
-    objects = AlertManager()
+    @property
+    def obj(self):
+        """Returns the alert object based on slug"""
+        return SIGNALS[self.slug][1]
 
-    def set_template(self, template):
-        """Update the alert type with a template, you can specify the template
-        body directly or you can specify a template file to be cached in the database."""
+    def send_from(self, alerter, sender, **kwargs):
+         """Take a signal and submit to anyone interested in hearing it"""
+         instance = kwargs['instance']
+         creator = getattr(instance, getattr(sender, 'alert_user', '.'), None)
+         if isinstance(creator, User):
+             self.send_to(creator, **kwargs)
 
-        # Template contains cariage returns
-        if "\n" not in template:
-            # User is setting a template via filename
-            template = get_template(template)
+         group = getattr(instance, getattr(sender, 'alert_group', '.'), None)
+         if isinstance(group, Group):
+             self.send_to(group, **kwargs)
 
-        # The first line of the template is the subject
-        (subject, body) = template.split('\n', 1)
-
-        # Except when it's not, and instead contains the name and description
-        if '||' in subject:
-            (self.name, self.desc) = subject.split('||', 1)
-            (subject, body) = body.split('\n', 1)
-
-        # We save all these updates (between two and four fields)
-        self.subject = subject
-        self.body = body
-        self.save()
+         if not self.obj.private:
+             for sub in self.subscriptions.filter(Q(target__isnull=True) | Q(target=instance.pk)):
+                 self.send_to(sub.user, **kwargs)
 
     def send_to(self, user, auth=None, **kwargs):
         """Creates a new alert for a certain user of this type.
@@ -165,13 +99,17 @@ class AlertType(Model):
             alert = UserAlert(user=user, alert=self)
             alert.save()
             for (key, value) in kwargs.items() or ():
-                UserAlertObject(alert=alert, name=key, target=value).save()
+                if isinstance(value, Model):
+                    UserAlertObject(alert=alert, name=key, target=value).save()
+                else:
+                    UserAlertValue(alert=alert, name=key, target=unicode(value)).save()
             return alert
         return None
 
     def __str__(self):
-        return self.name
+        return self.slug
 
+register_type(AlertType)
 
 class SettingsManager(Manager):
     def get(self, **kwargs):
@@ -221,15 +159,13 @@ class UserAlertManager(Manager):
 
     def types(self):
         counts = defaultdict(int)
-        names = {}
-        # We'd use count and distinct to do this login in the db, but it's flakey
-        for (slug, name, count) in self.new().values('alert')\
-          .annotate(count=Count('alert')).values_list('alert__slug',\
-            'alert__name', 'count').order_by('alert__created'):
+        # We'd use count and distinct to do this login in the db, but flakey
+        for (slug, count) in self.new().values('alert')\
+          .annotate(count=Count('alert')).values_list('alert__slug', 'count')\
+          .order_by('alert__created'):
             counts[slug] += count
-            names[slug] = name # Last is most recent
-        for slug in names.keys():
-            yield (slug, names[slug], counts[slug])
+        for slug in counts.keys():
+            yield (slug, SIGNALS[slug], counts[slug])
 
     def mark_viewed(self):
         return self.get_query_set().filter(viewed__isnull=True).update(viewed=now())
@@ -240,7 +176,7 @@ class UserAlert(Model):
     user    = ForeignKey(User, related_name='alerts')
     alert   = ForeignKey(AlertType, related_name='sent')
 
-    created = DateTimeField(auto_now=True)
+    created = DateTimeField(auto_now_add=True)
     viewed  = DateTimeField(**null)
     deleted = DateTimeField(**null)
 
@@ -265,20 +201,33 @@ class UserAlert(Model):
         return UserAlertSetting.objects.get(user=self.user, alert=self.alert)
 
     def __str__(self):
-        return self.subject
+        try:
+            return self.subject.strip() or "No Subject"
+        except:
+            return "Orphaned Alert"
+
+    @property
+    def data(self):
+        ret = self.objs.as_dict()
+        ret.update(self.values.as_dict())
+        return self.alert.obj.format_data(ret)
 
     @property
     def subject(self):
-        return render_directly( self.alert.subject, self.data.as_dict() )
+        return render_directly( self.alert.obj.subject, self.data )
 
     @property
     def body(self):
-        return render_directly( self.alert.body, self.data.as_dict() )
+        try:
+            body = "{%% include \"%s\" %%}" % self.alert.obj.template
+            return render_directly( body, self.data )
+        except Exception as error:
+            return "Error! %s" % str(error)
 
     def send_email(self):
         if self.user.email and self.config.email:
-            subject = render_directly(self.alert.email_subject, self.data.as_dict())
-            body    = render_directly(self.alert.email_body, self.data.as_dict())
+            subject = render_directly(self.alert.obj.email_subject, self.data)
+            body    = render_directly(self.alert.obj.email_template, self.data)
             return EmailMultiAlternatives(subject, body, None, (self.user.email,))
 
     def save(self, **kwargs):
@@ -299,14 +248,27 @@ class ObjectManager(Manager):
 
 
 class UserAlertObject(Model):
-    alert = ForeignKey(UserAlert, related_name='data')
-    name  = CharField(max_length=32)
+    alert   = ForeignKey(UserAlert, related_name='objs')
+    name    = CharField(max_length=32)
 
-    table  = ForeignKey(ContentType, **null)
-    o_id   = PositiveIntegerField(null=True)
-    target = GenericForeignKey('table', 'o_id')
+    table   = ForeignKey(ContentType, **null)
+    o_id    = PositiveIntegerField(null=True)
+    target  = GenericForeignKey('table', 'o_id')
 
     objects = ObjectManager()
+
+    def __str__(self):
+        return "AlertObject %s=%d" % (self.name, self.o_id)
+
+class UserAlertValue(Model):
+    alert  = ForeignKey(UserAlert, related_name='values')
+    name   = CharField(max_length=32)
+    target = CharField(max_length=255)
+
+    objects = ObjectManager()
+
+    def __str__(self):
+        return "AlertValue %s=%s" % (self.name, self.target)
 
 
 def get_my_alerts():
@@ -327,16 +289,39 @@ def get_my_alerts():
     return property(_inner)
 
 
+class SubscriptionManager(Manager):
+    def get_or_create(self, target=None, **kwargs):
+        """Handle the match between a null target and non-null targets"""
+        deleted = 0
+        if target:
+            # if subscription with no target exists, return that.
+            try:
+                obj = self.get(target__isnull=True, **kwargs)
+            except AlertSubscription.DoesNotExist:
+                return super(SubscriptionManager, self).get_or_create(target=target, **kwargs) + (0,)
+            else:
+                return (obj, False, deleted)
+
+        (obj, created) = super(SubscriptionManager, self).get_or_create(target=target, **kwargs)
+        if created:
+            # replace all other existing subscriptions with this one.
+            to_delete = self.filter(target__isnull=False, **kwargs)
+            # Count required because django's crappy db eats to returned delete count.
+            deleted = to_delete.count()
+            to_delete.delete()
+        return (obj, created, deleted)
+
+
 class AlertSubscription(Model):
     alert  = ForeignKey(AlertType, related_name='subscriptions')
     user   = ForeignKey(User, related_name='alert_subscriptions')
+    target = PositiveIntegerField(_("Object ID"), **null)
 
-    table  = ForeignKey(ContentType, **null)
-    o_id   = PositiveIntegerField(null=True)
-    target = GenericForeignKey('table', 'o_id')
+    objects = SubscriptionManager()
 
     def __str__(self):
-        return "User Subscription"
+        return "%s Subscription to %s" % (str(self.user), str(self.alert))
+
 
 # -------- Start Example App -------- #
 
@@ -367,13 +352,26 @@ class Message(Model):
     def __str__(self):
         return "Message from %s to %s @ %s" % (unicode(self.sender), unicode(self.recipient), str(self.created))
 
-import sys
-def created_message(sender, instance, **kwargs):
-    """Shows overloading of alert signal to process replies as read"""
-    if created_alert(sender, instance, **kwargs):
-        if instance.reply_to:
-            instance.reply_to.alerts.mark_viewed()
 
-signals.post_save.connect(created_message, sender=Message, dispatch_uid="message")
+class MessageAlert(CreatedAlert):
+    """Shows overloading of alert signal to process replies as read"""
+    category = CATEGORY_USER_TO_USER
+    sender   = Message
+    name     = _('Personal Message')
+    desc     = _('Another user has sent you a personal message.')
+
+    subject       = "{{ object.subject }}"
+    email_subject = "Message from User: {{ object.subject }}"
+
+    private       = True
+    default_hide  = False
+    default_email = True
+
+    def call(self, sender, instance, **kwargs):
+        if super(MessageAlert, self).call(sender, instance, **kwargs):
+            if instance.reply_to:
+                instance.reply_to.alerts.mark_viewed()
+
+register_alert('message_received', MessageAlert)
 
 

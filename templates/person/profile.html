@@ -47,6 +47,11 @@
          </div>
      {% endfor %}
      </div>
+   {% else %}
+    <!--<form method="POST" action="{% url "alert.subscribe" "user-gallery" user.pk %}">
+      {% csrf_token %}
+      <input type="submit" value="{% trans "Subscribe" %}"/>
+    </form>-->
    {% endif %}
 </div>
 

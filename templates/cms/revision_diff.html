@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% load i18n pile sekizai_tags %}
+
+{% block title %}{% trans "Revision Diff" %}{% endblock %}
+
+{% block content %}
+
+  <h1>{% trans "Revision Differences" %}</h1>
+
+  <table>
+    <tr><th scope="row">{% trans "Changes By:" %}</th> <td>{{ object.user }}</td></tr>
+    <tr><th scope="row">{% trans "Changed:" %}</th>    <td>{{ object.date_created|timetag }}</td></tr>
+    <tr><th scope="row">{% trans "Date:" %}</th>       <td>{{ object.date_created|date }}</td></tr>
+    <tr><th scope="row">{% trans "Comment:" %}</th>    <td>{{ object.comment }}</td></tr>
+  </table>
+
+  <div class="diff">
+    {{ object.diff.content|safe }}
+  </div>
+
+{% endblock %}

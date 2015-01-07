@@ -13,11 +13,12 @@
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
 
     {% render_block "css" %}
-    {% render_block "js" %}
 
     <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
     <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
+
+    {% render_block "js" %}
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />
@@ -80,9 +81,9 @@
             <li id="topmessages">
               <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
               <div class="topdrop">
-                {% for t in request.user.alerts.types %}
-                  <p><a href="{% url "alerts" t.0 %}?new=True">{{ t.1 }} ({{ t.2 }})</a></p>
-                {% endfor %}
+                {% if request.user.alerts.new %}
+                  <p><a href="{% url "alerts" %}?new=True">{% trans "New Messages" %} ({{ request.user.alerts.new.count }})</a></p>
+                {% endif %}
                 {% if request.user.alerts.all %}
                   <p><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
                 {% endif %}

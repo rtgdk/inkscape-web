@@ -478,6 +478,26 @@ def quota_for_user(user):
 
 User.quota = quota_for_user
 
+# ------------- Alerts ------------ #
+
+from inkscape.alerts.models import *
+
+class ResourceAlert(EditedAlert):
+    name     = _("New Gallery Resource")
+    desc     = _("An alert is sent when the target user submits a resource.")
+    category = CATEGORY_USER_TO_USER
+    sender   = ResourceFile
+
+    subject       = _("New submission: ") + "{{ instance }}"
+    email_subject = _("New submission: ") + "{{ instance }}"
+
+    def call(self, sender, **kwargs):
+        if kwargs['instance'].published:
+            return super(ResourceAlert, self).call(sender, **kwargs)
+
+register_alert('user_gallery', ResourceAlert)
+
+
 # ------------- CMS ------------ #
 
 from cms.models import CMSPlugin
@@ -504,4 +524,6 @@ class CategoryPlugin(CMSPlugin):
     @property
     def render_template(self):
         return "resource/%s.html" % (self.display or 'list')
+
+
 

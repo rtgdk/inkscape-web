@@ -6,6 +6,7 @@ from .models import *
 site.register(AlertType)
 site.register(UserAlert)
 site.register(UserAlertSetting)
+site.register(AlertSubscription)
 
 site.register(Message)
 

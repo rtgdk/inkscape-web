@@ -9,20 +9,14 @@
   {% addtoblock "css" %}
     <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
   {% endaddtoblock %}
+  {% addtoblock "js" %}
+    <script type="text/javascript" src="{{ STATIC_URL }}js/alert.js"></script>
+  {% endaddtoblock %}
 
-  <h1>{% blocktrans %}New Messages{% endblocktrans %} ({{ object_list.count }})</h1>
+
+  <h1>{% if new %}{% trans "Your New Messages" %}{% else %}{% trans "Your Messages" %}{% endif %}</h1>
 
   {% autopaginate object_list 15 as items %}
-
-<script>
-  function reply_message(msg_id) {
-    var f = document.getElementById('form-'+msg_id);
-    f.setAttribute('onsubmit','');
-    f.setAttribute('method','post');
-    document.getElementById('body-'+msg_id).setAttribute('style','');
-    return false;
-  }
-</script>
 
   {% for object in items %}
 
@@ -55,20 +49,6 @@
   {% empty %}
     <h2>{% trans "No messages or alerts to view" %}</h2>
   {% endfor %}
-
-<script>
-  $('.runner').submit(function(){
-     jQuery.ajax({
-        url: $(this).attr("action"),
-        type: 'get',
-        success:function(data)
-        {
-            $('#alert_'+data).remove();
-        }, 
-     });
-    return false;
-  });
-</script>
 
 {% endblock %}
 

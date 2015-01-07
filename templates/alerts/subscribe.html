@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+
+{% block title %}{% trans "Subscribe" %}{% endblock %}
+
+{% block content %}
+
+{% if object %}
+  <h1>{% trans "Subscribe to" %} {{ object }}</h1>
+{% else %}
+  <h1>{% trans "Subscribe to All" %} {{ alert.obj.name }}</h1>
+{% endif %}
+
+ <ul id="messages">
+{% if alert.default_email %}
+  <li class="warning">You will recieve an email alert by default when you subscribe, but these can be switched off in your subscription settings.</li>
+{% endif %}
+  <li class="info">{{ alert.obj.desc }}</li>
+ </ul>
+
+  <form method="post" action=".">
+    {% csrf_token %}
+    <input type="submit" value="{% trans "Subscribe Me" %}"/>
+  </form>
+{% endblock %}

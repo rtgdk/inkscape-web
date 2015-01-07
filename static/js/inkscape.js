@@ -150,3 +150,12 @@ function maxHeight(){
         }
     })
 }
+
+function reply_message(msg_id) {
+    var f = document.getElementById('form-'+msg_id);
+    f.setAttribute('onsubmit','');
+    f.setAttribute('method','post');
+    document.getElementById('body-'+msg_id).setAttribute('style','');
+    return false;
+}
+

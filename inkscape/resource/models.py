@@ -490,6 +490,10 @@ class ResourceAlert(EditedAlert):
 
     subject       = _("New submission: ") + "{{ instance }}"
     email_subject = _("New submission: ") + "{{ instance }}"
+    default_email = False
+
+    # We subscribe to the user of the instance, not the instance.
+    target = 'user'
 
     def call(self, sender, **kwargs):
         if kwargs['instance'].published:

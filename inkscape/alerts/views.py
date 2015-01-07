@@ -65,7 +65,12 @@ def subscribe(request, slug, pk=None):
     if not alerter or alerter.private:
         raise Http404()
 
+    # XXX This logic needs to move into models
     model = alerter.sender
+    if alerter.target:
+        # Always must be a foreignKey field!
+        model = getattr(model, alerter.target).field.rel.to
+
     obj = pk and get_object_or_404(model, pk=pk)
 
     if request.method == 'POST':

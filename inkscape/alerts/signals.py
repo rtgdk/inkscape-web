@@ -19,7 +19,9 @@ Inherit from these classes if you want to create your own alert connections.
 """
 __all__ = ['register_type', 'register_alert', 'BaseAlert', 'EditedAlert', 'CreatedAlert', 'SIGNALS']
 
+from django.db.models import Q
 from django.db.models import signals as django_signals
+from django.contrib.auth.models import User, Group
 from .base import *
 
 import sys
@@ -66,6 +68,13 @@ class BaseAlert(object):
     subject  = "{{ object }}"
     email_subject = "Website Alert: {{ object }}"
 
+    # User specifies which user attribute on the instance alerts are sent
+    alert_user  = '.'
+    alert_group = '.'
+
+    # Target is the attribute on the instance which subscriptions are bound
+    target = None
+
     def __init__(self, slug):
         self.slug = slug
 
@@ -75,8 +84,20 @@ class BaseAlert(object):
     def call(self, sender, **kwargs):
         """Connect this method to the post_save signal and it will
            create an alert when the sender edits any object."""
-        if self.get_type().enabled:
-            return self.get_type().send_from(self, sender, **kwargs)
+        def send_to(recipient, kind=None):
+             if kind is None or isinstance(recipient, kind):
+                 return self.get_type().send_to(recipient, **kwargs)
+
+        instance = kwargs['instance']
+        send_to(getattr(instance, self.alert_user, None), User)
+        send_to(getattr(instance, self.alert_group, None), Group)
+
+        if not self.private:
+            target = self.target and getattr(instance, self.target) or instance
+            q = Q(target__isnull=True) | Q(target=target.pk)
+            for sub in self.get_type().subscriptions.filter(q):
+                send_to(sub.user)
+        # TODO: send_to returns a list of users sent to, but we don't log much here.
 
     def format_data(self, data):
         """Overridable function to format data for the template"""
@@ -108,7 +129,7 @@ class BaseAlert(object):
 class EditedAlert(BaseAlert):
     def call(self, sender, instance, **kwargs):
         if not kwargs.get('created', False):
-            return super(CreatedAlert, self).call(sender, instance=instance, **kwargs)
+            return super(EditedAlert, self).call(sender, instance=instance, **kwargs)
         return False
 
 class CreatedAlert(BaseAlert):

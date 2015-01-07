@@ -48,10 +48,10 @@
      {% endfor %}
      </div>
    {% else %}
-    <!--<form method="POST" action="{% url "alert.subscribe" "user-gallery" user.pk %}">
+    <form method="POST" action="{% url "alert.subscribe" "user_gallery" user.pk %}">
       {% csrf_token %}
       <input type="submit" value="{% trans "Subscribe" %}"/>
-    </form>-->
+    </form>
    {% endif %}
 </div>
 

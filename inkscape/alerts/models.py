@@ -53,21 +53,6 @@ class AlertType(Model):
         """Returns the alert object based on slug"""
         return SIGNALS[self.slug][1]
 
-    def send_from(self, alerter, sender, **kwargs):
-         """Take a signal and submit to anyone interested in hearing it"""
-         instance = kwargs['instance']
-         creator = getattr(instance, getattr(sender, 'alert_user', '.'), None)
-         if isinstance(creator, User):
-             self.send_to(creator, **kwargs)
-
-         group = getattr(instance, getattr(sender, 'alert_group', '.'), None)
-         if isinstance(group, Group):
-             self.send_to(group, **kwargs)
-
-         if not self.obj.private:
-             for sub in self.subscriptions.filter(Q(target__isnull=True) | Q(target=instance.pk)):
-                 self.send_to(sub.user, **kwargs)
-
     def send_to(self, user, auth=None, **kwargs):
         """Creates a new alert for a certain user of this type.
 
@@ -81,6 +66,8 @@ class AlertType(Model):
          Returns new UserAlert object or None if user isn't allowed this alert.
 
         """
+        if not self.enabled:
+            return []
         if isinstance(user, Group):
             users = user.users
         elif isinstance(user, User):
@@ -311,6 +298,9 @@ class SubscriptionManager(Manager):
             to_delete.delete()
         return (obj, created, deleted)
 
+    def is_subscribed(self, target=None):
+        pass # Should return true if is subscribed already to this.
+
 
 class AlertSubscription(Model):
     alert  = ForeignKey(AlertType, related_name='subscriptions')
@@ -336,7 +326,6 @@ class Message(Model):
     body      = TextField(_("Message Body"), validators=[MaxLengthValidator(8192)], **null)
     created   = DateTimeField(default=now)
 
-    alert_user = 'recipient'
     alerts = get_my_alerts()
 
     def get_root(self, children=None):
@@ -355,6 +344,8 @@ class Message(Model):
 
 class MessageAlert(CreatedAlert):
     """Shows overloading of alert signal to process replies as read"""
+    alert_user = 'recipient'
+
     category = CATEGORY_USER_TO_USER
     sender   = Message
     name     = _('Personal Message')

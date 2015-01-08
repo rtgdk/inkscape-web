@@ -95,10 +95,11 @@ class RevisionDiff(Model):
         diffs = []
         for version in revision.version_set.all():
             fields = version.field_dict
+            if not version.previous:
+                continue
+            previous = version.previous.field_dict
             for field in fields:
-                if not version.previous:
-                    return
-                a = clean_text(version.previous.field_dict[field])
+                a = clean_text(previous.get(field, ''))
                 b = clean_text(fields[field])
                 if a == b:
                     # Field is the same for this item.

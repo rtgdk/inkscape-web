@@ -20,7 +20,7 @@
 
   {% for object in settings %}
     <tr {% cycle "odd" "even" %}>
-      <td title="{{ object.alert.desc }}">{{ object.alert.name }}</td>
+      <td title="{{ object.alert.obj.desc }}">{{ object.alert.obj.name }}</td>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>
     </tr>
@@ -35,14 +35,14 @@
 
   {% autopaginate object_list 15 as items %}
   {% for object in items %}
-    <div>{{ object.alert.obj.name }} ({% if object.target %}Item {{ object.target }}{% else %}All{% endif %})
+    <div>{{ object.alert.obj.name }} ({% if object.target %}{{ object.target }}{% else %}All{% endif %})
       <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" object.pk %}'>
         {% csrf_token %}
         <input type='submit' value='{% trans "Unsubscribe" %}'/>
       </form>
     </div>
   {% empty %}
-    <div>{% trans "No alert subscripts" %}</div>
+    <div>{% trans "No alert subscriptions" %}</div>
   {% endfor %}
 
   {% paginate %}

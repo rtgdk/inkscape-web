@@ -35,7 +35,7 @@ from .signals import *
 from collections import defaultdict
 
 class AlertType(Model):
-    """All Possible messages that users can recieve, acts as a template"""
+    """All Possible messages that users can receive, acts as a template"""
     slug     = CharField(_("URL Slug"),         max_length=32)
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 

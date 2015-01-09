@@ -34,6 +34,7 @@ from inkscape.settings import MAX_PREVIEW_SIZE
 
 from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify
+from .signals import post_publish
 from inkscape.settings import STATIC_URL
 
 from uuid import uuid4
@@ -153,8 +154,8 @@ class Resource(Model):
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 
-    created   = DateTimeField(default=now)
-    edited    = DateTimeField(**null)
+    created   = DateTimeField(**null) # Start of copyright, when 'published=True'
+    edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
     published = BooleanField(default=False)
 
     thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
@@ -178,6 +179,11 @@ class Resource(Model):
             delattr(self, '_mime')
             self.media_type = self.find_media_type()
             (self.media_x, self.media_y) = self.find_media_coords()
+
+        if not self.created and self.published:
+            self.created = now()
+            post_publish.send(sender=Resource, instance=self)
+        
         return Model.save(self, *args, **kwargs)
 
     def has_file_changed(self):
@@ -199,7 +205,7 @@ class Resource(Model):
     def years(self):
         if self.created.year != self.edited.year:
             return "%d-%d" % (self.created.year, self.edited.year)
-        return "%d" % self.edited.year
+        return str(self.edited.year)
 
     def is_visible(self):
         return get_user() == self.user or self.published
@@ -486,18 +492,18 @@ class ResourceAlert(EditedAlert):
     name     = _("New Gallery Resource")
     desc     = _("An alert is sent when the target user submits a resource.")
     category = CATEGORY_USER_TO_USER
-    sender   = ResourceFile
+    sender   = Resource
 
     subject       = _("New submission: ") + "{{ instance }}"
     email_subject = _("New submission: ") + "{{ instance }}"
     default_email = False
+    signal        = post_publish
 
     # We subscribe to the user of the instance, not the instance.
     target = 'user'
 
     def call(self, sender, **kwargs):
-        if kwargs['instance'].published:
-            return super(ResourceAlert, self).call(sender, **kwargs)
+        return super(ResourceAlert, self).call(sender, **kwargs)
 
 register_alert('user_gallery', ResourceAlert)
 

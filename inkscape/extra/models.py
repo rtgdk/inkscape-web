@@ -137,8 +137,10 @@ class PagePublishedAlert(BaseAlert):
 
     def call(self, sender, **kwargs):
         from reversion import get_for_object
-        kwargs['revision'] = get_for_object(kwargs['instance'])[0].revision
-        return super(PagePublishedAlert, self).call(sender, **kwargs)
+        objs = get_for_object(kwargs['instance'])
+        if objs:
+            kwargs['revision'] = objs[0].revision
+            return super(PagePublishedAlert, self).call(sender, **kwargs)
 
 register_alert('cms_page_published', PagePublishedAlert)
 

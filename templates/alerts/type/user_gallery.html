@@ -1,0 +1,13 @@
+{% load i18n %}
+<div class="body">
+  <div class="preview">
+    <a href="{{ instance.get_absolute_url }}"><img src="{{ instance.icon }}" alt="{% trans "Preview" %}"></a>
+  </div>
+  <div class="text"><p>{{ instance.desc }}</p></div>
+</div>
+<div class="footer">
+   <div class="status">{{ instance.user }}</div>
+   <div class="status">{{ instance.license }}</div>
+   <div class="status">{{ instance.category }}</div>
+   <div class="index"><a href="{{ instance.get_absolute_url }}">Full View</a></div>
+</div>

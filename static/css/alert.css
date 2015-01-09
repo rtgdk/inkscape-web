@@ -57,8 +57,24 @@ h2 {
 }
 
 .comment .body {
-  padding: 0.5em 6px 0;
+  padding: 0.5em 6px 0.5em 0px;
   min-height: 5em;
+}
+.comment .body div {
+  display: table-cell;
+}
+.comment .text {
+  padding-bottom: 5px;
+  padding-left: 10px;
+  vertical-align: top;
+}
+.comment .body .preview {
+  border-right: 1px solid #ddd;
+  padding: 3px 12px;
+}
+.comment .body .preview img {
+  max-width: 190px;
+  max-height: 190px;
 }
 .comment .activity {
   padding: 0.5em 12px;
@@ -95,10 +111,6 @@ h2 {
   display: block;
   text-align: right;
   color: #d55500;
-}
-
-.comment .text {
-  padding-bottom: 5px;
 }
 
 .comment #duplicate {

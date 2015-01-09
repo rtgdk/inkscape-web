@@ -10,9 +10,11 @@
   <h1>{% trans "Your Alert Settings" %}</h1>
 
   <form method="POST" action=".">
+  {% csrf_token %}
 
   <table class="list">
     <tr>
+     <th>&nbsp;</th>
      <th scope="col">{% trans "Alert Type" %}</th>
      <th scope="col">{% trans "Hide Any Alerts" %}</th>
      <th scope="col">{% trans "Send Email Too" %}</th>
@@ -20,6 +22,11 @@
 
   {% for object in settings %}
     <tr {% cycle "odd" "even" %}>
+      {% if not object.pk %}
+        <td title="{% trans "Currently set to default values for this type of alert." %}">*</td>
+      {% else %}
+        <td>&nbsp;</td>
+      {% endif %}
       <td title="{{ object.alert.obj.desc }}">{{ object.alert.obj.name }}</td>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>

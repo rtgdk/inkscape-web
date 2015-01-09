@@ -101,6 +101,21 @@ class SettingsList(CategoryListView):
     def get_queryset(self, **kwargs):
         return super(SettingsList, self).get_queryset(**kwargs).filter(user=self.request.user)
 
+    def post(self, *args, **kwargs):
+        data = self.request.POST
+        # This proceedure is because settings are not saved unless
+        # the user has changed something from the default.
+        for item in UserAlertSetting.objects.get_all(self.request.user):
+            changed = False
+            for setting in ('email', 'hide'):
+                value = bool(data.get("setting_%d_%s" % (item.alert.pk, setting), False))
+                if getattr(item, setting) != value:
+                    setattr(item, setting, value)
+                    changed = True
+            if changed:
+                item.save()
+        return redirect('alert.settings')
+
     def get_context_data(self, **data):
         data = super(SettingsList, self).get_context_data(**data)
         data['settings'] = UserAlertSetting.objects.get_all(self.request.user)

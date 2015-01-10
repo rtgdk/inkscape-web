@@ -4,13 +4,45 @@
 {% block title %}{% trans "Resource List" %}{% endblock %}
 
 {% block content %}
+  <h1>Resource Items</h1>
 
- <h1>Resource Items</h1>
+  <div>
+    <div id="left-column">
+      {% with object_list as items %}
+        {% with 20 as limit %}
+          {% include "resource/list.html" %}
+        {% endwith %}
+      {% endwith %}
+    </div>
+    <div id="right-sidebar">
+      <!--
+      {% if object_list or query %}
+        <form class="search" method="get" action="{{ url }}">
+          <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search" %}"/>
+          {% if query %}
+            <a href="{{ clear_url }}"><img title="{% trans "Clear Search" %}" src="{{ STATIC_URL }}images/clear.svg"/></a>
+          {% endif %}
+        </form>
+      {% endif %}
+      -->
 
-{% with object_list as items %}
-  {% with 20 as limit %}
-    {% include "resource/list.html" %}
-  {% endwith %}
-{% endwith %}
+      {% for category in categories %}
+       <div id="sidecategory">
+        <h2>{{ category.name }}</h2>
+        <ul>
+          {% for item in category %}
+            {% if item.count %}
+              {% if category == item %}
+                <li class="active"><a>{{ item }}<a/></li>
+              {% else %}
+                <li><a href="{{ item.url }}">{{ item }}</a><span>{{ item.count }}</span></li>
+              {% endif %}
+            {% endif %}
+          {% endfor %}
+        </ul>
+       </div>
+      {% endfor %}
+    </div>
+  </div>
 
 {% endblock %}

@@ -19,6 +19,9 @@
 Views for resource system, adding items, entering new categories for widgets etc
 """
 
+import sys
+import os
+
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -32,8 +35,6 @@ from pile.views import breadcrumbs
 from .models import *
 from .forms import *
 
-import os
-
 @login_required
 def delete_gallery(request, gallery_id):
     item = get_object_or_404(Gallery, id=gallery_id, user=request.user)
@@ -41,7 +42,7 @@ def delete_gallery(request, gallery_id):
         if 'confirm' in request.POST:
             item.delete()
         return redirect('my_resources')
-    return view_user(request, request.user.id, todelete=item)
+    return view_user(request, request.user.username, todelete=item)
 
 @login_required
 def edit_gallery(request, gallery_id=None):
@@ -160,40 +161,8 @@ def publish_resource(request, item_id):
 
 @login_required
 def my_resources(request):
-    return view_user(request, request.user.id)
+    return view_user(request, request.user.username)
 
-
-def view_list(request, **kwargs):
-    c = {}
-    items = Resource.objects.all()
-    if request.GET.get('pub', None) != 'All':
-        items = items.filter(published=True)
-    for i in ('category','user'):
-        if kwargs.has_key(i+'_id'):
-            cls = globals()[i.title()]
-            try:
-                t = cls.objects.get(pk=kwargs[i+'_id'])
-                items = items.filter(**{i:t})
-                c['o_'+i] = t
-            except cls.DoesNotExist:
-                items = []
-                break
-    c['breadcrumbs'] = breadcrumbs(*c.values())
-    c['items'] = items
-    # I hate this hack, name should be available in the template, but it's not!
-    c['name'] = c.has_key('o_user') and c['o_user'].name()
-    c['limit'] = 15
-    return render_to_response('resource/category.html', c,
-             context_instance=RequestContext(request))
-
-
-def gallery_icon(request, gallery_id):
-    """This attempted to make exciting dynamic icons but doesn't work with Firefox"""
-    gallery = get_object_or_404(Gallery, id=gallery_id)
-    c = dict(image=gallery.items.all().order_by('created')[:3])
-    return render_to_response('resource/preview/three.svg', c,
-      context_instance=RequestContext(request),
-      content_type="image/svg+xml")
 
 @login_required
 def view_trash(request):
@@ -206,6 +175,7 @@ def view_trash(request):
     }
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
+
 
 def view_gallery(request, gallery_id):
     gallery = get_object_or_404(Gallery, id=gallery_id)
@@ -226,8 +196,8 @@ def view_gallery(request, gallery_id):
              context_instance=RequestContext(request))
 
 
-def view_user(request, user_id):
-    user = get_object_or_404(User, pk=user_id)
+def view_user(request, username, todelete=None):
+    user = get_object_or_404(User, username=username)
     # Show items which are published, OR are the same user as the requester
     filters = {}
     c = {
@@ -236,6 +206,7 @@ def view_user(request, user_id):
       'items': user.galleries.for_user(request.user),
       'breadcrumbs': breadcrumbs(user, "Galleries"),
       'limit'      : 15 - (user == request.user),
+      'todelete'   : todelete,
     }
     
     return render_to_response('resource/user.html', c,
@@ -362,8 +333,15 @@ class MirrorAdd(CreateView):
 class GalleryList(CategoryListView):
     model = Resource
     cats = (
-#      ('media_type', _("Media Type")),
+      #('media_type', _("Media Type")),
       ('category', _("Media Category")),
     )
 
+    def get_queryset(self, **kwargs):
+        qs = super(GalleryList, self).get_queryset(**kwargs)
+        order_by = self.get_value('order')
+        try:
+            return qs.order_by(order_by)
+        except:
+            return qs
 

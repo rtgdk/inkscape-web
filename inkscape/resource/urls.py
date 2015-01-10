@@ -24,6 +24,14 @@ from .views import *
 def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
+from inkscape.person.urls import add_user_url
+
+add_user_url(
+  # Example message system
+  url(r'^/gallery/$', view_user, name='user_resources'),
+  #url(r'^/gallery/$', view_list, name="user_category")
+  #url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
+)
 
 urlpatterns = patterns('',
   url(r'^p(\d+)/',        view_resource,    name="pasted_item"),
@@ -39,6 +47,7 @@ urlpatterns = patterns('',
 
   url_tree(r'^gallery/',
     url(r'^$',            GalleryList(),    name='galleries'),
+    url(r'^(?P<category>[\w_]+)/$', GalleryList(),    name='galleries'),
     url(r'^me/$',         my_resources,     name='my_resources'),
     url(r'^trash/$',      view_trash,       name='trash'),
     url(r'^new/$',        edit_gallery,     name="new_gallery"),
@@ -50,12 +59,6 @@ urlpatterns = patterns('',
       url(r'^edit/$',     edit_gallery,     name='edit_gallery'),
       url(r'^add/$',      add_to_gallery,   name='add_to_gallery'),
       url(r'^new/$',      create_resource,  name='new_resource'),
-      url(r'^icon/$',     gallery_icon,     name="gallery_icon"),
-    ),
-
-    url_tree(r'^c/(?P<category_id>\d+)/',
-      url(r'^$',                  view_list, name='resource_category'),
-      url(r'^(?P<user_id>\d+)/$', view_list, name='user_category'),
     ),
 
     url_tree(r'^item/(?P<item_id>\d+)/',
@@ -69,8 +72,6 @@ urlpatterns = patterns('',
       url(r'^(?P<like_id>[\+\-])$', like_resource, name='like'),
     ),
 
-    url(r'^user/(?P<user_id>\d+)/$',                          view_user, name='user_resources'),
-    url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
   ),
 )
 

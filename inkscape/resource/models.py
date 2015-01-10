@@ -18,12 +18,14 @@
 Models for resource system, provides license, categories and resource downloads.
 """
 
+import sys
 import os
 
 from django.db.models import *
+from django.utils.text import slugify
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import User, Group
-from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 from django.core.files.images import get_image_dimensions
 from django.core.validators import MaxLengthValidator
@@ -100,16 +102,17 @@ class Category(Model):
 
     objects  = VisibleManager()
 
-    def __unicode__(self):
-        return self.name
+    def __str__(self):
+        return str(self.name)
 
     @property
     def value(self):
-        return self.pk
+        return slugify(self.name)
 
     def get_absolute_url(self):
         return reverse('resource_category', args=[str(self.id)])
 
+    
 
 class Tag(Model):
     name     = CharField(max_length=16)
@@ -244,8 +247,11 @@ class Resource(Model):
 
     def link_from(self):
         """Returns the domain name or useful name if known for link"""
-        domain = '.'.join(self.link.split("/")[2].split('.')[-2:])
-        return DOMAINS.get(domain, domain)
+        try:
+            domain = '.'.join(self.link.split("/")[2].split('.')[-2:])
+            return DOMAINS.get(domain, domain)
+        except Exception:
+            return 'unknown'
 
     def icon(self):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""

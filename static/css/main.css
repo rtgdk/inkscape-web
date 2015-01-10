@@ -711,6 +711,57 @@ hr {
   width: 100%;
 }
 
+#sidecategory ul {
+  list-style: none;
+  padding: 0;
+  margin-bottom: 12px;
+}
+
+#sidecategory li {
+  padding: 2px 4px 2px 15px;
+  margin-bottom: 1px;
+  border-radius: 11px;
+}
+#sidecategory li span {
+  background-color: #3a95c4;
+  color: white;
+  float: right;
+  border-radius: 11px;
+  display: inline-block;
+  padding: 0px 8px 0px 8px;
+}
+
+#sidecategory li a {
+  text-decoration: none;
+  color: #798488;
+}
+
+#sidecategory li.active,
+#sidecategory li.active:hover {
+  background-color: #e7e9ea;
+}
+#sidecategory li:hover {
+  background-color: #f4f5f7;
+}
+#sidecategory li.active span {
+  background-color: white;
+  color: #3f4547;
+}
+
+#sidecategory li.active a {
+  text-shadow: 0 1px 0 #ffffff;
+  color: #3f4547;
+}
+#sidecategory li:hover a {
+  color: #3f4547;
+}
+#sidecategory input {
+  width: 100%;
+  border-radius: 11px;
+  padding-left: 8px;
+  margin-bottom: 12px;
+}
+
 ol.checklist > li.done {
     font-weight: bold;
 }

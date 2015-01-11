@@ -53,3 +53,50 @@ span.firstterm
 {
 	font-style: italic;
 }
+.keys {
+    text-align: right;
+    line-height: 1.5em;
+    width: 45%;
+    padding-top: 2px;
+}
+
+.shortcut {
+    font-weight: bold;
+}
+
+.keypad {
+    background-color: #eeeee6;
+    padding: 1px 5px;
+    border: 1px solid #999999;
+    margin: 0 -2px;
+    -moz-border-radius: 0.3em;
+    -webkit-border-radius: 0.3em;
+    border-radius: 0.3em;
+}
+
+.plussign {
+  margin: 0 2px;
+}
+
+.action {
+    line-height: 1.5em;
+    padding-left: 10px;
+}
+
+.note {
+    padding-left: 80px;
+    padding-right: 40px;
+    width: 100%;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.note span {
+    display: block;
+    font-size: 70%;
+    font-family: sans-serif;
+    color: #333333;
+    border-left: 1px solid #999999;
+    padding-left: 5px;
+}
+

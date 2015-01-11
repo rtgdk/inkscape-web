@@ -15,6 +15,8 @@
 
       {% if item.mime.is_image %}
         <div class="tog" id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
+      {% elif item.mime.is_text %}
+        <div class="tog" id="view"><a href="{% url "view_resource" item.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ item.viewed }}</p></div>
       {% endif %}
       {% if item.download %}
         {% if not item.mime.is_image or not item.license.nd %}

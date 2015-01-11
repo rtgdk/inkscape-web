@@ -239,6 +239,11 @@ def down_resource(request, item_id, vt='d'):
     if vt == 'v':
         item.set_viewed(request.session)
         item.save()
+        if item.mime().is_text():
+            return render_to_response('resource/view_text.html', {
+              'breadcrumbs': breadcrumbs(item.user, item.gallery, item, 'Full Text View'),
+              'item': item,
+            }, context_instance=RequestContext(request))
         return redirect(item.download.url)
 
     # Otherwise the user intends to download the file and we record it as such

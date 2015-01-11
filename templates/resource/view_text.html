@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+
+{% load i18n comments extras %}
+
+{% block content %}
+
+ <h1 id='item-title'>{{ item }}</h1>
+
+ <div class="item{% if form %} edit{% endif %}">
+   {% if item.is_file and item.mime.is_text %}
+     <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
+   {% endif %}
+ </div>
+{% endblock %}

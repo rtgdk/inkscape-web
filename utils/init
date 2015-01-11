@@ -3,6 +3,11 @@ set -e
 
 mkdir -p data/media
 
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  echo "MacOSX is not supported for this website system. Please install VirtualBox or contact the project leader for details."
+  exit 1
+fi
+
 command -v virtualenv &> /dev/null || {
   command -v apt-get &> /dev/null || {
     echo "I require pythonenv, but it is not installed. Aborting."
@@ -23,6 +28,8 @@ MANAGE="./utils/manage"
 
 # Create tables, migrations etc
 ./utils/update
+# Adds any extra moderator tables the first syncdb missed
+./utils/manage syncdb
 
 $MANAGE loaddata $PWD/utils/datums/auth.json
 echo ""

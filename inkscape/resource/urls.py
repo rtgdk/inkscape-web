@@ -27,10 +27,14 @@ def url_tree(regex, *urls):
 from inkscape.person.urls import add_user_url
 
 add_user_url(
-  # Example message system
-  url(r'^/gallery/$', view_user, name='user_resources'),
-  #url(r'^/gallery/$', view_list, name="user_category")
-  #url(r'^user/(?P<user_id>\d+)/flat/$',                     view_list, name='flat_resources'),
+  # Add to the username user profile
+  url_tree(r'^/gallery/',
+    url(r'^$',                      GalleryList(), name='resources'),
+    url(r'^(?P<category>[\w_]+)/$', GalleryList(), name='resources'),
+  ),
+)
+add_user_url(
+  url(r'^/galleries/$', view_galleries, name='galleries'),
 )
 
 urlpatterns = patterns('',
@@ -46,9 +50,8 @@ urlpatterns = patterns('',
   ),
 
   url_tree(r'^gallery/',
-    url(r'^$',            GalleryList(),    name='galleries'),
-    url(r'^(?P<category>[\w_]+)/$', GalleryList(),    name='galleries'),
-    url(r'^me/$',         my_resources,     name='my_resources'),
+    url(r'^$',                      GalleryList(), name='resources'),
+    url(r'^(?P<category>[\w_]+)/$', GalleryList(), name='resources'),
     url(r'^trash/$',      view_trash,       name='trash'),
     url(r'^new/$',        edit_gallery,     name="new_gallery"),
     url(r'^paste/$',      paste_in,         name='pastebin'),

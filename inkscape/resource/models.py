@@ -164,8 +164,9 @@ class Resource(Model):
     thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
 
     link      = URLField(_('External Link'), **null)
-    viewed    = IntegerField(default=0)
-    downed    = IntegerField(_('Downloaded'), default=0)
+    liked     = PositiveIntegerField(default=0)
+    viewed    = PositiveIntegerField(default=0)
+    downed    = PositiveIntegerField(_('Downloaded'), default=0)
 
     media_type = CharField(_('File Type'), max_length=64, **null)
     media_x    = IntegerField(**null)
@@ -209,6 +210,10 @@ class Resource(Model):
         if self.created.year != self.edited.year:
             return "%d-%d" % (self.created.year, self.edited.year)
         return str(self.edited.year)
+
+    def set_viewed(self, session):
+        (view, is_new) = self.views.get_or_create(session=session.session_key)
+        return is_new
 
     def is_visible(self):
         return get_user() == self.user or self.published
@@ -446,11 +451,8 @@ class Gallery(Model):
 
 
 class VoteManager(Manager):
-    def likes(self):
-        return self.get_query_set().filter(vote=True)
-
-    def dislikes(self):
-        return self.get_query_set().filter(vote=False)
+    def count(self):
+        return self.get_query_set().count()
 
     def for_user(self, user):
         return self.get_query_set().filter(Q(voter=user.id))
@@ -464,16 +466,26 @@ class Vote(Model):
     """Vote for a resource in some way"""
     resource = ForeignKey(Resource, related_name='votes')
     voter    = ForeignKey(User, related_name='favorites')
-    vote     = BooleanField(_('Vote'), default=True)
 
     objects = VoteManager()
     
-    def __str__(self):
-        return "%s -> %s -> %s " % (str(self.voter), self.votetype, str(self.resource))
+    def save(self, **kwargs):
+        ret = super(Vote, self).save(**kwargs)
+        self.resource.liked = self.resource.votes.count()
+        self.resource.save()
+        return ret
 
-    @property
-    def votetype(self):
-        return self.vote and "Likes" or "Dislikes"
+
+class Views(Model):
+    """Record the view of an item"""
+    resource = ForeignKey(Resource, related_name='views')
+    session  = CharField(max_length=40)
+
+    def save(self, **kwargs):
+        ret = super(Views, self).save(**kwargs)
+        self.resource.viewed = self.resource.views.count()
+        self.resource.save()
+        return ret
 
 
 class Quota(Model):

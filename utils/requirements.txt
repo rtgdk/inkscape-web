@@ -37,7 +37,7 @@ django-recaptcha==1.0
 django-split-json-widget==0.2
 django-user-sessions==1.0.0
 django-sendfile==0.3.6
-django-pile==0.5.7
+django-pile==0.5.9
 django-contrib-comments==1.5
 #djangocms-rosetta==0.8.1
 

@@ -95,7 +95,7 @@
         {% if object.target.license %}
           <dt>{% trans "Licence" %}</dt><dd>{{ object.target.license.code }}</dd>
         {% endif %}
-        <dt>{% trans "Favorited" %}</dt><dd>{{ object.target.votes.likes.count }}</dd>
+        <dt>{% trans "Favorited" %}</dt><dd>{{ object.target.votes.count }}</dd>
         <dt>{% trans "Downloaded" %}</dt><dd> {{ object.target.downed }}</dd>
         <dt>{% trans "Viewed" %}</dt><dd> {{ object.target.viewed }}</dd>      
         <dt>{% trans "Comments" %}</dt><dd> {% get_comment_count for object.target as comment_count %}{{comment_count}}</dd>

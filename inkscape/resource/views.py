@@ -41,7 +41,7 @@ def delete_gallery(request, gallery_id):
     if request.method == 'POST':
         if 'confirm' in request.POST:
             item.delete()
-        return redirect('my_resources')
+        return redirect('profile')
     return view_user(request, request.user.username, todelete=item)
 
 @login_required
@@ -159,10 +159,6 @@ def publish_resource(request, item_id):
     item.save()
     return redirect("gallery", item.gallery.id)
 
-@login_required
-def my_resources(request):
-    return view_user(request, request.user.username)
-
 
 @login_required
 def view_trash(request):
@@ -196,23 +192,6 @@ def view_gallery(request, gallery_id):
              context_instance=RequestContext(request))
 
 
-def view_user(request, username, todelete=None):
-    user = get_object_or_404(User, username=username)
-    # Show items which are published, OR are the same user as the requester
-    filters = {}
-    c = {
-      'user': user,
-      'me': user == request.user,
-      'items': user.galleries.for_user(request.user),
-      'breadcrumbs': breadcrumbs(user, "Galleries"),
-      'limit'      : 15 - (user == request.user),
-      'todelete'   : todelete,
-    }
-    
-    return render_to_response('resource/user.html', c,
-        context_instance=RequestContext(request))
-
-
 def view_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
     if not item.is_visible():
@@ -221,15 +200,10 @@ def view_resource(request, item_id):
     if item.is_new:
         return redirect("edit_resource", item_id)
 
-    item.viewed += 1
-    item.save()
-    vote = item.votes.for_user(request.user)
-    if not len(vote):
-        vote = (None,)
-
+    item.set_viewed(request.session)
     c = {
       'item': item,
-      'vote': vote[0],
+      'vote': item.votes.for_user(request.user).first(),
       'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
     }
     return render_to_response('resource/view.html', c,
@@ -242,11 +216,8 @@ def like_resource(request, item_id, like_id):
     if item.user.pk == request.user.pk:
         raise Http404
     (like, is_new) = item.votes.get_or_create(voter=request.user)
-    if not is_new and like_id == '-':
+    if like_id == '-':
         like.delete()
-    elif like_id == '+' and item.user.pk != request.user.pk:
-        like.vote = True
-        like.save()
     return redirect("resource", item_id)
     
 def down_readme(request, item_id):
@@ -266,7 +237,7 @@ def down_resource(request, item_id, vt='d'):
     # which is technically a download, but we count it as a view and try and let
     # the browser deal with showing the file.
     if vt == 'v':
-        item.viewed += 1
+        item.set_viewed(request.session)
         item.save()
         return redirect(item.download.url)
 
@@ -312,6 +283,25 @@ def mirror_resources(request, uuid=None):
     return render_to_response('resource/mirror.html', c,
         context_instance=RequestContext(request))
 
+def view_galleries(request, username=None):
+    if username:
+        user = get_object_or_404(User, username=username)
+    else:
+        user = request.user
+    # Show items which are published, OR are the same user as the requester
+    filters = {}
+    c = {
+      'user': user,
+      'me': user == request.user,
+      'items': user.galleries.for_user(request.user),
+      'breadcrumbs': breadcrumbs(user, "Galleries"),
+      'limit'      : 15 - (user == request.user),
+      # XXX 'todelete'   : todelete,
+    }
+    
+    return render_to_response('resource/user.html', c,
+        context_instance=RequestContext(request))
+
 
 def mirror_resource(request, uuid, filename):
     mirror = get_object_or_404(ResourceMirror, uuid=uuid)
@@ -332,16 +322,19 @@ class MirrorAdd(CreateView):
 
 class GalleryList(CategoryListView):
     model = Resource
+    opts = (
+      ('username', 'user__username'),
+    )
     cats = (
       #('media_type', _("Media Type")),
       ('category', _("Media Category")),
     )
 
-    def get_queryset(self, **kwargs):
-        qs = super(GalleryList, self).get_queryset(**kwargs)
-        order_by = self.get_value('order')
-        try:
-            return qs.order_by(order_by)
-        except:
-            return qs
+    orders = (
+      #('-voted', _('Most Popular')),
+      ('-viewed', _('Most Views')),
+      ('-downed', _('Most Downloaded')),
+      ('-edited', _('Last Updated')),
+    )
+
 

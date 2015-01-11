@@ -26,8 +26,22 @@
       {% endif %}
       -->
 
+     <div id="sidecategory">
+      {% if username %}
+      <h2>For User</h2>
+      <ul><li><a href="{{ username.get_absolute_url }}">{{ username }}</a></li></ul>
+      {% endif %}
+      <h2>Order By</h2>
+      <ul>
+        {% for order in orders %}
+            {% if order.active %}
+              <li class="active"><a href="{{ order.url }}">{{ order.name }}</a><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></li>
+            {% else %}
+              <li><a href="{{ order.url }}">{{ order.name }}</a></li>
+            {% endif %}
+        {% endfor %}
+      </ul>
       {% for category in categories %}
-       <div id="sidecategory">
         <h2>{{ category.name }}</h2>
         <ul>
           {% for item in category %}
@@ -40,8 +54,8 @@
             {% endif %}
           {% endfor %}
         </ul>
-       </div>
       {% endfor %}
+     </div>
     </div>
   </div>
 

@@ -54,6 +54,9 @@
   margin: 23px 0px;
   width: 130px;
 }
+.pagination {
+  margin-bottom: 20px;
+}
 .pagination .page {
   display: inline-block;
   font-size: 22px;

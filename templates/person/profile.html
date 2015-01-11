@@ -47,15 +47,19 @@
          </div>
      {% endfor %}
      </div>
-   {% else %}
-    <form method="POST" action="{% url "alert.subscribe" "user_gallery" user.pk %}">
-      {% csrf_token %}
-      <input type="submit" value="{% trans "Subscribe" %}"/>
-    </form>
    {% endif %}
 </div>
 
-<h1>InkSpaces - {% trans "A Place to Upload" %}</h1>
+<h1>InkSpaces - {% trans "A Place to Upload" %}
+
+{% if not me %}
+    <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" user.pk %}">
+      {% csrf_token %}
+      <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
+    </form>
+{% endif %}
+</h1>
+
 {% include "resource/galleries.html" %}
 
 {% if user.favorites.all %}

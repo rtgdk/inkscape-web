@@ -9,10 +9,10 @@
 
   <h1>{% trans "Your Alert Settings" %}</h1>
 
-  <form method="POST" action=".">
+  <form class="settingsform" method="POST" action=".">
   {% csrf_token %}
 
-  <table class="list">
+  <table class="settingslist">
     <tr>
      <th>&nbsp;</th>
      <th scope="col">{% trans "Alert Type" %}</th>
@@ -21,7 +21,7 @@
     </tr>
 
   {% for object in settings %}
-    <tr {% cycle "odd" "even" %}>
+    <tr class="{% cycle "odd" "even" %}">
       {% if not object.pk %}
         <td title="{% trans "Currently set to default values for this type of alert." %}">*</td>
       {% else %}

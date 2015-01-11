@@ -893,6 +893,67 @@ a.roundel img {
   font-weight: bold;
 }
 
+/* style for subscription buttons */
+
+form.subsform {
+  display:inline;
+}
+
+input[type=submit].subscribe {
+    background-color: rgba(255, 255, 255, 0);
+    background-image: url("../images/icons/subscribe.svg");
+    repeat: no-repeat;
+    border: 0;
+    vertical-align: middle;
+    height: 21px;
+    width: 30px;
+    background-position: 0px -42px;
+}
+
+input[type=submit].subscribe:hover {
+    background-position: 0px 0px;
+}
+    
+/* style for tables containing settings with checkboxes */
+form.settingsform {
+  display: inline-block;
+  text-align: center;
+}
+
+table.settingslist {
+  border-collapse: collapse;
+  margin: 20px 0 40px 0;
+  border-radius: 6px 6px 0 0;
+}
+
+table.settingslist td, table.settingslist th {
+  padding: 8px 12px;
+}
+
+table.settingslist th {
+  background-color: #dddddd;
+}
+
+table.settingslist tr.odd {
+  background-color: #f9f9f9;
+}
+
+table.settingslist tr.even {
+  background-color: #eeeeee;
+}
+
+table.settingslist th:first-child {
+  border-radius: 6px 0 0 0;
+}
+
+table.settingslist th:last-child {
+  border-radius:0 6px 0 0;
+}
+
+table.settingslist td:nth-child(2) {
+  text-align: left;
+}
+
 /* style for contents on HTTP error pages */
 div.errtext { 
   max-width: 400px;

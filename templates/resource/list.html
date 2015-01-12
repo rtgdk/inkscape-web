@@ -19,10 +19,20 @@
   </div>
   {% endif %}
  {% endif %}
- {% autopaginate items limit as resources %}
- {% for item in resources %}
-   {% include "resource/list-item.html" %}
- {% endfor %}
+ {% if items %}
+   {% autopaginate items limit as resources %}
+   {% if query %}
+     {% for result in resources %}
+       {% with result.object as item %}
+         {% include "resource/list-item.html" %}
+       {% endwith %}
+     {% endfor %}
+   {% else %}
+     {% for item in resources %}
+       {% include "resource/list-item.html" %}
+     {% endfor %}
+   {% endif %}
+ {% endif %}
 </div>
 
 {% paginate %}

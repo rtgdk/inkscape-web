@@ -13,16 +13,14 @@
       {% endwith %}
     </div>
     <div id="right-sidebar">
-      <!--
       {% if object_list or query %}
         <form class="search" method="get" action="{{ url }}">
-          <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search" %}"/>
+          <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search for Resources" %}"/>
           {% if query %}
-            <a href="{{ clear_url }}"><img title="{% trans "Clear Search" %}" src="{{ STATIC_URL }}images/clear.svg"/></a>
+            <a href="{{ clear_url }}"><img title="{% trans "Clear Search" %}" src="{{ STATIC_URL }}images/clear-search.svg"/></a>
           {% endif %}
         </form>
       {% endif %}
-      -->
 
      <div id="sidecategory">
       {% if username %}
@@ -43,7 +41,7 @@
         <h2>{{ category.name }}</h2>
         <ul>
           {% for item in category %}
-            {% if item.count %}
+            {% if item and item.count %}
               {% if category == item %}
                 <li class="active"><a>{{ item }}<a/></li>
               {% else %}

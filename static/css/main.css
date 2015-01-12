@@ -679,6 +679,19 @@ hr {
   width: 200px;
   padding: 0 0 20px 20px;
 }
+#right-sidebar .search input {
+  width: 200px;
+  padding: 3px;
+} 
+#right-sidebar .search a {
+  position: relative;
+  float: right;
+  top: -24px;
+  left: 5px;
+}
+#right-sidebar .search a img {
+  width: 15px;
+}
 #right-sidebar th{
   font-size:14px;
   font-weight:normal;

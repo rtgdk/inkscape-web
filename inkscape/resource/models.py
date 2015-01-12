@@ -536,7 +536,7 @@ DISPLAYS = (
 )
 
 class GalleryPlugin(CMSPlugin):
-    limit    = PositiveIntegerField(_('Number of items'))
+    limit    = PositiveIntegerField(_('Number of items per page'))
     source   = ForeignKey(Gallery)
     display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
 
@@ -545,7 +545,7 @@ class GalleryPlugin(CMSPlugin):
         return "resource/%s.html" % (self.display or 'list')
 
 class CategoryPlugin(CMSPlugin):
-    limit    = PositiveIntegerField(_('Number of items'))
+    limit    = PositiveIntegerField(_('Number of items per page'))
     source   = ForeignKey(Category)
     display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
 

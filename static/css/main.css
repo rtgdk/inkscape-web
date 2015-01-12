@@ -927,43 +927,44 @@ input[type=submit].subscribe:hover {
     background-position: 0px 0px;
 }
     
-/* style for tables containing settings with checkboxes */
+/* style for tables with alternating rows */
 form.settingsform {
   display: inline-block;
   text-align: center;
 }
 
-table.settingslist {
+table.alternating {
   border-collapse: collapse;
   margin: 20px 0 40px 0;
   border-radius: 6px 6px 0 0;
+  text-align: center;
 }
 
-table.settingslist td, table.settingslist th {
+table.alternating td, table.alternating th {
   padding: 8px 12px;
 }
 
-table.settingslist th {
+table.alternating th {
   background-color: #dddddd;
 }
 
-table.settingslist tr.odd {
+table.alternating tr.odd {
   background-color: #f9f9f9;
 }
 
-table.settingslist tr.even {
+table.alternating tr.even {
   background-color: #eeeeee;
 }
 
-table.settingslist th:first-child {
+table.alternating th:first-child {
   border-radius: 6px 0 0 0;
 }
 
-table.settingslist th:last-child {
+table.alternating th:last-child {
   border-radius:0 6px 0 0;
 }
 
-table.settingslist td:nth-child(2) {
+table.alternating td.left-aligned {
   text-align: left;
 }
 

@@ -1,7 +1,8 @@
 {% extends "base.html" %}
 
 {% load sekizai_tags %}
-{% load i18n pagination_tags pile %}
+{% load i18n pagination_tags pile cms_tags %}
+
 
 {% block title %}{% trans "Alert Settings" %}{% endblock %} 
 
@@ -9,10 +10,11 @@
 
   <h1>{% trans "Your Alert Settings" %}</h1>
 
+  <h2>{% trans "General" %}</h2>
   <form class="settingsform" method="POST" action=".">
   {% csrf_token %}
 
-  <table class="settingslist">
+  <table class="alternating">
     <tr>
      <th>&nbsp;</th>
      <th scope="col">{% trans "Alert Type" %}</th>
@@ -27,7 +29,7 @@
       {% else %}
         <td>&nbsp;</td>
       {% endif %}
-      <td title="{{ object.alert.obj.desc }}">{{ object.alert.obj.name }}</td>
+      <td class="left-aligned" title="{{ object.alert.obj.desc }}">{{ object.alert.obj.name }}</td>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>
     </tr>
@@ -39,18 +41,29 @@
   </form>
 
   <h2>{% trans "Subscriptions" %}</h2>
-
   {% autopaginate object_list 15 as items %}
+  
+  <table class="alternating">
+    <tr>
+     <th scope="col">{% trans "Alert" %}</th>
+     <th scope="col">{% trans "View on Site" %}</th>
+     <th scope="col">{% trans "Action" %}</th>
+    </tr>
   {% for object in items %}
-    <div>{{ object.alert.obj.name }} ({% if object.target %}{{ object.target }}{% else %}All{% endif %})
-      <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" object.pk %}'>
+    <tr class="{% cycle "odd" "even" %}">
+      <td class="left-aligned">{{ object.alert.obj.name }} ({% if object.target %}{% trans "ID" %} {{object.target}}{% else %}{% trans "All" %}{% endif %})</td>
+      <td>{% if object.target %}<a title="{% page_url object.target %}" href="{% page_url object.target %}">{% trans "View" %}</a>{% else %}{% trans "Subscribed to All" %}{% endif %}</td>
+      <td>
+	<form style="display: inline;" method='post' action='{% url "alert.unsubscribe" object.pk %}'>
         {% csrf_token %}
         <input type='submit' value='{% trans "Unsubscribe" %}'/>
-      </form>
-    </div>
+	</form>
+      </td>
+    </tr>
   {% empty %}
-    <div>{% trans "No alert subscriptions" %}</div>
+    <tr><td colspan="3"><div>{% trans "No alert subscriptions" %}</div></td></tr>
   {% endfor %}
+  </table>
 
   {% paginate %}
 

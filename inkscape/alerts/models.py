@@ -315,6 +315,13 @@ class AlertSubscription(Model):
 
     objects = SubscriptionManager()
 
+    def object(self):
+        model = self.alert.obj.instance_type
+        try:
+            return model.objects.get(pk=self.target)
+        except model.DoesNotExist:
+            return str(self.alert.obj.target)
+
     def __str__(self):
         return "%s Subscription to %s" % (str(self.user), str(self.alert))
 

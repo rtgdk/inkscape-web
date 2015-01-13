@@ -25,7 +25,7 @@
   {% for object in settings %}
     <tr class="{% cycle "odd" "even" %}">
       {% if not object.pk %}
-        <td title="{% trans "Currently set to default values for this type of alert." %}">*</td>
+        <td title="{% trans "Currently set to default values for this type of alert." %}">&#9733;</td>
       {% else %}
         <td>&nbsp;</td>
       {% endif %}
@@ -43,16 +43,26 @@
   <h2>{% trans "Subscriptions" %}</h2>
   {% autopaginate object_list 15 as items %}
   
-  <table class="alternating">
+  <table class="alternating" style="min-width: 60%;">
     <tr>
      <th scope="col">{% trans "Alert" %}</th>
-     <th scope="col">{% trans "View on Site" %}</th>
+     <th scope="col">{% trans "For" %}</th>
      <th scope="col">{% trans "Action" %}</th>
     </tr>
   {% for object in items %}
     <tr class="{% cycle "odd" "even" %}">
-      <td class="left-aligned">{{ object.alert.obj.name }} ({% if object.target %}{% trans "ID" %} {{object.target}}{% else %}{% trans "All" %}{% endif %})</td>
-      <td>{% if object.target %}<a title="{% page_url object.target %}" href="{% page_url object.target %}">{% trans "View" %}</a>{% else %}{% trans "Subscribed to All" %}{% endif %}</td>
+      <td class="left-aligned">{{ object.alert.obj.name }}</td>
+      <td>
+        {% if object.target %}
+          {% if object.object.get_absolute_url %}
+            <a title="{% page_url object.target %}" href="{% page_url object.target %}">{{ object.object }}</a>
+          {% else %}
+            {{ object.object }}
+          {% endif %}
+        {% else %}
+          {% trans "Subscribed to All" %}
+        {% endif %}
+      </td>
       <td>
 	<form style="display: inline;" method='post' action='{% url "alert.unsubscribe" object.pk %}'>
         {% csrf_token %}

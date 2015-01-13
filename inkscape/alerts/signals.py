@@ -24,6 +24,7 @@ from django.db.models import signals as django_signals
 from django.contrib.auth.models import User, Group
 from .base import *
 
+import os
 import sys
 
 ALERT_TYPE = None
@@ -52,8 +53,9 @@ def register_alert(slug, cls, **kwargs):
         SIGNALS[slug] = (item, cls(slug))
         cls.signal.connect(SIGNALS[slug][1].call, sender=cls.sender, dispatch_uid=slug)
   
-    #responses = cls.signal.send(cls.sender, instance=cls.sender.objects.all()[0], created=True)
-    #sys.stderr.write("Responses: %s\n" % str(responses))
+    if os.environ.get('DJANGO_TEST_ALERT_SIGNALS', False):
+        responses = cls.signal.send(cls.sender, instance=cls.sender.objects.all()[0], created=True)
+        sys.stdout.write("\nFor Signal: %s\nResponses: %s\n" % (str(slug), str(responses)))
 
 
 class BaseAlert(object):
@@ -107,6 +109,12 @@ class BaseAlert(object):
     def format_data(self, data):
         """Overridable function to format data for the template"""
         return data
+
+    @property
+    def instance_type(self):
+        if self.target:
+            return self.sender._meta.get_field(self.target).rel.to
+        return self.sender
 
     @property
     def template(self):

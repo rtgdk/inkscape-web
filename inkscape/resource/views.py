@@ -326,20 +326,29 @@ class MirrorAdd(CreateView):
 
 
 class GalleryList(CategoryListView):
-    model = Resource
+    model = ResourceFile
     opts = (
       ('username', 'user__username'),
     )
     cats = (
       #('media_type', _("Media Type")),
+      #('license', _("License")),
       ('category', _("Media Category")),
+      ('galleries', _("User Gallery"), 'get_galleries'),
     )
-
     orders = (
-      #('-voted', _('Most Popular')),
+      ('-liked', _('Most Popular')),
       ('-viewed', _('Most Views')),
       ('-downed', _('Most Downloaded')),
       ('-edited', _('Last Updated')),
     )
 
+    def base_queryset(self):
+        return super(GalleryList, self).base_queryset().filter(published=True)
+
+    def get_galleries(self):
+        username = self.get_value('username')
+        if username:
+            return User.objects.get(username=username).galleries.all()
+        return Gallery.objects.none()
 

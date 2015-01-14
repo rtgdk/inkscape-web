@@ -29,8 +29,10 @@ from inkscape.person.urls import add_user_url
 add_user_url(
   # Add to the username user profile
   url_tree(r'^/gallery/',
-    url(r'^$',                      GalleryList(), name='resources'),
-    url(r'^(?P<category>[\w_]+)/$', GalleryList(), name='resources'),
+    url(r'^$',                                            GalleryList(), name='resources'),
+    url(r'^(?P<galleries>[^\/]+)/$',                      GalleryList(), name='resources'),
+    url(r'^all/(?P<category>[^\/]+)/$',                   GalleryList(), name='resources'),
+    url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
   ),
 )
 add_user_url(
@@ -50,7 +52,7 @@ urlpatterns = patterns('',
   ),
 
   url_tree(r'^gallery/',
-    url(r'^$',                      GalleryList(), name='resources'),
+    url(r'^$',            GalleryList(),    name='resources'),
     url(r'^trash/$',      view_trash,       name='trash'),
     url(r'^new/$',        edit_gallery,     name="new_gallery"),
     url(r'^paste/$',      paste_in,         name='pastebin'),
@@ -74,7 +76,7 @@ urlpatterns = patterns('',
       url(r'^(?P<like_id>[\+\-])$', like_resource, name='like'),
     ),
 
-    url(r'^(?P<category>[\w_]+)/$', GalleryList(), name='resources'),
+    url(r'^(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
   ),
 )
 

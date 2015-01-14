@@ -83,6 +83,10 @@ class License(Model):
 
     objects  = VisibleManager()
 
+    @property
+    def value(self):
+        return self.code
+
     def is_free(self):
         return not self.nc and not self.nd and not arr
 
@@ -421,7 +425,7 @@ class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
-    items     = ManyToManyField(Resource, **null)
+    items     = ManyToManyField(Resource, related_name='galleries', **null)
 
     objects   = GalleryManager()
 
@@ -430,6 +434,10 @@ class Gallery(Model):
 
     def get_absolute_url(self):
         return reverse('gallery', args=[str(self.id)])
+
+    @property
+    def value(self):
+        return slugify(self.name)
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()

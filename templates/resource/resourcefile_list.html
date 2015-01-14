@@ -38,18 +38,24 @@
         {% endfor %}
       </ul>
       {% for category in categories %}
-        <h2>{{ category.name }}</h2>
-        <ul>
-          {% for item in category %}
-            {% if item and item.count %}
-              {% if category == item %}
-                <li class="active"><a>{{ item }}<a/></li>
-              {% else %}
-                <li><a href="{{ item.url }}">{{ item }}</a><span>{{ item.count }}</span></li>
-              {% endif %}
-            {% endif %}
-          {% endfor %}
-        </ul>
+        {% if category.count != 0 %}
+          <h2>{{ category.name }}</h2>
+          {% if category.count > 1 %}
+            <ul>
+              {% for item in category %}
+                {% if item and item.count %}
+                  {% if category == item %}
+                    <li class="active"><a>{{ item }}<a/></li>
+                  {% else %}
+                    <li><a href="{{ item.url }}">{{ item }}</a><span>{{ item.count }}</span></li>
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          {% elif category.count == 1 %}
+            <ul><li class="active"><a>{{ category.active_items.1 }}</a><span>{{ category.active_items.1.count }}</span></li></ul>
+          {% endif %}
+        {% endif %}
       {% endfor %}
      </div>
     </div>

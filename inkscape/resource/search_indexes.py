@@ -1,8 +1,8 @@
 
 from haystack.indexes import *
-from .models import Resource
+from .models import ResourceFile
 
-class ResourceIndex(SearchIndex, Indexable):
+class ResourceFileIndex(SearchIndex, Indexable):
     text      = CharField(document=True, use_template=True)
 
     edited    = DateTimeField(model_attr='edited')
@@ -10,7 +10,7 @@ class ResourceIndex(SearchIndex, Indexable):
     published = BooleanField(model_attr='published')
 
     def get_model(self):
-        return Resource
+        return ResourceFile
 
     def get_updated_field(self):
         return 'edited'
@@ -19,10 +19,10 @@ class ResourceIndex(SearchIndex, Indexable):
         """Used when the entire index for model is updated."""
         return self.get_model().objects.filter(published=True)
 
+
 from .views import GalleryList
 from pile.search_base import add_fields
 
 # This adds the extra indexable fields that the category list uses.  
-add_fields(ResourceIndex, GalleryList)
-
+add_fields(ResourceFileIndex, GalleryList)
 

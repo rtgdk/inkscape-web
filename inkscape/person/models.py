@@ -57,7 +57,8 @@ class UserDetails(Model):
 class UserRoll(Model):
     group = OneToOneField(Group, related_name='roll')
     name  = CharField(_('User Roll'), max_length=32)
-    desc  = TextField(validators=[MaxLengthValidator(1024)], null=True, blank=True)
+    desc  = TextField(_('Description'), validators=[MaxLengthValidator(1024)],
+               null=True, blank=True)
     icon  = ImageField(_('Display Icon'), upload_to='rollicons')
 
     def __unicode__(self):

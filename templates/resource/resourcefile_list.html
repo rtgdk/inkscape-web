@@ -32,7 +32,7 @@
       <ul>
         {% for order in orders %}
             {% if order.active %}
-              <li class="active"><a href="{{ order.url }}">{{ order.name }}</a><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></li>
+              <li class="active"><a href="{{ order.url }}">{{ order.name }}</a><span><a href="{{ order.url }}">{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
             {% else %}
               <li><a href="{{ order.url }}">{{ order.name }}</a></li>
             {% endif %}

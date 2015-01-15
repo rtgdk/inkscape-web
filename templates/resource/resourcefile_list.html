@@ -13,6 +13,7 @@
       {% endwith %}
     </div>
     <div id="right-sidebar">
+      <h2>Found {{ object_list.count }} Items</h2>
       {% if object_list or query %}
         <form class="search" method="get" action="{{ url }}">
           <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search for Resources" %}"/>

@@ -26,7 +26,7 @@
 
       <div class="tog" id="vote"><a
         {% if not request.user.id or request.user == item.user %}
-                                href="#" title="{% trans "Favorites" %}" class="disabled"
+          title="{% trans "Favorites" %}" class="disabled"
         {% elif not vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
                  {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
           >&nbsp;</a><p>{{ item.votes.count }}</p></div>

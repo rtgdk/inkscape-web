@@ -245,7 +245,7 @@ class Resource(Model):
     @property
     def gallery(self):
         try:
-            return self.gallery_set.all()[0]
+            return self.galleries.all()[0]
         except IndexError:
             return None
 

@@ -13,7 +13,7 @@
       {% endwith %}
     </div>
     <div id="right-sidebar">
-      <h2>Found {{ object_list.count }} Items</h2>
+      <h2>{% blocktrans with object_list.count as number_of_objects %}Found {{ number_of_objects }} Items{% endblocktrans %}</h2>
       {% if object_list or query %}
         <form class="search" method="get" action="{{ url }}">
           <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search for Resources" %}"/>
@@ -25,14 +25,14 @@
 
      <div id="sidecategory">
       {% if username %}
-      <h2>For User</h2>
+      <h2>{% trans "For User" %}</h2>
       <ul><li><a href="{{ username.get_absolute_url }}">{{ username }}</a></li></ul>
       {% endif %}
-      <h2>Order By</h2>
+      <h2>{% trans "Order By" %}</h2>
       <ul>
         {% for order in orders %}
             {% if order.active %}
-              <li class="active"><a href="{{ order.url }}">{{ order.name }}</a><span><a href="{{ order.url }}">{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
+              <li><a class="active" href="{{ order.url }}">{{ order.name }}<span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
             {% else %}
               <li><a href="{{ order.url }}">{{ order.name }}</a></li>
             {% endif %}
@@ -46,15 +46,15 @@
               {% for item in category %}
                 {% if item and item.count %}
                   {% if category == item %}
-                    <li class="active"><a>{{ item }}<a/></li>
+                    <li><a class="active">{{ item }}</a></li>
                   {% else %}
-                    <li><a href="{{ item.url }}">{{ item }}</a><span>{{ item.count }}</span></li>
+                    <li><a href="{{ item.url }}">{{ item }}<span>{{ item.count }}</span></a></li>
                   {% endif %}
                 {% endif %}
               {% endfor %}
             </ul>
           {% elif category.count == 1 %}
-            <ul><li class="active"><a>{{ category.active_items.1 }}</a><span>{{ category.active_items.1.count }}</span></li></ul>
+            <ul><li><a class="active">{{ category.active_items.1 }}<span>{{ category.active_items.1.count }}</span></a></li></ul>
           {% endif %}
         {% endif %}
       {% endfor %}

@@ -31,10 +31,12 @@
   <div class="header">
     <div id="cleartop">
       <div id="logo">
-        <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.svg{% endblock %}"
-           width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
-        <h1><a href="/" tabindex="-1">Inkscape</a></h1>
-        <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
+        {% block logo %}
+          <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.svg{% endblock %}"
+             width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
+          <h1><a href="/" tabindex="-1">Inkscape</a></h1>
+          <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
+        {% endblock %}
       </div>
       <div id="header-right">
         <ul id="topdrops">
@@ -92,7 +94,7 @@
             </li>
           {% endif %}
         </ul>
-
+        {% block rightheader %}
         <div id="social">
           <p>{% trans "Follow us on:" %} </p>
           <nav id="socialnav">
@@ -104,9 +106,12 @@
           <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
           <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
         </form>
+        {% endblock %}
       </div>
     </div>
-    <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
+    {% block menu %}
+      <div class="nav"><ul id="menu">{% show_menu 0|root_nudge:request.current_page 100 100 %}</ul></div>
+    {% endblock %}
   </div>
 
   {% block supercontent %}
@@ -151,7 +156,9 @@ InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px;" on
         {% endblock %}
       </p>
     </div>
+  {% endblock %}
 
+  {% block finalfooter %}
     <p id="final-footer">{% trans "Website designed by" %}
       <a href="http://skymaiden.com">Hinerangi Courtenay</a>
       {% trans "in Inkscape and developed by" %}
@@ -163,7 +170,6 @@ InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px;" on
       <a href="https://osuosl.org/">OSUOSL</a> - 
       <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Website development guide" %}</a>
     </p>
-
   {% endblock %}
 </body>
 </html>

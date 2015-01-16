@@ -198,6 +198,7 @@ CMS_TEMPLATES = (
     ('cms/withside.html', _('Side Bar Page')),
     ('cms/front.html',    _('Three Column Page')),
     ('cms/super.html',    _('Full Screen')),
+    ('cms/develop.html',  _('Developer Page')),
 )
 CMS_APPLICATIONS_URLS = (
     ('cmsplugin_news.urls', 'News'),
@@ -229,6 +230,43 @@ LOGIN_ERROR_URL    = '/user/register/login/'
 LOGIN_REDIRECT_URL = '/user/'
 
 RECAPTCHA_USE_SSL = True
+
+OPENID_REDIRECT_NEXT = '/accounts/openid/done/'
+
+OPENID_SREG = {
+  "requred": "nickname, email, fullname",
+  "optional":"postcode, country",
+  "policy_url": "",
+}
+
+OPENID_AX = [{
+  "type_uri": "http://axschema.org/contact/email",
+  "count": 1,
+  "required": True,
+  "alias": "email",
+  },{
+  "type_uri": "http://axschema.org/schema/fullname",
+  "count":1 ,
+  "required": False,
+  "alias": "fname",
+}]
+
+OPENID_AX_PROVIDER_MAP = {
+  'Google': {
+    'email': 'http://axschema.org/contact/email',
+    'firstname': 'http://axschema.org/namePerson/first',
+    'lastname': 'http://axschema.org/namePerson/last',
+  },
+  'Default': {
+    'email': 'http://axschema.org/contact/email',
+    'fullname': 'http://axschema.org/namePerson',
+    'nickname': 'http://axschema.org/namePerson/friendly',
+  },
+}
+
+FACEBOOK_EXTENDED_PERMISSIONS = (
+    'email',
+)
 
 GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 

@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+
+{% load cms_tags sekizai_tags %}
+{% load extras menu_tags %}
+{% load i18n %}
+
+{% block rightheader %}{% endblock %}
+
+{% block logo %}
+  <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-dev.svg{% endblock %}"
+     width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
+  <h1><a href="/" tabindex="-1">Developer</a></h1>
+  <h2><a href="/" tabindex="-1">Vector to Better</a></h2>
+{% endblock %}
+
+{% block menu %}
+  <div class="nav"><ul id="menu">{% show_menu_below_id "develop" 0 100 100 %}</ul></div>
+{% endblock %}
+
+{% block supercontent %}
+  <div id="content"{% block contentclasses %}{% endblock %}>
+    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+    {% block content %}{% endblock %}
+  </div>
+{% endblock %}
+
+  {% block footer %}
+  {% endblock %}
+

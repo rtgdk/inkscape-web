@@ -7,10 +7,14 @@
     <meta charset="utf-8"/>
 
     <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-logo.png"/>
-    <link rel="alternate"     type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
     <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
+
+    <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
+    {% if rss_url %}
+      <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %}" href="{{ rss_url }}" />
+    {% endif %}
 
     {% render_block "css" %}
 

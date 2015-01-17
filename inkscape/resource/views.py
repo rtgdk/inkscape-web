@@ -30,7 +30,7 @@ from django.template import RequestContext
 
 from django.utils.timezone import now
 from django.contrib.auth.models import User
-from pile.views import breadcrumbs
+from pile.views import breadcrumbs, CategoryListView, CreateView, CategoryFeed
 
 from .models import *
 from .forms import *
@@ -318,7 +318,6 @@ def mirror_resource(request, uuid, filename):
     return sendfile(request, url, attachment=True)
 
 
-from pile.views import CategoryListView, CreateView
 
 class MirrorAdd(CreateView):
     model      = ResourceMirror
@@ -326,6 +325,7 @@ class MirrorAdd(CreateView):
 
 
 class GalleryList(CategoryListView):
+    rss_view = 'resources_rss'
     model = ResourceFile
     opts = (
       ('username', 'user__username'),
@@ -351,4 +351,37 @@ class GalleryList(CategoryListView):
         if username:
             return User.objects.get(username=username).galleries.all()
         return Gallery.objects.none()
+
+
+class GalleryFeed(CategoryFeed, GalleryList):
+    title = "Gallery Feed"
+    description = "Gallery Resources RSS Feed"
+
+    def items(self):
+        for item in self.get_queryset():
+            if hasattr(item, 'object'):
+                item = item.object
+            if item.is_visible():
+                yield item
+
+    def item_title(self, item):
+        return item.name
+
+    def item_description(self, item):
+        return item.desc
+
+    def item_guid(self, item):
+        return '#'+str(item.pk)
+
+    def item_author_name(self, item):
+        return str(item.user)
+
+    def item_author_link(self, item):
+        return item.user.get_absolute_url()
+
+    def item_pubdate(self, item):
+        return item.created
+
+    def item_updateddate(self, item):
+        return item.edited
 

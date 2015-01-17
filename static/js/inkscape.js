@@ -10,18 +10,17 @@ $(document).ready(function() {
 });
 /*Link to anchors- H1 removed because normali is on top*/
 function anchors(){
-  var anchor = undefined;
+  var anchor = 'undefined';
   var showToc = false;
   var prevH = 2;
   var toc ='<div class="toc"><ul>';
   $('.wrapper h2,.wrapper h3,.wrapper h4,.wrapper h5,.wrapper h6').each(function(i, heading){
     var onH = parseInt($(heading).prop("tagName").replace("H",""));
     anchor = $(heading).attr('name');
-    if(typeof $(heading).attr('id') !== undefined){
+    if(typeof $(heading).attr('id') !== 'undefined'){
         anchor = $(heading).attr('id');
     }
-    console.log($(heading).prop("tagName"));
-    if(typeof anchor !== undefined){
+    if(typeof anchor !== 'undefined'){
         showToc = true;
         if(prevH < onH){
             toc += '<ul>';
@@ -34,8 +33,12 @@ function anchors(){
             toc += '</li>';
         }
         $(heading).mouseenter(function(){
-            if(anchor && $(heading).children(".headingAnchors").length == 0){
-                $(heading).html($(heading).html() + ' <a href="#' + anchor + '" class="headingAnchors" >⚓</a>');
+            if($(heading).children(".headingAnchors").length == 0){
+                var headingAnchor = $(heading).attr('name');
+                if(typeof $(heading).attr('id') !== 'undefined'){
+                    headingAnchor = $(heading).attr('id');
+                }
+                $(heading).html($(heading).html() + ' <a href="#' + headingAnchor + '" class="headingAnchors" >⚓</a>');
             }
         })
         $(heading).mouseleave(function(){

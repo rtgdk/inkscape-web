@@ -8,22 +8,46 @@ $(document).ready(function() {
   $("#toplogin input").focusout(false, focused);
   anchors();
 });
-
+/*Link to anchors- H1 removed because normali is on top*/
 function anchors(){
-  $('h1,h2,h3,h4,h5,h6').each(function(i, heading){
-    $(heading).mouseenter(function(){
-        var anchor = $(heading).attr('name');
-        if($(heading).attr('id')){
-            anchor = $(heading).attr('id');
+  var anchor = undefined;
+  var showToc = false;
+  var prevH = 2;
+  var toc ='<div class="toc"><ul>';
+  $('.wrapper h2,.wrapper h3,.wrapper h4,.wrapper h5,.wrapper h6').each(function(i, heading){
+    var onH = parseInt($(heading).prop("tagName").replace("H",""));
+    anchor = $(heading).attr('name');
+    if(typeof $(heading).attr('id') !== undefined){
+        anchor = $(heading).attr('id');
+    }
+    console.log($(heading).prop("tagName"));
+    if(typeof anchor !== undefined){
+        showToc = true;
+        if(prevH < onH){
+            toc += '<ul>';
         }
-        if(anchor && $(heading).children(".headingAnchors").length == 0){
-            $(heading).html($(heading).html() + ' <a href="#' + anchor + '" class="headingAnchors" >⚓</a>');
+        if(prevH > onH){
+            toc += '</li></ul></li>';
         }
-    })
-    $(heading).mouseleave(function(){
-        $(heading).children(".headingAnchors").remove();
-    })
+        toc += '<li><div><a href="#' + anchor + '">' + $(heading).html() + '</a></div>';
+        if(prevH === onH){
+            toc += '</li>';
+        }
+        $(heading).mouseenter(function(){
+            if(anchor && $(heading).children(".headingAnchors").length == 0){
+                $(heading).html($(heading).html() + ' <a href="#' + anchor + '" class="headingAnchors" >⚓</a>');
+            }
+        })
+        $(heading).mouseleave(function(){
+            $(heading).children(".headingAnchors").remove();
+        })
+        prevH = onH;
+    }
   })
+  toc +='</ul></div>';
+  if(showToc && $('.toc').length === 0){
+    $(toc).insertBefore($('.wrapper h1'));
+  }
 }
 
 function focused(unhide) {

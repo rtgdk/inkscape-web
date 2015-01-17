@@ -6,7 +6,25 @@ $(document).ready(function() {
   if($("#shield .tabs"))furnishTabs();
   $("#toplogin input").focus(true, focused);
   $("#toplogin input").focusout(false, focused);
+  anchors();
 });
+
+function anchors(){
+  $('h1,h2,h3,h4,h5,h6').each(function(i, heading){
+    $(heading).mouseenter(function(){
+        var anchor = $(heading).attr('name');
+        if($(heading).attr('id')){
+            anchor = $(heading).attr('id');
+        }
+        if(anchor && $(heading).children(".headingAnchors").length == 0){
+            $(heading).html($(heading).html() + ' <a href="#' + anchor + '" class="headingAnchors" >⚓</a>');
+        }
+    })
+    $(heading).mouseleave(function(){
+        $(heading).children(".headingAnchors").remove();
+    })
+  })
+}
 
 function focused(unhide) {
   var target = $( this ).closest("li");

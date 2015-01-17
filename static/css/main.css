@@ -1027,3 +1027,13 @@ div.diff del {
   padding: 3px;
   text-decoration: none;
 }
+.headingAnchors{
+  display:inline-block;
+  padding:0px 4px;
+}
+
+.headingAnchors:hover{
+  background-color:#ddd;
+  text-decoration:none !important;
+  border-radius:3px;
+}

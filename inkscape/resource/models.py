@@ -340,7 +340,6 @@ class ResourceFile(Resource):
             except UnicodeDecodeError:
                 # Text file is corrupt, treat it as a binary
                 self.media_type = 'application/octet-stream'
-                self.save()
         return (None, None)
 
     def icon(self):

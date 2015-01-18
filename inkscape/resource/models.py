@@ -498,15 +498,17 @@ class Views(Model):
 
 class Quota(Model):
     group    = ForeignKey(Group, related_name='quotas', unique=True, **null)
-    size     = IntegerField(_("Quota Size (bytes)"), default=102400)
+    size     = IntegerField(_("Quota Size (KiB)"), default=1024)
 
     def __str__(self):
         return str(self.group)
 
-# I don't like this much
 def quota_for_user(user):
-    f = Q(group__in=user.groups.all()) | Q(group__isnull=True)
-    return Quota.objects.filter(f).aggregate(Max('size'))['size__max'] or 0
+    groups = Q(group__in=user.groups.all()) | Q(group__isnull=True)
+    quotas = Quota.objects.filter(groups)
+    if quotas.count():
+        return quotas.aggregate(Max('size'))['size__max'] * 1024
+    return 0
 
 User.quota = quota_for_user
 

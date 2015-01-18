@@ -335,7 +335,12 @@ class ResourceFile(Resource):
         elif self.mime().is_image():
             return svg_coords(self.as_text())
         elif self.mime().is_text():
-            return text_count(self.as_text())
+            try:
+                return text_count(self.as_text())
+            except UnicodeDecodeError:
+                # Text file is corrupt, treat it as a binary
+                self.media_type = 'application/octet-stream'
+                self.save()
         return (None, None)
 
     def icon(self):

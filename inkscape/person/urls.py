@@ -26,15 +26,10 @@ USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'inkscape.person.views',
 )
 add_user_url = USER_URLS.url_patterns.append
 
-# This is an attempt to fix login csrf problems caused when the
-# cookie is not always set. Not sure if 302 redirect issue or https.
-from django.contrib.auth.views import login as login_view
-from django.views.decorators.csrf import csrf_exempt
-
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',
-    url(r'^login/',     csrf_exempt(login_view),   name='auth_login'),
-    url(r'^logout/',    'logout',                  name='auth_logout'),
+    url(r'^login/',     'login',                 name='auth_login'),
+    url(r'^logout/',    'logout',                name='auth_logout'),
     url_tree(r'^pwd/', 'django.contrib.auth.views',
       url(r'^$',      'password_reset', {'password_reset_form': PasswordForm }, name='password_reset'),
       url(UIDB,       'password_reset_confirm',  name='password_reset_confirm'),
@@ -48,7 +43,6 @@ urlpatterns = patterns('',
       url(r'^closed/$',                  RK,           name='registration_disallowed'),
       url(r'^activate/(?P<activation_key>\w+)/$', AV.as_view(), name='registration_activate'),
       url(r'^activated/$',               AC,           name='registration_activation_complete'),
-      url(r'^',                          include('registration.auth_urls')),
     ),
   ),
   url_tree(r'', 'inkscape.person.views',

@@ -32,6 +32,7 @@ LANGUAGES = (
     ('it', 'Italian'),
     ('es', 'Spanish'),
     ('pt', 'Portuguese'),
+    ('pt-br', 'Brazilian Portuguese'),
     ('cs', 'Czech'),
     ('ru', 'Russian'),
     ('ja', 'Japanese'),

@@ -16,28 +16,40 @@ AC = TemplateView.as_view(template_name='registration/activation_complete.html')
 RC = TemplateView.as_view(template_name='registration/registration_complete.html')
 RK = TemplateView.as_view(template_name='registration/registration_closed.html')
 RG = RegistrationView.as_view(form_class=RegisForm)
+UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
 
+# Our user url implemination allows other urls files to add
+# their own urls to our user tree. Creating user functions.
 USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'inkscape.person.views',
   url(r'^/?$',                    'view_profile',    name='view_profile'),
   url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
 )
 add_user_url = USER_URLS.url_patterns.append
 
+# This is an attempt to fix login csrf problems caused when the
+# cookie is not always set. Not sure if 302 redirect issue or https.
+from django.contrib.auth.views import login as login_view
+from django.views.decorators.csrf import csrf_exempt
+
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',
-    url(r'^login/',     'login',                   name='auth_login'),
+    url(r'^login/',     csrf_exempt(login_view),   name='auth_login'),
     url(r'^logout/',    'logout',                  name='auth_logout'),
-    url(r'^pwd/$',      'password_reset', {'password_reset_form': PasswordForm }, name='password_reset'),
-    url(r'^pwd/(?P<uidb64>.+?)/(?P<token>.+)/$', 'password_reset_confirm', name='password_reset_confirm'),
-    url(r'^pwd/done/$', 'password_reset_complete', name='password_reset_complete'),
-    url(r'^pwd/sent/$', 'password_reset_done',     name='password_reset_done'),
+    url_tree(r'^pwd/', 'django.contrib.auth.views',
+      url(r'^$',      'password_reset', {'password_reset_form': PasswordForm }, name='password_reset'),
+      url(UIDB,       'password_reset_confirm',  name='password_reset_confirm'),
+      url(r'^done/$', 'password_reset_complete', name='password_reset_complete'),
+      url(r'^sent/$', 'password_reset_done',     name='password_reset_done'),
+    ),
 
-    url(r'^activate/complete/$',                AC,           name='registration_activation_complete'),
-    url(r'^activate/(?P<activation_key>\w+)/$', AV.as_view(), name='registration_activate'),
-    url(r'^register/$',                         RG,           name='auth_register'),
-    url(r'^register/complete/$',                RC,           name='registration_complete'),
-    url(r'^register/closed/$',                  RK,           name='registration_disallowed'),
-    url(r'^register/',                          include('registration.auth_urls')),
+    url_tree(r'^register/', '',
+      url(r'^$',                         RG,           name='auth_register'),
+      url(r'^complete/$',                RC,           name='registration_complete'),
+      url(r'^closed/$',                  RK,           name='registration_disallowed'),
+      url(r'^activate/(?P<activation_key>\w+)/$', AV.as_view(), name='registration_activate'),
+      url(r'^activated/$',               AC,           name='registration_activation_complete'),
+      url(r'^',                          include('registration.auth_urls')),
+    ),
   ),
   url_tree(r'', 'inkscape.person.views',
     url(r'^user/$',                   'my_profile',      name='my_profile'),

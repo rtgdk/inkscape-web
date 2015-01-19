@@ -37,7 +37,19 @@ from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
 from django.utils.html import strip_tags, strip_spaces_between_tags, linebreaks
 
+from .cms_patches import *
+
 null = dict(null=True, blank=True)
+
+FIELD_TEMPLATE = """<tr class="del">
+  <th scope='row' rowspan='2'>%s</th>
+  <td>-</td>
+  <td>%s</td>
+</tr><tr class="ins">
+  <td>+</td>
+  <td>%s</td>
+</tr>
+"""
 
 try:
     from diff_match_patch import diff_match_patch
@@ -69,6 +81,10 @@ def get_previous_revision(self):
     return self.version_set.all()[0].previous.revision
 Revision.previous = property(get_previous_revision)
 
+def has_previous(self):
+    return self.previous.pk != self.pk
+Version.has_previous = has_previous
+Revision.has_previous = has_previous
 
 def clean_text(text):
     return strip_tags(force_text(text)).replace("\n\n\n", "\n\n").strip()
@@ -92,12 +108,11 @@ class RevisionDiff(Model):
     def refresh_diff(self):
         revision = self.revision
         content = ""
+        f_table  = ""
         diffs = []
         for version in revision.version_set.all():
             fields = version.field_dict
-            if not version.previous:
-                continue
-            previous = version.previous.field_dict
+            previous = getattr(version.previous, 'field_dict', {})
             for field in fields:
                 a = clean_text(previous.get(field, ''))
                 b = clean_text(fields[field])
@@ -106,11 +121,14 @@ class RevisionDiff(Model):
                     continue
                 if '\n' not in a and '\n' not in b:
                     # Not a multi-line field, consider differently.
+                    f_table += FIELD_TEMPLATE % (field, a, b)
                     continue
                 diff = differ.diff_main(a, b)
                 differ.diff_cleanupSemantic(diff)
                 diffs += diff
                 content += "<div class='page'>%s</div>" % differ.diff_prettyHtml(diff).replace('&para;','')
+        if f_table:
+            content = ("<table class='page'>%s</table>" % f_table) + content
         self.content = content
         self.stub = differ.diff_prettyHtml(self.get_segment(diffs)).replace('&para;','')
 

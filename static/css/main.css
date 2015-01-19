@@ -1004,18 +1004,20 @@ p.pclear {
   clear: both;
 }
 
-ins {
+div.diff ins {
   color: black;
   background-color: green;
 }
-del {
+div.diff del {
   color: black;
   background-color: red;
 }
-del a, ins a {
+div.diff del a,
+div.diff ins a {
   color: black;
 }
-div.diff div.page {
+div.diff div.page,
+div.diff table.page {
   border: 2px solid #ddd;
   background-color: #eee;
   padding: 10px;
@@ -1026,4 +1028,21 @@ div.diff del {
   border: 2px solid #ddd;
   padding: 3px;
   text-decoration: none;
+}
+div.diff table.page th {
+  background-color: white;
+  padding-right: 5px;
+  border: 2px solid #ddd;
+}
+div.diff table.page td {
+  padding: 2px 8px;
+  border: 2px solid #ddd;
+}
+div.diff .ins {
+  background-color: #8d9;
+  padding: 4px;
+}
+div.diff .del {
+  background-color: #f88;
+  padding: 4px;
 }

@@ -20,7 +20,7 @@
       {% endif %}
       {% if item.download %}
         {% if not item.mime.is_image or not item.license.nd %}
-          <div class="tog" id="download"><a href="{% url "download_resource" item.id %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
+          <div class="tog" id="download"><a href="{% url "download_resource" item.id item.filename %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ item.downed }}</p></div>
         {% endif %}
       {% endif %}
 

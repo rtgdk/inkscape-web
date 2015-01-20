@@ -34,13 +34,13 @@
  {% elif item.is_file %}
     {% if item.mime.is_image %}
       <div class="image only">
-        <a href="{% url "download_resource" item.id %}"><img src="{{ item.download.url }}" alt="{% trans "Image" %}"></a>
+        <a href="{% url "view_resource" item.id %}"><img src="{{ item.download.url }}" alt="{% trans "Image" %}"></a>
       </div>
     {% elif item.mime.is_text and item.media_x < 300 %}
       <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
     {% else %}
       <div class="image file">
-        <a href="{% url "download_resource" item.id %}"><img src="{{ item.icon }}" alt="{% trans "File Icon" %}"></a>
+        <a href="{% url "view_resource" item.id %}"><img src="{{ item.icon }}" alt="{% trans "File Icon" %}"></a>
       </div>
     {% endif %}
   {% elif item %}

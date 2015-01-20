@@ -25,11 +25,12 @@ import os
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-
 from django.utils.timezone import now
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
+from django.contrib import messages
+
+from django.template import RequestContext
 from pile.views import breadcrumbs, CategoryListView, CreateView, CategoryFeed
 
 from .models import *
@@ -230,13 +231,13 @@ def down_readme(request, item_id):
 from sendfile import sendfile
 from inkscape import settings
 
-def down_resource(request, item_id, vt='d'):
+def down_resource(request, item_id, fn=None):
     item = get_object_or_404(ResourceFile, id=item_id)
 
     # The view 'download' allows one to view an image in full screen glory
     # which is technically a download, but we count it as a view and try and let
     # the browser deal with showing the file.
-    if vt == 'v':
+    if fn is None:
         item.set_viewed(request.session)
         item.save()
         if item.mime().is_text():
@@ -245,6 +246,10 @@ def down_resource(request, item_id, vt='d'):
               'item': item,
             }, context_instance=RequestContext(request))
         return redirect(item.download.url)
+
+    if fn != item.filename():
+        messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
+        return redirect(item.get_absolute_url())
 
     # Otherwise the user intends to download the file and we record it as such
     # before passing the download path to nginx for delivery using a content

@@ -175,7 +175,7 @@ INSTALLED_APPS = (
     'djangocms_picture',
     'djangocms_snippet',
     'djangocms_link',
-    #'cmsrosetta',
+    'cmsrosetta',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',

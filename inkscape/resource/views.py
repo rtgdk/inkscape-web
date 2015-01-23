@@ -55,7 +55,7 @@ def edit_gallery(request, gallery_id=None):
             item = c['form'].save(commit=False)
             item.user = request.user
             item.save()
-            return redirect('gallery', item.id)
+            return redirect(item.get_absolute_url())
     return render_to_response('resource/gallery_edit.html', c,
         context_instance=RequestContext(request))
     
@@ -173,24 +173,6 @@ def view_trash(request):
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
 
-
-def view_gallery(request, gallery_id):
-    gallery = get_object_or_404(Gallery, id=gallery_id)
-    if not gallery.is_visible():
-        raise Http404
-    c = {
-      'user'       : gallery.user,
-      'items'      : gallery.items.for_user(request.user),
-      'gallery'    : gallery,
-      'breadcrumbs': breadcrumbs(gallery.user, gallery),
-      'limit'      : 15 - gallery.is_editable(),
-    }
-    
-    if gallery.group:
-        c['breadcrumbs'] = breadcrumbs(gallery)
-
-    return render_to_response('resource/gallery.html', c,
-             context_instance=RequestContext(request))
 
 def user_resource(request, username, slug):
     """Same as view_resource, but based on slugs and usernames"""

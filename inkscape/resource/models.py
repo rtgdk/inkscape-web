@@ -441,11 +441,14 @@ class Gallery(Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        get_slug(self)
+        set_slug(self)
         super(Gallery, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
-        return reverse('gallery', args=[str(self.id)])
+        return reverse('resources', kwargs={
+          'username': self.user.username,
+          'galleries': self.slug,
+        })
 
     @property
     def value(self):

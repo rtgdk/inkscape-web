@@ -12,8 +12,8 @@
 
 {% for item in items %}
   <div class="{% if item.items.count %}galleryitem{% else %}galleryitem empty{% endif %}" id="drop{{ item.id }}">
-    <a class="link" href="{% url "gallery" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
-    <p><a href="{% url "gallery" item.id %}">{{ item.name }}</a></p>
+    <a class="link" href="{% url "resources" item.user.username item.slug 'all' %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
+    <p><a href="{% url "resources" item.user.username item.slug 'all' %}">{{ item.name }}</a></p>
     <p class="label blank">{{ item.items.all.count }}</p>
   </div>
   <script>

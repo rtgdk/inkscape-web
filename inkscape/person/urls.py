@@ -24,7 +24,10 @@ USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'inkscape.person.views',
   url(r'^/?$',                    'view_profile',    name='view_profile'),
   url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
 )
-add_user_url = USER_URLS.url_patterns.append
+def add_user_url(*urls):
+    global USER_URLS
+    for url in urls:
+        USER_URLS.url_patterns.append(url)
 
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',

@@ -38,6 +38,7 @@ from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify
 from .signals import post_publish
 from inkscape.settings import STATIC_URL
+from .slugify import set_slug
 
 from uuid import uuid4
 
@@ -157,6 +158,7 @@ class Resource(Model):
     is_file   = False
     user      = ForeignKey(User, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
+    slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
@@ -191,7 +193,8 @@ class Resource(Model):
         if not self.created and self.published:
             self.created = now()
             post_publish.send(sender=Resource, instance=self)
-        
+
+        set_slug(self)
         return Model.save(self, *args, **kwargs)
 
     def has_file_changed(self):
@@ -429,6 +432,7 @@ class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
+    slug      = CharField(max_length=70)
     items     = ManyToManyField(Resource, related_name='galleries', **null)
 
     objects   = GalleryManager()
@@ -436,12 +440,16 @@ class Gallery(Model):
     def __unicode__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        get_slug(self)
+        super(Gallery, self).save(*args, **kwargs)
+
     def get_absolute_url(self):
         return reverse('gallery', args=[str(self.id)])
 
     @property
     def value(self):
-        return slugify(self.name)
+        return self.slug
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()

@@ -38,9 +38,8 @@ add_user_url(
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
   ),
-)
-add_user_url(
-  url(r'^/galleries/$', view_galleries, name='galleries'),
+  url(r'^/galleries/$',         view_galleries, name='galleries'),
+  url(r'^/@(?P<slug>[^\/]+)/$', user_resource,  name='resource'),
 )
 
 urlpatterns = patterns('',
@@ -63,7 +62,7 @@ urlpatterns = patterns('',
     url(r'^paste/$',      paste_in,         name='pastebin'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
-      url(r'^$',          view_gallery,     name="gallery"),
+      #url(r'^$',          view_gallery,     name="gallery"),
       url(r'^del/$',      delete_gallery,   name="delete_gallery"),
       url(r'^edit/$',     edit_gallery,     name='edit_gallery'),
       url(r'^add/$',      add_to_gallery,   name='add_to_gallery'),

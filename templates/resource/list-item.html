@@ -2,8 +2,8 @@
 
 {% if item.is_visible %}
   <div class="{% if item.published %}galleryitem{% else %}galleryitem unpublished{% endif %}">
-    <a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
-    <p><a href="{% url "resource" item.id %}">{{ item.name }}</a></p>
+    <a class="link" href="{% url "resource" item.user.username item.slug %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
+    <p><a href="{% url "resource" item.user.username item.slug %}">{{ item.name }}</a></p>
     {% if item.published %}
       <div class="label">
         <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">

@@ -164,6 +164,7 @@ INSTALLED_APPS = (
     'haystack',
     'reversion',
     'pile',
+    'cmsrosetta',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation
@@ -175,7 +176,6 @@ INSTALLED_APPS = (
     'djangocms_picture',
     'djangocms_snippet',
     'djangocms_link',
-    'cmsrosetta',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',

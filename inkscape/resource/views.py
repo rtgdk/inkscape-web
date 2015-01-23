@@ -192,6 +192,10 @@ def view_gallery(request, gallery_id):
     return render_to_response('resource/gallery.html', c,
              context_instance=RequestContext(request))
 
+def user_resource(request, username, slug):
+    """Same as view_resource, but based on slugs and usernames"""
+    item = get_object_or_404(Resource, user__username=username, slug=slug)
+    return view_resource(request, item.pk)
 
 def view_resource(request, item_id):
     item = get_object_or_404(Resource, id=item_id)

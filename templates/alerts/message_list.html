@@ -17,9 +17,6 @@
 <div class="comment" id="alert_{{ object.id }}">
   <div class="details">
     <div class="title">
-      {% if not object.viewed %}
-        <img src="{{ STATIC_URL }}images/action-email.png" alt="{% trans "Not Read" %}" title="{% trans "Not Read Yet" %}"/>
-      {% endif %}
       {{ object.subject }}
     </div>
     <div class="index">{{ object.created|timetag }}</div>

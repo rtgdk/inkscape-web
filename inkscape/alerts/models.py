@@ -341,11 +341,6 @@ class Message(Model):
 
     alerts = get_my_alerts()
 
-    @property
-    def viewed(self):
-        a = self.alerts.all()
-        return not len(a) or a[0].viewed
-
     def get_root(self, children=None):
         """Returns the root message for the thread"""
         children = children or tuple()

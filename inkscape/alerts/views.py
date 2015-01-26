@@ -24,7 +24,7 @@ from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
 
-from pile.views import CreateView, CategoryListView
+from pile.views import ListView, CreateView, CategoryListView
 from .models import User, UserAlert, Message, UserAlertSetting, AlertSubscription
 from .signals import SIGNALS
 
@@ -95,6 +95,7 @@ def unsubscribe(request, pk):
     sub.delete()
     return redirect('alert.settings')
 
+
 class SettingsList(CategoryListView):
     model = AlertSubscription
 
@@ -120,6 +121,13 @@ class SettingsList(CategoryListView):
         data = super(SettingsList, self).get_context_data(**data)
         data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
         return data
+
+
+class SentMessages(ListView):
+    model = Message
+
+    def get_queryset(self):
+        return self.request.user.sent_messages.all()
 
 
 class CreateMessage(CreateView):

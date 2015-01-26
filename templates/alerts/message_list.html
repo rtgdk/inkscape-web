@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load sekizai_tags %}
+{% load i18n pagination_tags pile %}
+
+{% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
+  {% endaddtoblock %}
+
+  <h1>{% block title %}{% trans "Sent Messages" %}{% endblock %}</h1>
+
+  {% autopaginate object_list 15 as items %}
+
+  {% for object in items %}
+
+<div class="comment" id="alert_{{ object.id }}">
+  <div class="details">
+    <div class="title">
+      {% if not object.viewed %}
+        <img src="{{ STATIC_URL }}images/action-email.png" alt="{% trans "Not Read" %}" title="{% trans "Not Read Yet" %}"/>
+      {% endif %}
+      {{ object.subject }}
+    </div>
+    <div class="index">{{ object.created|timetag }}</div>
+  </div>
+  <div class="body">
+    <div class="text"><p>{{ object.body }}</p></div>
+  </div>
+  <div class="footer">
+    <div class="status">{% trans "to" %} {{ object.recipient }}</div>
+  </div>
+</div>
+
+  {% paginate %}
+
+  {% empty %}
+    <h2>{% trans "No sent messages" %}</h2>
+  {% endfor %}
+
+{% endblock %}
+

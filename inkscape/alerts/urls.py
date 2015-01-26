@@ -28,7 +28,8 @@ from inkscape.person.urls import add_user_url
 
 add_user_url(
   # Example message system
-  url(r'^/message/$', CreateMessage(), name="message.new")
+  url(r'^/message/$', CreateMessage(), name="message.new"),
+  url(r'^/sent/$',    SentMessages(), name="message.sent"),
 )
 
 urlpatterns = patterns('',

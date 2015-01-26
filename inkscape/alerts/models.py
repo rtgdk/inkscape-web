@@ -341,6 +341,11 @@ class Message(Model):
 
     alerts = get_my_alerts()
 
+    @property
+    def viewed(self):
+        a = self.alerts.all()
+        return not len(a) or a[0].viewed
+
     def get_root(self, children=None):
         """Returns the root message for the thread"""
         children = children or tuple()
@@ -364,8 +369,8 @@ class MessageAlert(CreatedAlert):
     name     = _('Personal Message')
     desc     = _('Another user has sent you a personal message.')
 
-    subject       = "{{ object.subject }}"
-    email_subject = "Message from User: {{ object.subject }}"
+    subject       = "{{ instance.subject }}"
+    email_subject = "Message from User: {{ instance.subject }}"
 
     private       = True
     default_hide  = False

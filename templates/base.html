@@ -93,7 +93,9 @@
                 {% if request.user.alerts.all %}
                   <p><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
                 {% endif %}
-                <p><a href="{% url "message.sent" request.user.username %}">{% trans "Sent Messages" %}</a></p>
+                {% if request.user.sent_messages.all %}
+                  <p><a href="{% url "message.sent" request.user.username %}">{% trans "Sent Messages" %}</a></p>
+                {% endif %}
                 <p style="padding-top: 6px;"><a href="{% url "alert.settings" %}">{% trans "Message Settings" %}</a></p>
               </div>
             </li>

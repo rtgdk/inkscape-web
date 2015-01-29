@@ -55,7 +55,7 @@ class ResourceBaseForm(ModelForm):
             self.fields.pop('mirror', None)
         if not self.user.details.gpg_key:
             self.fields.pop('signature', None)
-        if not self.instance or not self.instance.mime().is_image():
+        if not self.instance or self.instance.mime().is_image():
             self.fields.pop('thumbnail', None)
 
         for field in ('download', 'thumbnail', 'signature'):

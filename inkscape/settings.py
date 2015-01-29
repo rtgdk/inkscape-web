@@ -176,6 +176,7 @@ INSTALLED_APPS = (
     'djangocms_picture',
     'djangocms_snippet',
     'djangocms_link',
+    'djangocms_toc',
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_pygments',

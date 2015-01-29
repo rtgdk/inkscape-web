@@ -44,6 +44,7 @@ bzr+ssh://bazaar.launchpad.net/+branch/djangocms-rosetta/
 # Django-CMS Plugins
 django-cms==3.0.9
 
+djangocms-toc==0.9
 djangocms-file==0.0.2
 djangocms-link==1.4.0
 djangocms-picture==0.0.4

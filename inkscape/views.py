@@ -4,6 +4,10 @@ from django.template import RequestContext
 from django.utils.translation import ugettext_lazy as _
 from django.conf import settings
 
+def robots(request):
+    return render_to_response('robots.txt', {},
+        context_instance=RequestContext(request), content_type='text/plain')
+
 def error(request, **c):
     error = c['error']
     response = render_to_response('error/%s.html' % error, c,

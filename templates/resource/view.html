@@ -68,10 +68,14 @@
 
       {% if item.signature %}
          <a class="signature" href="{{ item.signature.url }}">
-           {% if item.is_verified %}
-             <img src="{{ STATIC_URL }}images/sig_verified.svg" title="{% trans "Verified (signed by user)" %}"/>
+           {% if item.endorsement == 10 %}
+             <img src="{{ STATIC_URL }}images/endorse/official.svg" title="{% trans "Official (Signed by Inkscape Packager)" %}"/>
+           {% elif item.endorsement == 5 %}
+             <img src="{{ STATIC_URL }}images/endorse/signed.svg" title="{% trans "Signed (by Uploader)" %}"/>
+           {% elif item.endorsement == 1 %}
+             <img src="{{ STATIC_URL }}images/endorse/verified.svg" title="{% trans "Verified (Hash Matches)" %}"/>
            {% else %}
-             <img src="{{ STATIC_URL }}images/sig_broken.svg" title="{% trans "Broken Signature!" %}"/>
+             <img src="{{ STATIC_URL }}images/endorse/broken.svg" title="{% trans "Broken Signature or Hash!" %}"/>
            {% endif %}
          </a>
       {% endif %}

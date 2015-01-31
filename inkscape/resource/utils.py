@@ -184,6 +184,15 @@ def video_embed(url):
     if match:
         return {'type':'vimeo', 'id':match.group(5)}
 
+def hash_verify(sig_type, sig, data):
+    import hashlib
+    sig.file.open()
+    sig.file.seek(0)
+    digest = sig.file.read().split(' ')[0]
+    hasher = getattr(hashlib, sig_type, hashlib.sha1)()
+    for chunk in data.chunks():
+        hasher.update(chunk)
+    return hasher.hexdigest() == digest
 
 def gpg_verify(user, sig, data):
     import gnupg

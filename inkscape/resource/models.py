@@ -35,7 +35,7 @@ from model_utils.managers import InheritanceManager
 from inkscape.settings import MAX_PREVIEW_SIZE
 
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
 from .signals import post_publish
 from inkscape.settings import STATIC_URL
 from .slugify import set_slug
@@ -288,6 +288,7 @@ OWNS = (
   (False, _('I have permission')),
 )
 
+
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
     is_file = True
@@ -301,6 +302,11 @@ class ResourceFile(Resource):
     verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
 
+    ENDORSE_NONE = 0
+    ENDORSE_HASH = 1
+    ENDORSE_SIGN = 5
+    ENDORSE_AUTH = 10
+
     def save(self, *args, **kwargs):
         if self.download and self.has_file_changed():
             # We might be able to detect that the download has changed here.
@@ -308,19 +314,33 @@ class ResourceFile(Resource):
                 self.thumbnail.save(self.download.name, self.download, save=False)
             elif self.thumbnail:
                 self.thumbnail = None
+        if self.has_file_changed() or (self.signature and not self.signature._committed):
+            self.verified = False
         Resource.save(self, *args, **kwargs)
 
     def filename(self):
         return os.path.basename(self.download.name)
 
-    def is_verified(self):
+    def signature_type(self):
+        return self.signature.name.rsplit('.', 1)[-1]
+
+    def _verify(self, _type):
+        if _type == 'sig': # GPG Signature
+            return gpg_verify(self.user, self.signature, self.download)
+        return hash_verify(_type, self.signature, self.download)
+
+    def endorsement(self):
         if not self.signature:
-            return False
+            return self.ENDORSE_NONE
+        sig_type = self.signature_type()
         if not self.verified:
-            self.verified = gpg_verify(self.user, self.signature, self.download)
-            if self.verified:
-                self.save()
-        return self.verified
+            self.verified = self._verify(sig_type)
+            self.save()
+        if self.verified and sig_type == 'sig':
+            if self.user.has_perm('resource.change_resourcemirror'):
+                return self.ENDORSE_AUTH
+            return self.ENDORSE_SIGN
+        return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
 
     def is_visible(self):
         return Resource.is_visible(self) and os.path.exists(self.download.path)

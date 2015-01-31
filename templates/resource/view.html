@@ -36,7 +36,13 @@
 
     </div>
 
-    <div class="desc">{{ item.desc|urlize|linebreaks }}</div>
+    <div class="desc">
+      {{ item.description|urlize|linebreaks }}
+      {% if item.read_more %}
+        ...
+        <p><a href="{% url "resource.readme" item.pk %}">{% trans "read more" %}</a></p>
+      {% endif %}
+    </div>
 
     <div class="side">
       <h2>{% if item.category %}{{ item.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>

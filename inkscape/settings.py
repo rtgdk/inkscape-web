@@ -187,8 +187,8 @@ INSTALLED_APPS = (
     'inkscape.resource',
     'inkscape.alerts',
     'inkscape.moderation',
-    'django_comments',
     'inkscape.projects',
+    'django_comments',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 

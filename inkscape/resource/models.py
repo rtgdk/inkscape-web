@@ -183,6 +183,14 @@ class Resource(Model):
     def __unicode__(self):
         return self.name
 
+    def description(self):
+        if '[[...]]' in self.desc:
+            return self.desc.split('[[...]]')[0]
+        return self.desc[:1000]
+
+    def read_more(self):
+        return len(self.desc) > 1000 or '[[...]]' in self.desc
+
     def save(self, *args, **kwargs):
         if self.has_file_changed():
             self.edited = now()

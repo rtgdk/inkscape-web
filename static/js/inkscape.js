@@ -4,6 +4,7 @@ $(document).ready(function() {
   if($('[class|="maxHeight"]')[0])maxHeight();
   if($("#toplogin"))adjustBar();
   if($("#shield .tabs"))furnishTabs();
+  if($(".inlinepages"))inlinePages();
   $("#toplogin input").focus(true, focused);
   $("#toplogin input").focusout(false, focused);
 });
@@ -49,6 +50,20 @@ function furnishTabs() {
     $(this).children("a:first-child").click(selectBanner);
   });
   currentTab = $("#shield > .tabs li.current");
+}
+
+function inlinePages() {
+  $(".inlinepages > .tabs").children("li").each(function(){
+    $(this).click(selectInlinePage);
+  });
+  $(".inlinepages > .tabs > li:first-child").trigger("click");
+}
+function selectInlinePage() {
+  $(".inlinepages .selected").each(function(){
+    $(this).toggleClass('selected', 'false');
+  });
+  $(this).toggleClass('selected', true)
+  $("#"+this.id+"-page").toggleClass('selected', true)
 }
 
 function getPng(t) {

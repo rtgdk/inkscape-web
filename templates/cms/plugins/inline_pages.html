@@ -1,0 +1,15 @@
+{% load sekizai_tags cms_tags %}
+
+<div class="inlinepages" id="ip-{{ instance.pk }}">
+  <ul class="tabs">
+    {% for inlinepage in instance.child_plugin_instances %}
+      <li class="child" id="ilp{{ inlinepage.pk }}">{{ inlinepage.title }}</li>
+    {% endfor %}
+  </ul>
+
+  {% for inlinepage in instance.child_plugin_instances %}
+    <div class="inlinepage" id="ilp{{ inlinepage.pk }}-page">
+      {% render_plugin inlinepage %}
+    </div>
+  {% endfor %}
+</div>

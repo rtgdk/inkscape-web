@@ -1046,3 +1046,39 @@ div.diff .del {
   background-color: #f88;
   padding: 4px;
 }
+/* ============== Inline Page Tabs =============== */
+.inlinepages {
+  padding-top: 20px;
+}
+.inlinepages .tabs {
+  display: block;
+  border-bottom: 2px solid #ddd;
+  padding: 0px;
+}
+.inlinepages .tabs li {
+  list-style: none;
+  border-width: 1px 1px 0px 1px;
+  border-style: solid;
+  border-color: #ddd;
+  margin: 0em 2px;
+  min-width: 100px;
+  text-align: center;
+  padding: 10px;
+  border-radius: 8px 8px 0 0;
+  display: inline-block;
+  color: #157;
+  cursor: pointer;
+  font-weight: bold;
+  background-color: #eef;
+}
+.inlinepages .tabs li:hover,
+.inlinepages .tabs li.selected {
+  background-color: #fff;
+}
+.inlinepage {
+  display: none;
+  width: 95%;
+}
+.inlinepage.selected {
+  display: block;
+}

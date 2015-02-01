@@ -374,8 +374,9 @@ class ResourceFile(Resource):
         return (None, None)
 
     def icon(self):
-        if not self.thumbnail and self.mime().is_image() and self.download.size < MAX_PREVIEW_SIZE:
-            return self.download.url
+        if not self.thumbnail and self.mime().is_image():
+            if os.path.exists(self.download.path) and self.download.size < MAX_PREVIEW_SIZE:
+                return self.download.url
         return Resource.icon(self)
 
     def as_lines(self):

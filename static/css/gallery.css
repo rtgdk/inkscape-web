@@ -19,7 +19,8 @@
   vertical-align: middle;
   display: inline-block;
 }
-.galleryitem a.link {
+.galleryitem a.link,
+.bioitem a.link {
   min-width: 150px;
   min-height: 150px;
   display: block;
@@ -77,6 +78,7 @@
      color: #999;
 }
 table.bioitem {
+  border-collapse: collapse;
   border: solid #cce 2px;
   margin: 5px;
   padding: 6px;
@@ -90,10 +92,10 @@ table.bioitem td {
 }
 table.bioitem td.img {
   width: 0px;
-  padding-right: 10px;
 }
 table.bioitem p {
   text-align: left;
+  margin: 0px;
 }
 table.bioitem p.bio {
   height: 110px;

@@ -18,7 +18,7 @@
 Extra models for cms widgets only useful to inkscape website
 """
 
-__all__ = ('TabCategory', 'Tab', 'ShieldPlugin')
+__all__ = ('TabCategory', 'Tab', 'ShieldPlugin', 'InlinePages', 'InlinePage')
 
 import os
 import sys
@@ -143,4 +143,18 @@ class PagePublishedAlert(BaseAlert):
             return super(PagePublishedAlert, self).call(sender, **kwargs)
 
 register_alert('cms_page_published', PagePublishedAlert)
+
+
+
+class InlinePages(CMSPlugin):
+    def __unicode__(self):
+        return u"%d Inline Pages" % self.cmsplugin_set.all().count()
+
+
+class InlinePage(CMSPlugin):
+    title = CharField(max_length=64)
+
+    def __unicode__(self):
+        return self.title
+
 

@@ -15,21 +15,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext_lazy as _
-from django.contrib import admin
-
 from django.template.defaultfilters import filesizeformat
+from django.utils.translation import ugettext_lazy as _
+from django.contrib.admin import *
 
+from ajax_select import make_ajax_field
+from ajax_select.admin import AjaxSelectAdmin
+
+from .forms import ModelForm
 from .models import *
 
-admin.site.register(License)
-admin.site.register(Category)
-admin.site.register(ResourceFile)
-admin.site.register(ResourceMirror)
-admin.site.register(Gallery)
-admin.site.register(Vote)
+site.register(License)
+site.register(Category)
+site.register(ResourceFile)
+site.register(ResourceMirror)
+site.register(Vote)
 
-class QuotaAdmin(admin.ModelAdmin):
+class QuotaAdmin(ModelAdmin):
     list_display = ('name', 'quota_size')
 
     def name(self, obj):
@@ -40,5 +42,14 @@ class QuotaAdmin(admin.ModelAdmin):
     def quota_size(self, obj):
         return filesizeformat(obj.size)
 
-admin.site.register(Quota, QuotaAdmin)
+site.register(Quota, QuotaAdmin)
 
+class GalleryForm(ModelForm):
+    user  = make_ajax_field(Gallery, 'user', 'user', \
+        help_text=_('Select Group\'s Owner'))
+
+class GalleryAdmin(ModelAdmin):
+    readonly_fields = ('items', 'slug')
+    form = GalleryForm
+
+site.register(Gallery, GalleryAdmin)

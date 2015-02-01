@@ -180,7 +180,7 @@ def user_resource(request, username, slug):
     return view_resource(request, item.pk)
 
 def view_resource(request, item_id):
-    item = get_object_or_404(Resource, id=item_id)
+    item = get_object_or_404(Resource, pk=item_id)
     if not item.is_visible():
         raise Http404
 

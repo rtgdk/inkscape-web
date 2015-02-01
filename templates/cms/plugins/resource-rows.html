@@ -6,6 +6,7 @@
 
 <div class="photos"/>
   {% for item in resources %}
+    {% if item.is_visible %}
     <table class="bioitem">
       <tr>
         <td class="img" rowspan="2"><a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a></td>
@@ -15,6 +16,7 @@
         <td><p class="bio">{{ item.desc }}&nbsp;</p></td>
       </tr>
     </table>
+    {% endif %}
   {% endfor %}
 </div>
 

@@ -42,7 +42,7 @@ class CMSShieldPlugin(CMSPluginBase):
     name    = _('Front Shield')
     cache   = not DEBUG
 
-    render_template = "cms/shield.html"
+    render_template = "cms/plugins/shield.html"
 
     def render(self, context, instance, placeholder):
         context.update({

@@ -275,7 +275,7 @@ class Resource(Model):
 
     def icon(self):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
-        if self.thumbnail:
+        if self.thumbnail and os.path.exists(self.thumbnail.path):
             return self.thumbnail.url
         return self.mime().icon()
 
@@ -596,7 +596,7 @@ class GalleryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resource/%s.html" % (self.display or 'list')
+        return "cms/plugins/resource-%s.html" % (self.display or 'list')
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items per page'))
@@ -605,7 +605,7 @@ class CategoryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resource/%s.html" % (self.display or 'list')
+        return "cms/plugins/resource-%s.html" % (self.display or 'list')
 
 
 

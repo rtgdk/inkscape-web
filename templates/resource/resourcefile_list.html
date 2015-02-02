@@ -42,7 +42,7 @@
         {% endfor %}
       </ul>
       {% for category in categories %}
-        {% if category.count != 0 %}
+        {% if category.count > 0 %}
           <h2>{{ category.name }}</h2>
           {% if category.count > 1 %}
             <ul>
@@ -57,7 +57,7 @@
               {% endfor %}
             </ul>
           {% elif category.count == 1 %}
-            <ul><li><a class="active">{{ category.active_items.1 }}<span>{{ category.active_items.1.count }}</span></a></li></ul>
+            <ul><li><a class="active">{{ category.active_items.1.name }}<span>{{ category.active_items.1.count }}</span></a></li></ul>
           {% endif %}
         {% endif %}
       {% endfor %}

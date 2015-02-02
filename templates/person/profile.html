@@ -1,16 +1,58 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n future %}
+{% load user_session i18n future extras %}
 
 
 {% block content %}
 
-  <div id="right-sidebar" class="profileside">
-    <h1><a href="{% url "resources" username=user.username %}">{% trans "All Uploads" %}</a></h1>
-    {% if user.details.gpg_key %}
-    <h1><a href="{% url "user_gpgkey" user.username %}">{% trans "Public GPG Key" %}</a></h1>
-    {% endif %}
-    <h1><a href="{% url "resources" username=user.username category='pastebin' %}">{% trans "PasteBin" %}</a></h1>
-    {% if me %}
+  <div id="right-sidebar">
+    <div id="sidecategory">
+      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Uploads" %}</h1>
+      <ul>
+        <li><a href="{% url "resources" username=user.username %}">{% trans "All Uploads" %}</a></li>
+        <li><a href="{% url "resources" username=user.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
+        {% if user.details.gpg_key %}
+          <li><a href="{% url "user_gpgkey" user.username %}">{% trans "Public GPG Key" %}</a></li>
+        {% endif %}
+      </ul>
+
+      {% if user.teams.all %}
+      <h2>{% trans "Teams" %}</h2>
+      <ul>
+        {% for team in user.teams.all %}
+          <li title="{{ team }} - {{ team.desc }}"><a>{{ team }}{% if team.is_admin %}<span>&#9733;</span>{% endif %}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <h2>{% trans "Information" %}</h2>
+      <ul>
+        {% if user.details.last_seen %}
+          <li><a>{% trans "Last Seen" %}<span title="{{ user.details.last_seen|ago }} ({{ user.details.last_seen|date:"Y-m-d" }})">{{ user.details.last_seen|ago:1 }}</span></a></li>
+        {% endif %}
+        <li><a>{% trans "Joined" %}<span title="{{ user.date_joined|ago }} ({{ user.date_joined|date:"Y-m-d" }})">{{ user.date_joined|ago:1 }}</span></a></li>
+        <li><a>{% trans "Profile Visits" %}<span>{{ user.details.visits }}</span></a></li>
+        <li><a>{% trans "Views" %}<span>{{ user.resources.views }}</span></a></li>
+        <li><a>{% trans "Downloads" %}<span>{{ user.resources.downloads }}</span></a></li>
+        {% if user.is_me or user.is_staff %}
+        <li><a>{% trans "Upload Quota" %}<span title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}">{{ user.resources.disk_usage|percent:user.quota }}</span></a></li>
+        {% endif %}
+      </ul>
+
+    {% if user.is_me %}
+     <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
+     <ul id="sessions">
+     {% for session in user.sessions %}
+       <li title="{{ session.ip }} / {{ session.last_activity|ago }}"><a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>{{ session.ip|location }}
+         <span>
+           <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
+           <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>
+         </span>
+       </a></li>
+     {% endfor %}
+     </ul>
+   </div>
+
+     <h2>Use The Paste Bin</h2>
      <div id="paste">
       <form method="POST" action="{% url "pastebin" %}">
         {% csrf_token %}
@@ -18,57 +60,39 @@
         <input type="submit" value="{% trans "Paste!" %}"/>
       </form>
      </div>
-    {% else %}
-      <h1>{% trans "Last Seen" %}</h1>
-      <p>{% if user.details.last_seen %}{% blocktrans with user.details.last_seen|timesince as time_since %}{{time_since}} ago{% endblocktrans %}{% else %}{% trans "Never" %}{% endif %}</p>
-
-      <h1>{% trans "Joined On" %}</h1>
-      <p>{{ user.date_joined }}<br/>{% blocktrans with user.date_joined|timesince as time_since%}{{time_since}} ago{% endblocktrans %}</p>
-    {% endif %}
-
-    <h1>{% trans "Stats" %}</h1>
-    <table>
-      <tr><th scope="col">{% trans "Profile Visits:" %}</th><td>{{ user.details.visits }}</td></tr>
-      <tr><th scope="col">{% trans "Resource Views:" %}</th><td>{{ user.resources.views }}</td></tr>
-      <tr><th scope="col">{% trans "Resource Downloads:" %}</th><td>{{ user.resources.downloads }}</td></tr>
-    </table>
-   {% if me %}
-
-    <h1>{% trans "Upload Quota" %}</h1>
-    <progress value="{{ user.resources.disk_usage }}" max="{{ user.quota }}" title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}"></progress>
-
-     <h1 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h1>
-     <div id="sessions">
-     {% for session in user.sessions %}
-         <div>
-           <div class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</div>
-           <div class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</div>
-           <span title="{{ session.ip }} / {% blocktrans with session.last_activity|timesince as time_since%}{{time_since}} ago{% endblocktrans %}">{{ session.ip|location }}</span>
-         </div>
-     {% endfor %}
+   {% else %}
      </div>
    {% endif %}
-</div>
+  </div>
 
-<h1>InkSpaces - {% trans "A Place to Upload" %}
+<div id="left-column">
+  {% if user.resources.all %}
 
-{% if not me %}
+  <h2>{% trans "Recent Uploads" %}
+
+  {% if not user.is_me %}
     <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" user.pk %}">
       {% csrf_token %}
       <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
     </form>
-{% endif %}
-</h1>
+  {% endif %}
+  </h2>
 
-{% include "resource/galleries.html" %}
-
-{% if user.favorites.all %}
-  <h1>{% trans "Favorite Artworks" %}</h1>
-  {% with 4 as limit %}
-    {% with user.favorites.items as items %}
-      {% include "resource/list.html" %}
+    {% with 4 as limit %}
+      {% with user.resources.latest as items %}
+        {% include "resource/list.html" %}
+      {% endwith %}
     {% endwith %}
-  {% endwith %}
-{% endif %}
+  {% endif %}
+
+  {% if user.favorites.all %}
+    <h2>{% trans "Favorite Artworks" %}</h2>
+    {% with 4 as limit %}
+      {% with user.favorites.items as items %}
+        {% include "resource/list.html" %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+</div>
 
 {% endblock %}

@@ -38,11 +38,6 @@
      {% if request.user.is_authenticated and request.user != user %}
        <a href="{% url "message.new" user.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
      {% endif %}
-     {% for group in user.groups.all %}
-       {% if group.roll %}
-         <img src="{{ group.roll.icon.url }}" title="{{ group.roll }} - {{ group.roll.desc }}"/>
-       {% endif %}
-     {% endfor %}
     </div>
 
     <h1 id="name">

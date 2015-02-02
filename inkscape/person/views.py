@@ -53,12 +53,8 @@ def view_profile(request, username):
     if request.user != user:
         user.details.visits += 1
         user.details.save()
-    c = {
-        'user'  : user,
-        'items' : user.galleries.for_user(request.user),
-        'me'    : user == request.user,
-    }
-    return render_to_response('person/profile.html', c,
+    user.is_me = user == request.user
+    return render_to_response('person/profile.html', { 'user': user },
         context_instance=RequestContext(request))
 
 @login_required

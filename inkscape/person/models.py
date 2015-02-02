@@ -31,18 +31,6 @@ class UserDetails(Model):
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
 
-
-    def roll(self):
-        if not self.user.is_active:
-            return None
-        for group in self.user.groups.all():
-            if group.roll.name == 'Administrator':
-                if self.user.is_superuser:
-                    return group.roll
-            elif group.roll:
-                return group.roll
-        return UserRoll.objects.all()[0]
-
     def __unicode__(self):
         if self.user.first_name:
             return "%s %s" % (self.user.first_name, self.user.last_name)
@@ -54,15 +42,32 @@ class UserDetails(Model):
         return None
 
 
-class UserRoll(Model):
-    group = OneToOneField(Group, related_name='roll')
-    name  = CharField(_('User Roll'), max_length=32)
-    desc  = TextField(_('Description'), validators=[MaxLengthValidator(1024)],
-               null=True, blank=True)
-    icon  = ImageField(_('Display Icon'), upload_to='rollicons')
+ENROLES = (
+  ('O', _('Open')),
+  ('P', _('Peer Invite')),
+  ('T', _('Admin Invite')),
+  ('C', _('Closed')),
+)
+
+class Team(Model):
+    worker = ForeignKey(Group, related_name='teams', **null)
+    admin  = ForeignKey(Group, related_name='admin_teams', **null)
+
+    name  = CharField(_('User Team'), max_length=32)
+    icon  = ImageField(_('Display Icon'), upload_to='teams')
+
+    intro = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
+    desc  = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
+
+    mailman = CharField(_('Mailing List'), max_length=256, **null)
+    enrole  = CharField(_('Open Enrolement'), max_length=1, default='O', choices=ENROLES)
 
     def __unicode__(self):
         return self.name
+
+class TeamMembership(Model):
+    team = ForeignKey(Team, related_name='members')
+    user = ForeignKey(User, related_name='teams')
 
 # ===== CMS Plugins ===== #
 

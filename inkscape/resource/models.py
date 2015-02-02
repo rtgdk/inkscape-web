@@ -67,6 +67,7 @@ class VisibleManager(Manager):
     def full_list(self):
         return Manager.get_query_set(self)
 
+
 class License(Model):
     name    = CharField(max_length=64)
     code    = CharField(max_length=16)
@@ -152,6 +153,9 @@ class ResourceManager(InheritanceManager):
     def disk_usage(self):
         # This could be done better by storing the file sizes
         return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
+
+    def latest(self):
+        return self.get_query_set().exclude(category=Category.objects.get(pk=1))[:4]
 
 
 class Resource(Model):

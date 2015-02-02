@@ -59,7 +59,7 @@
   color: #DEDEDE;
 }
 
-#profile span {
+#profile > span {
   font-size: 50%;
   margin-left: 8px;
   background-color: #DEDEDE;
@@ -85,55 +85,36 @@
   text-decoration: none;
 }
 
-.profileside h1 {
-  font-size: 16pt;
-  text-align: center;
-  background-color: #eee;
-  border-radius: 4px;
-  margin-top:10px;
-}
-.profileside h1 a {
-  color: black;
-}
-.profileside progress {
+#right-sidebar progress {
   width: 100%;
 }
 
-#sessions img {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
+#sessions li span {
+  background-color: white !important;
 }
-#sessions > div {
-  line-height: 20px;
-}
-#sessions > div > div { 
-  width: 20px;
-  height: 20px;
-  display: inline-block;
+#sessions li span > span { 
   overflow: hidden;
-  position: relative;
-  top: 6px;
+  margin-left: 5px;
 }
-#sessions div.OS {
+#sessions .OS {
   background: url('../images/os.svg');
 }
-#sessions div.BR {
+#sessions .BR {
   background: url('../images/browser.svg');
 }
-#sessions div.gnu { background-position: -20px; }
-#sessions div.win { background-position: -40px; }
-#sessions div.osx { background-position: -60px; }
-#sessions div.and { background-position: -80px; }
-#sessions div.ios { background-position: -100px; }
-#sessions div.bsd { background-position: -120px; }
-#sessions div.ubu { background-position: -140px; }
+#sessions .gnu { background-position: -20px; }
+#sessions .win { background-position: -40px; }
+#sessions .osx { background-position: -60px; }
+#sessions .and { background-position: -80px; }
+#sessions .ios { background-position: -100px; }
+#sessions .bsd { background-position: -120px; }
+#sessions .ubu { background-position: -140px; }
 
-#sessions div.ff { background-position: -20px; }
-#sessions div.sf { background-position: -40px; }
-#sessions div.cr { background-position: -60px; }
-#sessions div.op { background-position: -80px; }
-#sessions div.ie { background-position: -100px; }
+#sessions .ff { background-position: -20px; }
+#sessions .sf { background-position: -40px; }
+#sessions .cr { background-position: -60px; }
+#sessions .op { background-position: -80px; }
+#sessions .ie { background-position: -100px; }
 
 #paste textarea {
   display: inline-block;

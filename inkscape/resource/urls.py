@@ -62,7 +62,6 @@ urlpatterns = patterns('',
     url(r'^paste/$',      paste_in,         name='pastebin'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
-      #url(r'^$',          view_gallery,     name="gallery"),
       url(r'^del/$',      delete_gallery,   name="delete_gallery"),
       url(r'^edit/$',     edit_gallery,     name='edit_gallery'),
       url(r'^add/$',      add_to_gallery,   name='add_to_gallery'),

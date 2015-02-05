@@ -53,10 +53,11 @@ span.firstterm
 {
 	font-style: italic;
 }
+
 .keys {
     text-align: right;
     line-height: 1.5em;
-    width: 45%;
+    width: 40%;
     padding-top: 2px;
 }
 
@@ -84,8 +85,8 @@ span.firstterm
 }
 
 .note {
-    padding-left: 80px;
-    padding-right: 40px;
+    padding-left: 20px;
+    padding-right: 0px;
     width: 100%;
     padding-top: 0;
     padding-bottom: 0;
@@ -93,10 +94,25 @@ span.firstterm
 
 .note span {
     display: block;
-    font-size: 70%;
+    font-size: 80%;
     font-family: sans-serif;
-    color: #333333;
+    color: #666666;
     border-left: 1px solid #999999;
     padding-left: 5px;
+    line-height: 1.4em;
 }
 
+
+.toc-section {
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.toc-group {
+    font-size: 0.9em;
+    text-decoration: none;
+}
+
+div.sect table {
+    width: 70%;
+}

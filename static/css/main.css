@@ -810,7 +810,7 @@ a.roundel img {
 }
 
 #messages {
-  margin-bottom: 12px;
+  margin: 12px 0px 2px;
 }
 #messages li {
   border: 2px solid #888;

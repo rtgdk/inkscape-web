@@ -40,7 +40,7 @@
       <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
     {% else %}
       <div class="image file">
-        <a href="{% url "view_resource" item.id %}"><img src="{{ item.icon }}" alt="{% trans "File Icon" %}"></a>
+        <a href="{% url "download_resource" item.id item.filename %}"><img src="{{ item.icon }}" alt="{% trans "File Icon" %}"></a>
       </div>
     {% endif %}
   {% elif item %}

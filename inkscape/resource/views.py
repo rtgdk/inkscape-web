@@ -233,7 +233,7 @@ def down_resource(request, item_id, fn=None):
             }, context_instance=RequestContext(request))
         return redirect(item.download.url)
 
-    if fn != item.filename():
+    if fn not in ['download/', item.filename()]:
         messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
         return redirect(item.get_absolute_url())
 

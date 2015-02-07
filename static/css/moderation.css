@@ -53,6 +53,7 @@
 
 .moderation .details .userphoto {
   width: 42px;
+  height: 42px;
   position: absolute;
   margin-top: -12px;
   border: 1px solid #aaa;

@@ -16,7 +16,7 @@ from .userextra import User, Group
 class UserDetails(Model):
     user  = AutoOneToOneField(User, related_name='details')
     bio   = TextField(validators=[MaxLengthValidator(4096)], **null)
-    photo = ResizedImageField(_('Photograph'), null=True, blank=True,
+    photo = ResizedImageField(_('Photograph (square)'), null=True, blank=True,
               upload_to='photos', max_width=190, max_height=190)
 
     ircnick = CharField(_('IRC Nickname'), max_length=20, **null)

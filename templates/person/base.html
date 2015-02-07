@@ -48,7 +48,7 @@
         {{ user.username }}
         <span id="username">{% trans "Anonymous" %}</span>
       {% endif %}
-      {% if me %}
+      {% if user.is_me %}
       <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
       {% endif %}
     </h1> 

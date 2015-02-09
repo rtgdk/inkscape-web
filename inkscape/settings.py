@@ -248,7 +248,7 @@ CMS_LANGUAGES = {
 	{
             'code': 'pt',
             'name': _('Portuguese'),
-            'fallbacks': ['pt-br', 'en'],
+            'fallbacks': ['en'],
             'public': True,
             'hide_untranslated': False,
             'redirect_on_fallback': True,
@@ -256,7 +256,7 @@ CMS_LANGUAGES = {
 	{
             'code': 'pt-br',
             'name': _('Brazilian Portuguese'),
-            'fallbacks': ['pt', 'en'],
+            'fallbacks': ['en'],
             'public': True,
             'hide_untranslated': False,
             'redirect_on_fallback': True,
@@ -296,7 +296,7 @@ CMS_LANGUAGES = {
 	{
             'code': 'zh-tw',
             'name': _('Simplified Chinese'),
-            'fallbacks': ['zh', 'en'],
+            'fallbacks': ['en'],
             'public': True,
             'hide_untranslated': False,
             'redirect_on_fallback': True,

@@ -1084,3 +1084,49 @@ div.diff .del {
 .inlinepage.selected {
   display: block;
 }
+
+/* ============== Tooltips =============== */
+
+div.tooltip {
+  display: inline;
+  font-weight: 400;
+}
+
+div.tooltip img.help {
+  vertical-align: middle;
+}
+
+div.tooltip strong {
+  font-size: 11pt;
+  line-height: 30px;
+}
+
+div.tooltip span {
+  z-index: 10;
+  display: none;
+  padding: 14px 20px;
+  margin-top: -30px;
+  margin-left: 15px;
+  width: 300px;
+  line-height: 16px;
+  border-radius: 8px;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
+  text-align: left;
+  font-size: 10pt;
+} 
+
+div.tooltip:hover span {
+  display: inline;
+  position: absolute;
+  color: white;
+  border: 2px solid #333333;
+  background: #444444;
+} 
+
+.ttarrow {
+  z-index: 20;
+  position: absolute;
+  top: 30px;
+  border: 0;
+  left: -13px;
+}

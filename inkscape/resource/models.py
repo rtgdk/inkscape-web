@@ -310,7 +310,7 @@ class ResourceFile(Resource):
     license    = ForeignKey(License, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
-    signature  = FileField(_('GPG Signature'), **upto('sigs'))
+    signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
     verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
 

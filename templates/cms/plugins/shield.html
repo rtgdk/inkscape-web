@@ -23,7 +23,14 @@
   </div>
   <ul class="tabs">
     {% for tab in tabs %}
-      <li {% if tab == tabs.0 %}class="current"{% endif %}><a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong><img src="{{ tab.tab_cat.icon.url }}"/> {{ tab.tab_text }}</a></li>
+      <li {% if tab == tabs.0 %}class="current"{% endif %}>
+        <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
+          {% if tab.tab_cat.icon %}
+            <img src="{{ tab.tab_cat.icon.url }}"/>
+          {% endif %}
+          {{ tab.tab_text }}
+        </a>
+      </li>
     {% endfor %}
   </ul>
 </div>

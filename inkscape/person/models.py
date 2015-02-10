@@ -41,17 +41,24 @@ class UserDetails(Model):
             return self.photo.url
         return None
 
+#
+# Plan: Team page listing each team. Teams can be created in the admin and tied to a specific mailman.
+# * Team admins are always specified in the admin interface (group)
+# * Each team has an 
+#
 
 ENROLES = (
   ('O', _('Open')),
   ('P', _('Peer Invite')),
   ('T', _('Admin Invite')),
   ('C', _('Closed')),
+  ('S', _('Secret')),
 )
 
 class Team(Model):
-    worker = ForeignKey(Group, related_name='teams', **null)
-    admin  = ForeignKey(Group, related_name='admin_teams', **null)
+    admin    = ForeignKey(User, related_name='teams')
+    members  = AutoOneToOneField(Group, related_name='team', **null)
+    watchers = ManyToManyField(User, related_name='watches', **null)
 
     name  = CharField(_('User Team'), max_length=32)
     icon  = ImageField(_('Display Icon'), upload_to='teams')
@@ -65,9 +72,36 @@ class Team(Model):
     def __unicode__(self):
         return self.name
 
-class TeamMembership(Model):
-    team = ForeignKey(Team, related_name='members')
-    user = ForeignKey(User, related_name='teams')
+
+class Ballot(Model):
+    name  = CharField(max_length=128)
+    team  = ForeignKey(Team, related_name='ballots')
+    desc  = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
+
+    def __str__(self):
+        return self.name
+
+
+class BallotItem(Model):
+    ballot = ForeignKey(Ballot, related_name='items')
+    name  = CharField(max_length=128)
+
+    def __str__(self):
+        return self.name
+
+
+class BallotVotes(Model):
+    ballot = ForeignKey(Ballot, related_name='votes')
+    user   = ForeignKey(User, related_name='ballot_votes')
+    item   = ForeignKey(BallotItem, related_name='votes')
+    order  = IntegerField(default=0)
+
+    class Meta:
+        unique_together = ('user', 'item', 'order')
+
+    def __str__(self):
+        return "%s's Vote on Ballot %s" % (self.user, self.ballot)
+
 
 # ===== CMS Plugins ===== #
 

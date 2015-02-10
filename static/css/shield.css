@@ -133,3 +133,20 @@
 #columns {
   margin-top: -70px !important;
 }
+#shield.download #banners > div {
+  border-radius: 0px 0px 15px 15px;
+  background-image: linear-gradient(to bottom, #333 0%, #aaa 6%);
+  border-bottom: 0px;
+}
+#shield.download div.platform {
+  border: 2px solid #555;
+  background-color: #fff;
+  border-radius: 6px;
+  margin: 5px;
+  padding: 12px;
+}
+div.platform:hover {
+  background-color: #fcc !important;
+}
+#shield.download .tabs {
+}

@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load sekizai_tags i18n %}
+
+{% block title %}Inkscape {{ object.version }}{% endblock %}
+
+{% block supercontent %}
+
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
+
+<div id="shield" class="download">
+  <div id="banners">
+    {% for tab in object.tabs %}
+      <div {% if forloop.first %}class="current"{% endif %}>
+        <div>
+          <div>
+            {% for releaseplatform in object.platforms.all %}
+              {% with releaseplatform.platform as platform %}
+                <div class="platform">
+                  {% if platform.logo %}
+                    <img src="{{ platform.logo.url }}" style="float:right;">
+                  {% endif %}
+                  <h3>{{ platform.name }}</h3>
+                  <p>{{ platform.desc }}</p>
+                  <a href="{{ releaseplatform.download }}">Download</a>
+                  <a href="{{ releaseplatform.more_info }}">More Info</a>
+                  <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
+                </div>
+              {% endwith %}
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <ul class="tabs">
+    {% for tab in object.tabs %}
+      <li {% if forloop.first %}class="current"{% endif %}>
+        <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
+          {% if tab.tab_cat.icon %}
+            <img src="{{ tab.tab_cat.icon.url }}"/>
+          {% endif %}
+          {{ tab.tab_text }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

@@ -198,12 +198,13 @@ MODERATED_MODELS = (
     ('django_comments.comment', _('User Comment')),
 )
 
+# activate automatically filled menues and deactivate redirection to English for non-translated cms pages
 CMS_LANGUAGES = {
     'default': {
         'fallbacks': ['en'],
         'public': True,
-        'hide_untranslated': False,
-        'redirect_on_fallback': True,
+        'hide_untranslated': False, # fill the menu
+        'redirect_on_fallback': False, # stay in the selected language instead of going to /en/ urls
     }
 }
 
@@ -214,6 +215,17 @@ CMS_TEMPLATES = (
     ('cms/super.html',    _('Full Screen')),
     ('cms/develop.html',  _('Developer Page')),
 )
+
+# activate automatic filling-in of contents for non-translated cms pages
+CMS_PLACEHOLDER_CONF = {placeholder : {'language_fallback': True,} for placeholder in [
+    'normal_template_content', 
+    'front_body', 
+    'column_one', 
+    'column_two', 
+    'column_three', 
+    'sidebar_template_content',]
+}
+
 CMS_APPLICATIONS_URLS = (
     ('cmsplugin_news.urls', 'News'),
 )

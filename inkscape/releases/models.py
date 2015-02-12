@@ -41,17 +41,17 @@ def upload_to(name, w=960, h=300):
 
 class Release(Model):
     """A release of inkscape"""
-    version       = CharField(max_length=8, unique=True)
-    codename      = CharField(max_length=32, **null)
+    version       = CharField(_('Version'), max_length=8, unique=True)
+    codename      = CharField(_('Codename'), max_length=32, **null)
 
-    release_notes = TextField(**null)
-    release_date  = DateField(**null)
+    release_notes = TextField(_('Release notes'), **null)
+    release_date  = DateField(_('Release date'), **null)
 
-    created       = DateTimeField(auto_now_add=True, db_index=True)
-    edited        = DateTimeField(auto_now=True)
+    created       = DateTimeField(_('Date created'), auto_now_add=True, db_index=True)
+    edited        = DateTimeField(_('Last edited'), auto_now=True)
 
-    manager       = ForeignKey(User, related_name='manages_releases', **null)
-    reviewer      = ForeignKey(User, related_name='reviews_releases', **null)
+    manager       = ForeignKey(User, related_name='manages_releases', verbose_name=_("Release Manager"), **null)
+    reviewer      = ForeignKey(User, related_name='reviews_releases', verbose_name=_("Release Reviewer"), **null)
 
     class Meta:
         ordering = '-version',
@@ -71,10 +71,10 @@ class Release(Model):
 
 class Platform(Model):
     """A list of all platforms we release to"""
-    name       = CharField(max_length=64)
-    desc       = CharField(max_length=255)
-    parent     = ForeignKey('self', **null)
-    manager    = ForeignKey(User, **null) 
+    name       = CharField(_('Name'), max_length=64)
+    desc       = CharField(_('Description'), max_length=255)
+    parent     = ForeignKey( 'self', verbose_name=_("Parent Platform"), **null)
+    manager    = ForeignKey( User, verbose_name=_("Platform Manager"), **null) 
 
     icon       = ResizedImageField(_('Icon (32x32)'),         **upload_to('icons', 32, 32))
     image      = ResizedImageField(_('Logo (256x256)'),       **upload_to('icons', 256, 256))
@@ -90,13 +90,13 @@ class Platform(Model):
 
 
 class ReleasePlatform(Model):
-    release    = ForeignKey(Release, related_name='platforms')
-    platform   = ForeignKey(Platform, related_name='releases')
-    download   = URLField(**null)
-    more_info  = URLField(**null)
-    howto      = URLField(_('Instructions'), **null)
+    release    = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')
+    platform   = ForeignKey(Platform, verbose_name=_("Release Platform"), related_name='releases')
+    download   = URLField(_('Download Link'), **null)
+    more_info  = URLField(_('More Info Link'), **null)
+    howto      = URLField(_('Instructions Link'), **null)
 
-    created    = DateTimeField(auto_now_add=True, db_index=True)
+    created    = DateTimeField(_("Date created"), auto_now_add=True, db_index=True)
 
     def __str__(self):
         return "%s - %s" % (self.release, self.platform)

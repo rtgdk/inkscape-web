@@ -25,11 +25,11 @@ urlpatterns += i18n_patterns('',
     url(r'^cms/',       include('inkscape.cmsdiff.urls')),
     url(r'^moderation/',include('inkscape.moderation.urls')),
     url(r'^search/',    include('inkscape.search.urls')),
+    url(r'^news/',      include('cmsplugin_news.urls')),
     url(r'^',           include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
     url(r'^',           include('cms.urls')),
     url(r'^contact/',   include('inkscape.extra.urls')),
-    url(r'^news/',      include('cmsplugin_news.urls')),
 )
 
 for e in ('403','404','500'):

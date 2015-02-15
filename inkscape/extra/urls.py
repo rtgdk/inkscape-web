@@ -5,6 +5,9 @@ except ImportError:
 
 from .views import *
 
-urlpatterns = patterns('',
-   url(r'^us/', contact_us, name='contact'),
+urlpatterns = patterns('inkscape.extra.views',
+  url(r'^robots\.txt$',  'robots',       name='robots.txt'),
+  url(r'^contact/us/$',  'contact_us',   name='contact'),
+  url(r'^error/$',       'errors',       name='errors'),
 )
+

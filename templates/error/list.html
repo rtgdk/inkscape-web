@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% block title %}{% trans "Website Errors" %}{% endblock %}</h1>
+
+  <table class="alternating">
+    <tr>
+      <th scope="col">Count</th>
+      <th scope="col">Location</th>
+      <th scope="col">Status</th>
+      <th scope="col">Last</th>
+    </tr>
+    {% for error in errors %}
+      <tr>
+        <td>{{ error.count }}</td>
+        <td>{{ error.uri }}</td>
+        <td>{{ error.status }}</td>
+        <td>{{ error.added|date:"M D dS" }} {{ error.added|time:"fA" }}</td>
+      </tr>
+    {% endfor %}
+  </table>
+
+{% endblock %}

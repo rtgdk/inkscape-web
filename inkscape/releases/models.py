@@ -105,8 +105,15 @@ class Platform(Model):
         return _from
     
     def __str__(self):
-        return self.name
-
+        el = self
+        out = "";
+        while el is not None:
+            if out == "":
+                out = el.name
+            else:
+                out = el.name + " : " + out
+            el = el.parent
+        return out
 
 class ReleasePlatform(Model):
     release    = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')

@@ -478,4 +478,7 @@ div.tog a.remove {
 div.tog a.remove:hover {
   background-position: -32px 0px;
 }
+#gallery {
+  margin-top: 12px;
+}
 

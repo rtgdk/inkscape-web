@@ -343,6 +343,17 @@ class GalleryList(CategoryListView):
             return User.objects.get(username=username).galleries.all()
         return Gallery.objects.none()
 
+    def get_context_data(self, **kwargs):
+        data = super(GalleryList, self).get_context_data(**kwargs)
+        if 'username' in data and data['username']:
+            if data['username'] == self.request.user:
+                data['breadcrumbs'] = breadcrumbs((data['username'], "My"), "InkSpace")
+            else:
+                data['breadcrumbs'] = breadcrumbs(data['username'], "InkSpace")
+        else:
+            data['breadcrumbs'] = breadcrumbs("InkSpaces (Galleries)")
+        return data
+
 
 class GalleryFeed(CategoryFeed, GalleryList):
     title = "Gallery Feed"

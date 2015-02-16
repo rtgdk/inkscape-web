@@ -73,9 +73,7 @@ class Platform(Model):
     """A list of all platforms we release to"""
     name       = CharField(_('Name'), max_length=64)
     desc       = CharField(_('Description'), max_length=255)
-
     parent     = ForeignKey( 'self', related_name='children', verbose_name=_("Parent Platform"), **null)
-
     manager    = ForeignKey( User, verbose_name=_("Platform Manager"), **null) 
 
     icon       = ResizedImageField(_('Icon (32x32)'),         **upload_to('icons', 32, 32))
@@ -107,15 +105,7 @@ class Platform(Model):
         return _from
     
     def __str__(self):
-        el = self
-        out = "";
-        while el is not None:
-            if out == "":
-                out = el.name
-            else:
-                out = el.name  + " " + out
-            el = el.parent
-        return out
+        return self.name
 
 
 class ReleasePlatform(Model):

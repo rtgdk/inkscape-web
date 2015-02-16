@@ -18,6 +18,7 @@
 """
 Load inkscape docs from the disk and give to the user.
 """
+import re
 import os
 import codecs
 
@@ -27,9 +28,31 @@ from django.template import RequestContext
 
 from inkscape.settings import MEDIA_ROOT, MEDIA_URL
 
-def get_path(uri):
-    path = os.path.join(MEDIA_ROOT, 'doc', uri)
-    if not os.path.exists(path):
+DOC_ROOT = os.path.join(MEDIA_ROOT, 'doc')
+
+def get_redirects():
+    """We want to open up a redirects files with all the right
+       Instructions, but this mustn't break the site if they fail."""
+    if os.path.isdir(DOC_ROOT):
+        _file = os.path.join(DOC_ROOT, 'redirects.re')
+        if os.path.isfile(_file):
+            with open(_file, 'r') as fhl:
+                return [ line.strip().split("|") for line in fhl.readlines() ]
+    return []
+
+def get_path(uri, check=True):
+    path = os.path.join(DOC_ROOT, uri)
+    if not os.path.isfile(path):
+        # Cheeky asserts return for redirects
+        assert check
+        for (regex, new_uri) in get_redirects():
+            try:
+                ret = re.findall(regex, uri)
+                assert ret
+                return get_path(new_uri % ret[0], False)
+            except (Http404, AssertionError):
+                # We capture all exceptions to protect from broken regexs
+                pass
         raise Http404
     return path
 
@@ -46,7 +69,9 @@ def page(request, uri):
         elif '<div id="preface">' in content:
             content = content.split('<div id="preface">',1)[-1]
         content = content.split('<div id="footer">')[0]
-        content = content.replace('src="', 'src="%s/' % os.path.join(MEDIA_URL, 'doc', *uri.split('/')[:-1]))
+        content = content.replace('src="http','|src|')\
+            .replace('src="', 'src="%s/' % os.path.join(MEDIA_URL, 'doc', *uri.split('/')[:-1]))\
+            .replace('|src|', 'src="http')
     c = {
         'title': title,
         'content': content,

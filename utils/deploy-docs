@@ -1,0 +1,34 @@
+#!/bin/bash
+#set -e
+
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+cd $DIR/../
+
+TEST=$@
+source "data/deployment"
+export SOURCE="/tmp/docs"
+export TARGET="$TARGET/data/media/doc"
+
+echo "Sending docs to $TARGET..."
+
+if [ ! -d "$TARGET" ]; then
+    echo "Target doesn't exist: $TARGET"
+    exit 2
+fi
+
+if [ ! -d "$SOURCE" ]; then
+    SOURCE="./"
+    exit 1
+fi
+
+cd $SOURCE
+
+echo "$SOURCE"
+bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
+if [ -d $TARGET ]; then
+  if [[ $? == 0 ]]; then
+    echo "New revisions found, updating!"
+    rsync -uavn $TEST --exclude='.bzr/' --delete . $TARGET
+    bzr revno > $TARGET/revision
+  fi
+fi

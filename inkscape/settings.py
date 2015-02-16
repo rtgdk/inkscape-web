@@ -94,6 +94,9 @@ STATICFILES_DIRS = os.path.join(PROJECT_PATH, 'static'),
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),
 )
+ROSETTA_EXTRA_PATHS = (
+  os.path.join(PROJECT_PATH, 'data', 'locale', 'inkscape'),
+)
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
@@ -161,6 +164,7 @@ INSTALLED_APPS = (
     'haystack',
     'reversion',
     'pile',
+    'cmsrosetta',
     'cms',     # django CMS itself
     'mptt',    # utilities for implementing a modified pre-order traversal tree
     'menus',   # helper for model independent hierarchical website navigation

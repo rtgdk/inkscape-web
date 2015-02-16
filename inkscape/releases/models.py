@@ -71,20 +71,41 @@ class Release(Model):
 
 class Platform(Model):
     """A list of all platforms we release to"""
-    parent     = ForeignKey( 'self', verbose_name=_("Parent Platform"), **null)
     name       = CharField(_('Name'), max_length=64)
     desc       = CharField(_('Description'), max_length=255)
+
+    parent     = ForeignKey( 'self', related_name='children', verbose_name=_("Parent Platform"), **null)
+
     manager    = ForeignKey( User, verbose_name=_("Platform Manager"), **null) 
 
     icon       = ResizedImageField(_('Icon (32x32)'),         **upload_to('icons', 32, 32))
     image      = ResizedImageField(_('Logo (256x256)'),       **upload_to('icons', 256, 256))
 
-    uuid     = lambda self: slugify(self.name)
-    tab_name = lambda self: self.name
-    tab_text = lambda self: self.desc
-    tab_cat  = lambda self: {'icon': self.icon}
-    root     = lambda self: self.parent.root() if self.parent else self
+    uuid       = lambda self: slugify(self.name)
+    tab_name   = lambda self: self.name
+    tab_text   = lambda self: self.desc
+    tab_cat    = lambda self: {'icon': self.icon}
+    root       = lambda self: self.ancestors()[-1]
+    long_name  = lambda self: (" : ").join([anc.name for anc in self.ancestors()][::-1])
 
+    def ancestors(self, _to=None):
+        _to = _to or [self]
+        if self.parent and self.parent not in _to:
+            # Prevent infinite loops getting parents
+            _to.append(self.parent)
+            self.parent.ancestors(_to)
+        return _to
+      
+    def descendants(self, _from=None):
+        _from = _from or []
+        for child in self.children.all():
+            if child in _from:
+                # Prevent infinite loops getting children
+                continue
+            _from.append(child)
+            child.descendants(_from)
+        return _from
+    
     def __str__(self):
         el = self
         out = "";
@@ -108,5 +129,3 @@ class ReleasePlatform(Model):
 
     def __str__(self):
         return "%s - %s" % (self.release, self.platform)
-
-

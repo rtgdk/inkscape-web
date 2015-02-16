@@ -120,6 +120,20 @@ class ShieldPlugin(CMSPlugin):
             obj.save()
 
 
+class ErrorLog(Model):
+    uri    = CharField(max_length=255, db_index=True)
+    status = IntegerField(db_index=True)
+    count  = IntegerField(default=0)
+    added  = DateTimeField(auto_now=True, db_index=True)
+
+    def __str__(self):
+        return "%s (%d)" % (self.uri, self.status)
+
+    def add(self):
+        self.count += 1
+        self.save()
+
+
 # Add an alert when a page is edited for anyone subscribed
 from inkscape.alerts.models import *
 from cms.models import Page

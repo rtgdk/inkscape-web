@@ -6,5 +6,5 @@ except ImportError:
 from inkscape.person.views import *
 
 urlpatterns = patterns('inkscape.docs.views',
-    url(r'^(.*)$',    'page',         name='doc'),
+    url(r'^(.*)$', 'page', name='doc'),
 )

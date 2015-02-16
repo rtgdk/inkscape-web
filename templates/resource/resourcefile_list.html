@@ -1,11 +1,19 @@
 {% extends 'base.html' %}
-{% load i18n %}
+{% load i18n sekizai_tags menu_tags %}
 
 {% block title %}{% trans "InkSpace" %}{% endblock %}
 
-{% block content %}
-  <div>
+{% block supercontent %}
+ {% addtoblock "js" %}
+   <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
+ {% endaddtoblock %}
+
+ <div id="content"{% block contentclasses %}{% endblock %}>
+  <div class="wrapper">
     <div id="left-column">
+      {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+      {% include "resource/add.html" %}
+
       {% with object_list as items %}
         {% with 20 as limit %}
           {% include "resource/list.html" %}
@@ -27,10 +35,6 @@
       {% endif %}
 
      <div id="sidecategory">
-      {% if username %}
-      <h2>{% trans "For User" %}</h2>
-      <ul><li><a href="{{ username.get_absolute_url }}">{{ username }}</a></li></ul>
-      {% endif %}
       <h2>{% trans "Order By" %}</h2>
       <ul>
         {% for order in orders %}
@@ -64,5 +68,6 @@
      </div>
     </div>
   </div>
+ </div>
 
 {% endblock %}

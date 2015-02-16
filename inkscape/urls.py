@@ -7,8 +7,6 @@ from django.contrib import admin
 admin.autodiscover()
 
 urlpatterns = patterns('',
-    url(r'^robots\.txt$', 'inkscape.views.robots'),
-    url(r'^doc/',       include('inkscape.docs.urls')),
     url(r'^',           include('user_sessions.urls', 'user_sessions')),
     url(r'^',           include('social_auth.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
@@ -16,8 +14,9 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('',
     url(r'^admin/lookups/', include('ajax_select.urls')),
-    url(r'^admin/',         include(admin.site.urls)),
+    url(r'^admin/',     include(admin.site.urls)),
     url(r'^tr/',        include('cmsrosetta.urls')),
+    url(r'^doc/',       include('inkscape.docs.urls')),
     url(r'^project/',   include('inkscape.projects.urls')),
     url(r'^release/',   include('inkscape.releases.urls')),
     url(r'^alerts/',    include('inkscape.alerts.urls')),
@@ -28,11 +27,11 @@ urlpatterns += i18n_patterns('',
     url(r'^news/',      include('cmsplugin_news.urls')),
     url(r'^',           include('inkscape.person.urls')),
     url(r'^',           include('inkscape.resource.urls')),
+    url(r'^',           include('inkscape.extra.urls')),
     url(r'^',           include('cms.urls')),
-    url(r'^contact/',   include('inkscape.extra.urls')),
 )
 
 for e in ('403','404','500'):
-    locals()['handler'+e] = 'inkscape.views.error'+e
-    urlpatterns += patterns('', url('^error/'+e+'/$', 'inkscape.views.error'+e, name='error'+e))
-
+    locals()['handler'+e] = 'inkscape.extra.views.error' + e
+    urlpatterns += patterns('inkscape.extra.views',
+        url('^error/' + e + '/$', 'error' + e, name='error' + e))

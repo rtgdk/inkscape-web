@@ -79,11 +79,12 @@ class Platform(Model):
     icon       = ResizedImageField(_('Icon (32x32)'),         **upload_to('icons', 32, 32))
     image      = ResizedImageField(_('Logo (256x256)'),       **upload_to('icons', 256, 256))
 
-    uuid     = lambda self: slugify(self.name)
-    tab_name = lambda self: self.name
-    tab_text = lambda self: self.desc
-    tab_cat  = lambda self: {'icon': self.icon}
-    root     = lambda self: self.ancestors()[-1]
+    uuid       = lambda self: slugify(self.name)
+    tab_name   = lambda self: self.name
+    tab_text   = lambda self: self.desc
+    tab_cat    = lambda self: {'icon': self.icon}
+    root       = lambda self: self.ancestors()[-1]
+    long_name  = lambda self: (" : ").join([anc.name for anc in self.ancestors()][::-1])
 
     def ancestors(self, _to=None):
         _to = _to or [self]

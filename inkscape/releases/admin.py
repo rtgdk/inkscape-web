@@ -40,6 +40,7 @@ class PlatformForm(ModelForm):
 
 class PlatformAdmin(ModelAdmin):
     form = PlatformForm
+    list_display = ['long_name',]
 
 site.register(Release, ReleaseAdmin)
 site.register(Platform, PlatformAdmin)

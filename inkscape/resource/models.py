@@ -231,8 +231,12 @@ class Resource(Model):
         return str(self.edited.year)
 
     def set_viewed(self, session):
-        (view, is_new) = self.views.get_or_create(session=session.session_key)
-        return is_new
+        if session.session_key:
+            # We check for session key because it might not exist if this
+            # was called from the first view or cookies are blocked.
+            (view, is_new) = self.views.get_or_create(session=session.session_key)
+            return is_new
+        return False
 
     def is_visible(self):
         return get_user() == self.user or self.published

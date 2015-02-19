@@ -54,6 +54,8 @@ def time_ago(d, mode=0):
 
 @register.filter("percent")
 def percent(x, y):
+    if int(y) == 0:
+        return "0%"
     return "%d%%" % ( float(x) / float(y) )
 
 @register.filter("placeholder")

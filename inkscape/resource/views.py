@@ -61,15 +61,17 @@ def edit_gallery(request, gallery_id=None):
     
 
 @login_required
-def add_to_gallery(request, gallery_id):
-    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
-    c = { 'gallery': gallery }
+def drop_upload(request, gallery_id=None):
+    c = {}
+    if gallery_id:
+        c = { 'gallery': get_object_or_404(Gallery, id=gallery_id, user=request.user) }
+
     if request.method == 'POST':
         c['form'] = ResourceAddForm(request.user, request.POST, request.FILES)
         if c['form'].is_valid():
             c['item'] = c['form'].save()
-            # XXX We can copy over settings fromt he gallery's defaults here
-            gallery.items.add(c['item'])
+            if 'gallery' in c:
+                c['gallery'].items.add(c['item'])
     return render_to_response('resource/ajax/add.txt', c,
       context_instance=RequestContext(request),
       content_type="text/plain")
@@ -119,7 +121,7 @@ def edit_resource(request, item_id=None):
 
 @login_required
 def create_resource(request, gallery_id):
-    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user)
+    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user) if gallery_id else None
     c = {
       'gallery': gallery,
       'form': ResourceFileForm(request.user),
@@ -128,7 +130,7 @@ def create_resource(request, gallery_id):
     if request.method == 'POST':
         c['form'] = ResourceFileForm(request.user, request.POST, request.FILES)
         if 'cancel' in request.POST:
-            return redirect('gallery', gallery_id)
+            return redirect('resources') #, kwargs={'galleries':gallery_id})
         if c['form'].is_valid():
             item = c['form'].save()
             gallery.items.add(item)
@@ -191,14 +193,14 @@ def view_resource(request, item_id):
     c = {
       'item': item,
       'vote': item.votes.for_user(request.user).first(),
-      'breadcrumbs': breadcrumbs(item.user, item.gallery, item),
+      'breadcrumbs': breadcrumbs(item.user, (_('Foo'), 'aaa'), item.gallery, item),
     }
     return render_to_response('resource/view.html', c,
                context_instance=RequestContext(request))
 
 
 @login_required
-def like_resource(request, item_id, like_id):
+def like_resource(request, like_id, item_id):
     item = get_object_or_404(Resource, id=item_id)
     if item.user.pk == request.user.pk:
         raise Http404
@@ -279,25 +281,6 @@ def mirror_resources(request, uuid=None):
     return render_to_response('resource/mirror.html', c,
         context_instance=RequestContext(request))
 
-def view_galleries(request, username=None):
-    if username:
-        user = get_object_or_404(User, username=username)
-    else:
-        user = request.user
-    # Show items which are published, OR are the same user as the requester
-    filters = {}
-    c = {
-      'user': user,
-      'me': user == request.user,
-      'items': user.galleries.for_user(request.user),
-      'breadcrumbs': breadcrumbs(user, "Galleries"),
-      'limit'      : 15 - (user == request.user),
-      # XXX 'todelete'   : todelete,
-    }
-    
-    return render_to_response('resource/user.html', c,
-        context_instance=RequestContext(request))
-
 
 def mirror_resource(request, uuid, filename):
     mirror = get_object_or_404(ResourceMirror, uuid=uuid)
@@ -335,13 +318,16 @@ class GalleryList(CategoryListView):
     )
 
     def base_queryset(self):
-        return super(GalleryList, self).base_queryset().filter(published=True)
+        qs = super(GalleryList, self).base_queryset()
+        if self.get_value('username') != self.request.user.username:
+            qs = qs.filter(published=True)
+        return qs
 
     def get_galleries(self):
         username = self.get_value('username')
         if username:
-            return User.objects.get(username=username).galleries.all()
-        return Gallery.objects.none()
+            return User.objects.get(username=username).galleries.filter(group__isnull=True)
+        return None
 
     def get_context_data(self, **kwargs):
         data = super(GalleryList, self).get_context_data(**kwargs)

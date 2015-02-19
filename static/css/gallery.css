@@ -285,7 +285,12 @@ table.bioitem p a {
   opacity: 0.5;
 }
 .unpublished {
-  border-color: #e58;
+  border: 2px solid #e58 !important;
+  background-color: #fee;
+  padding: 2px;
+}
+.unpublished p a {
+  background-color: transparent !important;
 }
 .unpublished .label {
   background-color: #fdd;
@@ -299,10 +304,11 @@ table.bioitem p a {
   line-height: 100%;
 }
 .galleryitem .label {
-  width: 148px;
+  width: 147px;
   visibility: hidden;
   position: absolute;
   text-align: right;
+  margin-top: 2px;
 }
 .galleryitem:hover .label {
   visibility: visible;

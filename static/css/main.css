@@ -730,7 +730,8 @@ hr {
   margin-bottom: 12px;
 }
 
-#sidecategory li a {
+#sidecategory li a,
+#sidecategory ul form {
   padding: 2px 4px 2px 15px;
   margin-bottom: 1px;
   border-radius: 11px;
@@ -739,6 +740,7 @@ hr {
   display: block;
   line-height: 150%;
   font-size: 10.5pt;
+  cursor: pointer;
 }
 
 #sidecategory li a:focus {
@@ -760,13 +762,46 @@ hr {
   background-color: #f4f5f7;
 }
 
-#sidecategory li a span {
+#sidecategory li a span,
+#sidecategory ul form button {
   background-color: #3a95c4;
   color: white;
-  float: right;
   border-radius: 11px;
-  display: inline-block;
+  display: table-cell;
   padding: 0px 8px;
+  vertical-align: middle;
+  border: none;
+}
+#sidecategory li a:hover span {
+  background-color: #e4e5e7;
+}
+#sidecategory li a label,
+#sidecategory ul form input {
+  display: table-cell;
+  width: 100%;
+  border: none;
+  padding: 0px;
+  margin: 0px;
+  border-radius: 0px;
+  cursor: pointer;
+}
+#sidecategory ul form {
+  margin-top: 2px;
+  border: 1px solid #fff;
+}
+#sidecategory ul form:hover {
+  border: 1px inset #999;
+  background-color: #eee;
+}
+#sidecategory ul form input {
+  width: 153px;
+  background-color: transparent;
+  color: #888;
+  cursor: auto;
+}
+#sidecategory ul form button {
+  width: 26px !important;
+  margin-top: -3px;
 }
 
 #sidecategory li a.active span {

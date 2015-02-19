@@ -36,22 +36,20 @@
 
   </div>
 
-  <div class="buttonfoot">
+  <div id="item-footer">
     {% if item.next %}
       <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
       <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>
     {% else %}
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
     {% endif %}
- </form>
-
-
-    <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
     {% if item %}
-     <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
-        <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
-    </form>
+      <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+        <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
+      </form>
     {% endif %}
+    <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+  </div>
 
   </div>
 {% endblock %}

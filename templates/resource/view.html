@@ -27,8 +27,8 @@
       <div class="tog" id="vote"><a
         {% if not request.user.id or request.user == item.user %}
           title="{% trans "Favorites" %}" class="disabled"
-        {% elif not vote %}href="{% url "like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
-                 {% else %}href="{% url "like" item.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
+        {% elif not vote %}href="{% url "resource.like" item.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                 {% else %}href="{% url "resource.like" item.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
           >&nbsp;</a><p>{{ item.votes.count }}</p></div>
 
       <h2>{{ item.name }}</h2>
@@ -100,7 +100,7 @@
           <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
         </form>
         <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete Upload" %}","{% trans "Are you sure you want to delete this upload?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
-          <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
+          <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
         </form>
       </div>
     {% endif %}

@@ -19,7 +19,7 @@
       <h2>{% trans "Teams" %}</h2>
       <ul>
         {% for team in user.teams.all %}
-          <li title="{{ team }} - {{ team.desc }}"><a>{{ team }}{% if team.is_admin %}<span>&#9733;</span>{% endif %}</a></li>
+          <li title="{{ team }} - {{ team.desc }}"><a><label>{{ team }}</label>{% if team.is_admin %}<span>&#9733;</span>{% endif %}</a></li>
         {% endfor %}
       </ul>
       {% endif %}
@@ -27,14 +27,20 @@
       <h2>{% trans "Information" %}</h2>
       <ul>
         {% if user.details.last_seen %}
-          <li><a>{% trans "Last Seen" %}<span title="{{ user.details.last_seen|ago }} ({{ user.details.last_seen|date:"Y-m-d" }})">{{ user.details.last_seen|ago:1 }}</span></a></li>
+          <li><a><label>{% trans "Last Seen" %}</label>
+            <span title="{{ user.details.last_seen|ago }} ({{ user.details.last_seen|date:"Y-m-d" }})">{{ user.details.last_seen|ago:1 }}</span></a></li>
         {% endif %}
-        <li><a>{% trans "Joined" %}<span title="{{ user.date_joined|ago }} ({{ user.date_joined|date:"Y-m-d" }})">{{ user.date_joined|ago:1 }}</span></a></li>
-        <li><a>{% trans "Profile Visits" %}<span>{{ user.details.visits }}</span></a></li>
-        <li><a>{% trans "Views" %}<span>{{ user.resources.views }}</span></a></li>
-        <li><a>{% trans "Downloads" %}<span>{{ user.resources.downloads }}</span></a></li>
+        <li><a><label>{% trans "Joined" %}</label>
+          <span title="{{ user.date_joined|ago }} ({{ user.date_joined|date:"Y-m-d" }})">{{ user.date_joined|ago:1 }}</span></a></li>
+        <li><a><label>{% trans "Profile Visits" %}</label>
+          <span>{{ user.details.visits }}</span></a></li>
+        <li><a><label>{% trans "Views" %}</label>
+          <span>{{ user.resources.views }}</span></a></li>
+        <li><a><label>{% trans "Downloads" %}</label>
+          <span>{{ user.resources.downloads }}</span></a></li>
         {% if user.is_me or user.is_staff %}
-        <li><a>{% trans "Upload Quota" %}<span title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}">{{ user.resources.disk_usage|percent:user.quota }}</span></a></li>
+        <li><a><label>{% trans "Upload Quota" %}</label>
+          <span title="{{ user.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ user.quota|filesizeformat }}">{{ user.resources.disk_usage|percent:user.quota }}</span></a></li>
         {% endif %}
       </ul>
 
@@ -42,7 +48,8 @@
      <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
      <ul id="sessions">
      {% for session in user.sessions %}
-       <li title="{{ session.ip }} / {{ session.last_activity|ago }}"><a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>{{ session.ip|location }}
+       <li title="{{ session.ip }} / {{ session.last_activity|ago }}"><a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>
+         <label>{{ session.ip|location }}</label>
          <span>
            <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
            <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>

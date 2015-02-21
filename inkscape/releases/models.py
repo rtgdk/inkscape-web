@@ -84,7 +84,6 @@ class Platform(Model):
     tab_text   = lambda self: self.desc
     tab_cat    = lambda self: {'icon': self.icon}
     root       = lambda self: self.ancestors()[-1]
-    long_name  = lambda self: (" : ").join([anc.name for anc in self.ancestors()][::-1])
 
     def ancestors(self, _to=None):
         _to = _to or [self]
@@ -105,15 +104,7 @@ class Platform(Model):
         return _from
     
     def __str__(self):
-        el = self
-        out = "";
-        while el is not None:
-            if out == "":
-                out = el.name
-            else:
-                out = el.name + " : " + out
-            el = el.parent
-        return out
+        return (" : ").join([anc.name for anc in self.ancestors()][::-1])
 
 class ReleasePlatform(Model):
     release    = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')

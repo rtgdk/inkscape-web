@@ -42,7 +42,7 @@ add_user_url(
 )
 
 urlpatterns = patterns('',
-  url(r'^p(\d+)/',        view_resource,    name="pasted_item"),
+  url(r'^paste/(\d+)/$',              view_resource,    name="pasted_item"),
 
   url_tree('^mirror/',
     url(r'^$',                        mirror_resources, name="mirror"),
@@ -60,7 +60,7 @@ urlpatterns = patterns('',
     url(r'^new/$',         edit_gallery,     name="new_gallery"),
     url(r'^paste/$',       paste_in,         name='pastebin'),
     url(r'^upload/()$',    create_resource,  name='resource.upload'),
-    url(r'^upload/go/()$', drop_upload,   name='resource.drop'),
+    url(r'^upload/go/()$', drop_upload,      name='resource.drop'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
       url(r'^del/$',       delete_gallery,   name="delete_gallery"),

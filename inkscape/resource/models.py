@@ -155,7 +155,7 @@ class ResourceManager(InheritanceManager):
         return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
 
     def latest(self):
-        return self.get_query_set().exclude(category=Category.objects.get(pk=1))[:4]
+        return self.get_query_set().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
 
 
 class Resource(Model):

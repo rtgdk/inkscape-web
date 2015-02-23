@@ -244,16 +244,30 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',
     'social_auth.backends.google.GoogleOAuth2Backend',
+    #'social_auth.backends.google.GoogleBackend', # TESTING XXX
     'social_auth.backends.yahoo.YahooBackend',
     'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
+
 )
+
+# Custom pipeline to insert openid to oauth2 migration
+SOCIAL_AUTH_PIPELINE = (
+  'social_auth.backends.pipeline.social.social_auth_user',
+  'inkscape.extra.google_pipeline.migrate_from_openid',
+  'social_auth.backends.pipeline.user.get_username',
+  'social_auth.backends.pipeline.user.create_user',
+  'social_auth.backends.pipeline.social.associate_user',
+  'social_auth.backends.pipeline.social.load_extra_data',
+  'social_auth.backends.pipeline.user.update_user_details',
+)
+
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-LOGIN_URL          = '/user/register/login/'
-LOGIN_ERROR_URL    = '/user/register/login/'
+LOGIN_URL          = '/user/login/'
+LOGIN_ERROR_URL    = '/user/login/'
 LOGIN_REDIRECT_URL = '/user/'
 
 RECAPTCHA_USE_SSL = True

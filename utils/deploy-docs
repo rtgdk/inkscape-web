@@ -1,34 +1,34 @@
 #!/bin/bash
 #set -e
 
-DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+DIR="$( cd "$( dirname "${BASH_DOCS[0]}" )" && pwd )"
 cd $DIR/../
 
 TEST=$@
+export DOCS="/tmp/docs"
 source "data/deployment"
-export SOURCE="/tmp/docs"
-export TARGET="$TARGET/data/media/doc"
+export DOC_TARGET="$TARGET/data/media/doc"
 
-echo "Sending docs to $TARGET..."
-
-if [ ! -d "$TARGET" ]; then
-    echo "Target doesn't exist: $TARGET"
+if [ ! -d "$DOC_TARGET" ]; then
+    echo "Target doesn't exist: $DOC_TARGET"
     exit 2
 fi
 
-if [ ! -d "$SOURCE" ]; then
-    SOURCE="./"
+if [ ! -d "$DOCS" ]; then
+    echo "Can't find docs in $DOC_SOURCE"
     exit 1
 fi
 
-cd $SOURCE
+cd $DOCS
 
-echo "$SOURCE"
-bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
-if [ -d $TARGET ]; then
+if [ -d $DOC_TARGET ]; then
+  bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
-    rsync -uavn $TEST --exclude='.bzr/' --delete . $TARGET
-    bzr revno > $TARGET/revision
+    echo "Sending docs to ${DOC_TARGET}..."
+    rsync -ua $TEST --exclude='.bzr/' --delete . $DOC_TARGET
+    bzr revno > $DOC_TARGET/revision
+  else
+    echo "Docs alrady up to date!"
   fi
 fi

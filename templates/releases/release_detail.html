@@ -9,25 +9,56 @@
 
 <div id="shield" class="download">
   <div id="banners">
+    <ul id="releases">
+        <li><a href="../0.48"><b>0.48</b> Old Stable</a></li>
+        <li class="active"><a href="../0.91" ><b>0.91</b> Stable</a></li>
+        <li><a href="../0.92"><b>0.92</b> Development</a></li>
+    </ul>
     {% for tab in object.tabs %}
       <div {% if forloop.first %}class="current"{% endif %}>
         <div>
-          <div>
             {% for releaseplatform in object.platforms.all %}
               {% with releaseplatform.platform as platform %}
-                <div class="platform">
-                  {% if platform.logo %}
-                    <img src="{{ platform.logo.url }}" style="float:right;">
-                  {% endif %}
-                  <h3>{{ platform.name }}</h3>
-                  <p>{{ platform.desc }}</p>
-                  <a href="{{ releaseplatform.download }}">Download</a>
-                  <a href="{{ releaseplatform.more_info }}">More Info</a>
-                  <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
-                </div>
+                    {% ifequal releaseplatform.platform.root.name tab.tab_name %}
+                        {% ifchanged platform.parent %}
+                            {% ifchanged platform.root %}
+                            {% if platform.root.image %}
+                            <div style="background-image:url({{ platform.root.image.url }})">
+                            {% else %}
+                            <div>
+                            {% endif %}
+                            {% else %}
+                                </ul>
+                                </li>
+                            </ul>
+                            {% endifchanged %}
+                            <ul>
+                                <li>{% if platform.parent.icon %}
+                                            <img src="{{ platform.parent.icon.url }}">
+                                        {% endif %}
+                                        {{ platform.parent.name }}
+                                    <ul>
+                                    {% endifchanged %}
+                                        <li class="platform" tabindex="{{forloop.counter0}}">
+                                        {{ platform.name }}
+                                    {% if platform.parent.image %}
+                                    <div style="background-image:url('{{ platform.parent.image.url }}')">
+                                    {% else %}
+                                    <div>
+                                    {% endif %}
+                                        <p>{{ platform.desc }}
+                                        <a href="{{ releaseplatform.download }}">Download</a>
+                                        <a href="{{ releaseplatform.more_info }}">More Info</a>
+                                        <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
+                                    </div>
+                                </li>
+                  {% endifequal %}
               {% endwith %}
             {% endfor %}
-          </div>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
         </div>
       </div>
     {% endfor %}

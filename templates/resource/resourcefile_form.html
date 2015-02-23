@@ -48,7 +48,9 @@
         <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
       </form>
     {% endif %}
-    <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+    <form method="get" action="{{ cancel }}">
+      <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+    </form>
   </div>
 
   </div>

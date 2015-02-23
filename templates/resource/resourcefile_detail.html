@@ -1,0 +1,113 @@
+{% extends 'resource/item.html' %}
+{% load i18n pile %}
+
+{% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user.details }}{% if object.desc %}: {{ object.desc}}{% endif %}{% endblock %}
+
+{% block "description" %}
+  <div class="info">
+    <div class="title">
+      {% if object.moderation and object.user != request.user %}
+        <div class="tog single" id="flag">
+          <a {% if object.moderation.i_flagged %}class="remove"{% else %}href="{{ object.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
+          <script>popUpLink('{% trans "Are you sure you want to report this resource?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'resource' object.pk %}");</script>
+        </div>
+      {% endif %}
+
+      {% if object.mime.is_image %}
+        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+      {% elif object.mime.is_text %}
+        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+      {% endif %}
+      {% if object.download %}
+        {% if not object.mime.is_image or not object.license.nd %}
+          <div class="tog" id="download"><a href="{% url "download_resource" object.id object.filename %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ object.downed }}</p></div>
+        {% endif %}
+      {% endif %}
+
+      <div class="tog" id="vote"><a
+        {% if not request.user.id or request.user == object.user %}
+          title="{% trans "Favorites" %}" class="disabled"
+        {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                         {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
+          >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+
+      <h2>{{ object.name }}</h2>
+      <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user.details }}</a></div>
+
+    </div>
+
+    <div class="desc">
+      {{ object.description|urlize|linebreaks }}
+      {% if object.read_more %}
+        ...
+        <p><a href="{% url "resource.readme" object.pk %}">{% trans "read more" %}</a></p>
+      {% endif %}
+    </div>
+
+    <div class="side">
+      <h2>{% if object.category %}{{ object.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>
+    
+      {% if not object.is_file %}
+        <a class="link" href="{{ object.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="{% trans "Link"%}" title="{% trans "Follow Link (external site)" %}"/></a>
+      {% endif %}
+      <dl>
+        {% if object.is_file %}    
+          {% if object.mime.is_image %}
+            <dt>{% trans "Area" %}</dt><dd> {{ object.media_x }}x{{ object.media_y }}</dd>
+          {% elif object.mime.is_text %}
+            <dt>{% trans "Lines" %}</dt><dd> {{ object.media_x }}</dd>
+            <dt>{% trans "Words" %}</dt><dd> {{ object.media_y }}</dd>
+          {% endif %}
+          <dt>{% trans "Size" %}</dt><dd>{{ object.download.size|filesizeformat }}</dd>
+        {% else %}
+          <dt>{% trans "Linked From" %}</dt><dd>{{ object.link_from }}</dd>
+        {% endif %}
+        <dt>{% trans "Created" %}</dt><dd>{{ object.created|timetag }}</dd>
+        <dt>{% trans "Type" %}</dt><dd>{{ object.media_type }}</dd>
+      </dl>
+
+      {% if object.license %}
+        <a class="license" href="{{ object.license.link }}">
+          <img src="{{ object.license.icon.url }}" alt="{{ object.license }}" title="{% if object.owner %}Copyright © {{ object.years }} {{ object.user.name }}{% endif %}{{ object.license }}"/>
+        </a>
+      {% endif %}
+
+      {% if object.signature %}
+         <a class="signature" href="{{ object.signature.url }}">
+           {% if object.endorsement == 10 %}
+             <img src="{{ STATIC_URL }}images/endorse/official.svg" title="{% trans "Official (Signed by Inkscape Packager)" %}"/>
+           {% elif object.endorsement == 5 %}
+             <img src="{{ STATIC_URL }}images/endorse/signed.svg" title="{% trans "Signed (by Uploader)" %}"/>
+           {% elif object.endorsement == 1 %}
+             <img src="{{ STATIC_URL }}images/endorse/verified.svg" title="{% trans "Verified (Hash Matches)" %}"/>
+           {% else %}
+             <img src="{{ STATIC_URL }}images/endorse/broken.svg" title="{% trans "Broken Signature or Hash!" %}"/>
+           {% endif %}
+         </a>
+      {% endif %}
+
+      {% if object.link and not object.is_video %}
+        <p><a href="{{ object.link }}">{% trans "Link" %}</a></p>
+      {% endif %}
+    </div>
+  </div>   
+
+  {% if object.is_file %}
+    <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
+    {% if object.user == request.user %}
+      <div id="item-footer">
+        <form action="{% url "edit_resource" object.id %}">
+          <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
+        </form>
+        <form action="{% url "delete_resource" object.id %}" onsubmit='return popUp("{% trans "Delete Upload" %}","{% trans "Are you sure you want to delete this upload?" %}","{% url "delete_resource" object.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+          <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
+        </form>
+      </div>
+    {% endif %}
+  {% endif %}
+
+  {% with object as comment_subject %}
+     {% include "comments/comment_area.html" %}
+  {% endwith %}
+  
+{% endblock %}

@@ -187,6 +187,13 @@ class Resource(Model):
     def __unicode__(self):
         return self.name
 
+    @property
+    def parent(self):
+        galleries = self.galleries.all()
+        if galleries:
+            return galleries[0]
+        return self.user
+
     def description(self):
         if '[[...]]' in self.desc:
             return self.desc.split('[[...]]')[0]
@@ -240,6 +247,9 @@ class Resource(Model):
 
     def is_visible(self):
         return get_user() == self.user or self.published
+
+    def voted(self):
+        return self.votes.for_user(get_user()).first()
 
     @property
     def is_new(self):
@@ -492,6 +502,10 @@ class Gallery(Model):
     @property
     def value(self):
         return self.slug
+
+    @property
+    def parent(self):
+        return self.group if self.group else self.user
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()

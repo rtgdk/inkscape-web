@@ -802,6 +802,10 @@ hr {
 #sidecategory ul form button {
   width: 26px !important;
   margin-top: -3px;
+  visibility: hidden;
+}
+#sidecategory ul form:hover button {
+  visibility: visible;
 }
 
 #sidecategory li a.active span {

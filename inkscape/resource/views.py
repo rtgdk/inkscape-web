@@ -31,129 +31,60 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 
 from django.template import RequestContext
-from pile.views import breadcrumbs, CategoryListView, CreateView, CategoryFeed
+from pile.views import *
 
+from .mixins import *
 from .models import *
 from .forms import *
 
-@login_required
-def delete_gallery(request, gallery_id):
-    item = get_object_or_404(Gallery, id=gallery_id, user=request.user)
-    if request.method == 'POST':
-        if 'confirm' in request.POST:
-            item.delete()
-        return redirect('profile')
-    return view_user(request, request.user.username, todelete=item)
+class GalleryMixin(OwnerUpdateMixin):
+    pk_url_kwarg = 'gallery_id'
+    model = Gallery
 
-@login_required
-def edit_gallery(request, gallery_id=None):
-    item = gallery_id and get_object_or_404(Gallery, id=gallery_id, user=request.user)
-    c = { 'form': GalleryForm(request.user, instance=item) }
-    if request.method == 'POST':
-        c['form'] = GalleryForm(request.user, request.POST, request.FILES, instance=item)
-        if c['form'].is_valid():
-            item = c['form'].save(commit=False)
-            item.user = request.user
-            item.save()
-            return redirect(item.get_absolute_url())
-    return render_to_response('resource/gallery_edit.html', c,
-        context_instance=RequestContext(request))
-    
+class DeleteGallery(GalleryMixin, DeleteView):
+    pass
 
-@login_required
-def drop_upload(request, gallery_id=None):
-    c = {}
-    if gallery_id:
-        c = { 'gallery': get_object_or_404(Gallery, id=gallery_id, user=request.user) }
+class CreateGallery(GalleryMixin, CreateView):
+    form_class = GalleryForm
 
-    if request.method == 'POST':
-        c['form'] = ResourceAddForm(request.user, request.POST, request.FILES)
-        if c['form'].is_valid():
-            c['item'] = c['form'].save()
-            if 'gallery' in c:
-                c['gallery'].items.add(c['item'])
-    return render_to_response('resource/ajax/add.txt', c,
-      context_instance=RequestContext(request),
-      content_type="text/plain")
+class EditGallery(GalleryMixin, UpdateView):
+    form_class = GalleryForm
 
-    
-@login_required
-def paste_in(request):
-    """Create a pasted text entry."""
-    c = {
-        'paste': True,
-        'form': ResourcePasteForm(request.user),
-        'breadcrumbs': breadcrumbs(request.user, "New Paste"),
-    }
+class DeleteResource(OwnerUpdateMixin, DeleteView):
+    model  = ResourceFile
+    action = "Delete Resource"
 
-    if request.method == 'POST':
-        c['form'] = ResourcePasteForm(request.user, request.POST)
-        if c['form'].is_valid():
-            return redirect('resource', c['form'].save().id)
+class EditResource(OwnerUpdateMixin, UpdateView):
+    model = ResourceFile
+    action = "Edit Resource"
 
-    return render_to_response('resource/edit.html', c,
-        context_instance=RequestContext(request))
+    def get_form_class(self):
+        category = getattr(self.object.category, 'id', 0)
+        return FORMS.get(category, ResourceFileForm)
 
+class UploadResource(OwnerCreateMixin, CreateView):
+    form_class = ResourceFileForm
+    model      = ResourceFile
+    action     = "Upload New Resource"
 
-@login_required
-def edit_resource(request, item_id=None):
-    item = item_id and get_object_or_404(Resource, id=item_id, user=request.user)
-    form = FORMS.get(item and item.category and item.category.id or 0, ResourceFileForm)
-    c = {
-      'form': form(request.user, instance=item),
-      'item': item,
-      'breadcrumbs': breadcrumbs(item.user, item.gallery, item, "Edit"),
-    }
-    if request.method == 'POST':
-        if 'cancel' in request.POST:
-            if item.is_new:
-                return redirect('gallery', item.gallery.id)
-            return redirect('resource', item.id)
-        c['form'] = form(request.user, request.POST, request.FILES, instance=item)
-        if c['form'].is_valid():
-            item = c['form'].save()
-            if 'next' in request.POST and item.next:
-                return redirect('edit_resource', item.next.id)
-            return redirect(item.get_absolute_url())
+    def form_valid(self, form):
+        ret = super(UploadResource, self).form_valid(form)
+        if hasattr(self, 'gallery'):
+            self.gallery.items.add(form.instance)
+        return ret
 
-    return render_to_response('resource/edit.html', c,
-        context_instance=RequestContext(request))
+class DropResource(UploadResource):
+    content_type  = 'text/plain'
+    template_name = 'resource/ajax/add.txt'
+    form_class    = ResourceAddForm
 
-@login_required
-def create_resource(request, gallery_id):
-    gallery = get_object_or_404(Gallery, id=gallery_id, user=request.user) if gallery_id else None
-    c = {
-      'gallery': gallery,
-      'form': ResourceFileForm(request.user),
-      'breadcrumbs': breadcrumbs(request.user, gallery, "Upload New Resource"),
-    }
-    if request.method == 'POST':
-        c['form'] = ResourceFileForm(request.user, request.POST, request.FILES)
-        if 'cancel' in request.POST:
-            return redirect('resources') #, kwargs={'galleries':gallery_id})
-        if c['form'].is_valid():
-            item = c['form'].save()
-            gallery.items.add(item)
-            return redirect('resource', item.id)
-    return render_to_response('resource/edit.html', c,
-        context_instance=RequestContext(request))
+    def form_valid(self, form):
+        ret = super(DropResource, self).form_valid(form)
+        context = self.get_context_data(item=form.instance)
+        return self.render_to_response(context)
 
-
-@login_required
-def delete_resource(request, item_id):
-    item = get_object_or_404(Resource, id=item_id, user=request.user)
-    gallery = item.gallery
-    if request.method == 'POST':
-        if 'confirm' in request.POST:
-            item.delete()
-        if gallery:
-            return redirect('gallery', gallery.id)
-        return redirect('my_resources')
-
-    return render_to_response('resource/delete.html', {
-      'delete': True, 'item': item,
-      'breadcrumbs': breadcrumbs(item.user, item.gallery, item, "Delete"),
-      }, context_instance=RequestContext(request))
+class PasteIn(UploadResource):
+    form_class = ResourcePasteForm
 
 @login_required
 def publish_resource(request, item_id):
@@ -162,42 +93,21 @@ def publish_resource(request, item_id):
     item.save()
     return redirect("gallery", item.gallery.id)
 
+class ViewResource(DetailView):
+    model = ResourceFile
+    
+    def get_queryset(self):
+        qs = super(ViewResource, self).get_queryset()
+        if 'username' in self.kwargs:
+            return qs.filter(user__username=self.kwargs['username'])
+        return qs
 
-@login_required
-def view_trash(request):
-    c = {
-      'user': request.user,
-      'items': request.user.resources.trash,
-      'breadcrumbs': breadcrumbs(request.user, "Trash"),
-      'gallery': {'name': _("Your Trash Space"), 'user': request.user},
-      'limit': 200,
-    }
-    return render_to_response('resource/gallery.html', c,
-             context_instance=RequestContext(request))
-
-
-def user_resource(request, username, slug):
-    """Same as view_resource, but based on slugs and usernames"""
-    item = get_object_or_404(Resource, user__username=username, slug=slug)
-    return view_resource(request, item.pk)
-
-def view_resource(request, item_id):
-    item = get_object_or_404(Resource, pk=item_id)
-    if not item.is_visible():
-        raise Http404
-
-    if item.is_new:
-        return redirect("edit_resource", item_id)
-
-    item.set_viewed(request.session)
-    c = {
-      'item': item,
-      'vote': item.votes.for_user(request.user).first(),
-      'breadcrumbs': breadcrumbs(item.user, (_('Foo'), 'aaa'), item.gallery, item),
-    }
-    return render_to_response('resource/view.html', c,
-               context_instance=RequestContext(request))
-
+    def get(self, request, *args, **kwargs):
+        ret = super(ViewResource, self).get(request, *args, **kwargs)
+        if self.object.is_new:
+            return redirect("edit_resource", self.object.pk)
+        self.object.set_viewed(request.session)
+        return ret
 
 @login_required
 def like_resource(request, like_id, item_id):
@@ -214,7 +124,6 @@ def down_readme(request, item_id):
     return render_to_response('resource/readme.txt', { 'item': item },
       context_instance=RequestContext(request),
       content_type="text/plain")
-
 
 from sendfile import sendfile
 from inkscape import settings
@@ -331,13 +240,13 @@ class GalleryList(CategoryListView):
 
     def get_context_data(self, **kwargs):
         data = super(GalleryList, self).get_context_data(**kwargs)
-        if 'username' in data and data['username']:
-            if data['username'] == self.request.user:
-                data['breadcrumbs'] = breadcrumbs((data['username'], "My"), "InkSpace")
-            else:
-                data['breadcrumbs'] = breadcrumbs(data['username'], "InkSpace")
+        if data.get('galleries', None) is not None:
+             data['object'] = data['galleries']
+        elif data.get('username', None):
+             data['object'] = self.request.user
+             data['action'] = "InkSpace"
         else:
-            data['breadcrumbs'] = breadcrumbs("InkSpaces (Galleries)")
+            data['action'] = "InkSpaces"
         return data
 
 

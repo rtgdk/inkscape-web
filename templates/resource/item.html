@@ -12,8 +12,8 @@
 
   <h1 id='item-title'>
    {% block title %}
-    {% if item %}
-      {% if form %}{% trans "Edit" %} | {% endif %}{{ item.name }}
+    {% if object %}
+      {% if form %}{% trans "Edit" %} | {% endif %}{{ object.name }}
     {% elif paste %}
      {% trans "New Paste" %}
     {% else %}
@@ -23,31 +23,31 @@
   </h1>
 
  <div class="item{% if form %} edit{% endif %}">
- {% if not form and item.is_video %}
+ {% if not form and object.is_video %}
    <div class="image video">
-    {% if item.video.type == "youtube" %}
-      <iframe src="https://www.youtube.com/embed/{{ item.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
-    {% elif item.video.type == "vimeo" %}
-      <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ item.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+    {% if object.video.type == "youtube" %}
+      <iframe src="https://www.youtube.com/embed/{{ object.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
+    {% elif object.video.type == "vimeo" %}
+      <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     {% endif %}
   </div>
- {% elif item.is_file %}
-    {% if item.mime.is_image %}
+ {% elif object.is_file %}
+    {% if object.mime.is_image %}
       <div class="image only">
-        <a href="{% url "view_resource" item.id %}"><img src="{{ item.download.url }}" alt="{% trans "Image" %}"></a>
+        <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}"></a>
       </div>
-    {% elif item.mime.is_text and item.media_x < 300 %}
-      <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
+    {% elif object.mime.is_text and object.media_x < 300 %}
+      <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>
     {% else %}
       <div class="image file">
-        <a href="{% url "download_resource" item.id item.filename %}"><img src="{{ item.icon }}" alt="{% trans "File Icon" %}"></a>
+        <a href="{% url "download_resource" object.id object.filename %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
       </div>
     {% endif %}
-  {% elif item %}
+  {% elif object %}
     <div class="image link">
-      <a href="{{ item.link }}" title="{% trans "External Link" %}: {{ item }}">
-      {% if item.thumbnail %}
-        <img src="{{ item.icon }}" alt="{% trans "Item Image" %}"/>
+      <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
+      {% if object.thumbnail %}
+        <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
       {% else %}
         <img src="{{ STATIC_URL }}images/link.svg" alt="{% trans "Item Link" %}"/>
       {% endif %}

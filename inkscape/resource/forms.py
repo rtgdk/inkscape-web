@@ -26,6 +26,9 @@ from django.utils.timezone import now
 from .models import *
 from .utils import ALL_TEXT_TYPES
 
+# Thread-safe current user middleware getter.
+from cms.utils.permissions import get_current_user as get_user
+
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from cStringIO import StringIO
 
@@ -36,21 +39,19 @@ class GalleryForm(ModelForm):
         model = Gallery
         fields = ['name','group']
 
-    def __init__(self, user, *args, **kwargs):
+    def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
-        self.fields['group'].queryset = user.groups.all()
+        self.fields['group'].queryset = get_user().groups.all()
 
 
 class ResourceBaseForm(ModelForm):
-    def __init__(self, user, *args, **kwargs):
-        if not isinstance(user, Model):
-            raise AttributeError("User needs to be a model of a user (got %s)." % type(user).__name__)
-        self.user = user
+    def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
         if hasattr(self.Meta, 'required'):
             for key in self.Meta.required:
                 self.fields[key].required = True
 
+        self.user = get_user()
         if not self.user.has_perm('resource.change_resourcemirror'):
             self.fields.pop('mirror', None)
         if not self.user.details.gpg_key:
@@ -120,7 +121,7 @@ class ResourcePasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     download   = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
 
-    def __init__(self, user, data=None, *args, **kwargs):
+    def __init__(self, data=None, *args, **kwargs):
         # These are shown items values, for default values see save()
         i = dict(
             download='', desc='-', license=1, media_type='text/plain',
@@ -131,7 +132,7 @@ class ResourcePasteForm(ResourceBaseForm):
 
         d = data and dict((key, data.get(key, i[key])) for key in i.keys())
 
-        super(ResourcePasteForm, self).__init__(user, d, *args, **kwargs)
+        super(ResourcePasteForm, self).__init__(d, *args, **kwargs)
 
     def _clean_fields(self):
         for key in self.initial:

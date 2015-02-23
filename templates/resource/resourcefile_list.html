@@ -46,12 +46,37 @@
         {% endfor %}
       </ul>
       {% for category in categories %}
-        {% if category.count > 0 or category.cid == "galleries" %}
+        {% if category.cid == "galleries" %}
           <h2>{{ category.name }}</h2>
-          {% if category.count > 1 or category.cid == "galleries" %}
+          <ul>
+            {% for item in category %}
+              {% if category == item %}
+                <li>
+                  <a class="active" {% if item.pk %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
+                    <label>{{ item.name|default:item }}</label>
+                    {% if item.pk and username == request.user %}
+                       <span>{% trans "edit" %}</span>
+                    {% endif %}
+                  </a>
+                </li>
+              {% else %}
+                <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
+              {% endif %}
+            {% endfor %}
+            {% if username == request.user %}
+              <form method="POST" action="{% url "new_gallery" %}">
+                {% csrf_token %}
+                <input name="name" value="" placeholder="{% trans "New Gallery" %}"/>
+                <button type="submit">+</button>
+              </form>
+            {% endif %}
+          </ul>
+        {% elif category.count > 0 %}
+          <h2>{{ category.name }}</h2>
+          {% if category.count > 1 %}
             <ul>
               {% for item in category %}
-                {% if item and item.count or category.cid == "galleries" %}
+                {% if item and item.count %}
                   {% if category == item %}
                     <li><a class="active">{{ item.name|default:item }}</a></li>
                   {% else %}
@@ -59,13 +84,6 @@
                   {% endif %}
                 {% endif %}
               {% endfor %}
-              {% if category.cid == "galleries" and username == request.user %}
-                  <form method="POST" action="{% url "new_gallery" %}">
-                    {% csrf_token %}
-                    <input name="name" value="" placeholder="{% trans "New Gallery" %}"/>
-                    <button type="submit">&gt;</button>
-                  </form>
-              {% endif %}
             </ul>
           {% elif category.count == 1 %}
             <ul><li><a class="active"><label>{{ category.active_items.1.name }}</label><span>{{ category.active_items.1.count }}</span></a></li></ul>

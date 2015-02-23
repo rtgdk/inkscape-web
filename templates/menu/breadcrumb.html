@@ -1,10 +1,12 @@
 {% ifequal ancestors|length 1 %}
   {% if breadcrumbs %}
     {% for crumb in breadcrumbs %}
-      {% if not forloop.last %}
-        <a href="{{ crumb.0 }}">{{ crumb.1 }}</a> &raquo; 
-      {% else %}
+      {% if forloop.last %}
         {{ crumb.1 }}
+      {% elif not crumb.0 %}
+        {{ crumb.1 }} &raquo;
+      {% else %}
+        <a href="{{ crumb.0 }}">{{ crumb.1 }}</a> &raquo; 
       {% endif %}
     {% endfor %}
   {% endif %}

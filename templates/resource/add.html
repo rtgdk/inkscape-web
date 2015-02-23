@@ -3,11 +3,11 @@
 {% if gallery.user == request.user and gallery.id %}
  <div class="item">
   <div class="buttonbar">
-    <form action="{% url "edit_gallery" gallery.id %}">
+    <form action="{% url "gallery.edit" gallery.id %}">
         <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
     </form>
    {% with gallery as item %}
-     <form action="{% url "delete_gallery" item.id %}" onsubmit='return popUp("{% trans "Delete Gallery" %}","{% trans "Are you sure you want to delete this gallery?" %}","{% url "delete_gallery" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
+     <form action="{% url "gallery.delete" item.id %}" onsubmit='return popUp("{% trans "Delete Gallery" %}","{% trans "Are you sure you want to delete this gallery?" %}","{% url "gallery.delete" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
         <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
     </form>
    {% endwith %}

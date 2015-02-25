@@ -24,13 +24,13 @@ from .views import *
 def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
-from inkscape.person.urls import add_user_url
+from inkscape.person.urls import USER_URLS
 
-add_user_url(
+USER_URLS.url_patterns.extend([
   # Example message system
   url(r'^/message/$', CreateMessage(), name="message.new"),
   url(r'^/sent/$',    SentMessages(), name="message.sent"),
-)
+])
 
 urlpatterns = patterns('',
   url(r'^settings/$',                SettingsList(),  name='alert.settings'),

@@ -6,8 +6,9 @@ from django.template import RequestContext
 
 from django.contrib.auth.models import User
 
-from .models import UserDetails
+from .models import UserDetails, Team
 from .forms import UserForm, UserDetailsForm
+from pile.views import *
 
 @login_required
 def edit_profile(request):
@@ -48,14 +49,20 @@ def my_profile(request):
     return view_profile(request, request.user.username)
 
 
-def view_profile(request, username):
-    user = get_object_or_404(User, username=username)
-    if request.user != user:
-        user.details.visits += 1
-        user.details.save()
-    user.is_me = user == request.user
-    return render_to_response('person/profile.html', { 'user': user },
-        context_instance=RequestContext(request))
+class UserDetail(DetailView):
+    template_name  = 'person/user_detail.html'
+    slug_url_kwarg = 'username'
+    slug_field     = 'username'
+    model = User
+
+    def get_context_data(self, **kwargs):
+        data = super(UserDetail, self).get_context_data(**kwargs)
+        data['object'].visited_by(self.request.user)
+        return data
+
+class TeamDetail(DetailView):
+    model = Team
+    slug_url_kwarg = 'team_slug'
 
 @login_required
 def add_friend(request):

@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 #
 # Copyright 2013, Martin Owens <doctormo@gmail.com>
 #
@@ -24,9 +25,9 @@ from .views import *
 def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
-from inkscape.person.urls import add_user_url
+from inkscape.person.urls import USER_URLS, TEAM_URLS
 
-add_user_url(
+USER_URLS.url_patterns.extend([
   # Add to the username user profile
   url_tree(r'^/gallery/',
     url(r'^$',                                            GalleryList(), name='resources'),
@@ -38,8 +39,9 @@ add_user_url(
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
   ),
-  url(r'^/@(?P<slug>[^\/]+)/$', ViewResource(),  name='resource'),
-)
+  # Try a utf-8 url, see if it break's web browsers.
+  url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'),            ViewResource(), name='resource'),
+])
 
 urlpatterns = patterns('',
   url(r'^paste/(\d+)/$',              ViewResource(),   name="pasted_item"),
@@ -69,7 +71,7 @@ urlpatterns = patterns('',
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',
-      url(r'^$',           ViewResource(),   name='resource'),
+      url(r'^$',           ViewResource()),
       url(r'^del/$',       DeleteResource(), name='delete_resource'),
       url(r'^pub/$',       publish_resource, name='publish_resource'),
       url(r'^edit/$',      EditResource(),   name='edit_resource'),

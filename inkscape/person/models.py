@@ -6,6 +6,7 @@ from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
+from django.utils.text import slugify
 
 from pile.fields import ResizedImageField, AutoOneToOneField
 
@@ -41,11 +42,6 @@ class UserDetails(Model):
             return self.photo.url
         return None
 
-#
-# Plan: Team page listing each team. Teams can be created in the admin and tied to a specific mailman.
-# * Team admins are always specified in the admin interface (group)
-# * Each team has an 
-#
 
 ENROLES = (
   ('O', _('Open')),
@@ -55,19 +51,31 @@ ENROLES = (
   ('S', _('Secret')),
 )
 
+def _team_url(self):
+    return reverse('team', kwargs={'team_slug': self.team.slug})
+Group.get_absolute_url = _team_url
+
 class Team(Model):
-    admin    = ForeignKey(User, related_name='teams')
+    admin    = ForeignKey(User, related_name='teams', **null)
     members  = AutoOneToOneField(Group, related_name='team', **null)
     watchers = ManyToManyField(User, related_name='watches', **null)
 
-    name  = CharField(_('User Team'), max_length=32)
-    icon  = ImageField(_('Display Icon'), upload_to='teams')
+    name     = CharField(_('User Team'), max_length=32)
+    slug     = SlugField(_('Group ID'), max_length=32)
+    icon     = ImageField(_('Display Icon'), upload_to='teams')
 
-    intro = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
-    desc  = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
+    intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
+    desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
-    mailman = CharField(_('Mailing List'), max_length=256, **null)
-    enrole  = CharField(_('Open Enrolement'), max_length=1, default='O', choices=ENROLES)
+    mailman  = CharField(_('Mailing List'), max_length=256, **null)
+    enrole   = CharField(_('Open Enrolement'), max_length=1, default='O', choices=ENROLES)
+
+    def save(self, **kwargs):
+        if not self.name:
+            self.name = self.members.name
+        if not self.slug:
+            self.slug = slugify(self.name)
+        return super(Team, self).save(**kwargs)
 
     def __unicode__(self):
         return self.name

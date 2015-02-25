@@ -29,7 +29,12 @@ def sessions(self):
     return self.session_set.filter(expire_date__gt=timezone.now())
   
 def is_moderator(self):
-  return self.has_perm("comments.can_moderate")
+    return self.has_perm("comments.can_moderate")
+
+def visited_by(self, by_user):
+    if by_user != self:
+        self.details.visits += 1
+        self.details.save()
 
 local = locals().items()
 

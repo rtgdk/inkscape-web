@@ -1,0 +1,160 @@
+{% extends 'base.html' %}
+{% load user_session i18n future extras sekizai_tags %}
+
+{% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
+
+{% block supercontent %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
+  {% endaddtoblock %}
+
+  <div id="profile" style="background-color: #1c1c1c; color: white;">
+    <img id="photo" src="{% if object.details.photo %}{{ object.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
+
+   <div class="socialicons">
+     {% if object.moderation and request.user != object %}
+       {% if object.moderation.i_flagged %}
+         <img src="{{ STATIC_URL }}/images/social/flag.svg" title="{% trans "You have flagged this user." %}"/>
+       {% else %}
+         <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{{ STATIC_URL }}/images/social/flag.svg"/></a>
+         <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
+       {% endif %}
+     {% endif %}
+     {% if object.is_staff %}
+       {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administrator" %}"/></a>
+     {% endif %}
+     {% if object.is_moderator %}
+       {% if object == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderator" %}"/></a>
+     {% endif %}
+     {% if object.details.dauser %}
+       <a href="http://{{ object.details.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
+     {% endif %}
+     {% if object.details.ocuser %}
+       <a href="https://openclipart.org/user-detail/{{ object.details.ocuser }}"><img src="{{ STATIC_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
+     {% endif %}
+     {% if object.details.tbruser %}
+       <a href="http://{{ object.details.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
+     {% endif %}
+     {% if request.object.is_authenticated and request.user != object %}
+       <a href="{% url "message.new" object.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
+     {% endif %}
+    </div>
+
+    <h1 id="name">
+      {% if object.first_name %}
+        {{ object.first_name }} {{ object.last_name }}
+        <span id="username">{{ object.username }}</span>
+      {% else %}
+        {{ object.username }}
+        <span id="username">{% trans "Anonymous" %}</span>
+      {% endif %}
+      {% if object == request.user %}
+        <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
+      {% endif %}
+    </h1> 
+    <p id="bio">
+      {% block headerdesc %}
+        {% if object.details.bio %}{{ object.details.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
+      {% endblock %}
+    </p>
+  </div>
+
+  <div id="right-sidebar">
+    <div id="sidecategory">
+      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Uploads" %}</h1>
+      <ul>
+        <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
+        <li><a href="{% url "resources" username=object.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
+        {% if object.details.gpg_key %}
+          <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
+        {% endif %}
+      </ul>
+
+      {% if object.teams.all %}
+      <h2>{% trans "Teams" %}</h2>
+      <ul>
+        {% for team in object.teams.all %}
+          <li title="{{ team }} - {{ team.desc }}"><a><label>{{ team }}</label>{% if team.is_admin %}<span>&#9733;</span>{% endif %}</a></li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+
+      <h2>{% trans "Information" %}</h2>
+      <ul>
+        {% if object.details.last_seen %}
+          <li><a><label>{% trans "Last Seen" %}</label>
+            <span title="{{ object.details.last_seen|ago }} ({{ object.details.last_seen|date:"Y-m-d" }})">{{ object.details.last_seen|ago:1 }}</span></a></li>
+        {% endif %}
+        <li><a><label>{% trans "Joined" %}</label>
+          <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
+        <li><a><label>{% trans "Profile Visits" %}</label>
+          <span>{{ object.details.visits }}</span></a></li>
+        <li><a><label>{% trans "Views" %}</label>
+          <span>{{ object.resources.views }}</span></a></li>
+        <li><a><label>{% trans "Downloads" %}</label>
+          <span>{{ object.resources.downloads }}</span></a></li>
+        {% if object == request.user or object.is_staff %}
+        <li><a><label>{% trans "Upload Quota" %}</label>
+          <span title="{{ object.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ object.quota|filesizeformat }}">{{ object.resources.disk_usage|percent:object.quota }}</span></a></li>
+        {% endif %}
+      </ul>
+
+    {% if object == request.user %}
+     <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
+     <ul id="sessions">
+     {% for session in object.sessions %}
+       <li title="{{ session.ip }} / {{ session.last_activity|ago }}"><a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>
+         <label>{{ session.ip|location }}</label>
+         <span>
+           <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
+           <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>
+         </span>
+       </a></li>
+     {% endfor %}
+     </ul>
+   </div>
+
+     <h2>Use The Paste Bin</h2>
+     <div id="paste">
+      <form method="POST" action="{% url "pastebin" %}">
+        {% csrf_token %}
+        <textarea name="download" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
+        <input type="submit" value="{% trans "Paste!" %}"/>
+      </form>
+     </div>
+   {% else %}
+     </div>
+   {% endif %}
+  </div>
+
+<div id="left-column">
+  {% if object.resources.latest %}
+
+  <h2>{% trans "Recent Uploads" %}
+
+  {% if not object == request.user %}
+    <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
+      {% csrf_token %}
+      <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
+    </form>
+  {% endif %}
+  </h2>
+
+    {% with 4 as limit %}
+      {% with object.resources.latest as items %}
+        {% include "resource/list.html" %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+
+  {% if object.favorites.all %}
+    <h2>{% trans "Favorite Artworks" %}</h2>
+    {% with 4 as limit %}
+      {% with object.favorites.items as items %}
+        {% include "resource/list.html" %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+</div>
+
+{% endblock %}

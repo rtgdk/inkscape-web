@@ -1,3 +1,20 @@
+# -*- coding: utf-8 -*-
+#
+# Copyright 2013, Martin Owens <doctormo@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
 try:
     from django.conf.urls import patterns, url, include
 except ImportError:
@@ -7,6 +24,7 @@ from django.views.generic.base import TemplateView
 
 from registration.backends.default.views import ActivationView as AV, RegistrationView
 
+from .views import *
 from .forms import RegisForm, PasswordForm
 
 def url_tree(regex, view='', *urls):
@@ -21,13 +39,12 @@ UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
 # Our user url implemination allows other urls files to add
 # their own urls to our user tree. Creating user functions.
 USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'inkscape.person.views',
-  url(r'^/?$',                    'view_profile',    name='view_profile'),
-  url(r'^/gpg/$',                 'gpg_key',         name='user_gpgkey'),
+  url(r'^/?$',                    UserDetail(),  name='view_profile'),
+  url(r'^/gpg/$',                 'gpg_key',     name='user_gpgkey'),
 )
-def add_user_url(*urls):
-    global USER_URLS
-    for url in urls:
-        USER_URLS.url_patterns.append(url)
+TEAM_URLS = url_tree(r'-(?P<team_slug>[^\/]+)', 'inkscape.person.views',
+  url(r'^/$',                     TeamDetail(),  name='team'),
+)
 
 urlpatterns = patterns('',
   url_tree(r'^user/', 'django.contrib.auth.views',
@@ -54,4 +71,5 @@ urlpatterns = patterns('',
     url(r'^faces/$',                  'view_profiles',   name='faces'),
   ),
   USER_URLS,
+  TEAM_URLS,
 )

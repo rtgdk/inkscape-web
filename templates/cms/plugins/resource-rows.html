@@ -9,8 +9,8 @@
     {% if item.is_visible %}
     <table class="bioitem">
       <tr>
-        <td class="img" rowspan="2"><a class="link" href="{% url "resource" item.id %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a></td>
-        <td><p title="{{ item.name }}"><a href="{% url "resource" item.id %}">{{ item.name }}</a></p></td>
+        <td class="img" rowspan="2"><a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a></td>
+        <td><p title="{{ item.name }}"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p></td>
       </tr>
       <tr>
         <td><p class="bio">{{ item.description }}&nbsp;</p></td>

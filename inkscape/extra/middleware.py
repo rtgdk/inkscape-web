@@ -17,8 +17,9 @@ class AutoBreadcrumbMiddleware(object):
             response.context_data['breadcrumbs'] = self._crumbs(**d)
         return response
 
-    def _crumbs(self, object=None, object_list=None, action=None, **kwargs):
+    def _crumbs(self, object=None, parent=None, action=None, **kwargs):
         yield ('/', _('Home'))
+        object = object or parent
         if object is not None:
             for obj in self._ancestors(object):
                 if hasattr(obj, 'get_absolute_url'):

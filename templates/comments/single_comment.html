@@ -20,7 +20,7 @@
         <div title="{% trans "You have reported this comment" %}" class="flag flagged"></div>
       {% else %}
         <a title="{% trans "Report Comment" %}" class="flag" href="{{ comment.moderation.flag_url }}"></a>
-        <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{% url 'resource' comment.object_pk %}");</script> 
+        <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "");</script> 
       {% endif %}
     {% endif %}
   </div>

@@ -62,6 +62,12 @@ class EditResource(OwnerUpdateMixin, UpdateView):
         category = getattr(self.object.category, 'id', 0)
         return FORMS.get(category, ResourceFileForm)
 
+class MoveResource(EditResource):
+    template_name = 'resource/resourcefile_move.html'
+
+    # XXX todo - We need a form to show galleries
+
+
 class UploadResource(OwnerCreateMixin, CreateView):
     form_class = ResourceFileForm
     model      = ResourceFile
@@ -72,6 +78,7 @@ class UploadResource(OwnerCreateMixin, CreateView):
         if hasattr(self, 'gallery'):
             self.gallery.items.add(form.instance)
         return ret
+
 
 class DropResource(UploadResource):
     content_type  = 'text/plain'

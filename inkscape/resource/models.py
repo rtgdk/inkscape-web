@@ -229,7 +229,7 @@ class Resource(Model):
     def get_absolute_url(self):
         if self.category and self.category.id == 1:
             return reverse('pasted_item', args=[str(self.id)])
-        return reverse('resource', args=[str(self.id)])
+        return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
 
     @property
     def years(self):

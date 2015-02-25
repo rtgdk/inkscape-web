@@ -33,7 +33,7 @@
 .bioitem a.link img {
   border-radius: 5px;
 }
-.galleryitem p {
+.galleryitem .label {
   max-width: 150px;
   text-align: center;
   padding: 0px;
@@ -41,7 +41,7 @@
   overflow: hidden;
   word-wrap: break-word;
 }
-.galleryitem p a {
+.galleryitem .label a {
   background-color: #eef;
   display:table-cell;
   margin: 2px;
@@ -52,7 +52,7 @@
   vertical-align: middle;
   border-radius: 16px;
 }
-.galleryitem p a:hover {
+.galleryitem .label a:hover {
   text-decoration: none;
   border-radius: 0px;
 }
@@ -292,25 +292,14 @@ table.bioitem p a {
 .unpublished p a {
   background-color: transparent !important;
 }
-.unpublished .label {
-  background-color: #fdd;
-  border-radius: 0px 0px 8px 8px;
-  border: 2px #e58 solid;
-  text-align: center !important;
-}
-.unpublished .label a {
-  height: 0.5em;
-  padding: 3px;
-  line-height: 100%;
-}
-.galleryitem .label {
+.galleryitem .tags {
   width: 147px;
   visibility: hidden;
   position: absolute;
   text-align: right;
   margin-top: 2px;
 }
-.galleryitem:hover .label {
+.galleryitem:hover .tags {
   visibility: visible;
 }
 .galleryitem p.blank {
@@ -324,12 +313,13 @@ table.bioitem p a {
   padding: 2px 0px;
   background-color: #EEF;
 }
-.galleryitem .label img {
+.galleryitem .tags img {
   position: relative;
   right: -4px;
   float: left;
 }
-.galleryitem .label img.l {
+.galleryitem .tags > img:last-child,
+.galleryitem .tags > a:last-child img {
   float: right;
   left: -4px;
 }

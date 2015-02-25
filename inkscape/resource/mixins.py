@@ -21,6 +21,7 @@ class OwnerUpdateMixin(object):
         data = super(OwnerUpdateMixin, self).get_context_data(**kwargs)
         data['action'] = getattr(self, 'action', None)
         data['cancel'] = self.request.META.get('HTTP_REFERER', '/')
+        data['parent'] = getattr(self, 'gallery', self.request.user)
         return data
 
 class OwnerCreateMixin(OwnerUpdateMixin):

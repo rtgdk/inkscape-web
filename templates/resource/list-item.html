@@ -1,23 +1,26 @@
-{% load i18n %}
+{% load i18n static %}
 
 {% if item.is_visible %}
   <div class="{% if item.published %}galleryitem{% else %}galleryitem unpublished{% endif %}">
-    <a class="link" href="{% url "resource" item.user.username item.slug %}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
-    <p><a href="{% url "resource" item.user.username item.slug %}">{{ item.name }}</a></p>
-    {% if item.published %}
-      <div class="label">
-        <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
-        {% if item.license %}
-          <img src="{{ item.license.banner.url }}" title="{{ item.license }}" class="l">
-        {% endif %}
-      </div>
-    {% else %}
-      {% if item.is_new %}
-        <p class="label"><a href="{% url "edit_resource" item.id %}">{% trans "Edit Now" %}</a></p>
+    <a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
+    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+    <p class="tags">
+      {% if item.user == request.user %}
+        <a href="{% url "resource.move" item.pl %}">
+          <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Move to Gallery" %}">
+        </a>
+        <a href="{% url "edit_resource" item.pk %}">
+          <img src="{% static "mime/banner/edit.svg" %}" title="{% trans "Edit Resource" %}">
+        </a>
       {% else %}
-        <p class="label"><a href="{% url "publish_resource" item.id %}">{% trans "Publish Now" %}</a></p>
+        {% if item.published %}
+          <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
+          {% if item.license %}
+            <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
+          {% endif %}
+        {% endif %}
       {% endif %}
-    {% endif %}
+    </p>
   </div>
 {% endif %}
 

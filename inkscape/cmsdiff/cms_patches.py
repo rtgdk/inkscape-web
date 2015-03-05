@@ -19,9 +19,17 @@ We're going to monkey patch django-cms until we can get some of these patches li
 """
 
 from cms.utils import helpers, get_cms_setting
+from cms.utils.compat.dj import is_installed
 from django.contrib.contenttypes.models import ContentType
 from cms.models.pagemodel import Page
-from cms.admin.pageadmin import PageAdmin, PUBLISH_COMMENT, is_installed
+
+try:
+    from cms.admin.pageadmin import PageAdmin, PUBLISH_COMMENT
+except ImportError:
+    # Caused by circular reference in cms 3.0.12
+    PUBLISH_COMMENT = "Publish"
+    PageAdmin = None
+
 
 DRAFT_ID = "DRAFT: "
 HISTORY_LIMIT = get_cms_setting("MAX_PAGE_HISTORY_REVERSIONS")
@@ -78,5 +86,7 @@ def create_published_revision(self, page, publish=False):
         revisions.exclude(pk__in=pks).delete()
 
 
-PageAdmin.cleanup_history = create_published_revision
 
+if PageAdmin:
+    PageAdmin.cleanup_history = create_published_revision
+    

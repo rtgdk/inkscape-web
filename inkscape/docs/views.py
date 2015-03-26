@@ -54,10 +54,10 @@ def get_path(uri, check=True):
                 # We capture all exceptions to protect from broken regexs
                 pass
         raise Http404
-    return path
+    return (path, uri)
 
 def page(request, uri):
-    path = get_path(uri)
+    (path, uri) = get_path(uri)
     if os.path.isdir(path) or path[-5:] != '.html':
         raise Http404
 

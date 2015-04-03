@@ -273,12 +273,6 @@ RECAPTCHA_USE_SSL = True
 
 OPENID_REDIRECT_NEXT = '/accounts/openid/done/'
 
-OPENID_SREG = {
-  "requred": "nickname, email, fullname",
-  "optional":"postcode, country",
-  "policy_url": "",
-}
-
 OPENID_AX = [{
   "type_uri": "http://axschema.org/contact/email",
   "count": 1,
@@ -292,11 +286,6 @@ OPENID_AX = [{
 }]
 
 OPENID_AX_PROVIDER_MAP = {
-  'Google': {
-    'email': 'http://axschema.org/contact/email',
-    'firstname': 'http://axschema.org/namePerson/first',
-    'lastname': 'http://axschema.org/namePerson/last',
-  },
   'Default': {
     'email': 'http://axschema.org/contact/email',
     'fullname': 'http://axschema.org/namePerson',
@@ -324,7 +313,7 @@ AJAX_LOOKUP_CHANNELS = {
   'resource': {'model':'resource.ResourceFile', 'search_field':'name'},
 }
 
-AJAX_SELECT_BOOTSTRAP = True # Loads from google, Do NOT like
+AJAX_SELECT_BOOTSTRAP = True
 AJAX_SELECT_INLINES = 'inline'
 
 # ===== Migration to MySQL Special Code ===== #

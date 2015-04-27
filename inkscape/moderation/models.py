@@ -27,10 +27,10 @@ Moderation is achieved using a generic flagging model and some further
 #
 
 from django.db.models import *
+from django.db.utils import OperationalError
 
 from django.template import loader
 from django.contrib.contenttypes.models import ContentType
-from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 
@@ -45,8 +45,9 @@ from cms.utils.permissions import get_current_user as get_user
 
 import fix_django
 
-UserModel = get_user_model()
 MODERATED = getattr(settings, 'MODERATED_MODELS', [])
+MODERATED_SELECTIONS = []
+MODERATED_INDEX = {}
 
 # We're going to start with fixed flag types
 FLAG_TYPES = (
@@ -56,15 +57,15 @@ FLAG_TYPES = (
 )
 
 class TargetManager(Manager):
-    def get_query_set(self):
+    def get_queryset(self):
         # This requires fix_django.
-        return Manager.get_query_set(self).annotate(count=Count('target'), status=Max('flag')).order_by('-flagged')
+        return Manager.get_queryset(self).annotate(count=Count('target'), status=Max('flag')).order_by('-flagged')
 
     def recent(self):
-        return self.get_query_set().filter(status=1)[:5]
+        return self.get_queryset().filter(status=1)[:5]
 
     def get_status(self):
-        return (self.get_query_set().values_list('status', flat=True) or [0])[0]
+        return (self.get_queryset().values_list('status', flat=True) or [0])[0]
 
     def is_flagged(self):
         return self.get_status() == 1
@@ -125,9 +126,10 @@ class Flag(Model):
     design users are only allowed to flag a comment with a given flag once;
     if you want rating look elsewhere.
     """
-    flagger    = ForeignKey(UserModel, verbose_name=_('Flagging User'), related_name="flagged", default=get_user)
-    implicated = ForeignKey(UserModel, verbose_name=_('Implicated User'),
-                                       related_name="flags_against", null=True, blank=True)
+    flagger    = ForeignKey(settings.AUTH_USER_MODEL, default=get_user,
+                     verbose_name=_('Flagging User'), related_name="flagged")
+    implicated = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Implicated User'),
+                           related_name="flags_against", null=True, blank=True)
     category   = ForeignKey(FlagCategory, related_name="flags", null=True, blank=True)
     accusation = TextField(validators=[MaxLengthValidator(1024)], null=True, blank=True)
     flagged    = DateTimeField(_('Date Flagged'), default=now, db_index=True)
@@ -175,12 +177,12 @@ def get_flag_cls(target='', **kwargs):
     return globals().get(target+'Flag', Flag)
 
 def get_user_for(klass):
-    if klass is UserModel:
+    if klass is settings.AUTH_USER_MODEL:
         return '-self'
     ret = []
     for field in klass._meta.fields:
         try:
-            if field.rel.to is UserModel:
+            if field.rel.to is settings.AUTH_USER_MODEL:
                 ret.append(field)
         except AttributeError:
             pass
@@ -192,17 +194,18 @@ def create_flag_model(klass):
     """Create a brand new Model for each Flag type, using Flag as a base class
        these are NOT upgradable (NO schema migrations)."""
     # Set up a dictionary to simulate declarations within a class
+    name = klass.split('.')[-1]
     attrs = {
       '__module__': __name__,
-      't_model'   : klass,
-      't_user'    : get_user_for(klass),
+      #'t_model'   : klass,
+      #'t_user'    : get_user_for(klass),
       'target'    : ForeignKey(klass, related_name='moderation', db_index=True),
-      'template'  : template_ok('moderation/items/%s.html' % klass.__name__.lower()),
+      'template'  : template_ok('moderation/items/%s.html' % name.lower()),
       'targets'   : TargetManager(),
       'objects'   : FlagManager(),
     }
 
-    local_name = klass.__name__ + 'Flag'
+    local_name = name.title() + 'Flag'
     return (local_name, type(local_name, (Flag,), attrs))
 
 class FlagSection(object):
@@ -216,19 +219,8 @@ class FlagSection(object):
     def __unicode__(self):
         return self.label
 
-from django.db.utils import OperationalError
-
-MODERATED_SELECTIONS = []
-MODERATED_INDEX = {}
 for (app_model, label) in MODERATED:
-    try:
-        ct = ContentType.objects.get_by_natural_key(*app_model.split('.'))
-    except OperationalError:
-        pass
-    except ContentType.DoesNotExist:
-        pass
-    else:
-        (local_name, new_cls) = create_flag_model(ct.model_class())
-        locals()[local_name] = new_cls
-        MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
+    (local_name, new_cls) = create_flag_model(app_model)
+    locals()[local_name] = new_cls
+    MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
 

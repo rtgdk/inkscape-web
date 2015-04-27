@@ -58,14 +58,14 @@ DOMAINS = {
 }
 
 class VisibleManager(Manager):
-    def get_query_set(self):
-        return Manager.get_query_set(self).filter(visible=True)
+    def get_queryset(self):
+        return Manager.get_queryset(self).filter(visible=True)
 
     def get(self, **kwargs):
-        return Manager.get_query_set(self).get(**kwargs)
+        return Manager.get_queryset(self).get(**kwargs)
 
     def full_list(self):
-        return Manager.get_query_set(self)
+        return Manager.get_queryset(self)
 
 
 class License(Model):
@@ -129,33 +129,33 @@ class Tag(Model):
 
 
 class ResourceManager(InheritanceManager):
-    def get_query_set(self):
-        return InheritanceManager.get_query_set(self).select_subclasses('resourcefile').order_by('-created')
+    def get_queryset(self):
+        return InheritanceManager.get_queryset(self).select_subclasses('resourcefile').order_by('-created')
 
     def for_user(self, user):
-        return self.get_query_set().filter(Q(user=user.id) | Q(published=True))
+        return self.get_queryset().filter(Q(user=user.id) | Q(published=True))
 
     def downloads(self):
-        return self.get_query_set().aggregate(Sum('downed')).values()[0]
+        return self.get_queryset().aggregate(Sum('downed')).values()[0]
 
     def views(self):
-        return self.get_query_set().aggregate(Sum('viewed')).values()[0]
+        return self.get_queryset().aggregate(Sum('viewed')).values()[0]
 
     def new(self):
-        return self.get_query_set().filter(category__isnull=True)
+        return self.get_queryset().filter(category__isnull=True)
 
     def trash(self):
-        return self.get_query_set().filter(gallery__isnull=True).exclude(category=Category.objects.get(pk=1))
+        return self.get_queryset().filter(gallery__isnull=True).exclude(category=Category.objects.get(pk=1))
 
     def pastes(self):
-        return self.get_query_set().filter(category=Category.objects.get(pk=1))
+        return self.get_queryset().filter(category=Category.objects.get(pk=1))
 
     def disk_usage(self):
         # This could be done better by storing the file sizes
-        return sum(f.download.size for f in self.get_query_set().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
+        return sum(f.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
 
     def latest(self):
-        return self.get_query_set().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
+        return self.get_queryset().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
 
 
 class Resource(Model):
@@ -412,7 +412,7 @@ class ResourceFile(Resource):
 class MirrorManager(Manager):
     def select_mirror(self, update=None):
         """Selects the next best mirror randomly from the mirror pool"""
-        query = self.get_query_set().filter(chk_return=200)
+        query = self.get_queryset().filter(chk_return=200)
         if update:
             query = query.filter(sync_time__gte=update)
         # Attempt to weight the mirrors (needs CS review)
@@ -472,7 +472,7 @@ class ResourceMirror(Model):
 
 class GalleryManager(Manager):
     def for_user(self, user):
-        return self.get_query_set().filter(Q(user=user.id) | Q(items__published=True)).distinct()
+        return self.get_queryset().filter(Q(user=user.id) | Q(items__published=True)).distinct()
 
 
 class Gallery(Model):
@@ -528,10 +528,10 @@ class Gallery(Model):
 
 class VoteManager(Manager):
     def count(self):
-        return self.get_query_set().count()
+        return self.get_queryset().count()
 
     def for_user(self, user):
-        return self.get_query_set().filter(Q(voter=user.id))
+        return self.get_queryset().filter(Q(voter=user.id))
 
     def items(self):
         f = dict( ('votes__'+a,b) for (a,b) in self.core_filters.items() )

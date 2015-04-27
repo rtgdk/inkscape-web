@@ -1,178 +1,124 @@
 # -*- coding: utf-8 -*-
-from south.utils import datetime_utils as datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
+
+from django.db import models, migrations
+import django.utils.timezone
+from django.conf import settings
+import django.core.validators
 
 
-class Migration(SchemaMigration):
+class Migration(migrations.Migration):
 
-    def forwards(self, orm):
-        # Adding model 'AlertType'
-        db.create_table(u'alerts_alerttype', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=64)),
-            ('desc', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('slug', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('group', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['auth.Group'], null=True, blank=True)),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=255)),
-            ('body', self.gf('django.db.models.fields.TextField')()),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-            ('category', self.gf('django.db.models.fields.CharField')(default='?', max_length=1)),
-            ('enabled', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('default_hide', self.gf('django.db.models.fields.BooleanField')(default=False)),
-            ('default_email', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal(u'alerts', ['AlertType'])
+    dependencies = [
+        ('auth', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+        ('contenttypes', '0001_initial'),
+    ]
 
-        # Adding model 'UserAlertSetting'
-        db.create_table(u'alerts_useralertsetting', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='alert_settings', to=orm['auth.User'])),
-            ('alert', self.gf('django.db.models.fields.related.ForeignKey')(related_name='settings', to=orm['alerts.AlertType'])),
-            ('hide', self.gf('django.db.models.fields.BooleanField')(default=True)),
-            ('email', self.gf('django.db.models.fields.BooleanField')(default=False)),
-        ))
-        db.send_create_signal(u'alerts', ['UserAlertSetting'])
-
-        # Adding model 'UserAlert'
-        db.create_table(u'alerts_useralert', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('user', self.gf('django.db.models.fields.related.ForeignKey')(related_name='alerts', to=orm['auth.User'])),
-            ('alert', self.gf('django.db.models.fields.related.ForeignKey')(related_name='sent', to=orm['alerts.AlertType'])),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(auto_now=True, blank=True)),
-            ('viewed', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('deleted', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-        ))
-        db.send_create_signal(u'alerts', ['UserAlert'])
-
-        # Adding model 'UserAlertObject'
-        db.create_table(u'alerts_useralertobject', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('alert', self.gf('django.db.models.fields.related.ForeignKey')(related_name='data', to=orm['alerts.UserAlert'])),
-            ('name', self.gf('django.db.models.fields.CharField')(max_length=32)),
-            ('table', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['contenttypes.ContentType'], null=True, blank=True)),
-            ('o_id', self.gf('django.db.models.fields.PositiveIntegerField')(null=True)),
-        ))
-        db.send_create_signal(u'alerts', ['UserAlertObject'])
-
-        # Adding model 'Message'
-        db.create_table(u'alerts_message', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('sender', self.gf('django.db.models.fields.related.ForeignKey')(related_name='sent_messages', to=orm['auth.User'])),
-            ('recipient', self.gf('django.db.models.fields.related.ForeignKey')(related_name='messages', to=orm['auth.User'])),
-            ('reply_to', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='replies', null=True, to=orm['alerts.Message'])),
-            ('subject', self.gf('django.db.models.fields.CharField')(max_length=128)),
-            ('body', self.gf('django.db.models.fields.TextField')(null=True, blank=True)),
-            ('created', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime.now)),
-        ))
-        db.send_create_signal(u'alerts', ['Message'])
-
-
-    def backwards(self, orm):
-        # Deleting model 'AlertType'
-        db.delete_table(u'alerts_alerttype')
-
-        # Deleting model 'UserAlertSetting'
-        db.delete_table(u'alerts_useralertsetting')
-
-        # Deleting model 'UserAlert'
-        db.delete_table(u'alerts_useralert')
-
-        # Deleting model 'UserAlertObject'
-        db.delete_table(u'alerts_useralertobject')
-
-        # Deleting model 'Message'
-        db.delete_table(u'alerts_message')
-
-
-    models = {
-        u'alerts.alerttype': {
-            'Meta': {'object_name': 'AlertType'},
-            'body': ('django.db.models.fields.TextField', [], {}),
-            'category': ('django.db.models.fields.CharField', [], {'default': "'?'", 'max_length': '1'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'default_email': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'default_hide': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'desc': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'enabled': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'group': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['auth.Group']", 'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '64'}),
-            'slug': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '255'})
-        },
-        u'alerts.message': {
-            'Meta': {'object_name': 'Message'},
-            'body': ('django.db.models.fields.TextField', [], {'null': 'True', 'blank': 'True'}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'recipient': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'messages'", 'to': u"orm['auth.User']"}),
-            'reply_to': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'replies'", 'null': 'True', 'to': u"orm['alerts.Message']"}),
-            'sender': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sent_messages'", 'to': u"orm['auth.User']"}),
-            'subject': ('django.db.models.fields.CharField', [], {'max_length': '128'})
-        },
-        u'alerts.useralert': {
-            'Meta': {'object_name': 'UserAlert'},
-            'alert': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'sent'", 'to': u"orm['alerts.AlertType']"}),
-            'created': ('django.db.models.fields.DateTimeField', [], {'auto_now': 'True', 'blank': 'True'}),
-            'deleted': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'alerts'", 'to': u"orm['auth.User']"}),
-            'viewed': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'})
-        },
-        u'alerts.useralertobject': {
-            'Meta': {'object_name': 'UserAlertObject'},
-            'alert': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'data'", 'to': u"orm['alerts.UserAlert']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '32'}),
-            'o_id': ('django.db.models.fields.PositiveIntegerField', [], {'null': 'True'}),
-            'table': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']", 'null': 'True', 'blank': 'True'})
-        },
-        u'alerts.useralertsetting': {
-            'Meta': {'object_name': 'UserAlertSetting'},
-            'alert': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'settings'", 'to': u"orm['alerts.AlertType']"}),
-            'email': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'hide': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'user': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'alert_settings'", 'to': u"orm['auth.User']"})
-        },
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'auth.user': {
-            'Meta': {'object_name': 'User'},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Group']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'symmetrical': 'False', 'related_name': "u'user_set'", 'blank': 'True', 'to': u"orm['auth.Permission']"}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        }
-    }
-
-    complete_apps = ['alerts']
+    operations = [
+        migrations.CreateModel(
+            name='AlertSubscription',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('target', models.PositiveIntegerField(null=True, verbose_name='Object ID', blank=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='AlertType',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('slug', models.CharField(max_length=32, verbose_name='URL Slug')),
+                ('created', models.DateTimeField(auto_now_add=True, verbose_name='Created Date')),
+                ('category', models.CharField(default=b'?', max_length=1, verbose_name='Type Category', choices=[(b'?', b'Unknown'), (b'U', b'User to User'), (b'S', b'System to User'), (b'A', b'Admin to User'), (b'P', b'User to Admin'), (b'T', b'System to Translator')])),
+                ('enabled', models.BooleanField(default=False)),
+                ('default_hide', models.BooleanField(default=False)),
+                ('default_email', models.BooleanField(default=False)),
+                ('group', models.ForeignKey(verbose_name='Limit to Group', blank=True, to='auth.Group', null=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Message',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('subject', models.CharField(max_length=128)),
+                ('body', models.TextField(blank=True, null=True, verbose_name='Message Body', validators=[django.core.validators.MaxLengthValidator(8192)])),
+                ('created', models.DateTimeField(default=django.utils.timezone.now)),
+                ('recipient', models.ForeignKey(related_name='messages', to=settings.AUTH_USER_MODEL)),
+                ('reply_to', models.ForeignKey(related_name='replies', blank=True, to='alerts.Message', null=True)),
+                ('sender', models.ForeignKey(related_name='sent_messages', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserAlert',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('created', models.DateTimeField(auto_now_add=True)),
+                ('viewed', models.DateTimeField(null=True, blank=True)),
+                ('deleted', models.DateTimeField(null=True, blank=True)),
+                ('alert', models.ForeignKey(related_name='sent', to='alerts.AlertType')),
+                ('user', models.ForeignKey(related_name='alerts', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserAlertObject',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=32)),
+                ('o_id', models.PositiveIntegerField(null=True)),
+                ('alert', models.ForeignKey(related_name='objs', to='alerts.UserAlert')),
+                ('table', models.ForeignKey(blank=True, to='contenttypes.ContentType', null=True)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserAlertSetting',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('hide', models.BooleanField(default=True, verbose_name='Hide Alerts')),
+                ('email', models.BooleanField(default=False, verbose_name='Send Email Alert')),
+                ('alert', models.ForeignKey(related_name='settings', to='alerts.AlertType')),
+                ('user', models.ForeignKey(related_name='alert_settings', to=settings.AUTH_USER_MODEL)),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='UserAlertValue',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('name', models.CharField(max_length=32)),
+                ('target', models.CharField(max_length=255)),
+                ('alert', models.ForeignKey(related_name='values', to='alerts.UserAlert')),
+            ],
+            options={
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='alertsubscription',
+            name='alert',
+            field=models.ForeignKey(related_name='subscriptions', to='alerts.AlertType'),
+            preserve_default=True,
+        ),
+        migrations.AddField(
+            model_name='alertsubscription',
+            name='user',
+            field=models.ForeignKey(related_name='alert_subscriptions', to=settings.AUTH_USER_MODEL),
+            preserve_default=True,
+        ),
+    ]

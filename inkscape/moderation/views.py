@@ -23,6 +23,7 @@ from pile.views import *
 
 from .models import *
 from .mixins import *
+from .app import MODERATED_SELECTIONS
 
 
 class FlagObject(UserRequired, FunctionView):

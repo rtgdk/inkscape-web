@@ -21,19 +21,9 @@ We're going to monkey patch django-cms until we can get some of these patches li
 from cms.utils import helpers, get_cms_setting
 from cms.utils.compat.dj import is_installed
 from django.contrib.contenttypes.models import ContentType
-from cms.models.pagemodel import Page
-
-try:
-    from cms.admin.pageadmin import PageAdmin, PUBLISH_COMMENT
-except ImportError:
-    # Caused by circular reference in cms 3.0.12
-    PUBLISH_COMMENT = "Publish"
-    PageAdmin = None
-
 
 DRAFT_ID = "DRAFT: "
 HISTORY_LIMIT = get_cms_setting("MAX_PAGE_HISTORY_REVERSIONS")
-
 
 
 _make_revision_with_plugins = helpers.make_revision_with_plugins
@@ -41,6 +31,7 @@ def make_revision_with_plugins(obj, user=None, message=None, draft=True):
     """
     Here we just want to ignore the published revision, it's happend already!
     """
+    from cms.admin.pageadmin import PUBLISH_COMMENT
     if message == PUBLISH_COMMENT:
         return False
     if draft:
@@ -60,6 +51,7 @@ def create_published_revision(self, page, publish=False):
         return False
 
     from reversion.models import Version, Revision
+    from cms.models.pagemodel import Page
 
     content_type = ContentType.objects.get_for_model(Page)
     versions  = Version.objects.filter(content_type=content_type, object_id_int=page.pk)
@@ -86,7 +78,13 @@ def create_published_revision(self, page, publish=False):
         revisions.exclude(pk__in=pks).delete()
 
 
+from django.apps import AppConfig
 
-if PageAdmin:
-    PageAdmin.cleanup_history = create_published_revision
-    
+class CmsDiffConfig(AppConfig):
+    name = 'inkscape.cmsdiff'
+
+    def ready(self):
+        from cms.admin.pageadmin import PageAdmin
+        PageAdmin.cleanup_history = create_published_revision
+
+

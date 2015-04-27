@@ -86,7 +86,8 @@ class AlertType(Model):
             if 'instance' in kwargs:
                 # Check if the instance has already been issued to this user's alerts.
                 i = kwargs['instance']
-                existing = UserAlert.objects.filter(user=user, alert=self, objs__o_id=i.pk, objs__name='instance').count()
+                existing = UserAlert.objects.filter(user=user, alert=self,
+                    objs__o_id=i.pk, objs__name='instance').count()
                 if existing:
                     return None
             alert = UserAlert(user=user, alert=self)
@@ -140,15 +141,15 @@ class UserAlertManager(Manager):
         self.target = target
         super(UserAlertManager, self).__init__()
 
-    def get_query_set(self):
-        queryset = super(UserAlertManager, self).get_query_set()
+    def get_queryset(self):
+        queryset = super(UserAlertManager, self).get_queryset()
         if self.target:
             ct = UserAlertObject.target.get_content_type(obj=self.target)
             queryset = queryset.filter(data__table=ct, data__o_id=self.target.pk)
         return queryset.filter(deleted__isnull=True).order_by('-created')
 
     def new(self):
-        return self.get_query_set().filter(viewed__isnull=True)
+        return self.get_queryset().filter(viewed__isnull=True)
 
     def types(self):
         counts = defaultdict(int)
@@ -161,7 +162,7 @@ class UserAlertManager(Manager):
             yield (slug, SIGNALS[slug], counts[slug])
 
     def mark_viewed(self):
-        return self.get_query_set().filter(viewed__isnull=True).update(viewed=now())
+        return self.get_queryset().filter(viewed__isnull=True).update(viewed=now())
 
 
 class UserAlert(Model):
@@ -235,7 +236,7 @@ class UserAlert(Model):
 class ObjectManager(Manager):
     def as_dict(self):
         result = {}
-        for item in self.get_query_set():
+        for item in self.get_queryset():
             result[item.name] = item.target
         return result
 

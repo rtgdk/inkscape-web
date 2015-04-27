@@ -10,7 +10,6 @@ gettext = lambda s: s
 
 MAX_PREVIEW_SIZE = 5 * 1024 * 1024
 
-SOUTH_TESTS_MIGRATE = False
 SERVE_STATIC = True
 REVISION = '???'
 
@@ -167,11 +166,10 @@ INSTALLED_APPS = (
     'reversion',
     'pile',
     'cmsrosetta',
-    'cms',     # django CMS itself
-    'mptt',    # utilities for implementing a modified pre-order traversal tree
-    'menus',   # helper for model independent hierarchical website navigation
-    'south',   # intelligent schema and data migrations
-    'sekizai', # for javascript and css management
+    'treebeard',
+    'cms',
+    'menus',
+    'sekizai',
     'pagination',
     'djangocms_text_ckeditor',
     'djangocms_file',
@@ -181,7 +179,6 @@ INSTALLED_APPS = (
     'djangocms_toc',
     'cmsplugin_search',
     'cmsplugin_news',
-    'cmsplugin_pygments',
     'inkscape.cmsdiff',
     'inkscape.extra',
     'inkscape.search',
@@ -315,6 +312,17 @@ AJAX_LOOKUP_CHANNELS = {
 
 AJAX_SELECT_BOOTSTRAP = True
 AJAX_SELECT_INLINES = 'inline'
+
+TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+SILENCED_SYSTEM_CHECKS = ["1_6.W002"]
+
+MIGRATION_MODULES = {
+  'djangocms_file': 'djangocms_file.migrations_django',
+  'djangocms_link': 'djangocms_link.migrations_django',
+  'djangocms_picture': 'djangocms_picture.migrations_django',
+  'djangocms_snippet': 'djangocms_snippet.migrations_django',
+  'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+}
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

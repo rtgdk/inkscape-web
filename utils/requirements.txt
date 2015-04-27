@@ -19,16 +19,15 @@ easy-thumbnails==2.0.1
 diff-match-patch==20110725.1
 
 # Django libraries
-Django==1.6.5
-South==1.0
-django-ajax-selects==1.3.5
+Django==1.7.7
+django-ajax-selects==1.3.6
 django-request==1.0.1
 django-haystack==2.2.0
 django-reset==0.2.0
 django-pagination==1.0.5
 django-social-auth==0.7.28
 django-model-utils==2.0.3
-django-registration==1.0
+django-registration-redux==1.1
 django-polymorphic==0.5.5
 django-reversion==1.8.0
 django-mptt==0.6.1
@@ -36,21 +35,21 @@ django-recaptcha==1.0
 django-split-json-widget==0.2
 django-user-sessions==1.0.0
 django-sendfile==0.3.6
-django-pile==0.6.4
+django-pile==0.7.0
 django-contrib-comments==1.5
 #djangocms-rosetta==1.0
 bzr+ssh://bazaar.launchpad.net/+branch/djangocms-rosetta/
 
 # Django-CMS Plugins
-django-cms==3.0.12
+django-cms==3.1.0
 
-djangocms-toc==0.9
+djangocms-toc==1.0
 djangocms-file==0.0.2
 djangocms-link==1.4.0
 djangocms-picture==0.0.4
 djangocms-snippet==1.1
 djangocms-text-ckeditor==2.3.0
-cmsplugin-ink-news==0.8.5
+cmsplugin-ink-news==0.9.0
 
 cmsplugin-pygments==0.7.3
 cmsplugin-filery==1.0.1

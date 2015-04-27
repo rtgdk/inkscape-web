@@ -1,5 +1,7 @@
 
 from django.contrib.admin import *
+from ajax_select import make_ajax_form
+from ajax_select.admin import AjaxSelectAdmin
 
 from .models import *
 
@@ -15,8 +17,12 @@ class UpdateInline(StackedInline):
     extra = 1
     readonly_fields = ('creator',)
 
-class ProjectAdmin(ModelAdmin):
+class ProjectAdmin(AjaxSelectAdmin):
     list_display = ('title', 'manager', 'started')
+    form  = make_ajax_form(Project, {
+      'manager': 'user',
+      'reviewer': 'user',
+      'second': 'user' })
     
     fieldsets = (
         (None, {

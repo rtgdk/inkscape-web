@@ -29,7 +29,7 @@ class TabInline(StackedInline):
     model = Tab
     extra = 1
 
-class ShieldAdmin(ModelAdmin):
+class ShieldAdmin(AjaxSelectAdmin):
     model   = ShieldPlugin
     inlines = [TabInline]
 

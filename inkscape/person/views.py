@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
 
 from django.contrib.auth.models import User
+from django.core.urlresolvers import reverse
 
 from .models import UserDetails, Team
 from .forms import UserForm, UserDetailsForm
@@ -26,7 +27,8 @@ def edit_profile(request):
         if form_a.is_valid() and form_b.is_valid():
             form_a.save()
             form_b.save()
-            return redirect('my_profile')
+            return redirect(reverse('view_profile',
+                kwargs={'username': user.username}))
         c['user_form'] = form_a
         c['details_form'] = form_b
 
@@ -46,7 +48,8 @@ def view_profiles(request):
 
 @login_required
 def my_profile(request):
-    return view_profile(request, request.user.username)
+    return redirect(
+        reverse('view_profile', kwargs={'username': request.user.username}))
 
 
 class UserDetail(DetailView):

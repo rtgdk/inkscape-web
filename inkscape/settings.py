@@ -48,25 +48,14 @@ I18N_DOMAIN = 'inkscape'
 
 GOOGLE_ANID = None
 
-# Place where uploaded files can be seen online
+# Place where uploaded files and static can be seen online
 MEDIA_URL = '/media/'
-
-# Place where static files can be seen online
 STATIC_URL = '/static/'
 
-# We import a number of key variables here, if this fails, we don't work!
-import logging
-try:
-  from local_settings import *
-except ImportError:
-  from shutil import copyfile
-  f = 'local_settings.py'
-  CODE_PATH = os.path.dirname(os.path.abspath(__file__))
-  copyfile(os.path.join(CODE_PATH, f+'.template'), os.path.join(CODE_PATH, f))
-  try:
-      from local_settings import *
-  except ImportError:
-      logging.error("No settings found and default template failed to load.")
+#
+# --- Above this line, settings can be over-ridden for deployment
+# 
+from inkscape import *
 
 sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
@@ -85,11 +74,9 @@ if os.path.isfile(REV_FILE):
         REVISION = fhl.read().strip()
 
 # Place where files can be uploaded
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
-
 # Place where media can be served from in development mode
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
-STATICFILES_DIRS = os.path.join(PROJECT_PATH, 'static'),
 
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),
@@ -108,7 +95,7 @@ if not DEBUG:
     TEMPLATE_LOADERS = (('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),)
 
 TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'inkscape.versions.versions_context_processor',
+    'inkscape.context_processors.version',
     'inkscape.context_processors.design',
     'django.contrib.auth.context_processors.auth',
     'django.contrib.messages.context_processors.messages',
@@ -124,7 +111,7 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 )
 
 MIDDLEWARE_CLASSES = (
-    'inkscape.extra.middleware.AutoBreadcrumbMiddleware',
+    'inkscape.middleware.AutoBreadcrumbMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -138,14 +125,10 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.toolbar.ToolbarMiddleware',
     'social_auth.middleware.SocialAuthExceptionMiddleware',
     'pagination.middleware.PaginationMiddleware',
-    'inkscape.person.middleware.SetLastVisitMiddleware',
+    'person.middleware.SetLastVisitMiddleware',
 )
 
 ROOT_URLCONF = 'inkscape.urls'
-
-TEMPLATE_DIRS = (
-    os.path.join(PROJECT_PATH, 'templates'),
-)
 
 INSTALLED_APPS = (
     'django_reset', # forward port of the "reset" command
@@ -154,7 +137,7 @@ INSTALLED_APPS = (
     'user_sessions',
     'registration',
     'social_auth',
-    'inkscape.person',
+    'person',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.admin',
@@ -165,7 +148,7 @@ INSTALLED_APPS = (
     'haystack',
     'reversion',
     'pile',
-    'cmsrosetta',
+    #'cmsrosetta',
     'treebeard',
     'cms',
     'menus',
@@ -179,15 +162,15 @@ INSTALLED_APPS = (
     'djangocms_toc',
     'cmsplugin_search',
     'cmsplugin_news',
-    'inkscape.cmsdiff',
-    'inkscape.extra',
-    'inkscape.search',
-    'inkscape.docs',
-    'inkscape.resource',
-    'inkscape.alerts',
-    'inkscape.moderation',
-    'inkscape.projects',
-    'inkscape.releases',
+    'cmsdiff',
+    'cmstabs',
+    'inkscape',
+    'docs',
+    'resource',
+    'alerts',
+    'moderation',
+    'projects',
+    'releases',
     'django_comments',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
@@ -231,7 +214,7 @@ CMS_APPLICATIONS_URLS = (
 )
 CMS_APPHOOKS = (
    'cmsplugin_news.cms_app.NewsAppHook',
-   'inkscape.search.cms_app.SearchApphook',
+   'inkscape.cms_app.SearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
     ('cmsplugin_news.navigation.get_nodes','News navigation'),
@@ -244,13 +227,12 @@ AUTHENTICATION_BACKENDS = (
     'social_auth.backends.yahoo.YahooBackend',
     'social_auth.backends.OpenIDBackend',
     'django.contrib.auth.backends.ModelBackend',
-
 )
 
 # Custom pipeline to insert openid to oauth2 migration
 SOCIAL_AUTH_PIPELINE = (
   'social_auth.backends.pipeline.social.social_auth_user',
-  'inkscape.extra.google_pipeline.migrate_from_openid',
+  'inkscape.google_pipeline.migrate_from_openid',
   'social_auth.backends.pipeline.user.get_username',
   'social_auth.backends.pipeline.user.create_user',
   'social_auth.backends.pipeline.social.associate_user',

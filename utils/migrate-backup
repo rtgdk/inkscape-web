@@ -18,8 +18,24 @@ VERBOSE = '-v' in sys.argv
 if VERBOSE:
     sys.argv.remove('-v')
 
-def delete(field, row, **kwargs):
+MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
+try:
+    A_USER = int( Popen([MANAGE, 'getauser'], stdout=PIPE).stdout.read().strip() )
+except ValueError:
+    sys.stderr.write("Can't restore data with no admin user setup.")
+    sys.exit(1)
+
+LIVE_URL = 'https://inkscape.org/media'
+LOCAL_MEDIA = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'data', 'media'))
+
+def delete(field=None, row=None, **kwargs):
+    if not field:
+        # Delete model (whole entry)
+        kwargs['delete'].append(kwargs['item'])
+        return True
     if row.has_key(field):
+        # Delete field
         row.pop(field)
         return True
     return False
@@ -38,15 +54,15 @@ def add_to(field, r, row, **kwargs):
         return True
     return False
 
-def rename(field, to, row, **kwargs):
-    if row.has_key(field):
-        row[to] = row.pop(field)
+def rename(field=None, to=None, row=None, **kwargs):
+    if not to:
+        # Rename model
+        kwargs['item']['model'] = field
         return True
-    return False
 
-def update_cms(field, row, **kwargs):
-    if '.html' in row[field] and not row[field].startswith('cms/'):
-        row[field] = "cms/" + row[field]
+    if row.has_key(field):
+        # Rename field
+        row[to] = row.pop(field)
         return True
     return False
 
@@ -58,13 +74,11 @@ def unique(field, item, row, model, delete, **kwargs):
     else:
         TRACK[model].append(row[field])
 
-LIVE_URL = 'https://inkscape.org/media'
-LOCAL_MEDIA = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', 'data', 'media'))
 
 SKIP_WEIGHT = 10
 def download(field, row, **kwargs):
     """Downloads a media item from live website"""
+    return None
     global SKIP_WEIGHT
     if SKIP_WEIGHT <= 0:
         return None
@@ -96,20 +110,26 @@ def download(field, row, **kwargs):
         fhl.write(response.read())
     
 
-MANAGE = os.path.join(os.path.dirname(__file__), 'manage')
-try:
-    A_USER = int( Popen([MANAGE, 'getauser'], stdout=PIPE).stdout.read().strip() )
-except ValueError:
-    sys.stderr.write("Can't restore data with no admin user setup.")
-    sys.exit(1)
+def update_cms(field, row, **kwargs):
+    if '.html' in row[field] and not row[field].startswith('cms/'):
+        row[field] = "cms/" + row[field]
+        return True
+    return False
+
+def random(col, row, **kwargs):
+    import random, string
+    r = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(15))
+    row[col] = r
+    return True
 
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
-    [ delete, 'tree_id' ],
     [ delete, 'rght' ],
     [ delete, 'lft' ],
     [ rename, 'level', 'depth' ],
+    [ delete, 'tree_id' ],
+    [ random, 'path' ],
     [ update_cms, 'template' ],
   ),
   'cms.cmsplugin': (
@@ -117,6 +137,7 @@ UPDATES = {
     [ delete, 'lft' ],
     [ rename, 'level', 'depth' ],
     [ delete, 'tree_id' ],
+    [ random, 'path' ],
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],
@@ -134,16 +155,19 @@ UPDATES = {
     [ download, 'image' ],
   ),
   'extra.shieldplugin': (
-    'cmstabs.shieldplugin',
+    [ rename, 'cmstabs.shieldplugin' ],
   ),
   'extra.tabcategory': (
-    'cmstabs.tabcategory',
+    [ rename, 'cmstabs.tabcategory' ],
     [ download, 'icon' ],
   ),
   'extra.tab': (
-    'cmstabs.tab',
+    [ rename, 'cmstabs.tab' ],
     [ download, 'download' ],
     [ set_to, 'user', A_USER ],
+  ),
+  'cmsplugin_pygments.pygmentsplugin': (
+    [ delete ],
   ),
 }
 
@@ -167,12 +191,10 @@ def update(content, updates):
             continue
         COUNT[model] = COUNT.setdefault(model, {})
         for up in update:
-            if isinstance(up, str):
-                item['model'] = up
-                continue
             kwargs = dict(row=item['fields'], item=item, model=model, delete=DELETE)
             if up[0](*up[1:], **kwargs):
-                COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1
+                if len(up) > 1:
+                    COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1
 
     for d in DELETE:
         content.remove(d)

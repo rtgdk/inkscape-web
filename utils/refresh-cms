@@ -3,14 +3,17 @@ set -e
 
 echo "Downloading media from https://${1}inkscape.org..."
 
-wget -q https://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz --no-check-certificate
+#wget -q https://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz --no-check-certificate
 gunzip -c /tmp/contents.json.gz \
  | ./utils/migrate-backup - > /tmp/content_reformed.json
 
 echo "Resetting cms plugins..."
 
-./utils/manage migrate --fake cms zero
-./utils/manage migrate --fake cmsplugin_news zero
+#./utils/manage migrate --fake cms zero
+#./utils/manage migrate --fake cmsplugin_news zero
+
+#./utils/manage migrate --fake cms
+#./utils/manage migrate --fake cmsplugin_news
 
 echo "Loading new cms data..."
 

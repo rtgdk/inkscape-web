@@ -142,7 +142,8 @@
       <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
-InkscapeWeb r{{ REVISION }}" alt="PY" style="float:right; margin-top: -15px;" onerror="getPng(this);"/></a>
+InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"
+  style="float:right; margin-top: -15px;" onerror="getPng(this);"/></a>
       <div class="nav">
         {% block footer-nav %}
         <ul>

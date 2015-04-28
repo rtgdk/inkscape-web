@@ -7,9 +7,10 @@ wget -q https://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz 
 gunzip -c /tmp/contents.json.gz \
  | ./utils/migrate-backup - > /tmp/content_reformed.json
 
-echo "Resetting cmdplugins..."
+echo "Resetting cms plugins..."
 
-./utils/manage reset --noinput cms cmsplugin_news cmsplugin_pygments
+./utils/manage migrate --fake cms zero
+./utils/manage migrate --fake cmsplugin_news zero
 
 echo "Loading new cms data..."
 

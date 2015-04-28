@@ -50,6 +50,7 @@ djangocms-picture==0.1
 djangocms-snippet==1.5
 djangocms-text-ckeditor==2.4.3
 cmsplugin-ink-news==0.9.0
+cmsplugin-pygments==0.7.3
 
 cmsplugin-filery==1.0.1
 cmsplugin-search==0.7.3

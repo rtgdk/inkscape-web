@@ -38,6 +38,12 @@ def add_to(field, r, row, **kwargs):
         return True
     return False
 
+def rename(field, to, row, **kwargs):
+    if row.has_key(field):
+        row[to] = row.pop(field)
+        return True
+    return False
+
 def update_cms(field, row, **kwargs):
     if '.html' in row[field] and not row[field].startswith('cms/'):
         row[field] = "cms/" + row[field]
@@ -55,8 +61,14 @@ def unique(field, item, row, model, delete, **kwargs):
 LIVE_URL = 'https://inkscape.org/media'
 LOCAL_MEDIA = os.path.abspath(
     os.path.join(os.path.dirname(__file__), '..', 'data', 'media'))
+
+SKIP_WEIGHT = 10
 def download(field, row, **kwargs):
     """Downloads a media item from live website"""
+    global SKIP_WEIGHT
+    if SKIP_WEIGHT <= 0:
+        return None
+
     if not os.path.exists(LOCAL_MEDIA):
         raise IOError("Can't find local media directory: %s" % str(LOCAL_MEDIA))
 
@@ -65,10 +77,12 @@ def download(field, row, **kwargs):
     local_dir  = os.path.dirname(local_path)
 
     if os.path.isfile(local_path):
+        SKIP_WEIGHT -= 1
         sys.stderr.write("Skipping: %s\n" % media)
         return True
 
     try:
+        SKIP_WEIGHT += 100
         response = urlopen('%s/%s' % (LIVE_URL, media))
         sys.stderr.write("Downloading: %s\n" % media)
     except Exception:
@@ -92,7 +106,17 @@ except ValueError:
 UPDATES = {
   'cms.page': (
     [ delete, 'moderator_state' ],
+    [ delete, 'tree_id' ],
+    [ delete, 'rght' ],
+    [ delete, 'lft' ],
+    [ rename, 'level', 'depth' ],
     [ update_cms, 'template' ],
+  ),
+  'cms.cmsplugin': (
+    [ delete, 'rght' ],
+    [ delete, 'lft' ],
+    [ rename, 'level', 'depth' ],
+    [ delete, 'tree_id' ],
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],
@@ -109,10 +133,15 @@ UPDATES = {
   'djangocms_picture.picture': (
     [ download, 'image' ],
   ),
+  'extra.shieldplugin': (
+    'cmstabs.shieldplugin',
+  ),
   'extra.tabcategory': (
+    'cmstabs.tabcategory',
     [ download, 'icon' ],
   ),
   'extra.tab': (
+    'cmstabs.tab',
     [ download, 'download' ],
     [ set_to, 'user', A_USER ],
   ),
@@ -138,6 +167,9 @@ def update(content, updates):
             continue
         COUNT[model] = COUNT.setdefault(model, {})
         for up in update:
+            if isinstance(up, str):
+                item['model'] = up
+                continue
             kwargs = dict(row=item['fields'], item=item, model=model, delete=DELETE)
             if up[0](*up[1:], **kwargs):
                 COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1

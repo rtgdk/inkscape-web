@@ -2,7 +2,6 @@
 
 from django.utils.translation import ugettext_lazy as _
 from django.conf import global_settings
-from versions import *
 import sys
 import os
 
@@ -11,7 +10,6 @@ gettext = lambda s: s
 MAX_PREVIEW_SIZE = 5 * 1024 * 1024
 
 SERVE_STATIC = True
-REVISION = '???'
 
 ADMINS = (
     ('Martin Owens', 'doctormo@gmail.com'),
@@ -59,19 +57,12 @@ from inkscape import *
 
 sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
-(VERSION_STRING, INKSCAPE_VERSION) = get_versions(PROJECT_PATH)
-
 LOCALE_PATHS = os.path.join(PROJECT_PATH, 'locale'),
 
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS
 
 TEMPLATE_DEBUG = DEBUG
-
-REV_FILE = os.path.join(PROJECT_PATH, 'data', 'revision')
-if os.path.isfile(REV_FILE):
-    with open(REV_FILE, 'r') as fhl:
-        REVISION = fhl.read().strip()
 
 # Place where files can be uploaded
 # Place where media can be served from in development mode
@@ -131,7 +122,6 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'inkscape.urls'
 
 INSTALLED_APPS = (
-    'django_reset', # forward port of the "reset" command
     'django.contrib.sites',
     'django.contrib.auth',
     'user_sessions',
@@ -304,6 +294,7 @@ MIGRATION_MODULES = {
   'djangocms_picture': 'djangocms_picture.migrations_django',
   'djangocms_snippet': 'djangocms_snippet.migrations_django',
   'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
+  'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django'
 }
 
 # ===== Migration to MySQL Special Code ===== #

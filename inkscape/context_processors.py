@@ -17,34 +17,27 @@ import django
 import logging
 
 from os.path import join, dirname
+from django.conf import settings
 
-def get_versions(project_dir):
-    """return the bzr revision number and version of the project"""
+INKSCAPE_VERSION = ''
+WEBSITE_VERSION = ''
+WEBSITE_REVISION = ''
 
-    version_file = os.path.join(project_dir, 'version')
-    if not os.path.exists(version_file):
-        return ("E?", "E?")
-
+VERSION_FILE = os.path.join(settings.PROJECT_DIR, 'version')
+if os.path.exists(VERSION_FILE):
     emai_msg = email.message_from_file(open(version_file))
-    return (emai_msg["version"], emai_msg["inkscape"])
+    WEBSITE_VERSION = emai_msg["version"]
+    INKSCAPE_VERSION = emai_msg["inkscape"]
 
-
-def bzr_revision():
-    try:
-        with open(join(dirname(dirname(__file__)), '.bzr', 'branch', 'last-revision')) as rev:
-            return rev.read().split()[0]
-    except:
-        return ''
-
-
-# Freeze this as it is now.
-code_revision = bzr_revision()
-
+REVISION_FILE = os.path.join(PROJECT_PATH, 'data', 'revision')
+if os.path.isfile(REVISION_FILE):
+    with open(REV_FILE, 'r') as fhl:
+        REVISION = fhl.read().strip()
 
 def version(request):
-    return {'INKSCAPE_VERSION': settings.INKSCAPE_VERSION,
-            'REVISION': settings.REVISION,
-            'CODE_VERSION': code_revision,
+    return {'INKSCAPE_VERSION': INKSCAPE_VERSION,
+            'WEBSITE_REVISION': WEBSITE_REVISION,
+            'WEBSITE_VERSION': WEBSITE_VERSION,
             'CONTENT_VERSION': bzr_revision(),
             'DJANGO_VERSION': django.get_version(),
             'PYTHON_VERSION': sys.version.split()[0]

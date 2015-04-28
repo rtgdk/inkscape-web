@@ -122,6 +122,7 @@ MIDDLEWARE_CLASSES = (
 ROOT_URLCONF = 'inkscape.urls'
 
 INSTALLED_APPS = (
+    'inkscape', # Goes first
     'django.contrib.sites',
     'django.contrib.auth',
     'user_sessions',
@@ -154,7 +155,6 @@ INSTALLED_APPS = (
     'cmsplugin_search',
     'cmsplugin_news',
     'cmstabs',
-    'inkscape',
     'docs',
     'resource',
     'alerts',

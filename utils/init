@@ -31,14 +31,14 @@ MANAGE="./utils/manage"
 # Adds any extra moderator tables the first syncdb missed
 ./utils/manage syncdb
 
-$MANAGE loaddata $PWD/utils/datums/auth.json
+$MANAGE loaddata dev-auth
 echo ""
 echo "Default 'admin' user added, password: '123456' (delete on live deployments)"
 echo ""
 
-$MANAGE loaddata $PWD/utils/datums/licenses.json
-$MANAGE loaddata $PWD/utils/datums/categories.json
-$MANAGE loaddata $PWD/utils/datums/quota.json
+$MANAGE loaddata licenses
+$MANAGE loaddata categories
+$MANAGE loaddata quota
 
 ./utils/refresh-cms #staging.
 

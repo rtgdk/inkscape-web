@@ -128,6 +128,13 @@ class Tag(Model):
 
 
 class ResourceManager(InheritanceManager):
+    @property
+    def parent(self):
+        return self.get_queryset()[0].user
+
+    def get_absolute_url(self):
+        return reverse('resources', kwargs={'username': self.parent.username})
+
     def get_queryset(self):
         return InheritanceManager.get_queryset(self).select_subclasses('resourcefile').order_by('-created')
 
@@ -191,7 +198,7 @@ class Resource(Model):
         galleries = self.galleries.all()
         if galleries:
             return galleries[0]
-        return self.user
+        return self.user.resources
 
     def description(self):
         if '[[...]]' in self.desc:
@@ -505,7 +512,7 @@ class Gallery(Model):
 
     @property
     def parent(self):
-        return self.group if self.group else self.user
+        return self.group if self.group else self.user.resources
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()
@@ -520,7 +527,7 @@ class Gallery(Model):
         for item in self.items.all():
             if item.is_visible():
                 return item.icon()
-        return os.path.join( settings.STATIC_URL,'images','folder.svg' )
+        return os.path.join(settings.STATIC_URL, 'images', 'folder.svg')
 
     def __len__(self):
         return self.items.count()

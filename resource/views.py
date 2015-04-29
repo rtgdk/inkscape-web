@@ -38,17 +38,17 @@ from .mixins import *
 from .models import *
 from .forms import *
 
-class GalleryMixin(OwnerUpdateMixin):
+class GalleryMixin(object):
     pk_url_kwarg = 'gallery_id'
     model = Gallery
 
-class DeleteGallery(GalleryMixin, DeleteView):
+class DeleteGallery(GalleryMixin, OwnerUpdateMixin, DeleteView):
     pass
 
-class CreateGallery(GalleryMixin, CreateView):
+class CreateGallery(GalleryMixin, OwnerCreateMixin, CreateView):
     form_class = GalleryForm
 
-class EditGallery(GalleryMixin, UpdateView):
+class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
     form_class = GalleryForm
 
 class DeleteResource(OwnerUpdateMixin, DeleteView):

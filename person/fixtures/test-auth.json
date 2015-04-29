@@ -1,0 +1,28 @@
+[
+{"pk": 1, "model": "sites.site", "fields": {"domain": "testsite.com", "name": "testing"}},
+
+{"pk": 1, "model": "auth.user", "fields":
+  {"username": "admin", "first_name": "Testing", "last_name": "Admin",
+   "is_active": true, "is_superuser": true, "is_staff": true, "groups": [],
+   "password": "pbkdf2_sha256$10000$AozqrFhqhk7h$F9yWi4T6FsHx7hnf1WTe/pqsW3h4W8+XoS4L3lIBiQQ=",
+   "email": "admin@testers.com"}},
+{"pk": 2, "model": "auth.user", "fields":
+  {"username": "staff", "first_name": "Testing", "last_name": "Staff",
+   "is_active": true, "is_superuser": false, "is_staff": true, "groups": [ 1 ],
+   "password": "pbkdf2_sha256$10000$AozqrFhqhk7h$F9yWi4T6FsHx7hnf1WTe/pqsW3h4W8+XoS4L3lIBiQQ=",
+   "email": "staff@testers.com"}},
+{"pk": 3, "model": "auth.user", "fields":
+  {"username": "tester", "first_name": "Testing", "last_name": "User",
+   "is_active": true, "is_superuser": false, "is_staff": false, "groups": [],
+   "password": "pbkdf2_sha256$10000$AozqrFhqhk7h$F9yWi4T6FsHx7hnf1WTe/pqsW3h4W8+XoS4L3lIBiQQ=",
+   "email": "user@testers.com"}},
+
+{"pk": 1, "model": "auth.group", "fields": {"name": "Test Group", "permissions": []}},
+
+{"pk": 1, "model": "person.userdetails", "fields":
+  {"bio": "BIO_ADMIN", "user": 1, "photo": "photos/admin.svg"}},
+{"pk": 2, "model": "person.userdetails", "fields":
+  {"bio": "BIO_STAFF", "user": 2, "photo": "photos/staff.svg"}},
+{"pk": 3, "model": "person.userdetails", "fields":
+  {"bio": "BIO_USER", "user": 3, "photo": "photos/user.svg"}}
+]

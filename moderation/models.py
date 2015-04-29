@@ -77,7 +77,10 @@ class TargetManager(Manager):
         return self.get_status() == 10
 
     def i_flagged(self):
-        return self.exists(flagger=get_user())
+        user = get_user()
+        if user.is_authenticated():
+            return self.exists(flagger=user.pk)
+        return False
 
     def exists(self, **kwargs):
         try:
@@ -149,7 +152,7 @@ class Flag(Model):
 
     @classmethod
     def _url_keys(cls):
-        ct = ContentType.objects.get_for_model(cls.t_model)
+        ct = ContentType.objects.get_by_natural_key(t_model)
         return dict(zip( ('app', 'name'), ct.natural_key()) )
 
     def hide_url(self):
@@ -197,8 +200,7 @@ def create_flag_model(klass):
     name = klass.split('.')[-1]
     attrs = {
       '__module__': __name__,
-      #'t_model'   : klass,
-      #'t_user'    : get_user_for(klass),
+      't_model'   : klass,
       'target'    : ForeignKey(klass, related_name='moderation', db_index=True),
       'template'  : template_ok('moderation/items/%s.html' % name.lower()),
       'targets'   : TargetManager(),

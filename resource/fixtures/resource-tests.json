@@ -1,0 +1,145 @@
+[
+{
+  "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "resources/file/file1.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 1
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "resources/file/file2.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 2
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "resources/file/file3.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 3
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "resources/file/file4.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 4
+},
+{
+  "fields": {
+    "category": 1,
+    "edited": "2015-04-20T16:42:41.417Z",
+    "liked": 0,
+    "name": "Resource One",
+    "created": "2015-04-04T16:42:41.433Z",
+    "downed": 0,
+    "tags": [],
+    "media_x": 100,
+    "media_y": 100,
+    "thumbnail": "",
+    "link": "",
+    "user": 2,
+    "published": true,
+    "media_type": "image/svg+xml",
+    "slug": "resource_one",
+    "viewed": 1,
+    "desc": "Big description for Resource One"
+  },
+  "model": "resource.resource",
+  "pk": 1
+},
+{
+  "fields": {
+    "category": 2,
+    "edited": "2015-04-21T16:42:41.417Z",
+    "liked": 123,
+    "name": "Resource Two",
+    "created": "2015-04-03T16:42:41.433Z",
+    "downed": 0,
+    "tags": [],
+    "media_x": 150,
+    "media_y": 150,
+    "thumbnail": "",
+    "link": "http://link.com/",
+    "user": 2,
+    "published": true,
+    "media_type": "image/png",
+    "slug": "resource_two",
+    "viewed": 1,
+    "desc": "Big description for Resource Two"
+  },
+  "model": "resource.resource",
+  "pk": 2
+},
+{
+  "fields": {
+    "category": 4,
+    "edited": "2015-04-30T16:42:41.417Z",
+    "created": "2015-04-14T16:42:41.433Z",
+    "liked": 0,
+    "name": "Resource Three",
+    "downed": 0,
+    "tags": [],
+    "media_x": 1000,
+    "media_y": 1000,
+    "thumbnail": "file/preview.png",
+    "link": "",
+    "user": 1,
+    "published": true,
+    "media_type": "document/pdf",
+    "slug": "resource_three",
+    "viewed": 1,
+    "desc": "Big description for Resource Three"
+  },
+  "model": "resource.resource",
+  "pk": 3
+},
+{
+  "fields": {
+    "user": 2,
+    "category": 4,
+    "name": "Resource Four",
+    "slug": "resource_four",
+    "desc": "Big description for Resource Four",
+    "created": "2015-04-05T16:42:41.433Z",
+    "edited": "2015-04-21T16:42:41.417Z",
+    "liked": 321,
+    "viewed": 432,
+    "downed": 567,
+    "media_x": 0,
+    "media_y": 0,
+    "link": "http://google.com/",
+    "published": true,
+    "thumbnail": "file/preview_four.jpeg",
+    "media_type": "text/plain"
+  },
+  "model": "resource.resource",
+  "pk": 4
+}
+]

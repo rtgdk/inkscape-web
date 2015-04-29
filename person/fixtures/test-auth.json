@@ -22,7 +22,7 @@
 {"pk": 1, "model": "person.userdetails", "fields":
   {"bio": "BIO_ADMIN", "user": 1, "photo": "photos/admin.svg"}},
 {"pk": 2, "model": "person.userdetails", "fields":
-  {"bio": "BIO_STAFF", "user": 2, "photo": "photos/staff.svg"}},
+  {"bio": "BIO_STAFF", "user": 2, "photo": "test/staff.svg"}},
 {"pk": 3, "model": "person.userdetails", "fields":
-  {"bio": "BIO_USER", "user": 3, "photo": "photos/user.svg"}}
+  {"bio": "BIO_USER", "user": 3, "photo": "test/user.svg"}}
 ]

@@ -91,11 +91,11 @@ class TargetManager(Manager):
     def flag_url(self):
         obj = getattr(self, 'instance', None)
         if obj:
-            return reverse('moderation.flag', kwargs=dict(pk=obj.pk, **self.model._url_keys()))
-        return reverse('moderation.flagged', kwargs=dict(**self.model._url_keys()))
+            return self.model.get_url('moderation.flag', pk=obj.pk)
+        return self.model.get_url('moderation.flagged')
 
     def latest_url(self):
-        return reverse('moderation.latest', kwargs=dict(**self.model._url_keys()))
+        return self.model.get_url('moderation.latest')
 
     def flag(self, flag=1):
         return self.get_or_create(target=getattr(self, 'instance', None), flag=flag)
@@ -142,6 +142,16 @@ class Flag(Model):
     class Meta:
         get_latest_by = 'flagged'
 
+    @classmethod
+    def target_ct(cls):
+        return ContentType.objects.get_by_natural_key(*cls.t_model.split('.'))
+
+    @classmethod
+    def get_url(cls, name, **kwargs):
+        kw = dict(zip(('app', 'name'), cls.target_ct().natural_key()))
+        kw.update(kwargs)
+        return reverse(name, kwargs=kw)
+
     def __str__(self):
         return "%s of %s by %s" % (self.flag, str(self.target), str(self.flagger))
 
@@ -150,23 +160,35 @@ class Flag(Model):
         (a,b) = Flag._get_unique_checks(self, exclude=exclude)
         return [(type(self), ['target', 'flagger', 'flag'])], b
 
-    @classmethod
-    def _url_keys(cls):
-        ct = ContentType.objects.get_by_natural_key(t_model)
-        return dict(zip( ('app', 'name'), ct.natural_key()) )
 
     def hide_url(self):
-        return reverse('moderation.hide', kwargs=dict(pk=self.pk, **self._url_keys()))
+        return self.get_url('moderation.hide', pk=self.pk)
 
     def approve_url(self):
-        return reverse('moderation.approve', kwargs=dict(pk=self.pk, **self._url_keys()))
+        return self.get_url('moderation.approve', pk=self.pk)
+
+    @property
+    def target_user(self):
+        klass = self.target_ct().model
+        if klass is settings.AUTH_USER_MODEL:
+            return '-self'
+        ret = []
+        for field in klass._meta.fields:
+            try:
+                if field.rel.to is settings.AUTH_USER_MODEL:
+                    ret.append(field)
+            except AttributeError:
+                pass
+        if len(ret) > 1:
+            raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
+        return ret and ret[0].name or None
 
     def save(self, *args, **kwargs):
         # Add owner object when specified by the target class
-        if self.t_user == '-self':
+        if self.target_user == '-self':
             self.implicated = self.target
-        elif self.t_user:
-            self.implicated = getattr(self.target, self.t_user)
+        elif self.target_user:
+            self.implicated = getattr(self.target, self.target_user)
         return super(Flag, self).save(*args, **kwargs)
 
 
@@ -178,20 +200,6 @@ def template_ok(t):
 
 def get_flag_cls(target='', **kwargs):
     return globals().get(target+'Flag', Flag)
-
-def get_user_for(klass):
-    if klass is settings.AUTH_USER_MODEL:
-        return '-self'
-    ret = []
-    for field in klass._meta.fields:
-        try:
-            if field.rel.to is settings.AUTH_USER_MODEL:
-                ret.append(field)
-        except AttributeError:
-            pass
-    if len(ret) > 1:
-        raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
-    return ret and ret[0].name or None
 
 def create_flag_model(klass):
     """Create a brand new Model for each Flag type, using Flag as a base class

@@ -285,7 +285,7 @@ AJAX_LOOKUP_CHANNELS = {
 AJAX_SELECT_BOOTSTRAP = True
 AJAX_SELECT_INLINES = 'inline'
 
-TEST_RUNNER = 'django.test.runner.DiscoverRunner'
+TEST_RUNNER = 'inkscape.runner.InkscapeTestSuiteRunner'
 SILENCED_SYSTEM_CHECKS = ["1_6.W002"]
 
 MIGRATION_MODULES = {

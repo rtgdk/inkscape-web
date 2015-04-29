@@ -5,25 +5,26 @@ from django.test import TestCase, Client
 from datetime import date
 
 from .models import Resource, ResourceFile, License
+from django.core.files.storage import default_storage
 
-
-class ResourceUserTests(TestCase):
+class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
-
-    def setUp(self):
-        self.client = Client()
-        # not in fixtures ?
-        self.client.login(username='user', password='123456')
 
     def _get(self, url_name, **kw):
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
 
+
+class ResourceUserTests(BaseCase):
+    def setUp(self):
+        super(ResourceUserTests, self).setUp()
+        self.client = Client()
+        # not in fixtures ?
+        self.client.login(username='user', password='123456')
+
     def test_view_my_item(self):
         """Testing item view and template"""
-        
         target = ResourceFile.objects.get(pk=1)
         response = self._get('resource', pk=target.pk)
-        
         self.assertEqual(response.context['object'], target)
         self.assertContains(response, 'file1.svg')# for suv ;)
         self.assertContains(response, 'Resource One')
@@ -66,15 +67,16 @@ class ResourceUserTests(TestCase):
         response = self._get('resource.upload')
         self.assertEqual(response.status_code, 403)
         
-        response = self.client.post('resource.upload', data={'download': some_file, 
-                                                             'name': 'some file title', 
-                                                             'link': 'http://www.inkscape.org',
-                                                             'desc': 'My nice picture',
-                                                             'category': '2',
-                                                             'license': '4',
-                                                             'owner': 'True',
-                                                             'published': 'on',
-                                                             'thumbnail': some_other_file})
+        response = self.client.post('resource.upload',
+            data={'download': some_file, 
+	     'name': 'some file title', 
+	     'link': 'http://www.inkscape.org',
+	     'desc': 'My nice picture',
+	     'category': '2',
+	     'license': '4',
+	     'owner': 'True',
+	     'published': 'on',
+	     'thumbnail': some_other_file})
         
         self.assertEqual(response.status_code, 403)
         
@@ -86,20 +88,20 @@ class ResourceUserTests(TestCase):
         #some_huge_file = "needs to be a file bigger than the quota"
         
         #response = self.client.post('resource.upload', data={'download': some_huge_file, 
-                                                             'name': 'some file title', 
-                                                             'link': 'http://www.inkscape.org',
-                                                             'desc': 'My huge file',
-                                                             'category': '2',
-                                                             'license': '4',
-                                                             'owner': 'True',
-                                                             'published': 'on',
-                                                             'thumbnail': ''})
+        #                                                     'name': 'some file title', 
+        #                                                     'link': 'http://www.inkscape.org',
+        #                                                     'desc': 'My huge file',
+        #                                                     'category': '2',
+        #                                                     'license': '4',
+        #                                                     'owner': 'True',
+        #                                                     'published': 'on',
+        #                                                     'thumbnail': ''})
         #assert that we get an error message in the form (would be nice, currently we get something weird, I think it's a server error or just the same page again)
         pass
 
-class ResourceAnonTests(TestCase):
+class ResourceAnonTests(BaseCase):
     """Test all anonymous functions"""
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
+    pass
 
 # Required tests:
 #

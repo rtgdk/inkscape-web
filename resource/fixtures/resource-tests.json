@@ -7,7 +7,7 @@
     "signature": "",
     "owner": true,
     "mirror": false,
-    "download": "resources/file/file1.svg"
+    "download": "test/file1.svg"
   },
   "model": "resource.resourcefile",
   "pk": 1
@@ -20,7 +20,7 @@
     "signature": "",
     "owner": true,
     "mirror": false,
-    "download": "resources/file/file2.svg"
+    "download": "test/file2.svg"
   },
   "model": "resource.resourcefile",
   "pk": 2
@@ -33,7 +33,7 @@
     "signature": "",
     "owner": true,
     "mirror": false,
-    "download": "resources/file/file3.svg"
+    "download": "test/file3.svg"
   },
   "model": "resource.resourcefile",
   "pk": 3
@@ -46,7 +46,7 @@
     "signature": "",
     "owner": true,
     "mirror": false,
-    "download": "resources/file/file4.svg"
+    "download": "test/file4.svg"
   },
   "model": "resource.resourcefile",
   "pk": 4
@@ -108,7 +108,7 @@
     "tags": [],
     "media_x": 1000,
     "media_y": 1000,
-    "thumbnail": "file/preview.png",
+    "thumbnail": "test/preview3.png",
     "link": "",
     "user": 1,
     "published": true,
@@ -136,7 +136,7 @@
     "media_y": 0,
     "link": "http://google.com/",
     "published": true,
-    "thumbnail": "file/preview_four.jpeg",
+    "thumbnail": "test/preview4.jpg",
     "media_type": "text/plain"
   },
   "model": "resource.resource",

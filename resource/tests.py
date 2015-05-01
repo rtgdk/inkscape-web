@@ -1,4 +1,4 @@
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group, User, UserManager
 from django.core import mail
 from django.core.urlresolvers import reverse
 from django.test import TestCase, Client
@@ -8,7 +8,7 @@ from .models import Resource, ResourceFile, License
 from django.core.files.storage import default_storage
 
 class BaseCase(TestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
+    fixtures = ['test-auth', 'licenses', 'categories', 'quota-tests', 'resource-tests']
 
     def _get(self, url_name, **kw):
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
@@ -18,8 +18,10 @@ class ResourceUserTests(BaseCase):
     def setUp(self):
         super(ResourceUserTests, self).setUp()
         self.client = Client()
-        # not in fixtures ?
-        self.client.login(username='user', password='123456')
+        
+        self.user = User.objects.create_user('MyTestUser', password='123456')
+        # regardless if in fixtures or just created, login doesn't work... the user is active and exists.
+        print self.client.login(username='MyTestUser', password='123456') #prints false if login didn't work
 
     def test_view_my_item(self):
         """Testing item view and template"""
@@ -30,7 +32,7 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, 'Resource One')
         self.assertContains(response, 'Big description for Resource One')
         self.assertContains(response, 'Staff')
-        self.assertEqual(response.context['object'].viewed, 2)# The view counter includes the current viewer
+        self.assertEqual(response.context['object'].viewed, 1)
         
     def test_submit_item(self):
         """Tests the get and post views for uploading a new resource file"""
@@ -44,50 +46,55 @@ class ResourceUserTests(BaseCase):
         some_file = "some data stream" # needs a file in the correct format for post
         some_other_file = "a thumbnail file" # also needs a file in the correct format for post
         
-        response = self.client.post('resource.upload', data={'download': some_file, 
-                                                             'name': 'some file title', 
-                                                             'link': 'http://www.inkscape.org',
-                                                             'desc': 'My nice picture',
-                                                             'category': '2',
-                                                             'license': '4',
-                                                             'owner': 'True',
-                                                             'published': 'on',
-                                                             'thumbnail': some_other_file})
+        num_resources_before = Resource.objects.all().count()
         
-        self.assertEqual(Resource.objects.all().count(), 1)
-        self.assertEqual(response.status_code, 302)
+        response = self.client.post('resource.upload', 
+                                    data={'download': some_file, 
+                                          'name': 'some file title', 
+                                          'link': 'http://www.inkscape.org',
+                                          'desc': 'My nice picture',
+                                          'category': '2',
+                                          'license': '4',
+                                          'owner': 'True',
+                                          'published': 'on',
+                                          'thumbnail': some_other_file})
+        
+        self.assertEqual(Resource.objects.all().count(), num_resources_before + 1)
+        self.assertEqual(response.status_code, 302) #will need to use response.redirect_chain instead
+        
         #more assertions for errors depending on user input, need to make sure the language is set correctly to be able to compare 
         #error messages... how? Or should these tests go somewhere else?
         
     def test_submit_item_not_loggedin(self):
         """Test if we can upload a file when we're not logged in - shouldn't be allowed"""
         
-        self.client.logout()
+        #self.client.logout() # Can't login, so logout doesn't work...
         
         response = self._get('resource.upload')
         self.assertEqual(response.status_code, 403)
         
-        response = self.client.post('resource.upload',
-            data={'download': some_file, 
-	     'name': 'some file title', 
-	     'link': 'http://www.inkscape.org',
-	     'desc': 'My nice picture',
-	     'category': '2',
-	     'license': '4',
-	     'owner': 'True',
-	     'published': 'on',
-	     'thumbnail': some_other_file})
+        with open('./fixtures/media/test/file1.svg') as some_file, open('./fixtures/media/test/preview3.png') as thumbnail:
+          response = self.client.post('resource.upload',
+                                      data={'download': some_file, 
+                                            'name': 'some file title', 
+                                            'link': 'http://www.inkscape.org',
+                                            'desc': 'My nice picture',
+                                            'category': '2',
+                                            'license': '4',
+                                            'owner': 'True',
+                                            'published': 'on',
+                                            'thumbnail': thumbnail})
         
         self.assertEqual(response.status_code, 403)
         
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
         
-        #set quota for current user somehow... or retrieve it.
+        quota = User.objects.all().filter(username='MyTestUser')[0].quota() #now should be 1Mb
         
-        #some_huge_file = "needs to be a file bigger than the quota"
         
-        #response = self.client.post('resource.upload', data={'download': some_huge_file, 
+        # with open('./fixtures/media/test/file1.svg') as some_file:
+        #       response = self.client.post('resource.upload', data={'download': some_huge_file, 
         #                                                     'name': 'some file title', 
         #                                                     'link': 'http://www.inkscape.org',
         #                                                     'desc': 'My huge file',
@@ -96,8 +103,9 @@ class ResourceUserTests(BaseCase):
         #                                                     'owner': 'True',
         #                                                     'published': 'on',
         #                                                     'thumbnail': ''})
+        
         #assert that we get an error message in the form (would be nice, currently we get something weird, I think it's a server error or just the same page again)
-        pass
+        #pass
 
 class ResourceAnonTests(BaseCase):
     """Test all anonymous functions"""
@@ -105,10 +113,10 @@ class ResourceAnonTests(BaseCase):
 
 # Required tests:
 #
-# view_item #public vs. non-public, too
-# submit_item
-# not_logged_in_submit (fail)
-# no_more_quota_submit (fail)
+# view_item #public vs. non-public, too: started
+# submit_item: started
+# not_logged_in_submit (fail): started
+# no_more_quota_submit (fail): started
 # submit_pastebin
 # edit_item
 # mark_favorite
@@ -141,3 +149,9 @@ class ResourceAnonTests(BaseCase):
 # mirror_flag
 # verified_flag
 #
+
+#{"pk": 4, "model": "auth.user", "fields":
+  #{"username": "whoknowsthepassword", "first_name": "Test", "last_name": "Tester",
+   #"is_active": true, "is_superuser": false, "is_staff": false, "groups": [],
+   #"password": "pbkdf2_sha256$15000$Y54MfJXgMxo2$/UVYv273/fxGy6+3N5vGLwdhYfDLZzbA5YjGVuwwVWM=",
+   #"email": "123456@password.com"}},

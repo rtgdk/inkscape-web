@@ -39,7 +39,7 @@ USER_URLS.url_patterns.extend([
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
   ),
-  # Try a utf-8 url, see if it break's web browsers.
+  # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'),            ViewResource(), name='resource'),
 ])
 

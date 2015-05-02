@@ -60,7 +60,7 @@ class Command(django.core.management.commands.loaddata.Command):
         for filename in (not_found - is_found):
             if filename not in GLOBAL_WARN:
                 self.stderr.write(" [skipping] Expected file: %s" % filepath)
-                GLOBAL_WARN.append(filename)
+                GLOBAL_WARN.add(filename)
 
     def handle(self, *fixture_labels, **options):
         # Hook up pre_save events for all the apps' models that have FileFields.

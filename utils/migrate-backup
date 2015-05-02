@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 """
 Open django json dumps and update them to the latest versions so they
 can be continued to be used as backups going forwards.
@@ -116,28 +116,56 @@ def update_cms(field, row, **kwargs):
         return True
     return False
 
-def random(col, row, **kwargs):
-    import random, string
-    r = ''.join(random.choice(string.ascii_uppercase + string.digits) for _ in range(15))
-    row[col] = r
-    return True
+"""
+PARENT_CACHE = {}
+def update_treebeard(row, **kwargs):
+    from importlib import import_module
+    migration = import_module('cms.migrations.0005_auto_20140924_1039')
+    page = row
+    page.numchild = 0
+    page.depth = 0
+    page.path = ''
+    global PARENT_CACHE
+    PARENT_CACHE[page.pk] = page
+
+    def _inner():
+        last_root = None
+        if not page.parent_id:
+            handler = migration.MP_AddRootHandler(instance=page, last_root=last_root)
+            handler.process()
+            last_root = page
+            page.last_child = page
+        else:
+            parent = PARENT_CACHE[page.parent_id]
+            handler = migration.MP_AddChildHandler(parent, RowObject, instance=page)
+            handler.process()
+            parent.last_child = page
+        return page
+
+    if 'tree_id' in row:
+        clean_up = ('last_child',)
+        kwargs['deferred'].append((_inner, clean_up))
+        return True
+    return False
+"""
+    
 
 UPDATES = {
   'cms.page': (
-    [ delete, 'moderator_state' ],
-    [ delete, 'rght' ],
-    [ delete, 'lft' ],
-    [ rename, 'level', 'depth' ],
-    [ delete, 'tree_id' ],
-    [ random, 'path' ],
     [ update_cms, 'template' ],
+    #[ update_treebeard ],
+    [ delete, 'moderator_state' ],
+    #[ delete, 'tree_id' ],
+    #[ delete, 'rght' ],
+    #[ delete, 'lft' ],
+    #[ delete, 'level' ],
   ),
   'cms.cmsplugin': (
-    [ delete, 'rght' ],
-    [ delete, 'lft' ],
-    [ rename, 'level', 'depth' ],
-    [ delete, 'tree_id' ],
-    [ random, 'path' ],
+    #[ update_treebeard ],
+    #[ delete, 'tree_id' ],
+    #[ delete, 'rght' ],
+    #[ delete, 'lft' ],
+    #[ delete, 'level' ],
   ),
   'cms.usersettings': (
     [ set_to, 'user', A_USER ],
@@ -175,7 +203,38 @@ def log(message):
     if VERBOSE:
         sys.stderr.write(message+"\n")
 
+
+class RowObject(dict):
+    """
+    Takes a selections of fields and creates a fake object from them.
+    """
+    max_length = 255
+
+    class __metaclass__(type):
+        def __getattr__(cls, key):
+            return cls
+
+    def __init__(self, pk=None, row=None, **kwargs):
+        object.__setattr__(self, 'pk', pk)
+        if isinstance(row, dict):
+            self.update(row)
+
+    def __getattr__(self, key):
+        if key in self:
+            return self[key]
+        if key[-3:] == '_id':
+            return self.__getattr__(key[:-3])
+        return self
+
+    def __call__(self, *args, **kwargs):
+        return self
+
+    def __setattr__(self, key, value):
+        self[key] = value
+
+
 def update(content, updates):
+    DEFERRED = []
     WARNED = []
     DELETE = []
     COUNT = {}
@@ -190,11 +249,21 @@ def update(content, updates):
                 WARNED.append(model)
             continue
         COUNT[model] = COUNT.setdefault(model, {})
+        item['fields'] = RowObject(item['pk'], item['fields'])
         for up in update:
-            kwargs = dict(row=item['fields'], item=item, model=model, delete=DELETE)
+            kwargs = dict(row=item['fields'], item=item, model=model,
+                          delete=DELETE, deferred=DEFERRED)
             if up[0](*up[1:], **kwargs):
                 if len(up) > 1:
                     COUNT[model][up[1]] = COUNT[model].setdefault(up[1], 0) + 1
+
+    CLEANUP = []
+    for (f, clean) in DEFERRED:
+        CLEANUP.append([f(), clean])
+
+    for (item, clean) in CLEANUP:
+        for key in clean:
+            item.pop(key, None)
 
     for d in DELETE:
         content.remove(d)
@@ -205,7 +274,7 @@ def update(content, updates):
 
 if __name__ == '__main__':
     if len(sys.argv) == 1 or (sys.argv[1] != '-' and not os.path.exists(sys.argv[1])):
-        sys.stderr.write(__doc__) % sys.argv[0]
+        sys.stderr.write(str(__doc__) % str(sys.argv[0]))
         sys.exit(1)
 
     if sys.argv[1] == '-':

@@ -1,10 +1,11 @@
 from django.contrib.auth.models import Group, User, UserManager
 from django.core import mail
 from django.core.urlresolvers import reverse
-from django.test import TestCase, Client
+from django.test import TestCase
+from user_sessions.utils.tests import Client
 from datetime import date
 
-from .models import Resource, ResourceFile, License
+from .models import Resource, ResourceFile, License, Quota
 from django.core.files.storage import default_storage
 
 class BaseCase(TestCase):
@@ -12,16 +13,17 @@ class BaseCase(TestCase):
 
     def _get(self, url_name, **kw):
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
+      
+    def _post(self, url_name, data=None, **kw):
+        return self.client.post(reverse(url_name), data, kwargs=kw)
 
 
 class ResourceUserTests(BaseCase):
     def setUp(self):
         super(ResourceUserTests, self).setUp()
         self.client = Client()
-        
-        self.user = User.objects.create_user('MyTestUser', password='123456')
-        # regardless if in fixtures or just created, login doesn't work... the user is active and exists.
-        print self.client.login(username='MyTestUser', password='123456') #prints false if login didn't work
+        self.user = authenticate(username='tester', password='123456')
+        self.client.login(username='tester', password='123456')
 
     def test_view_my_item(self):
         """Testing item view and template"""
@@ -43,21 +45,20 @@ class ResourceUserTests(BaseCase):
         
         #This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         #Could become a mess if all are in one test.
-        some_file = "some data stream" # needs a file in the correct format for post
-        some_other_file = "a thumbnail file" # also needs a file in the correct format for post
         
         num_resources_before = Resource.objects.all().count()
         
-        response = self.client.post('resource.upload', 
-                                    data={'download': some_file, 
-                                          'name': 'some file title', 
-                                          'link': 'http://www.inkscape.org',
-                                          'desc': 'My nice picture',
-                                          'category': '2',
-                                          'license': '4',
-                                          'owner': 'True',
-                                          'published': 'on',
-                                          'thumbnail': some_other_file})
+        with open('./fixtures/media/test/file1.svg') as some_file, open('./fixtures/media/test/preview3.png') as thumbnail:
+            response = self._post('resource.upload', 
+                                   data={'download': some_file, 
+                                        'name': 'some file title', 
+                                        'link': 'http://www.inkscape.org',
+                                        'desc': 'My nice picture',
+                                        'category': '2',
+                                        'license': '4',
+                                        'owner': 'True',
+                                        'published': 'on',
+                                        'thumbnail': some_other_file})
         
         self.assertEqual(Resource.objects.all().count(), num_resources_before + 1)
         self.assertEqual(response.status_code, 302) #will need to use response.redirect_chain instead
@@ -68,33 +69,38 @@ class ResourceUserTests(BaseCase):
     def test_submit_item_not_loggedin(self):
         """Test if we can upload a file when we're not logged in - shouldn't be allowed"""
         
-        #self.client.logout() # Can't login, so logout doesn't work...
+        self.client.logout() # Can't login, so logout doesn't work...
         
         response = self._get('resource.upload')
         self.assertEqual(response.status_code, 403)
         
         with open('./fixtures/media/test/file1.svg') as some_file, open('./fixtures/media/test/preview3.png') as thumbnail:
-          response = self.client.post('resource.upload',
-                                      data={'download': some_file, 
-                                            'name': 'some file title', 
-                                            'link': 'http://www.inkscape.org',
-                                            'desc': 'My nice picture',
-                                            'category': '2',
-                                            'license': '4',
-                                            'owner': 'True',
-                                            'published': 'on',
-                                            'thumbnail': thumbnail})
+          response = self._post('resource.upload',
+                                data={'download': some_file, 
+                                        'name': 'some file title', 
+                                        'link': 'http://www.inkscape.org',
+                                        'desc': 'My nice picture',
+                                        'category': '2',
+                                        'license': '4',
+                                        'owner': 'True',
+                                        'published': 'on',
+                                        'thumbnail': thumbnail})
         
         self.assertEqual(response.status_code, 403)
         
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
         
-        quota = User.objects.all().filter(username='MyTestUser')[0].quota() #now should be 1Mb
+        small_quota = Quota.objects.all()[0]  #the first one is the default quota here
+        small_quota.size = 50 #50kb
+        small_quota.save()
         
+        quota = self.user.quota() #now should be 50 kb
+        print quota
+        #create a file > 50kb, see NOTES
         
         # with open('./fixtures/media/test/file1.svg') as some_file:
-        #       response = self.client.post('resource.upload', data={'download': some_huge_file, 
+        #       response = self._post('resource.upload', data={'download': some_huge_file, 
         #                                                     'name': 'some file title', 
         #                                                     'link': 'http://www.inkscape.org',
         #                                                     'desc': 'My huge file',
@@ -150,8 +156,22 @@ class ResourceAnonTests(BaseCase):
 # verified_flag
 #
 
-#{"pk": 4, "model": "auth.user", "fields":
-  #{"username": "whoknowsthepassword", "first_name": "Test", "last_name": "Tester",
-   #"is_active": true, "is_superuser": false, "is_staff": false, "groups": [],
-   #"password": "pbkdf2_sha256$15000$Y54MfJXgMxo2$/UVYv273/fxGy6+3N5vGLwdhYfDLZzbA5YjGVuwwVWM=",
-   #"email": "123456@password.com"}},
+#NOTES
+#create a temporary File that is automatically removed after use:   
+#import tempfile
+#import os
+
+#temp = tempfile.NamedTemporaryFile(suffix='.txt', 
+                                   #prefix='testfile',
+                                   #dir='/tmp',
+                                   #)
+#temp.write('Some data'*300)
+#temp.seek(0)
+    
+#print temp.read()
+#print 'temp:', temp
+#print 'temp.name:', temp.name
+
+#temppath = temp.name
+#print os.path.getsize(temppath)
+#temp.close()   

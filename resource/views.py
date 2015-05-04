@@ -105,7 +105,7 @@ class ViewResource(DetailView):
     model = ResourceFile
     
     def get_queryset(self):
-        qs = super(ViewResource, self).get_queryset()
+        qs = ResourceFile.objects.for_user(self.request.user)
         if 'username' in self.kwargs:
             return qs.filter(user__username=self.kwargs['username'])
         return qs

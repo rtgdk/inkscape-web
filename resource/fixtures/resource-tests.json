@@ -53,6 +53,19 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "test/file1.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 5
+},
+{
+  "fields": {
     "category": 1,
     "edited": "2015-04-20T16:42:41.417Z",
     "liked": 0,
@@ -141,5 +154,27 @@
   },
   "model": "resource.resource",
   "pk": 4
+},
+{
+  "fields": {
+    "user": 2,
+    "category": 4,
+    "name": "Unpublished Test",
+    "slug": "unpublished_test",
+    "desc": "Big description for Resource Five",
+    "created": "2015-04-05T16:42:41.433Z",
+    "edited": "2015-04-21T16:42:41.417Z",
+    "liked": 321,
+    "viewed": 432,
+    "downed": 567,
+    "media_x": 0,
+    "media_y": 0,
+    "link": "http://google.com/",
+    "published": false,
+    "thumbnail": "test/preview4.jpg",
+    "media_type": "text/plain"
+  },
+  "model": "resource.resource",
+  "pk": 5
 }
 ]

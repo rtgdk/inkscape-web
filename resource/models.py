@@ -127,16 +127,13 @@ class Tag(Model):
         return self.name
 
 
-class ResourceManager(InheritanceManager):
+class ResourceManager(Manager):
     @property
     def parent(self):
         return self.get_queryset()[0].user
 
     def get_absolute_url(self):
         return reverse('resources', kwargs={'username': self.parent.username})
-
-    def get_queryset(self):
-        return InheritanceManager.get_queryset(self).select_subclasses('resourcefile').order_by('-created')
 
     def for_user(self, user):
         return self.get_queryset().filter(Q(user=user.id) | Q(published=True))
@@ -164,6 +161,12 @@ class ResourceManager(InheritanceManager):
         return self.get_queryset().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
 
 
+class InheritedResourceManager(InheritanceManager, ResourceManager):
+    def get_queryset(self):
+        return InheritanceManager.get_queryset(self)\
+            .select_subclasses('resourcefile').order_by('-created')
+
+
 class Resource(Model):
     is_file   = False
     user      = ForeignKey(User, related_name='resources', default=get_user)
@@ -188,7 +191,7 @@ class Resource(Model):
     media_x    = IntegerField(**null)
     media_y    = IntegerField(**null)
 
-    objects   = ResourceManager()
+    objects   = InheritedResourceManager()
 
     def __unicode__(self):
         return self.name
@@ -333,6 +336,8 @@ class ResourceFile(Resource):
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
     verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
+
+    objects   = ResourceManager()
 
     ENDORSE_NONE = 0
     ENDORSE_HASH = 1

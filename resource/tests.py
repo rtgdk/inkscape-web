@@ -85,23 +85,13 @@ class ResourceUserTests(BaseCase):
 
     def test_view_someone_elses_unpublished_item(self):
         """Testing item view for someone elses non-public resource: Page not found"""
-        #make sure we don't own the file
-        resource = Resource.objects.get(pk=1)
-        print 'The file is public: ', resource.published
-        if self.user.pk == 1:
-            self.fail("Please use or set another user id for this test!")
-        print 'it belongs to: ', resource.user
-        resource.user = User.objects.get(pk=1) #not current user, hopefully.
-        resource.published = False
-        resource.save()
-        
-        target = ResourceFile.objects.get(pk=1)
-        
-        response = self._get('resource', pk=target.pk)
-        print 'I am: ', self.user
-        print 'The file belongs to: ', resource.user
-        print 'The file is public: ', resource.published
-        print response
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
+
+        # Make sure we don't own the resource
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource for this test")
+
+        response = self._get('resource', pk=resources[0].pk)
         self.assertEqual(response.status_code, 404)
     
     def test_submit_item_GET(self):

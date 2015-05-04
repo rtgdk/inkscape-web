@@ -14,7 +14,7 @@ from .models import Resource, ResourceFile, License, Quota
 from .forms import ResourceFileForm
 
 class BaseCase(TestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota-tests', 'resource-tests']
+    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
 
     def open(self, filename, *args):
         "Opens a file relative to this test script"
@@ -24,15 +24,15 @@ class BaseCase(TestCase):
         "Make a generic GET request with the best options"
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
       
-    def _post(self, url_name, data=None, **kw):
+    def _post(self, url_name, data=None, pk=None, **kw):
         "Make a generic POST request with the best options"
-        return self.client.post(reverse(url_name), data, kwargs=kw)
+        return self.client.post(reverse(url_name, pk), data, **kw)
 
     def setUp(self):
-        "Returns a dictionary containing a default post request for resources"
+        "Creates a dictionary containing a default post request for resources"
         super(TestCase, self).setUp()
-        self.download = self.open('fixtures/media/test/file1.svg')
-        self.thumbnail = self.open('fixtures/media/test/preview3.png')
+        self.download = self.open('fixtures/media/test/file5.svg')
+        self.thumbnail = self.open('fixtures/media/test/preview5.png')
         self.data = {
           'download': self.download, 
           'thumbnail': self.thumbnail,
@@ -61,64 +61,56 @@ class ResourceUserTests(BaseCase):
     def test_view_my_public_item(self):
         """Testing item view and template for public own items"""
         #make sure we own the file and it's public
-        resource = Resource.objects.get(pk=1)
-        resource.published = True
-        resource.user = self.user
-        resource.save()
+        resources = Resource.objects.filter(published=True, user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource for user %s" % self.user)
+        resource = resources[0]
         
-        target = ResourceFile.objects.get(pk=1)
-        
-        response = self._get('resource', pk=target.pk)
-        self.assertEqual(response.context['object'], target)
-        self.assertContains(response, 'file1.svg')# for suv ;)
-        self.assertContains(response, 'Resource One')
-        self.assertContains(response, 'Big description for Resource One')
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(response.context['object'], resource)
+        self.assertContains(response, resource.filename())
+        self.assertContains(response, resource.name)
+        self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
-        self.assertEqual(response.context['object'].viewed, 1)
+        self.assertEqual(response.context['object'].viewed, resource.viewed)
         
     def test_view_my_unpublished_item(self):
         """Testing item view and template for non-published own items"""
-        #make sure we own the file and unpublish
-        resource = Resource.objects.get(pk=1)
-        resource.user = self.user
-        resource.published = False
-        resource.save()
+        #make sure we own the file and it is unpublished
+        resources = Resource.objects.filter(published=False, user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource for user %s" % self.user)
+        resource = resources[0]
         
-        target = ResourceFile.objects.get(pk=1)
-        
-        response = self._get('resource', pk=target.pk)
-        self.assertEqual(response.context['object'], target)
-        self.assertContains(response, 'file1.svg')
-        self.assertContains(response, 'Resource One')
-        self.assertContains(response, 'Big description for Resource One')
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(response.context['object'], resource)
+        self.assertContains(response, resource.filename())
+        self.assertContains(response, resource.name)
+        self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
-        self.assertEqual(response.context['object'].viewed, 1)    
+        self.assertEqual(response.context['object'].viewed, resource.viewed)    
         
     def test_view_someone_elses_public_item(self):
         """Testing item view and template for someone elses public resource"""
-        #make sure we don't own the file
-        resource = Resource.objects.get(pk=1)
-        if self.user.pk == 1:
-            self.fail("Please use or set another user id for this test!")
-        resource.user = User.objects.get(pk=1) #not current user, hopefully.
-        resource.published = True
-        resource.save()
+        #make sure we don't own the file and it is public
+        resources = Resource.objects.filter(published=True).exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource that doesn't belong to user %s" % self.user)
+        resource = resources[0]
         
-        target = ResourceFile.objects.get(pk=1)
-        
-        response = self._get('resource', pk=target.pk)
-        self.assertEqual(response.context['object'], target)
-        self.assertContains(response, 'file1.svg')
-        self.assertContains(response, 'Resource One')
-        self.assertContains(response, 'Big description for Resource One')
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(response.context['object'], resource)
+        self.assertContains(response, resource.filename())
+        self.assertContains(response, resource.name)
+        self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
-        self.assertEqual(response.context['object'].viewed, 1)
+        self.assertEqual(response.context['object'].viewed, resource.viewed)
 
     def test_view_someone_elses_unpublished_item(self):
         """Testing item view for someone elses non-public resource: Page not found"""
-        resources = Resource.objects.filter(published=False).exclude(user=self.user)
-
+        
         # Make sure we don't own the resource
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource for this test")
 
@@ -126,75 +118,83 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 404)
     
     def test_submit_item_GET(self):
+        print "5"
         """Tests the GET view for uploading a new resource file"""
         
         response = self._get('resource.upload')
         self.assertIsInstance(response.context['form'], ResourceFileForm)
-        # more?
         
    
     def test_submit_item_POST(self):
         """Tests the POST view and template for uploading a new resource file"""
         #This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         #Could become a mess if all are in one test.
-        num_resources_before = Resource.objects.all().count()
         
-        response = self._post('resource.upload', data=self.data) 
+        #Currently prints a warning: [skipping] Expected file:....
+        
+        num_resources_before = Resource.objects.all().count() 
+        
+        response = self._post('resource.upload', data=self.data)
         
         self.assertEqual(Resource.objects.all().count(), num_resources_before + 1)
-        self.assertEqual(response.status_code, 302) # will need to use response.redirect_chain instead
-        
-        #more assertions for errors depending on user input, need to make sure the language is set correctly to be able to compare 
-        #error messages... how? Or should these tests go somewhere else? Yes, language tests go somewhere else.
+        self.assertEqual(response.status_code, 302)
         
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
         
-        small_quota = Quota.objects.all()[0]  #the first one is the default quota here
-        small_quota.size = 50 #50kb
-        small_quota.save()
+        #Currently prints a warning: [skipping] Expected file:....
         
-        quota = self.user.quota() #now should be 50 kb
-
-        #create a file > 50kb, see NOTES
-        # response = self._post('resource.upload', data=self.data) 
+        default_quota = Quota.objects.filter(group__isnull=True)[0]
+        default_quota.size = 1 # 1024 byte
+        default_quota.save()
         
-        #assert that we get an error message in the form (would be nice, currently we get something weird, I think it's a server error or just the same page again)
-        #pass
+        self.assertGreater(os.path.getsize(self.download.name), self.user.quota(),
+                           "Make sure that the file %s is bigger than %d byte" % (self.download.name, self.user.quota()))
 
-    def edit_item_being_the_owner_GET(self):
+        response = self._post('resource.upload', data=self.data, follow=True)
+        
+        self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
+
+    def test_edit_item_being_the_owner_GET(self):
         """Test if we can access the item edit page for our own item"""
         
         #make sure we own the file
-        resource = Resource.objects.get(pk=1)
-        resource.user = self.user # current user
-        resource.save()
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource for user %s" % self.user)
+        resource = resources[0]
         
-        target = ResourceFile.objects.get(pk=1)
-        
-        response = self._get('edit_resource', pk=target.pk)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-        self.assertContains(response, target.name)
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)#Todo: find out if ResourceEditPasteForm is indeed the correct form
+        self.assertContains(response, resource.name)
 
-    def edit_item_being_the_owner_POST(self):
+    def test_edit_item_being_the_owner_POST(self):
         """Test if we can edit an item which belongs to us"""
-        pass
+        self.fail("write this test!")
       
-    def edit_item_logged_out_GET(self):
-        """Test that we can't access the edit form for our items when we are logged out"""
-        pass
-      
-    def edit_item_logged_out_POST(self):
-        """Test that we can't edit our items when we are logged out"""
-        pass
-      
-    def edit_item_by_other_user_GET(self):
-        """Check that another user can't access the edit form for my items"""
-        pass
-      
-    def edit_item_by_other_user_POST(self):
+    def test_edit_item_by_other_user_GET(self):
+        """Check that another I can't access the edit form for other people's items"""
+
+        #make sure we don't own the file
+        resources = Resource.objects.exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource which doesn't belong to user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        
+    def test_edit_item_by_other_user_POST(self):
         """Check that another user can't edit my items"""
-        pass
+        
+        #make sure we don't own the file
+        resources = Resource.objects.exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource which doesn't belong to user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._post('edit_resource', pk=resource.pk, data=self.data)#Todo: find out how to pass that pk into the reverse function
+        self.assertEqual(response.status_code, 403)
 
 class ResourceAnonTests(BaseCase):
     """Test all anonymous functions"""
@@ -208,6 +208,26 @@ class ResourceAnonTests(BaseCase):
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(response.status_code, 403)    
 
+    def test_edit_item_logged_out_GET(self):
+        """Test that we can't access the edit form for our items when we are logged out"""
+        resources = Resource.objects.all()
+        self.assertGreater(resources.count(), 0,
+            "Create a resource!")
+        resource = resources[0]
+        
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+      
+    def test_edit_item_logged_out_POST(self):
+        """Test that we can't edit any items when we are logged out"""
+        resources = Resource.objects.all()
+        self.assertGreater(resources.count(), 0,
+            "Create a resource!")
+        resource = resources[0]
+        
+        response = self._post('edit_resource', pk=resource.pk, data=self.data)#Todo: find out how to pass that pk into the reverse function
+        self.assertEqual(response.status_code, 403)
+      
 # Required tests:
 #
 # view_item #public vs. non-public, too: started
@@ -246,27 +266,3 @@ class ResourceAnonTests(BaseCase):
 # mirror_flag
 # verified_flag
 #
-
-#NOTES
-
-#TODO
-#add some contents to the fixture's svg / png files? Make sure submitting a file actually works.
-
-#create a temporary File that is automatically removed after use:   
-#import tempfile
-#import os
-
-#temp = tempfile.NamedTemporaryFile(suffix='.txt', 
-                                   #prefix='testfile',
-                                   #dir='/tmp',
-                                   #)
-#temp.write('Some data'*300)
-#temp.seek(0)
-    
-#print temp.read()
-#print 'temp:', temp
-#print 'temp.name:', temp.name
-
-#temppath = temp.name
-#print os.path.getsize(temppath)
-#temp.close()   

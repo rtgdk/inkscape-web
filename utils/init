@@ -1,7 +1,8 @@
 #!/bin/bash
 set -e
 
-mkdir -p data/media
+mkdir -p data/media/
+mkdir -p data/fixtures/
 
 if [[ "$OSTYPE" == "darwin"* ]]; then
   echo "MacOSX is not supported for this website system. Please install VirtualBox or contact the project leader for details."

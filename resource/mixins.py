@@ -26,5 +26,5 @@ class OwnerUpdateMixin(object):
 
 class OwnerCreateMixin(OwnerUpdateMixin):
     def is_allowed(self):
-        return self.request.user.is_authenticated
+        return self.request.user.is_authenticated()
 

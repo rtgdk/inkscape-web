@@ -1,23 +1,54 @@
+import os
+from datetime import date
+
 from django.contrib.auth.models import Group, User, UserManager
 from django.contrib.auth import authenticate
 from django.core import mail
 from django.core.urlresolvers import reverse
+from django.core.files.storage import default_storage
 from django.test import TestCase
+
 from user_sessions.utils.tests import Client
-from datetime import date
 
 from .models import Resource, ResourceFile, License, Quota
 from .forms import ResourceFileForm
-from django.core.files.storage import default_storage
 
 class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota-tests', 'resource-tests']
 
+    def open(self, filename, *args):
+        "Opens a file relative to this test script"
+        return open(os.path.join(os.path.dirname(__file__), filename), *args)
+
     def _get(self, url_name, **kw):
+        "Make a generic GET request with the best options"
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
       
     def _post(self, url_name, data=None, **kw):
+        "Make a generic POST request with the best options"
         return self.client.post(reverse(url_name), data, kwargs=kw)
+
+    def setUp(self):
+        "Returns a dictionary containing a default post request for resources"
+        super(TestCase, self).setUp()
+        self.download = self.open('fixtures/media/test/file1.svg')
+        self.thumbnail = self.open('fixtures/media/test/preview3.png')
+        self.data = {
+          'download': self.download, 
+          'thumbnail': self.thumbnail,
+          'name': 'some file title',
+          'link': 'http://www.inkscape.org',
+          'desc': 'My nice picture',
+          'category': '2',
+          'license': '4',
+          'owner': 'True',
+          'published': 'on',
+        }
+
+    def tearDown(self):
+        super(TestCase, self).tearDown()
+        self.download.close()
+        self.thumbnail.close()
 
 
 class ResourceUserTests(BaseCase):
@@ -108,50 +139,13 @@ class ResourceUserTests(BaseCase):
         #Could become a mess if all are in one test.
         num_resources_before = Resource.objects.all().count()
         
-        with open('./fixtures/media/test/file1.svg') as some_file, open('./fixtures/media/test/preview3.png') as thumbnail:
-            response = self._post('resource.upload', 
-                                   data={'download': some_file, 
-                                        'name': 'some file title', 
-                                        'link': 'http://www.inkscape.org',
-                                        'desc': 'My nice picture',
-                                        'category': '2',
-                                        'license': '4',
-                                        'owner': 'True',
-                                        'published': 'on',
-                                        'thumbnail': some_other_file})
+        response = self._post('resource.upload', data=self.data) 
         
         self.assertEqual(Resource.objects.all().count(), num_resources_before + 1)
-        self.assertEqual(response.status_code, 302) #will need to use response.redirect_chain instead
+        self.assertEqual(response.status_code, 302) # will need to use response.redirect_chain instead
         
         #more assertions for errors depending on user input, need to make sure the language is set correctly to be able to compare 
-        #error messages... how? Or should these tests go somewhere else?
-        
-    def test_submit_item_GET_not_loggedin(self):
-        """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""
-        
-        self.client.logout()
-        
-        response = self._get('resource.upload')
-        self.assertEqual(response.status_code, 403)
-        
-    def test_submit_item_POST_not_loggedin(self):
-        """Test if we can upload a file when we're not logged in - shouldn't be allowed"""
-        
-        self.client.logout()
-        
-        with open('./fixtures/media/test/file1.svg') as some_file, open('./fixtures/media/test/preview3.png') as thumbnail:
-          response = self._post('resource.upload',
-                                data={'download': some_file, 
-                                        'name': 'some file title', 
-                                        'link': 'http://www.inkscape.org',
-                                        'desc': 'My nice picture',
-                                        'category': '2',
-                                        'license': '4',
-                                        'owner': 'True',
-                                        'published': 'on',
-                                        'thumbnail': thumbnail})
-        
-        self.assertEqual(response.status_code, 403)    
+        #error messages... how? Or should these tests go somewhere else? Yes, language tests go somewhere else.
         
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
@@ -163,17 +157,7 @@ class ResourceUserTests(BaseCase):
         quota = self.user.quota() #now should be 50 kb
 
         #create a file > 50kb, see NOTES
-        
-        # with open('./fixtures/media/test/file1.svg') as some_file:
-        #       response = self._post('resource.upload', data={'download': some_huge_file, 
-        #                                                     'name': 'some file title', 
-        #                                                     'link': 'http://www.inkscape.org',
-        #                                                     'desc': 'My huge file',
-        #                                                     'category': '2',
-        #                                                     'license': '4',
-        #                                                     'owner': 'True',
-        #                                                     'published': 'on',
-        #                                                     'thumbnail': ''})
+        # response = self._post('resource.upload', data=self.data) 
         
         #assert that we get an error message in the form (would be nice, currently we get something weird, I think it's a server error or just the same page again)
         #pass
@@ -214,7 +198,15 @@ class ResourceUserTests(BaseCase):
 
 class ResourceAnonTests(BaseCase):
     """Test all anonymous functions"""
-    pass
+    def test_submit_item_GET_not_loggedin(self):
+        """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""
+        response = self._get('resource.upload')
+        self.assertEqual(response.status_code, 403)
+        
+    def test_submit_item_POST_not_loggedin(self):
+        """Test if we can upload a file when we're not logged in - shouldn't be allowed"""
+        response = self._post('resource.upload', data=self.data)
+        self.assertEqual(response.status_code, 403)    
 
 # Required tests:
 #

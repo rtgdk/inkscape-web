@@ -135,8 +135,8 @@ def down_readme(request, item_id):
 
 from sendfile import sendfile
 
-def down_resource(request, item_id, fn=None):
-    item = get_object_or_404(ResourceFile, id=item_id)
+def down_resource(request, pk, fn=None):
+    item = get_object_or_404(ResourceFile, id=pk)
 
     # The view 'download' allows one to view an image in full screen glory
     # which is technically a download, but we count it as a view and try and let

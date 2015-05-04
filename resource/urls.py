@@ -39,7 +39,7 @@ USER_URLS.url_patterns.extend([
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
     url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
   ),
-  # Try a utf-8 url, see if it break's web browsers.
+  # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'),            ViewResource(), name='resource'),
 ])
 
@@ -60,13 +60,13 @@ urlpatterns = patterns('',
     url(r'^rss/$',         GalleryFeed(),    name='resources_rss'),
     url(r'^new/$',         CreateGallery(),  name="new_gallery"),
     url(r'^paste/$',       PasteIn(),        name='pastebin'),
-    url(r'^upload/()$',    UploadResource(), name='resource.upload'),
+    url(r'^upload/$',      UploadResource(), name='resource.upload'),
     url(r'^upload/go/()$', DropResource(),   name='resource.drop'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
       url(r'^del/$',       DeleteGallery(),  name="gallery.delete"),
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
-      url(r'^upload/$',    UploadResource(), name='resource.upload'),
+      url(r'^upload/$',    UploadResource(), name='resource.upload_to_gallery'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
     ),
 

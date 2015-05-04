@@ -57,8 +57,6 @@ from inkscape import *
 
 sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
-LOCALE_PATHS = os.path.join(PROJECT_PATH, 'locale'),
-
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS
 
@@ -66,8 +64,9 @@ TEMPLATE_DEBUG = DEBUG
 
 # Place where files can be uploaded
 # Place where media can be served from in development mode
-MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media/')
+MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media', '')
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
+FIXTURE_DIRS = os.path.join(PROJECT_PATH, 'data', 'fixtures'),
 
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),

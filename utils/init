@@ -40,8 +40,7 @@ $MANAGE loaddata licenses
 $MANAGE loaddata categories
 $MANAGE loaddata quota
 
-./utils/refresh-cms #staging. Maybe also add the groups and permissions from live to json file? Would make testing a lot easier.
-
+./utils/refresh-cms #staging.
 
 ./utils/refresh-geoip
 

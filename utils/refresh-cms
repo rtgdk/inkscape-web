@@ -1,11 +1,19 @@
 #!/bin/bash
 set -e
 
+FIXTURES="./data/fixtures"
+
 echo "Downloading media from https://${1}inkscape.org..."
 
 wget -q https://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz --no-check-certificate
 gunzip -c /tmp/contents.json.gz \
- | ./utils/migrate-backup - > /tmp/content_reformed.json
+ | ./utils/migrate-backup - > $FIXTURES/live_content.json
+
+echo "Downloading live fixtures..."
+
+mkdir -p data/fixtures
+wget -q https://${1}inkscape.org/media/groups.json.gz -O /tmp/groups.json.gz --no-check-certificate
+gunzip -c /tmp/groups.json.gz > data/fixtures/groups.json
 
 echo "Resetting cms plugins..."
 
@@ -17,5 +25,5 @@ echo "Resetting cms plugins..."
 
 echo "Loading new cms data..."
 
-./utils/manage loaddata /tmp/content_reformed.json
+./utils/manage loaddata live_content
 

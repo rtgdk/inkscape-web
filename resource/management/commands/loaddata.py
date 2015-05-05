@@ -72,7 +72,13 @@ class Command(django.core.management.commands.loaddata.Command):
         fixture_paths = [path for path in fixture_paths if isdir(path)]
         self.fixture_media_paths = fixture_paths
 
-        return super(Command, self).handle(*fixture_labels, **options)
+        ret = super(Command, self).handle(*fixture_labels, **options)
+
+        # Disconnect all the signals
+        for klass in models_with_filefields():
+            signals.pre_save.disconnect(self.load_images_for_signal, sender=klass)
+
+        return ret
 
     def find_fixture_paths(self):
         """Return the full paths to all possible fixture directories."""

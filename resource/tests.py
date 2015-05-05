@@ -24,9 +24,9 @@ class BaseCase(TestCase):
         "Make a generic GET request with the best options"
         return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
       
-    def _post(self, url_name, data=None, pk=None, **kw):
+    def _post(self, url_name, data=None, **kw):
         "Make a generic POST request with the best options"
-        return self.client.post(reverse(url_name, pk), data, **kw)
+        return self.client.post(reverse(url_name, kwargs=kw), data, follow=True)
 
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"
@@ -126,15 +126,10 @@ class ResourceUserTests(BaseCase):
         """Tests the POST view and template for uploading a new resource file"""
         #This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         #Could become a mess if all are in one test.
-        
-        #Currently prints a warning: [skipping] Expected file:....
-        
-        num_resources_before = Resource.objects.all().count() 
-        
+        num = Resource.objects.all().count() 
         response = self._post('resource.upload', data=self.data)
-        
-        self.assertEqual(Resource.objects.all().count(), num_resources_before + 1)
-        self.assertEqual(response.status_code, 302)
+        self.assertEqual(Resource.objects.all().count(), num + 1)
+        self.assertEqual(response.status_code, 200)
         
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
@@ -148,7 +143,7 @@ class ResourceUserTests(BaseCase):
         self.assertGreater(os.path.getsize(self.download.name), self.user.quota(),
                            "Make sure that the file %s is bigger than %d byte" % (self.download.name, self.user.quota()))
 
-        response = self._post('resource.upload', data=self.data, follow=True)
+        response = self._post('resource.upload', data=self.data)
         
         self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
 
@@ -178,7 +173,13 @@ class ResourceUserTests(BaseCase):
 
     def test_edit_item_being_the_owner_POST(self):
         """Test if we can edit an item which belongs to us"""
-        self.fail("write this test!")
+        resources = Resource.objects.filter(user=self.user, category=1)
+        self.assertGreater(resources.count(), 0,
+            "Create a paste resource for user %s" % self.user)
+        resource = resources[0]
+
+        response = self._post('edit_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
       
     def test_edit_item_by_other_user_GET(self):
         """Check that another I can't access the edit form for other people's items"""
@@ -201,7 +202,7 @@ class ResourceUserTests(BaseCase):
             "Create a resource which doesn't belong to user %s" % self.user)
         resource = resources[0]
         
-        response = self._post('edit_resource', pk=resource.pk, data=self.data)#Todo: find out how to pass that pk into the reverse function
+        response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
 
 class ResourceAnonTests(BaseCase):
@@ -233,7 +234,7 @@ class ResourceAnonTests(BaseCase):
             "Create a resource!")
         resource = resources[0]
         
-        response = self._post('edit_resource', pk=resource.pk, data=self.data)#Todo: find out how to pass that pk into the reverse function
+        response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
       
 # Required tests:

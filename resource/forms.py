@@ -71,8 +71,9 @@ class ResourceBaseForm(ModelForm):
             f.to_python = self.ex_clean_owner(f.to_python)
         
     def ex_clean_owner(self, f):
-        """We want to clean owner, but django to_python validator catches our error
-           before we get a chance to explain it to the user. Intercept in this crazy way."""
+        """We want to clean owner, but django to_python validator catches our
+           error before we get a chance to explain it to the user. Intercept in
+           this crazy way."""
         def _internal(val):
             if val in (None, u'None'):
                 raise ValidationError(_("You need to have permission to post this work, or be the owner of the work."))

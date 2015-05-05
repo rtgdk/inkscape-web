@@ -63,7 +63,7 @@ urlpatterns = patterns('',
     url_tree(r'^(?P<gallery_id>\d+)/',
       url(r'^del/$',       DeleteGallery(),  name="gallery.delete"),
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
-      url(r'^upload/$',    UploadResource(), name='resource.upload_to_gallery'),
+      url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
     ),
 

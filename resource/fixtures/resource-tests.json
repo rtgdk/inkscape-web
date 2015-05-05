@@ -176,5 +176,33 @@
   },
   "model": "resource.resource",
   "pk": 5
+},
+{
+  "fields": {
+    "user": 3,
+    "name": "Gallery by User One",
+    "slug": "gallery-one"
+  },
+  "model": "resource.gallery",
+  "pk": 1
+},
+{
+  "fields": {
+    "user": 2,
+    "name": "Gallery by User Two",
+    "slug": "gallery-two"
+  },
+  "model": "resource.gallery",
+  "pk": 2
+},
+{
+  "fields": {
+    "user": 2,
+    "group": 2,
+    "name": "Gallery for Group",
+    "slug": "gallery-group"
+  },
+  "model": "resource.gallery",
+  "pk": 3
 }
 ]

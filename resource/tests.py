@@ -10,7 +10,7 @@ from django.test import TestCase
 
 from user_sessions.utils.tests import Client
 
-from .models import Resource, ResourceFile, Category, License, Quota
+from .models import Resource, ResourceFile, Category, License, Quota, Gallery
 from .forms import ResourceFileForm, ResourceEditPasteForm
 
 class BaseCase(TestCase):
@@ -142,6 +142,37 @@ class ResourceUserTests(BaseCase):
         response = self._get('resource.upload')
         self.assertIsInstance(response.context['form'], ResourceFileForm)
    
+    def test_submit_gallery_item_GET(self):
+        """Test the GET when a gallery is selected"""
+        galleries = Gallery.objects.filter(user=self.user)
+        self.assertGreater(galleries.count(), 0,
+            "Create a gallery for user %s" % self.user)
+        gallery = galleries[0]
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertEqual(response.status_code, 200)
+        #self.assertContains(response, "name=\"gallery_id\" value=\"%d\"" % gallery.pk)
+
+    def test_submit_gallery_failure_GET(self):
+        """Test when no permission to submit exists"""
+        galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
+        self.assertGreater(galleries.count(), 0,
+            "Create a gallery for user other than %s" % self.user)
+        gallery = galleries[0]
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 403)
+
+    def test_submit_group_gallery_GET(self):
+        """Test the GET when a gallery is group based"""
+        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+                      .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0,
+            "Create a group gallery for user %s" % self.user)
+        gallery = galleries[0]
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertEqual(response.status_code, 200)
+
     def test_submit_item_POST(self):
         """Tests the POST view and template for uploading a new resource file"""
         #This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 

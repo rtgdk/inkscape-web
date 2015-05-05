@@ -56,17 +56,6 @@ DOMAINS = {
   'openclipart.org': 'OpenClipart (OCAL)',
 }
 
-class VisibleManager(Manager):
-    def get_queryset(self):
-        return Manager.get_queryset(self).filter(visible=True)
-
-    def get(self, **kwargs):
-        return Manager.get_queryset(self).get(**kwargs)
-
-    def full_list(self):
-        return Manager.get_queryset(self)
-
-
 class License(Model):
     name    = CharField(max_length=64)
     code    = CharField(max_length=16)
@@ -81,8 +70,6 @@ class License(Model):
 
     visible  = BooleanField(default=True)
     replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
-
-    objects  = VisibleManager()
 
     @property
     def value(self):
@@ -104,8 +91,6 @@ class Category(Model):
 
     visible  = BooleanField(default=True)
     acceptable_licenses = ManyToManyField(License)
-
-    objects  = VisibleManager()
 
     def __str__(self):
         return str(self.name)
@@ -173,7 +158,8 @@ class Resource(Model):
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
-    category  = ForeignKey(Category, related_name='items', **null)
+    category  = ForeignKey(Category, related_name='items',
+                  limit_choices_to={'visible': True}, **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 
     created   = DateTimeField(**null) # Start of copyright, when 'published=True'
@@ -330,7 +316,7 @@ class ResourceFile(Resource):
 
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
 
-    license    = ForeignKey(License, **null)
+    license    = ForeignKey(License, limit_choices_to={'visible':True}, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))

@@ -50,6 +50,7 @@ class BaseCase(TestCase):
         self.download.close()
         self.thumbnail.close()
 
+
 class ResourceTests(BaseCase):
     """Test non-request functions and methods"""
     def test_slug(self):

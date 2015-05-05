@@ -1,4 +1,5 @@
 
-pythonenv/bin/coverage run inkscape/manage.py test resource
-pythonenv/bin/coverage report
+pythonenv/bin/coverage html -d data/coverage_html
+
+xdg-open data/coverage_html/index.html
 

@@ -58,7 +58,7 @@ class Command(django.core.management.commands.loaddata.Command):
                     not_found.add(path.name)
 
         for filename in (not_found - is_found):
-            if filename not in GLOBAL_WARN:
+            if filename not in GLOBAL_WARN: # _IsWarning_
                 self.stderr.write(" [skipping] Expected file: %s" % filepath)
                 GLOBAL_WARN.add(filename)
 

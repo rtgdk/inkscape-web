@@ -10,7 +10,7 @@ from django.test import TestCase
 
 from user_sessions.utils.tests import Client
 
-from .models import Resource, ResourceFile, License, Quota
+from .models import Resource, ResourceFile, Category, License, Quota
 from .forms import ResourceFileForm, ResourceEditPasteForm
 
 class BaseCase(TestCase):
@@ -36,11 +36,11 @@ class BaseCase(TestCase):
         self.data = {
           'download': self.download, 
           'thumbnail': self.thumbnail,
-          'name': 'some file title',
+          'name': 'Test Resource Title',
           'link': 'http://www.inkscape.org',
           'desc': 'My nice picture',
-          'category': '2',
-          'license': '4',
+          'category': 2,
+          'license': 4,
           'owner': 'True',
           'published': 'on',
         }
@@ -50,8 +50,27 @@ class BaseCase(TestCase):
         self.download.close()
         self.thumbnail.close()
 
+class ResourceTests(BaseCase):
+    """Test non-request functions and methods"""
+    def test_slug(self):
+        """Unique slug creation"""
+        data = {
+          'name': 'Test Resource Title',
+          'user': User.objects.get(pk=1),
+        }
+        one = ResourceFile.objects.create(**data)
+        self.assertEqual(one.slug, 'test-resource-title')
+        two = ResourceFile.objects.create(**data)
+        self.assertEqual(two.slug, 'test-resource-title+0')
+        now = ResourceFile.objects.create(**data)
+        self.assertEqual(now.slug, 'test-resource-title+1')
+        two.delete()
+        now = ResourceFile.objects.create(**data)
+        self.assertEqual(now.slug, 'test-resource-title+0')
+
 
 class ResourceUserTests(BaseCase):
+    """Any test of views and requests where a user is logged in."""
     def setUp(self):
         super(ResourceUserTests, self).setUp()
         self.client = Client()

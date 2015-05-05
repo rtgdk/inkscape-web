@@ -11,7 +11,7 @@ from django.test import TestCase
 from user_sessions.utils.tests import Client
 
 from .models import Resource, ResourceFile, License, Quota
-from .forms import ResourceFileForm
+from .forms import ResourceFileForm, ResourceEditPasteForm
 
 class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
@@ -118,12 +118,9 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 404)
     
     def test_submit_item_GET(self):
-        print "5"
         """Tests the GET view for uploading a new resource file"""
-        
         response = self._get('resource.upload')
         self.assertIsInstance(response.context['form'], ResourceFileForm)
-        
    
     def test_submit_item_POST(self):
         """Tests the POST view and template for uploading a new resource file"""
@@ -157,15 +154,26 @@ class ResourceUserTests(BaseCase):
 
     def test_edit_item_being_the_owner_GET(self):
         """Test if we can access the item edit page for our own item"""
-        
-        #make sure we own the file
-        resources = Resource.objects.filter(user=self.user)
+        # Make sure we own the file and that isn't NOT a pasted text
+        resources = Resource.objects.filter(user=self.user).exclude(category=1)
         self.assertGreater(resources.count(), 0,
-            "Create a resource for user %s" % self.user)
+            "Create a image resource for user %s" % self.user)
         resource = resources[0]
         
         response = self._get('edit_resource', pk=resource.pk)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)#Todo: find out if ResourceEditPasteForm is indeed the correct form
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        self.assertContains(response, resource.name)
+
+    def test_edit_paste_bring_the_owner_GET(self):
+        """Test if we can access the paste edit page for our own item"""
+        # Make sure we own the file and that isn't NOT a pasted text
+        resources = Resource.objects.filter(user=self.user, category=1)
+        self.assertGreater(resources.count(), 0,
+            "Create a paste resource for user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertIsInstance(response.context['form'], ResourceEditPasteForm)
         self.assertContains(response, resource.name)
 
     def test_edit_item_being_the_owner_POST(self):

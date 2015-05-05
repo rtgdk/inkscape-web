@@ -200,22 +200,3 @@ def gpg_verify(user, sig, data):
     gpg.import_keys(str(user.details.gpg_key))
     return bool(gpg.verify_file(sig, data.path))
 
-if __name__ == '__main__':
-    # Test our coverage of intended conversions.
-    total = 0
-    right = 0
-    with open(os.path.join(MIME_ROOT, "mimes.txt"), 'r') as fhl:
-        print "In, Type, SubType, Text, Image, Raster"
-        for mime in fhl.readlines():
-            if "|" not in mime:
-                continue
-            (a,b) = mime.strip().split("|")
-            b = b or a
-            t = MimeType(a)
-            p = t.type() + "/" + t.subtype()
-            total += 1
-            if b != p:
-                print " ! %s -> %s != %s" % (a, p, b)
-            else:
-                right += 1
-    print "%d%% Right" % int(right / float(total) * 100)

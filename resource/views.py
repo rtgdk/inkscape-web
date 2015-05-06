@@ -26,6 +26,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
+from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.contrib import messages
@@ -95,11 +96,11 @@ class PasteIn(UploadResource):
     form_class = ResourcePasteForm
 
 @login_required
-def publish_resource(request, item_id):
-    item = get_object_or_404(Resource, id=item_id, user=request.user)
+def publish_resource(request, pk):
+    item = get_object_or_404(Resource, pk=pk, user=request.user)
     item.published = True
     item.save()
-    return redirect("gallery", item.gallery.id)
+    return redirect(next_url(request, item))
 
 class ViewResource(DetailView):
     model = ResourceFile

@@ -4,6 +4,7 @@ omit =
 	*migrations*
 	*management*
 	*/tests.py
+	*/admin.py
         */__init__.py
 source = 
 	resource

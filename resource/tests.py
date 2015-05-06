@@ -199,24 +199,33 @@ class ResourceUserTests(BaseCase):
 
     def test_like_item(self):
         """Like a gallery item"""
-        resource = Resource.objects.exclude(user=self.user)[0]
-        response = self._get('resource.like', pk=resource.pk, like='+')
+        resources = Resource.objects.exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource for user %s" % self.user)
+
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 200)
-        new = Resource.objects.get(pk=resource.pk).liked
-        self.assertEqual(resource.liked + 1, new)
+        self.assertEqual(resources.all()[0].liked, 1)
 
-        response = self._get('resource.like', pk=resource.pk, like='+')
-        too = Resource.objects.get(pk=resource.pk).liked
-        self.assertEqual(new, too)
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertEqual(resources.all()[0].liked, 1)
 
-        response = self._get('resource.like', pk=resource.pk, like='-')
+        response = self._get('resource.like', pk=resources[0].pk, like='-')
         self.assertEqual(response.status_code, 200)
-        new = Resource.objects.get(pk=resource.pk).liked
-        self.assertEqual(resource.liked, new)
+        self.assertEqual(resources.all()[0].liked, 0)
 
-        resource = Resource.objects.filter(user=self.user)[0]
-        response = self._get('resource.like', pk=resource.pk, like='+')
+        resources = Resource.objects.filter(user=self.user)
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 404)
+
+    def test_publish_item(self):
+        """Publish item link"""
+        resources = Resource.objects.filter(published=False, user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource for user %s" % self.user)
+
+        response = self._get('publish_resource', pk=resources[0].pk)
+        self.assertEqual(response.status_code, 200)
 
     def test_readme(self):
         """Download the description as a readme file"""

@@ -206,8 +206,13 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resource.liked + 1, new)
 
         response = self._get('resource.like', pk=resource.pk, like='+')
-        too = Resource.objects.exclude(user=self.user)[0].liked
+        too = Resource.objects.get(pk=resource.pk).liked
         self.assertEqual(new, too)
+
+        response = self._get('resource.like', pk=resource.pk, like='-')
+        self.assertEqual(response.status_code, 200)
+        new = Resource.objects.get(pk=resource.pk).liked
+        self.assertEqual(resource.liked, new)
 
         resource = Resource.objects.filter(user=self.user)[0]
         response = self._get('resource.like', pk=resource.pk, like='+')

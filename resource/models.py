@@ -549,6 +549,12 @@ class Vote(Model):
         self.resource.save()
         return ret
 
+    def delete(self):
+        ret = super(Vote, self).delete()
+        self.resource.liked = self.resource.votes.count()
+        self.resource.save()
+        return ret
+
 
 class Views(Model):
     """Record the view of an item"""

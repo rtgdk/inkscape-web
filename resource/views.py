@@ -122,9 +122,9 @@ def like_resource(request, pk, like):
     item = get_object_or_404(Resource, pk=pk)
     if item.user.pk == request.user.pk:
         raise Http404
-    (like, is_new) = item.votes.get_or_create(voter=request.user)
-    if like == '-':
-        like.delete()
+    (obj, is_new) = item.votes.get_or_create(voter=request.user)
+    if '+' not in like:
+        obj.delete()
     return redirect("resource", pk)
     
 def down_readme(request, item_id):

@@ -26,12 +26,7 @@ import re
 import os
 import mimetypes
 
-try:
-    from pygments import highlight, lexers, formatters
-    pygments = True
-except ImportError:
-    pygments = False
-
+from pygments import highlight, lexers, formatters
 from django.utils.safestring import mark_safe
 from django.conf import settings
 
@@ -58,15 +53,11 @@ class CodeHtmlFormatter(formatters.HtmlFormatter):
 
 def syntaxer(text, mime):
     """Highlights text files based on their type"""
-    if not pygments:
-        return text
     formatter = CodeHtmlFormatter(encoding='utf8')
-
     try:
         lexer = lexers.get_lexer_for_mimetype(str(mime))
     except:
         lexer = lexers.guess_lexer(text)
-
     return mark_safe(''.join(highlight(text, lexer, formatter)))
 
 def text_count(text):

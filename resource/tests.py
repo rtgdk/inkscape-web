@@ -20,13 +20,17 @@ class BaseCase(TestCase):
         "Opens a file relative to this test script"
         return open(os.path.join(os.path.dirname(__file__), filename), *args)
 
-    def _get(self, url_name, **kw):
+    def _get(self, url_name, *arg, **kw):
         "Make a generic GET request with the best options"
-        return self.client.get(reverse(url_name, kwargs=kw), {}, follow=True)
+        data = kw.pop('data', {})
+        method = kw.pop('method', self.client.get)
+        url = reverse(url_name, kwargs=kw, args=arg)
+        return method(url, data, follow=True)
       
-    def _post(self, url_name, data=None, **kw):
+    def _post(self, *arg, **kw):
         "Make a generic POST request with the best options"
-        return self.client.post(reverse(url_name, kwargs=kw), data, follow=True)
+        kw['method'] = self.client.post
+        return self._get(*arg, **kw)
 
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"
@@ -181,7 +185,35 @@ class ResourceUserTests(BaseCase):
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(Resource.objects.all().count(), num + 1)
         self.assertEqual(response.status_code, 200)
+
+    def test_drop_item_POST(self):
+        """Drag and drop file (ajax request)"""
+        num = Resource.objects.all().count()
+        response = self._post('resource.drop', data={
+          'name': "New Name",
+          'download': self.download,
+        })
+        self.assertEqual(Resource.objects.all().count(), num + 1)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, 'OK|')
+
+    def test_like_item(self):
+        """Like a gallery item"""
+        resource = Resource.objects.exclude(user=self.user)[0]
+        response = self._get('resource.like', pk=resource.pk, like='+')
+        self.assertEqual(response.status_code, 200)
+        new = Resource.objects.get(pk=resource.pk).liked
+        self.assertEqual(resource.liked + 1, new)
+
+        response = self._get('resource.like', pk=resource.pk, like='+')
+        too = Resource.objects.exclude(user=self.user)[0].liked
+        self.assertEqual(new, too)
+
+        resource = Resource.objects.filter(user=self.user)[0]
+        response = self._get('resource.like', pk=resource.pk, like='+')
+        self.assertEqual(response.status_code, 404)
         
+
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
         

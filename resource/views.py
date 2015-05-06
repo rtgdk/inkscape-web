@@ -118,18 +118,18 @@ class ViewResource(DetailView):
         return ret
 
 @login_required
-def like_resource(request, like_id, item_id):
-    item = get_object_or_404(Resource, id=item_id)
+def like_resource(request, pk, like):
+    item = get_object_or_404(Resource, pk=pk)
     if item.user.pk == request.user.pk:
         raise Http404
     (like, is_new) = item.votes.get_or_create(voter=request.user)
-    if like_id == '-':
+    if like == '-':
         like.delete()
-    return redirect("resource", item_id)
+    return redirect("resource", pk)
     
 def down_readme(request, item_id):
     item = get_object_or_404(Resource, id=item_id)
-    return render_to_response('resource/readme.txt', { 'item': item },
+    return render_to_response('resource/readme.txt', {'item': item},
       context_instance=RequestContext(request),
       content_type="text/plain")
 

@@ -12,5 +12,6 @@ source =
 show_missing = True
 exclude_lines =
 	pragma: no cover
+	settings.DEBUG
 	_IsWarning_
 

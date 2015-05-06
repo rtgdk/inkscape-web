@@ -217,22 +217,32 @@ class ResourceUserTests(BaseCase):
         resource = Resource.objects.filter(user=self.user)[0]
         response = self._get('resource.like', pk=resource.pk, like='+')
         self.assertEqual(response.status_code, 404)
-        
+
+    def test_readme(self):
+        """Download the description as a readme file"""
+        resource = Resource.objects.all()[0]
+        response = self._get('resource.readme', pk=resource.pk)
+        self.assertContains(response, resource.desc)
+
+    def test_download(self):
+        """Download the actual file"""
+        resource = Resource.objects.all()[0]
+        response = self._get('download_resource', pk=resource.pk, fn=resource.filename())
+        # Not sure how to test this properly yet
+        self.assertEqual(response.status_code, 404)
 
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
-        
-        #Currently prints a warning: [skipping] Expected file:....
-        
         default_quota = Quota.objects.filter(group__isnull=True)[0]
         default_quota.size = 1 # 1024 byte
         default_quota.save()
-        
-        self.assertGreater(os.path.getsize(self.download.name), self.user.quota(),
-                           "Make sure that the file %s is bigger than %d byte" % (self.download.name, self.user.quota()))
+        name = self.download.name
+        quot = self.user.quota()
+
+        self.assertGreater(os.path.getsize(name), quot,
+            "Make sure that the file %s is bigger than %d byte" % (name, quot))
 
         response = self._post('resource.upload', data=self.data)
-        
         self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
 
     def test_edit_item_being_the_owner_GET(self):

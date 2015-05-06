@@ -127,8 +127,8 @@ def like_resource(request, pk, like):
         obj.delete()
     return redirect("resource", pk)
     
-def down_readme(request, item_id):
-    item = get_object_or_404(Resource, id=item_id)
+def down_readme(request, pk):
+    item = get_object_or_404(Resource, id=pk)
     return render_to_response('resource/readme.txt', {'item': item},
       context_instance=RequestContext(request),
       content_type="text/plain")

@@ -20,7 +20,7 @@
     "signature": "",
     "owner": true,
     "mirror": false,
-    "download": "test/file2.svg"
+    "download": "test/file2.txt"
   },
   "model": "resource.resourcefile",
   "pk": 2
@@ -101,7 +101,7 @@
     "liked": 123,
     "downed": 0,
     "tags": [],
-    "media_type": "image/png",
+    "media_type": "text/plain",
     "media_x": 150,
     "media_y": 150,
     "thumbnail": "",

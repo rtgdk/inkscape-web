@@ -99,6 +99,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.context['object'].viewed, resource.viewed)
 
     def test_view_text_file(self):
+		"""Check if the text of a textfile is displayed on item view page"
         resources = Resource.objects.filter(media_type="text/plain", user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create a plain text resource for user %s" % self.user)
@@ -146,7 +147,7 @@ class ResourceUserTests(BaseCase):
         # Make sure we don't own the resource
         resources = Resource.objects.filter(published=False).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
-            "Create an unpublished resource for this test")
+            "Create an unpublished resource which doesn't belong to %s for this test" % self.user)
 
         response = self._get('resource', pk=resources[0].pk)
         self.assertEqual(response.status_code, 404)
@@ -207,30 +208,53 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'OK|')
 
-    def test_like_item(self):
-        """Like a gallery item"""
+    def test_like_item_not_being_owner(self):
+        """Like a gallery item which belongs to someone else"""
         resources = Resource.objects.exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
-            "Create a resource for user %s" % self.user)
+            "Create a resource which doesn't belong to user %s" % self.user)
 
+        num_likes = resources[0].liked
+        
         response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].liked, 1)
+        self.assertEqual(resources[0].liked, num_likes + 1)
 
         response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertEqual(resources.all()[0].liked, 1)
+        self.assertEqual(resources[0].liked, num_likes + 1)
 
         response = self._get('resource.like', pk=resources[0].pk, like='-')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].liked, 0)
+        self.assertEqual(resources[0].liked, num_likes)
+        
+    def test_like_unpublished_item_not_being_owner(self):
+        """Like a gallery item which belongs to someone else, and is not public - should fail"""
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource which doesn't belong to user %s" % self.user)
 
-        resources = Resource.objects.filter(user=self.user)
+        num_likes = resources[0].liked
+        
         response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 404)
+        self.assertEqual(resources[0].liked, num_likes)
+        
+    def test_like_item_being_owner(self):
+        """Like a gallery item which belongs to me should fail"""
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource for user %s" % self.user)
+
+        num_likes = resources[0].liked    
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(resources[0].liked, num_likes)
 
     def test_publish_item(self):
         """Publish item link"""
         resources = Resource.objects.filter(published=False, user=self.user)
+        num_likes = resources[0].liked
+        
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource for user %s" % self.user)
 
@@ -249,6 +273,7 @@ class ResourceUserTests(BaseCase):
         response = self._get('download_resource', pk=resource.pk, fn=resource.filename())
         # Not sure how to test this properly yet
         self.assertEqual(response.status_code, 404)
+        self.fail("Finish this test") #just a marker, so we can't forget
 
     def test_submit_item_quota_exceeded(self):
         """Check that submitting an item which would make the user exceed the quota will fail"""
@@ -266,7 +291,7 @@ class ResourceUserTests(BaseCase):
 
     def test_edit_item_being_the_owner_GET(self):
         """Test if we can access the item edit page for our own item"""
-        # Make sure we own the file and that isn't NOT a pasted text
+        # Make sure we own the file and that it's NOT a pasted text
         resources = Resource.objects.filter(user=self.user).exclude(category=1)
         self.assertGreater(resources.count(), 0,
             "Create a image resource for user %s" % self.user)
@@ -276,9 +301,9 @@ class ResourceUserTests(BaseCase):
         self.assertIsInstance(response.context['form'], ResourceFileForm)
         self.assertContains(response, resource.name)
 
-    def test_edit_paste_bring_the_owner_GET(self):
+    def test_edit_paste_being_the_owner_GET(self):
         """Test if we can access the paste edit page for our own item"""
-        # Make sure we own the file and that isn't NOT a pasted text
+        # Make sure we own the file and that it IS a pasted text
         resources = Resource.objects.filter(user=self.user, category=1)
         self.assertGreater(resources.count(), 0,
             "Create a paste resource for user %s" % self.user)
@@ -290,17 +315,16 @@ class ResourceUserTests(BaseCase):
 
     def test_edit_item_being_the_owner_POST(self):
         """Test if we can edit an item which belongs to us"""
-        resources = Resource.objects.filter(user=self.user, category=1)
+        resources = Resource.objects.filter(user=self.user, category=1) # only for pastes?
         self.assertGreater(resources.count(), 0,
-            "Create a paste resource for user %s" % self.user)
+            "Create a resource for user %s" % self.user)
         resource = resources[0]
 
-        response = self._post('edit_resource', pk=resource.pk)
+        response = self._post('edit_resource', pk=resource.pk) # no changes to resource data?
         self.assertEqual(response.status_code, 200)
       
     def test_edit_item_by_other_user_GET(self):
-        """Check that another I can't access the edit form for other people's items"""
-
+        """Check that we can't access the edit form for other people's items"""
         #make sure we don't own the file
         resources = Resource.objects.exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -311,8 +335,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         
     def test_edit_item_by_other_user_POST(self):
-        """Check that another user can't edit my items"""
-        
+        """Check that another user can't edit my items"""      
         #make sure we don't own the file
         resources = Resource.objects.exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -354,19 +377,30 @@ class ResourceAnonTests(BaseCase):
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
       
+    def test_like_item_logged_out(self):
+        """Like a gallery item when logged out should fail"""
+        resources = Resource.objects.all()
+        self.assertGreater(resources.count(), 0,
+            "Create a resource!")
+            
+        num_likes = resources[0].liked    
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(resources[0].liked, num_likes)
+   
 # Required tests:
 #
 # view_item #public vs. non-public, too: started
 # submit_item: started
 # not_logged_in_submit (fail): started
 # no_more_quota_submit (fail): started
-# submit_pastebin
+# submit_pastebin: started
 # edit_item: started
-# mark_favorite
-# mark_not_loggedin (fail)
-# mark_own_item (fail)
-# download_item
-# filesize_item
+# mark_favorite: started
+# mark_not_loggedin (fail): started
+# mark_own_item (fail): started
+# download_item (non-public, too): started
+# filesize_item: What's this?
 #
 # license_on_item
 # license_on_gallery_item

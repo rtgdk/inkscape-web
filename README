@@ -4,7 +4,7 @@ you are having issues getting a local instance working.
 Running the website locally:
 
  1) ./utils/init
- 2) ./utils/manage.py runserver
+ 2) ./utils/manage runserver
 
 Updating the Website:
 

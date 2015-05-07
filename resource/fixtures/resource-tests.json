@@ -66,6 +66,19 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 3,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "test/file2.txt"
+  },
+  "model": "resource.resourcefile",
+  "pk": 6
+},
+{
+  "fields": {
     "category": 1,
     "user": 3,
     "name": "Resource One",
@@ -146,7 +159,7 @@
     "viewed": 432,
     "liked": 321,
     "downed": 567,
-    "media_type": "text/plain",
+    "media_type": "text/xml+svg",
     "media_x": 0,
     "media_y": 0,
     "thumbnail": "test/preview4.jpg",
@@ -176,6 +189,29 @@
   },
   "model": "resource.resource",
   "pk": 5
+},
+{
+  "fields": {
+    "category": 2,
+    "user": 1,
+    "name": "Resource Two",
+    "slug": "resource_two",
+    "desc": "Big description for Resource Two[[...]]And Some More",
+    "created": "2015-04-03T16:42:41.433Z",
+    "edited": "2015-04-21T16:42:41.417Z",
+    "published": true,
+    "viewed": 1,
+    "liked": 123,
+    "downed": 0,
+    "tags": [],
+    "media_type": "text/plain",
+    "media_x": 1,
+    "media_y": 5,
+    "thumbnail": "",
+    "link": "http://link.com/"
+  },
+  "model": "resource.resource",
+  "pk": 6
 },
 {
   "fields": {

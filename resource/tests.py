@@ -97,7 +97,17 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
         self.assertEqual(response.context['object'].viewed, resource.viewed)
-        
+
+    def test_view_text_file(self):
+        resources = Resource.objects.filter(media_type="text/plain", user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a plain text resource for user %s" % self.user)
+
+        response = self._get('resource', pk=resources[0].pk)
+        self.assertContains(response, 'Text File Content')
+        self.assertContains(response, 'Big description for Resource Two')
+        self.assertNotContains(response, 'And Some More')
+
     def test_view_my_unpublished_item(self):
         """Testing item view and template for non-published own items"""
         #make sure we own the file and it is unpublished

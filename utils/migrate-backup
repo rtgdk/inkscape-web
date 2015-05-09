@@ -78,7 +78,6 @@ def unique(field, item, row, model, delete, **kwargs):
 SKIP_WEIGHT = 10
 def download(field, row, **kwargs):
     """Downloads a media item from live website"""
-    return None
     global SKIP_WEIGHT
     if SKIP_WEIGHT <= 0:
         return None

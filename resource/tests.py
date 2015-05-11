@@ -251,15 +251,26 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resources[0].liked, num_likes)
 
     def test_publish_item(self):
-        """Publish item link"""
+        """Check that we can publish our own items"""
         resources = Resource.objects.filter(published=False, user=self.user)
-        num_likes = resources[0].liked
         
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource for user %s" % self.user)
 
         response = self._get('publish_resource', pk=resources[0].pk)
         self.assertEqual(response.status_code, 200)
+
+    def test_publish_another_persons_item(self):
+        """Make sure we can't publish resources which are not ours"""
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
+        resource = resources[0]
+        
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource which does not belong to user %s" % self.user)
+
+        response = self._get('publish_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
     def test_readme(self):
         """Download the description as a readme file"""
@@ -344,6 +355,34 @@ class ResourceUserTests(BaseCase):
         
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
+        
+    def test_delete_own_item(self):
+        """Check that we can delete our own items"""
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource which belongs to user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._post('delete_resource', pk=resource.pk)
+        
+        self.assertEqual(response.status_code, 302)
+        with self.assertRaises(DoesNotExist):
+            deleted = Resource.objects.get(pk=resource.pk)
+        
+        deleted_item_view = self._get('resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 404)
+        
+    def test_delete_another_persons_item(self):
+        """Make sure that we can't delete other people's items"""
+        resources = Resource.objects.exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a resource which does not belong to user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._post('delete_resource', pk=resource.pk)
+        
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
 class ResourceAnonTests(BaseCase):
     """Test all anonymous functions"""
@@ -376,7 +415,31 @@ class ResourceAnonTests(BaseCase):
         
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
-      
+    
+    def test_publish_item_logged_out(self):
+        """Make sure we can't publish resources when logged out"""
+        resources = Resource.objects.filter(published=False)
+        resource = resources[0]
+        
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource")
+
+        response = self._get('publish_resource', pk=resource.pk)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
+    
+    def test_delete_item_logged_out(self):
+        """Make sure that we can't delete resources when we are logged out"""
+        resources = Resource.objects.all()
+        self.assertGreater(resources.count(), 0,
+            "Create a resource")
+        resource = resources[0]
+        
+        response = self._post('delete_resource', pk=resource.pk)
+        
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
+    
     def test_like_item_logged_out(self):
         """Like a gallery item when logged out should fail"""
         resources = Resource.objects.all()
@@ -385,7 +448,18 @@ class ResourceAnonTests(BaseCase):
             
         num_likes = resources[0].liked    
         response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertEqual(response.status_code, 403)
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(resources[0].liked, num_likes)
+        
+    def test_like_unpublished_item_logged_out(self):
+        """Like an unpublished gallery item when logged out should fail"""
+        resources = Resource.objects.filter(published=False)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource!")
+            
+        num_likes = resources[0].liked    
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertTemplateUsed(response, 'registration/login.html')
         self.assertEqual(resources[0].liked, num_likes)
    
 # Required tests:
@@ -396,6 +470,7 @@ class ResourceAnonTests(BaseCase):
 # no_more_quota_submit (fail): started
 # submit_pastebin: started
 # edit_item: started
+# delete item: started
 # mark_favorite: started
 # mark_not_loggedin (fail): started
 # mark_own_item (fail): started

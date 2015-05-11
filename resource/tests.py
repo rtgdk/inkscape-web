@@ -99,7 +99,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.context['object'].viewed, resource.viewed)
 
     def test_view_text_file(self):
-		"""Check if the text of a textfile is displayed on item view page"
+        """Check if the text of a textfile is displayed on item view page"""
         resources = Resource.objects.filter(media_type="text/plain", user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create a plain text resource for user %s" % self.user)

@@ -41,7 +41,7 @@ USER_URLS.url_patterns.extend([
 ])
 
 urlpatterns = patterns('',
-  url(r'^paste/(\d+)/$',              ViewResource(),   name="pasted_item"),
+  url(r'^paste/(?P<pk>\d+)/$',        ViewResource(),   name="pasted_item"),
 
   url_tree('^mirror/',
     url(r'^$',                        mirror_resources, name="mirror"),

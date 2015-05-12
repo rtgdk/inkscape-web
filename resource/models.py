@@ -66,7 +66,7 @@ class License(Model):
     at  = BooleanField(_('Attribution'), default=True)
     sa  = BooleanField(_('Copyleft (Share Alike)'), default=False)
     nc  = BooleanField(_('Non-Commercial'), default=False)
-    nd  = BooleanField(_('Non-Derivitive'), default=False)
+    nd  = BooleanField(_('Non-Derivative'), default=False)
 
     visible  = BooleanField(default=True)
     replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)

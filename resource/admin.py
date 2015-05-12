@@ -28,6 +28,7 @@ from .models import *
 site.register(License)
 site.register(Category)
 site.register(ResourceFile)
+site.register(Resource)
 site.register(ResourceMirror)
 site.register(Vote)
 

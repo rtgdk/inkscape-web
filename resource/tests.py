@@ -73,7 +73,54 @@ class ResourceTests(BaseCase):
         now = ResourceFile.objects.create(**data)
         self.assertEqual(now.slug, 'test-resource-title+0')
 
+    def test_file_deletion(self):
+        """Check that removal of a ResourceFile removes the corresponding Resource and vice versa"""
+        resourcefiles = ResourceFile.objects.all()
+        self.assertGreater(resourcefiles.count(), 1,
+            "Create resource, so there are at least two")
 
+        resourcefile = resourcefiles[0]
+        print resourcefile.pk
+        Resource.objects.get(pk=resourcefile.pk).delete()
+        with self.assertRaises(ResourceFile.DoesNotExist):
+            ResourceFile.objects.get(pk=resourcefile.pk)
+            
+        resourcefile = resourcefiles[0]
+        print resourcefile.pk
+        resourcefile.delete()
+        with self.assertRaises(Resource.DoesNotExist):
+            Resource.objects.get(pk=resourcefile.pk)
+
+    #These tests are not real tests, but can be fleshed out if required        
+    def test_url_reversing_for_category(self):
+        #There's a function for it, but url is not in the urls.py
+        #def get_absolute_url(self):
+        #return reverse('resource_category', args=[str(self.id)])
+        pass
+      
+    def test_tags(self):
+        #currently these are not exposed to the user. 
+        #Why do they have a 'parent'? Are circles prevented?
+        pass
+        
+    def test_increment_num_views(self):
+        # currently only increments when the user is logged in, as far as testing
+        # on local seemed to show
+        #def set_viewed(self, session):
+        pass
+      
+    def test_mime_type(self):
+        #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
+        pass
+      
+    def test_gallery_deletion(self):
+        # currently not implemented (view: DeleteGallery)
+        pass
+      
+    def test_move_resource(self):
+        # currently not fully implemented (view: MoveResource)
+        pass
+      
 class ResourceUserTests(BaseCase):
     """Any test of views and requests where a user is logged in."""
     def setUp(self):
@@ -111,7 +158,7 @@ class ResourceUserTests(BaseCase):
 
     def test_view_my_unpublished_item(self):
         """Testing item view and template for non-published own items"""
-        #make sure we own the file and it is unpublished
+        # make sure we own the file and it is unpublished
         resources = Resource.objects.filter(published=False, user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource for user %s" % self.user)
@@ -127,7 +174,7 @@ class ResourceUserTests(BaseCase):
         
     def test_view_someone_elses_public_item(self):
         """Testing item view and template for someone elses public resource"""
-        #make sure we don't own the file and it is public
+        # make sure we don't own the file and it is public
         resources = Resource.objects.filter(published=True).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create a published resource that doesn't belong to user %s" % self.user)
@@ -190,8 +237,8 @@ class ResourceUserTests(BaseCase):
 
     def test_submit_item_POST(self):
         """Tests the POST view and template for uploading a new resource file"""
-        #This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
-        #Could become a mess if all are in one test.
+        # This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
+        # Could become a mess if all are in one test.
         num = Resource.objects.all().count() 
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(Resource.objects.all().count(), num + 1)
@@ -366,7 +413,7 @@ class ResourceUserTests(BaseCase):
         response = self._post('delete_resource', pk=resource.pk)
         
         self.assertEqual(response.status_code, 302)
-        with self.assertRaises(DoesNotExist):
+        with self.assertRaises(Resource.DoesNotExist):
             deleted = Resource.objects.get(pk=resource.pk)
         
         deleted_item_view = self._get('resource', pk=resource.pk)
@@ -475,7 +522,7 @@ class ResourceAnonTests(BaseCase):
 # mark_not_loggedin (fail): started
 # mark_own_item (fail): started
 # download_item (non-public, too): started
-# filesize_item: What's this?
+# filesize_item: What's this? XXX
 #
 # license_on_item
 # license_on_gallery_item

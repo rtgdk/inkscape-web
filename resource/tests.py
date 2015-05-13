@@ -80,17 +80,29 @@ class ResourceTests(BaseCase):
             "Create resource, so there are at least two")
 
         resourcefile = resourcefiles[0]
-        print resourcefile.pk
         Resource.objects.get(pk=resourcefile.pk).delete()
         with self.assertRaises(ResourceFile.DoesNotExist):
             ResourceFile.objects.get(pk=resourcefile.pk)
             
         resourcefile = resourcefiles[0]
-        print resourcefile.pk
         resourcefile.delete()
         with self.assertRaises(Resource.DoesNotExist):
             Resource.objects.get(pk=resourcefile.pk)
 
+    def test_license_methods(self):
+        """Tests if license methods return expected output"""
+        license = License.objects.get(code="PD")
+        self.assertEqual(license.value, license.code)
+        self.assertEqual(license.is_free(), True)
+        self.assertEqual(license.is_all_rights(), False)
+        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
+    
+        license = License.objects.get(code="(C)")
+        self.assertEqual(license.value, license.code)
+        self.assertEqual(license.is_free(), False)
+        self.assertEqual(license.is_all_rights(), True)
+        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
+        
     #These tests are not real tests, but can be fleshed out if required        
     def test_url_reversing_for_category(self):
         #There's a function for it, but url is not in the urls.py
@@ -146,15 +158,21 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.context['object'].viewed, resource.viewed)
 
     def test_view_text_file(self):
-        """Check if the text of a textfile is displayed on item view page"""
-        resources = Resource.objects.filter(media_type="text/plain", user=self.user)
-        self.assertGreater(resources.count(), 0,
-            "Create a plain text resource for user %s" % self.user)
+        """Check if the text of a textfile is displayed on item view page and its readmore is not"""
+        # specific text file resource, description contains a 'Readmore' marker: [[...]]
+        resource = Resource.objects.get(pk=2) 
 
-        response = self._get('resource', pk=resources[0].pk)
+        response = self._get('resource', pk=resource.pk)
         self.assertContains(response, 'Text File Content')
         self.assertContains(response, 'Big description for Resource Two')
+        self.assertContains(response, 'readme.txt')
         self.assertNotContains(response, 'And Some More')
+
+    def test_readme(self):
+        """Download the description as a readme file"""
+        resource = Resource.objects.all()[0]
+        response = self._get('resource.readme', pk=resource.pk)
+        self.assertContains(response, resource.desc)
 
     def test_view_my_unpublished_item(self):
         """Testing item view and template for non-published own items"""
@@ -274,6 +292,11 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(resources[0].liked, num_likes)
         
+        # and a second time, for good measure
+        response = self._get('resource.like', pk=resources[0].pk, like='-')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(resources[0].liked, num_likes)
+        
     def test_like_unpublished_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else, and is not public - should fail"""
         resources = Resource.objects.filter(published=False).exclude(user=self.user)
@@ -319,18 +342,15 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
-    def test_readme(self):
-        """Download the description as a readme file"""
-        resource = Resource.objects.all()[0]
-        response = self._get('resource.readme', pk=resource.pk)
-        self.assertContains(response, resource.desc)
-
     def test_download(self):
-        """Download the actual file"""
-        resource = Resource.objects.all()[0]
+        """Download the actual file, file3.svg"""
+        resource = Resource.objects.get(pk=3)
         response = self._get('download_resource', pk=resource.pk, fn=resource.filename())
+        #print response
         # Not sure how to test this properly yet
-        self.assertEqual(response.status_code, 404)
+        # currently returns a 404 error page
+        response = self.client.get('/media/test/file3.svg')#this is the response we'd expect, but don't get...
+        #print response
         self.fail("Finish this test") #just a marker, so we can't forget
 
     def test_submit_item_quota_exceeded(self):

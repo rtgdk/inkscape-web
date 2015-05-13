@@ -106,7 +106,7 @@
     "user": 3,
     "name": "Resource Two",
     "slug": "resource_two",
-    "desc": "Big description for Resource Two",
+    "desc": "Big description for Resource Two[[...]]And Some More",
     "created": "2015-04-03T16:42:41.433Z",
     "edited": "2015-04-21T16:42:41.417Z",
     "published": false,

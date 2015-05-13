@@ -139,53 +139,52 @@ def down_readme(request, pk):
 
 from sendfile import sendfile
 
-def down_resource(request, pk, fn=None):
-    item = get_object_or_404(ResourceFile, id=pk)
+class DownloadResource(ViewResource):
+    template_name = 'resource/view_text.html'
 
-    # The view 'download' allows one to view an image in full screen glory
-    # which is technically a download, but we count it as a view and try and let
-    # the browser deal with showing the file.
-    if fn is None:
-        item.set_viewed(request.session)
+    def get(self, request, *args, **kwargs):
+        fn = kwargs.get('fn', None)
+        item = self.get_object()
+        # The view 'download' allows one to view an image in full screen glory
+        # which is technically a download, but we count it as a view and try
+        # and let the browser deal with showing the file.
+        if fn is None:
+            if item.mime().is_text():
+                return super(DownloadResource, self).get(request, *args, **kwargs)
+            return redirect(item.download.url)
+
+        if fn not in ['download/', item.filename()]:
+            messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
+            return redirect(item.get_absolute_url())
+
+        # Otherwise the user intends to download the file and we record it as
+        # such before passing the download path to nginx for delivery using a
+        # content despatch to force the browser into saving-as.
+        item.downed += 1
         item.save()
-        if item.mime().is_text():
-            return render_to_response('resource/view_text.html', {
-              'breadcrumbs': breadcrumbs(item.user, item.gallery, item, 'Full Text View'),
-              'item': item,
-            }, context_instance=RequestContext(request))
+
+        # If the item is mirrored, then we need to select a good mirror to use
+        if item.mirror:
+            mirror = ResourceMirror.objects.select_mirror(item.edited)
+            if mirror:
+                response = render_to_response('resource/mirror-item.html', {
+                     'mirror': mirror,
+                     'item': item,
+                     'url': mirror.get_url(item),
+                   }, context_instance=RequestContext(request))
+                response['refresh'] = "3; url=%s" % mirror.get_url(item)
+                return response
         return redirect(item.download.url)
 
-    if fn not in ['download/', item.filename()]:
-        messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
-        return redirect(item.get_absolute_url())
-
-    # Otherwise the user intends to download the file and we record it as such
-    # before passing the download path to nginx for delivery using a content
-    # despatch to force the browser into saving-as.
-    item.downed += 1
-    item.save()
-
-    # If the item is mirrored, then we need to select a good mirror to use
-    if item.mirror:
-        mirror = ResourceMirror.objects.select_mirror(item.edited)
-        if mirror:
-            response = render_to_response('resource/mirror-item.html', {
-                 'mirror': mirror,
-                 'item': item,
-                 'url': mirror.get_url(item),
-               }, context_instance=RequestContext(request))
-            response['refresh'] = "3; url=%s" % mirror.get_url(item)
-            return response
-    return redirect(item.download.url)
     # Content-Disposition code here allows downloads to work better. XXX
     # The thinking here is that it must a) redirect to a fastly cache just
     # Like the above, BUT include the attachment sendfile part to improve
     # user experence for images and similar files.
-    url = item.download.path
-    if not settings.DEBUG:
+    #url = item.download.path
+    #if not settings.DEBUG:
         # Correct for nginx redirect
-        url =  '/get' + url[6:]
-    return sendfile(request, url, attachment=True)
+        #url =  '/get' + url[6:]
+    #return sendfile(request, url, attachment=True)
 
 
 def mirror_resources(request, uuid=None):

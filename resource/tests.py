@@ -10,7 +10,7 @@ from django.test import TestCase
 
 from user_sessions.utils.tests import Client
 
-from .models import Resource, ResourceFile, Category, License, Quota, Gallery
+from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
 from .forms import ResourceFileForm, ResourceEditPasteForm
 
 class BaseCase(TestCase):
@@ -90,23 +90,44 @@ class ResourceTests(BaseCase):
         with self.assertRaises(Resource.DoesNotExist):
             Resource.objects.get(pk=resourcefile.pk)
 
-    #These tests are not real tests, but can be fleshed out if required        
-    def test_url_reversing_for_category(self):
-        #There's a function for it, but url is not in the urls.py
-        #def get_absolute_url(self):
-        #return reverse('resource_category', args=[str(self.id)])
-        pass
+    def test_license_methods(self):
+        """Tests if license methods return expected output"""
+        license = License.objects.get(code="PD")
+        self.assertEqual(license.value, license.code)
+        self.assertEqual(license.is_free(), True)
+        self.assertEqual(license.is_all_rights(), False)
+        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
+    
+        license = License.objects.get(code="(C)")
+        self.assertEqual(license.value, license.code)
+        self.assertEqual(license.is_free(), False)
+        self.assertEqual(license.is_all_rights(), True)
+        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
+        
+    #These tests are not finished, as design seems to be in flux, but can be fleshed out if required       
+    def test_category_methods(self):
+        """Test methods for categories"""
+        # What are 'acceptable_licenses' for? They aren't used anwhere,
+        # also not to restrict saving of a resource with a 'wrong' license. 
+        # Current setting for Screenshots (only 'all rights reserved') is strange, too.
+        
+        cat = Category.objects.get(name="UI Mockup")
+        self.assertEqual(cat.value, "ui-mockup")
+        self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
+        self.fail("Use acceptable_licenses somewhere or remove it, there's currently no functionality associated to them to test for")
       
     def test_tags(self):
-        #currently these are not exposed to the user. 
-        #Why do they have a 'parent'? Are circles prevented?
-        pass
+        # currently these are not exposed to the user. 
+        # Why do they have a 'parent'? Are circles prevented?
+        resource = Resource.objects.all()[0]
+        self.assertEqual(list(resource.tags.all()), [])
         
-    def test_increment_num_views(self):
-        # currently only increments when the user is logged in, as far as testing
-        # on local seemed to show
-        #def set_viewed(self, session):
-        pass
+        resource.tags.create(name="landscape")
+        resource.tags.create(name="moon")
+        
+        self.assertEqual([tag.name for tag in resource.tags.all().order_by('name')], ["landscape", "moon"])
+        self.assertIn(resource, Tag.objects.get(name="landscape").resources.all())
+        self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
       
     def test_mime_type(self):
         #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
@@ -128,8 +149,8 @@ class ResourceUserTests(BaseCase):
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
 
-    def test_view_my_public_item(self):
-        """Testing item view and template for public own items"""
+    def test_view_my_public_item_detail(self):
+        """Testing detail item view and template for public own items"""
         #make sure we own the file and it's public
         resources = Resource.objects.filter(published=True, user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -143,17 +164,38 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
         self.assertEqual(response.context['object'].viewed, resource.viewed)
-
-    def test_view_text_file(self):
-        """Check if the text of a textfile is displayed on item view page"""
-        resources = Resource.objects.filter(media_type="text/plain", user=self.user)
+        #it seems that views are incremented here, too? Why? line 118, views.py
+    
+    def test_increment_resource_view_counter(self):
+        """Views number of a resource should increment when a user with a new 
+        session visits a published item in 'full screen glory'"""
+        resources = Resource.objects.filter(published=True, viewed=0)
         self.assertGreater(resources.count(), 0,
-            "Create a plain text resource for user %s" % self.user)
+            "Create a published resource without views")
+        
+        response = self._get('view_resource', pk=resources[0].pk)
+        self.assertEqual(resources.all()[0].viewed, 1)
+        
+        # nobody should be able to increment the views number indefinitely
+        response = self._get('view_resource', pk=resources[0].pk)
+        self.assertEqual(resources.all()[0].viewed, 1)
+    
+    def test_view_text_file(self):
+        """Check if the text of a textfile is displayed on item view page and its readmore is not"""
+        # specific text file resource, description contains a 'Readmore' marker: [[...]]
+        resource = Resource.objects.get(pk=2) 
 
-        response = self._get('resource', pk=resources[0].pk)
+        response = self._get('resource', pk=resource.pk)
         self.assertContains(response, 'Text File Content')
         self.assertContains(response, 'Big description for Resource Two')
+        self.assertContains(response, 'readme.txt')
         self.assertNotContains(response, 'And Some More')
+
+    def test_readme(self):
+        """Download the description as a readme file"""
+        resource = Resource.objects.all()[0]
+        response = self._get('resource.readme', pk=resource.pk)
+        self.assertContains(response, resource.desc)
 
     def test_view_my_unpublished_item(self):
         """Testing item view and template for non-published own items"""
@@ -185,7 +227,7 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
-        self.assertEqual(response.context['object'].viewed, resource.viewed)
+        self.assertEqual(response.context['object'].viewed, resources.all()[0].viewed)
 
     def test_view_someone_elses_unpublished_item(self):
         """Testing item view for someone elses non-public resource: Page not found"""
@@ -197,6 +239,19 @@ class ResourceUserTests(BaseCase):
 
         response = self._get('resource', pk=resources[0].pk)
         self.assertEqual(response.status_code, 404)
+    
+    def test_view_someone_elses_unpublished_item_full_screen(self):
+        """Make sure that fullscreen view for unpublished items doesn't work if they are not ours.
+        Also make sure this doesn't increment the view counter"""
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource which doesn't belong to user %s" % self.user)
+        resource = resources[0]
+        num = resource.viewed
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(resource.viewed, num)
     
     def test_submit_item_GET(self):
         """Tests the GET view for uploading a new resource file"""
@@ -273,6 +328,11 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(resources[0].liked, num_likes)
         
+        # and a second time, for good measure
+        response = self._get('resource.like', pk=resources[0].pk, like='-')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(resources[0].liked, num_likes)
+        
     def test_like_unpublished_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else, and is not public - should fail"""
         resources = Resource.objects.filter(published=False).exclude(user=self.user)
@@ -318,18 +378,12 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
-    def test_readme(self):
-        """Download the description as a readme file"""
-        resource = Resource.objects.all()[0]
-        response = self._get('resource.readme', pk=resource.pk)
-        self.assertContains(response, resource.desc)
-
     def test_download(self):
         """Download the actual file"""
         resource = Resource.objects.all()[0]
         response = self._get('download_resource', pk=resource.pk,
                        fn=resource.filename(), follow=False)
-        # Not sure how to test this properly yet
+
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
 

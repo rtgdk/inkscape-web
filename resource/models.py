@@ -76,7 +76,7 @@ class License(Model):
         return self.code
 
     def is_free(self):
-        return not self.nc and not self.nd and not arr
+        return not self.nc and not self.nd
 
     def is_all_rights(self):
         return self.nc and self.nd and not self.at
@@ -100,9 +100,8 @@ class Category(Model):
         return slugify(self.name)
 
     def get_absolute_url(self):
-        return reverse('resource_category', args=[str(self.id)])
+        return reverse('resources', kwargs={'category': self.pk})
 
-    
 
 class Tag(Model):
     name     = CharField(max_length=16)
@@ -233,7 +232,7 @@ class Resource(Model):
         return str(self.edited.year)
 
     def set_viewed(self, session):
-        if session.session_key:
+        if session.session_key is not None:
             # We check for session key because it might not exist if this
             # was called from the first view or cookies are blocked.
             (view, is_new) = self.views.get_or_create(session=session.session_key)
@@ -484,8 +483,8 @@ class Gallery(Model):
 
     def __unicode__(self):
         if self.group:
-            return "%s [for group %s]" % (self.name, str(self.group))
-        return "%s (by %s)" % (self.name, str(self.user))
+            return self.name + " [" + _('for group') + " " + str(self.group) + "]"
+        return self.name + " (" + _('by') + " " + str(self.user) + ")"
 
     def save(self, *args, **kwargs):
         set_slug(self)

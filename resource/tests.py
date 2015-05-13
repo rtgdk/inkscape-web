@@ -10,7 +10,7 @@ from django.test import TestCase
 
 from user_sessions.utils.tests import Client
 
-from .models import Resource, ResourceFile, Category, License, Quota, Gallery
+from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
 from .forms import ResourceFileForm, ResourceEditPasteForm
 
 class BaseCase(TestCase):
@@ -103,23 +103,30 @@ class ResourceTests(BaseCase):
         self.assertEqual(license.is_all_rights(), True)
         self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
         
-    #These tests are not real tests, but can be fleshed out if required        
-    def test_url_reversing_for_category(self):
-        #There's a function for it, but url is not in the urls.py
-        #def get_absolute_url(self):
-        #return reverse('resource_category', args=[str(self.id)])
-        pass
+    #These tests are not finished, as design seems to be in flux, but can be fleshed out if required       
+    def test_category_methods(self):
+        """Test methods for categories"""
+        # What are 'acceptable_licenses' for? They aren't used anwhere,
+        # also not to restrict saving of a resource with a 'wrong' license. 
+        # Current setting for Screenshots (only 'all rights reserved') is strange, too.
+        
+        cat = Category.objects.get(name="UI Mockup")
+        self.assertEqual(cat.value, "ui-mockup")
+        self.assertEqual(cat.get_absolute_url(), "please_give_me_a_url!")
+        self.fail("Use acceptable_licenses somewhere or remove it, there's currently no functionality associated to them to test for")
       
     def test_tags(self):
-        #currently these are not exposed to the user. 
-        #Why do they have a 'parent'? Are circles prevented?
-        pass
+        # currently these are not exposed to the user. 
+        # Why do they have a 'parent'? Are circles prevented?
+        resource = Resource.objects.all()[0]
+        self.assertEqual(list(resource.tags.all()), [])
         
-    def test_increment_num_views(self):
-        # currently only increments when the user is logged in, as far as testing
-        # on local seemed to show
-        #def set_viewed(self, session):
-        pass
+        resource.objects.tags.create(name="landscape")#doesn't work. Inheritance manager problem? Or wrong way to do this?
+        resource.objects.tags.create(name="moon")
+        
+        self.assertEqual([tag.name for tag in resource.tags.all().order_by('name')], ["landscape", "moon"])
+        self.assertIn(resource, Tag.objects.get(name="landscape").resources)
+        self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
       
     def test_mime_type(self):
         #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
@@ -141,8 +148,8 @@ class ResourceUserTests(BaseCase):
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
 
-    def test_view_my_public_item(self):
-        """Testing item view and template for public own items"""
+    def test_view_my_public_item_detail(self):
+        """Testing detail item view and template for public own items"""
         #make sure we own the file and it's public
         resources = Resource.objects.filter(published=True, user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -156,7 +163,25 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
         self.assertEqual(response.context['object'].viewed, resource.viewed)
-
+        #it seems that views are incremented here, too? Why? line 118, views.py
+    
+    def test_increment_resource_view_counter(self):
+        """Views number of a resource should increment when a user with a new 
+        session visits a published item in 'full screen glory'"""
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource")
+        resource = resources[0]
+        num = resource.viewed
+        #self.assertEqual(num, resource.objects.views()) # doesn't work...
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, num + 1)
+        
+        # nobody should be able to increment the views number indefinitely
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, num + 1)
+    
     def test_view_text_file(self):
         """Check if the text of a textfile is displayed on item view page and its readmore is not"""
         # specific text file resource, description contains a 'Readmore' marker: [[...]]
@@ -216,6 +241,19 @@ class ResourceUserTests(BaseCase):
 
         response = self._get('resource', pk=resources[0].pk)
         self.assertEqual(response.status_code, 404)
+    
+    def test_view_someone_elses_unpublished_item_full_screen(self):
+        """Make sure that fullscreen view for unpublished items doesn't work if they are not ours.
+        Also make sure this doesn't increment the view counter"""
+        resources = Resource.objects.filter(published=False).exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource which doesn't belong to user %s" % self.user)
+        resource = resources[0]
+        num = resource.viewed
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(resource.viewed, num)
     
     def test_submit_item_GET(self):
         """Tests the GET view for uploading a new resource file"""

@@ -5,10 +5,6 @@ from pile.views import UpdateView, CreateView
 
 from .models import Gallery, Model, Q
 
-def next_url(request, default='/'):
-    if isinstance(default, Model):
-        default = default.get_absolute_url()
-    return request.GET.get('next', request.META.get('HTTP_REFERER', default))
 
 class OwnerUpdateMixin(object):
     def is_allowed(self):
@@ -30,11 +26,30 @@ class OwnerUpdateMixin(object):
 
     def get_context_data(self, **kwargs):
         data = super(OwnerUpdateMixin, self).get_context_data(**kwargs)
-        data['action'] = getattr(self, 'action', None)
-        data['cancel'] = next_url(self.request)
-        data['gallery'] = getattr(self, 'gallery', None)
-        data['parent'] = data['gallery'] or self.request.user
+        data.update({
+          'parent':  self.parent,
+          'gallery': getattr(self, 'gallery', None),
+          'action':  getattr(self, 'action', None),
+          'cancel':  self.get_next_url(),
+        })
         return data
+
+    def get_next_url(self, default=None):
+        if isinstance(default, Model):
+            default = default.get_absolute_url()
+        return self.request.GET.get('next', \
+               self.request.META.get('HTTP_REFERER', default or '/'))
+
+    @property
+    def parent(self):
+        return getattr(self, 'gallery', self.request.user)
+
+    def get_success_url(self):
+        try:
+            return super(OwnerUpdateMixin, self).get_success_url()
+        except:
+            return self.get_next_url(self.parent)
+
 
 class OwnerCreateMixin(OwnerUpdateMixin):
     def is_allowed(self):

@@ -53,7 +53,7 @@ class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
     form_class = GalleryForm
 
 class DeleteResource(OwnerUpdateMixin, DeleteView):
-    model  = ResourceFile
+    model  = Resource
     action = "Delete Resource"
 
 class EditResource(OwnerUpdateMixin, UpdateView):
@@ -63,6 +63,15 @@ class EditResource(OwnerUpdateMixin, UpdateView):
     def get_form_class(self):
         category = getattr(self.object.category, 'id', 0)
         return FORMS.get(category, ResourceFileForm)
+
+class PublishResource(OwnerUpdateMixin, DetailView):
+    model = ResourceFile
+    action = "Publish Resource"
+
+    def post(self):
+        item = self.get_object()
+        item.published = True
+        item.save()
 
 class MoveResource(EditResource):
     template_name = 'resource/resourcefile_move.html'
@@ -95,12 +104,6 @@ class DropResource(UploadResource):
 class PasteIn(UploadResource):
     form_class = ResourcePasteForm
 
-@login_required
-def publish_resource(request, pk):
-    item = get_object_or_404(Resource, pk=pk, user=request.user)
-    item.published = True
-    item.save()
-    return redirect(next_url(request, item))
 
 class ViewResource(DetailView):
     model = ResourceFile

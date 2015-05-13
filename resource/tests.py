@@ -172,12 +172,15 @@ class ResourceUserTests(BaseCase):
         resources = Resource.objects.filter(published=True, viewed=0)
         self.assertGreater(resources.count(), 0,
             "Create a published resource without views")
+        resource = resources[0]
         
-        response = self._get('view_resource', pk=resources[0].pk)
+        response = self._get('resource', pk=resource.pk, follow=False)
+        self.assertEqual(response.status_code, 200)
+        resources = Resource.objects.filter(pk=resource.pk)
         self.assertEqual(resources.all()[0].viewed, 1)
         
         # nobody should be able to increment the views number indefinitely
-        response = self._get('view_resource', pk=resources[0].pk)
+        response = self._get('resource', pk=resource.pk)
         self.assertEqual(resources.all()[0].viewed, 1)
     
     def test_view_text_file(self):

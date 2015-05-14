@@ -114,7 +114,6 @@ class ResourceTests(BaseCase):
         cat = Category.objects.get(name="UI Mockup")
         self.assertEqual(cat.value, "ui-mockup")
         self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
-        self.fail("Use acceptable_licenses somewhere or remove it, there's currently no functionality associated to them to test for")
       
     def test_tags(self):
         # currently these are not exposed to the user. 

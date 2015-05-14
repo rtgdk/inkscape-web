@@ -80,6 +80,14 @@ class ResourceBaseForm(ModelForm):
             return f(val)
         return _internal
 
+    def clean_license(self):
+        """Make sure the category accepts this kind of license"""
+        ret = self.cleaned_data['license']
+        category = self.cleaned_data['category']
+        if ret not in self.category.acceptable_licenses.all():
+            raise ValidationError(_("This is not an acceptable license for this category"))
+        return ret
+
     def clean_mirror(self):
         """Update the edited time/date if mirror flag changed"""
         ret = self.cleaned_data['mirror']

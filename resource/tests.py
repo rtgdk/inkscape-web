@@ -114,6 +114,8 @@ class ResourceTests(BaseCase):
         cat = Category.objects.get(name="UI Mockup")
         self.assertEqual(cat.value, "ui-mockup")
         self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
+        
+        #TODO: acceptable_licenses
       
     def test_tags(self):
         # currently these are not exposed to the user. 
@@ -148,8 +150,10 @@ class ResourceUserTests(BaseCase):
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
 
+    # Resource Detail View tests:
     def test_view_my_public_item_detail(self):
-        """Testing detail item view and template for public own items"""
+        """Testing item detail view and template for public own items,
+        and make sure the view counter is correctly incremented"""
         #make sure we own the file and it's public
         resources = Resource.objects.filter(published=True, user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -163,44 +167,14 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
         self.assertEqual(response.context['object'].viewed, resource.viewed)
-        #it seems that views are incremented here, too? Why? line 118, views.py
-    
-    def test_increment_resource_view_counter(self):
-        """Views number of a resource should increment when a user with a new 
-        session visits a published item in 'full screen glory'"""
-        resources = Resource.objects.filter(published=True, viewed=0)
-        self.assertGreater(resources.count(), 0,
-            "Create a published resource without views")
-        resource = resources[0]
+        self.assertEqual(resource.viewed, 1)
         
-        response = self._get('resource', pk=resource.pk, follow=False)
-        self.assertEqual(response.status_code, 200)
-        resources = Resource.objects.filter(pk=resource.pk)
-        self.assertEqual(resources.all()[0].viewed, 1)
+        # number of views should only be incremented once per user session
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, 1)
         
-        # nobody should be able to increment the views number indefinitely
-        response = self._get('resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].viewed, 1)
-    
-    def test_view_text_file(self):
-        """Check if the text of a textfile is displayed on item view page and its readmore is not"""
-        # specific text file resource, description contains a 'Readmore' marker: [[...]]
-        resource = Resource.objects.get(pk=2) 
-
-        response = self._get('resource', pk=resource.pk)
-        self.assertContains(response, 'Text File Content')
-        self.assertContains(response, 'Big description for Resource Two')
-        self.assertContains(response, 'readme.txt')
-        self.assertNotContains(response, 'And Some More')
-
-    def test_readme(self):
-        """Download the description as a readme file"""
-        resource = Resource.objects.all()[0]
-        response = self._get('resource.readme', pk=resource.pk)
-        self.assertContains(response, resource.desc)
-
-    def test_view_my_unpublished_item(self):
-        """Testing item view and template for non-published own items"""
+    def test_view_my_unpublished_item_detail(self):
+        """Testing item detail view and template for non-published own items"""
         # make sure we own the file and it is unpublished
         resources = Resource.objects.filter(published=False, user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -213,10 +187,15 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
-        self.assertEqual(response.context['object'].viewed, resource.viewed)    
+        self.assertEqual(response.context['object'].viewed, resource.viewed)
+        self.assertEqual(resource.viewed, 0) # just a suggestion, could also be 1 (but only counting views by the owner is somehow weird)
         
-    def test_view_someone_elses_public_item(self):
-        """Testing item view and template for someone elses public resource"""
+        # number of views should only be incremented once per user session
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, 0)
+    
+    def test_view_someone_elses_public_item_detail(self):
+        """Testing item detail view and template for someone elses public resource"""
         # make sure we don't own the file and it is public
         resources = Resource.objects.filter(published=True).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -230,31 +209,90 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
         self.assertEqual(response.context['object'].viewed, resources.all()[0].viewed)
-
-    def test_view_someone_elses_unpublished_item(self):
-        """Testing item view for someone elses non-public resource: Page not found"""
+        self.assertEqual(resource.viewed, 1)
         
+        # number of views should only be incremented once per user session
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, 1)
+
+    def test_view_someone_elses_unpublished_item_detail(self):
+        """Testing item detail view for someone elses non-public resource: 
+        Page not found and no incrementing of view number"""
         # Make sure we don't own the resource
         resources = Resource.objects.filter(published=False).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource which doesn't belong to %s for this test" % self.user)
-
-        response = self._get('resource', pk=resources[0].pk)
-        self.assertEqual(response.status_code, 404)
-    
-    def test_view_someone_elses_unpublished_item_full_screen(self):
-        """Make sure that fullscreen view for unpublished items doesn't work if they are not ours.
-        Also make sure this doesn't increment the view counter"""
-        resources = Resource.objects.filter(published=False).exclude(user=self.user)
-        self.assertGreater(resources.count(), 0,
-            "Create an unpublished resource which doesn't belong to user %s" % self.user)
         resource = resources[0]
         num = resource.viewed
         
-        response = self._get('view_resource', pk=resource.pk)
+        response = self._get('resource', pk=resource.pk)
         self.assertEqual(response.status_code, 404)
         self.assertEqual(resource.viewed, num)
     
+    def test_view_text_file_detail(self):
+        """Check if the text of a textfile is displayed on item view page and its readmore is not"""
+        # specific text file resource, description contains a 'Readmore' marker: [[...]]
+        resource = Resource.objects.get(pk=2) 
+
+        response = self._get('resource', pk=resource.pk)
+        self.assertContains(response, 'Text File Content')
+        self.assertContains(response, 'Big description for Resource Two')
+        self.assertContains(response, 'readme.txt')
+        self.assertNotContains(response, 'And Some More')
+    
+    # Resource file Full Screen View tests:
+    def test_public_resource_full_screen(self):
+        """Check that a resource can be viewed in full screen, 
+        and that full_views number is incremented when a user with 
+        a new session visits a published item in 'full screen glory'"""
+        resources = Resource.objects.filter(published=True, full_views=0)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource with 0 fullscreen views")
+        resource = resources[0]
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        #resources = Resource.objects.filter(pk=resource.pk)
+        self.assertEqual(resources.all()[0].full_views, 1)
+        
+        # nobody should be able to increment the views number indefinitely
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(resources.all()[0].full_views, 1)
+    
+    # Resource file Full Screen View tests:
+    def test_own_unpublished_resource_full_screen(self):
+        """Check that we can look at our unpublished resource in full screen mode"""
+        resources = Resource.objects.filter(published=False, user=self.user, full_views=0)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource with 0 fullscreen views for user %s" % self.user)
+        resource = resources[0]
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        #resources = Resource.objects.filter(pk=resource.pk)
+        self.assertEqual(resources.all()[0].full_views, 0) # just a suggestion, as only the owner would add to views number
+
+    def test_someone_elses_unpublished_resource_full_screen(self):
+        """Make sure that fullscreen view for unpublished items 
+        doesn't work if they are not ours. Also make sure this 
+        doesn't increment the view counter"""
+        resources = Resource.objects.filter(published=False, full_views=0).exclude(user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource which doesn't belong to user %s and has 0 full screen views" % self.user)
+        resource = resources[0]
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 404)
+        self.assertEqual(resource.full_views, 0)
+    
+    # Readme test:
+    def test_readme(self):
+        """Download the description as a readme file"""
+        resource = Resource.objects.all()[0]
+        response = self._get('resource.readme', pk=resource.pk)
+        self.assertContains(response, resource.desc)
+    
+    # Upload view tests:
     def test_submit_item_GET(self):
         """Tests the GET view for uploading a new resource file"""
         response = self._get('resource.upload')
@@ -287,6 +325,7 @@ class ResourceUserTests(BaseCase):
         self.assertGreater(galleries.count(), 0,
             "Create a group gallery for user %s" % self.user)
         gallery = galleries[0]
+        
         response = self._get('resource.upload', gallery_id=gallery.pk)
         self.assertEqual(response.context['gallery'], gallery)
         self.assertEqual(response.status_code, 200)
@@ -296,9 +335,50 @@ class ResourceUserTests(BaseCase):
         # This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         # Could become a mess if all are in one test.
         num = Resource.objects.all().count() 
+        
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(Resource.objects.all().count(), num + 1)
         self.assertEqual(response.status_code, 200)
+
+    def test_submit_gallery_item_POST(self):
+        """Test the POST when a gallery is selected"""
+        galleries = Gallery.objects.filter(user=self.user)
+        self.assertGreater(galleries.count(), 0,
+            "Create a gallery for user %s" % self.user)
+        gallery = galleries[0]
+        num = Resource.objects.all().count()
+        
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Resource.objects.all().count(), num + 1)
+        #self.assertContains(response, "name=\"gallery_id\" value=\"%d\"" % gallery.pk)
+
+    def test_submit_gallery_failure_POST(self):
+        """Test when no permission to submit exists"""
+        galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
+        self.assertGreater(galleries.count(), 0,
+            "Create a gallery for user other than %s" % self.user)
+        gallery = galleries[0]
+        num = Resource.objects.all().count()
+        
+        response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Resource.objects.all().count(), num)
+
+    def test_submit_group_gallery_POST(self):
+        """Test the POST when a gallery is group based"""
+        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+                      .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0,
+            "Create a group gallery for user %s" % self.user)
+        gallery = galleries[0]
+        num = Resource.objects.all().count()
+        
+        response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Resource.objects.all().count(), num + 1)
 
     def test_drop_item_POST(self):
         """Drag and drop file (ajax request)"""
@@ -311,6 +391,21 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'OK|')
 
+    def test_submit_item_quota_exceeded(self):
+        """Check that submitting an item which would make the user exceed the quota will fail"""
+        default_quota = Quota.objects.filter(group__isnull=True)[0]
+        default_quota.size = 1 # 1024 byte
+        default_quota.save()
+        name = self.download.name
+        quot = self.user.quota()
+
+        self.assertGreater(os.path.getsize(name), quot,
+            "Make sure that the file %s is bigger than %d byte" % (name, quot))
+
+        response = self._post('resource.upload', data=self.data)
+        self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
+
+    # Resource Like tests:
     def test_like_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else"""
         resources = Resource.objects.exclude(user=self.user)
@@ -336,7 +431,8 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resources[0].liked, num_likes)
         
     def test_like_unpublished_item_not_being_owner(self):
-        """Like a gallery item which belongs to someone else, and is not public - should fail"""
+        """Like a gallery item which belongs to someone else, and is not public
+        - should fail and not change anything in db"""
         resources = Resource.objects.filter(published=False).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource which doesn't belong to user %s" % self.user)
@@ -344,8 +440,8 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resources[0].liked, 321)
         response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 404)
-        # Value is recalculated from base each time.
-        self.assertEqual(resources[0].liked, 1)
+        # This shouldn't affect the resource object saved in the db
+        self.assertEqual(resources[0].liked, 321)
         
     def test_like_item_being_owner(self):
         """Like a gallery item which belongs to me should fail"""
@@ -358,15 +454,29 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 404)
         self.assertEqual(resources[0].liked, num_likes)
 
+    # Resource Publish tests:
     def test_publish_item(self):
         """Check that we can publish our own items"""
         resources = Resource.objects.filter(published=False, user=self.user)
-        
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource for user %s" % self.user)
+        resource = resources[0]
 
-        response = self._get('publish_resource', pk=resources[0].pk)
+        response = self._get('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
+        #print 'resource: ', resource.__dict__
+        self.assertEqual(resource.published, True)
+        
+    def test_publish_public_item(self):
+        """Make sure nothing weird will happen in this case."""
+        resources = Resource.objects.filter(published=True, user=self.user)
+        self.assertGreater(resources.count(), 0,
+            "Create a public resource for user %s" % self.user)
+        resource = resources[0]
+
+        response = self._get('publish_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(resource.published, True)
 
     def test_publish_another_persons_item(self):
         """Make sure we can't publish resources which are not ours"""
@@ -380,6 +490,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
+    # Resource Download tests:
     def test_download(self):
         """Download the actual file"""
         resource = Resource.objects.all()[0]
@@ -389,20 +500,8 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
 
-    def test_submit_item_quota_exceeded(self):
-        """Check that submitting an item which would make the user exceed the quota will fail"""
-        default_quota = Quota.objects.filter(group__isnull=True)[0]
-        default_quota.size = 1 # 1024 byte
-        default_quota.save()
-        name = self.download.name
-        quot = self.user.quota()
-
-        self.assertGreater(os.path.getsize(name), quot,
-            "Make sure that the file %s is bigger than %d byte" % (name, quot))
-
-        response = self._post('resource.upload', data=self.data)
-        self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
-
+    
+    # Resource Edit tests:
     def test_edit_item_being_the_owner_GET(self):
         """Test if we can access the item edit page for our own item"""
         # Make sure we own the file and that it's NOT a pasted text
@@ -429,7 +528,7 @@ class ResourceUserTests(BaseCase):
 
     def test_edit_item_being_the_owner_POST(self):
         """Test if we can edit an item which belongs to us"""
-        resources = Resource.objects.filter(user=self.user, category=1) # only for pastes?
+        resources = Resource.objects.filter(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create a resource for user %s" % self.user)
         resource = resources[0]
@@ -458,7 +557,9 @@ class ResourceUserTests(BaseCase):
         
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
+        self.assertNotEqual(resource.description, self.data['desc'])
         
+    # Resource Deletion tests:
     def test_delete_own_item(self):
         """Check that we can delete our own items"""
         resources = Resource.objects.filter(user=self.user)

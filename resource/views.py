@@ -68,10 +68,11 @@ class PublishResource(OwnerUpdateMixin, DetailView):
     model = ResourceFile
     action = "Publish Resource"
 
-    def post(self):
+    def post(self, request, *args, **kwargs):
         item = self.get_object()
         item.published = True
         item.save()
+        return redirect("resource", item.pk)# Previously: redirect("gallery", item.gallery.id)
 
 class MoveResource(EditResource):
     template_name = 'resource/resourcefile_move.html'

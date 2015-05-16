@@ -114,8 +114,6 @@ class ResourceTests(BaseCase):
         cat = Category.objects.get(name="UI Mockup")
         self.assertEqual(cat.value, "ui-mockup")
         self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
-        
-        #TODO: acceptable_licenses
       
     def test_tags(self):
         # currently these are not exposed to the user. 
@@ -405,6 +403,19 @@ class ResourceUserTests(BaseCase):
         response = self._post('resource.upload', data=self.data)
         self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
 
+    def test_submit_item_unacceptable_license(self):
+        """Make sure that categories only accept certain licenses"""
+        cat = Category.objects.get(name="Inkscape Package")# only accepts license.pk=9
+        self.data['category'] = cat.pk
+        num = Resource.objects.all().count()
+        
+        response = self._post('resource.upload', data=self.data)
+        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        self.assertFormError(response, 'form', 'license', 'This is not an acceptable license for this category')
+        self.assertEqual(Resourc.objects.all().count(), num)
+    
     # Resource Like tests:
     def test_like_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else"""
@@ -462,19 +473,12 @@ class ResourceUserTests(BaseCase):
             "Create an unpublished resource for user %s" % self.user)
         resource = resources[0]
 
-        response = self._get('publish_resource', pk=resource.pk)
+        response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        #print 'resource: ', resource.__dict__
         self.assertEqual(resource.published, True)
         
-    def test_publish_public_item(self):
-        """Make sure nothing weird will happen in this case."""
-        resources = Resource.objects.filter(published=True, user=self.user)
-        self.assertGreater(resources.count(), 0,
-            "Create a public resource for user %s" % self.user)
-        resource = resources[0]
-
-        response = self._get('publish_resource', pk=resource.pk)
+        # Make sure nothing weird will happen when published twice.
+        response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(resource.published, True)
 
@@ -493,14 +497,21 @@ class ResourceUserTests(BaseCase):
     # Resource Download tests:
     def test_download(self):
         """Download the actual file"""
-        resource = Resource.objects.all()[0]
+        resources = Resource.objects.filter(published=True, downed=0)
+        self.assertGreater(resources.count(), 0,
+                           'Create a public resource with 0 downloads')
+        resource = resources[0]
         response = self._get('download_resource', pk=resource.pk,
                        fn=resource.filename(), follow=False)
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+        self.assertEqual(resource.downed, 1)
 
-    
+        response = self._get('download_resource', pk=resource.pk,
+                       fn=resource.filename(), follow=False)
+        self.assertEqual(resource.downed, 2)
+        
     # Resource Edit tests:
     def test_edit_item_being_the_owner_GET(self):
         """Test if we can access the item edit page for our own item"""
@@ -589,18 +600,117 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
 class ResourceAnonTests(BaseCase):
-    """Test all anonymous functions"""
-    def test_submit_item_GET_not_loggedin(self):
+    """Tests for AnonymousUser"""
+    
+    def test_view_public_item_detail_anon(self):
+        """Testing item detail view and template for public items,
+        and make sure the view counter is correctly incremented"""
+        #make sure the file is public
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource")
+        resource = resources[0]
+        
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(response.context['object'], resource)
+        self.assertContains(response, resource.filename())
+        self.assertContains(response, resource.name)
+        self.assertContains(response, resource.description())
+        self.assertEqual(response.context['object'].viewed, resource.viewed)
+        self.assertEqual(resource.viewed, 1)
+        
+        # number of views should only be incremented once per user session
+        response = self._get('resource', pk=resource.pk)
+        self.assertEqual(resource.viewed, 1)
+    
+    def test_public_resource_full_screen_anon(self):
+        """Check that a resource can be viewed in full screen, 
+        and that full_views number is incremented when an 
+        anonymous user with a new session visits a published item"""
+        resources = Resource.objects.filter(published=True, full_views=0)
+        self.assertGreater(resources.count(), 0,
+            "Create a published resource with 0 fullscreen views")
+        resource = resources[0]
+        
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(resources.all()[0].full_views, 1)
+        
+        # nobody should be able to increment the views number indefinitely
+        response = self._get('view_resource', pk=resource.pk)
+        self.assertEqual(resources.all()[0].full_views, 1)
+    
+    def test_submit_item_GET_anon(self):
         """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""
         response = self._get('resource.upload')
         self.assertEqual(response.status_code, 403)
         
-    def test_submit_item_POST_not_loggedin(self):
-        """Test if we can upload a file when we're not logged in - shouldn't be allowed"""
+    def test_submit_item_POST_anon(self):
+        """Test if we can upload a file when we're not logged in,
+        shouldn't be allowed and shouldn't work"""
+        num = Resource.objects.all().count()
+        
         response = self._post('resource.upload', data=self.data)
-        self.assertEqual(response.status_code, 403)    
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Resource.objects.all().count(), num)
 
-    def test_edit_item_logged_out_GET(self):
+    def test_drop_item_POST_anon(self):
+        """Drag and drop file (ajax request) when not logged in - shouldn't work"""
+        num = Resource.objects.all().count()
+        response = self._post('resource.drop', data={
+          'name': "New Name",
+          'download': self.download,
+        })
+        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(response.status_code, 403)
+    
+    def test_like_item_anon(self):
+        """Like a gallery item when logged out should fail"""
+        resources = Resource.objects.all()
+        self.assertGreater(resources.count(), 0,
+            "Create a resource!")
+        num_likes = resources[0].liked
+        
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(resources[0].liked, num_likes)
+        
+    def test_like_unpublished_item_anon(self):
+        """Like an unpublished gallery item when logged out should fail"""
+        resources = Resource.objects.filter(published=False)
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource!")
+        num_likes = resources[0].liked
+        
+        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(resources[0].liked, num_likes)
+    
+    def test_publish_item_anon(self):
+        """Make sure we can't publish resources when logged out"""
+        resources = Resource.objects.filter(published=False)
+        resource = resources[0]
+        
+        self.assertGreater(resources.count(), 0,
+            "Create an unpublished resource")
+
+        response = self._post('publish_resource', pk=resource.pk)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
+    
+    def test_download_anon(self):
+        """Download the actual file"""
+        resources = Resource.objects.filter(published=True, downed=0)
+        self.assertGreater(resources.count(), 0,
+                           'Create a public resource with 0 downloads')
+        resource = resources[0]
+        response = self._get('download_resource', pk=resource.pk,
+                       fn=resource.filename(), follow=False)
+
+        self.assertEqual(response.status_code, 302)
+        self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+        self.assertEqual(resource.downed, 1)
+
+    def test_edit_item_GET_anon(self):
         """Test that we can't access the edit form for our items when we are logged out"""
         resources = Resource.objects.all()
         self.assertGreater(resources.count(), 0,
@@ -610,33 +720,19 @@ class ResourceAnonTests(BaseCase):
         response = self._get('edit_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403)
       
-    def test_edit_item_logged_out_POST(self):
+    def test_edit_item_POST_anon(self):
         """Test that we can't edit any items when we are logged out"""
         resources = Resource.objects.all()
         self.assertGreater(resources.count(), 0,
             "Create a resource!")
         resource = resources[0]
+        desc = resource.description
         
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
+        self.assertEqual(resource.description, desc)
     
-    def test_publish_item_logged_out(self):
-        """Make sure we can't publish resources when logged out"""
-        resources = Resource.objects.filter(published=False)
-        resource = resources[0]
-        
-        self.assertGreater(resources.count(), 0,
-            "Create an unpublished resource")
-
-        response = self._get('publish_resource', pk=resource.pk)
-
-        # This is interesting, but should probably be tested in person/tests.py
-        # When we have a 403 and we're not logged in, we should redirect to login.
-        #self.assertTemplateUsed(response, 'registration/login.html')
-        
-        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
-    
-    def test_delete_item_logged_out(self):
+    def test_delete_item_anon(self):
         """Make sure that we can't delete resources when we are logged out"""
         resources = Resource.objects.all()
         self.assertGreater(resources.count(), 0,
@@ -648,27 +744,7 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
     
-    def test_like_item_logged_out(self):
-        """Like a gallery item when logged out should fail"""
-        resources = Resource.objects.all()
-        self.assertGreater(resources.count(), 0,
-            "Create a resource!")
-            
-        num_likes = resources[0].liked    
-        response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertEqual(resources[0].liked, num_likes)
-        
-    def test_like_unpublished_item_logged_out(self):
-        """Like an unpublished gallery item when logged out should fail"""
-        resources = Resource.objects.filter(published=False)
-        self.assertGreater(resources.count(), 0,
-            "Create an unpublished resource!")
-            
-        num_likes = resources[0].liked    
-        response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertTemplateUsed(response, 'registration/login.html')
-        self.assertEqual(resources[0].liked, num_likes)
+
    
 # Required tests:
 #

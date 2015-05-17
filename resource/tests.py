@@ -475,12 +475,12 @@ class ResourceUserTests(BaseCase):
 
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resource.published, True)
+        self.assertEqual(resources.all()[0].published, True)
         
         # Make sure nothing weird will happen when published twice.
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resource.published, True)
+        self.assertEqual(resources.all()[0].published, True)
 
     def test_publish_another_persons_item(self):
         """Make sure we can't publish resources which are not ours"""

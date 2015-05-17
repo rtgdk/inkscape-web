@@ -293,7 +293,7 @@ MIGRATION_MODULES = {
   'djangocms_picture': 'djangocms_picture.migrations_django',
   'djangocms_snippet': 'djangocms_snippet.migrations_django',
   'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
-  'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django'
+  'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django',
 }
 
 # ===== Migration to MySQL Special Code ===== #

@@ -30,7 +30,7 @@ MANAGE="./utils/manage"
 # Create tables, migrations etc
 ./utils/update
 # Adds any extra moderator tables the first syncdb missed
-./utils/manage syncdb
+./utils/manage syncdb --noinput
 
 $MANAGE loaddata dev-auth
 echo ""

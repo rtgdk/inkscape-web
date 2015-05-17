@@ -3,6 +3,8 @@
 Open django json dumps and update them to the latest versions so they
 can be continued to be used as backups going forwards.
 
+Downloads any media referenced in the backup and adds it to the fixture.
+
 Usage: %s <content.json>
 """
 
@@ -26,8 +28,8 @@ except ValueError:
     sys.exit(1)
 
 LIVE_URL = 'https://inkscape.org/media'
-LOCAL_MEDIA = os.path.abspath(
-    os.path.join(os.path.dirname(__file__), '..', 'data', 'media'))
+FIXTURE_MEDIA = os.path.abspath(
+    os.path.join(os.path.dirname(__file__), '..', 'data', 'fixtures', 'media'))
 
 def delete(field=None, row=None, **kwargs):
     if not field:
@@ -82,11 +84,8 @@ def download(field, row, **kwargs):
     if SKIP_WEIGHT <= 0:
         return None
 
-    if not os.path.exists(LOCAL_MEDIA):
-        raise IOError("Can't find local media directory: %s" % str(LOCAL_MEDIA))
-
     media = row[field]
-    local_path = os.path.join(LOCAL_MEDIA, media)
+    local_path = os.path.join(FIXTURE_MEDIA, media)
     local_dir  = os.path.dirname(local_path)
 
     if os.path.isfile(local_path):

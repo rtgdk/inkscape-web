@@ -1,11 +1,12 @@
 #!/bin/bash
 set -e
 
+SOURCE="content_reformed" # normally 'content'
 FIXTURES="./data/fixtures"
 
 echo "Downloading media from https://${1}inkscape.org..."
 
-wget -q https://${1}inkscape.org/media/content.json.gz -O /tmp/contents.json.gz --no-check-certificate
+wget -q https://${1}inkscape.org/media/$SOURCE.json.gz -O /tmp/contents.json.gz --no-check-certificate
 gunzip -c /tmp/contents.json.gz \
  | ./utils/migrate-backup - > $FIXTURES/live_content.json
 

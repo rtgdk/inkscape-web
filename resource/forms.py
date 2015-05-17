@@ -83,9 +83,11 @@ class ResourceBaseForm(ModelForm):
     def clean_license(self):
         """Make sure the category accepts this kind of license"""
         ret = self.cleaned_data['license']
-        category = self.cleaned_data['category']
-        if ret not in Category.objects.get(name=category).acceptable_licenses.all():
-            raise ValidationError(_("This is not an acceptable license for this category"))
+        if 'category' in self.fields:
+            category = self.cleaned_data.get('category', None)
+            category = Categor.objects.get(name=category)
+            if ret not in category.acceptable_licenses.all():
+                raise ValidationError(_("This is not an acceptable license for this category"))
         return ret
 
     def clean_mirror(self):

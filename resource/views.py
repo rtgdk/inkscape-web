@@ -26,6 +26,7 @@ from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
+from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -119,14 +120,16 @@ class ViewResource(DetailView):
         ret = super(ViewResource, self).get(request, *args, **kwargs)
         if self.object.is_new:
             return redirect("edit_resource", self.object.pk)
-        self.object.set_viewed(request.session)
+        if request.user != self.object.user:
+            if self.object.set_viewed(request.session) is None:
+                raise ValueError("No Session Key found.")
         return ret
 
 @login_required
 def like_resource(request, pk, like):
     item = get_object_or_404(Resource, pk=pk)
     if item.user.pk == request.user.pk:
-        raise Http404
+        raise PermissionDenied()
     (obj, is_new) = item.votes.get_or_create(voter=request.user)
     if '+' not in like:
         obj.delete()
@@ -152,6 +155,8 @@ class DownloadResource(ViewResource):
         if fn is None:
             if item.mime().is_text():
                 return super(DownloadResource, self).get(request, *args, **kwargs)
+            item.fullview += 1
+            item.save()
             return redirect(item.download.url)
 
         if fn not in ['download/', item.filename()]:

@@ -171,6 +171,7 @@ class Resource(Model):
     liked     = PositiveIntegerField(default=0)
     viewed    = PositiveIntegerField(default=0)
     downed    = PositiveIntegerField(_('Downloaded'), default=0)
+    fullview  = PositiveIntegerField(_('Full Views'), default=0)
 
     media_type = CharField(_('File Type'), max_length=64, **null)
     media_x    = IntegerField(**null)
@@ -237,7 +238,7 @@ class Resource(Model):
             # was called from the first view or cookies are blocked.
             (view, is_new) = self.views.get_or_create(session=session.session_key)
             return is_new
-        return False
+        return None
 
     def is_visible(self):
         return get_user() == self.user or self.published

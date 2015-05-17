@@ -38,7 +38,7 @@ django-sendfile==0.3.6
 django-pile==0.7.0
 django-contrib-comments==1.5
 #djangocms-rosetta==1.0
-bzr+ssh://bazaar.launchpad.net/+branch/djangocms-rosetta/
+#bzr+ssh://bazaar.launchpad.net/+branch/djangocms-rosetta/
 
 # Django-CMS Plugins
 django-cms==3.1.0

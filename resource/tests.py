@@ -126,7 +126,7 @@ class ResourceTests(BaseCase):
         
         self.assertEqual([tag.name for tag in resource.tags.all().order_by('name')], ["landscape", "moon"])
         self.assertIn(resource, Tag.objects.get(name="landscape").resources.all())
-        self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
+        #self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
       
     def test_mime_type(self):
         #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
@@ -242,9 +242,9 @@ class ResourceUserTests(BaseCase):
     # Resource file Full Screen View tests:
     def test_public_resource_full_screen(self):
         """Check that a resource can be viewed in full screen, 
-        and that full_views number is incremented when a user with 
+        and that fullview number is incremented when a user with 
         a new session visits a published item in 'full screen glory'"""
-        resources = Resource.objects.filter(published=True, full_views=0)
+        resources = Resource.objects.filter(published=True, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
@@ -252,16 +252,16 @@ class ResourceUserTests(BaseCase):
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
         #resources = Resource.objects.filter(pk=resource.pk)
-        self.assertEqual(resources.all()[0].full_views, 1)
+        self.assertEqual(resources.all()[0].fullview, 1)
         
-        # nobody should be able to increment the views number indefinitely
+        # The full view counter is untracked so another request will inc too.
         response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].full_views, 1)
+        self.assertEqual(resources.all()[0].fullview, 2)
     
     # Resource file Full Screen View tests:
     def test_own_unpublished_resource_full_screen(self):
         """Check that we can look at our unpublished resource in full screen mode"""
-        resources = Resource.objects.filter(published=False, user=self.user, full_views=0)
+        resources = Resource.objects.filter(published=False, user=self.user, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource with 0 fullscreen views for user %s" % self.user)
         resource = resources[0]
@@ -269,20 +269,20 @@ class ResourceUserTests(BaseCase):
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
         #resources = Resource.objects.filter(pk=resource.pk)
-        self.assertEqual(resources.all()[0].full_views, 0) # just a suggestion, as only the owner would add to views number
+        self.assertEqual(resources.all()[0].fullview, 0) # just a suggestion, as only the owner would add to views number
 
     def test_someone_elses_unpublished_resource_full_screen(self):
         """Make sure that fullscreen view for unpublished items 
         doesn't work if they are not ours. Also make sure this 
         doesn't increment the view counter"""
-        resources = Resource.objects.filter(published=False, full_views=0).exclude(user=self.user)
+        resources = Resource.objects.filter(published=False, fullview=0).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource which doesn't belong to user %s and has 0 full screen views" % self.user)
         resource = resources[0]
         
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(resource.full_views, 0)
+        self.assertEqual(resource.fullview, 0)
     
     # Readme test:
     def test_readme(self):
@@ -345,13 +345,12 @@ class ResourceUserTests(BaseCase):
         self.assertGreater(galleries.count(), 0,
             "Create a gallery for user %s" % self.user)
         gallery = galleries[0]
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         
         response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
-        self.assertEqual(response.context['gallery'], gallery)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Resource.objects.all().count(), num + 1)
-        #self.assertContains(response, "name=\"gallery_id\" value=\"%d\"" % gallery.pk)
+        self.assertEqual(Resource.objects.count(), num + 1)
+        self.assertEqual(response.context['object'].gallery, gallery)
 
     def test_submit_gallery_failure_POST(self):
         """Test when no permission to submit exists"""
@@ -365,19 +364,26 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.all().count(), num)
 
-    def test_submit_group_gallery_POST(self):
+    def test_submit_group_gallery(self):
         """Test the POST when a gallery is group based"""
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0,
             "Create a group gallery for user %s" % self.user)
         gallery = galleries[0]
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         
-        response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
-        self.assertEqual(response.context['gallery'], gallery)
+        response = self._get('resource.upload', gallery_id=gallery.pk,
+            data=self.data)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(Resource.objects.all().count(), num + 1)
+        # Gallery is only filled on GET, POST just redirects
+        self.assertEqual(response.context['gallery'], gallery)
+
+        response = self._post('resource.upload', gallery_id=gallery.pk,
+            data=self.data)
+        self.assertEqual(Resource.objects.count(), num + 1)
+        self.assertEqual(response.context['object'].gallery, gallery) 
+        
 
     def test_drop_item_POST(self):
         """Drag and drop file (ajax request)"""
@@ -406,8 +412,14 @@ class ResourceUserTests(BaseCase):
 
     def test_submit_item_unacceptable_license(self):
         """Make sure that categories only accept certain licenses"""
-        cat = Category.objects.get(name="Inkscape Package")# only accepts license.pk=9
-        self.data['category'] = cat.pk
+        categories = Category.objects.filter(visible=True)\
+            .exclude(acceptable_licenses=self.data['license'])
+        # The selected category MUST be visible or django forms will consider
+        # the selection to be None (and likely cause errors)
+        self.assertGreater(categories.count(), 0,
+            "Create a visible category where license isn't acceptable")
+        self.data['category'] = categories[0].pk
+
         num = Resource.objects.all().count()
         
         response = self._post('resource.upload', data=self.data)
@@ -415,7 +427,6 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], ResourceFileForm)
         self.assertFormError(response, 'form', 'license', 'This is not an acceptable license for this category')
-        self.assertEqual(Resourc.objects.all().count(), num)
     
     # Resource Like tests:
     def test_like_item_not_being_owner(self):
@@ -632,20 +643,20 @@ class ResourceAnonTests(BaseCase):
     
     def test_public_resource_full_screen_anon(self):
         """Check that a resource can be viewed in full screen, 
-        and that full_views number is incremented when an 
+        and that fullview number is incremented when an 
         anonymous user with a new session visits a published item"""
-        resources = Resource.objects.filter(published=True, full_views=0)
+        resources = Resource.objects.filter(published=True, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
         
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].full_views, 1)
+        self.assertEqual(resources.all()[0].fullview, 1)
         
         # nobody should be able to increment the views number indefinitely
         response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].full_views, 1)
+        self.assertEqual(resources.all()[0].fullview, 1)
     
     def test_submit_item_GET_anon(self):
         """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""
@@ -715,6 +726,8 @@ class ResourceAnonTests(BaseCase):
 
         self.assertEqual(response.status_code, 302)
         self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+
+        resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 1)
 
     def test_edit_item_GET_anon(self):

@@ -106,11 +106,7 @@ class ResourceTests(BaseCase):
         
     #These tests are not finished, as design seems to be in flux, but can be fleshed out if required       
     def test_category_methods(self):
-        """Test methods for categories"""
-        # What are 'acceptable_licenses' for? They aren't used anwhere,
-        # also not to restrict saving of a resource with a 'wrong' license. 
-        # Current setting for Screenshots (only 'all rights reserved') is strange, too.
-        
+        """Test methods for categories""" 
         cat = Category.objects.get(name="UI Mockup")
         self.assertEqual(cat.value, "ui-mockup")
         self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
@@ -226,7 +222,7 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('resource', pk=resource.pk)
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(resource.viewed, num)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, num)
     
     def test_view_text_file_detail(self):
         """Check if the text of a textfile is displayed on item view page and its readmore is not"""
@@ -249,16 +245,14 @@ class ResourceUserTests(BaseCase):
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
         
-        response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(response.status_code, 200)
-        #resources = Resource.objects.filter(pk=resource.pk)
-        self.assertEqual(resources.all()[0].fullview, 1)
+        response = self._get('view_resource', pk=resource.pk, follow=False)
+        self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
         # The full view counter is untracked so another request will inc too.
         response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].fullview, 2)
-    
-    # Resource file Full Screen View tests:
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
+        
     def test_own_unpublished_resource_full_screen(self):
         """Check that we can look at our unpublished resource in full screen mode"""
         resources = Resource.objects.filter(published=False, user=self.user, fullview=0)
@@ -282,7 +276,7 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 404)
-        self.assertEqual(resource.fullview, 0)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
     
     # Readme test:
     def test_readme(self):
@@ -412,12 +406,13 @@ class ResourceUserTests(BaseCase):
 
     def test_submit_item_unacceptable_license(self):
         """Make sure that categories only accept certain licenses"""
+        # Current setting for Screenshots (only 'all rights reserved') might need to be changed.
         categories = Category.objects.filter(visible=True)\
             .exclude(acceptable_licenses=self.data['license'])
         # The selected category MUST be visible or django forms will consider
         # the selection to be None (and likely cause errors)
         self.assertGreater(categories.count(), 0,
-            "Create a visible category where license isn't acceptable")
+            "Create a visible category where license id %s isn't acceptable" % self.data['license'])
         self.data['category'] = categories[0].pk
 
         num = Resource.objects.all().count()
@@ -489,12 +484,12 @@ class ResourceUserTests(BaseCase):
 
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].published, True)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
         
         # Make sure nothing weird will happen when published twice.
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].published, True)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
 
     def test_publish_another_persons_item(self):
         """Make sure we can't publish resources which are not ours"""
@@ -649,14 +644,13 @@ class ResourceAnonTests(BaseCase):
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
-        
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources.all()[0].fullview, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
         # nobody should be able to increment the views number indefinitely
         response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].fullview, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
     
     def test_submit_item_GET_anon(self):
         """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""

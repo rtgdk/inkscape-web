@@ -11,7 +11,10 @@ from django.test import TestCase
 from user_sessions.utils.tests import Client
 
 from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
-from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
+from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm, GalleryForm
+
+from django.conf import settings
+settings.DEBUG = True
 
 class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
@@ -643,7 +646,44 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resources[0].name)
         self.assertContains(response, resources[1].name)
         self.assertContains(response, self.user.username)
+        self.assertEqual(response.context['object_list'].count(), resources.count())
+        self.assertContains(response, '<form method="POST" action="' + reverse('new_gallery'))
 
+    def test_view_global_gallery(self):
+        """Look at the gallery containing every public resource from everyone"""
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 3,
+                           "Create a few public resources for the global gallery")
+        
+        response = self._get('resources')
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['object_list'].count(), resources.count())
+        #make sure we see uploads from different people
+        self.assertGreater(len(set([item.user for item in response.context['object_list']])), 1)
+        #and we can't upload here directly
+        self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
+    
+    def test_narrow_global_galleries(self):
+        """make sure we can choose to see only the resources 
+        we want to see in the global gallery"""
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 3,
+                           "Create a few public resources for the global gallery")
+        
+        categories = Category.objects.filter(id__in=resources.values('category_id'))
+        
+        for category in categories:
+            response = self._get('resources', category=category.value)
+            #if response.status_code == 404:
+                #print response.context
+            # doesn't work for ui-mockup category, gives 'No team found matching the query' error
+            self.assertEqual(response.status_code, 200, 
+                             'Could not find page for category %s' % category.value)
+            
+            self.assertEqual(response.context['object_list'].count(), 
+                             resources.filter(category=category.pk).count(),
+                             'The number of items in category %s is not correct' % category.value)
+        
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     
@@ -803,7 +843,17 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
     
-
+    def test_view_all_resources_by_user(self):
+        """Look at all uploads from someone, and see only public items"""
+        resources = Resource.objects.filter(user=3, published=True)
+        self.assertGreater(resources.count(), 0,
+                           "Create another resource for user with id 3")
+        
+        response = self._get('resources', username=User.objects.get(pk=3).username)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, resources[0].name)
+        self.assertContains(response, User.objects.get(pk=3).username)
+        self.assertEqual(response.context['object_list'].count(), resources.count())
    
 # Required tests:
 #
@@ -824,10 +874,10 @@ class ResourceAnonTests(BaseCase):
 # license_on_item
 # license_on_gallery_item
 #
-# view_global_galleries (see multiple users)
+# view_global_galleries (see multiple users): started
 # narrow_global_galleries (category)
 # sort_global_galleries (all four sorts)
-# view_user_galleries
+# view_user_galleries: started
 # narrow_user_galleries (category)
 # view_user_gallery (specific one)
 # narrow_user_gallery (specific + category)

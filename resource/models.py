@@ -484,8 +484,8 @@ class Gallery(Model):
 
     def __unicode__(self):
         if self.group:
-            return self.name + " [" + _('for group') + " " + str(self.group) + "]"
-        return self.name + " (" + _('by') + " " + str(self.user) + ")"
+            return self.name + " [" + unicode(_('for group')) + " " + str(self.group) + "]"
+        return self.name + " (" + unicode(_('by')) + " " + str(self.user) + u")"
 
     def save(self, *args, **kwargs):
         set_slug(self)

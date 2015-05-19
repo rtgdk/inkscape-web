@@ -3,7 +3,7 @@
 <div id='errors'></div>
 
 <div id="gallery">
- {% if username == request.user %}
+ {% if username == request.user and galleries.id %}
   <div class="galleryitem">
     <div id="drop" class="link"><a href="{% url "resource.upload" galleries.id %}"><img src="{{ STATIC_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
     <p><a href="{% url "resource.upload" galleries.id %}">{% trans "Submit Resource" %}</a></p>

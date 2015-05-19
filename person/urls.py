@@ -33,7 +33,7 @@ RK = TemplateView.as_view(template_name='registration/registration_closed.html')
 RG = RegistrationView.as_view(form_class=RegisForm)
 UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
 
-# Our user url implemination allows other urls files to add
+# Our user url implementation allows other urls files to add
 # their own urls to our user tree. Creating user functions.
 USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
   url(r'^/?$',                    UserDetail(),  name='view_profile'),

@@ -222,7 +222,7 @@
 {
   "fields": {
     "user": 3,
-    "name": "Gallery by User One",
+    "name": "Gallery by User Three",
     "slug": "gallery-one"
   },
   "model": "resource.gallery",

@@ -11,7 +11,7 @@ from django.test import TestCase
 from user_sessions.utils.tests import Client
 
 from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
-from .forms import ResourceFileForm, ResourceEditPasteForm
+from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
 
 class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
@@ -327,10 +327,10 @@ class ResourceUserTests(BaseCase):
         """Tests the POST view and template for uploading a new resource file"""
         # This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         # Could become a mess if all are in one test.
-        num = Resource.objects.all().count() 
+        num = Resource.objects.count() 
         
         response = self._post('resource.upload', data=self.data)
-        self.assertEqual(Resource.objects.all().count(), num + 1)
+        self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.status_code, 200)
 
     def test_submit_gallery_item_POST(self):
@@ -346,17 +346,36 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.context['object'].gallery, gallery)
 
+    def test_paste_text_POST(self):
+        """Test pasting a text, a long one (success) 
+        and a short one (fail)"""
+        num = Resource.objects.count()
+        data = {'download': "foo" * 100,}
+        shortdata = {'download': "blah" * 5}
+        
+        response = self._post('pastebin', data=data)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Resource.objects.count(), num + 1)
+        self.assertContains(response, "foofoo")
+        
+        response = self._post('pastebin', data=shortdata)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Resource.objects.count(), num + 1)
+        self.assertContains(response, "blahblah")
+        self.assertIsInstance(response.context['form'], ResourcePasteForm)
+        self.assertFormError(response, 'form', 'download', 'Text is too small for the pastebin.')
+        
     def test_submit_gallery_failure_POST(self):
         """Test when no permission to submit exists"""
         galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
         self.assertGreater(galleries.count(), 0,
             "Create a gallery for user other than %s" % self.user)
         gallery = galleries[0]
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         
         response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(Resource.objects.count(), num)
 
     def test_submit_group_gallery(self):
         """Test the POST when a gallery is group based"""
@@ -381,12 +400,12 @@ class ResourceUserTests(BaseCase):
 
     def test_drop_item_POST(self):
         """Drag and drop file (ajax request)"""
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         response = self._post('resource.drop', data={
           'name': "New Name",
           'download': self.download,
         })
-        self.assertEqual(Resource.objects.all().count(), num + 1)
+        self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'OK|')
 
@@ -415,10 +434,10 @@ class ResourceUserTests(BaseCase):
             "Create a visible category where license id %s isn't acceptable" % self.data['license'])
         self.data['category'] = categories[0].pk
 
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         
         response = self._post('resource.upload', data=self.data)
-        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(Resource.objects.count(), num)
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], ResourceFileForm)
         self.assertFormError(response, 'form', 'license', 'This is not an acceptable license for this category')
@@ -431,11 +450,11 @@ class ResourceUserTests(BaseCase):
             "Create a resource which doesn't belong to user %s" % self.user)
 
         num_likes = resources[0].liked
-        
+
         response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(resources[0].liked, num_likes + 1)
-
+        
         response = self._get('resource.like', pk=resources[0].pk, like='+')
         self.assertEqual(resources[0].liked, num_likes + 1)
 
@@ -612,6 +631,19 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
+    #Gallery viewing and sorting tests
+    def test_view_all_my_resources(self):
+        """Look at all my own uploads"""
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 1,
+                           "Create another resource for user %s" % self.user)
+        
+        response = self._get('resources', username=self.user.username)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, resources[0].name)
+        self.assertContains(response, resources[1].name)
+        self.assertContains(response, self.user.username)
+
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     
@@ -634,7 +666,7 @@ class ResourceAnonTests(BaseCase):
         
         # number of views should only be incremented once per user session
         response = self._get('resource', pk=resource.pk)
-        self.assertEqual(resource.viewed, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
     
     def test_public_resource_full_screen_anon(self):
         """Check that a resource can be viewed in full screen, 
@@ -660,20 +692,33 @@ class ResourceAnonTests(BaseCase):
     def test_submit_item_POST_anon(self):
         """Test if we can upload a file when we're not logged in,
         shouldn't be allowed and shouldn't work"""
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(Resource.objects.count(), num)
 
     def test_drop_item_POST_anon(self):
         """Drag and drop file (ajax request) when not logged in - shouldn't work"""
-        num = Resource.objects.all().count()
+        num = Resource.objects.count()
         response = self._post('resource.drop', data={
           'name': "New Name",
           'download': self.download,
         })
-        self.assertEqual(Resource.objects.all().count(), num)
+        self.assertEqual(Resource.objects.count(), num)
+        self.assertEqual(response.status_code, 403)
+    
+    def test_paste_text_POST_anon(self):
+        """Test pasting a valid text when logged out (fail)"""
+        num = Resource.objects.count()
+        data = {'download': "foo" * 100,}
+        
+        response = self._post('pastebin', data=data)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Resource.objects.count(), num)
+    
+        shortdata = {'download': "blah" * 5}
+        response = self._post('pastebin', data=shortdata)
         self.assertEqual(response.status_code, 403)
     
     def test_like_item_anon(self):
@@ -767,6 +812,7 @@ class ResourceAnonTests(BaseCase):
 # not_logged_in_submit (fail): started
 # no_more_quota_submit (fail): started
 # submit_pastebin: started
+# edit_paste: started
 # edit_item: started
 # delete item: started
 # mark_favorite: started

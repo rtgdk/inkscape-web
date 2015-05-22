@@ -12,6 +12,7 @@ from user_sessions.utils.tests import Client
 
 from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
 from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm, GalleryForm
+from .views import GalleryList
 
 from django.conf import settings
 settings.DEBUG = True
@@ -130,11 +131,7 @@ class ResourceTests(BaseCase):
     def test_mime_type(self):
         #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
         pass
-      
-    def test_gallery_deletion(self):
-        # currently not implemented (view: DeleteGallery)
-        pass
-      
+
     def test_move_resource(self):
         # currently not fully implemented (view: MoveResource)
         pass
@@ -671,18 +668,70 @@ class ResourceUserTests(BaseCase):
                            "Create a few public resources for the global gallery")
         
         categories = Category.objects.filter(id__in=resources.values('category_id'))
+        self.assertGreater(categories.count(), 2,
+                           "Create a few categories for the global gallery, and assign public resources to them")
         
         for category in categories:
+            items = resources.filter(category=category.pk)
+            
             response = self._get('resources', category=category.value)
-            #if response.status_code == 404:
-                #print response.context
-            # doesn't work for ui-mockup category, gives 'No team found matching the query' error
             self.assertEqual(response.status_code, 200, 
                              'Could not find page for category %s' % category.value)
-            
             self.assertEqual(response.context['object_list'].count(), 
-                             resources.filter(category=category.pk).count(),
-                             'The number of items in category %s is not correct' % category.value)
+                             items.count(), 'The number of items in category %s is not correct' % category.value)
+            for item in items:
+                self.assertIn(item, response.context['object_list'])
+                self.assertContains(response, item.name)
+                
+    def test_sort_global_galleries(self):
+        "test if ordering for global galleries works as expected"
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 3,
+                           "Create a few public resources for the global gallery")
+        
+        baseresponse = self._get('resources')
+        orderlist = [ordering[0] for ordering in GalleryList.orders]
+        self.assertGreater(len(orderlist), 3,
+                           "Choose some ordering for your gallery")
+        rev_orderlist = [o[1:] if o[0]=='-' else '-' + o for o in orderlist]
+        
+        #the generator nature of 'orders' in template context doesn't allow us 
+        #to use that for testing because it's already 'exhausted'
+        
+        #make sure the links to the reverse standard order are in the html
+        for rev_order in rev_orderlist:
+            self.assertContains(baseresponse, rev_order)
+            
+        #normal order
+        for order in orderlist:
+            ordered = resources.order_by(order)
+            response = self.client.get(reverse('resources') + '?order=' + order)
+            self.assertEqual(response.status_code, 200)
+            #conveniently respects ordering when checking for equality
+            self.assertEqual(list(response.context['object_list']), list(ordered))
+            first_name = ordered[0].name
+            second_name = ordered[1].name
+            #objects in html in correct order of appearance?
+            self.assertGreater(response.content.find(str(second_name)),
+                               response.content.find(str(first_name)))
+            
+        #reverse order
+        for order in rev_orderlist:
+            ordered = resources.order_by(order)
+            response = self.client.get(reverse('resources') + '?order=' + order)
+            self.assertEqual(response.status_code, 200)
+            #conveniently respects ordering when checking for equality
+            self.assertEqual(list(response.context['object_list']), list(ordered))
+            first_name = ordered[0].name
+            second_name = ordered[1].name
+            #objects in html in correct order of appearance?
+            self.assertGreater(response.content.find(str(second_name)),
+                               response.content.find(str(first_name)))
+      
+    def test_gallery_deletion(self):
+        # currently not implemented (view: DeleteGallery)
+        pass
+      
         
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
@@ -875,8 +924,8 @@ class ResourceAnonTests(BaseCase):
 # license_on_gallery_item
 #
 # view_global_galleries (see multiple users): started
-# narrow_global_galleries (category)
-# sort_global_galleries (all four sorts)
+# narrow_global_galleries (category): started
+# sort_global_galleries (all four sorts): started (would also work for more than four)
 # view_user_galleries: started
 # narrow_user_galleries (category)
 # view_user_gallery (specific one)

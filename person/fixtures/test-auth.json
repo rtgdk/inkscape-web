@@ -18,12 +18,17 @@
    "email": "user@testers.com"}},
 
 {"pk": 1, "model": "auth.group", "fields": {"name": "Test Group", "permissions": []}},
-{"pk": 2, "model": "auth.group", "fields": {"name": "Group Too", "permissions": []}},
+{"pk": 2, "model": "auth.group", "fields": {"name": "Group Two", "permissions": []}},
 
 {"pk": 1, "model": "person.userdetails", "fields":
   {"bio": "BIO_ADMIN", "user": 1, "photo": "photos/admin.svg"}},
 {"pk": 2, "model": "person.userdetails", "fields":
   {"bio": "BIO_STAFF", "user": 2, "photo": "test/staff.svg"}},
 {"pk": 3, "model": "person.userdetails", "fields":
-  {"bio": "BIO_USER", "user": 3, "photo": "test/user.svg"}}
+  {"bio": "BIO_USER", "user": 3, "photo": "test/user.svg"}},
+  
+{"pk": 1, "model": "person.team", "fields": 
+  {"admin": 1, "members": 1, "name": "Test Team", "slug": "testteam", "icon": "photos/admin.svg", "intro": "This team is our first test team. And this is its intro text.", "desc": "This here describes the first team's work in detail.", "enrole": "T"}},
+{"pk": 2, "model": "person.team", "fields": 
+  {"admin": 3, "members": 2, "name": "Team Two", "slug": "teamtwo", "icon": "test/user.svg", "intro": "This team is our second test team. And this is its intro text.", "desc": "This here describes the second team's work in detail.", "enrole": "O"}}
 ]

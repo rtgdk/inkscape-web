@@ -39,7 +39,7 @@ USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
   url(r'^/?$',                    UserDetail(),  name='view_profile'),
   url(r'^/gpg/$',                 'gpg_key',     name='user_gpgkey'),
 )
-TEAM_URLS = url_tree(r'^-(?P<team_slug>[^\/]+)', 'person.views',
+TEAM_URLS = url_tree(r'^\*(?P<team_slug>[^\/]+)', 'person.views',
   url(r'^/$',                     TeamDetail(),  name='team'),
 )
 

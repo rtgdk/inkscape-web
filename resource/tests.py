@@ -9,12 +9,15 @@ from django.core.files.storage import default_storage
 from django.test import TestCase
 
 from user_sessions.utils.tests import Client
+from django.http import HttpRequest
+from user_sessions.backends.db import SessionStore
 
 from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
 from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm, GalleryForm
 from .views import GalleryList
 
 from django.conf import settings
+
 settings.DEBUG = True
 
 class BaseCase(TestCase):
@@ -37,6 +40,28 @@ class BaseCase(TestCase):
         kw['method'] = self.client.post
         return self._get(*arg, **kw)
 
+    def set_session_cookies(self):
+        """Set session data regardless of being authenticated"""
+
+        # Save new session in database and add cookie referencing it
+        request = HttpRequest()
+        request.session = SessionStore('Python/2.7', '127.0.0.1')
+
+        # Save the session values.
+        request.session.save()
+
+        # Set the cookie to represent the session.
+        session_cookie = settings.SESSION_COOKIE_NAME
+        self.client.cookies[session_cookie] = request.session.session_key
+        cookie_data = {
+            'max-age': None,
+            'path': '/',
+            'domain': settings.SESSION_COOKIE_DOMAIN,
+            'secure': settings.SESSION_COOKIE_SECURE or None,
+            'expires': None,
+        }
+        self.client.cookies[session_cookie].update(cookie_data)
+
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"
         super(TestCase, self).setUp()
@@ -53,6 +78,7 @@ class BaseCase(TestCase):
           'owner': 'True',
           'published': 'on',
         }
+        self.set_session_cookies()
 
     def tearDown(self):
         super(TestCase, self).tearDown()
@@ -744,18 +770,19 @@ class ResourceAnonTests(BaseCase):
         self.assertGreater(resources.count(), 0,
             "Create a published resource")
         resource = resources[0]
+        num_views = resource.viewed
         
+        # the response already contains the updated number
         response = self._get('resource', pk=resource.pk)
         self.assertEqual(response.context['object'], resource)
         self.assertContains(response, resource.filename())
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
-        self.assertEqual(response.context['object'].viewed, resource.viewed)
-        self.assertEqual(resource.viewed, 1)
+        self.assertEqual(response.context['object'].viewed, num_views + 1)
         
         # number of views should only be incremented once per user session
         response = self._get('resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, num_views + 1)
     
     def test_public_resource_full_screen_anon(self):
         """Check that a resource can be viewed in full screen, 
@@ -769,9 +796,9 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
-        # nobody should be able to increment the views number indefinitely
+        # all full views are counted (like downloads)
         response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
     
     def test_submit_item_GET_anon(self):
         """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""

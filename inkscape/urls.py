@@ -8,9 +8,6 @@ from django.contrib import admin
 from .views import SearchView
 
 urlpatterns = patterns('',
-    #hide django_user_sessions urls
-    url(r'^account/sessions/$', 'inkscape.views.error404'),
-    url(r'^account/sessions/(?P<pk>\w+)/delete/$', 'inkscape.views.error404'),
     url(r'^', include('user_sessions.urls', 'user_sessions')),
     url(r'^', include('social_auth.urls')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\

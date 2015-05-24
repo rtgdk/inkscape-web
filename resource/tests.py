@@ -748,17 +748,51 @@ class ResourceUserTests(BaseCase):
             self.assertEqual(response.status_code, 200)
             #conveniently respects ordering when checking for equality
             self.assertEqual(list(response.context['object_list']), list(ordered))
-            first_name = ordered[0].name
-            second_name = ordered[1].name
+            
             #objects in html in correct order of appearance?
-            self.assertGreater(response.content.find(str(second_name)),
-                               response.content.find(str(first_name)))
+            for i in range(1, len(ordered)):
+                first_name = ordered[i-1].name
+                second_name = ordered[i].name
+                self.assertGreater(response.content.find(str(second_name)),
+                                  response.content.find(str(first_name)))
       
-    def test_gallery_deletion(self):
-        # currently not implemented (view: DeleteGallery)
-        pass
-      
+    def test_gallery_deletion_own_gallery(self):
+        """Test if galleries can be deleted by owner"""
+        galleries = Gallery.objects.filter(user=self.user)
+        self.assertGreater(galleries.count(), 0, 
+                           "Create a gallery which belongs to user %s" % self.user)
+        gallery = galleries[0]
         
+        response = self._post('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 200)
+        with self.assertRaises(Gallery.DoesNotExist):
+            Gallery.objects.get(pk=gallery.pk)
+
+    def test_gallery_deletion_group_gallery(self):
+        """Make sure galleries can't be deleted by group member"""
+        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+                                                      .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0, 
+                           "Create a gallery for a group in which %s is a member, but not the owner" % self.user)
+        gallery = galleries[0]
+
+        response = self._post('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 403)
+        with self.assertNotRaises(Gallery.DoesNotExist):
+            Gallery.objects.get(pk=gallery.pk)
+      
+    def test_gallery_deletion_group_gallery(self):
+        """Make sure galleries can't be deleted by someone unrelated to the gallery"""
+        galleries = Gallery.objects.exclude(group__in=self.user.groups.all())\
+                                                      .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0, 
+                           "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
+        gallery = galleries[0]
+
+        response = self._post('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     
@@ -915,7 +949,6 @@ class ResourceAnonTests(BaseCase):
         resource = resources[0]
         
         response = self._post('delete_resource', pk=resource.pk)
-        
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
     
@@ -931,9 +964,20 @@ class ResourceAnonTests(BaseCase):
         self.assertContains(response, User.objects.get(pk=3).username)
         self.assertEqual(response.context['object_list'].count(), resources.count())
    
+    def test_gallery_deletion_anon(self):
+        """Make sure galleries can't be deleted by group member"""
+        galleries = Gallery.objects.all()
+        self.assertGreater(galleries.count(), 0, 
+                           "Create a gallery")
+        gallery = galleries[0]
+
+        response = self._post('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+            
 # Required tests:
 #
-# view_item #public vs. non-public, too: started
+# view_item public vs. non-public, too: started
 # submit_item: started
 # not_logged_in_submit (fail): started
 # no_more_quota_submit (fail): started
@@ -962,7 +1006,8 @@ class ResourceAnonTests(BaseCase):
 # search_galleries
 # move_item_to_gallery
 # copy_item_to_gallery
-# 
+# delete gallery: started
+#
 # item_breadcrumbs (each variation)
 # gallery_breadcrumbs (lots of variations)
 # gallery_rss_feed (galleries variations)

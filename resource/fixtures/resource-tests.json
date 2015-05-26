@@ -79,6 +79,45 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 3,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "test/preview5.png"
+  },
+  "model": "resource.resourcefile",
+  "pk": 7
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 4,
+    "tags": [],
+    "signature": "",
+    "owner": true,
+    "mirror": false,
+    "download": "test/file1.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 8
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "",
+    "owner": false,
+    "mirror": false,
+    "download": "test/file1.svg"
+  },
+  "model": "resource.resourcefile",
+  "pk": 9
+},
+{
+  "fields": {
     "category": 1,
     "user": 3,
     "name": "Resource One",
@@ -199,9 +238,9 @@
   "fields": {
     "category": 2,
     "user": 1,
-    "name": "Resource Two",
-    "slug": "resource_two",
-    "desc": "Big description for Resource Two[[...]]And Some More",
+    "name": "Resource Six",
+    "slug": "resource_six",
+    "desc": "Big description for Resource Six[[...]]And Some More",
     "created": "2015-04-03T16:42:41.433Z",
     "edited": "2015-04-21T16:42:41.417Z",
     "published": true,
@@ -218,6 +257,78 @@
   },
   "model": "resource.resource",
   "pk": 6
+},
+{
+  "fields": {
+    "category": 3,
+    "user": 2,
+    "name": "Resource Seven",
+    "slug": "resource_seven",
+    "desc": "Big description for Resource Seven[[...]]And Some More",
+    "created": "2015-04-04T16:42:41.433Z",
+    "edited": "2015-04-25T16:42:41.417Z",
+    "published": true,
+    "viewed": 19,
+    "liked": 23,
+    "downed": 5,
+    "fullview": 8,
+    "tags": [],
+    "media_type": "image/png",
+    "media_x": 100,
+    "media_y": 500,
+    "thumbnail": "",
+    "link": "http://linkformypicture.com/"
+  },
+  "model": "resource.resource",
+  "pk": 7
+},
+{
+  "fields": {
+    "category": 5,
+    "user": 3,
+    "name": "Item Eight",
+    "slug": "Item_eight",
+    "desc": "Big description for Item Eight[[...]]And Some More",
+    "created": "2015-05-04T16:42:41.433Z",
+    "edited": "2015-05-25T16:42:41.417Z",
+    "published": true,
+    "viewed": 10,
+    "liked": 12,
+    "downed": 9,
+    "fullview": 2,
+    "tags": [],
+    "media_type": "image/svg",
+    "media_x": 10,
+    "media_y": 50,
+    "thumbnail": "",
+    "link": "http://linkformytutorial.com/"
+  },
+  "model": "resource.resource",
+  "pk": 8
+},
+{
+  "fields": {
+    "category": 5,
+    "user": 2,
+    "name": "Resource Nine",
+    "slug": "resource_nine",
+    "desc": "Big description for Resource Nine[[...]]And Some More",
+    "created": "2015-04-08T16:42:41.433Z",
+    "edited": "2015-04-15T16:42:41.417Z",
+    "published": true,
+    "viewed": 14,
+    "liked": 13,
+    "downed": 499,
+    "fullview": 345,
+    "tags": [],
+    "media_type": "image/png",
+    "media_x": 200,
+    "media_y": 300,
+    "thumbnail": "",
+    "link": "http://linkforpicture.com/"
+  },
+  "model": "resource.resource",
+  "pk": 9
 },
 {
   "fields": {

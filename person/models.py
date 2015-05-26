@@ -60,15 +60,15 @@ class Team(Model):
     members  = AutoOneToOneField(Group, related_name='team', **null)
     watchers = ManyToManyField(User, related_name='watches', **null)
 
-    name     = CharField(_('User Team'), max_length=32)
-    slug     = SlugField(_('Group ID'), max_length=32)
+    name     = CharField(_('Team Name'), max_length=32)
+    slug     = SlugField(_('Team URL Slug'), max_length=32)
     icon     = ImageField(_('Display Icon'), upload_to='teams')
 
     intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = CharField(_('Mailing List'), max_length=256, **null)
-    enrole   = CharField(_('Open Enrolement'), max_length=1, default='O', choices=ENROLES)
+    enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
 
     def save(self, **kwargs):
         if not self.name:

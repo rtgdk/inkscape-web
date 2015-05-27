@@ -856,7 +856,6 @@ class ResourceUserTests(BaseCase):
         # TODO: update search index somehow first, if that's the reason why it doesn't find anything 
         #       and find out which fields are supposed to be searched
         get_param = urlencode({ 'q' : 'description -Eight +Some'})# depends on fields
-        print get_param
         resources = Resource.objects.filter(published=True) # and search corresponding fields here 
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which contains the search term %s")
@@ -867,10 +866,67 @@ class ResourceUserTests(BaseCase):
         self.fail('Finish me!')
       
     def test_move_item_to_gallery(self):
-        #view: MoveResource()
+        """Make sure an item can be moved from one gallery to another by its owner"""
+        # prepare galleries
+        galleries = self.user.galleries.all()
+        self.assertGreater(galleries.count(), 1)
+        gallery = galleries[0]
+        
+        # add a resource which belongs to us to a gallery
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        gallery.items.add(resource)
+
+        # move that resource to another gallery
+        # TODO: we might want to switch to a view name without a dot?
+        self._post('resource.move', pk=resource.pk, gallery=galleries[1].pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual('url', 'url')# TODO: where do we want to go?
+        self.assertEqual(gallery.items.count(), 0)# cached?
+        self.assertEqual(galleries[1].items.count(), 1)# cached?
+        self.assertEqual(galleries[1][0], resource)# cached?
+    
+    def test_move_item_to_gallery_not_gal_owner(self):
+        """Make sure that we cannot move items into a gallery which isn't ours"""
+        # TODO: copy/paste/adapt previous method
+        pass
+      
+    def test_move_item_to_gallery_not_item_owner(self):
+        """Make sure that we cannot move items around that don't belong to us"""
+        # TODO: copy/paste/adapt previous method
         pass
     
     def test_copy_item_to_gallery(self):
+        """Make sure an item can be copied from one gallery to another by its owner"""
+        # prepare galleries
+        galleries = self.user.galleries.all()
+        self.assertGreater(galleries.count(), 1)
+        gallery = galleries[0]
+        
+        # add a resource which belongs to us to a gallery
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        gallery.items.add(resource)
+        
+        # copy that resource to another gallery
+        # TODO: we might want to switch to a view name without a dot?
+        self._post('resource.copy', pk=resource.pk, gallery=galleries[1].pk) 
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual('url', 'url')# TODO: where do we want to go?
+        self.assertEqual(gallery.items.count(), 1)# cached?
+        self.assertEqual(galleries[1].items.count(), 1)# cached?
+        self.assertEqual(galleries[1][0], resource)# cached?
+        
+    def test_copy_item_to_gallery_not_gal_owner(self):
+        """Make sure that we cannot copy items into a gallery which isn't ours"""
+        # TODO: copy/paste/adapt previous method
+        pass
+      
+    def test_copy_item_to_gallery_not_item_owner(self):
+        """Make sure we cannot copy items that do not belong to us"""
+        # TODO: copy/paste/adapt previous method
         pass
     
     def test_gallery_deletion_own_gallery(self):
@@ -1102,8 +1158,6 @@ class ResourceAnonTests(BaseCase):
 # narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
 # view_group_galleries
 # view_group_gallery
-# move_item_to_gallery
-# copy_item_to_gallery
 # item_breadcrumbs (each variation)
 # gallery_breadcrumbs (lots of variations)
 # gallery_rss_feed (galleries variations)
@@ -1112,6 +1166,8 @@ class ResourceAnonTests(BaseCase):
 # verified_flag
 #
 # STARTED / DONE(?)
+# move_item_to_gallery: started
+# copy_item_to_gallery: started
 # search_galleries: started
 # view_user_gallery (specific one): started
 # narrow_user_gallery (specific + category): started
@@ -1132,4 +1188,4 @@ class ResourceAnonTests(BaseCase):
 # sort_global_galleries (all four sorts): started (would also work for more than four)
 # view_user_galleries: started
 # delete gallery: started
-# try to download non-existant file: started
+# try to download non-existent file: started

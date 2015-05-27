@@ -357,5 +357,14 @@
   },
   "model": "resource.gallery",
   "pk": 3
+},
+{
+  "fields": {
+    "user": 3,
+    "name": "Another Gallery by User Three",
+    "slug": "gallery-four"
+  },
+  "model": "resource.gallery",
+  "pk": 4
 }
 ]

@@ -69,6 +69,7 @@ class BaseCase(TestCase):
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"
         super(TestCase, self).setUp()
+        self.client = Client()
         self.download = self.open('fixtures/media/test/file5.svg')
         self.thumbnail = self.open('fixtures/media/test/preview5.png')
         self.data = {
@@ -82,7 +83,7 @@ class BaseCase(TestCase):
           'owner': 'True',
           'published': 'on',
         }
-        self.set_session_cookies()
+        #self.set_session_cookies() # activate to test AnonymousUser tests, but deactivated mirrors reality
 
     def tearDown(self):
         super(TestCase, self).tearDown()
@@ -166,7 +167,6 @@ class ResourceUserTests(BaseCase):
     """Any test of views and requests where a user is logged in."""
     def setUp(self):
         super(ResourceUserTests, self).setUp()
-        self.client = Client()
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
 
@@ -215,7 +215,9 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(resources.all()[0].viewed, 0)
     
     def test_view_someone_elses_public_item_detail(self):
-        """Testing item detail view and template for someone elses public resource"""
+        """Testing item detail view and template for someone elses public resource:
+        license, picture, description, username should be contained, and views should
+        be counted correctly"""
         # make sure we don't own the file and it is public
         resources = Resource.objects.filter(published=True).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
@@ -228,6 +230,7 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
+        self.assertContains(response, resource.license.value)
         self.assertEqual(resources.all()[0].viewed, 1)
         
         # number of views should only be incremented once per user session
@@ -687,15 +690,30 @@ class ResourceUserTests(BaseCase):
     # Gallery tests
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
-        resources = Resource.objects.filter(published=True)
+        # seems the global gallery doesn't use the standard ordering for Resources (-created), but orders by id
+        # (which on live should result in the same ordering...)
+        # maybe caused by _default_manager in pile/views.py, line 177 ?
+        resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
         
         response = self._get('resources')
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['object_list'].count(), resources.count())
-        #make sure we see uploads from different people
+        # make sure we see uploads from different people
         self.assertGreater(len(set([item.user for item in response.context['object_list']])), 1)
+        # make sure every resource is displayed with either the correct licence 
+        # or an edit link, when it's ours
+        pos = 0
+        for resource in resources:
+            if resource.user != self.user:
+                search_term = resource.license.value
+            else:
+                search_term = reverse('edit_resource', kwargs={'pk': resource.pk})
+            new_pos = response.content.find(str(search_term), pos)
+            self.assertGreater(new_pos, -1)
+            pos = new_pos
+                
         #and we can't upload here directly
         self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
     
@@ -748,11 +766,13 @@ class ResourceUserTests(BaseCase):
             self.assertEqual(response.status_code, 200)
             #conveniently respects ordering when checking for equality
             self.assertEqual(list(response.context['object_list']), list(ordered))
-            first_name = ordered[0].name
-            second_name = ordered[1].name
+            
             #objects in html in correct order of appearance?
-            self.assertGreater(response.content.find(str(second_name)),
-                               response.content.find(str(first_name)))
+            for i in range(1, len(ordered)):
+                first_name = ordered[i-1].name
+                second_name = ordered[i].name
+                self.assertGreater(response.content.find(str(second_name)),
+                                  response.content.find(str(first_name)))
             
         #reverse order
         for order in rev_orderlist:
@@ -799,9 +819,11 @@ class ResourceUserTests(BaseCase):
         self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
       
     def test_view_group_gallery(self):
+        #TODO: find out if it should be 'Group' or 'Team' a gallery is supposed to belong to
         pass
       
     def test_view_group_galleries(self):
+        #TODO: find out if it should be 'Group' or 'Team' a gallery is supposed to belong to
         pass
     
     def test_narrow_user_gallery_owner(self):
@@ -911,7 +933,7 @@ class ResourceUserTests(BaseCase):
         gallery.items.add(resource)
         
         # copy that resource to another gallery
-        # TODO: we might want to switch to a view name without a dot?
+        # TODO: we might want to switch to a view name without a dot? Seems those will be deprecated soon.
         self._post('resource.copy', pk=resource.pk, gallery=galleries[1].pk) 
         self.assertEqual(response.status_code, 200)
         self.assertEqual('url', 'url')# TODO: where do we want to go?
@@ -965,6 +987,38 @@ class ResourceUserTests(BaseCase):
         response = self._post('gallery.delete', gallery_id=gallery.id)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+
+    # Gallery RSS tests
+    def test_gallery_rss_feed(self):
+        """Make sure that every gallery has the correct rss feed"""
+        # TODO: currently gets stuck at line 275 in resource.views.py - what does 'object' stand for?
+        # Should feeds be dependent on the user that views them? is_visible() in line 277 causes this.
+        # Also causes that people get different feeds depending on being logged out or in...
+        # Would this confuse feed readers?
+        # What's with the additional search term and ordering? Those are currently appended to the rss url
+        galleries = Gallery.objects.all()
+        
+        resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
+        response = self._get('resources_rss')
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        pos = 0
+        for resource in resources:
+            name = resource.name
+            link = resource.get_absolute_url()
+            name_pos = response.content.find(str(name), pos)
+            link_pos = response.content.find(str(link), name_pos)
+            self.assertGreater(link_pos, -1)
+            pos = link_pos
+        #TODO: 
+        #test for search terms and ordering and:
+        #response = self._get('resources_rss', category=category)
+        #response = self._get('resources_rss', username=username)
+        #response = self._get('resources_rss', username=username, category=category)
+        #response = self._get('resources_rss', username=username, galleries=gallery.slug)
+        #response = self._get('resources_rss', username=username, galleries=gallery.slug, category=category)
+        pass
+
+        
 
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
@@ -1151,10 +1205,8 @@ class ResourceAnonTests(BaseCase):
             
 # Required tests:
 #
-# TODO
-# filesize_item: What's this? XXX
-# license_on_item
-# license_on_gallery_item
+# TODO:
+# filesize_item: What's this?
 # narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
 # view_group_galleries
 # view_group_gallery
@@ -1166,6 +1218,8 @@ class ResourceAnonTests(BaseCase):
 # verified_flag
 #
 # STARTED / DONE(?)
+# license_on_gallery_item: started, inside test_view_global_gallery
+# license_on_item: started, inside test_view_someone_elses_public_item_detail
 # move_item_to_gallery: started
 # copy_item_to_gallery: started
 # search_galleries: started

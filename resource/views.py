@@ -281,7 +281,7 @@ class GalleryFeed(CategoryFeed, GalleryList):
         return item.name
 
     def item_description(self, item):
-        return item.desc
+        return item.description()
 
     def item_guid(self, item):
         return '#'+str(item.pk)

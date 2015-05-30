@@ -819,8 +819,32 @@ class ResourceUserTests(BaseCase):
         self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
       
     def test_view_group_gallery(self):
-        #TODO: find out if it should be 'Group' or 'Team' a gallery is supposed to belong to
-        pass
+        """Look at a gallery belonging to a group of users (team in UI),
+        not being a member of that group and not the owner of the gallery"""
+        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
+                                   .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0,
+                           "Create a group gallery where %s is not a member, and not the owner" % self.user)
+        gallery = galleries[0]
+        #add a resource to that gallery, so it will show up
+        resource_owner = gallery.group.user_set.all()[0]
+        resources = Resource.objects.filter(user=resource_owner, published=True)
+        self.assertGreater(resources.count(), 0,
+                           "Add a public resource for user %s" % resource_owner)
+        resource = resources[0]
+        gallery.items.add(resource)
+        
+        # where should the team/group gallery url live? In the creator's username namespace?
+        # currently galleries seem to vanish from UI as soon as they are added to a group
+        response = self._get('resources', galleries=gallery.slug, username=gallery.user.username)
+        
+        # resulting in this gallery containing far too many items:
+        #print "items: ", gallery.items.all() # 1
+        #print response.context['object_list'] # 3
+        #print response  # this is - despite the correct link - the all uploads gallery.
+        
+        self.assertEqual(response.context['object_list'].count(), gallery.items.count())
+        
       
     def test_view_group_galleries(self):
         #TODO: find out if it should be 'Group' or 'Team' a gallery is supposed to belong to
@@ -910,10 +934,17 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(galleries[1][0], resource)# cached?
     
     def test_move_item_to_gallery_not_gal_owner(self):
-        """Make sure that we cannot move items into a gallery which isn't ours"""
+        """Make sure that we cannot move items into a gallery which isn't ours,
+        and not a gallery for a group we're in"""
         # TODO: copy/paste/adapt previous method
         pass
       
+    def test_move_item_to_group_gallery_member(self):
+        """Make sure that we can move items into a group gallery 
+        if we are a member (not owner) of the group"""
+        # TODO: copy/paste/adapt previous method
+        pass
+    
     def test_move_item_to_gallery_not_item_owner(self):
         """Make sure that we cannot move items around that don't belong to us"""
         # TODO: copy/paste/adapt previous method
@@ -942,7 +973,14 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(galleries[1][0], resource)# cached?
         
     def test_copy_item_to_gallery_not_gal_owner(self):
-        """Make sure that we cannot copy items into a gallery which isn't ours"""
+        """Make sure that we cannot copy items into a gallery which isn't ours, 
+        and not a gallery for a group we're in"""
+        # TODO: copy/paste/adapt previous method
+        pass
+      
+    def test_copy_item_to_group_gallery_member(self):
+        """Make sure that we can copy items into a group gallery 
+        if we are a member (not owner) of the group"""
         # TODO: copy/paste/adapt previous method
         pass
       

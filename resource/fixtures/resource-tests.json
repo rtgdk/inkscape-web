@@ -352,7 +352,7 @@
   "fields": {
     "user": 2,
     "group": 2,
-    "name": "Gallery for Group",
+    "name": "Gallery Three for Group",
     "slug": "gallery-group"
   },
   "model": "resource.gallery",
@@ -366,5 +366,15 @@
   },
   "model": "resource.gallery",
   "pk": 4
+},
+{
+  "fields": {
+    "user": 2,
+    "group": 1,
+    "name": "Gallery Five for Group",
+    "slug": "gallery-five-group"
+  },
+  "model": "resource.gallery",
+  "pk": 5
 }
 ]

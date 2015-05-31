@@ -691,8 +691,8 @@ class ResourceUserTests(BaseCase):
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
         # seems the global gallery doesn't use the standard ordering for Resources (-created), but orders by id
-        # (which on live should result in the same ordering...)
-        # maybe caused by _default_manager in pile/views.py, line 177 ?
+        # but it should be ordered by -liked by default, see resource/views.py:238
+        # For the list of ordering options of which the first is the default.
         resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
@@ -834,8 +834,9 @@ class ResourceUserTests(BaseCase):
         resource = resources[0]
         gallery.items.add(resource)
         
-        # where should the team/group gallery url live? In the creator's username namespace?
-        # currently galleries seem to vanish from UI as soon as they are added to a group
+        # Team gallries should be linked by their team's name plus the gallery slug
+        # so that their url doesn't link to their original author's user account.
+        # XXX fix this here
         response = self._get('resources', galleries=gallery.slug, username=gallery.user.username)
         
         # resulting in this gallery containing far too many items:

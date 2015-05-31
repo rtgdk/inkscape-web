@@ -8,6 +8,8 @@ class AutoBreadcrumbMiddleware(object):
     to find the parent 
     """
     def process_template_response(self, request, response):
+        if not hasattr(response, 'context_data'):
+            return response
         if 'breadcrumbs' not in response.context_data:
             d = response.context_data
             if hasattr(d, 'dicts'):

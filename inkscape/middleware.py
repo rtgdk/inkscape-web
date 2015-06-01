@@ -1,4 +1,5 @@
 
+from django.views.generic import UpdateView, CreateView
 from django.utils.translation import ugettext_lazy as _
 
 class AutoBreadcrumbMiddleware(object):
@@ -11,25 +12,35 @@ class AutoBreadcrumbMiddleware(object):
         if not hasattr(response, 'context_data'):
             return response
         if 'breadcrumbs' not in response.context_data:
-            d = response.context_data
+            d = response.context_data.copy()
             if hasattr(d, 'dicts'):
                 d = {}
-                for dic in response.context_data.dicts:
+                for dic in d.pop('dicts'):
                     d.update(dic)
+            if not d.get('action', None) and 'view' in d:
+                d['action'] = self._action(d['view'])
             response.context_data['breadcrumbs'] = self._crumbs(**d)
         return response
 
     def _crumbs(self, object=None, parent=None, action=None, **kwargs):
         yield ('/', _('Home'))
-        object = object or parent
-        if object is not None:
-            for obj in self._ancestors(object):
+        target = object if object is not None else parent
+        if target is not None:
+            for obj in self._ancestors(target):
                 if hasattr(obj, 'get_absolute_url'):
                     yield (obj.get_absolute_url(), self._name(obj))
                 else:
                     yield (None, self._name(obj))
-        if action:
+
+        if action is not None:
             yield (None, _(action))
+
+    def _action(self, view):
+        if isinstance(view, UpdateView):
+            return _("Edit")
+        elif isinstance(view, CreateView):
+            return _("New")
+        return None
 
     def _ancestors(self, obj):
         if hasattr(obj, 'parent') and obj.parent:

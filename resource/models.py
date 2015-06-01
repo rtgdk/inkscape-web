@@ -112,12 +112,22 @@ class Tag(Model):
 
 
 class ResourceManager(Manager):
+    def breadcrumb_name(self):
+        return _("InkSpaces")
+
     @property
     def parent(self):
-        return self.get_queryset()[0].user
+        if 'user__exact' in self.core_filters: 
+            return self.core_filters['user__exact']
+        try:
+            return self.get_queryset().latest('published').user
+        except Resource.DoesNotExist:
+            return None
 
     def get_absolute_url(self):
-        return reverse('resources', kwargs={'username': self.parent.username})
+        if self.parent:
+            return reverse('resources', kwargs={'username': self.parent.username})
+        return reverse('resources')
 
     def for_user(self, user):
         return self.get_queryset().filter(Q(user=user.id) | Q(published=True))
@@ -503,7 +513,9 @@ class Gallery(Model):
 
     @property
     def parent(self):
-        return self.group if self.group else self.user.resources
+        if self.group:
+            return self.group
+        return self.user.resources
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()

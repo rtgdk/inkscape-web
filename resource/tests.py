@@ -160,7 +160,6 @@ class ResourceTests(BaseCase):
         #self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
       
     def test_mime_type(self):
-        #currently seems to think that every image that isn't gif/jpg/png is automatically svg, probably cause for xcf crash (image/xcf)
         pass
       
 class ResourceUserTests(BaseCase):
@@ -205,14 +204,9 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
+        # can't increment view number on my own items
         self.assertEqual(response.context['object'].viewed, resource.viewed)
-        self.assertEqual(resources.all()[0].viewed, 0)
-        # just a suggestion, could also be 1 (but only counting
-        # views by the owner is somehow weird)
-        
-        # number of views should only be incremented once per user session
-        response = self._get('resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].viewed, 0)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 0)
     
     def test_view_someone_elses_public_item_detail(self):
         """Testing item detail view and template for someone elses public resource:
@@ -231,11 +225,11 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
         self.assertContains(response, resource.license.value)
-        self.assertEqual(resources.all()[0].viewed, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
         
         # number of views should only be incremented once per user session
         response = self._get('resource', pk=resource.pk)
-        self.assertEqual(resources.all()[0].viewed, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
 
     def test_view_someone_elses_unpublished_item_detail(self):
         """Testing item detail view for someone elses non-public resource: 
@@ -255,7 +249,8 @@ class ResourceUserTests(BaseCase):
         """Check if the text of a textfile is displayed on item view page and its readmore is not"""
         # specific text file resource, description contains a 'Readmore' marker: [[...]]
         resource = Resource.objects.get(pk=2) 
-
+        self.assertEqual(resource.desc, "Big description for Resource Two[[...]]And Some More",
+                        "Someone changed the description text of resource 2, please change back to \"Big description for Resource Two[[...]]And Some More\"")
         response = self._get('resource', pk=resource.pk)
         self.assertContains(response, 'Text File Content')
         self.assertContains(response, 'Big description for Resource Two')
@@ -265,8 +260,8 @@ class ResourceUserTests(BaseCase):
     # Resource file Full Screen View tests:
     def test_public_resource_full_screen(self):
         """Check that a resource can be viewed in full screen, 
-        and that fullview number is incremented when a user with 
-        a new session visits a published item in 'full screen glory'"""
+        and that fullview number is incremented when a user visits
+        a published item in 'full screen glory'"""
         resources = Resource.objects.filter(published=True, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
@@ -276,12 +271,13 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
-        # The full view counter is untracked so another request will inc too.
+        # The full view counter is untracked so every request will increment the counter
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
         
     def test_own_unpublished_resource_full_screen(self):
-        """Check that we can look at our unpublished resource in full screen mode"""
+        """Check that we can look at our unpublished resource in full screen mode,
+        and that fullviews aren't counted as long as the resource isn't public"""
         resources = Resource.objects.filter(published=False, user=self.user, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource with 0 fullscreen views for user %s" % self.user)
@@ -289,13 +285,12 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        #resources = Resource.objects.filter(pk=resource.pk)
-        self.assertEqual(resources.all()[0].fullview, 0) # just a suggestion, as only the owner would add to views number
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
 
     def test_someone_elses_unpublished_resource_full_screen(self):
         """Make sure that fullscreen view for unpublished items 
         doesn't work if they are not ours. Also make sure this 
-        doesn't increment the view counter"""
+        doesn't increment the fullview counter"""
         resources = Resource.objects.filter(published=False, fullview=0).exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource which doesn't belong to user %s and has 0 full screen views" % self.user)
@@ -308,7 +303,9 @@ class ResourceUserTests(BaseCase):
     # Readme test:
     def test_readme(self):
         """Download the description as a readme file"""
-        resource = Resource.objects.all()[0]
+        resource = Resource.objects.get(pk=2)
+        self.assertNotEqual(resource.desc.find("[[...]]"), -1,
+                            "Please add a readmore marker ([[...]] back to the description of resource 2")
         response = self._get('resource.readme', pk=resource.pk)
         self.assertContains(response, resource.desc)
     
@@ -325,9 +322,9 @@ class ResourceUserTests(BaseCase):
             "Create a gallery for user %s" % self.user)
         gallery = galleries[0]
         response = self._get('resource.upload', gallery_id=gallery.pk)
-        self.assertEqual(response.context['gallery'], gallery)
         self.assertEqual(response.status_code, 200)
-        #self.assertContains(response, "name=\"gallery_id\" value=\"%d\"" % gallery.pk)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
 
     def test_submit_gallery_failure_GET(self):
         """Test when no permission to submit exists"""
@@ -339,16 +336,18 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
 
     def test_submit_group_gallery_GET(self):
-        """Test the GET when a gallery is group based"""
+        """Test the GET when a gallery is group based, 
+        and the user is (only) a member of the group"""
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0,
-            "Create a group gallery for user %s" % self.user)
+            "Create a group gallery where the user %s is a member, but not owner of the gallery" % self.user)
         gallery = galleries[0]
         
         response = self._get('resource.upload', gallery_id=gallery.pk)
-        self.assertEqual(response.context['gallery'], gallery)
         self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
 
     def test_submit_item_POST(self):
         """Tests the POST view and template for uploading a new resource file"""
@@ -361,7 +360,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
 
     def test_submit_gallery_item_POST(self):
-        """Test the POST when a gallery is selected"""
+        """Test the POST into my own gallery when a gallery is selected"""
         galleries = Gallery.objects.filter(user=self.user)
         self.assertGreater(galleries.count(), 0,
             "Create a gallery for user %s" % self.user)
@@ -405,24 +404,20 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(Resource.objects.count(), num)
 
     def test_submit_group_gallery(self):
-        """Test the POST when a gallery is group based"""
+        """Test the POST when a gallery is group based, 
+        and the user is member of the group, but not owner of the gallery"""
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0,
-            "Create a group gallery for user %s" % self.user)
+            "Create a group gallery where user %s is group member, but not gallery owner" % self.user)
         gallery = galleries[0]
         num = Resource.objects.count()
-        
-        response = self._get('resource.upload', gallery_id=gallery.pk,
-            data=self.data)
-        self.assertEqual(response.status_code, 200)
-        # Gallery is only filled on GET, POST just redirects
-        self.assertEqual(response.context['gallery'], gallery)
 
         response = self._post('resource.upload', gallery_id=gallery.pk,
             data=self.data)
+        self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.count(), num + 1)
-        self.assertEqual(response.context['object'].gallery, gallery) 
+        self.assertEqual(response.context['object'].gallery, gallery)
         
     def test_drop_item_POST(self):
         """Drag and drop file (ajax request)"""
@@ -463,61 +458,63 @@ class ResourceUserTests(BaseCase):
         num = Resource.objects.count()
         
         response = self._post('resource.upload', data=self.data)
-        self.assertEqual(Resource.objects.count(), num)
         self.assertEqual(response.status_code, 200)
         self.assertIsInstance(response.context['form'], ResourceFileForm)
         self.assertFormError(response, 'form', 'license', 'This is not an acceptable license for this category')
+        self.assertEqual(Resource.objects.count(), num)
     
     # Resource Like tests:
     def test_like_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else"""
-        resources = Resource.objects.exclude(user=self.user)
+        resources = Resource.objects.exclude(user=self.user).filter(liked=0)
         self.assertGreater(resources.count(), 0,
             "Create a resource which doesn't belong to user %s" % self.user)
+        resource = resources[0]
 
-        num_likes = resources[0].liked
-
-        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        response = self._get('resource.like', pk=resource.pk, like='+')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources[0].liked, num_likes + 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).liked, 1)
         
-        response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertEqual(resources[0].liked, num_likes + 1)
+        # try a second time, should not increment
+        response = self._get('resource.like', pk=resource.pk, like='+')
+        self.assertEqual(Resource.objects.get(pk=resource.pk).liked, 1)
 
-        response = self._get('resource.like', pk=resources[0].pk, like='-')
+        response = self._get('resource.like', pk=resource.pk, like='-')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources[0].liked, num_likes)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).liked, 0)
         
-        # and a second time, for good measure
-        response = self._get('resource.like', pk=resources[0].pk, like='-')
+        # and a second time, for good measure, shouldn't change anything
+        response = self._get('resource.like', pk=resource.pk, like='-')
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(resources[0].liked, num_likes)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).liked, 0)
         
     def test_like_unpublished_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else, and is not public
         - should fail and not change anything in db"""
         resources = Resource.objects.filter(published=False)\
-            .exclude(user=self.user, liked__lt=100)
+            .exclude(user=self.user, liked=0)
         self.assertGreater(resources.count(), 0,
-            "Create an unpublished resource which doesn't belong to user %s" % self.user)
+            "Create an unpublished resource with no likes which doesn't belong to user %s" % self.user)
 
-        self.assertNotEqual(resources[0].liked, 1)
         response = self._get('resource.like', pk=resources[0].pk, like='+', follow=False)
-        self.assertEqual(response.status_code, 302)
-
-        # This is a sucessful +like so we expect it to recalculate.
-        self.assertEqual(resources[0].liked, 1)
+        # This should not increment the counter
+        self.assertEqual(resources[0].liked, 0)
+        # but instead give no info that the file even exists
+        self.assertEqual(response.status_code, 404)
         
     def test_like_item_being_owner(self):
         """Like a gallery item which belongs to me should fail"""
-        resources = Resource.objects.filter(user=self.user)
+        # use the fact that counter would start with 1, if liking would work
+        resources = Resource.objects.filter(user=self.user, liked__gt=1)
         self.assertGreater(resources.count(), 0,
             "Create a resource for user %s" % self.user)
 
-        num_likes = resources[0].liked    
-        response = self._get('resource.like', pk=resources[0].pk, like='+')
+        resource = resources[0]
+        num_likes = resource.liked
+
+        response = self._get('resource.like', pk=resource.pk, like='+')
         self.assertEqual(response.status_code, 403)
-        self.assertEqual(resources[0].liked, num_likes)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).liked, num_likes)
 
     # Resource Publish tests:
     def test_publish_item(self):
@@ -545,7 +542,7 @@ class ResourceUserTests(BaseCase):
             "Create an unpublished resource which does not belong to user %s" % self.user)
 
         response = self._get('publish_resource', pk=resource.pk)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 403) # or 404?
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
     # Resource Download tests:
@@ -581,7 +578,7 @@ class ResourceUserTests(BaseCase):
 
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, 'Can not find file &#39;%s&#39;' % (resource.filename() + 'I_don_t_exist'))
-        self.assertEqual(response.url, resource.get_absolute_url())
+        self.assertContains(response, resource.description())
 
         resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 0)
@@ -687,13 +684,13 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
-    # Gallery tests
+    # Gallery viewing and sorting tests
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
         # seems the global gallery doesn't use the standard ordering for Resources (-created), but orders by id
         # but it should be ordered by -liked by default, see resource/views.py:238
         # For the list of ordering options of which the first is the default.
-        resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
+        resources = Resource.objects.filter(published=True).order_by('-liked')# pk for no error
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
         
@@ -749,7 +746,7 @@ class ResourceUserTests(BaseCase):
         baseresponse = self._get('resources')
         orderlist = [ordering[0] for ordering in GalleryList.orders]
         self.assertGreater(len(orderlist), 3,
-                           "Choose some ordering for your gallery")
+                           "Create some possible orderings for your gallery")
         rev_orderlist = [o[1:] if o[0]=='-' else '-' + o for o in orderlist]
         
         #the generator nature of 'orders' in template context doesn't allow us 
@@ -759,23 +756,8 @@ class ResourceUserTests(BaseCase):
         for rev_order in rev_orderlist:
             self.assertContains(baseresponse, rev_order)
             
-        #normal order
-        for order in orderlist:
-            ordered = resources.order_by(order)
-            response = self.client.get(reverse('resources') + '?order=' + order)
-            self.assertEqual(response.status_code, 200)
-            #conveniently respects ordering when checking for equality
-            self.assertEqual(list(response.context['object_list']), list(ordered))
-            
-            #objects in html in correct order of appearance?
-            for i in range(1, len(ordered)):
-                first_name = ordered[i-1].name
-                second_name = ordered[i].name
-                self.assertGreater(response.content.find(str(second_name)),
-                                  response.content.find(str(first_name)))
-            
-        #reverse order
-        for order in rev_orderlist:
+        #test normal and reverse order
+        for order in orderlist + rev_orderlist:
             ordered = resources.order_by(order)
             response = self.client.get(reverse('resources') + '?order=' + order)
             self.assertEqual(response.status_code, 200)
@@ -797,8 +779,8 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('resources', username=self.user.username)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, resources[0].name)
-        self.assertContains(response, resources[1].name)
+        for resource in resources:
+            self.assertContains(response, resource.name)
         self.assertContains(response, self.user.username)
         self.assertEqual(response.context['object_list'].count(), resources.count())
         self.assertContains(response, '<form method="POST" action="' + reverse('new_gallery'))
@@ -812,8 +794,8 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('resources', username=owner.username)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, resources[0].name)
-        self.assertContains(response, resources[1].name)
+        for resource in resources:
+            self.assertContains(response, resource.name)
         self.assertContains(response, owner.username)
         self.assertEqual(response.context['object_list'].count(), resources.count())
         self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
@@ -829,27 +811,17 @@ class ResourceUserTests(BaseCase):
         #add a resource to that gallery, so it will show up
         resource_owner = gallery.group.user_set.all()[0]
         resources = Resource.objects.filter(user=resource_owner, published=True)
-        self.assertGreater(resources.count(), 0,
+        self.assertGreater(resources.count(), 1,
                            "Add a public resource for user %s" % resource_owner)
-        resource = resources[0]
-        gallery.items.add(resource)
+        gallery.items.add(resources[0], resources[1])
         
-        # Team gallries should be linked by their team's name plus the gallery slug
+        # Group galleries should be linked by their team's name plus the gallery slug
         # so that their url doesn't link to their original author's user account.
-        # XXX fix this here
-        response = self._get('resources', galleries=gallery.slug, username=gallery.user.username)
-        
-        # resulting in this gallery containing far too many items:
-        #print "items: ", gallery.items.all() # 1
-        #print response.context['object_list'] # 3
-        #print response  # this is - despite the correct link - the all uploads gallery.
-        
-        self.assertEqual(response.context['object_list'].count(), gallery.items.count())
-        
-      
-    def test_view_group_galleries(self):
-        #TODO: find out if it should be 'Group' or 'Team' a gallery is supposed to belong to
-        pass
+        response = self._get('resources', galleries=gallery.slug, teamname=gallery.group.team.slug)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(gallery.items.count(), response.context['object_list'].count())
+        for item in gallery:
+            self.assertContains(response, item.name)
     
     def test_narrow_user_gallery_owner(self):
         """make sure we can choose to see only the resources 
@@ -875,8 +847,7 @@ class ResourceUserTests(BaseCase):
                 self.assertContains(response, item.name)
     
     def test_narrow_user_gallery_not_owner(self):
-        """make sure we can choose to see only the resources 
-        we are allowed to see in a stranger's gallery"""
+        """make sure we choose a category in a stranger's gallery"""
         owner = User.objects.get(pk=2)
         resources = Resource.objects.filter(user=owner, published=True)
         self.assertGreater(resources.count(), 2,
@@ -898,7 +869,8 @@ class ResourceUserTests(BaseCase):
                 self.assertIn(item, response.context['object_list'])
                 self.assertContains(response, item.name)
     
-    def test_gallery_search(self):
+    # Gallery Search tests
+    def test_global_gallery_search(self):
         """Tests the search functionality in galleries"""
         # TODO: update search index somehow first, if that's the reason why it doesn't find anything 
         #       and find out which fields are supposed to be searched
@@ -909,17 +881,31 @@ class ResourceUserTests(BaseCase):
         
         response = self._get('resources', get_param=get_param)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['object_list'], resources)
+        self.assertContains(response, 'description')
+        self.assertContains(response, 'Some')
+        self.assertNotContains(response, 'Eight')
+        #self.assertEqual(response.context['object_list'], resources)
         self.fail('Finish me!')
       
+    def test_user_gallery_search(self):
+        """Test that we can search for a user's items in that user's global gallery"""
+        #TODO: copy/paste/adapt previous method
+        pass
+      
+    def test_specific_gallery_search(self):
+        """Test that we can search items in a specific gallery (not global or all items for user)"""
+        #TODO: copy/paste/adapt previous method
+        pass
+      
+    # Gallery Move and Copy resources tests
     def test_move_item_to_gallery(self):
         """Make sure an item can be moved from one gallery to another by its owner"""
-        # prepare galleries
+        # prepare gallery
         galleries = self.user.galleries.all()
         self.assertGreater(galleries.count(), 1)
         gallery = galleries[0]
         
-        # add a resource which belongs to us to a gallery
+        # add a resource which belongs to us to the gallery
         resources = Resource.objects.filter(user=self.user)
         self.assertGreater(resources.count(), 0)
         resource = resources[0]
@@ -990,6 +976,16 @@ class ResourceUserTests(BaseCase):
         # TODO: copy/paste/adapt previous method
         pass
     
+    # Gallery Edit tests
+    #TODO: flesh out, get and post.
+    def test_edit_my_gallery(self):
+        pass
+    def test_edit_group_gallery(self):
+        pass
+    def test_edit_unrelated_gallery(self):
+        pass
+    
+    # Gallery deletion tests
     def test_gallery_deletion_own_gallery(self):
         """Test if galleries can be deleted by owner"""
         galleries = Gallery.objects.filter(user=self.user)
@@ -1003,7 +999,7 @@ class ResourceUserTests(BaseCase):
             Gallery.objects.get(pk=gallery.pk)
 
     def test_gallery_deletion_group_gallery(self):
-        """Make sure galleries can't be deleted by group member"""
+        """Make sure galleries can be deleted by group member"""
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                                                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0, 
@@ -1011,11 +1007,11 @@ class ResourceUserTests(BaseCase):
         gallery = galleries[0]
 
         response = self._post('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        with self.assertNotRaises(Gallery.DoesNotExist):
+        self.assertEqual(response.status_code, 200)
+        with self.assertRaises(Gallery.DoesNotExist):
             Gallery.objects.get(pk=gallery.pk)
       
-    def test_gallery_deletion_group_gallery(self):
+    def test_gallery_deletion_group_gallery_non_member(self):
         """Make sure galleries can't be deleted by someone unrelated to the gallery"""
         galleries = Gallery.objects.exclude(group__in=self.user.groups.all())\
                                                       .exclude(user=self.user)
@@ -1057,14 +1053,22 @@ class ResourceUserTests(BaseCase):
         #response = self._get('resources_rss', username=username, galleries=gallery.slug, category=category)
         pass
 
-        
+    #Breadcrumbs tests
+    def test_breadcrumbs(self):
+        """Make sure that breadcrumbs link to the correct parents"""
+        #TODO: flesh out...
+        # get all resources which are ours or public
+        # make sure that the breadcrumbs contain gallery name, username, Home
+        # get all public galleries and make sure that their breadcrumbs go to username or teamname, Home
+        # get user gallery and global gallery and make sure their breadcrumbs contain only username, Home or Home
+        pass
 
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     
     def test_view_public_item_detail_anon(self):
         """Testing item detail view and template for public items,
-        and make sure the view counter is correctly incremented"""
+        and make sure the view counter is correctly incremented (once per session)"""
         #make sure the file is public
         resources = Resource.objects.filter(published=True)
         self.assertGreater(resources.count(), 0,
@@ -1086,9 +1090,9 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
     
     def test_public_resource_full_screen_anon(self):
-        """Check that a resource can be viewed in full screen, 
-        and that fullview number is incremented when an 
-        anonymous user with a new session visits a published item"""
+        """Check that an anonymous user can look at a
+        resource in full screen, and that fullview number is incremented
+        every time"""
         resources = Resource.objects.filter(published=True, fullview=0)
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
@@ -1149,6 +1153,10 @@ class ResourceAnonTests(BaseCase):
         self.assertTemplateUsed(response, 'registration/login.html')
         self.assertEqual(resources[0].liked, num_likes)
         
+        response = self._get('resource.like', pk=resources[0].pk, like='-')
+        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertEqual(resources[0].liked, num_likes)
+        
     def test_like_unpublished_item_anon(self):
         """Like an unpublished gallery item when logged out should fail"""
         resources = Resource.objects.filter(published=False)
@@ -1157,7 +1165,7 @@ class ResourceAnonTests(BaseCase):
         num_likes = resources[0].liked
         
         response = self._get('resource.like', pk=resources[0].pk, like='+')
-        self.assertTemplateUsed(response, 'registration/login.html')
+        self.assertTemplateUsed(response, 'registration/login.html')# or 404?
         self.assertEqual(resources[0].liked, num_likes)
     
     def test_publish_item_anon(self):
@@ -1170,6 +1178,7 @@ class ResourceAnonTests(BaseCase):
 
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
+        self.assertEqual(response.status_code, 403) # or 404?
     
     def test_download_anon(self):
         """Download the actual file"""
@@ -1185,9 +1194,15 @@ class ResourceAnonTests(BaseCase):
 
         resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 1)
+        
+        # every download should increment the counter
+        response = self._get('download_resource', pk=resource.pk,
+                       fn=resource.filename(), follow=False)
+        resource = Resource.objects.get(pk=resource.pk)
+        self.assertEqual(resource.downed, 2)
 
     def test_edit_item_GET_anon(self):
-        """Test that we can't access the edit form for our items when we are logged out"""
+        """Test that we can't access the edit form for items when we are logged out"""
         resources = Resource.objects.all()
         self.assertGreater(resources.count(), 0,
             "Create a resource!")
@@ -1232,7 +1247,7 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.context['object_list'].count(), resources.count())
    
     def test_gallery_deletion_anon(self):
-        """Make sure galleries can't be deleted by group member"""
+        """Make sure galleries can't be deleted AnonymousUser"""
         galleries = Gallery.objects.all()
         self.assertGreater(galleries.count(), 0, 
                            "Create a gallery")

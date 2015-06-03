@@ -101,7 +101,6 @@ TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
 )
 
 MIDDLEWARE_CLASSES = (
-    'django.middleware.cache.UpdateCacheMiddleware',
     'inkscape.middleware.AutoBreadcrumbMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
@@ -117,8 +116,14 @@ MIDDLEWARE_CLASSES = (
     'social_auth.middleware.SocialAuthExceptionMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'person.middleware.SetLastVisitMiddleware',
-    'django.middleware.cache.FetchFromCacheMiddleware',
 )
+
+# Add caching middleware only if we're live.
+if not DEBUG:
+    MIDDLEWARE_CLASSES = \
+      ('django.middleware.cache.UpdateCacheMiddleware',) + \
+      MIDDLEWARE_CLASSES + \
+      ('django.middleware.cache.FetchFromCacheMiddleware',)
 
 ROOT_URLCONF = 'inkscape.urls'
 

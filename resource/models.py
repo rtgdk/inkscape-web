@@ -326,7 +326,7 @@ class ResourceFile(Resource):
 
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
 
-    license    = ForeignKey(License, limit_choices_to={'visible':True}, **null)
+    license    = ForeignKey(License, limit_choices_to={'visible': True}, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))

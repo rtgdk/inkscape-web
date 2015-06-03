@@ -25,6 +25,14 @@ from ajax_select.admin import AjaxSelectAdmin
 from .forms import ModelForm
 from .models import *
 
+class CategoryAdmin(ModelAdmin):
+    list_display = ('name', 'visible')
+    list_filter = ('visible',)
+    search_fields = ('name',)
+
+site.register(License, CategoryAdmin)
+site.register(Category, CategoryAdmin)
+
 site.register(License)
 site.register(Category)
 site.register(ResourceFile)

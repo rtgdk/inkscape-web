@@ -903,22 +903,22 @@ class ResourceUserTests(BaseCase):
         # prepare gallery
         galleries = self.user.galleries.all()
         self.assertGreater(galleries.count(), 1)
-        gallery = galleries[0]
+        src_gallery = galleries[0]
+        target_gallery = galleries[1]
         
         # add a resource which belongs to us to the gallery
         resources = Resource.objects.filter(user=self.user)
         self.assertGreater(resources.count(), 0)
         resource = resources[0]
-        gallery.items.add(resource)
+        src_gallery.items.add(resource)
 
         # move that resource to another gallery
-        # TODO: we might want to switch to a view name without a dot?
-        self._post('resource.move', pk=resource.pk, gallery=galleries[1].pk)
+        self._post('resource.move', pk=resource.pk, target=target_gallery.pk, source=src_gallery.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('url', 'url')# TODO: where do we want to go?
-        self.assertEqual(gallery.items.count(), 0)# cached?
-        self.assertEqual(galleries[1].items.count(), 1)# cached?
-        self.assertEqual(galleries[1][0], resource)# cached?
+        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
+        self.assertEqual(Gallery.objects.get(pk=source_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
     
     def test_move_item_to_gallery_not_gal_owner(self):
         """Make sure that we cannot move items into a gallery which isn't ours,
@@ -942,22 +942,22 @@ class ResourceUserTests(BaseCase):
         # prepare galleries
         galleries = self.user.galleries.all()
         self.assertGreater(galleries.count(), 1)
-        gallery = galleries[0]
+        src_gallery = galleries[0]
+        target_gallery = galleries[1]
         
         # add a resource which belongs to us to a gallery
         resources = Resource.objects.filter(user=self.user)
         self.assertGreater(resources.count(), 0)
         resource = resources[0]
-        gallery.items.add(resource)
+        src_gallery.items.add(resource)
         
         # copy that resource to another gallery
-        # TODO: we might want to switch to a view name without a dot? Seems those will be deprecated soon.
-        self._post('resource.copy', pk=resource.pk, gallery=galleries[1].pk) 
+        self._post('resource.copy', pk=resource.pk, target_gallery=target_gallery.pk) 
         self.assertEqual(response.status_code, 200)
-        self.assertEqual('url', 'url')# TODO: where do we want to go?
-        self.assertEqual(gallery.items.count(), 1)# cached?
-        self.assertEqual(galleries[1].items.count(), 1)# cached?
-        self.assertEqual(galleries[1][0], resource)# cached?
+        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
         
     def test_copy_item_to_gallery_not_gal_owner(self):
         """Make sure that we cannot copy items into a gallery which isn't ours, 
@@ -977,13 +977,65 @@ class ResourceUserTests(BaseCase):
         pass
     
     # Gallery Edit tests
-    #TODO: flesh out, get and post.
     def test_edit_my_gallery(self):
-        pass
+        """Make sure that we can change the name of our own gallery"""
+        galleries = self.user.galleries.filter(group=None)
+        self.assertGreater(galleries.count(), 0)
+        gallery = galleries[0]
+        oldname = gallery.name
+        
+        # check GET
+        response = self._get('gallery.edit', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], GalleryForm)
+        self.assertContains(response, gallery.name)
+
+        # check POST
+        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New Name")
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
+        self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
+
     def test_edit_group_gallery(self):
-        pass
+        """Make sure that group members can edit the name of a group 
+        gallery, if they did not create that gallery"""
+        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+                                           .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0)
+        gallery = galleries[0]
+        oldname = gallery.name
+        
+        # check GET
+        response = self._get('gallery.edit', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], GalleryForm)
+        self.assertContains(response, gallery.name)
+
+        # check POST
+        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, "New Name")
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
+        self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
+      
     def test_edit_unrelated_gallery(self):
-        pass
+        """Make sure that everyone unrelated to a 
+        gallery cannot edit it"""
+        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
+                                                       .exclude(user=self.user)
+        self.assertGreater(galleries.count(), 0)
+        gallery = galleries[0]
+        oldname = gallery.name
+        
+        # check GET
+        response = self._get('gallery.edit', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 403)
+
+        # check POST
+        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, oldname)
     
     # Gallery deletion tests
     def test_gallery_deletion_own_gallery(self):

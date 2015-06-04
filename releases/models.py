@@ -68,6 +68,8 @@ class Release(Model):
     def tabs(self):
         return list(set(specific.platform.root() for specific in self.platforms.all()))
 
+    def releases_list(self):
+        return list(Release.objects.all())
 
 class Platform(Model):
     """A list of all platforms we release to"""

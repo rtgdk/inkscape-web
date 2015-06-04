@@ -9,11 +9,6 @@
 
 <div id="shield" class="download">
   <div id="banners">
-    <ul id="releases">
-        <li><a href="../0.48"><b>0.48</b> Old Stable</a></li>
-        <li class="active"><a href="../0.91" ><b>0.91</b> Stable</a></li>
-        <li><a href="../0.92"><b>0.92</b> Development</a></li>
-    </ul>
     {% for tab in object.tabs %}
       <div {% if forloop.first %}class="current"{% endif %}>
         <div>
@@ -62,6 +57,35 @@
         </div>
       </div>
     {% endfor %}
+    {% if object.tabs|length == 0 %}
+        <div class="current">
+            <div>
+                <h1 id="nodata">No Data</h1>
+            </div>
+        </div>
+        <ul id="releases">
+            {% for release in object.releases_list %}
+                <li><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <ul id="releases">
+        {% for tab in object.tabs %}
+            {% if forloop.first %}
+                {% for releaseplatform in object.platforms.all %}
+                    {% if forloop.first %}
+                        {% for release in object.releases_list %}
+                            {% if releaseplatform.release.version == release.version %}
+                            <li class="active"><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
+                            {% else %}
+                            <li><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
+                            {% endif %}
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            {% endif %}
+        {% endfor %}
+    </ul>
   </div>
   <ul class="tabs">
     {% for tab in object.tabs %}

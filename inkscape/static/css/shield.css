@@ -272,4 +272,7 @@
 #shield.download #releases li a {
      font-size: 14px;
 }
+#shield h1#nodata{
+ 	color:#ccc; 
+}
 

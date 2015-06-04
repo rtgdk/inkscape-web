@@ -130,6 +130,20 @@ def like_resource(request, pk, like):
     item = get_object_or_404(Resource, pk=pk)
     if item.user.pk == request.user.pk:
         raise PermissionDenied()
+
+    if item.category.start_contest:
+        # Some different rules for contest categories
+        if item.category.start_contest < now():
+            messages.warning(request, _('You may not vote until the contest begins.'))
+            return redirect("resource", item_id)
+        if item.category.end_contest and item.category.end_contest > now():
+            messages.warning(request, _('You may not vote after the contest ends.'))
+            return redirect("resource", item_id)
+        votes = Vote.objects.filter(resource__category=item.category, voter=request.user)
+        if votes.count() > 0:
+            messages.warning(request, _('You may not vote for more than one item in this contest.'))
+            return redirect("resource", item_id)
+
     (obj, is_new) = item.votes.get_or_create(voter=request.user)
     if '+' not in like:
         obj.delete()

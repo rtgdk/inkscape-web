@@ -33,8 +33,6 @@ class CategoryAdmin(ModelAdmin):
 site.register(License, CategoryAdmin)
 site.register(Category, CategoryAdmin)
 
-site.register(License)
-site.register(Category)
 site.register(ResourceFile)
 site.register(Resource)
 site.register(ResourceMirror)

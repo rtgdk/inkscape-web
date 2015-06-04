@@ -92,6 +92,10 @@ class Category(Model):
     visible  = BooleanField(default=True)
     acceptable_licenses = ManyToManyField(License)
 
+    start_contest = DateField(blank=True, null=True,
+       help_text="If specified, this category will have special voting rules.")
+    end_contest = DateField(**null)
+
     def __str__(self):
         return str(self.name)
 

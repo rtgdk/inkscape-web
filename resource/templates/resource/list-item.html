@@ -1,7 +1,7 @@
 {% load i18n static %}
 
 {% if item.is_visible %}
-  <div class="galleryitem{% if not item.published %} unpublished{% endif %}">
+  <div class="galleryitem{% if not item.published %} unpublished{% endif %}{% if item.voted %} voted{% endif %}">
     <a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
     <p class="tags">

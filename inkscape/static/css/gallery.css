@@ -293,6 +293,9 @@ table.bioitem p a {
 .unpublished p a {
   background-color: transparent !important;
 }
+.voted {
+  border-color: #ffd42a;
+}
 .galleryitem .tags {
   width: 147px;
   visibility: hidden;

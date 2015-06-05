@@ -20,7 +20,7 @@ Forms for the gallery system
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 from django.utils.text import slugify
-from django.db.models import Model
+from django.db.models import Model, Q
 from django.utils.timezone import now
 
 from .models import *
@@ -66,6 +66,13 @@ class ResourceBaseForm(ModelForm):
             if field in self.fields and self.fields[field].widget is ClearableFileInput:
                 self.fields[field].widget = FileInput()
 
+        if 'category' in self.fields:
+            f = self.fields['category']
+            f.queryset = f.queryset.filter(visible=True).filter(
+                Q(start_contest__isnull=True) | (
+                Q(start_contest__lt=now().date()) &
+                Q(end_contest__gt=now().date()) ))
+
         if 'owner' in self.fields:
             f = self.fields['owner']
             f.to_python = self.ex_clean_owner(f.to_python)
@@ -87,6 +94,15 @@ class ResourceBaseForm(ModelForm):
             category = self.cleaned_data.get('category', None)
             if category and ret not in category.acceptable_licenses.all():
                 raise ValidationError(_("This is not an acceptable license for this category"))
+        return ret
+
+    def clean_category(self):
+        """Make sure the category voting rules are followed"""
+        ret = self.cleaned_data['category']
+        obj = self.instance
+        if (not obj or obj.category != ret) and ret.start_contest:
+            if obj.votes.all().count() > 0:
+                raise ValidationError(_("You can not assign an item with existing votes to a contest."))
         return ret
 
     def clean_mirror(self):

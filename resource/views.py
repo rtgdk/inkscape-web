@@ -139,7 +139,7 @@ def like_resource(request, pk, like):
         if item.category.end_contest and item.category.end_contest < now().date():
             messages.warning(request, _('You may not vote after the contest ends.'))
             return redirect("resource", pk)
-        votes = Vote.objects.filter(resource__category=item.category, voter=request.user)
+        votes = item.category.votes.filter(voter=request.user)
         if votes.count() > 0 and '+' in like:
             messages.warning(request, _('You may not vote for more than one item in this contest.'))
             return redirect("resource", pk)

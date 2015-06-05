@@ -16,7 +16,7 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect, HttpResponseNotFound
+from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
@@ -44,5 +44,4 @@ class ReleaseView(DetailView):
             self.kwargs['version'] = qs[0].version if qs.count() else 'none'
         context = super(ReleaseView, self).get_object()
         setattr(context, 'releases', Release.objects.all())
-        if Release:
-            return context
+        return context

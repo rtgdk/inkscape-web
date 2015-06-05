@@ -12,14 +12,14 @@ class AutoBreadcrumbMiddleware(object):
         if not hasattr(response, 'context_data'):
             return response
         if 'breadcrumbs' not in response.context_data:
-            d = response.context_data.copy()
-            if hasattr(d, 'dicts'):
-                d = {}
-                for dic in d.pop('dicts'):
-                    d.update(dic)
-            if not d.get('action', None) and 'view' in d:
-                d['action'] = self._action(d['view'])
-            response.context_data['breadcrumbs'] = self._crumbs(**d)
+            context = response.context_data
+            out = {}
+            if hasattr(context, 'dicts'):
+                for dic in context.dicts:
+                    out.update(dic)
+            if not out.get('action', None) and 'view' in out:
+                out['action'] = self._action(out['view'])
+            response.context_data['breadcrumbs'] = self._crumbs(**out)
         return response
 
     def _crumbs(self, object=None, parent=None, action=None, **kwargs):

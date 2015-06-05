@@ -9,10 +9,10 @@
 
 <div id="shield" class="download">
   <div id="banners">
-    {% for tab in object.tabs %}
+    {% for tab in object.release.tabs %}
       <div {% if forloop.first %}class="current"{% endif %}>
         <div>
-            {% for releaseplatform in object.platforms.all %}
+            {% for releaseplatform in object.release.platforms.all %}
               {% with releaseplatform.platform as platform %}
                     {% ifequal releaseplatform.platform.root.name tab.tab_name %}
                         {% ifchanged platform.parent %}
@@ -57,7 +57,7 @@
         </div>
       </div>
     {% endfor %}
-    {% if object.tabs|length == 0 %}
+    {% if object.release.tabs|length == 0 %}
     <div class="current">
         <div>
             <div id="question">?</div>
@@ -67,7 +67,7 @@
     {% endif %}
     <ul id="releases">
         {% for onerelease in object.releases.all %}
-            {% if release.version == onerelease.version %}
+            {% if object.release.version == onerelease.version %}
             <li class="active"><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
             {% else %}
             <li><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
@@ -76,7 +76,7 @@
     </ul>
   </div>
   <ul class="tabs">
-    {% for tab in object.tabs %}
+    {% for tab in object.release.tabs %}
       <li {% if forloop.first %}class="current"{% endif %}>
         <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
           {% if tab.tab_cat.icon %}

@@ -42,6 +42,6 @@ class ReleaseView(DetailView):
         if 'version' not in self.kwargs:
             qs = self.get_queryset()
             self.kwargs['version'] = qs[0].version if qs.count() else 'none'
-        context = super(ReleaseView, self).get_object()
-        setattr(context, 'releases', Release.objects.all())
+        context = {'release': super(ReleaseView, self).get_object()}
+        context['releases'] = Release.objects.all()
         return context

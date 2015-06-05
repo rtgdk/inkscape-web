@@ -17,11 +17,11 @@
                     {% ifequal releaseplatform.platform.root.name tab.tab_name %}
                         {% ifchanged platform.parent %}
                             {% ifchanged platform.root %}
-                            {% if platform.root.image %}
-                            <div style="background-image:url({{ platform.root.image.url }})">
-                            {% else %}
-                            <div>
-                            {% endif %}
+                                {% if platform.root.image %}
+                                <div style="background-image:url({{ platform.root.image.url }})">
+                                {% else %}
+                                <div>
+                                {% endif %}
                             {% else %}
                                 </ul>
                                 </li>
@@ -58,31 +58,19 @@
       </div>
     {% endfor %}
     {% if object.tabs|length == 0 %}
-        <div class="current">
-            <div>
-                <h1 id="nodata">No Data</h1>
-            </div>
+    <div class="current">
+        <div>
+            <div id="question">?</div>
+            <div id="nodata">No Data</div>
         </div>
-        <ul id="releases">
-            {% for release in object.releases_list %}
-                <li><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
-            {% endfor %}
-        </ul>
+    </div>
     {% endif %}
     <ul id="releases">
-        {% for tab in object.tabs %}
-            {% if forloop.first %}
-                {% for releaseplatform in object.platforms.all %}
-                    {% if forloop.first %}
-                        {% for release in object.releases_list %}
-                            {% if releaseplatform.release.version == release.version %}
-                            <li class="active"><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
-                            {% else %}
-                            <li><a href="{% url 'latest' %}{{ release.version }}"><b>{{ release.version }}</b> {{ release.codename }}</a></li>
-                            {% endif %}
-                        {% endfor %}
-                    {% endif %}
-                {% endfor %}
+        {% for onerelease in object.releases.all %}
+            {% if release.version == onerelease.version %}
+            <li class="active"><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
+            {% else %}
+            <li><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
             {% endif %}
         {% endfor %}
     </ul>

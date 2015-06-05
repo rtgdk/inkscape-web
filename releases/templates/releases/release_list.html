@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load sekizai_tags i18n %}
+
+{% block title %}Inkscape {{ object.version }}{% endblock %}
+
+{% block supercontent %}
+
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
+
+<div id="shield" class="download">
+  <div id="banners">
+    {% for release in object_list %}
+      <div {% if forloop.first %}class="current"{% endif %}>
+        <div>
+        <div id="nodata">{{ release.version }}</div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+  <ul class="tabs">
+    {% for release in object_list %}
+      <li {% if forloop.first %}class="current"{% endif %}>
+        <a href="#{{ tab.uuid }}"><strong>{{ release.version }}</strong>
+          {{ release.codename }}
+        </a>
+      </li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}

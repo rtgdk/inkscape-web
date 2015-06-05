@@ -272,7 +272,18 @@
 #shield.download #releases li a {
      font-size: 14px;
 }
-#shield h1#nodata{
- 	color:#ccc; 
+#shield div#question{
+ 	color:#2B2B2B;
+  float:left;
+  display:inline-block;
+  padding:30px 0px 0px 120px;; 
+  font-size:160px;
+  font-weight:bold;
 }
+#shield div#nodata{
+ 	color:#ccc;
+  font-size:30px;
+}
+
+
 

@@ -133,16 +133,16 @@ def like_resource(request, pk, like):
 
     if item.category.start_contest:
         # Some different rules for contest categories
-        if item.category.start_contest < now():
+        if item.category.start_contest > now().date():
             messages.warning(request, _('You may not vote until the contest begins.'))
-            return redirect("resource", item_id)
-        if item.category.end_contest and item.category.end_contest > now():
+            return redirect("resource", pk)
+        if item.category.end_contest and item.category.end_contest < now().date():
             messages.warning(request, _('You may not vote after the contest ends.'))
-            return redirect("resource", item_id)
-        votes = Vote.objects.filter(resource__category=item.category, voter=request.user)
-        if votes.count() > 0:
+            return redirect("resource", pk)
+        votes = item.category.votes.filter(voter=request.user)
+        if votes.count() > 0 and '+' in like:
             messages.warning(request, _('You may not vote for more than one item in this contest.'))
-            return redirect("resource", item_id)
+            return redirect("resource", pk)
 
     (obj, is_new) = item.votes.get_or_create(voter=request.user)
     if '+' not in like:

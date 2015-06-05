@@ -466,6 +466,9 @@ div#view a {
 div#download a {
   background-image: url("../images/icons/download.svg");
 }
+div#fav a {
+  background-image: url("../images/icons/fav.svg");
+}
 div#vote a {
   background-image: url("../images/icons/vote.svg");
 }

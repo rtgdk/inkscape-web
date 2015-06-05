@@ -100,6 +100,11 @@ class Category(Model):
         return str(self.name)
 
     @property
+    def votes(self):
+        """Returns a queryset of Votes for this category"""
+        return Vote.objects.filter(resource__category=self)
+
+    @property
     def value(self):
         return slugify(self.name)
 
@@ -171,8 +176,7 @@ class Resource(Model):
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
-    category  = ForeignKey(Category, related_name='items',
-                  limit_choices_to={'visible': True}, **null)
+    category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 
     created   = DateTimeField(**null) # Start of copyright, when 'published=True'

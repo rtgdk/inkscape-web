@@ -24,12 +24,21 @@
         {% endif %}
       {% endif %}
 
-      <div class="tog" id="vote"><a
+      {% if object.category.start_contest %}
+        <div class="tog" id="vote"><a
         {% if not request.user.id or request.user == object.user %}
-          title="{% trans "Favorites" %}" class="disabled"
-        {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Mark as a Favorite" %}"
-                         {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
+          title="{% trans "Votes" %}" class="disabled"
+        {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Vote for this!" %}"
+                         {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Withdraw my Vote" %}" class="remove"{% endif %}
           >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+      {% else %}
+        <div class="tog" id="fav"><a
+          {% if not request.user.id or request.user == object.user %}
+            title="{% trans "Favorites" %}" class="disabled"
+          {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                          {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
+            >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+      {% endif %}
 
       <h2>{{ object.name }}</h2>
       <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user.details }}</a></div>

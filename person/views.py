@@ -45,10 +45,10 @@ class MyProfile(UserMixin, UserDetail):
 class MakeFriend(LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'username'
     slug_field     = 'username'
-    model = User
+    model          = User
 
-    def get_object(self, **kwargs):
-        user = super(type(self), self).get_object(**kwargs)
+    def get_object(self):
+        user = SingleObjectMixin.get_object(self)
         (obj, new) = self.request.user.friends.get_or_create(user=user)
         if new:
             messages.success(self.request, "Friendship created with %s" % str(user))
@@ -56,13 +56,13 @@ class MakeFriend(LoginRequiredMixin, SingleObjectMixin, RedirectView):
             messages.error(self.request, "Already a friend with %s" % str(user))
         return user
 
-    def get_redirect_url(self):
+    def get_redirect_url(self, **kwargs):
         return self.get_object().get_absolute_url()
 
 class LeaveFriend(MakeFriend):
-    def dispatch(self, **kwargs):
-        user = super(type(self), self).get_object(**kwargs)
-        self.request.user.friends.delete(user=user)
+    def get_object(self):
+        user = SingleObjectMixin.get_object(self)
+        self.request.user.friends.filter(user=user).delete()
         messages.success(self.request, "Friendship removed from %s" % str(user))
         return user
 

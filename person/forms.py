@@ -44,11 +44,11 @@ class UserForm(ModelForm):
         return username
         
 
-    def save(self):
+    def save(self, **kwargs):
         password = self.cleaned_data.get('password', None)
         if password:
             self.instance.set_password(password)
-        ModelForm.save(self)
+        ModelForm.save(self, **kwargs)
 
 class UserDetailsForm(ModelForm):
     ircpass = CharField(widget=PasswordInput(), required=False)
@@ -56,4 +56,12 @@ class UserDetailsForm(ModelForm):
     class Meta:
         model = UserDetails
         exclude = ('user','last_seen','visits')
+
+from .multiform import MultiModelForm
+
+class PersonForm(MultiModelForm):
+    base_forms = [
+        ('self', UserForm),
+        ('details', UserDetailsForm),
+    ]
 

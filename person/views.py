@@ -1,56 +1,26 @@
 # -*- coding: utf-8 -*-
 
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
+from django.views.generic import UpdateView, DetailView, ListView, RedirectView
+from django.views.generic.detail import SingleObjectMixin
+from user_sessions.views import LoginRequiredMixin
+from django.contrib import messages
 
-from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
+from .models import User, UserDetails, Group, Team
+from .forms import PersonForm
 
-from .models import UserDetails, Team
-from .forms import UserForm, UserDetailsForm
-from pile.views import *
+class UserMixin(LoginRequiredMixin):
+    def get_object(self):
+        return self.request.user
 
-@login_required
-def edit_profile(request):
-    user = request.user
-    c = {
-        'user': user,
-        'user_form': UserForm(instance=user),
-        'details_form': UserDetailsForm(instance=user.details),
-    }
-    if request.method == 'POST':
-        form_a = UserForm(request.POST, instance=user)
-        form_b = UserDetailsForm(request.POST, request.FILES,
-                                 instance=user.details)
+class EditProfile(UserMixin, UpdateView):
+    form_class = PersonForm
 
-        if form_a.is_valid() and form_b.is_valid():
-            form_a.save()
-            form_b.save()
-            return redirect(reverse('view_profile',
-                kwargs={'username': user.username}))
-        c['user_form'] = form_a
-        c['details_form'] = form_b
+    def get_success_url(self):
+        return self.get_object().get_absolute_url()
 
-    return render_to_response('person/edit.html', c,
-        context_instance=RequestContext(request))
-
-
-from django.contrib.auth.decorators import user_passes_test
-@user_passes_test(lambda u: u.is_superuser)
-def view_profiles(request):
-    c = {
-        'users': UserDetails.objects.all(),
-    }
-    return render_to_response('person/profiles.html', c,
-        context_instance=RequestContext(request))
-
-
-@login_required
-def my_profile(request):
-    return redirect(
-        reverse('view_profile', kwargs={'username': request.user.username}))
-
+class FacesView(LoginRequiredMixin, ListView):
+    template_name = 'person/profiles.html'
+    queryset = UserDetails.objects.all()
 
 class UserDetail(DetailView):
     template_name  = 'person/user_detail.html'
@@ -58,32 +28,50 @@ class UserDetail(DetailView):
     slug_field     = 'username'
     model = User
 
-    def get_context_data(self, **kwargs):
-        data = super(UserDetail, self).get_context_data(**kwargs)
-        data['object'].visited_by(self.request.user)
-        return data
+    def get_object(self, **kwargs):
+        user = super(UserDetail, self).get_object(**kwargs)
+        user.visited_by(self.request.user)
+        return user
+
+class UserGPGKey(UserDetail):
+    template_name = 'person/gpgkey.txt'
+    content_type = "text/plain"
+
+class MyProfile(UserMixin, UserDetail):
+    pass
+
+# ====== FRIENDSHIP VIEWS =========== #
+
+class MakeFriend(LoginRequiredMixin, SingleObjectMixin, RedirectView):
+    slug_url_kwarg = 'username'
+    slug_field     = 'username'
+    model          = User
+
+    def get_object(self):
+        user = SingleObjectMixin.get_object(self)
+        (obj, new) = self.request.user.friends.get_or_create(user=user)
+        if new:
+            messages.success(self.request, "Friendship created with %s" % str(user))
+        else:
+            messages.error(self.request, "Already a friend with %s" % str(user))
+        return user
+
+    def get_redirect_url(self, **kwargs):
+        return self.get_object().get_absolute_url()
+
+class LeaveFriend(MakeFriend):
+    def get_object(self):
+        user = SingleObjectMixin.get_object(self)
+        self.request.user.friends.filter(user=user).delete()
+        messages.success(self.request, "Friendship removed from %s" % str(user))
+        return user
+
+
+# ====== TEAM VIEWS ====== #
 
 class TeamDetail(DetailView):
-    model = Team
     slug_url_kwarg = 'team_slug'
+    model = Team
 
-@login_required
-def add_friend(request):
-    # XXX to-do
-    to_user = get_object_or_404(User, username=request.GET.get('u', '-1'))
-    friendship = request.user.friends.create(friend=to_user)
-    return HttpResponse(friendship.pk)
-
-@login_required
-def rem_friend(request, friend_id):
-    friendship = get_object_or_404(Friend, pk=friend_id, user=request.user)
-    friendship.delete()
-    return HttpResponse(1)
-
-def gpg_key(request, username):
-    user = get_object_or_404(User, username=username)
-    return render_to_response('person/gpgkey.txt', { 'user': user },
-      context_instance=RequestContext(request),
-      content_type="text/plain")
 
 

@@ -168,6 +168,7 @@ INSTALLED_APPS = (
     'projects',
     'releases',
     'django_comments',
+    'django_mailman',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 

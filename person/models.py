@@ -9,6 +9,7 @@ from django.core.validators import MaxLengthValidator
 from django.utils.text import slugify
 
 from pile.fields import ResizedImageField, AutoOneToOneField
+from cms.utils.permissions import get_current_user as get_user
 
 null = dict(null=True, blank=True)
 
@@ -42,6 +43,17 @@ class UserDetails(Model):
             return self.photo.url
         return None
 
+class Twilight(Manager):
+    def i_added(self):
+        user = get_user()
+        if user.is_authenticated():
+            return bool(self.get(from_user=user.pk))
+        return False
+
+class Friendship(Model):
+    from_user = ForeignKey(User, related_name='friends')
+    user = ForeignKey(User, related_name='from_friends')
+    objects = Twilight()
 
 ENROLES = (
   ('O', _('Open')),
@@ -67,7 +79,7 @@ class Team(Model):
     intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
-    mailman  = CharField(_('Mailing List'), max_length=256, **null)
+    mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
 
     def save(self, **kwargs):

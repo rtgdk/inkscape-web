@@ -19,6 +19,11 @@
          <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{{ STATIC_URL }}/images/social/flag.svg"/></a>
          <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
        {% endif %}
+       {% if object.from_friends.i_added %}
+         <a href="{% url "user_unfriend" object.username %}"><img src="{{ STATIC_URL }}/images/social/friend.svg" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
+       {% else %}
+         <a href="{% url "user_friend" object.username %}"><img src="{{ STATIC_URL }}/images/social/friend.svg" title="{% trans "Make friends with this user." %}"/></a>
+       {% endif %}
      {% endif %}
      {% if object.is_staff %}
        {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administrator" %}"/></a>
@@ -128,8 +133,20 @@
   </div>
 
 <div id="left-column">
-  {% if object.resources.latest %}
+{% if object.friends.all %}
+   <h3>{% trans "Friends" %}</h3>
+   {% for friend in object.friends.all %}
+     <p><a href="{{ friend.get_absolute_url }}">{{ friend.user }}</a></p>
+   {% endfor %}
+{% endif %}
+{% if object.from_friends.all %}
+   <h3>{% trans "From Friends" %}</h3>
+   {% for friend in object.from_friends.all %}
+     <p><a href="{{ friend.get_absolute_url }}">{{ friend.from_user }}</a></p>
+   {% endfor %}
+{% endif %}
 
+{% if object.resources.latest %}
   <h2>{% trans "Recent Uploads" %}
 
   {% if not object == request.user %}

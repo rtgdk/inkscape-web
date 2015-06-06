@@ -2,30 +2,16 @@
 {% load sekizai_tags i18n %}
 
 {% block title %}Inkscape {{ object.version }}{% endblock %}
-
 {% block supercontent %}
-
-{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
-
-<div id="shield" class="download">
-  <div id="banners">
+<div id="content">
+    <div class="wrapper">
+        <h1>{% trans "Download" %}</h1>
     {% for release in object_list %}
-      <div {% if forloop.first %}class="current"{% endif %}>
-        <div>
-        <div id="nodata">{{ release.version }}</div>
-        </div>
-      </div>
+            <h2><a href="{% url 'latest' %}{{ release.version }}"><strong>{{ release.version }}</strong> {{ release.codename }}</a></h2>
+            <h3>{% trans "Release" %} <strong>{{release.release_date}}</strong></h3>
+            <p>{{release.release_notes}}</p>
+            <a href="{% url 'latest' %}{{ release.version }}">{% trans "See" %} {{ release.version }} {% trans "Downloads"|lower %} {% trans "Page"|lower %}</a>
     {% endfor %}
-  </div>
-  <ul class="tabs">
-    {% for release in object_list %}
-      <li {% if forloop.first %}class="current"{% endif %}>
-        <a href="#{{ tab.uuid }}"><strong>{{ release.version }}</strong>
-          {{ release.codename }}
-        </a>
-      </li>
-    {% endfor %}
-  </ul>
+    </div>
 </div>
-
 {% endblock %}

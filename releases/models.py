@@ -54,7 +54,7 @@ class Release(Model):
     reviewer      = ForeignKey(User, related_name='reviews_releases', verbose_name=_("Release Reviewer"), **null)
 
     class Meta:
-        ordering = '-version',
+        ordering = '-release_date',
 
     def __str__(self):
         if not self.codename:

@@ -73,6 +73,7 @@
             <li><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
             {% endif %}
         {% endfor %}
+            <li><a href="{% url 'latest' %}all"><b>{% trans "All" %}</b></a></li>
     </ul>
   </div>
   <ul class="tabs">

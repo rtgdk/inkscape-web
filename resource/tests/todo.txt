@@ -1,0 +1,41 @@
+
+# Required tests:
+#
+# TODO:
+# filesize_item: What's this?
+# narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
+# view_group_galleries
+# view_group_gallery
+# item_breadcrumbs (each variation)
+# gallery_breadcrumbs (lots of variations)
+# gallery_rss_feed (galleries variations)
+# signature (good and bad)
+# mirror_flag
+# verified_flag
+#
+# STARTED / DONE(?)
+# license_on_gallery_item: started, inside test_view_global_gallery
+# license_on_item: started, inside test_view_someone_elses_public_item_detail
+# move_item_to_gallery: started
+# copy_item_to_gallery: started
+# search_galleries: started
+# view_user_gallery (specific one): started
+# narrow_user_gallery (specific + category): started
+# view_item public vs. non-public, too: started
+# submit_item: started
+# not_logged_in_submit (fail): started
+# no_more_quota_submit (fail): started
+# submit_pastebin: started
+# edit_paste: started
+# edit_item: started
+# delete item: started
+# mark_favorite: started
+# mark_not_loggedin (fail): started
+# mark_own_item (fail): started
+# download_item (non-public, too): started
+# view_global_galleries (see multiple users): started
+# narrow_global_galleries (category): started
+# sort_global_galleries (all four sorts): started (would also work for more than four)
+# view_user_galleries: started
+# delete gallery: started
+# try to download non-existent file: started

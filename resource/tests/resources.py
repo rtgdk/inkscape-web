@@ -1,95 +1,35 @@
+#
+# Copyright 2015, Maren Hachmann <removemarenhachmannthis@yahoo.com>
+#                 Martin Owens <doctormo@gmail.com>
+#
+# This program is free software: you can redistribute it and/or modify
+# it under the terms of the GNU General Public License as published by
+# the Free Software Foundation, either version 3 of the License, or
+# (at your option) any later version.
+#
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+"""
+Test Resource Items and Lists
+"""
+
+__all__ = ('ResourceTests', 'ResourceUserTests', 'ResourceAnonTests')
+
 import os
-from datetime import date
-from urllib import urlencode
 
-from django.contrib.auth.models import Group, User, UserManager
-from django.contrib.auth import authenticate
-from django.core import mail
+from .base import BaseCase, BaseUserCase
+
+from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
-from django.core.files.storage import default_storage
-from django.test import TestCase
 
-from user_sessions.utils.tests import Client
-from django.http import HttpRequest
-from user_sessions.backends.db import SessionStore
-
-from .models import Resource, ResourceFile, Category, License, Quota, Gallery, Tag
-from .forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm, GalleryForm
-from .views import GalleryList
-
-from django.conf import settings
-
-settings.DEBUG = True
-
-class BaseCase(TestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
-
-    def open(self, filename, *args):
-        "Opens a file relative to this test script"
-        return open(os.path.join(os.path.dirname(__file__), filename), *args)
-
-    def _get(self, url_name, *arg, **kw):
-        "Make a generic GET request with the best options"
-        data = kw.pop('data', {})
-        method = kw.pop('method', self.client.get)
-        follow = kw.pop('follow', True)
-        get_param = kw.pop('get_param', None)
-        url = reverse(url_name, kwargs=kw, args=arg)
-        if get_param:
-            url += '?' + get_param 
-        return method(url, data, follow=follow)
-      
-    def _post(self, *arg, **kw):
-        "Make a generic POST request with the best options"
-        kw['method'] = self.client.post
-        return self._get(*arg, **kw)
-
-    def set_session_cookies(self):
-        """Set session data regardless of being authenticated"""
-
-        # Save new session in database and add cookie referencing it
-        request = HttpRequest()
-        request.session = SessionStore('Python/2.7', '127.0.0.1')
-
-        # Save the session values.
-        request.session.save()
-
-        # Set the cookie to represent the session.
-        session_cookie = settings.SESSION_COOKIE_NAME
-        self.client.cookies[session_cookie] = request.session.session_key
-        cookie_data = {
-            'max-age': None,
-            'path': '/',
-            'domain': settings.SESSION_COOKIE_DOMAIN,
-            'secure': settings.SESSION_COOKIE_SECURE or None,
-            'expires': None,
-        }
-        self.client.cookies[session_cookie].update(cookie_data)
-
-    def setUp(self):
-        "Creates a dictionary containing a default post request for resources"
-        super(TestCase, self).setUp()
-        self.client = Client()
-        self.download = self.open('fixtures/media/test/file5.svg')
-        self.thumbnail = self.open('fixtures/media/test/preview5.png')
-        self.data = {
-          'download': self.download, 
-          'thumbnail': self.thumbnail,
-          'name': 'Test Resource Title',
-          'link': 'http://www.inkscape.org',
-          'desc': 'My nice picture',
-          'category': 2,
-          'license': 4,
-          'owner': 'True',
-          'published': 'on',
-        }
-        #self.set_session_cookies() # activate to test AnonymousUser tests, but deactivated mirrors reality
-
-    def tearDown(self):
-        super(TestCase, self).tearDown()
-        self.download.close()
-        self.thumbnail.close()
-
+from resource.models import Resource, ResourceFile, Quota, Gallery
+from resource.forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
 
 class ResourceTests(BaseCase):
     """Test non-request functions and methods"""
@@ -125,50 +65,11 @@ class ResourceTests(BaseCase):
         with self.assertRaises(Resource.DoesNotExist):
             Resource.objects.get(pk=resourcefile.pk)
 
-    def test_license_methods(self):
-        """Tests if license methods return expected output"""
-        license = License.objects.get(code="PD")
-        self.assertEqual(license.value, license.code)
-        self.assertEqual(license.is_free(), True)
-        self.assertEqual(license.is_all_rights(), False)
-        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
-    
-        license = License.objects.get(code="(C)")
-        self.assertEqual(license.value, license.code)
-        self.assertEqual(license.is_free(), False)
-        self.assertEqual(license.is_all_rights(), True)
-        self.assertEqual(str(license), "%s (%s)" % (license.name, license.code))
-        
-    #These tests are not finished, as design seems to be in flux, but can be fleshed out if required       
-    def test_category_methods(self):
-        """Test methods for categories""" 
-        cat = Category.objects.get(name="UI Mockup")
-        self.assertEqual(cat.value, "ui-mockup")
-        self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
-      
-    def test_tags(self):
-        # currently these are not exposed to the user. 
-        # Why do they have a 'parent'? Are circles prevented?
-        resource = Resource.objects.all()[0]
-        self.assertEqual(list(resource.tags.all()), [])
-        
-        resource.tags.create(name="landscape")
-        resource.tags.create(name="moon")
-        
-        self.assertEqual([tag.name for tag in resource.tags.all().order_by('name')], ["landscape", "moon"])
-        self.assertIn(resource, Tag.objects.get(name="landscape").resources.all())
-        #self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
-      
     def test_mime_type(self):
         pass
       
-class ResourceUserTests(BaseCase):
+class ResourceUserTests(BaseUserCase):
     """Any test of views and requests where a user is logged in."""
-    def setUp(self):
-        super(ResourceUserTests, self).setUp()
-        self.user = authenticate(username='tester', password='123456')
-        self.client.login(username='tester', password='123456')
-
     # Resource Detail View tests:
     def test_view_my_public_item_detail(self):
         """Testing item detail view and template for public own items,
@@ -314,7 +215,7 @@ class ResourceUserTests(BaseCase):
         """Tests the GET view for uploading a new resource file"""
         response = self._get('resource.upload')
         self.assertIsInstance(response.context['form'], ResourceFileForm)
-   
+
     def test_submit_gallery_item_GET(self):
         """Test the GET when a gallery is selected"""
         galleries = Gallery.objects.filter(user=self.user)
@@ -390,7 +291,7 @@ class ResourceUserTests(BaseCase):
         self.assertContains(response, "blahblah")
         self.assertIsInstance(response.context['form'], ResourcePasteForm)
         self.assertFormError(response, 'form', 'download', 'Text is too small for the pastebin.')
-        
+
     def test_submit_gallery_failure_POST(self):
         """Test when no permission to submit exists"""
         galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
@@ -418,7 +319,7 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.context['object'].gallery, gallery)
-        
+
     def test_drop_item_POST(self):
         """Drag and drop file (ajax request)"""
         num = Resource.objects.count()
@@ -684,436 +585,6 @@ class ResourceUserTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
-    # Gallery viewing and sorting tests
-    def test_view_global_gallery(self):
-        """Look at the gallery containing every public resource from everyone"""
-        # seems the global gallery doesn't use the standard ordering for Resources (-created), but orders by id
-        # but it should be ordered by -liked by default, see resource/views.py:238
-        # For the list of ordering options of which the first is the default.
-        resources = Resource.objects.filter(published=True).order_by('-liked')# pk for no error
-        self.assertGreater(resources.count(), 3,
-                           "Create a few public resources for the global gallery")
-        
-        response = self._get('resources')
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['object_list'].count(), resources.count())
-        # make sure we see uploads from different people
-        self.assertGreater(len(set([item.user for item in response.context['object_list']])), 1)
-        # make sure every resource is displayed with either the correct licence 
-        # or an edit link, when it's ours
-        pos = 0
-        for resource in resources:
-            if resource.user != self.user:
-                search_term = resource.license.value
-            else:
-                search_term = reverse('edit_resource', kwargs={'pk': resource.pk})
-            new_pos = response.content.find(str(search_term), pos)
-            self.assertGreater(new_pos, -1)
-            pos = new_pos
-                
-        #and we can't upload here directly
-        self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
-    
-    def test_narrow_global_gallery(self):
-        """make sure we can choose to see only the resources 
-        we want to see in the global gallery"""
-        resources = Resource.objects.filter(published=True)
-        self.assertGreater(resources.count(), 3,
-                           "Create a few public resources for the global gallery")
-        
-        categories = Category.objects.filter(id__in=resources.values('category_id'))
-        self.assertGreater(categories.count(), 2,
-                           "Create a few categories for the global gallery, and assign public resources to them")
-        
-        for category in categories:
-            items = resources.filter(category=category.pk)
-            
-            response = self._get('resources', category=category.value)
-            self.assertEqual(response.status_code, 200, 
-                             'Could not find page for category %s' % category.value)
-            self.assertEqual(response.context['object_list'].count(), 
-                             items.count(), 'The number of items in category %s is not correct' % category.value)
-            for item in items:
-                self.assertIn(item, response.context['object_list'])
-                self.assertContains(response, item.name)
-                
-    def test_sort_global_gallery(self):
-        "test if ordering for global galleries works as expected"
-        resources = Resource.objects.filter(published=True)
-        self.assertGreater(resources.count(), 3,
-                           "Create a few public resources for the global gallery")
-        
-        baseresponse = self._get('resources')
-        orderlist = [ordering[0] for ordering in GalleryList.orders]
-        self.assertGreater(len(orderlist), 3,
-                           "Create some possible orderings for your gallery")
-        rev_orderlist = [o[1:] if o[0]=='-' else '-' + o for o in orderlist]
-        
-        #the generator nature of 'orders' in template context doesn't allow us 
-        #to use that for testing because it's already 'exhausted'
-        
-        #make sure the links to the reverse standard order are in the html
-        for rev_order in rev_orderlist:
-            self.assertContains(baseresponse, rev_order)
-            
-        #test normal and reverse order
-        for order in orderlist + rev_orderlist:
-            ordered = resources.order_by(order)
-            response = self.client.get(reverse('resources') + '?order=' + order)
-            self.assertEqual(response.status_code, 200)
-            #conveniently respects ordering when checking for equality
-            self.assertEqual(list(response.context['object_list']), list(ordered))
-            
-            #objects in html in correct order of appearance?
-            for i in range(1, len(ordered)):
-                first_name = ordered[i-1].name
-                second_name = ordered[i].name
-                self.assertGreater(response.content.find(str(second_name)),
-                                  response.content.find(str(first_name)))
-      
-    def test_view_user_gallery_owner(self):
-        """Look at all my own uploads"""
-        resources = Resource.objects.filter(user=self.user)
-        self.assertGreater(resources.count(), 1,
-                           "Create another resource for user %s" % self.user)
-        
-        response = self._get('resources', username=self.user.username)
-        self.assertEqual(response.status_code, 200)
-        for resource in resources:
-            self.assertContains(response, resource.name)
-        self.assertContains(response, self.user.username)
-        self.assertEqual(response.context['object_list'].count(), resources.count())
-        self.assertContains(response, '<form method="POST" action="' + reverse('new_gallery'))
-        
-    def test_view_user_gallery_not_owner(self):
-        """Look at all uploads by another user"""
-        owner = User.objects.get(pk=2)
-        resources = Resource.objects.filter(user=owner, published=True)
-        self.assertGreater(resources.count(), 1,
-                           "Create another public resource for user %s" % owner)
-        
-        response = self._get('resources', username=owner.username)
-        self.assertEqual(response.status_code, 200)
-        for resource in resources:
-            self.assertContains(response, resource.name)
-        self.assertContains(response, owner.username)
-        self.assertEqual(response.context['object_list'].count(), resources.count())
-        self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
-      
-    def test_view_group_gallery(self):
-        """Look at a gallery belonging to a group of users (team in UI),
-        not being a member of that group and not the owner of the gallery"""
-        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
-                                   .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0,
-                           "Create a group gallery where %s is not a member, and not the owner" % self.user)
-        gallery = galleries[0]
-        #add a resource to that gallery, so it will show up
-        resource_owner = gallery.group.user_set.all()[0]
-        resources = Resource.objects.filter(user=resource_owner, published=True)
-        self.assertGreater(resources.count(), 1,
-                           "Add a public resource for user %s" % resource_owner)
-        gallery.items.add(resources[0], resources[1])
-        
-        # Group galleries should be linked by their team's name plus the gallery slug
-        # so that their url doesn't link to their original author's user account.
-        response = self._get('resources', galleries=gallery.slug, teamname=gallery.group.team.slug)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(gallery.items.count(), response.context['object_list'].count())
-        for item in gallery:
-            self.assertContains(response, item.name)
-    
-    def test_narrow_user_gallery_owner(self):
-        """make sure we can choose to see only the resources 
-        we want to see in our own gallery"""
-        resources = Resource.objects.filter(user=self.user)
-        self.assertGreater(resources.count(), 2,
-                           "Create a few resources for user %s" % self.user)
-        
-        categories = Category.objects.filter(id__in=resources.values('category_id'))
-        self.assertGreater(categories.count(), 2,
-                           "Create a few categories for the global gallery, and assign public resources to them")
-        
-        for category in categories:
-            items = resources.filter(category=category.pk)
-            
-            response = self._get('resources', username=self.user.username, category=category.value)
-            self.assertEqual(response.status_code, 200, 
-                             'Could not find page for category %s' % category.value)
-            self.assertEqual(response.context['object_list'].count(), 
-                             items.count(), 'The number of items in category %s is not correct' % category.value)
-            for item in items:
-                self.assertIn(item, response.context['object_list'])
-                self.assertContains(response, item.name)
-    
-    def test_narrow_user_gallery_not_owner(self):
-        """make sure we choose a category in a stranger's gallery"""
-        owner = User.objects.get(pk=2)
-        resources = Resource.objects.filter(user=owner, published=True)
-        self.assertGreater(resources.count(), 2,
-                           "Create a few resources for user %s" % owner)
-        
-        categories = Category.objects.filter(id__in=resources.values('category_id'))
-        self.assertGreater(categories.count(), 2,
-                           "Create more different categories for public resources by user %s " % owner )
-        
-        for category in categories:
-            items = resources.filter(category=category.pk)
-            
-            response = self._get('resources', username=owner.username, category=category.value)
-            self.assertEqual(response.status_code, 200, 
-                             'Could not find page for category %s' % category.value)
-            self.assertEqual(response.context['object_list'].count(), 
-                             items.count(), 'The number of items in category %s is not correct' % category.value)
-            for item in items:
-                self.assertIn(item, response.context['object_list'])
-                self.assertContains(response, item.name)
-    
-    # Gallery Search tests
-    def test_global_gallery_search(self):
-        """Tests the search functionality in galleries"""
-        # TODO: update search index somehow first, if that's the reason why it doesn't find anything 
-        #       and find out which fields are supposed to be searched
-        get_param = urlencode({ 'q' : 'description -Eight +Some'})# depends on fields
-        resources = Resource.objects.filter(published=True) # and search corresponding fields here 
-        self.assertGreater(resources.count(), 0,
-                           "Create a public resource which contains the search term %s")
-        
-        response = self._get('resources', get_param=get_param)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'description')
-        self.assertContains(response, 'Some')
-        self.assertNotContains(response, 'Eight')
-        #self.assertEqual(response.context['object_list'], resources)
-        self.fail('Finish me!')
-      
-    def test_user_gallery_search(self):
-        """Test that we can search for a user's items in that user's global gallery"""
-        #TODO: copy/paste/adapt previous method
-        pass
-      
-    def test_specific_gallery_search(self):
-        """Test that we can search items in a specific gallery (not global or all items for user)"""
-        #TODO: copy/paste/adapt previous method
-        pass
-      
-    # Gallery Move and Copy resources tests
-    def test_move_item_to_gallery(self):
-        """Make sure an item can be moved from one gallery to another by its owner"""
-        # prepare gallery
-        galleries = self.user.galleries.all()
-        self.assertGreater(galleries.count(), 1)
-        src_gallery = galleries[0]
-        target_gallery = galleries[1]
-        
-        # add a resource which belongs to us to the gallery
-        resources = Resource.objects.filter(user=self.user)
-        self.assertGreater(resources.count(), 0)
-        resource = resources[0]
-        src_gallery.items.add(resource)
-
-        # move that resource to another gallery
-        self._post('resource.move', pk=resource.pk, target=target_gallery.pk, source=src_gallery.pk)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
-        self.assertEqual(Gallery.objects.get(pk=source_gallery.pk).items.count(), 0)
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
-    
-    def test_move_item_to_gallery_not_gal_owner(self):
-        """Make sure that we cannot move items into a gallery which isn't ours,
-        and not a gallery for a group we're in"""
-        # TODO: copy/paste/adapt previous method
-        pass
-      
-    def test_move_item_to_group_gallery_member(self):
-        """Make sure that we can move items into a group gallery 
-        if we are a member (not owner) of the group"""
-        # TODO: copy/paste/adapt previous method
-        pass
-    
-    def test_move_item_to_gallery_not_item_owner(self):
-        """Make sure that we cannot move items around that don't belong to us"""
-        # TODO: copy/paste/adapt previous method
-        pass
-    
-    def test_copy_item_to_gallery(self):
-        """Make sure an item can be copied from one gallery to another by its owner"""
-        # prepare galleries
-        galleries = self.user.galleries.all()
-        self.assertGreater(galleries.count(), 1)
-        src_gallery = galleries[0]
-        target_gallery = galleries[1]
-        
-        # add a resource which belongs to us to a gallery
-        resources = Resource.objects.filter(user=self.user)
-        self.assertGreater(resources.count(), 0)
-        resource = resources[0]
-        src_gallery.items.add(resource)
-        
-        # copy that resource to another gallery
-        self._post('resource.copy', pk=resource.pk, target_gallery=target_gallery.pk) 
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
-        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
-        
-    def test_copy_item_to_gallery_not_gal_owner(self):
-        """Make sure that we cannot copy items into a gallery which isn't ours, 
-        and not a gallery for a group we're in"""
-        # TODO: copy/paste/adapt previous method
-        pass
-      
-    def test_copy_item_to_group_gallery_member(self):
-        """Make sure that we can copy items into a group gallery 
-        if we are a member (not owner) of the group"""
-        # TODO: copy/paste/adapt previous method
-        pass
-      
-    def test_copy_item_to_gallery_not_item_owner(self):
-        """Make sure we cannot copy items that do not belong to us"""
-        # TODO: copy/paste/adapt previous method
-        pass
-    
-    # Gallery Edit tests
-    def test_edit_my_gallery(self):
-        """Make sure that we can change the name of our own gallery"""
-        galleries = self.user.galleries.filter(group=None)
-        self.assertGreater(galleries.count(), 0)
-        gallery = galleries[0]
-        oldname = gallery.name
-        
-        # check GET
-        response = self._get('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context['form'], GalleryForm)
-        self.assertContains(response, gallery.name)
-
-        # check POST
-        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "New Name")
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
-        self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
-
-    def test_edit_group_gallery(self):
-        """Make sure that group members can edit the name of a group 
-        gallery, if they did not create that gallery"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
-                                           .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0)
-        gallery = galleries[0]
-        oldname = gallery.name
-        
-        # check GET
-        response = self._get('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context['form'], GalleryForm)
-        self.assertContains(response, gallery.name)
-
-        # check POST
-        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, "New Name")
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
-        self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
-      
-    def test_edit_unrelated_gallery(self):
-        """Make sure that everyone unrelated to a 
-        gallery cannot edit it"""
-        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
-                                                       .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0)
-        gallery = galleries[0]
-        oldname = gallery.name
-        
-        # check GET
-        response = self._get('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 403)
-
-        # check POST
-        response = self._post('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, oldname)
-    
-    # Gallery deletion tests
-    def test_gallery_deletion_own_gallery(self):
-        """Test if galleries can be deleted by owner"""
-        galleries = Gallery.objects.filter(user=self.user)
-        self.assertGreater(galleries.count(), 0, 
-                           "Create a gallery which belongs to user %s" % self.user)
-        gallery = galleries[0]
-        
-        response = self._post('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 200)
-        with self.assertRaises(Gallery.DoesNotExist):
-            Gallery.objects.get(pk=gallery.pk)
-
-    def test_gallery_deletion_group_gallery(self):
-        """Make sure galleries can be deleted by group member"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
-                                                      .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0, 
-                           "Create a gallery for a group in which %s is a member, but not the owner" % self.user)
-        gallery = galleries[0]
-
-        response = self._post('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 200)
-        with self.assertRaises(Gallery.DoesNotExist):
-            Gallery.objects.get(pk=gallery.pk)
-      
-    def test_gallery_deletion_group_gallery_non_member(self):
-        """Make sure galleries can't be deleted by someone unrelated to the gallery"""
-        galleries = Gallery.objects.exclude(group__in=self.user.groups.all())\
-                                                      .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0, 
-                           "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
-        gallery = galleries[0]
-
-        response = self._post('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
-
-    # Gallery RSS tests
-    def test_gallery_rss_feed(self):
-        """Make sure that every gallery has the correct rss feed"""
-        # TODO: currently gets stuck at line 275 in resource.views.py - what does 'object' stand for?
-        # Should feeds be dependent on the user that views them? is_visible() in line 277 causes this.
-        # Also causes that people get different feeds depending on being logged out or in...
-        # Would this confuse feed readers?
-        # What's with the additional search term and ordering? Those are currently appended to the rss url
-        galleries = Gallery.objects.all()
-        
-        resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
-        response = self._get('resources_rss')
-        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
-        pos = 0
-        for resource in resources:
-            name = resource.name
-            link = resource.get_absolute_url()
-            name_pos = response.content.find(str(name), pos)
-            link_pos = response.content.find(str(link), name_pos)
-            self.assertGreater(link_pos, -1)
-            pos = link_pos
-        #TODO: 
-        #test for search terms and ordering and:
-        #response = self._get('resources_rss', category=category)
-        #response = self._get('resources_rss', username=username)
-        #response = self._get('resources_rss', username=username, category=category)
-        #response = self._get('resources_rss', username=username, galleries=gallery.slug)
-        #response = self._get('resources_rss', username=username, galleries=gallery.slug, category=category)
-        pass
-
-    #Breadcrumbs tests
-    def test_breadcrumbs(self):
-        """Make sure that breadcrumbs link to the correct parents"""
-        #TODO: flesh out...
-        # get all resources which are ours or public
-        # make sure that the breadcrumbs contain gallery name, username, Home
-        # get all public galleries and make sure that their breadcrumbs go to username or teamname, Home
-        # get user gallery and global gallery and make sure their breadcrumbs contain only username, Home or Home
-        pass
 
 class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
@@ -1286,66 +757,3 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
     
-    def test_view_all_resources_by_user(self):
-        """Look at all uploads from someone, and see only public items"""
-        resources = Resource.objects.filter(user=3, published=True)
-        self.assertGreater(resources.count(), 0,
-                           "Create another resource for user with id 3")
-        
-        response = self._get('resources', username=User.objects.get(pk=3).username)
-        self.assertEqual(response.status_code, 200)
-        self.assertContains(response, resources[0].name)
-        self.assertContains(response, User.objects.get(pk=3).username)
-        self.assertEqual(response.context['object_list'].count(), resources.count())
-   
-    def test_gallery_deletion_anon(self):
-        """Make sure galleries can't be deleted AnonymousUser"""
-        galleries = Gallery.objects.all()
-        self.assertGreater(galleries.count(), 0, 
-                           "Create a gallery")
-        gallery = galleries[0]
-
-        response = self._post('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
-            
-# Required tests:
-#
-# TODO:
-# filesize_item: What's this?
-# narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
-# view_group_galleries
-# view_group_gallery
-# item_breadcrumbs (each variation)
-# gallery_breadcrumbs (lots of variations)
-# gallery_rss_feed (galleries variations)
-# signature (good and bad)
-# mirror_flag
-# verified_flag
-#
-# STARTED / DONE(?)
-# license_on_gallery_item: started, inside test_view_global_gallery
-# license_on_item: started, inside test_view_someone_elses_public_item_detail
-# move_item_to_gallery: started
-# copy_item_to_gallery: started
-# search_galleries: started
-# view_user_gallery (specific one): started
-# narrow_user_gallery (specific + category): started
-# view_item public vs. non-public, too: started
-# submit_item: started
-# not_logged_in_submit (fail): started
-# no_more_quota_submit (fail): started
-# submit_pastebin: started
-# edit_paste: started
-# edit_item: started
-# delete item: started
-# mark_favorite: started
-# mark_not_loggedin (fail): started
-# mark_own_item (fail): started
-# download_item (non-public, too): started
-# view_global_galleries (see multiple users): started
-# narrow_global_galleries (category): started
-# sort_global_galleries (all four sorts): started (would also work for more than four)
-# view_user_galleries: started
-# delete gallery: started
-# try to download non-existent file: started

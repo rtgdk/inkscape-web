@@ -5,7 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.utils.decorators import method_decorator
 from django.template import RequestContext
 
-from django.views.generic import UpdateView
+from django.views.generic import UpdateView, DetailView
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
@@ -15,16 +15,16 @@ from .models import UserDetails, Team
 from .forms import PersonForm
 from pile.views import *
 
-
-class EditProfile(LoginRequiredMixin, UpdateView):
-    form_class = PersonForm
-
+class UserMixin(LoginRequiredMixin):
     def get_object(self):
         return self.request.user
 
+class EditProfile(UserMixin, UpdateView):
+    form_class = PersonForm
+
     def get_success_url(self):
-        return reverse('view_profile', kwargs={'username':
-                        self.request.user.username})
+        return self.get_object().get_absolute_url()
+
 
 
 from django.contrib.auth.decorators import user_passes_test
@@ -37,12 +37,6 @@ def view_profiles(request):
         context_instance=RequestContext(request))
 
 
-@login_required
-def my_profile(request):
-    return redirect(
-        reverse('view_profile', kwargs={'username': request.user.username}))
-
-
 class UserDetail(DetailView):
     template_name  = 'person/user_detail.html'
     slug_url_kwarg = 'username'
@@ -53,6 +47,9 @@ class UserDetail(DetailView):
         data = super(UserDetail, self).get_context_data(**kwargs)
         data['object'].visited_by(self.request.user)
         return data
+
+class MyProfile(UserMixin, UserDetail):
+    pass
 
 class TeamDetail(DetailView):
     model = Team

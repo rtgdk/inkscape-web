@@ -2,38 +2,29 @@
 
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
+from django.utils.decorators import method_decorator
 from django.template import RequestContext
 
+from django.views.generic import UpdateView
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
+from user_sessions.views import LoginRequiredMixin
+
 from .models import UserDetails, Team
-from .forms import UserForm, UserDetailsForm
+from .forms import PersonForm
 from pile.views import *
 
-@login_required
-def edit_profile(request):
-    user = request.user
-    c = {
-        'user': user,
-        'user_form': UserForm(instance=user),
-        'details_form': UserDetailsForm(instance=user.details),
-    }
-    if request.method == 'POST':
-        form_a = UserForm(request.POST, instance=user)
-        form_b = UserDetailsForm(request.POST, request.FILES,
-                                 instance=user.details)
 
-        if form_a.is_valid() and form_b.is_valid():
-            form_a.save()
-            form_b.save()
-            return redirect(reverse('view_profile',
-                kwargs={'username': user.username}))
-        c['user_form'] = form_a
-        c['details_form'] = form_b
+class EditProfile(LoginRequiredMixin, UpdateView):
+    form_class = PersonForm
 
-    return render_to_response('person/edit.html', c,
-        context_instance=RequestContext(request))
+    def get_object(self):
+        return self.request.user
+
+    def get_success_url(self):
+        return reverse('view_profile', kwargs={'username':
+                        self.request.user.username})
 
 
 from django.contrib.auth.decorators import user_passes_test
@@ -85,5 +76,6 @@ def gpg_key(request, username):
     return render_to_response('person/gpgkey.txt', { 'user': user },
       context_instance=RequestContext(request),
       content_type="text/plain")
+
 
 

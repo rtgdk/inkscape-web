@@ -11,10 +11,10 @@
 
 {% csrf_token %}
 
-{{ user_form.non_field_errors }}
+{{ form.self.non_field_errors }}
 
 <table class="block">
-    {% for field in user_form %}
+    {% for field in form.self %}
     <tr>
         <th scope="row">{{ field.label }}:</th>
         <td>{{ field }}</td>
@@ -25,10 +25,10 @@
 
 <h2>{% trans "Personal Details" %}</h2>
 
-{{ details_form.non_field_errors }}
+{{ form.details.non_field_errors }}
 
 <table class="block">
-    {% for field in details_form %}
+    {% for field in form.details %}
     <tr>
     
     {% ifequal field.name "gpg_key" %}

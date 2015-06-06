@@ -24,6 +24,6 @@ from .views import *
 urlpatterns = patterns('',
   url(r'^$',                       ReleaseView(), name="latest"),
   url(r'^all/$',                   ReleaseList(), name="releases"),
-  url(r'^(?P<version>[\d\.-]+)/$', ReleaseView(), name="release"),
+  url(r'^(?P<version>[\w\+\.-]+)/$', ReleaseView(), name="release"),
 )
 

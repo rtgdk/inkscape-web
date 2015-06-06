@@ -37,10 +37,11 @@ class ReleaseView(DetailView):
     model = Release
     slug_field = 'version'
     slug_url_kwarg = 'version'
-    
+
     def get_object(self):
         if 'version' not in self.kwargs:
             qs = self.get_queryset()
             self.kwargs['version'] = qs[0].version if qs.count() else 'none'
-        return super(ReleaseView, self).get_object()
-
+        context = {'release': super(ReleaseView, self).get_object()}
+        context['releases'] = Release.objects.all()
+        return context

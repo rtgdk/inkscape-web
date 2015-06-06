@@ -54,7 +54,7 @@ class Release(Model):
     reviewer      = ForeignKey(User, related_name='reviews_releases', verbose_name=_("Release Reviewer"), **null)
 
     class Meta:
-        ordering = '-version',
+        ordering = '-release_date',
 
     def __str__(self):
         if not self.codename:
@@ -67,7 +67,6 @@ class Release(Model):
     @property
     def tabs(self):
         return list(set(specific.platform.root() for specific in self.platforms.all()))
-
 
 class Platform(Model):
     """A list of all platforms we release to"""

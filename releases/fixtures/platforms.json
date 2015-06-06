@@ -1,0 +1,352 @@
+[
+{
+  "fields": {
+    "edited": "2015-06-06T16:23:23.282Z",
+    "created": "2015-06-06T15:50:29.563Z",
+    "release_date": "2001-01-01",
+    "manager": null,
+    "version": "0.01",
+    "reviewer": null,
+    "codename": "Test Release",
+    "release_notes": "Some notes here"
+  },
+  "model": "releases.release",
+  "pk": 1
+},
+{
+  "fields": {
+    "name": "Linux",
+    "parent": null,
+    "image": "",
+    "manager": null,
+    "desc": "Linux based Free Desktop Distributions",
+    "icon": "release/icons/linux.png"
+  },
+  "model": "releases.platform",
+  "pk": 1
+},
+{
+  "fields": {
+    "name": "Source",
+    "parent": null,
+    "image": null,
+    "manager": null,
+    "desc": "Build it Yourself with the Source Code",
+    "icon": "release/icons/source.png"
+  },
+  "model": "releases.platform",
+  "pk": 2
+},
+{
+  "fields": {
+    "name": "Windows",
+    "parent": null,
+    "image": "",
+    "manager": null,
+    "desc": "Microsoft's Desktop Installers",
+    "icon": "release/icons/windows.png"
+  },
+  "model": "releases.platform",
+  "pk": 3
+},
+{
+  "fields": {
+    "name": "Mac OSX",
+    "parent": null,
+    "image": "",
+    "manager": null,
+    "desc": "Apple's Desktop Downloads",
+    "icon": "release/icons/apple.png"
+  },
+  "model": "releases.platform",
+  "pk": 4
+},
+{
+  "fields": {
+    "name": "Windows 32bit",
+    "parent": 3,
+    "image": "",
+    "manager": null,
+    "desc": "Microsoft Desktop for Older Machines",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 5
+},
+{
+  "fields": {
+    "name": "Windows 64bit",
+    "parent": 3,
+    "image": "",
+    "manager": null,
+    "desc": "Newer Windows Desktops",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 6
+},
+{
+  "fields": {
+    "name": "Ubuntu",
+    "parent": 1,
+    "image": null,
+    "manager": null,
+    "desc": "Linux Ubuntu Desktop Distributions",
+    "icon": null
+  },
+  "model": "releases.platform",
+  "pk": 7
+},
+{
+  "fields": {
+    "name": "Fedora",
+    "parent": 1,
+    "image": "",
+    "manager": null,
+    "desc": "RedHat inspired Desktop Distributions",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 8
+},
+{
+  "fields": {
+    "name": "OpenSUSE",
+    "parent": 1,
+    "image": "",
+    "manager": null,
+    "desc": "Novell Inspired Linux Distribution",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 9
+},
+{
+  "fields": {
+    "name": "Debian",
+    "parent": 1,
+    "image": "",
+    "manager": null,
+    "desc": "Community and Free Software Desktop Distribution",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 10
+},
+{
+  "fields": {
+    "name": "ArchLinux",
+    "parent": 1,
+    "image": "",
+    "manager": null,
+    "desc": "Technical Linux Desktop Distribution",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 11
+},
+{
+  "fields": {
+    "name": "Older Mac OSX",
+    "parent": 4,
+    "image": "",
+    "manager": null,
+    "desc": "Apple Mac OSX from 10.5 to 10.6",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 12
+},
+{
+  "fields": {
+    "name": "Mac OSX 10.7 & Later",
+    "parent": 4,
+    "image": "",
+    "manager": null,
+    "desc": "Apple Mac OSX from 10.7 to 10.10",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 13
+},
+{
+  "fields": {
+    "name": "Zip File",
+    "parent": 2,
+    "image": "",
+    "manager": null,
+    "desc": "Source distribution packaged in a zip file.",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 14
+},
+{
+  "fields": {
+    "name": "Bz2 File",
+    "parent": 2,
+    "image": "",
+    "manager": null,
+    "desc": "Source distribution packaged in a bz2 file",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 15
+},
+{
+  "fields": {
+    "name": "Gzip File",
+    "parent": 2,
+    "image": "",
+    "manager": null,
+    "desc": "Source distribution packaged in a gzip File",
+    "icon": ""
+  },
+  "model": "releases.platform",
+  "pk": 16
+},
+{
+  "fields": {
+    "created": "2015-06-06T15:50:29.565Z",
+    "howto": "http://inkscape.org/",
+    "platform": 14,
+    "release": 1,
+    "download": "http://inkscape.org/",
+    "more_info": "http://inkscape.org/"
+  },
+  "model": "releases.releaseplatform",
+  "pk": 1
+},
+{
+  "fields": {
+    "created": "2015-06-06T15:51:19.725Z",
+    "howto": "",
+    "platform": 15,
+    "release": 1,
+    "download": "http://inkscape.org/",
+    "more_info": "http://inkscape.org/"
+  },
+  "model": "releases.releaseplatform",
+  "pk": 2
+},
+{
+  "fields": {
+    "created": "2015-06-06T15:52:03.544Z",
+    "howto": "",
+    "platform": 16,
+    "release": 1,
+    "download": "http://inkscape.org/",
+    "more_info": "http://inkscape.org/"
+  },
+  "model": "releases.releaseplatform",
+  "pk": 3
+},
+{
+  "fields": {
+    "created": "2015-06-06T15:52:03.545Z",
+    "howto": "",
+    "platform": 5,
+    "release": 1,
+    "download": "http://inkscape.org/",
+    "more_info": "http://inkscape.org/"
+  },
+  "model": "releases.releaseplatform",
+  "pk": 4
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.290Z",
+    "howto": "",
+    "platform": 6,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 5
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.291Z",
+    "howto": "",
+    "platform": 7,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 6
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.291Z",
+    "howto": "",
+    "platform": 8,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 7
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.292Z",
+    "howto": "",
+    "platform": 9,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 8
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.292Z",
+    "howto": "",
+    "platform": 10,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 9
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.293Z",
+    "howto": "",
+    "platform": 11,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 10
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.293Z",
+    "howto": "",
+    "platform": 12,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 11
+},
+{
+  "fields": {
+    "created": "2015-06-06T16:23:23.294Z",
+    "howto": "",
+    "platform": 13,
+    "release": 1,
+    "download": "",
+    "more_info": ""
+  },
+  "model": "releases.releaseplatform",
+  "pk": 12
+}
+]

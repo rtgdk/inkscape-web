@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load sekizai_tags i18n %}
+
+{% block title %}Inkscape {{ object.version }}{% endblock %}
+{% block supercontent %}
+<div id="content">
+    <div class="wrapper">
+        <h1>{% trans "Download" %}</h1>
+    {% for release in object_list %}
+            <h2><a href="{% url 'latest' %}{{ release.version }}"><strong>{{ release.version }}</strong> {{ release.codename }}</a></h2>
+            <h3>{% trans "Release" %} <strong>{{release.release_date}}</strong></h3>
+            <p>{{release.release_notes}}</p>
+            <a href="{% url 'latest' %}{{ release.version }}">{% trans "See" %} {{ release.version }} {% trans "Downloads"|lower %} {% trans "Page"|lower %}</a>
+    {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -5,12 +5,12 @@
 
 <h1>{% block title %}{% trans "The Faces of Inkscape Users" %}{% endblock %}</h1>
 
-{% for user in users %}
+{% for detail in object_list %}
 
-{% if user.photo %}
+{% if detail.photo %}
   <div class="galleryitem">
-    <a class="link" href="{{ user.get_absolute_url }}"><img src="{{ user.photo.url }}" title="{{ user }}"/></a>
-    <p title="{{ user.email }}"><a href="{{ user.get_absolute_url }}">{{ user }}</a></p>
+    <a class="link" href="{{ detail.user.get_absolute_url }}"><img src="{{ detail.photo.url }}" title="{{ detail.user }}"/></a>
+    <p title="{{ detail.user.email }}"><a href="{{ detai.user.get_absolute_url }}">{{ detail.user }}</a></p>
   </div>
 {% else %}
 .

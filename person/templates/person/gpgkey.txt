@@ -1,1 +1,1 @@
-{{ user.details.gpg_key }}
+{{ object.details.gpg_key }}

@@ -39,14 +39,27 @@ function onOff(e) {
   var b = $("#shield #banners > div").get(e.index());
   $(b).toggleClass('current', e.hasClass('current'));
 }
-function selectBanner() {
+function selectBanner(nextTab) {
   if(currentTab) onOff(currentTab);
-  currentTab = $(this).parent();
+  currentTab = nextTab;
   onOff(currentTab);
+}
+function selectBannerNow() {
+  selectBanner($(this).parent());
+}
+function selectBannerSoon() {
+  // We create a timer for the mouse over event,
+  // If the mouse leaves before the timeout is done, it's canceled.
+  var nextTab = $(this).parent()
+  this.sb_timer = setTimeout( function () { selectBanner(nextTab) }, 100);
+}
+function cancelBanner() {
+  if(this.sb_timer) { clearTimeout(this.sb_timer) }
 }
 function furnishTabs() {
   $("#shield > .tabs").children("li").each(function(){
-    $(this).children("a:first-child").mouseover(selectBanner);
+    $(this).children("a:first-child").mouseover(selectBannerSoon);
+    $(this).children("a:first-child").mouseout(cancelBanner);
     $(this).children("a:first-child").click(selectBanner);
   });
   currentTab = $("#shield > .tabs li.current");

@@ -69,8 +69,11 @@ class LeaveFriend(MakeFriend):
 
 # ====== TEAM VIEWS ====== #
 
+class TeamList(ListView):
+    queryset = Team.objects.exclude(enrole='S')
+
 class TeamDetail(DetailView):
-    slug_url_kwarg = 'team_slug'
+    slug_url_kwarg = 'team'
     model = Team
 
 

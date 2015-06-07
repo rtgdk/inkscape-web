@@ -79,7 +79,12 @@
       <h2>{% trans "Teams" %}</h2>
       <ul>
         {% for team in object.teams.all %}
-          <li title="{{ team }} - {{ team.desc }}"><a><label>{{ team }}</label>{% if team.is_admin %}<span>&#9733;</span>{% endif %}</a></li>
+          <li title="{{ team }} - {{ team.intro }}">
+            <a href="{{ team.get_absolute_url }}">
+              <label>{{ team }}</label>
+              {% if team.admin == object %}<span>&#9733;</span>{% endif %}
+            </a>
+          </li>
         {% endfor %}
       </ul>
       {% endif %}

@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load user_session i18n future extras sekizai_tags %}
+
+{% block title %}{{ object.name }}{% endblock %} 
+
+{% block supercontent %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
+  {% endaddtoblock %}
+
+  <div id="profile" style="background-color: #1c1c1c; color: white;">
+    <img id="photo" src="{{ object.icon.url }}"/>
+    <h1 id="name">{{ object.name }}</h1>
+    <p id="bio">
+      {% block headerdesc %}
+        {{ object.intro }}
+      {% endblock %}
+    </p>
+  </div>
+
+  <div id="right-sidebar">
+    <div id="sidecategory">
+
+      <button>&lt; Back to All Teams</button>
+      {% if object.enrole == 'O' %}
+        <button>Join Team</button>
+      {% elif object.enrole in 'PT' %}
+        <button>Request Membership</button>
+      {% elif object.enrole == 'C' %}
+        <button disabled>Membership Closed</button>
+      {% endif %}
+
+      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>
+      <ul>
+        <li><a href="{$ url "resources" teams=team.slug %}">{% trans "Team Galleries" %}</a></li>
+      </ul>
+
+      <h2>{% trans "Information" %}</h2>
+      <ul>
+        <li>
+          <a href="URL TO MEMBER LIST">
+            <label>{% trans "Members" %}</label>
+            <span>{{ object.subscribers.count|default:0 }}</span>
+          </a>
+        </li>
+        <li>
+          <a href="URL TO WATCHER LIST">
+            <label>{% trans "Watchers" %}</label>
+            <span>{{ object.watchers.all.count|default:0 }}</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+
+<div id="left-column">
+  {% if object.desc %}
+    <h2>{% trans "Team Details" %}</h2>
+    <div class="info">
+      {{ object.desc|safe }}
+    </div>
+  {% endif %}
+  {% if object.subscribers.count %}
+    <h2>{% trans "Newest Members" %}</h2>
+
+    <div class="photos"/>
+      {% for user in object.subscribers %}
+        <div class="galleryitem{% if user == object.admin %} voted{% endif %}">
+          <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="Full User Details"/></a>
+          <p title="Full User Details"><a href="{{ user.get_absolute_url }}">{{ user }}</a></p>
+        </div>
+      {% endfor %}
+    </div>
+  {% else %}
+    <h2>No Team Members</h2>
+  {% endif %}
+</div>
+
+{% endblock %}

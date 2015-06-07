@@ -41,7 +41,7 @@ USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
   url(r'^/friend/$',              MakeFriend(),  name='user_friend'),
   url(r'^/unfriend/$',            LeaveFriend(), name='user_unfriend'),
 )
-TEAM_URLS = url_tree(r'^\*(?P<team_slug>[^\/]+)', 'person.views',
+TEAM_URLS = url_tree(r'^\*(?P<team>[^\/]+)', 'person.views',
   url(r'^/$',                     TeamDetail(),  name='team'),
 )
 
@@ -68,6 +68,7 @@ urlpatterns = patterns('',
     url(r'^user/$',                   MyProfile.as_view(),   name='my_profile'),
     url(r'^user/edit/$',              EditProfile.as_view(), name='edit_profile'),
     url(r'^faces/$',                  FacesView.as_view(),   name='faces'),
+    url(r'^teams/$',                  TeamList.as_view(),    name='teams'),
   ),
   USER_URLS,
   TEAM_URLS,

@@ -55,19 +55,15 @@ class Friendship(Model):
     user = ForeignKey(User, related_name='from_friends')
     objects = Twilight()
 
-ENROLES = (
-  ('O', _('Open')),
-  ('P', _('Peer Invite')),
-  ('T', _('Admin Invite')),
-  ('C', _('Closed')),
-  ('S', _('Secret')),
-)
-
-def _team_url(self):
-    return reverse('team', kwargs={'team_slug': self.team.slug})
-Group.get_absolute_url = _team_url
-
 class Team(Model):
+    ENROLES = (
+      ('O', _('Open')),
+      ('P', _('Peer Invite')),
+      ('T', _('Admin Invite')),
+      ('C', _('Closed')),
+      ('S', _('Secret')),
+    )
+
     admin    = ForeignKey(User, related_name='teams', **null)
     members  = AutoOneToOneField(Group, related_name='team', **null)
     watchers = ManyToManyField(User, related_name='watches', **null)
@@ -82,6 +78,12 @@ class Team(Model):
     mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
 
+    def get_absolute_url(self):
+        return reverse('team', kwargs={'team': self.slug})
+
+    def subscribers(self):
+        return self.members.user_set.all()
+
     def save(self, **kwargs):
         if not self.name:
             self.name = self.members.name
@@ -92,6 +94,8 @@ class Team(Model):
     def __unicode__(self):
         return self.name
 
+# Patch in the url so we get a better front end view from the admin.
+Group.get_absolute_url = lambda self: self.team.get_absolute_url()
 
 class Ballot(Model):
     name  = CharField(max_length=128)

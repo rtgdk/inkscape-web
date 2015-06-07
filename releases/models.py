@@ -55,6 +55,7 @@ class Release(Model):
 
     class Meta:
         ordering = '-release_date',
+        get_latest_by = 'release_date'
 
     def __str__(self):
         if not self.codename:

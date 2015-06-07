@@ -1,0 +1,115 @@
+#shield.download #banners > div {
+     background-color: #333333;
+     background-image: url("../images/releases/background.png");
+     border-bottom: 0px none;
+     border-radius: 0px 0px 15px 15px;
+}
+
+#shield.download #banners > div > div {
+     margin: 0px 250px 0px 0px;
+     width: 670px;
+}
+
+#shield.download #banners ul ul div {
+     display: none;
+}
+
+#shield.download #banners ul ul {
+     float: right;
+}
+
+#shield.download #banners li {
+     background-color: #444444;
+     border-radius: 5px 0px 0px 5px;
+     color: #d55500;
+     cursor: pointer;
+     display: inline-block;
+     font-size: 20px;
+     margin: 1px 0px 1px 3px;
+     padding: 6px 8px 3px;
+}
+
+#shield.download #banners li li {
+     background-color: #333333;
+     border-radius: 3px;
+     color: #cccccc;
+     cursor: pointer;
+     display: inline-block;
+     font-size: 14px;
+     margin: 2px;
+     padding: 5px 9px;
+}
+
+#shield.download #banners li ul {
+     margin: -3px 10px 0px 0px;
+}
+
+#shield.download #banners ul ul li:focus div,
+#shield.download #banners ul ul li div:hover {
+     background-color: #333333;
+     background-position: left center;
+     background-repeat: no-repeat;
+     background-size: contain;
+     border-radius: 0px 8px 8px 0px;
+     display: block;
+     left: 50%;
+     margin-left: 215px;
+     max-width: 230px;
+     padding: 10px;
+     position: absolute;
+     top: 25px;
+}
+
+#shield.download #banners ul ul li a {
+     display: block;
+     font-size: 15px;
+     line-height: 15px;
+}
+
+#shield.download #banners ul ul li a:hover {
+     color: #cccccc;
+}
+
+#shield.download #banners ul li img {
+     vertical-align: middle;
+     width: 25px;
+}
+
+#shield.download #banners ul ul li p {
+     color: #cccccc;
+     margin: 0px;
+}
+
+#shield.download #banners ul ul li:focus {
+     background-color: #d55500;
+     color: #333333;
+     outline: medium none;
+}
+
+#shield.download #banners div > div > div {
+     background-position: 90px 50px;
+     background-repeat: no-repeat !important;
+     background-size: 130px auto;
+     height: 400px;
+}
+
+#shield.download #banners {
+     margin-bottom: 12px;
+}
+
+#shield div#question{
+  color:#2B2B2B;
+  float:left;
+  display:inline-block;
+  padding:30px 0px 0px 120px;; 
+  font-size:160px;
+  font-weight:bold;
+}
+
+#shield div#nodata{
+  color:#ccc;
+  font-size:30px;
+}
+
+
+

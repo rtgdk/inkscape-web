@@ -24,14 +24,8 @@ from pile.views import DetailView, ListView, breadcrumbs
 from .models import Release
 
 class ReleaseList(ListView):
+    template_name = 'releases/release_detail.html'
     model = Release
-
-    def get_context_data(self, **kwargs):
-        data = ListView.get_context_data(self, **kwargs)
-        data['breadcrumbs'] = breadcrumbs(
-            ('releases', _('Releases')),
-        )
-        return data
 
 class ReleaseView(DetailView):
     model = Release
@@ -40,8 +34,11 @@ class ReleaseView(DetailView):
 
     def get_object(self):
         if 'version' not in self.kwargs:
-            qs = self.get_queryset()
-            self.kwargs['version'] = qs[0].version if qs.count() else 'none'
-        context = {'release': super(ReleaseView, self).get_object()}
-        context['releases'] = Release.objects.all()
-        return context
+            return self.get_queryset().latest()
+        return super(ReleaseView, self).get_object()
+
+    def get_context_data(self, **kwargs):
+        data = super(ReleaseView, self).get_context_data(**kwargs)
+        data['releases'] = Release.objects.all()
+        return data
+

@@ -1,53 +1,59 @@
 {% extends 'base.html' %}
 {% load sekizai_tags i18n %}
 
-{% block title %}Inkscape {{ object.version }}{% endblock %}
+{% block title %}Download {{ object }}{% endblock %}
 
 {% block supercontent %}
 
-{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>{% endaddtoblock %}
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/releases.css"/>
+{% endaddtoblock %}
 
 <div id="shield" class="download">
   <div id="banners">
-    {% for tab in object.release.tabs %}
+    {% for tab in object.tabs %}
       <div {% if forloop.first %}class="current"{% endif %}>
         <div>
-            {% for releaseplatform in object.release.platforms.all %}
+            {% for releaseplatform in object.platforms.all %}
               {% with releaseplatform.platform as platform %}
-                    {% ifequal releaseplatform.platform.root.name tab.tab_name %}
-                        {% ifchanged platform.parent %}
-                            {% ifchanged platform.root %}
-                                {% if platform.root.image %}
-                                <div style="background-image:url({{ platform.root.image.url }})">
-                                {% else %}
-                                <div>
-                                {% endif %}
-                            {% else %}
-                                </ul>
-                                </li>
-                            </ul>
-                            {% endifchanged %}
-                            <ul>
-                                <li>{% if platform.parent.icon %}
-                                            <img src="{{ platform.parent.icon.url }}">
-                                        {% endif %}
-                                        {{ platform.parent.name }}
-                                    <ul>
-                                    {% endifchanged %}
-                                        <li class="platform" tabindex="{{forloop.counter0}}">
-                                        {{ platform.name }}
-                                    {% if platform.parent.image %}
-                                    <div style="background-image:url('{{ platform.parent.image.url }}')">
-                                    {% else %}
-                                    <div>
-                                    {% endif %}
-                                        <p>{{ platform.desc }}
-                                        <a href="{{ releaseplatform.download }}">Download</a>
-                                        <a href="{{ releaseplatform.more_info }}">More Info</a>
-                                        <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
-                                    </div>
-                                </li>
-                  {% endifequal %}
+                {% if releaseplatform.platform.root.name == tab.tab_name %}
+                  {% ifchanged platform.parent %}
+                    {% ifchanged platform.root %}
+                      {% if platform.root.image %}
+                        <div style="background-image:url({{ platform.root.image.url }})">
+                      {% else %}
+                        <div>
+                      {% endif %}
+                    {% else %}
+                       </ul></li></ul>
+                    {% endifchanged %}
+
+                    <ul>
+                      <li>
+                        {% if platform.parent.icon %}
+                          <img src="{{ platform.parent.icon.url }}">
+                        {% endif %}
+                        {{ platform.parent.name }}
+                        <ul>
+
+                  {% endifchanged %}
+
+                  <li class="platform" tabindex="{{forloop.counter0}}">
+                    {{ platform.name }}
+                    {% if platform.parent.image %}
+                      <div style="background-image:url('{{ platform.parent.image.url }}')">
+                    {% else %}
+                      <div>
+                    {% endif %}
+                      <p>{{ platform.desc }}
+                        <a href="{{ releaseplatform.download }}">Download</a>
+                        <a href="{{ releaseplatform.more_info }}">More Info</a>
+                        <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
+                      </p>
+                    </div>
+                  </li>
+                {% endif %}
               {% endwith %}
             {% endfor %}
                         </ul>
@@ -57,7 +63,7 @@
         </div>
       </div>
     {% endfor %}
-    {% if object.release.tabs|length == 0 %}
+    {% if object.tabs|length == 0 %}
     <div class="current">
         <div>
             <div id="question">?</div>
@@ -65,19 +71,9 @@
         </div>
     </div>
     {% endif %}
-    <ul id="releases">
-        {% for onerelease in object.releases.all %}
-            {% if object.release.version == onerelease.version %}
-            <li class="active"><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
-            {% else %}
-            <li><a href="{% url 'latest' %}{{ onerelease.version }}"><b>{{ onerelease.version }}</b> {{ onerelease.codename }}</a></li>
-            {% endif %}
-        {% endfor %}
-            <li><a href="{% url 'latest' %}all"><b>{% trans "All" %}</b></a></li>
-    </ul>
   </div>
   <ul class="tabs">
-    {% for tab in object.release.tabs %}
+    {% for tab in object.tabs %}
       <li {% if forloop.first %}class="current"{% endif %}>
         <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
           {% if tab.tab_cat.icon %}
@@ -89,5 +85,31 @@
     {% endfor %}
   </ul>
 </div>
+
+  <div id="left-column" class="notes">
+    <h2>Release Notes</h2>
+    {{ release_notes|safe|default:"No Release Notes" }}
+  </div>
+
+  <div id="right-sidebar" class="releases">
+    <div id="sidecategory">
+    {% if releases.count > 1 %}
+      <h2>All Inkscape Releases</h2>
+      <ul>
+        {% for release in releases %}
+          <li>
+            <a href="{{ release.get_absolute_url }}"{% if release == object %} class="active"{% endif %}>
+              <label>{{ release.codename|default:release.release_date }}</label>
+              <span>{{ release.version }}</span>
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    </div>
+  </div>
+
+
+
 
 {% endblock %}

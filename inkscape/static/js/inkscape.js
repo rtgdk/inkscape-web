@@ -60,7 +60,7 @@ function furnishTabs() {
   $("#shield > .tabs").children("li").each(function(){
     $(this).children("a:first-child").mouseover(selectBannerSoon);
     $(this).children("a:first-child").mouseout(cancelBanner);
-    $(this).children("a:first-child").click(selectBanner);
+    $(this).children("a:first-child").click(selectBannerNow);
   });
   currentTab = $("#shield > .tabs li.current");
 }

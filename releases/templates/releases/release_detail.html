@@ -13,7 +13,7 @@
 <div id="shield" class="download">
   <div id="banners">
     {% for tab in object.tabs %}
-      <div {% if forloop.first %}class="current"{% endif %}>
+      <div {% if platform == tab.uuid %}class="current"{% endif %}>
         <div>
             {% for releaseplatform in object.platforms.all %}
               {% with releaseplatform.platform as platform %}
@@ -74,7 +74,7 @@
   </div>
   <ul class="tabs">
     {% for tab in object.tabs %}
-      <li {% if forloop.first %}class="current"{% endif %}>
+      <li {% if platform == tab.uuid %}class="current"{% endif %}>
         <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
           {% if tab.tab_cat.icon %}
             <img src="{{ tab.tab_cat.icon.url }}"/>

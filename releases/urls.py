@@ -14,15 +14,18 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
-try:
-    from django.conf.urls import patterns, url, include
-except ImportError:
-    from django.conf.urls.defaults import patterns, url, include
+from django.conf.urls import patterns, url, include
 
 from .views import *
 
+def url_tree(regex, *urls):
+    return url(regex, include(patterns('', *urls)))
+
 urlpatterns = patterns('',
-  url(r'^$',                         ReleaseView(), name="releases"),
-  url(r'^(?P<version>[\w\+\.-]+)/$', ReleaseView(), name="release"),
+  url(r'^$',                       ReleaseView(), name="releases"),
+  url_tree(r'^(?P<version>[\w\+\.-]+)/',
+    url('^$',                      ReleaseView(), name="release"),
+    url('^(?P<platform>[^\/]+)/$', ReleaseView(), name="platform"),
+  ),
 )
 

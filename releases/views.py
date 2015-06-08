@@ -39,6 +39,9 @@ class ReleaseView(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super(ReleaseView, self).get_context_data(**kwargs)
+        tabs = data['object'].tabs
+        if tabs:
+            data['platform'] = self.kwargs.get('platform', tabs[0].uuid)
         data['releases'] = Release.objects.all()
         return data
 

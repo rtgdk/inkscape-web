@@ -69,6 +69,7 @@ class Release(Model):
     def tabs(self):
         return list(set(specific.platform.root() for specific in self.platforms.all()))
 
+
 class Platform(Model):
     """A list of all platforms we release to"""
     name       = CharField(_('Name'), max_length=64)
@@ -84,6 +85,7 @@ class Platform(Model):
     tab_text   = lambda self: self.desc
     tab_cat    = lambda self: {'icon': self.icon}
     root       = lambda self: self.ancestors()[-1]
+    depth      = lambda self: len(self.ancestors) - 1
 
     def ancestors(self, _to=None):
         _to = _to or [self]
@@ -102,7 +104,7 @@ class Platform(Model):
             _from.append(child)
             child.descendants(_from)
         return _from
-    
+
     def __str__(self):
         return (" : ").join([anc.name for anc in self.ancestors()][::-1])
 
@@ -117,3 +119,4 @@ class ReleasePlatform(Model):
 
     def __str__(self):
         return "%s - %s" % (self.release, self.platform)
+

@@ -43,6 +43,7 @@
     {% else %}
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
     {% endif %}
+    </form>
     {% if item %}
       <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
         <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>

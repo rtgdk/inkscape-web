@@ -78,7 +78,7 @@ def coord(n):
 def svg_coords(svg):
     from xml.dom.minidom import parseString, Node
     try:
-        doc = parseString(svg).documentElement
+        doc = parseString(svg.encode('utf-8')).documentElement
         return (coord(doc.getAttribute('width')),
                 coord(doc.getAttribute('height')))
     except IOError:

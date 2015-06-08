@@ -47,11 +47,14 @@ class Release(Model):
     release_notes = TextField(_('Release notes'), **null)
     release_date  = DateField(_('Release date'), **null)
 
-    created       = DateTimeField(_('Date created'), auto_now_add=True, db_index=True)
     edited        = DateTimeField(_('Last edited'), auto_now=True)
+    created       = DateTimeField(_('Date created'), auto_now_add=True,
+                                                     db_index=True)
 
-    manager       = ForeignKey(User, related_name='manages_releases', verbose_name=_("Release Manager"), **null)
-    reviewer      = ForeignKey(User, related_name='reviews_releases', verbose_name=_("Release Reviewer"), **null)
+    manager       = ForeignKey(User, related_name='manages_releases',
+                                    verbose_name=_("Release Manager"), **null)
+    reviewer      = ForeignKey(User, related_name='reviews_releases',
+                                    verbose_name=_("Release Reviewer"), **null)
 
     class Meta:
         ordering = '-release_date',
@@ -67,7 +70,8 @@ class Release(Model):
 
     @property
     def tabs(self):
-        return list(set(specific.platform.root() for specific in self.platforms.all()))
+        return list(set(specific.platform.root()
+                    for specific in self.platforms.all()))
 
 
 class Platform(Model):

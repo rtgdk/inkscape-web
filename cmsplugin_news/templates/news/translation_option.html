@@ -1,0 +1,29 @@
+{% load i18n static %}
+
+    {% if object.is_original %}
+      {% if perms.cmsplugin_news.edit %}
+        <a class="roundel" href="{% url "news_edit" object.id %}">
+          <img src="{% static "images/news/edit.svg" %}" title="{% trans "Edit This News" %}"/>
+        </a>
+      {% endif %}
+      {% if perms.cmsplugin_news.delete %}
+        <a class="roundel" href="{% url "news_delete" object.id %}">
+          <img src="{% static "images/news/delete.svg" %}" title="{% trans "Delete This News" %}"/>
+        </a>
+      {% endif %}
+    {% else %}
+
+      {% if perms.cmsplugin_news.translate %}
+        <a class="roundel" href="{% url "news_translate" object.id %}">
+          {% if object.needs_translation %}
+            <img src="{% static "images/news/trans-need.svg" %}" title="{% trans "Needs Translating" %}"/>
+          {% else %}
+            <img src="{% static "images/news/trans-not.svg" %}" title="{% trans "Translation OK" %}"/>
+          {% endif %}
+        </a>
+        <img src="{% static "images/news/info.svg" %}" title="
+{% trans "Original Updated" %}: {{ object.updated }}
+{% trans "Translation Updated" %}: {{ object.translated }}"/>
+      {% endif %}
+    {% endif %}
+

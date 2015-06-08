@@ -35,12 +35,12 @@
   background-repeat: no-repeat;
 }
 #page-news-full .article-actions .action-subscribe {
-  background-image: url(../images/action-subscribe.png);
+  background-image: url(../images/news/subscribe.png);
 }
 #page-news-full .article-actions .action-email {
-  background-image: url(../images/action-email.png);
+  background-image: url(../images/news/email.png);
 }
 #page-news-full .article-actions .action-printer {
-  background-image: url(../images/action-printer.png);
+  background-image: url(../images/news/printer.png);
 }
 

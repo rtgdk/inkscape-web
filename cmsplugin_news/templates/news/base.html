@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static sekizai_tags %}
+
+{% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/news-archive.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/news-full.css" %}"/>
+  {% endaddtoblock %}
+  {% block "newscontent" %}{% endblock %}
+{% endblock %}

@@ -1,0 +1,19 @@
+{% extends "news/base.html" %}
+
+{% load i18n %}
+{% load sekizai_tags %}
+
+{% block headerdesc %}{{ object.excerpt }}{% endblock %}
+
+{% block "newscontent" %}
+
+  {% include "news/translation_option.html" %}
+  <h1>{% block title %}{{ object.title }}{% endblock %}</h1>
+  <p class="postdate">{{ object.pub_date }}</p>
+  {% if not object.is_published %}
+    <div class="warning">{% trans "This article is not published yet!" %}</div>
+  {% endif %}
+  {{ object.content|safe }}
+
+{% endblock %}
+

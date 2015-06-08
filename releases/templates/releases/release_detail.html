@@ -14,11 +14,15 @@
   <div id="banners">
     {% for tab in object.tabs %}
       <div {% if platform == tab.uuid %}class="current"{% endif %}>
-        <div>
-            {% for releaseplatform in object.platforms.all %}
+        {% for rp in object.platforms.all %}
+          {% if rp.platform.depth == 1 %}
+            {% ifchanged platform.parent %}
+            {% endifchanged %} 
+          {% elif rp.platform.depth == 2 %}
+
+          {% endif %}
               {% with releaseplatform.platform as platform %}
                 {% if releaseplatform.platform.root.name == tab.tab_name %}
-                  {% ifchanged platform.parent %}
                     {% ifchanged platform.root %}
                       {% if platform.root.image %}
                         <div style="background-image:url({{ platform.root.image.url }})">

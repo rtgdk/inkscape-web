@@ -10,7 +10,7 @@
 {% if detail.photo %}
   <div class="galleryitem">
     <a class="link" href="{{ detail.user.get_absolute_url }}"><img src="{{ detail.photo.url }}" title="{{ detail.user }}"/></a>
-    <p title="{{ detail.user.email }}"><a href="{{ detai.user.get_absolute_url }}">{{ detail.user }}</a></p>
+    <p title="{{ detail.user.email }}"><a href="{{ detail.user.get_absolute_url }}">{{ detail.user }}</a></p>
   </div>
 {% else %}
 .

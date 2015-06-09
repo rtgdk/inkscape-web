@@ -22,7 +22,7 @@
     </div>
     <div id="right-sidebar">
       <h2>
-        <a href="{{ rss_url }}"><img src="{{ STATIC_URL }}/images/action-subscribe.png" title="{% trans "RSS Feed" %}"></a>
+        <a href="{{ rss_url }}"><img src="{{ STATIC_URL }}/images/news/subscribe.png" title="{% trans "RSS Feed" %}"></a>
         {% blocktrans with object_list.count as number_of_objects %}Found {{ number_of_objects }} Items{% endblocktrans %}
       </h2>
       {% if object_list or query %}

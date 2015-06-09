@@ -5,7 +5,7 @@
   min-height: 150px;
   text-align: center;
   vertical-align: middle;
-  margin: 5px 4px 25px 4px;
+  margin: 5px 5px 25px 5px;
 }
 .galleryitem:hover {
   border: 2px solid #cce;
@@ -294,7 +294,8 @@ table.bioitem p a {
   background-color: transparent !important;
 }
 .voted {
-  border-color: #ffd42a;
+  border: 2px solid #ffd42a;
+  padding: 2px;
 }
 .galleryitem .tags {
   width: 147px;

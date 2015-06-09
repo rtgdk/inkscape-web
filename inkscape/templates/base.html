@@ -106,7 +106,8 @@
           <p>{% trans "Follow us on:" %} </p>
           <nav id="socialnav">
             <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ STATIC_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
-            <a id="google-groups-logo" href="https://plus.google.com/+inkscape">G</a>
+            <a id="google-groups-logo" href="https://plus.google.com/+inkscape"><img src="{{ STATIC_URL }}images/logo_googleplus.svg" onerror="getPng(this);" alt="Google+"/></a>
+            <a id="facebook-logo" href="https://facebook.com/inkscape.org"><img src="{{ STATIC_URL }}images/logo_facebook.svg" onerror="getPng(this);" alt="Facebook"/></a>
           </nav>
         </div>
         <form id="topsearch" method="get" action="{% url "search" %}">

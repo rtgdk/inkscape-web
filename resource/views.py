@@ -141,12 +141,16 @@ def like_resource(request, pk, like):
             return redirect("resource", pk)
         votes = item.category.votes.filter(voter=request.user)
         if votes.count() > 0 and '+' in like:
-            messages.warning(request, _('You may not vote for more than one item in this contest.'))
-            return redirect("resource", pk)
+            for vote in votes:
+                vote.delete()
+            if votes.filter(resource_id=item.id).count() == 0:
+                messages.info(request, _('Your previous vote in this contest has been replaced by your vote for this item.'))
 
     (obj, is_new) = item.votes.get_or_create(voter=request.user)
     if '+' not in like:
         obj.delete()
+    elif is_new == True and item.category.start_contest:
+        messages.info(request, _('Thank you for your vote!'))
     return redirect("resource", pk)
     
 def down_readme(request, pk):

@@ -1,6 +1,5 @@
 .galleryitem {
   display: inline-block;
-  margin: 4px;
   padding: 4px;
   min-width: 150px;
   min-height: 150px;
@@ -12,6 +11,7 @@
   border: 2px solid #cce;
   padding: 2px;
   background-color: #eef;
+  margin: 5px 5px 25px 5px;
 }
 .galleryitem a.link img,
 .bioitem a.link img {

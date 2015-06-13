@@ -18,24 +18,84 @@
 """
 Other items in the resource app.
 """
+from django.core.urlresolvers import reverse
+
+from resource.models import License, Category, Resource, Tag, Gallery
 
 from .base import BaseCase
-
-from resource.models import License, Category, Resource, Tag 
-
 from .resources import *
 from .gallery import *
-
 
 class Breadcrumbs(BaseCase):
     def test_breadcrumbs(self):
         """Make sure that breadcrumbs link to the correct parents"""
-        #TODO: flesh out...
-        # get all resources which are ours or public
-        # make sure that the breadcrumbs contain gallery name, username, Home
-        # get all public galleries and make sure that their breadcrumbs go to username or teamname, Home
-        # get user gallery and global gallery and make sure their breadcrumbs contain only username, Home or Home
-        pass
+        #TODO: adapt to actual team page, remove duplicity
+        # crumbs for public resources
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 5)
+        
+        for resource in resources:
+            response = self._get('resource', pk=resource.pk)
+            searchterms = ("wrapper", 
+                           reverse('pages-root'), "Home", 
+                           reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
+                           reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
+                           resource.name)
+            pos = 0
+            for term in searchterms:
+                new_pos = response.content.find(str(term), pos)
+                self.assertGreater(new_pos, -1, "Could not find %s" % term)
+                pos = new_pos
+            
+        # crumbs for user-created galleries, no group
+        galleries = Gallery.objects.filter(group=None)
+        self.assertGreater(galleries, 0,
+                           "Please create a gallery that contains a public item and does not belong to a group")
+        
+        for gallery in galleries:
+            response = self._get('resources', galleries=gallery.slug)
+                
+            searchterms = ("wrapper", 
+                           reverse('pages-root'), "Home", 
+                           reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
+                           reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
+                           gallery.name)
+            pos = 0
+            for term in searchterms:
+                new_pos = response.content.find(str(term), pos)
+                self.assertGreater(new_pos, -1, "Could not find %s" % term)
+                pos = new_pos
+        
+        # crumbs for user-created galleries, belonging to group
+        galleries = Gallery.objects.exclude(group=None)
+        self.assertGreater(galleries, 0,
+                           "Please create a group gallery that contains a public item")
+        
+        for gallery in galleries:
+            response = self._get('resources', galleries=gallery.slug)
+                
+            searchterms = ("wrapper", 
+                           reverse('pages-root'), "Home", 
+                           reverse('team', kwargs={'team': gallery.team.slug}), resource.team,
+                           reverse('resources', kwargs={'team': gallery.team.slug}), "InkSpaces",
+                           gallery.name)
+            pos = 0
+            for term in searchterms:
+                new_pos = response.content.find(str(term), pos)
+                self.assertGreater(new_pos, -1, "Could not find %s" % term)
+                pos = new_pos
+        
+        # crumbs for global gallery
+        response = self._get('resources')
+        
+        searchterms = ("wrapper",
+                       reverse('pages-root'), "Home")
+        
+        pos = 0
+        for term in searchterms:
+            new_pos = response.content.find(str(term), pos)
+            self.assertGreater(new_pos, -1, "Could not find %s" % term)
+            pos = new_pos
 
 class LicenseTests(BaseCase):
     def test_license_methods(self):

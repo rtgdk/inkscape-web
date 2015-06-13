@@ -28,7 +28,7 @@ from .base import BaseCase, BaseUserCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-from resource.models import Resource, ResourceFile, Quota, Gallery
+from resource.models import Resource, ResourceFile, Quota, Gallery, Category
 from resource.forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
 
 class ResourceTests(BaseCase):

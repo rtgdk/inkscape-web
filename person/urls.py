@@ -37,7 +37,7 @@ UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
 # their own urls to our user tree. Creating user functions.
 USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
   url(r'^/?$',                    UserDetail(),  name='view_profile'),
-  url(r'^/gpg/$',                 UserGPGKey(),     name='user_gpgkey'),
+  url(r'^/gpg/$',                 UserGPGKey(),  name='user_gpgkey'),
   url(r'^/friend/$',              MakeFriend(),  name='user_friend'),
   url(r'^/unfriend/$',            LeaveFriend(), name='user_unfriend'),
 )

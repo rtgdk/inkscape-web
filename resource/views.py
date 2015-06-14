@@ -292,6 +292,8 @@ class GalleryFeed(CategoryFeed, GalleryList):
         for item in self.get_queryset():
             if hasattr(item, 'object'):
                 item = item.object
+            if callable(item):
+                item = item()
             if item.is_visible():
                 yield item
 

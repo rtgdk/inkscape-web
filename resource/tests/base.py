@@ -107,4 +107,8 @@ class BaseUserCase(BaseCase):
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
 
+class BaseAnonCase(BaseCase):
+    def setUp(self):
+        super(BaseAnonCase, self).setUp()
+        self.set_session_cookies()
 

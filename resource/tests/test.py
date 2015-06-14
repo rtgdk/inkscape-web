@@ -22,11 +22,11 @@ from django.core.urlresolvers import reverse
 
 from resource.models import License, Category, Resource, Tag, Gallery
 
-from .base import BaseCase
+from .base import BaseCase, BaseAnonCase
 from .resources import *
 from .gallery import *
 
-class Breadcrumbs(BaseCase):
+class Breadcrumbs(BaseAnonCase):
     def test_breadcrumbs(self):
         """Make sure that breadcrumbs link to the correct parents"""
         #TODO: adapt to actual team page, remove duplicity

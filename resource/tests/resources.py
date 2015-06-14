@@ -23,7 +23,7 @@ __all__ = ('ResourceTests', 'ResourceUserTests', 'ResourceAnonTests')
 
 import os
 
-from .base import BaseCase, BaseUserCase
+from .base import BaseCase, BaseUserCase, BaseAnonCase
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -586,7 +586,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
 
 
-class ResourceAnonTests(BaseCase):
+class ResourceAnonTests(BaseAnonCase):
     """Tests for AnonymousUser"""
     
     def test_view_public_item_detail_anon(self):

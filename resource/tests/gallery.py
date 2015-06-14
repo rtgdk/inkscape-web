@@ -168,7 +168,7 @@ class GalleryUserTests(BaseUserCase):
         
         # Group galleries should be linked by their team's name plus the gallery slug
         # so that their url doesn't link to their original author's user account.
-        response = self._get('resources', galleries=gallery.slug, teamname=gallery.group.team.slug)
+        response = self._get('resources', galleries=gallery.slug, team=gallery.group.team.slug)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(gallery.items.count(), response.context['object_list'].count())
         for item in gallery:
@@ -264,7 +264,8 @@ class GalleryUserTests(BaseUserCase):
         src_gallery.items.add(resource)
 
         # move that resource to another gallery
-        self._post('resource.move', pk=resource.pk, target=target_gallery.pk, source=src_gallery.pk)
+        self._post('resource.move', pk=resource.pk, data=dict(
+            target=target_gallery.pk, source=src_gallery.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.url, 'url')# TODO: where do we want to go?
         self.assertEqual(Gallery.objects.get(pk=source_gallery.pk).items.count(), 0)
@@ -303,7 +304,7 @@ class GalleryUserTests(BaseUserCase):
         src_gallery.items.add(resource)
         
         # copy that resource to another gallery
-        self._post('resource.copy', pk=resource.pk, target_gallery=target_gallery.pk) 
+        self._post('resource.copy', pk=resource.pk, data=dict(target=target_gallery.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.url, 'url')# TODO: where do we want to go?
         self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)

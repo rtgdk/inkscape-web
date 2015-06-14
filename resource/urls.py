@@ -24,8 +24,7 @@ def url_tree(regex, *urls):
 
 from person.urls import USER_URLS, TEAM_URLS
 
-USER_URLS.url_patterns.extend([
-  # Add to the username user profile
+owner_patterns = [
   url_tree(r'^/gallery/',
     url(r'^$',                                            GalleryList(), name='resources'),
     url(r'^rss/$',                                        GalleryFeed(), name='resources_rss'),
@@ -38,7 +37,10 @@ USER_URLS.url_patterns.extend([
   ),
   # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'),            ViewResource(), name='resource'),
-])
+]
+# Add to the username user profile and teamname
+USER_URLS.url_patterns.extend(owner_patterns)
+TEAM_URLS.url_patterns.extend(owner_patterns)
 
 urlpatterns = patterns('',
   url(r'^paste/(?P<pk>\d+)/$',        ViewResource(),   name='pasted_item'),
@@ -74,6 +76,7 @@ urlpatterns = patterns('',
       url(r'^edit/$',      EditResource(),      name='edit_resource'),
       url(r'^view/$',      DownloadResource(),  name='view_resource'),
       url(r'^move/$',      MoveResource(),      name='resource.move'),
+      url(r'^copy/$',      MoveResource(),      name='resource.copy'),
       url(r'^readme.txt$', down_readme,         name='resource.readme'),
       url(r'^(?P<like>[\+\-])$', like_resource, name='resource.like'),
       url(r'^(?P<fn>.+)$', DownloadResource(),  name='download_resource'),

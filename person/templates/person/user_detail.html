@@ -99,6 +99,14 @@
           <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
         <li><a><label>{% trans "Profile Visits" %}</label>
           <span>{{ object.details.visits }}</span></a></li>
+
+        <li><a><label>{% trans "Friends" %}</label>
+          <span>{{ object.friends.count }}</span></a></li>
+        <li><a><label>{% trans "Followers" %}</label>
+          <span>{{ object.from_friends.count }}</span></a></li>
+
+
+
         <li><a><label>{% trans "Views" %}</label>
           <span>{{ object.resources.views }}</span></a></li>
         <li><a><label>{% trans "Downloads" %}</label>
@@ -136,20 +144,6 @@
      </div>
    {% endif %}
   </div>
-
-<div id="left-column">
-{% if object.friends.all %}
-   <h3>{% trans "Friends" %}</h3>
-   {% for friend in object.friends.all %}
-     <p><a href="{{ friend.get_absolute_url }}">{{ friend.user }}</a></p>
-   {% endfor %}
-{% endif %}
-{% if object.from_friends.all %}
-   <h3>{% trans "From Friends" %}</h3>
-   {% for friend in object.from_friends.all %}
-     <p><a href="{{ friend.get_absolute_url }}">{{ friend.from_user }}</a></p>
-   {% endfor %}
-{% endif %}
 
 {% if object.resources.latest %}
   <h2>{% trans "Recent Uploads" %}

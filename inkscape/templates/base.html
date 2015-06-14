@@ -102,14 +102,6 @@
           {% endif %}
         </ul>
         {% block rightheader %}
-        <div id="social">
-          <p>{% trans "Follow us on:" %} </p>
-          <nav id="socialnav">
-            <a id="twitter-logo" href="https://twitter.com/inkscape"><img src="{{ STATIC_URL }}images/logo_twitter.svg" onerror="getPng(this);" alt="Twitter"/></a>
-            <a id="google-groups-logo" href="https://plus.google.com/+inkscape"><img src="{{ STATIC_URL }}images/logo_googleplus.svg" onerror="getPng(this);" alt="Google+"/></a>
-            <a id="facebook-logo" href="https://facebook.com/inkscape.org"><img src="{{ STATIC_URL }}images/logo_facebook.svg" onerror="getPng(this);" alt="Facebook"/></a>
-          </nav>
-        </div>
         <form id="topsearch" method="get" action="{% url "search" %}">
           <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
           <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>

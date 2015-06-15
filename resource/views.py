@@ -122,7 +122,9 @@ class ViewResource(DetailView):
             return redirect("edit_resource", self.object.pk)
         if request.user != self.object.user:
             if self.object.set_viewed(request.session) is None:
-                raise ValueError("No Session Key found.")
+                request.session['test'] = 'True'
+                self.object.set_viewed(request.session)
+                #raise ValueError("No Session Key found.")
         return ret
 
 @login_required

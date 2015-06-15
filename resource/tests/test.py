@@ -40,7 +40,8 @@ class Breadcrumbs(BaseAnonCase):
                            reverse('pages-root'), "Home", 
                            reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
                            reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
-                           resource.name)
+                           resource.name,
+                           "id=\"gallery\"")
             pos = 0
             for term in searchterms:
                 new_pos = response.content.find(str(term), pos)
@@ -59,7 +60,8 @@ class Breadcrumbs(BaseAnonCase):
                            reverse('pages-root'), "Home", 
                            reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
                            reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
-                           gallery.name)
+                           gallery.name,
+                           "id=\"gallery\"")
             pos = 0
             for term in searchterms:
                 new_pos = response.content.find(str(term), pos)
@@ -78,7 +80,8 @@ class Breadcrumbs(BaseAnonCase):
                            reverse('pages-root'), "Home", 
                            reverse('team', kwargs={'team': gallery.team.slug}), resource.team,
                            reverse('resources', kwargs={'team': gallery.team.slug}), "InkSpaces",
-                           gallery.name)
+                           gallery.name,
+                           "id=\"gallery\"")
             pos = 0
             for term in searchterms:
                 new_pos = response.content.find(str(term), pos)
@@ -89,7 +92,8 @@ class Breadcrumbs(BaseAnonCase):
         response = self._get('resources')
         
         searchterms = ("wrapper",
-                       reverse('pages-root'), "Home")
+                       reverse('pages-root'), "Home",
+                       "id=\"gallery\"")
         
         pos = 0
         for term in searchterms:

@@ -250,6 +250,7 @@ class Resource(Model):
             return "%d-%d" % (self.created.year, self.edited.year)
         return str(self.edited.year)
 
+    # for counting detail views
     def set_viewed(self, session):
         if session.session_key is not None:
             # We check for session key because it might not exist if this

@@ -5,13 +5,13 @@
   min-height: 150px;
   text-align: center;
   vertical-align: middle;
-  margin: 5px 5px 25px 5px;
+  margin: 5px 4px 25px 4px;
 }
 .galleryitem:hover {
   border: 2px solid #cce;
   padding: 2px;
   background-color: #eef;
-  margin: 5px 5px 25px 5px;
+  margin: 5px 4px 25px 4px;
 }
 .galleryitem a.link img,
 .bioitem a.link img {

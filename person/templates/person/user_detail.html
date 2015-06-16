@@ -145,32 +145,34 @@
    {% endif %}
   </div>
 
-{% if object.resources.latest %}
-  <h2>{% trans "Recent Uploads" %}
+  <div id="left-column">
+    {% if object.resources.latest %}
+      <h2>{% trans "Recent Uploads" %}
 
-  {% if not object == request.user %}
-    <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
-      {% csrf_token %}
-      <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
-    </form>
-  {% endif %}
-  </h2>
+      {% if not object == request.user %}
+        <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
+          {% csrf_token %}
+          <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
+        </form>
+    {% endif %}
+    </h2>
 
-    {% with 4 as limit %}
-      {% with object.resources.latest as items %}
-        {% include "resource/list.html" %}
+      {% with 4 as limit %}
+        {% with object.resources.latest as items %}
+          {% include "resource/list.html" %}
+        {% endwith %}
       {% endwith %}
-    {% endwith %}
-  {% endif %}
+    {% endif %}
 
-  {% if object.favorites.all %}
-    <h2>{% trans "Favorite Artworks" %}</h2>
-    {% with 4 as limit %}
-      {% with object.favorites.items as items %}
-        {% include "resource/list.html" %}
+    {% if object.favorites.all %}
+      <h2>{% trans "Favorite Artworks" %}</h2>
+      {% with 4 as limit %}
+        {% with object.favorites.items as items %}
+          {% include "resource/list.html" %}
+        {% endwith %}
       {% endwith %}
-    {% endwith %}
-  {% endif %}
+    {% endif %}
+  </div>
 </div>
 
 {% endblock %}

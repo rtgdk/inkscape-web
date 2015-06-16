@@ -620,8 +620,9 @@ class ResourceAnonTests(BaseAnonCase):
         self.assertGreater(resources.count(), 0,
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
-        response = self._get('view_resource', pk=resource.pk)
-        self.assertEqual(response.status_code, 200)
+        
+        response = self._get('view_resource', pk=resource.pk, follow=False)
+        self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
         # all full views are counted (like downloads)

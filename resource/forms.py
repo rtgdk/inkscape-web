@@ -62,7 +62,7 @@ class MoveForm(ModelForm):
         self.fields['target'].choices = self.get_galleries()
 
     def save(self):
-        # XXX here
+        pass # XXX save here somehow
 
 
 class ResourceBaseForm(ModelForm):

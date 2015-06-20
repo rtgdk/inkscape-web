@@ -6,9 +6,15 @@
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
     <p class="tags">
       {% if item.user == request.user %}
-        <a href="{% url "resource.move" item.pk %}">
-          <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Move to Gallery" %}">
-        </a>
+        {% if gallery %}
+          <a href="{% url "resource.move" item.pk gallery.pk %}">
+            <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Move to Gallery" %}">
+          </a>
+        {% else %}
+          <a href="{% url "resource.copy" item.pk %}">
+            <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Copy to Gallery" %}">
+          </a>
+        {% endif %}
         <a href="{% url "edit_resource" item.pk %}">
           <img src="{% static "mime/banner/edit.svg" %}" title="{% trans "Edit Resource" %}">
         </a>

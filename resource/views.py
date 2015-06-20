@@ -73,13 +73,16 @@ class PublishResource(OwnerUpdateMixin, DetailView):
         item = self.get_object()
         item.published = True
         item.save()
-        return redirect("resource", item.pk)# Previously: redirect("gallery", item.gallery.id)
+        return item.get_absolute_url()
 
-class MoveResource(EditResource):
+
+class MoveResource(OwnerUpdateMixin, UpdateView):
     template_name = 'resource/resourcefile_move.html'
-
-    # XXX todo - We need a form to show galleries
-
+    form_class = MoveForm
+    model = Resource
+        
+    def get_success_url(self):
+        self.a
 
 class UploadResource(OwnerCreateMixin, CreateView):
     form_class = ResourceFileForm
@@ -269,7 +272,8 @@ class GalleryList(CategoryListView):
     def get_galleries(self):
         username = self.get_value('username')
         if username:
-            return User.objects.get(username=username).galleries.filter(group__isnull=True)
+            return User.objects.get(username=username)\
+                .galleries.filter(group__isnull=True)
         return None
 
     def get_context_data(self, **kwargs):

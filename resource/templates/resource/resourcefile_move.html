@@ -1,0 +1,49 @@
+{% extends 'resource/item.html' %}
+{% load i18n %}
+
+{% block content %}
+
+
+<h1>
+  {% block title %}
+    {% if gallery %}
+      {% trans "Move Resource" %}
+    {% else %}
+      {% trans "Copy Resource to Gallery" %}
+    {% endif %}
+  {% endblock %}
+</h1>
+
+<div class="item">
+ <form method="post">
+  {% csrf_token %}
+
+  <div id="errors">
+    {{ form.non_field_errors }}
+  </div>
+
+  <table>
+    {% if gallery %}
+      <tr>
+        <th>Move from Gallery:</th>
+        <td>{{ gallery }}</td>
+      </tr>
+      <tr>
+        <th>Move to Gallery:</th>
+        <td>{{ form.target }}</td>
+      </tr>
+    {% else %}
+      <tr>
+        <th>Copy to Gallery:</th>
+        <td>{{ form.target }}</td>
+      </tr>
+    {% endif %}
+  </table>
+
+  <div class="buttonbar">
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% if gallery %}{% trans "Move" %}{% else %}{% trans "Copy" %}{% endif %}</button>
+  </div>
+ </form>
+</div>
+{% endblock %}
+

@@ -169,13 +169,14 @@ class Flag(Model):
 
     @property
     def target_user(self):
-        klass = self.target_ct().model
-        if klass is settings.AUTH_USER_MODEL:
+        klass = get_model(*self.target_ct().natural_key())
+        auth_klass = get_model(*settings.AUTH_USER_MODEL.split('.',1))
+        if klass is auth_klass:
             return '-self'
         ret = []
         for field in klass._meta.fields:
             try:
-                if field.rel.to is settings.AUTH_USER_MODEL:
+                if field.rel.to is auth_klass:
                     ret.append(field)
             except AttributeError:
                 pass

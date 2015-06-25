@@ -264,8 +264,8 @@ class GalleryUserTests(BaseUserCase):
         src_gallery.items.add(resource)
 
         # move that resource to another gallery
-        self._post('resource.move', pk=resource.pk, data=dict(
-            target=target_gallery.pk, source=src_gallery.pk))
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.url, 'url')# TODO: where do we want to go?
         self.assertEqual(Gallery.objects.get(pk=source_gallery.pk).items.count(), 0)
@@ -304,7 +304,7 @@ class GalleryUserTests(BaseUserCase):
         src_gallery.items.add(resource)
         
         # copy that resource to another gallery
-        self._post('resource.copy', pk=resource.pk, data=dict(target=target_gallery.pk))
+        response = self._post('resource.copy', pk=resource.pk, data=dict(target=target_gallery.pk))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.url, 'url')# TODO: where do we want to go?
         self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
@@ -397,6 +397,13 @@ class GalleryUserTests(BaseUserCase):
                            "Create a gallery which belongs to user %s" % self.user)
         gallery = galleries[0]
         
+        # check GET
+        response = self._get('gallery.delete', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, gallery.name)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+        
+        # check POST
         response = self._post('gallery.delete', gallery_id=gallery.id)
         self.assertEqual(response.status_code, 200)
         with self.assertRaises(Gallery.DoesNotExist):
@@ -410,6 +417,13 @@ class GalleryUserTests(BaseUserCase):
                            "Create a gallery for a group in which %s is a member, but not the owner" % self.user)
         gallery = galleries[0]
 
+        # check GET
+        response = self._get('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, gallery.name)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+
+        # check POST
         response = self._post('gallery.delete', gallery_id=gallery.id)
         self.assertEqual(response.status_code, 200)
         with self.assertRaises(Gallery.DoesNotExist):
@@ -423,6 +437,12 @@ class GalleryUserTests(BaseUserCase):
                            "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
         gallery = galleries[0]
 
+        # check GET
+        response = self._get('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+
+        # check POST
         response = self._post('gallery.delete', gallery_id=gallery.id)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
@@ -478,6 +498,12 @@ class GalleryAnonTests(BaseCase):
                            "Create a gallery")
         gallery = galleries[0]
 
+        # check GET
+        response = self._get('gallery.delete', gallery_id=gallery.id)
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+        
+        # check POST
         response = self._post('gallery.delete', gallery_id=gallery.id)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)

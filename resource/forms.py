@@ -51,6 +51,7 @@ class MoveForm(ModelForm):
         model = Resource
         fields = ['target']
 
+    # XXX exclude duplicates (decide which ones have precedence: group or user?), exclude current gallery
     def get_galleries(self):
         return [ (item.pk, str(item)) for item in Gallery.objects.filter(
             (Q(user=self.instance.user) & Q(group__isnull=True))

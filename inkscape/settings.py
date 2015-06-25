@@ -178,6 +178,8 @@ MODERATED_MODELS = (
     ('django_comments.comment', _('User Comment')),
 )
 
+AUTH_USER_MODEL = 'auth.User'
+
 # activate automatically filled menues and deactivate redirection to English for non-translated cms pages
 CMS_LANGUAGES = {
     'default': {

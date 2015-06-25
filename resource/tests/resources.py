@@ -159,7 +159,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertNotContains(response, 'And Some More')
     
     # Resource file Full Screen View tests:
-    def test_public_resource_full_screen(self):
+    def test_view_public_resource_full_screen(self):
         """Check that a resource can be viewed in full screen, 
         and that fullview number is incremented when a user visits
         a published item in 'full screen glory'"""
@@ -176,7 +176,7 @@ class ResourceUserTests(BaseUserCase):
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
         
-    def test_own_unpublished_resource_full_screen(self):
+    def test_view_own_unpublished_resource_full_screen(self):
         """Check that we can look at our unpublished resource in full screen mode,
         and that fullviews aren't counted as long as the resource isn't public"""
         resources = Resource.objects.filter(published=False, user=self.user, fullview=0)
@@ -188,7 +188,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
 
-    def test_someone_elses_unpublished_resource_full_screen(self):
+    def test_view_someone_elses_unpublished_resource_full_screen(self):
         """Make sure that fullscreen view for unpublished items 
         doesn't work if they are not ours. Also make sure this 
         doesn't increment the fullview counter"""
@@ -202,7 +202,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
     
     # Readme test:
-    def test_readme(self):
+    def test_view_readme(self):
         """Download the description as a readme file"""
         resource = Resource.objects.get(pk=2)
         self.assertNotEqual(resource.desc.find("[[...]]"), -1,
@@ -211,63 +211,36 @@ class ResourceUserTests(BaseUserCase):
         self.assertContains(response, resource.desc)
     
     # Upload view tests:
-    def test_submit_item_GET(self):
-        """Tests the GET view for uploading a new resource file"""
-        response = self._get('resource.upload')
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-
-    def test_submit_gallery_item_GET(self):
-        """Test the GET when a gallery is selected"""
-        galleries = Gallery.objects.filter(user=self.user)
-        self.assertGreater(galleries.count(), 0,
-            "Create a gallery for user %s" % self.user)
-        gallery = galleries[0]
-        response = self._get('resource.upload', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['gallery'], gallery)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-
-    def test_submit_gallery_failure_GET(self):
-        """Test when no permission to submit exists"""
-        galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
-        self.assertGreater(galleries.count(), 0,
-            "Create a gallery for user other than %s" % self.user)
-        gallery = galleries[0]
-        response = self._get('resource.upload', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 403)
-
-    def test_submit_group_gallery_GET(self):
-        """Test the GET when a gallery is group based, 
-        and the user is (only) a member of the group"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
-                      .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0,
-            "Create a group gallery where the user %s is a member, but not owner of the gallery" % self.user)
-        gallery = galleries[0]
-        
-        response = self._get('resource.upload', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.context['gallery'], gallery)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-
-    def test_submit_item_POST(self):
-        """Tests the POST view and template for uploading a new resource file"""
+    def test_submit_item(self):
+        """Tests views and templates for uploading a new resource file"""
         # This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
         # Could become a mess if all are in one test.
         num = Resource.objects.count() 
         
+        # check GET
+        response = self._get('resource.upload')
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        
+        # check POST
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.status_code, 200)
 
-    def test_submit_gallery_item_POST(self):
-        """Test the POST into my own gallery when a gallery is selected"""
+    def test_submit_gallery_item(self):
+        """Test if I can upload a file into my own gallery when a gallery is selected"""
         galleries = Gallery.objects.filter(user=self.user)
         self.assertGreater(galleries.count(), 0,
             "Create a gallery for user %s" % self.user)
         gallery = galleries[0]
         num = Resource.objects.count()
         
+        # check GET
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        
+        # check POST
         response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.count(), num + 1)
@@ -280,6 +253,12 @@ class ResourceUserTests(BaseUserCase):
         data = {'download': "foo" * 100,}
         shortdata = {'download': "blah" * 5}
         
+        # check GET
+        response = self._get('pastebin')
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context['form'], ResourcePasteForm)
+        
+        # check POST
         response = self._post('pastebin', data=data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.count(), num + 1)
@@ -292,7 +271,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertIsInstance(response.context['form'], ResourcePasteForm)
         self.assertFormError(response, 'form', 'download', 'Text is too small for the pastebin.')
 
-    def test_submit_gallery_failure_POST(self):
+    def test_submit_gallery_failure(self):
         """Test when no permission to submit exists"""
         galleries = Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all())
         self.assertGreater(galleries.count(), 0,
@@ -300,12 +279,17 @@ class ResourceUserTests(BaseUserCase):
         gallery = galleries[0]
         num = Resource.objects.count()
         
+        # check GET
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('resource.upload', gallery_id=gallery.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.count(), num)
 
     def test_submit_group_gallery(self):
-        """Test the POST when a gallery is group based, 
+        """Test to upload a resource when a gallery is group based, 
         and the user is member of the group, but not owner of the gallery"""
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                       .exclude(user=self.user)
@@ -314,15 +298,29 @@ class ResourceUserTests(BaseUserCase):
         gallery = galleries[0]
         num = Resource.objects.count()
 
+        # check GET
+        response = self._get('resource.upload', gallery_id=gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(response.context['gallery'], gallery)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        
+        # check POST
         response = self._post('resource.upload', gallery_id=gallery.pk,
             data=self.data)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.count(), num + 1)
         self.assertEqual(response.context['object'].gallery, gallery)
 
-    def test_drop_item_POST(self):
+    def test_drop_item(self):
         """Drag and drop file (ajax request)"""
         num = Resource.objects.count()
+        
+        # check GET
+        response = self._get('resource.drop')
+        self.assertEqual(response.status_code, 200)
+        # TODO: does this need a redirect? currently gives an empty page
+        
+        # check POST
         response = self._post('resource.drop', data={
           'name': "New Name",
           'download': self.download,
@@ -425,7 +423,16 @@ class ResourceUserTests(BaseUserCase):
             "Create an unpublished resource for user %s" % self.user)
         resource = resources[0]
 
+        # check GET
+        # TODO: currently displays the detail page
+        response = self._get('publish_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
+        
+        # check POST
+        # TODO: there's no link to this any more in galleries, replaced by 'move' icon
         response = self._post('publish_resource', pk=resource.pk)
+        print response
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
         
@@ -442,7 +449,12 @@ class ResourceUserTests(BaseUserCase):
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource which does not belong to user %s" % self.user)
 
+        # check GET
         response = self._get('publish_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+
+        # check POST
+        response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403) # or 404?
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
 
@@ -499,19 +511,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertEqual(resource.downed, num_dl)
         
     # Resource Edit tests:
-    def test_edit_item_being_the_owner_GET(self):
-        """Test if we can access the item edit page for our own item"""
-        # Make sure we own the file and that it's NOT a pasted text
-        resources = Resource.objects.filter(user=self.user).exclude(category=1)
-        self.assertGreater(resources.count(), 0,
-            "Create a image resource for user %s" % self.user)
-        resource = resources[0]
-        
-        response = self._get('edit_resource', pk=resource.pk)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-        self.assertContains(response, resource.name)
-
-    def test_edit_paste_being_the_owner_GET(self):
+    def test_edit_paste_being_the_owner(self):
         """Test if we can access the paste edit page for our own item"""
         # Make sure we own the file and that it IS a pasted text
         resources = Resource.objects.filter(user=self.user, category=1)
@@ -519,21 +519,33 @@ class ResourceUserTests(BaseUserCase):
             "Create a paste resource for user %s" % self.user)
         resource = resources[0]
         
+        # check GET
         response = self._get('edit_resource', pk=resource.pk)
         self.assertIsInstance(response.context['form'], ResourceEditPasteForm)
         self.assertContains(response, resource.name)
+        
+        # check POST
+        response = self._post('edit_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
 
-    def test_edit_item_being_the_owner_POST(self):
+    def test_edit_item_being_the_owner(self):
         """Test if we can edit an item which belongs to us"""
-        resources = Resource.objects.filter(user=self.user)
+         # Make sure we own the file and that it's NOT a pasted text
+        resources = Resource.objects.filter(user=self.user).exclude(category=1)
         self.assertGreater(resources.count(), 0,
-            "Create a resource for user %s" % self.user)
+            "Create an image resource for user %s" % self.user)
         resource = resources[0]
 
+        # check GET
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertIsInstance(response.context['form'], ResourceFileForm)
+        self.assertContains(response, resource.name)
+
+        # check POST
         response = self._post('edit_resource', pk=resource.pk) # no changes to resource data?
         self.assertEqual(response.status_code, 200)
       
-    def test_edit_item_by_other_user_GET(self):
+    def test_edit_item_by_other_user(self):
         """Check that we can't access the edit form for other people's items"""
         #make sure we don't own the file
         resources = Resource.objects.exclude(user=self.user)
@@ -541,17 +553,11 @@ class ResourceUserTests(BaseUserCase):
             "Create a resource which doesn't belong to user %s" % self.user)
         resource = resources[0]
         
+        # check GET
         response = self._get('edit_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403)
         
-    def test_edit_item_by_other_user_POST(self):
-        """Check that another user can't edit my items"""      
-        #make sure we don't own the file
-        resources = Resource.objects.exclude(user=self.user)
-        self.assertGreater(resources.count(), 0,
-            "Create a resource which doesn't belong to user %s" % self.user)
-        resource = resources[0]
-        
+        # check POST
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
         self.assertNotEqual(resource.description, self.data['desc'])
@@ -564,6 +570,12 @@ class ResourceUserTests(BaseUserCase):
             "Create a resource which belongs to user %s" % self.user)
         resource = resources[0]
         
+        # check GET
+        response = self._get('delete_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertIsInstance(response.context, ResourceDeleteForm)
+        
+        # check POST
         response = self._post('delete_resource', pk=resource.pk, follow=False)
         
         self.assertEqual(response.status_code, 302)
@@ -580,6 +592,11 @@ class ResourceUserTests(BaseUserCase):
             "Create a resource which does not belong to user %s" % self.user)
         resource = resources[0]
         
+        # check GET
+        response = self._get('delete_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('delete_resource', pk=resource.pk)
         
         self.assertEqual(response.status_code, 403)
@@ -612,7 +629,7 @@ class ResourceAnonTests(BaseAnonCase):
         response = self._get('resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
     
-    def test_public_resource_full_screen_anon(self):
+    def test_view_public_resource_full_screen_anon(self):
         """Check that an anonymous user can look at a
         resource in full screen, and that fullview number is incremented
         every time"""
@@ -628,24 +645,30 @@ class ResourceAnonTests(BaseAnonCase):
         # all full views are counted (like downloads)
         response = self._get('view_resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
-    
-    def test_submit_item_GET_anon(self):
-        """Test if we can access the file upload form when we're not logged in - shouldn't be allowed"""
-        response = self._get('resource.upload')
-        self.assertEqual(response.status_code, 403)
-        
-    def test_submit_item_POST_anon(self):
+
+    def test_submit_item_anon(self):
         """Test if we can upload a file when we're not logged in,
         shouldn't be allowed and shouldn't work"""
         num = Resource.objects.count()
         
+        # check GET
+        response = self._get('resource.upload')
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('resource.upload', data=self.data)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.count(), num)
 
-    def test_drop_item_POST_anon(self):
+    def test_drop_item_anon(self):
         """Drag and drop file (ajax request) when not logged in - shouldn't work"""
         num = Resource.objects.count()
+        
+        # check GET
+        response = self._get('resource.drop')
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('resource.drop', data={
           'name': "New Name",
           'download': self.download,
@@ -653,11 +676,16 @@ class ResourceAnonTests(BaseAnonCase):
         self.assertEqual(Resource.objects.count(), num)
         self.assertEqual(response.status_code, 403)
     
-    def test_paste_text_POST_anon(self):
+    def test_paste_text_anon(self):
         """Test pasting a valid text when logged out (fail)"""
         num = Resource.objects.count()
         data = {'download': "foo" * 100,}
         
+        # check GET
+        response = self._get('pastebin')
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('pastebin', data=data)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(Resource.objects.count(), num)
@@ -700,6 +728,11 @@ class ResourceAnonTests(BaseAnonCase):
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource")
 
+        # check GET
+        response = self._get('publish_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('publish_resource', pk=resource.pk)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
         self.assertEqual(response.status_code, 403) # or 404?
@@ -725,17 +758,7 @@ class ResourceAnonTests(BaseAnonCase):
         resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 2)
 
-    def test_edit_item_GET_anon(self):
-        """Test that we can't access the edit form for items when we are logged out"""
-        resources = Resource.objects.all()
-        self.assertGreater(resources.count(), 0,
-            "Create a resource!")
-        resource = resources[0]
-        
-        response = self._get('edit_resource', pk=resource.pk)
-        self.assertEqual(response.status_code, 403)
-      
-    def test_edit_item_POST_anon(self):
+    def test_edit_item_anon(self):
         """Test that we can't edit any items when we are logged out"""
         resources = Resource.objects.all()
         self.assertGreater(resources.count(), 0,
@@ -743,6 +766,11 @@ class ResourceAnonTests(BaseAnonCase):
         resource = resources[0]
         desc = resource.description
         
+        # check GET
+        response = self._get('edit_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('edit_resource', pk=resource.pk, data=self.data)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource.description, desc)
@@ -754,7 +782,12 @@ class ResourceAnonTests(BaseAnonCase):
             "Create a resource")
         resource = resources[0]
         
+        # check GET
+        response = self._get('delete_resource', pk=resource.pk)
+        self.assertEqual(response.status_code, 403)
+        
+        # check POST
         response = self._post('delete_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
-    
+        

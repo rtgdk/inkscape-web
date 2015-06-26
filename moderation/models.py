@@ -160,7 +160,6 @@ class Flag(Model):
         (a,b) = Flag._get_unique_checks(self, exclude=exclude)
         return [(type(self), ['target', 'flagger', 'flag'])], b
 
-
     def hide_url(self):
         return self.get_url('moderation.hide', pk=self.pk)
 

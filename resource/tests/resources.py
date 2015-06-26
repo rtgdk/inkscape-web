@@ -432,7 +432,6 @@ class ResourceUserTests(BaseUserCase):
         # check POST
         # TODO: there's no link to this any more in galleries, replaced by 'move' icon
         response = self._post('publish_resource', pk=resource.pk)
-        print response
         self.assertEqual(response.status_code, 200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
         

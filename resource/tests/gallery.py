@@ -223,20 +223,25 @@ class GalleryUserTests(BaseUserCase):
     # Gallery Search tests
     def test_global_gallery_search(self):
         """Tests the search functionality in galleries"""
-        # TODO: update search index somehow first, if that's the reason why it doesn't find anything 
-        #       and find out which fields are supposed to be searched
-        get_param = urlencode({ 'q' : 'description -Eight +Some'})# depends on fields
-        resources = Resource.objects.filter(published=True) # and search corresponding fields here 
+        get_param = urlencode({ 'q' : '+description searchterm2 searchterm1 -Eight'})
+        # I would expect this to only find items that have a field containing 'description', 
+        # that do not contain 'Eight' anywhere, and that may, or not, contain 'searchterm1' 
+        # or 'searchterm2'
+        # TODO: strangely, this also returns an item that does not contain 'description' 
+        # anywhere I can see (pk=6). So how does the search term logic work?
+        resources = Resource.objects.filter(published=True).exclude(desc__contains='Eight')\
+                                    .filter(desc__contains='description')
         self.assertGreater(resources.count(), 0,
-                           "Create a public resource which contains the search term %s")
-        
+                           "Create a public resource which complies to the search query")
         response = self._get('resources', get_param=get_param)
         self.assertEqual(response.status_code, 200)
-        self.assertContains(response, 'description')
-        self.assertContains(response, 'Some')
-        self.assertNotContains(response, 'Eight')
-        #self.assertEqual(response.context['object_list'], resources)
-        self.fail('Finish me!')
+
+        searchterms = [resource.name for resource in resources]
+        for term in searchterms:
+            self.assertNotEqual(response.content.find(str(term)), -1, "Could not find %s" % term)
+        
+        self.assertEqual(response.content.find('Eight'), -1)
+        self.assertEqual(list(response.context['object_list']), list(resources))
       
     def test_user_gallery_search(self):
         """Test that we can search for a user's items in that user's global gallery"""
@@ -450,7 +455,7 @@ class GalleryUserTests(BaseUserCase):
     # Gallery RSS tests
     def test_gallery_rss_feed(self):
         """Make sure that every gallery has the correct rss feed"""
-        # TODO: currently gets stuck at line 275 in resource.views.py - what does 'object' stand for?
+        # TODO:
         # Should feeds be dependent on the user that views them? is_visible() in line 277 causes this.
         # Also causes that people get different feeds depending on being logged out or in...
         # Would this confuse feed readers?

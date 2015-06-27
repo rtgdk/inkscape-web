@@ -73,7 +73,7 @@ class PublishResource(OwnerUpdateMixin, DetailView):
         item = self.get_object()
         item.published = True
         item.save()
-        return item.get_absolute_url()
+        return redirect(item.get_absolute_url())
 
 
 class MoveResource(OwnerUpdateMixin, UpdateView):

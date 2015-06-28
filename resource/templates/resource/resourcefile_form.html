@@ -29,7 +29,7 @@
   </div>
   <div class="side">
     {% for field in form.auto %}
-      <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+      <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
       {{ field }}
     {% endfor %}
   </div>

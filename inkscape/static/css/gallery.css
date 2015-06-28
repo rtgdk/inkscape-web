@@ -254,8 +254,8 @@ table.bioitem p a {
   line-height:22px;
   border: 1px #ddd solid;
 }
-.item .side h1.error {
-  background-color: #e66;
+.item .side h2.error {
+  color: #800;
 }
 .item .side input,
 .item .side select {

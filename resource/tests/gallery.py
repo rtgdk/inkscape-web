@@ -223,25 +223,31 @@ class GalleryUserTests(BaseUserCase):
     # Gallery Search tests
     def test_global_gallery_search(self):
         """Tests the search functionality in galleries"""
-        get_param = urlencode({ 'q' : '+description searchterm2 searchterm1 -Eight'})
+        get_param = urlencode({ 'q': '+description searchterm2 searchterm1 -Eight'})
         # I would expect this to only find items that have a field containing 'description', 
         # that do not contain 'Eight' anywhere, and that may, or not, contain 'searchterm1' 
         # or 'searchterm2'
         # TODO: strangely, this also returns an item that does not contain 'description' 
-        # anywhere I can see (pk=6). So how does the search term logic work?
+        # anywhere I can see (pk=6). The order of the +terms seems to matter (which is bad)
         resources = Resource.objects.filter(published=True).exclude(desc__contains='Eight')\
-                                    .filter(desc__contains='description')
+                                    .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query")
         response = self._get('resources', get_param=get_param)
         self.assertEqual(response.status_code, 200)
 
+        self.assertEqual(
+            [int(a.pk) for a in response.context['object_list']],
+            [b.pk for b in resources])
+
         searchterms = [resource.name for resource in resources]
+
         for term in searchterms:
-            self.assertNotEqual(response.content.find(str(term)), -1, "Could not find %s" % term)
-        
-        self.assertEqual(response.content.find('Eight'), -1)
-        self.assertEqual(list(response.context['object_list']), list(resources))
+            self.assertNotEqual(response.content.find(str(term)), -1, "Could not find '%s'" % term)
+            self.assertEqual(response.content.count(">%s<" % str(term)), 1, "Found item '%s' too many times" % term)
+
+        # The name raw appears in urls, so we look for a tagged name instead
+        self.assertEqual(response.content.find('>Eight<'), -1)
       
     def test_user_gallery_search(self):
         """Test that we can search for a user's items in that user's global gallery"""

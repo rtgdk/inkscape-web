@@ -1,4 +1,0 @@
-{{ object.name }}
-{{ object.desc }}
-{{ object.link }}
-{{ object.category.name }}

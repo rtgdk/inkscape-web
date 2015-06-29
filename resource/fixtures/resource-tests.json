@@ -240,7 +240,7 @@
     "user": 1,
     "name": "Resource Six",
     "slug": "resource_six",
-    "desc": "Big desc for Resource Six[[...]]And Some More and searchterm1",
+    "desc": "Text for Resource Six[[...]]And Some More and searchterm1",
     "created": "2015-04-03T16:42:41.433Z",
     "edited": "2015-04-21T16:42:41.417Z",
     "published": true,

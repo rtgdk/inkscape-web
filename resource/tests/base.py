@@ -36,13 +36,10 @@ from django.conf import settings
 import haystack
 
 TEST_INDEX = {
-    'default': {
-        'ENGINE': 'haystack.backends.elasticsearch_backend.ElasticsearchSearchEngine',
-        'URL': 'http://127.0.0.1:9200/',
-        'TIMEOUT': 60 * 10,
-        'INDEX_NAME': 'test_index',
-        'PATH': "%s/resource/tests/search" % settings.PROJECT_PATH,
-    },
+  'default': {
+    'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
+    'STORAGE': 'ram',
+  },
 }
 
 @override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX)
@@ -95,8 +92,10 @@ class BaseCase(TestCase):
         "Creates a dictionary containing a default post request for resources"
         super(TestCase, self).setUp()
         self.client = Client()
+
         haystack.connections.reload('default')
         call_command('rebuild_index', interactive=False, verbosity=0)
+
         self.download = self.open('../fixtures/media/test/file5.svg')
         self.thumbnail = self.open('../fixtures/media/test/preview5.png')
         self.data = {

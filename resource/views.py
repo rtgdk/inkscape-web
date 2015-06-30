@@ -256,6 +256,7 @@ class GalleryList(CategoryListView):
       ('category', _("Media Category")),
       ('galleries', _("User Gallery"), 'get_galleries'),
     )
+    order = '-liked'
     orders = (
       ('-liked', _('Most Popular')),
       ('-viewed', _('Most Views')),

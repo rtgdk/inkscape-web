@@ -227,8 +227,6 @@ class GalleryUserTests(BaseUserCase):
         # I would expect this to only find items that have a field containing 'description', 
         # that do not contain 'Eight' anywhere, and that may, or not, contain 'searchterm1' 
         # or 'searchterm2'
-        # TODO: strangely, this also returns an item that does not contain 'description' 
-        # anywhere I can see (pk=6). The order of the +terms seems to matter (which is bad)
         resources = Resource.objects.filter(published=True).exclude(desc__contains='Eight')\
                                     .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,

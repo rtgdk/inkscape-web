@@ -276,10 +276,9 @@ class GalleryUserTests(BaseUserCase):
         response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
             target=target_gallery.pk))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
-        self.assertEqual(Gallery.objects.get(pk=source_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 0)
         self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.all()[0], resource)
     
     def test_move_item_to_gallery_not_gal_owner(self):
         """Make sure that we cannot move items into a gallery which isn't ours,
@@ -315,10 +314,9 @@ class GalleryUserTests(BaseUserCase):
         # copy that resource to another gallery
         response = self._post('resource.copy', pk=resource.pk, data=dict(target=target_gallery.pk))
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.url, 'url')# TODO: where do we want to go?
         self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
         self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
-        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items[0], resource)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.all()[0], resource)
         
     def test_copy_item_to_gallery_not_gal_owner(self):
         """Make sure that we cannot copy items into a gallery which isn't ours, 

@@ -32,7 +32,8 @@ from cms.utils.permissions import get_current_user as get_user
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from cStringIO import StringIO
 
-__all__ = ('FORMS', 'GalleryForm', 'MoveForm', 'ResourceFileForm', 'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
+__all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceFileForm',
+           'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
 
 class GalleryForm(ModelForm):
     class Meta:
@@ -44,26 +45,27 @@ class GalleryForm(ModelForm):
         self.fields['group'].queryset = get_user().groups.all()
 
 
-class MoveForm(ModelForm):
-    target = ChoiceField()
+class GalleryMoveForm(ModelForm):
+    target = ModelChoiceField(queryset=Gallery.objects.none())
 
     class Meta:
         model = Resource
         fields = ['target']
 
-    # XXX exclude duplicates (decide which ones have precedence: group or user?), exclude current gallery
-    def get_galleries(self):
-        return [ (item.pk, str(item)) for item in Gallery.objects.filter(
+    def __init__(self, *args, **kwargs):
+        self.source = kwargs.pop('source', None)
+        super(GalleryMoveForm, self).__init__(*args, **kwargs)
+        # XXX exclude duplicates (decide which ones have precedence: group or user?), exclude current gallery
+        self.fields['target'].queryset = Gallery.objects.filter(
             (Q(user=self.instance.user) & Q(group__isnull=True))
             | Q(group__in=self.instance.user.groups.all())
-        )]
-
-    def __init__(self, *args, **kwargs):
-        super(MoveForm, self).__init__(*args, **kwargs)
-        self.fields['target'].choices = self.get_galleries()
+        )
 
     def save(self):
-        pass # XXX save here somehow
+        if self.source:
+            obj = Gallery.objects.get(pk=self.source)
+            self.instance.galleries.remove(obj)
+        self.instance.galleries.add(self.cleaned_data['target'])
 
 
 class ResourceBaseForm(ModelForm):

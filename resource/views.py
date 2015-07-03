@@ -78,9 +78,14 @@ class PublishResource(OwnerUpdateMixin, DetailView):
 
 class MoveResource(OwnerUpdateMixin, UpdateView):
     template_name = 'resource/resourcefile_move.html'
-    form_class = MoveForm
+    form_class = GalleryMoveForm
     model = Resource
-        
+    
+    def get_form_kwargs(self):
+        kwargs = super(MoveResource, self).get_form_kwargs()
+        kwargs['source'] = self.kwargs.get('source', None)
+        return kwargs
+
     def get_success_url(self):
         return self.get_object().get_absolute_url()
 

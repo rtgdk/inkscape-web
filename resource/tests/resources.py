@@ -395,9 +395,12 @@ class ResourceUserTests(BaseUserCase):
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource with no likes which doesn't belong to user %s" % self.user)
 
+        # We haven't controlled for the value of liked, so we need to record it.
+        previous_value = resources[0].liked
+        # Make a request to this resource like link
         response = self._get('resource.like', pk=resources[0].pk, like='+', follow=False)
         # This should not increment the counter
-        self.assertEqual(resources[0].liked, 0)
+        self.assertEqual(resources[0].liked, previous_value)
         # but instead give no info that the file even exists
         self.assertEqual(response.status_code, 404)
         
@@ -572,7 +575,6 @@ class ResourceUserTests(BaseUserCase):
         # check GET
         response = self._get('delete_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 200)
-        self.assertIsInstance(response.context, ResourceDeleteForm)
         
         # check POST
         response = self._post('delete_resource', pk=resource.pk, follow=False)

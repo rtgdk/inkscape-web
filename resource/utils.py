@@ -57,7 +57,10 @@ def syntaxer(text, mime):
     try:
         lexer = lexers.get_lexer_for_mimetype(str(mime))
     except:
-        lexer = lexers.guess_lexer(text)
+        try:
+            lexer = lexers.guess_lexer(text)
+        except:
+            return text
     return mark_safe(''.join(highlight(text, lexer, formatter)))
 
 def text_count(text):

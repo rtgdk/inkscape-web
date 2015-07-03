@@ -171,7 +171,7 @@ class GalleryUserTests(BaseUserCase):
         response = self._get('resources', galleries=gallery.slug, team=gallery.group.team.slug)
         self.assertEqual(response.status_code, 200)
         self.assertEqual(gallery.items.count(), response.context['object_list'].count())
-        for item in gallery:
+        for item in gallery.items.all():
             self.assertContains(response, item.name)
     
     def test_narrow_user_gallery_owner(self):
@@ -423,7 +423,7 @@ class GalleryUserTests(BaseUserCase):
         galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                                                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0, 
-                           "Create a gallery for a group in which %s is a member, but not the owner" % self.user)
+            "Create a gallery for a group in which %s is a member, not the owner" % self.user)
         gallery = galleries[0]
 
         # check GET
@@ -443,7 +443,7 @@ class GalleryUserTests(BaseUserCase):
         galleries = Gallery.objects.exclude(group__in=self.user.groups.all())\
                                                       .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0, 
-                           "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
+            "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
         gallery = galleries[0]
 
         # check GET
@@ -471,12 +471,8 @@ class GalleryUserTests(BaseUserCase):
         self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
         pos = 0
         for resource in resources:
-            name = resource.name
-            link = resource.get_absolute_url()
-            name_pos = response.content.find(str(name), pos)
-            link_pos = response.content.find(str(link), name_pos)
-            self.assertGreater(link_pos, -1)
-            pos = link_pos
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
         #TODO: 
         #test for search terms and ordering and:
         #response = self._get('resources_rss', category=category)

@@ -29,7 +29,7 @@ from django.utils.timezone import now
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from django.contrib.auth.models import Group, User
 from django.contrib import messages
 from django.conf import settings
 
@@ -82,7 +82,8 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
     model = Resource
         
     def get_success_url(self):
-        self.a
+        return self.get_object().get_absolute_url()
+
 
 class UploadResource(OwnerCreateMixin, CreateView):
     form_class = ResourceFileForm
@@ -130,7 +131,7 @@ class ViewResource(DetailView):
 
 @login_required
 def like_resource(request, pk, like):
-    item = get_object_or_404(Resource, pk=pk)
+    item = get_object_or_404(Resource, pk=pk, published=True)
     if item.user.pk == request.user.pk:
         raise PermissionDenied()
 
@@ -275,6 +276,9 @@ class GalleryList(CategoryListView):
         if username:
             return User.objects.get(username=username)\
                 .galleries.filter(group__isnull=True)
+        team = self.get_value('team')
+        if team:
+            return Group.objects.get(team__slug=team).galleries.all()
         return None
 
     def get_context_data(self, **kwargs):

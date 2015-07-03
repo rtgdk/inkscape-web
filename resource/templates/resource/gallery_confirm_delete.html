@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+  <h1>Delete Gallery '{{ object.name }}'</h1>
+
+  <div>Once the gallery has been deleted it can not be undone or recovered!</div>
+
+  <hr/>
+
+  <form method="POST">
+    {% csrf_token %}
+    <div class="form-buttons">
+      <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
+      <input type="submit" name="agree" class="btn btn-success" id="submitted" value="Yes, Delete It" />
+      <a class="btn btn-primary" href="{{ object.get_absolute_url }}">No</a>
+    </div>
+  </form>
+
+{% endblock %}
+

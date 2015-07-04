@@ -391,11 +391,10 @@ class ResourceUserTests(BaseUserCase):
         """Like a gallery item which belongs to someone else, and is not public
         - should fail and not change anything in db"""
         resources = Resource.objects.filter(published=False)\
-            .exclude(user=self.user, liked=0)
+            .exclude(user=self.user)
         self.assertGreater(resources.count(), 0,
             "Create an unpublished resource with no likes which doesn't belong to user %s" % self.user)
 
-        # We haven't controlled for the value of liked, so we need to record it.
         previous_value = resources[0].liked
         # Make a request to this resource like link
         response = self._get('resource.like', pk=resources[0].pk, like='+', follow=False)

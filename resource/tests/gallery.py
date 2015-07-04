@@ -467,7 +467,6 @@ class GalleryUserTests(BaseUserCase):
         resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
         response = self._get('resources_rss')
         self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
-        pos = 0
         for resource in resources:
             self.assertContains(response, resource.name)
             self.assertContains(response, resource.get_absolute_url())

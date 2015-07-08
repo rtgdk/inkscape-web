@@ -2,6 +2,7 @@
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import PasswordResetForm
+from django.contrib.auth.models import Permission
 
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
@@ -13,6 +14,17 @@ class PasswordForm(PasswordResetForm):
 
 class RegisForm(RegistrationForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))
+
+class AgreeToClaForm(Form):
+    def __init__(self, *args, **kwargs):
+        self.instance = kwargs.pop('instance')
+        super(AgreeToClaForm, self).__init__(*args, **kwargs)
+
+    def save(self):
+        cla = Permission.objects.get(codename='website_cla_agreed')
+        self.instance.user_permissions.add(cla)
+        return self.instance
+
 
 class UserForm(ModelForm):
     password1 = CharField(label=_('Password'), widget=PasswordInput(), required=False)

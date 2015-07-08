@@ -33,6 +33,9 @@ class UserDetails(Model):
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
 
+    class Meta:
+        permissions = [("website_cla_agreed", "Agree to Website License")]
+
     def __unicode__(self):
         if self.user.first_name:
             return "%s %s" % (self.user.first_name, self.user.last_name)

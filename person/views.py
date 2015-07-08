@@ -6,11 +6,17 @@ from user_sessions.views import LoginRequiredMixin
 from django.contrib import messages
 
 from .models import User, UserDetails, Group, Team
-from .forms import PersonForm
+from .forms import PersonForm, AgreeToClaForm
 
 class UserMixin(LoginRequiredMixin):
     def get_object(self):
         return self.request.user
+
+class AgreeToCla(UserMixin, UpdateView):
+    form_class = AgreeToClaForm
+
+    def get_success_url(self):
+        return self.request.POST.get('next', '/')
 
 class EditProfile(UserMixin, UpdateView):
     form_class = PersonForm

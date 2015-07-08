@@ -97,12 +97,12 @@ function popUp(title, msg, href, cancel, ok, next) {
       $('#popup').append( "<h1>" + title + "</h1>" ).append( "<p>" + msg + "</p>" )
                  .append( "<form class='buttons' action='"+href+"' method='POST'/>");
       $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
-                          .append("<button class='start'>" + cancel + "</button>");
+                          .append("<a class='btn btn-cancel'>" + cancel + "</a>");
       if(next){
         $('#popup .buttons').append("<input type='hidden' name='next' value='"+next+"'/>");
       }  
-      $('#popup .buttons').append("<button type='submit' class='end unique' name='confirm' value='true'>" + ok + "</button>");
-      $('#popup .buttons .start').click(popUp);
+      $('#popup .buttons').append("<button type='submit' class='btn btn-primary' name='confirm' value='true'>" + ok + "</button>");
+      $('#popup .buttons .btn-cancel').click(popUp);
       $('#popup').css({
         'top': 'calc(50% - ' + ($('#popup').innerHeight() / 2) + 'px)',
         'left': 'calc(50% - ' + ($('#popup').innerWidth() / 2) + 'px)',

@@ -1,0 +1,32 @@
+{% extends "admin/base.html" %}
+{% load i18n %}
+
+{% block title %}{{ title }} | {% trans "Inkscape Website Administration" %}{% endblock %}
+
+{% block branding %}
+<style>
+  #site-name a {
+    font: 15px/20px Helvetica,Arial,sans-serif;
+    color: white !important;
+    text-decoration: none;
+    background: transparent none repeat scroll 0% 0%;
+    font-weight: bold;
+    margin: 5px 0px;
+  }
+  #site-name a span {
+    background-color: white;
+    border-radius: 4px;
+    color: #417690;
+    padding: 1px 5px;
+  }
+</style>
+<h1 id="site-name"><a href="/">Inkscape <span>web</span></a> | <a href="{% url 'admin:index' %}">admin</a></h1>
+{% endblock %}
+
+{% block welcome-msg %}
+  {% trans 'Welcome' %}
+  <strong>{% firstof user.get_short_name user.get_username %}</strong>
+  {% trans 'Please be careful with all data.' %}
+{% endblock %}
+
+{% block nav-global %}{% endblock %}

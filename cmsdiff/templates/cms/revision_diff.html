@@ -1,8 +1,26 @@
-{% extends "base.html" %}
+{% extends "admin/base.html" %}
 
 {% load i18n pile sekizai_tags %}
 
 {% block title %}{% trans "Revision Diff" %}{% endblock %}
+
+{% block userlinks %}
+  <div class="submit-row">
+    {% if object.revision.has_next %}
+      <form target="{% url "cms.diff" object.revision.next.pk %}" method="get">
+        <input type="submit" value="{% trans "Next Revision" %} &gt;">
+      </form>
+    {% endif %}
+    {% if object.revision.has_previous %}
+      <form target="{% url "cms.diff" object.revision.previous.pk %}" method="get">
+        <input type="submit" value="&lt; {% trans "Previous Revision" %}">
+      </form>
+    {% endif %}
+  </div>
+{% endblock %}
+
+{% block welcome-msg %}{% endblock %}
+{% block branding %}<h1 id="site-name">Page Difference</h1>{% endblock %}
 
 {% block content %}
 

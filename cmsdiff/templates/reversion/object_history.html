@@ -26,7 +26,7 @@
 {% if action.revision.has_previous %}
 <a href="{% url "cms.diff" action.revision.pk %}">{{action.revision.date_created}}</a></th>
 {% else %}
-{{action.revision.date_created}}
+{{ action.revision.date_created }}
 {% endif %}
                                 <td>
                                     {% if action.revision.user %}

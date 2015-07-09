@@ -119,14 +119,15 @@ class RevisionDiff(Model):
                     continue
                 if '\n' not in a and '\n' not in b:
                     # Not a multi-line field, consider differently.
-                    f_table += FIELD_TEMPLATE % (field, a, b)
+                    if field not in ('changed_date',):
+                        f_table += FIELD_TEMPLATE % (field, a, b)
                     continue
                 diff = differ.diff_main(a, b)
                 differ.diff_cleanupSemantic(diff)
                 diffs += diff
-                content += "<div class='page'>%s</div>" % differ.diff_prettyHtml(diff).replace('&para;','')
+                content += "<div class='system-message'>%s</div>" % differ.diff_prettyHtml(diff).replace('&para;','')
         if f_table:
-            content = ("<table class='page'>%s</table>" % f_table) + content
+            content = ("<table>%s</table>" % f_table) + content
         self.content = content
         self.stub = differ.diff_prettyHtml(self.get_segment(diffs)).replace('&para;','')
 

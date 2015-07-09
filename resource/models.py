@@ -134,8 +134,11 @@ class ResourceManager(Manager):
             return None
 
     def get_absolute_url(self):
-        if self.parent:
-            return reverse('resources', kwargs={'username': self.parent.username})
+        obj = self.parent
+        if isinstance(obj, User):
+            return reverse('resources', kwargs={'username': obj.username})
+        elif isinstance(obj, Group):
+            return reverse('resources', kwargs={'team': obj.team.slug})
         return reverse('resources')
 
     def for_user(self, user):
@@ -162,6 +165,22 @@ class ResourceManager(Manager):
 
     def latest(self):
         return self.get_queryset().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
+
+
+class GroupGalleryManager(ResourceManager):
+    def __init__(self, instance):
+        super(GroupGalleryManager, self).__init__()
+        self.instance = instance
+
+    def get_queryset(self):
+        qs = super(GroupGalleryManager, self).get_queryset()
+        return qs.filter(galleries__group=self.instance)
+
+    @property
+    def parent(self):
+        return self.instance
+
+Group.resources = property(lambda self: GroupGalleryManager(self))
 
 
 class InheritedResourceManager(InheritanceManager, ResourceManager):
@@ -510,6 +529,11 @@ class Gallery(Model):
         super(Gallery, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        if self.group:
+            return reverse('resources', kwargs={
+              'team': self.group.team.slug,
+              'galleries': self.slug,
+            })
         return reverse('resources', kwargs={
           'username': self.user.username,
           'galleries': self.slug,
@@ -522,7 +546,7 @@ class Gallery(Model):
     @property
     def parent(self):
         if self.group:
-            return self.group
+            return self.group.resources
         return self.user.resources
 
     def is_visible(self):

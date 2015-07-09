@@ -1,4 +1,5 @@
 
+from django.core.urlresolvers import reverse
 from django.views.generic import UpdateView, CreateView
 from django.utils.translation import ugettext_lazy as _
 
@@ -12,18 +13,15 @@ class AutoBreadcrumbMiddleware(object):
         if not hasattr(response, 'context_data'):
             return response
         if 'breadcrumbs' not in response.context_data:
-            context = response.context_data
             out = {}
-            if hasattr(context, 'dicts'):
-                for dic in context.dicts:
-                    out.update(dic)
+            out.update(response.context_data)
             if not out.get('action', None) and 'view' in out:
                 out['action'] = self._action(out['view'])
             response.context_data['breadcrumbs'] = self._crumbs(**out)
         return response
 
     def _crumbs(self, object=None, parent=None, action=None, **kwargs):
-        yield ('/', _('Home'))
+        yield (reverse('pages-root'), _('Home'))
         target = object if object is not None else parent
         if target is not None:
             for obj in self._ancestors(target):

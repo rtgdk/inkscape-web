@@ -32,7 +32,7 @@
 
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>
       <ul>
-        <li><a href="{$ url "resources" teams=team.slug %}">{% trans "Team Galleries" %}</a></li>
+        <li><a href="{% url "resources" team=team.slug %}">{% trans "Team Galleries" %}</a></li>
       </ul>
 
       <h2>{% trans "Information" %}</h2>

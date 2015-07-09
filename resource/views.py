@@ -291,7 +291,7 @@ class GalleryList(CategoryListView):
         if data.get('galleries', None) is not None:
              data['object'] = data['galleries']
         elif data.get('username', None):
-             data['object'] = self.request.user
+             data['object'] = data['username']
              data['action'] = "InkSpace"
         else:
             data['action'] = "InkSpaces"

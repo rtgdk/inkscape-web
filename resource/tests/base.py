@@ -56,7 +56,10 @@ class BaseCase(TestCase):
         method = kw.pop('method', self.client.get)
         follow = kw.pop('follow', True)
         get_param = kw.pop('get_param', None)
-        url = reverse(url_name, kwargs=kw, args=arg)
+        if url_name[0] == '/':
+            url = url_name
+        else:
+            url = reverse(url_name, kwargs=kw, args=arg)
         if get_param:
             url += '?' + get_param 
         return method(url, data, follow=follow)

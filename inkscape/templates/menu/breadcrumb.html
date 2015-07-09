@@ -1,15 +1,16 @@
+      <div class="beadcrumbs">
 {% ifequal ancestors|length 1 %}
   {% if breadcrumbs %}
     {% for crumb in breadcrumbs %}
-      {% if forloop.last %}
-        {{ crumb.1 }}
-      {% elif not crumb.0 %}
-        {{ crumb.1 }} &raquo;
+      {% if not crumb.0 %}
+        <span class="crumb">{{ crumb.1 }}</span>
       {% else %}
-        <a href="{{ crumb.0 }}">{{ crumb.1 }}</a> &raquo; 
+        <a href="{{ crumb.0 }}" class="crumb">{{ crumb.1 }}</a>
       {% endif %}
+      {% if not forloop.last %}&raquo;{% endif %}
     {% endfor %}
   {% endif %}
 {% else %}
   {% for ance in ancestors %}{% if not forloop.last %} <a href="{{ ance.get_absolute_url }}">{{ ance.get_menu_title }}</a> &raquo; {% else %}{{ ance.get_menu_title }}{% endif %}{% endfor %}
 {% endifequal %}
+      </div>

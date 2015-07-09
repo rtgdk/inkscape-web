@@ -26,80 +26,74 @@ from .base import BaseCase, BaseAnonCase
 from .resources import *
 from .gallery import *
 
+from inkscape.middleware import AutoBreadcrumbMiddleware
+
 class Breadcrumbs(BaseAnonCase):
-    def test_breadcrumbs(self):
-        """Make sure that breadcrumbs link to the correct parents"""
+    def assertBreadcrumbRequest(self, url, *terms, **kwargs):
+        response = self._get(url, **kwargs)
+        for term in terms:
+            if len(term) == 1:
+                self.assertContains(response, '<span class="crumb">%s<' % term)
+                continue
+            self.assertContains(response, 'href="%s" class="crumb">%s<' % term)
+
+    def assertBreadcrumbs(self, obj, *terms, **kwargs):
+        """Test breadcrumbs in both generation and template request"""
+        crumbs = list(AutoBreadcrumbMiddleware()._crumbs(object=obj, **kwargs))
+        (links1, names1) = zip(*crumbs)
+        (links2, names2) = zip(*terms)
+        # The i18n gets in the way of testing the names
+        #self.assertTupleEqual(names1, names2)
+        self.assertTupleEqual(links1, links2)
+        if hasattr(obj, 'get_absolute_url'):
+            self.assertBreadcrumbRequest(obj.get_absolute_url(), *terms)
+
+    def test_resource_breadcrumbs(self):
+        """Resource item breadcrumbs"""
         #TODO: adapt to actual team page, remove duplicity
         # crumbs for public resources
         resources = Resource.objects.filter(published=True)
         self.assertGreater(resources.count(), 5)
         
         for resource in resources:
-            response = self._get('resource', pk=resource.pk)
-            searchterms = ("wrapper", 
-                           reverse('pages-root'), "Home", 
-                           reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
-                           reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
-                           resource.name,
-                           "id=\"gallery\"")
-            pos = 0
-            for term in searchterms:
-                new_pos = response.content.find(str(term), pos)
-                self.assertGreater(new_pos, -1, "Could not find %s" % term)
-                pos = new_pos
-            
-        # crumbs for user-created galleries, no group
+            self.assertBreadcrumbs(resource,
+                (reverse('pages-root'), "Home"),
+                (resource.user.get_absolute_url(), str(resource.user)),
+                (reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces"),
+                (resource.get_absolute_url(), resource.name))
+
+    def test_gallery_breadcrumbs(self):
+        """crumbs for user-created galleries, no group"""
         galleries = Gallery.objects.filter(group=None)
         self.assertGreater(galleries, 0,
-                           "Please create a gallery that contains a public item and does not belong to a group")
+            "Please create a gallery that contains a public item and does not belong to a group")
         
         for gallery in galleries:
-            response = self._get('resources', galleries=gallery.slug)
-                
-            searchterms = ("wrapper", 
-                           reverse('pages-root'), "Home", 
-                           reverse('view_profile', kwargs={'username': resource.user.username}), resource.user,
-                           reverse('resources', kwargs={'username': resource.user.username}), "InkSpaces",
-                           gallery.name,
-                           "id=\"gallery\"")
-            pos = 0
-            for term in searchterms:
-                new_pos = response.content.find(str(term), pos)
-                self.assertGreater(new_pos, -1, "Could not find %s" % term)
-                pos = new_pos
-        
-        # crumbs for user-created galleries, belonging to group
+            self.assertBreadcrumbs(gallery,
+                (reverse('pages-root'), "Home"),
+                (gallery.user.get_absolute_url(), str(gallery.user)),
+                (reverse('resources', kwargs={'username': gallery.user.username}), "InkSpaces"),
+                (gallery.get_absolute_url(), gallery.name,))
+
+    def test_group_gallery_breadcrumbs(self):
+        """crumbs for user-created galleries, belonging to group"""
         galleries = Gallery.objects.exclude(group=None)
         self.assertGreater(galleries, 0,
-                           "Please create a group gallery that contains a public item")
+            "Please create a group gallery that contains a public item")
         
         for gallery in galleries:
-            response = self._get('resources', galleries=gallery.slug)
-                
-            searchterms = ("wrapper", 
-                           reverse('pages-root'), "Home", 
-                           reverse('team', kwargs={'team': gallery.team.slug}), resource.team,
-                           reverse('resources', kwargs={'team': gallery.team.slug}), "InkSpaces",
-                           gallery.name,
-                           "id=\"gallery\"")
-            pos = 0
-            for term in searchterms:
-                new_pos = response.content.find(str(term), pos)
-                self.assertGreater(new_pos, -1, "Could not find %s" % term)
-                pos = new_pos
-        
-        # crumbs for global gallery
-        response = self._get('resources')
-        
-        searchterms = ("wrapper",
-                       reverse('pages-root'), "Home",
-                       "id=\"gallery\"")
-        
-        pos = 0
-        for term in searchterms:
-            new_pos = response.content.find(str(term), pos)
-            self.assertGreater(new_pos, -1, "Could not find %s" % term)
-            pos = new_pos
+            self.assertBreadcrumbs(gallery,
+                (reverse('pages-root'), "Home"),
+                (gallery.group.get_absolute_url(), gallery.group),
+                (reverse('resources', kwargs={'team': gallery.group.team.slug}), "InkSpaces"),
+                (gallery.get_absolute_url(), gallery.name,))
+
+    def test_global_gallery(self):
+        """crumbs for global gallery"""
+        self.assertBreadcrumbRequest('resources',
+                (reverse('pages-root'), "Home"),
+        )
+
 
 class LicenseTests(BaseCase):
     def test_license_methods(self):

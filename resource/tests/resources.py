@@ -790,4 +790,21 @@ class ResourceAnonTests(BaseAnonCase):
         response = self._post('delete_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
-        
+
+    def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
+        rec = ResourceFile.objects.filter(**kw)
+        self.assertGreater(rec.count(),0,"Resources neded with: %s" % str(kw))
+
+        for resource in rec:
+            self.assertEqual(resource.endorsement(), endorse,
+                "Endorsement doesn't match for file: %s and sig %s" %
+                (resource.download, resource.signature))
+
+    def test_endorsement(self):
+        """Make sure GPG and Hashes work for downloads"""
+        self.assertEndorsement(signature='')
+        self.assertEndorsement(ResourceFile.ENDORSE_HASH, signature__contains='good.md5')
+        self.assertEndorsement(ResourceFile.ENDORSE_SIGN, signature__contains='good.sig')
+        self.assertEndorsement(signature__contains='bad')
+
+

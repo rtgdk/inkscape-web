@@ -21,9 +21,21 @@
 {"pk": 2, "model": "auth.group", "fields": {"name": "Group Two", "permissions": []}},
 
 {"pk": 1, "model": "person.userdetails", "fields":
-  {"bio": "BIO_ADMIN", "user": 1, "photo": "photos/admin.svg"}},
+  {
+    "user": 1,
+    "bio": "BIO_ADMIN",
+    "photo": "photos/admin.svg",
+    "gpg_key": "-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: GnuPG v1\n\nmI0EVZ/z+wEEALgNIYf+UhxJDetqBTaAWPVwjmMVLM3aH6qrht+8B1Qc80YqL/ub\nd3W2vmsmEjvR7pYuHnpUBnmEnkkdVltEDwf1IO47MSieIlymIzN+DkREmCriNQML\nsZWkJ4/XCKgGKmWZoO2Ujsd/9I+Q4RXskhkTV4lClcBom9HIGue7i2dfABEBAAG0\nXElua3NjYXBlIFRlc3QgS2V5IChQYXNzd29yZCBpcyAndGVzdCcgKG9ubHkgZm9y\nIHJ1bm5pbmcgdGVzdHMpIElOU0VDVVJFKSA8dGVzdEBpbmtzY2FwZS5vcmc+iLgE\nEwECACIFAlWf8/sCGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEPcRjblD\nZ00N75UD+wRzQ1ebkFZZCw1RqSvwEaf2GsHx9W09Ozg9TsiQ1zb4fC/KHWc/VJlC\nHRVbiQkEqMYTnLbxVFmuNHPv7Imt6gJsvoP0TBSQ5wQeryzvgcSLXmT6qXbBgf2M\ntnuLcbwz9uvckrYQfPLoAdLq1LSuk0oR1V4xY0Ja+oVD5446CuaNuI0EVZ/z+wEE\nAK0gfuDYC6plAV6fQ9x1H0gHcNNVNo2aOSy4E5VdoeWDJdHSd3loMlNjpm1i0MNJ\nkFC9mHFJxb/dYCl6XsSM9xaeZ0M81/sSLZeI9AZ2RgYCpNIV9b2hXuyljK1/9EJ3\nQM9Z45N26ZhyoVuXN2OeiyYP9ATSe9MFXfiF+fMVGnirABEBAAGInwQYAQIACQUC\nVZ/z+wIbDAAKCRD3EY25Q2dNDdvdA/9r5Or/nzegUp1X0VDovORhBAq3J+7C66Y4\n/WJ1Ax7CGHilGnME8YGdQxiHzJX9pTR9rmE12DABLATl2gElKC16ooC3dO+XRxT/\n4m7gSA6P/Oe4p8SNzeQuC0nlKeDS6qT3Py/HL0MyFJXeRFcfM13qkSFlmrHXLsDB\nbGg+4pPhxA==\n=fOA9\n-----END PGP PUBLIC KEY BLOCK-----"
+  }
+},
 {"pk": 2, "model": "person.userdetails", "fields":
-  {"bio": "BIO_STAFF", "user": 2, "photo": "test/staff.svg"}},
+  {
+    "user": 2,
+    "bio": "BIO_STAFF",
+    "photo": "test/staff.svg",
+    "gpg_key": "-----BEGIN PGP PUBLIC KEY BLOCK-----\nVersion: GnuPG v1\n\nmI0EVZ/z+wEEALgNIYf+UhxJDetqBTaAWPVwjmMVLM3aH6qrht+8B1Qc80YqL/ub\nd3W2vmsmEjvR7pYuHnpUBnmEnkkdVltEDwf1IO47MSieIlymIzN+DkREmCriNQML\nsZWkJ4/XCKgGKmWZoO2Ujsd/9I+Q4RXskhkTV4lClcBom9HIGue7i2dfABEBAAG0\nXElua3NjYXBlIFRlc3QgS2V5IChQYXNzd29yZCBpcyAndGVzdCcgKG9ubHkgZm9y\nIHJ1bm5pbmcgdGVzdHMpIElOU0VDVVJFKSA8dGVzdEBpbmtzY2FwZS5vcmc+iLgE\nEwECACIFAlWf8/sCGwMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheAAAoJEPcRjblD\nZ00N75UD+wRzQ1ebkFZZCw1RqSvwEaf2GsHx9W09Ozg9TsiQ1zb4fC/KHWc/VJlC\nHRVbiQkEqMYTnLbxVFmuNHPv7Imt6gJsvoP0TBSQ5wQeryzvgcSLXmT6qXbBgf2M\ntnuLcbwz9uvckrYQfPLoAdLq1LSuk0oR1V4xY0Ja+oVD5446CuaNuI0EVZ/z+wEE\nAK0gfuDYC6plAV6fQ9x1H0gHcNNVNo2aOSy4E5VdoeWDJdHSd3loMlNjpm1i0MNJ\nkFC9mHFJxb/dYCl6XsSM9xaeZ0M81/sSLZeI9AZ2RgYCpNIV9b2hXuyljK1/9EJ3\nQM9Z45N26ZhyoVuXN2OeiyYP9ATSe9MFXfiF+fMVGnirABEBAAGInwQYAQIACQUC\nVZ/z+wIbDAAKCRD3EY25Q2dNDdvdA/9r5Or/nzegUp1X0VDovORhBAq3J+7C66Y4\n/WJ1Ax7CGHilGnME8YGdQxiHzJX9pTR9rmE12DABLATl2gElKC16ooC3dO+XRxT/\n4m7gSA6P/Oe4p8SNzeQuC0nlKeDS6qT3Py/HL0MyFJXeRFcfM13qkSFlmrHXLsDB\nbGg+4pPhxA==\n=fOA9\n-----END PGP PUBLIC KEY BLOCK-----"
+  }
+},
 {"pk": 3, "model": "person.userdetails", "fields":
   {"bio": "BIO_USER", "user": 3, "photo": "test/user.svg"}},
   

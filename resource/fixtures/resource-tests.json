@@ -4,7 +4,7 @@
     "verified": false,
     "license": 1,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file1.svg"
@@ -17,7 +17,7 @@
     "verified": false,
     "license": 1,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file2.txt"
@@ -30,7 +30,7 @@
     "verified": false,
     "license": 2,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file3.svg"
@@ -43,7 +43,7 @@
     "verified": false,
     "license": 2,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file4.svg"
@@ -56,7 +56,7 @@
     "verified": false,
     "license": 2,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file1.svg"
@@ -69,7 +69,7 @@
     "verified": false,
     "license": 3,
     "tags": [],
-    "signature": "",
+    "signature": null,
     "owner": true,
     "mirror": false,
     "download": "test/file2.txt"
@@ -82,7 +82,7 @@
     "verified": false,
     "license": 3,
     "tags": [],
-    "signature": "",
+    "signature": "test/good.md5",
     "owner": true,
     "mirror": false,
     "download": "test/preview5.png"
@@ -95,7 +95,7 @@
     "verified": false,
     "license": 4,
     "tags": [],
-    "signature": "",
+    "signature": "test/bad.sig",
     "owner": true,
     "mirror": false,
     "download": "test/file1.svg"
@@ -108,7 +108,7 @@
     "verified": false,
     "license": 1,
     "tags": [],
-    "signature": "",
+    "signature": "test/good.sig",
     "owner": false,
     "mirror": false,
     "download": "test/file1.svg"

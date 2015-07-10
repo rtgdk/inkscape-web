@@ -7,7 +7,17 @@ omit =
 	*/admin.py
         */__init__.py
 source = 
+	alerts
+	inkscape
 	resource
+	cmsdiff
+	cmsplugin_news
+	cmstabs
+	docs
+	moderation
+	person
+	projects
+	releases
 
 [report]
 show_missing = True

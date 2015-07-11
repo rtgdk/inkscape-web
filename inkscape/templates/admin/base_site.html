@@ -25,7 +25,7 @@
 
 {% block welcome-msg %}
   {% trans 'Welcome' %}
-  <strong>{% firstof user.get_short_name user.get_username %}</strong>
+  <strong>{% firstof user.get_short_name user.get_username %}</strong>! 
   {% trans 'Please be careful with all data.' %}
 {% endblock %}
 

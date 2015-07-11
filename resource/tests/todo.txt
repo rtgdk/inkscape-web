@@ -1,17 +1,41 @@
 
-# Required tests:
-#
-# TODO:
-# filesize_item: What's this?
-# narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
-# view_group_galleries
-# view_group_gallery
-# item_breadcrumbs (each variation)
-# gallery_breadcrumbs (lots of variations)
-# gallery_rss_feed (galleries variations)
-# signature (good and bad)
-# mirror_flag
-# verified_flag
+Required tests:
+
+TODO:
+filesize_item: What's this?
+narrow_user_galleries (category): What's this in comparison to: narrow_user_gallery (specific + category)?
+view_group_galleries
+view_group_gallery
+gallery_rss_feed (galleries variations)
+signature (good and bad)
+mirror_flag
+verified_flag
+contests
+mirrors
+svg-coords with invalid coords
+upload invalid text file
+mime-type starts with 'x-','script.','vnd.','ms-','windows-','oasis.opendocument.','microsoft.'
+icon (resource-utils 159)
+embedded video
+counter/sessions depending on decision-to-make / also: set_viewed
+visiting a new object after drag-and-drop upload
+votes (models, 103, Returns a queryset of Votes for this category)
+tag names
+a lot in resourcemanager (models, 123+)
+def has_file_changed(self): return False ?
+find_media_type(self): return None ?
+years(self) with two different years
+next(self): 
+link_from
+NotLocalDownload(object): 
+upload raster image: Resourcefile.save
+gallery is_visible, test one that is not visible, because only contains unpublished items
+gallery is_editable
+gallery icon image
+forms: if field in self.fields and self.fields[field].widget is ClearableFileInput: 
+try to upload a file larger than quota, clean_download in forms
+try to upload a filename starting with $
+
 #
 # STARTED / DONE(?)
 # license_on_gallery_item: started, inside test_view_global_gallery
@@ -39,3 +63,5 @@
 # view_user_galleries: started
 # delete gallery: started
 # try to download non-existent file: started
+
+

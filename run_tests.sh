@@ -1,3 +1,3 @@
 
-pythonenv/bin/coverage run inkscape/manage.py test
+pythonenv/bin/coverage run inkscape/manage.py test $@
 

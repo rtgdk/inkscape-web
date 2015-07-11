@@ -30,6 +30,7 @@ from django.core.urlresolvers import reverse
 
 from resource.models import Resource, ResourceFile, Quota, Gallery, Category
 from resource.forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
+from resource.utils import video_embed
 
 class ResourceTests(BaseCase):
     """Test non-request functions and methods"""
@@ -790,6 +791,14 @@ class ResourceAnonTests(BaseAnonCase):
         response = self._post('delete_resource', pk=resource.pk)
         self.assertEqual(response.status_code, 403)
         self.assertEqual(resource, Resource.objects.get(pk=resource.pk))
+
+    def test_video_view(self):
+        """Make sure video links embed a vieo feature"""
+        self.assertTrue(video_embed('http://youtube.com/watch?v=01234567911'))
+        for resource in ResourceFile.objects.filter(link__contains='VideoTag'):
+            response = self._get('resource', pk=resource.pk)
+            self.assertContains(response, '<iframe')
+            self.assertContains(response, 'VideoTag')
 
     def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
         rec = ResourceFile.objects.filter(**kw)

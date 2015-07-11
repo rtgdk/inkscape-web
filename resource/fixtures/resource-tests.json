@@ -277,7 +277,7 @@
     "media_x": 100,
     "media_y": 500,
     "thumbnail": "",
-    "link": "http://linkformypicture.com/"
+    "link": "https://www.youtube.com/watch?v=VideoTag012"
   },
   "model": "resource.resource",
   "pk": 7
@@ -301,7 +301,7 @@
     "media_x": 10,
     "media_y": 50,
     "thumbnail": "",
-    "link": "http://linkformytutorial.com/"
+    "link": "http://vimeo.com/VideoTag"
   },
   "model": "resource.resource",
   "pk": 8

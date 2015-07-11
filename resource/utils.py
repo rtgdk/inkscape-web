@@ -164,19 +164,16 @@ class MimeType(object):
     def banner(self):
         return self.icon('banner')
 
-
-YOUTUBE = (r'(https?://)?(www\.)?'
-   '(youtube|youtu|youtube-nocookie)\.(com|be/)'
-   '(watch\?v=|embed/|v/|.+\?v=)?([^&=%\?]{11})')
-VIMEO = r'(http:\/\/)?(www\.)?(vimeo\.com)(\/channels\/.+)?\/(.+)/?'
+VIDEO_URLS = {
+  'youtube': r'(https?://)?(www\.)?(youtube|youtu|youtube-nocookie)\.(com|be/)(watch\?v=|embed/|v/|.+\?v=)?(?P<video_id>[^&=%\?]{11})',
+  'vimeo': r'(http:\/\/)?(www\.)?(vimeo\.com)(\/channels\/.+)?\/(?P<video_id>.+)/?',
+}
 
 def video_embed(url):
-    match = re.match(YOUTUBE, url)
-    if match:
-        return {'type':'youtube', 'id':match.group(6)}
-    match = re.match(VIMEO, url)
-    if match:
-        return {'type':'vimeo', 'id':match.group(5)}
+    for site_id, regex in VIDEO_URLS.items():
+        match = re.match(regex, url)
+        if match:
+            return {'type': site_id, 'id': match.group('video_id')}
 
 def hash_verify(sig_type, sig, data):
     import hashlib

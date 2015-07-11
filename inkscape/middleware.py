@@ -14,7 +14,8 @@ class AutoBreadcrumbMiddleware(object):
             return response
         if 'breadcrumbs' not in response.context_data:
             out = {}
-            out.update(response.context_data)
+            for name in ('object', 'parent', 'action', 'view'):
+                out[name] = response.context_data.get(name, None)
             if not out.get('action', None) and 'view' in out:
                 out['action'] = self._action(out['view'])
             response.context_data['breadcrumbs'] = self._crumbs(**out)

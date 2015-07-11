@@ -66,8 +66,24 @@ class ResourceTests(BaseCase):
         with self.assertRaises(Resource.DoesNotExist):
             Resource.objects.get(pk=resourcefile.pk)
 
+    def test_media_size(self):
+        """Make sure file sizes are reported"""
+        svg = ResourceFile.objects.get(download__contains='file5.svg')
+        self.assertTupleEqual(svg.find_media_coords(), (67, 83))
+
+        svg = ResourceFile.objects.get(download__contains='file4.svg')
+        self.assertTupleEqual(svg.find_media_coords(), (-1, -1))
+
     def test_mime_type(self):
-        pass
+        """Make sure file types are right"""
+        pdf = ResourceFile.objects.get(media_type__contains='pdf').mime()
+        self.assertEquals(pdf.subtype(), 'pdf')
+        self.assertEquals(pdf.type(), 'document')
+        self.assertEquals(pdf.icon(), '/static/mime/pdf.svg')
+
+        unknown = ResourceFile.objects.get(media_type__contains='/man').mime()
+        self.assertEquals(unknown.icon(), '/static/mime/unknown.svg')
+
       
 class ResourceUserTests(BaseUserCase):
     """Any test of views and requests where a user is logged in."""

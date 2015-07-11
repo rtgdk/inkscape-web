@@ -29,10 +29,11 @@ import mimetypes
 from pygments import highlight, lexers, formatters
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.contrib.staticfiles import finders, storage
 
 MIME_DIR = 'mime'
-MIME_URL = os.path.join(settings.STATIC_URL, MIME_DIR)
-MIME_ROOT = os.path.join(settings.STATIC_ROOT, MIME_DIR)
+#MIME_URL = os.path.join(settings.STATIC_URL, MIME_DIR)
+#MIME_ROOT = os.path.join(settings.STATIC_ROOT, MIME_DIR)
 
 ALL_TEXT_TYPES = dict( (mimes[0], name)
     for (name, alias, patterns, mimes) in lexers.get_all_lexers()
@@ -84,7 +85,7 @@ def svg_coords(svg):
         doc = parseString(svg.encode('utf-8')).documentElement
         return (coord(doc.getAttribute('width')),
                 coord(doc.getAttribute('height')))
-    except IOError:
+    except:
         return (-1,-1)
 
 def upto(d, c='resources', blank=True, lots=False):
@@ -147,7 +148,7 @@ class MimeType(object):
 
     def is_text(self):
         # We test for both because javascript in code and html in document
-        return self.type() in ['text','code'] or self.major == 'text'
+        return self.type() in ['text', 'code'] or self.major == 'text'
 
     def is_image(self):
         return self.major == 'image'
@@ -156,10 +157,11 @@ class MimeType(object):
         return self.is_image() and self.minor in ['jpeg', 'gif', 'png']
 
     def icon(self, subdir=""):
-        for ft_icon in [self.subtype(), self.type(), self.minor, self.major, 'unknown']:
-            if os.path.exists(os.path.join(MIME_ROOT, subdir, ft_icon+'.svg')):
-                break
-        return os.path.join(MIME_URL, subdir, ft_icon+'.svg')
+        for ft_icon in [self.subtype(), self.type(), self.minor, self.major]:
+            static = os.path.join(MIME_DIR, subdir, ft_icon+'.svg')
+            if finders.find(static):
+                return storage.staticfiles_storage.url(static)
+        return storage.staticfiles_storage.url('mime/unknown.svg')
 
     def banner(self):
         return self.icon('banner')

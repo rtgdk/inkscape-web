@@ -89,6 +89,12 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
         kwargs['source'] = self.kwargs.get('source', None)
         return kwargs
 
+    def form_invalid(self, form):
+        for error in form.errors.as_data().get('target', []):
+            if error.code == 'invalid_choice':
+                raise PermissionDenied()
+        return super(MoveResource, self).form_invalid(form)
+
     def get_success_url(self):
         return self.get_object().get_absolute_url()
 

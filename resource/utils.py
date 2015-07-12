@@ -160,7 +160,7 @@ class MimeType(object):
         return self.is_image() and self.minor in ['jpeg', 'gif', 'png']
 
     def icon(self, subdir=""):
-        for ft_icon in [self.subtype(), self.type(), self.minor, self.major]:
+        for ft_icon in [self.subtype(), self.type(), self.minor, self.major, 'unknown']:
             static = os.path.join(MIME_DIR, subdir, ft_icon+'.svg')
             if finders.find(static):
                 return storage.staticfiles_storage.url(static)

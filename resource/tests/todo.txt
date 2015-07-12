@@ -1,4 +1,3 @@
-
 Required tests:
 
 TODO:
@@ -7,7 +6,6 @@ narrow_user_galleries (category): What's this in comparison to: narrow_user_gall
 view_group_galleries
 view_group_gallery
 gallery_rss_feed (galleries variations)
-signature (good and bad)
 mirror_flag
 verified_flag
 contests
@@ -16,7 +14,6 @@ svg-coords with invalid coords
 upload invalid text file
 mime-type starts with 'x-','script.','vnd.','ms-','windows-','oasis.opendocument.','microsoft.'
 icon (resource-utils 159)
-embedded video
 counter/sessions depending on decision-to-make / also: set_viewed
 visiting a new object after drag-and-drop upload
 votes (models, 103, Returns a queryset of Votes for this category)
@@ -29,7 +26,6 @@ next(self):
 link_from
 NotLocalDownload(object): 
 upload raster image: Resourcefile.save
-gallery is_visible, test one that is not visible, because only contains unpublished items
 gallery is_editable
 gallery icon image
 forms: if field in self.fields and self.fields[field].widget is ClearableFileInput: 
@@ -38,6 +34,8 @@ try to upload a filename starting with $
 
 #
 # STARTED / DONE(?)
+#embedded video
+# signature (good and bad)
 # license_on_gallery_item: started, inside test_view_global_gallery
 # license_on_item: started, inside test_view_someone_elses_public_item_detail
 # move_item_to_gallery: started

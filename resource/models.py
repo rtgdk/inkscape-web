@@ -552,6 +552,8 @@ class Gallery(Model):
             return self.group.resources
         return self.user.resources
 
+    # This isn't used anymore (there's just a 0 in the galleries list for a user)
+    # intentional?
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()
 

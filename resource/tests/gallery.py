@@ -32,6 +32,7 @@ from .base import BaseCase, BaseUserCase
 
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
+from django.core.management import call_command
 
 from resource.models import Resource, Gallery, Category
 from resource.views import GalleryList
@@ -41,10 +42,7 @@ class GalleryUserTests(BaseUserCase):
     """Gallery viewing and sorting tests"""
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
-        # seems the global gallery doesn't use the standard ordering for Resources (-created), but orders by id
-        # but it should be ordered by -liked by default, see resource/views.py:238
-        # For the list of ordering options of which the first is the default.
-        resources = Resource.objects.filter(published=True).order_by('-liked')# pk for no error
+        resources = Resource.objects.filter(published=True).order_by('-liked')
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
         
@@ -227,9 +225,7 @@ class GalleryUserTests(BaseUserCase):
     def test_global_gallery_search(self):
         """Tests the search functionality in galleries"""
         get_param = urlencode({ 'q': '+description searchterm2 searchterm1 -Eight'})
-        # I would expect this to only find items that have a field containing 'description', 
-        # that do not contain 'Eight' anywhere, and that may, or not, contain 'searchterm1' 
-        # or 'searchterm2'
+
         resources = Resource.objects.filter(published=True).exclude(desc__contains='Eight')\
                                     .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,
@@ -244,21 +240,60 @@ class GalleryUserTests(BaseUserCase):
         searchterms = [resource.name for resource in resources]
 
         for term in searchterms:
-            self.assertNotEqual(response.content.find(str(term)), -1, "Could not find '%s'" % term)
-            self.assertEqual(response.content.count(">%s<" % str(term)), 1, "Found item '%s' too many times" % term)
+            self.assertContains(response, ">%s<" % term, 1)
 
         # The name raw appears in urls, so we look for a tagged name instead
-        self.assertEqual(response.content.find('>Eight<'), -1)
+        self.assertNotContains(response, '>Item Eight<')
       
     def test_user_gallery_search(self):
         """Test that we can search for a user's items in that user's global gallery"""
-        #TODO: copy/paste/adapt previous method
-        pass
+        owner = User.objects.get(pk=2)
+        resources = Resource.objects.filter(user=owner, published=True).exclude(name__contains="Four")\
+                                    .filter(name__contains="Seven").order_by('-liked')
+        self.assertGreater(resources.count(), 0,
+                           "Create a public resource which complies to the search query for user %s" % owner)
+    
+        get_param = urlencode({ 'q': 'Seven -Four'})
+        response = self._get('resources', username=owner.username, get_param=get_param)
+        self.assertEqual(response.status_code, 200)
+        
+        self.assertEqual(
+            [int(a.pk) for a in response.context['object_list']],
+            [b.pk for b in resources])
+
+        searchterms = [resource.name for resource in resources]
+
+        for term in searchterms:
+            self.assertContains(response, ">%s<" % term, 1)
+
+        # The name raw appears in urls, so we look for a tagged name instead
+        self.assertNotContains(response, '>Resource Four<')
       
     def test_specific_gallery_search(self):
         """Test that we can search items in a specific gallery (not global or all items for user)"""
-        #TODO: copy/paste/adapt previous method
-        pass
+        # prepare gallery
+        owner = User.objects.get(pk=2)
+        galleries = Gallery.objects.filter(user=owner, group=None)
+        self.assertGreater(galleries.count(), 0, "Create a gallery for user %s" % owner)
+        gallery = galleries[0]
+        
+        # add resources which belongs to user 2 to the gallery
+        item_search = Resource.objects.get(pk=7)
+        item_exclude = Resource.objects.get(pk=4)
+        gallery.items.add(item_search, item_exclude)
+
+        # either this, or more fixtures that interfere with already existing tests...
+        call_command('rebuild_index', interactive=False, verbosity=0)
+
+        get_param = urlencode({ 'q': 'Seven -Four'})
+        response = self._get('resources', username=owner.username, galleries=gallery.slug, get_param=get_param)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(int(response.context['object_list'][0].pk), item_search.pk)
+        self.assertContains(response, ">%s<" % item_search.name, 1)
+
+        # The name raw appears in urls, so we look for a tagged name instead
+        self.assertNotContains(response, '>%s<' % item_exclude.name)
       
     # Gallery Move and Copy resources tests
     def test_move_item_to_gallery(self):
@@ -284,21 +319,130 @@ class GalleryUserTests(BaseUserCase):
         self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.all()[0], resource)
     
     def test_move_item_to_gallery_not_gal_owner(self):
-        """Make sure that we cannot move items into a gallery which isn't ours,
-        and not a gallery for a group we're in"""
-        # TODO: copy/paste/adapt previous method
-        pass
+        """Make sure that we cannot move items from our own gallery 
+        into a gallery which isn't ours, and not a gallery for a group we're in"""
+        # prepare galleries
+        my_galleries = self.user.galleries.filter(group=None)
+        self.assertGreater(my_galleries.count(), 0)
+        other_galleries = Gallery.objects.exclude(group__in=self.user.groups.all()).exclude(user=self.user)
+        self.assertGreater(other_galleries.count(), 0)
+
+        src_gallery = my_galleries[0]
+        target_gallery = other_galleries[0]
+        
+        # get a resource which belongs to us
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        src_gallery.items.add(resource)
+
+        # test GET
+        response = self._get('resource.move', pk=resource.pk, source=src_gallery.pk)
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, resource.name)
+        
+        # move that resource to a stranger's gallery
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
+        self.assertEqual(response.status_code, 403, "User shouldn't be able to move an item into another user's gallery")
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.all()[0], resource)
       
     def test_move_item_to_group_gallery_member(self):
         """Make sure that we can move items into a group gallery 
         if we are a member (not owner) of the group"""
-        # TODO: copy/paste/adapt previous method
-        pass
+        
+        # prepare gallery
+        my_galleries = self.user.galleries.filter(group=None)
+        self.assertGreater(my_galleries.count(), 0)
+        member_galleries = Gallery.objects.exclude(user=self.user).filter(group__in=self.user.groups.all())
+        self.assertGreater(member_galleries.count(), 0)
+        src_gallery = my_galleries[0]
+        target_gallery = member_galleries[0]
+        
+        # add a resource which belongs to us to the gallery
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        src_gallery.items.add(resource)
+
+        # move that resource to another gallery
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
+
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.all()[0], resource)
     
+    def test_move_item_from_group_gallery_member(self):
+        """Make sure that we can move our own items out of a group gallery 
+        if we are a member (not owner) of the group, but not other people's items"""
+        
+        # prepare gallery
+        member_galleries = Gallery.objects.exclude(user=self.user).filter(group__in=self.user.groups.all())
+        self.assertGreater(member_galleries.count(), 0)
+        my_galleries = self.user.galleries.filter(group=None)
+        self.assertGreater(my_galleries.count(), 0)
+        target_gallery = my_galleries[0]
+        src_gallery = member_galleries[0]
+        
+        # add a resource which belongs to us to the gallery
+        resources = Resource.objects.filter(user=self.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        src_gallery.items.add(resource)
+
+        # move that resource to another gallery
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.all()[0], resource)
+
+        # add a resource which does *not* belong to us to the group gallery
+        resources = Resource.objects.filter(user=src_gallery.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        src_gallery.items.add(resource)
+
+        # try to move that resource to another gallery
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
+        
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 1)
+        self.assertNotIn(resource, Gallery.objects.get(pk=target_gallery.pk).items.all())
+
     def test_move_item_to_gallery_not_item_owner(self):
-        """Make sure that we cannot move items around that don't belong to us"""
-        # TODO: copy/paste/adapt previous method
-        pass
+        """Make sure that we cannot move items around that don't belong to us 
+        (from stranger's gallery to our own)"""
+        # prepare gallery
+        other_galleries = Gallery.objects.exclude(group__in=self.user.groups.all()).exclude(user=self.user)
+        self.assertGreater(other_galleries.count(), 0)
+        my_galleries = Gallery.objects.exclude(user=self.user).filter(group__in=self.user.groups.all())
+        self.assertGreater(my_galleries.count(), 0)
+        src_gallery = other_galleries[0]
+        target_gallery = my_galleries[0]
+        
+        # add a resource which belongs to someone else to that person's gallery
+        resources = Resource.objects.filter(user=src_gallery.user)
+        self.assertGreater(resources.count(), 0)
+        resource = resources[0]
+        src_gallery.items.add(resource)
+
+        # move that resource to another gallery
+        response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
+            target=target_gallery.pk))
+
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.count(), 1)
+        self.assertEqual(Gallery.objects.get(pk=target_gallery.pk).items.count(), 0)
+        self.assertEqual(Gallery.objects.get(pk=src_gallery.pk).items.all()[0], resource)
     
     def test_copy_item_to_gallery(self):
         """Make sure an item can be copied from one gallery to another by its owner"""

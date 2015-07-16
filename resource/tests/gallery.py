@@ -315,12 +315,8 @@ class GalleryUserTests(BaseUserCase):
         response = self._get('resource.move', pk=resource.pk, source=src_gallery.pk)
         self.assertEqual(response.status_code, 200)
         self.assertContains(response, resource.name)
-        # TODO: Template shows info for copying, not for moving: {% if gallery %} doesn't work,
-        # context contains: 'action': None, 'gallery': None
-        # also moving is not linked from anywhere yet
-        
         # this distinguishes move from copy language-independently
-        self.assertNotContains(response, src_gallery.name + '</td>')
+        self.assertContains(response, str(src_gallery) + '</td>')
 
         # move that resource to another gallery
         response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(

@@ -65,9 +65,8 @@ class GalleryMoveForm(ModelForm):
         )
 
     def save(self):
-        if self.source:
-            obj = Gallery.objects.get(pk=self.source)
-            self.instance.galleries.remove(obj)
+        if self.source is not None:
+            self.instance.galleries.remove(self.source)
         self.instance.galleries.add(self.cleaned_data['target'])
 
 

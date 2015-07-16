@@ -86,7 +86,8 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
     
     def get_form_kwargs(self):
         kwargs = super(MoveResource, self).get_form_kwargs()
-        kwargs['source'] = self.kwargs.get('source', None)
+        if 'source' in self.kwargs:
+            kwargs['source'] = Gallery.objects.get(pk=self.kwargs['source'])
         return kwargs
 
     def form_invalid(self, form):

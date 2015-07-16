@@ -320,7 +320,7 @@ class GalleryUserTests(BaseUserCase):
         # also moving is not linked from anywhere yet
         
         # this distinguishes move from copy language-independently
-        self.assertContains(response, src_gallery.name + '</td>')
+        self.assertNotContains(response, src_gallery.name + '</td>')
 
         # move that resource to another gallery
         response = self._post('resource.move', pk=resource.pk, source=src_gallery.pk, data=dict(
@@ -522,9 +522,9 @@ class GalleryUserTests(BaseUserCase):
         resource = resources[0]
         src_gallery.items.add(resource)
         
-        # GET
+        # GET, returns a dropdown box on a page
         response = self._get('resource.copy', pk=resource.pk)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
         
         # copy that resource to another gallery
         response = self._post('resource.copy', pk=resource.pk, data=dict(target=target_gallery.pk))

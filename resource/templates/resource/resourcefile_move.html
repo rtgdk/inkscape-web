@@ -6,7 +6,7 @@
 
 <h1>
   {% block title %}
-    {% if gallery %}
+    {% if form.source %}
       {% trans "Move Resource" %}
     {% else %}
       {% trans "Copy Resource to Gallery" %}
@@ -41,7 +41,7 @@
   </table>
 
   <div class="buttonbar">
-      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% if gallery %}{% trans "Move" %}{% else %}{% trans "Copy" %}{% endif %}</button>
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% if form.source %}{% trans "Move" %}{% else %}{% trans "Copy" %}{% endif %}</button>
   </div>
  </form>
 </div>

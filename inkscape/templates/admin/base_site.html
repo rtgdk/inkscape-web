@@ -2,6 +2,9 @@
 {% load i18n future %}
 
 {% block title %}{{ title }} | {% trans "Inkscape Website Administration" %}{% endblock %}
+{% block extrahead %}
+  <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-admin-logo.png"/>
+{% endblock %}
 
 {% block branding %}
 <style>

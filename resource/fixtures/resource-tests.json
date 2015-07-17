@@ -376,5 +376,15 @@
   },
   "model": "resource.gallery",
   "pk": 5
+},
+{
+  "fields": {
+    "user": 2,
+    "group": 2,
+    "name": "Gallery Six for Group Two",
+    "slug": "gallery-six-group"
+  },
+  "model": "resource.gallery",
+  "pk": 6
 }
 ]

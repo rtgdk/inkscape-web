@@ -29,7 +29,7 @@
       {% else %}
         <td>&nbsp;</td>
       {% endif %}
-      <td class="left-aligned" title="{{ object.alert.obj.desc }}">{{ object.alert.obj.name }}</td>
+      <td class="left-aligned" title="{{ object.alert.desc }}">{{ object.alert.name }}</td>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>
     </tr>
@@ -51,7 +51,7 @@
     </tr>
   {% for object in items %}
     <tr class="{% cycle "odd" "even" %}">
-      <td class="left-aligned">{{ object.alert.obj.name }}</td>
+      <td class="left-aligned">{{ object.alert.name }}</td>
       <td>
         {% if object.target %}
           {% if object.object.get_absolute_url %}

@@ -163,12 +163,12 @@ INSTALLED_APPS = (
     'cmstabs',
     'docs',
     'resource',
-    'alerts',
     'moderation',
     'projects',
     'releases',
     'django_comments',
     'django_mailman',
+    'alerts',
 )
 SESSION_ENGINE = 'user_sessions.backends.db'
 

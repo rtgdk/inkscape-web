@@ -1,26 +1,29 @@
 {% extends "base.html" %}
-
 {% load i18n %}
 
-{% block title %}{% trans "Subscribe" %}{% endblock %}
-
 {% block content %}
+  <h1>
+    {% block title %}
+      {% if object %}
+        {% trans "Subscribe to" %} {{ object_name }}
+      {% else %}
+        {% trans "Subscribe to All" %} {{ alert_type.name }}
+      {% endif %}
+    {% endblock %}
+  </h1>
 
-{% if object %}
-  <h1>{% trans "Subscribe to" %} {{ object }}</h1>
-{% else %}
-  <h1>{% trans "Subscribe to All" %} {{ alert.obj.name }}</h1>
-{% endif %}
-
- <ul id="messages">
-{% if alert.default_email %}
-  <li class="warning">You will receive an email alert by default when you subscribe, but these can be switched off in your subscription settings.</li>
-{% endif %}
-  <li class="info">{{ alert.obj.desc }}</li>
- </ul>
+  {% if alert.default_email %}
+    <div>You will receive an email alert by default when you subscribe, but these can be switched off in your subscription settings.</div>
+  {% endif %}
+  <div>{{ alert_type.desc }}</div>
 
   <form method="post" action=".">
     {% csrf_token %}
-    <input type="submit" value="{% trans "Subscribe Me" %}"/>
+    <div class="form-buttons">
+      <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
+      <input type="submit" class="btn btn-primary" value="{% trans "Subscribe Me" %}"/>
+      <a class="btn btn-default" href="{{ next }}">{% trans "Cancel" %}</a>
+    </div>
   </form>
+
 {% endblock %}

@@ -39,7 +39,6 @@ from model_utils.managers import InheritanceManager
 
 from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
-from .signals import post_publish
 from .slugify import set_slug
 
 from uuid import uuid4
@@ -246,6 +245,7 @@ class Resource(Model):
 
         if not self.created and self.published:
             self.created = now()
+            from .alert import post_publish
             post_publish.send(sender=Resource, instance=self)
 
         set_slug(self)
@@ -633,30 +633,6 @@ def quota_for_user(user):
 
 User.quota = quota_for_user
 
-# ------------- Alerts ------------ #
-
-from alerts.models import *
-
-class ResourceAlert(EditedAlert):
-    name     = _("New Gallery Resource")
-    desc     = _("An alert is sent when the target user submits a resource.")
-    category = CATEGORY_USER_TO_USER
-    sender   = Resource
-
-    subject       = _("New submission: ") + "{{ instance }}"
-    email_subject = _("New submission: ") + "{{ instance }}"
-    default_email = False
-    signal        = post_publish
-
-    # We subscribe to the user of the instance, not the instance.
-    target = 'user'
-
-    def call(self, sender, **kwargs):
-        return super(ResourceAlert, self).call(sender, **kwargs)
-
-register_alert('user_gallery', ResourceAlert)
-
-
 # ------------- CMS ------------ #
 
 from cms.models import CMSPlugin
@@ -683,6 +659,4 @@ class CategoryPlugin(CMSPlugin):
     @property
     def render_template(self):
         return "cms/plugins/resource-%s.html" % (self.display or 'list')
-
-
 

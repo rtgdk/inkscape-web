@@ -1,0 +1,38 @@
+[
+{
+  "fields": {
+    "body": "Single Message",
+    "sender": 2,
+    "created": "2015-07-14T05:00:25.580Z",
+    "reply_to": null,
+    "recipient": 3,
+    "subject": "Subject One"
+  },
+  "model": "alerts.message",
+  "pk": 1
+},
+{
+  "fields": {
+    "body": "A message goes here",
+    "sender": 2,
+    "created": "2015-07-14T05:00:26Z",
+    "reply_to": null,
+    "recipient": 3,
+    "subject": "Subject Two"
+  },
+  "model": "alerts.message",
+  "pk": 2
+},
+{
+  "fields": {
+    "body": "Body One",
+    "sender": 3,
+    "created": "2015-07-14T05:00:27Z",
+    "reply_to": 2,
+    "recipient": 2,
+    "subject": "Subject Three"
+  },
+  "model": "alerts.message",
+  "pk": 3
+}
+]

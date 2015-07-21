@@ -26,12 +26,21 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
+from django.views.generic import ListView, CreateView, TemplateView
 
-from pile.views import ListView, CreateView, CategoryListView
-from .models import User, UserAlert, Message, UserAlertSetting, AlertSubscription
-from .signals import SIGNALS
+from pile.views import CategoryListView
 
-class AlertList(CategoryListView):
+from .models import User, UserAlert, Message, \
+    UserAlertSetting, AlertType, AlertSubscription
+
+class LoginRequired(object):
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated():
+            raise PermissionDenied()
+        return super(LoginRequired, self).dispatch(request, *args, **kwargs)
+
+
+class AlertList(CategoryListView, LoginRequired):
     model = UserAlert
     opts = (
       ('alerttype', 'alert__slug'),
@@ -62,23 +71,13 @@ def mark_deleted(request, alert_id):
     alert.delete()
     return HttpResponse(alert.pk)
 
-@login_required
-def subscribe(request, slug, pk=None):
-    (alert, alerter) = SIGNALS.get(slug, (None, None))
-    if not alerter or alerter.private:
-        raise Http404()
+class Subscribe(TemplateView, LoginRequired):
+    template_name = 'alerts/subscribe.html'
 
-    # XXX This logic needs to move into models
-    model = alerter.sender
-    if alerter.target:
-        # Always must be a foreignKey field!
-        model = getattr(model, alerter.target).field.rel.to
-
-    obj = pk and get_object_or_404(model, pk=pk)
-
-    if request.method == 'POST':
+    def post(self, request, **kwargs):
+        data = self.get_context_data(**kwargs)
         (item, created, deleted) = AlertSubscription.objects.get_or_create(
-                                     alert=alert, user=request.user, target=pk)
+            alert=data['alert_type'], user=request.user, target=data['pk'])
         if deleted:
             messages.warning(request, _("Deleted %d previous subscriptions (supseeded)") % deleted)
         if created:
@@ -87,10 +86,14 @@ def subscribe(request, slug, pk=None):
             messages.warning(request, _('Already subscribed to this!'))
         return redirect('alert.settings')
 
-    return render_to_response('alerts/subscribe.html', {
-        'alert': alert,
-        'object': obj,
-      }, context_instance=RequestContext(request))
+    def get_context_data(self, slug, pk=None):
+        alert_type = AlertType.objects.get(slug=slug)
+        alert_obj = pk and alert_type.get_object(pk=pk)
+        return super(Subscribe, self).get_context_data(
+            object_name=alert_type.get_object_name(alert_obj),
+            alert_type=alert_type, object=alert_obj,
+            pk=pk, slug=slug, action="Subscribe"
+          )
 
 @login_required
 def unsubscribe(request, pk):

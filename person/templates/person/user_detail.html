@@ -73,6 +73,9 @@
         {% if object.details.gpg_key %}
           <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
         {% endif %}
+        {% if object != request.user %}
+          <li><a href="{% url "alert.subscribe" "resource.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
+        {% endif %}
       </ul>
 
       {% if object.teams.all %}

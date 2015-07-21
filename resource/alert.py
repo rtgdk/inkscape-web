@@ -1,5 +1,5 @@
 #
-# Copyright 2014, Martin Owens <doctormo@gmail.com>
+# Copyright 2015, Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
@@ -17,9 +17,34 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+Resource alerts
+"""
+
+from django.utils.translation import ugettext_lazy as _
 
 from django.db.models import signals
 from django.dispatch import Signal
 
+from alerts.base import EditedAlert
+from alerts.models import AlertType
+
+from .models import Resource
+
 post_publish = Signal(providing_args=["instance"])
+
+class ResourceAlert(EditedAlert):
+    name     = _("New Gallery Resource")
+    desc     = _("An alert is sent when the target user submits a resource.")
+    category = AlertType.CATEGORY_USER_TO_USER
+    sender   = Resource
+
+    subject       = "{% trans 'New submission:' %} {{ object }}"
+    email_subject = "{% trans 'New submission:' %} {{ object }}"
+    object_name   = "{{ object }}'s {% trans 'Gallery Submissions' %}"
+    default_email = False
+    signal        = post_publish
+
+    # We subscribe to the user of the instance, not the instance.
+    target_field = 'user'
 

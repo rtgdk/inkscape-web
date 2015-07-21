@@ -58,11 +58,18 @@ class GalleryMoveForm(ModelForm):
     def __init__(self, *args, **kwargs):
         self.source = kwargs.pop('source', None)
         super(GalleryMoveForm, self).__init__(*args, **kwargs)
-        # XXX exclude duplicates (decide which ones have precedence: group or user?), exclude current gallery
-        self.fields['target'].queryset = Gallery.objects.filter(
-            (Q(user=self.instance.user) & Q(group__isnull=True))
-            | Q(group__in=self.instance.user.groups.all())
-        )
+
+        # Either resource's owner is the gallery's owner or the gallerie's
+        # group is in the resource owner's list of groups.
+        query = (Q(user=self.instance.user) & Q(group__isnull=True)) \
+               | Q(group__in=self.instance.user.groups.all())
+
+        # Resources can be moved between galleries in the same group by a
+        # user who is not the owner (but who is in the group).
+        if self.source and self.source.group:
+            query |= Q(group=self.source.group)
+
+        self.fields['target'].queryset = Gallery.objects.filter(query)
 
     def save(self):
         if self.source is not None:

@@ -84,10 +84,19 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
     form_class = GalleryMoveForm
     model = Resource
     
+    def get_object(self):
+        self.source = None
+        if 'source' in self.kwargs:
+            self.source = get_object_or_404(Gallery, pk=self.kwargs['source'])
+        return super(MoveResource, self).get_object()
+
+    def get_group(self):
+        """This gives group members permisson to move other's resources"""
+        return getattr(self.source, 'group', None)
+
     def get_form_kwargs(self):
         kwargs = super(MoveResource, self).get_form_kwargs()
-        if 'source' in self.kwargs:
-            kwargs['source'] = Gallery.objects.get(pk=self.kwargs['source'])
+        kwargs['source'] = self.source
         return kwargs
 
     def form_invalid(self, form):

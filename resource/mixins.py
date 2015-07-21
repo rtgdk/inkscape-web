@@ -28,10 +28,13 @@ from .models import Gallery, Model, Q
 class OwnerUpdateMixin(object):
     def is_allowed(self):
         obj = self.get_object()
-        if hasattr(obj, 'group') and obj.group is not None:
-            if obj.group in self.request.user.groups.all():
-                return True
+        group = self.get_group()
+        if group is not None and group in self.request.user.groups.all():
+            return True
         return obj.user == self.request.user
+
+    def get_group(self):
+        return getattr(self.get_object(), 'group', None)
 
     def dispatch(self, request, *args, **kwargs):
         """ Making sure that only authors can update stories """

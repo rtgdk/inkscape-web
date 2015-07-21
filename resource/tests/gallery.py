@@ -456,7 +456,7 @@ class GalleryUserTests(BaseUserCase):
         self.assertGreater(target_galleries.count(), 0,
                            "Create another gallery that belongs to group %s" % src_gallery.group)
         target_gallery = target_galleries[0]
-        
+
         # add a resource which does *not* belong to us, but to someone 
         # totally unrelated (e.g. a member that left the group), 
         # to the source gallery, 

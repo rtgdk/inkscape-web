@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 
 {% load sekizai_tags %}
-{% load i18n pagination_tags pile cms_tags %}
+{% load i18n pagination_tags pile %}
 
 
 {% block title %}{% trans "Alert Settings" %}{% endblock %} 
@@ -55,7 +55,7 @@
       <td>
         {% if object.target %}
           {% if object.object.get_absolute_url %}
-            <a title="{% page_url object.target %}" href="{% page_url object.target %}">{{ object.object }}</a>
+            <a title="{{ object.object.get_absolute_url }}" href="{{ object.object.get_absolute_url }}">{{ object.object }}</a>
           {% else %}
             {{ object.object }}
           {% endif %}

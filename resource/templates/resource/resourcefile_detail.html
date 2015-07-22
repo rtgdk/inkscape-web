@@ -19,7 +19,7 @@
         <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
       {% endif %}
       {% if object.download %}
-        {% if not object.mime.is_image or not object.license.nd %}
+        {% if not object.mime.is_image or not object.license.nd and object.filename %}
           <div class="tog" id="download"><a href="{% url "download_resource" object.id object.filename %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ object.downed }}</p></div>
         {% endif %}
       {% endif %}

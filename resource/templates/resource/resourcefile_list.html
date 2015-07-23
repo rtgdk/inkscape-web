@@ -52,15 +52,15 @@
             {% for item in category %}
               {% if category == item %}
                 <li>
-                  <a class="active" {% if item.pk %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
+                  <a class="active" {% if item.pk and item.user == request.user %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
                     <label>{{ item.name|default:item }}</label>
-                    {% if item.pk and username == request.user %}
+                    {% if item.pk and item.user == request.user %}
                        <span>{% trans "edit" %}</span>
                     {% endif %}
                   </a>
                 </li>
               {% else %}
-                <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
+                <li><a href="{{ item.url }}"><label>{{ item.name|default:item}}</label><span>{{ item.count }}</span></a></li>
               {% endif %}
             {% endfor %}
             {% if username == request.user %}

@@ -386,5 +386,15 @@
   },
   "model": "resource.gallery",
   "pk": 6
+},
+{
+  "fields": {
+    "user": 3,
+    "group": 2,
+    "name": "A Group Gallery for Group Two by User Three",
+    "slug": "gallery-seven"
+  },
+  "model": "resource.gallery",
+  "pk": 7
 }
 ]

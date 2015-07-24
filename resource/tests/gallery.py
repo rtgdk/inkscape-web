@@ -687,11 +687,30 @@ class GalleryUserTests(BaseUserCase):
         self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
         self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
 
-    def test_edit_group_gallery(self):
-        """Make sure that group members can edit the name of a group 
-        gallery, if they did not create that gallery"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+    def test_edit_group_gallery_member_fail(self):
+        """Make sure that people who do not own a team gallery, but who are members of that gallery's team, cannot change the name/team for that gallery"""
+        not_owned_galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
                                            .exclude(user=self.user)
+                                         
+        self.assertGreater(not_owned_galleries.count(), 0)
+        not_owned_gallery = not_owned_galleries[0]
+        oldname = not_owned_gallery.name
+        
+        # check GET
+        response = self._get('gallery.edit', gallery_id=not_owned_gallery.pk)
+        self.assertEqual(response.status_code, 403)
+        self.assertIsInstance(response.context['form'], GalleryForm)
+        self.assertContains(response, not_owned_gallery.name)
+
+        # check POST
+        response = self._post('gallery.edit', gallery_id=not_owned_gallery.pk, data={"name": "New Name", "group": ""})
+        self.assertEqual(response.status_code, 403)
+        self.assertEqual(Gallery.objects.get(pk=not_owned_gallery.pk).name, oldname)
+        
+    def test_edit_group_gallery_owner(self):
+        """Make sure that group owners can change the name/team of their group 
+        gallery"""
+        galleries = Gallery.objects.filter(group__in=self.user.groups.all()).filter(user=self.user)
         self.assertGreater(galleries.count(), 0)
         gallery = galleries[0]
         oldname = gallery.name

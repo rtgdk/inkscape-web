@@ -1,7 +1,7 @@
 [
 {"pk": 1, "model": "sites.site", "fields": {"domain": "localhost:8000", "name": "localhost"}},
 {"pk": 1, "model": "auth.user", "fields": {"username": "admin", "first_name": "Temporary", "last_name": "Admin", "is_active": true, "is_superuser": true, "is_staff": true, "last_login": "2014-04-21T00:47:12.963Z", "groups": [], "user_permissions": [], "password": "pbkdf2_sha256$10000$AozqrFhqhk7h$F9yWi4T6FsHx7hnf1WTe/pqsW3h4W8+XoS4L3lIBiQQ=", "email": "admin@delete.me", "date_joined": "2014-04-21T00:47:12.963Z"}},
-{"pk": 1, "model": "auth.group", "fields": {"name": "Normal User", "permissions": []}},
+{"pk": 1, "model": "auth.group", "fields": {"name": "Everyone", "permissions": []}},
 {"pk": 2, "model": "auth.group", "fields": {"name": "Writer", "permissions": []}},
 {"pk": 3, "model": "auth.group", "fields": {"name": "Translator", "permissions": []}},
 {"pk": 4, "model": "auth.group", "fields": {"name": "Editor", "permissions": []}},

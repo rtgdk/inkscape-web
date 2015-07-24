@@ -291,7 +291,7 @@ AJAX_LOOKUP_CHANNELS = {
   'resource': {'model':'resource.ResourceFile', 'search_field':'name'},
 }
 
-AJAX_SELECT_BOOTSTRAP = True
+AJAX_SELECT_BOOTSTRAP = False
 AJAX_SELECT_INLINES = 'inline'
 
 TEST_RUNNER = 'inkscape.runner.InkscapeTestSuiteRunner'

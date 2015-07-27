@@ -11,7 +11,7 @@
 .galleryitem:hover {
   border: 2px solid #cce;
   background-color: #eef;
-}
+} 
 .galleryitem a.link img,
 .bioitem a.link img {
   max-width: 150px;
@@ -148,6 +148,16 @@ table.bioitem p a {
   vertical-align: middle;
 }
 
+.galleryitem.nothing {
+  color: #798488;
+  width: 50%;
+  text-align: left;
+}
+
+.galleryitem.nothing:hover {
+  border: 2px solid white;
+  background-color: transparent;
+}
 .item {
   padding: 10px 20px 0px;
   margin-top: 10px;

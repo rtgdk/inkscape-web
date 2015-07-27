@@ -149,31 +149,55 @@
   </div>
 
   <div id="left-column">
-    {% if object.resources.latest %}
-      <h2>{% trans "Recent Uploads" %}
 
+    <h2>{% trans "Recent Uploads" %}
       {% if not object == request.user %}
         <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
           {% csrf_token %}
           <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
         </form>
-    {% endif %}
+      {% endif %}
     </h2>
-
+    
+    {% if object.resources.latest %}
       {% with 4 as limit %}
         {% with object.resources.latest as items %}
           {% include "resource/list.html" %}
         {% endwith %}
       {% endwith %}
+    {% else %}
+      {% if not object == request.user %}
+        <div class="galleryitem nothing">
+          <p>{% trans "No uploads yet." %}</p>
+        </div>
+      {% else %}
+        {% url "resources" username=object.username as yourinkspacelink %}
+        <div class="galleryitem nothing">
+           <p>{% trans "No uploads yet?" %}</p>
+           <p>{% blocktrans %}Visit <a href="{{ yourinkspacelink }}">your Inkspace</a> and create a gallery to start sharing your work with other Inkscape users!{% endblocktrans %}</p>
+        </div>
+      {% endif %}
     {% endif %}
 
+    <h2>{% trans "Favorite Artworks" %}</h2>
     {% if object.favorites.all %}
-      <h2>{% trans "Favorite Artworks" %}</h2>
       {% with 4 as limit %}
         {% with object.favorites.items as items %}
           {% include "resource/list.html" %}
         {% endwith %}
       {% endwith %}
+    {% else %}
+      {% if not object == request.user %}
+        <div class="galleryitem nothing">
+          <p>{% trans "No favorites yet." %}</p>
+        </div>
+      {% else %}
+        {% url "resources" as thegallerylink %}
+        <div class="galleryitem nothing">
+           <p>{% trans "No favorites yet?" %}</p>
+           <p>{% blocktrans %}Visit <a href="{{ thegallerylink }}">the gallery</a> to see what other Inkscape users have created!{% endblocktrans %}</p>
+        </div>
+      {% endif %}
     {% endif %}
   </div>
 </div>

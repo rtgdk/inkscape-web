@@ -26,9 +26,9 @@ import time
 import sys
 import os
 
-url = 'http://localhost:8000/en/'
+url = 'http://localhost:8080/en/'
 url = 'https://inkscape.org/en/'
-url = 'http://staging.inkscape.org/en/'
+#url = 'http://staging.inkscape.org/en/'
 cookie = '/tmp/cookie'
 line = 'wget --save-cookies %s %s -O /tmp/out -o /tmp/prog' % (cookie, url)
 

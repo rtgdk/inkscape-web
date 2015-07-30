@@ -22,6 +22,15 @@ from django.core.urlresolvers import reverse
 from django.views.generic import UpdateView, CreateView
 from django.utils.translation import ugettext_lazy as _
 
+class CsrfWhenCaching(object):
+    """
+    We need to add the csrf token back in when a cms page is cached.
+    """
+    def process_response(self, request, response):
+        if type(response).__name__ == 'HttpResponse':
+            request.META["CSRF_COOKIE_USED"] = True
+        return response
+
 class AutoBreadcrumbMiddleware(object):
     """
     This middleware controls and inserts some breadcrumbs

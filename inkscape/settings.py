@@ -307,6 +307,32 @@ MIGRATION_MODULES = {
   'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django',
 }
 
+ERROR_RATE_LIMIT = 300 # 5 minutes
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'mail_admins': {
+            'level': 'ERROR',
+            'class': 'django.utils.log.AdminEmailHandler',
+            'filters': ['ratelimit'],
+        }
+    },
+    'filters': {
+        'ratelimit': {
+            '()': 'inkscape.ratelimit.RateLimitFilter',
+        }
+    },
+    'loggers': {
+        'django.request':{
+            'handlers': ['mail_admins'],
+            'level': 'ERROR',
+            'propagate': True,
+        },
+    },
+}
+
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks
 

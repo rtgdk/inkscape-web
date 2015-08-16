@@ -221,6 +221,10 @@ class Resource(Model):
     def __unicode__(self):
         return self.name
 
+    def summary_string(self):
+        return _("%(file_title)s by %(file_author)s (%(years)s)") \
+                  % {'file_title': self.name, 'file_author': self.user, 'years': self.years}
+      
     @property
     def parent(self):
         galleries = self.galleries.all()

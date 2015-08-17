@@ -528,8 +528,10 @@ class Gallery(Model):
 
     def __unicode__(self):
         if self.group:
-            return self.name + " [" + unicode(_('for group')) + " " + str(self.group) + "]"
-        return self.name + " (" + unicode(_('by')) + " " + str(self.user) + u")"
+            return _("%(gallery_name)s (for group %(group_name)s)") \
+                  % {'gallery_name': self.name, 'group_name': str(self.group)}
+        return  _("%(gallery_name)s (by %(user_name)s)") \
+                  % {'gallery_name': self.name, 'user_name': str(self.user)}
 
     def save(self, *args, **kwargs):
         set_slug(self)
@@ -556,8 +558,6 @@ class Gallery(Model):
             return self.group.resources
         return self.user.resources
 
-    # This isn't used anymore (there's just a 0 in the galleries list for a user)
-    # intentional?
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()
 

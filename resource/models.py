@@ -272,7 +272,7 @@ class Resource(Model):
 
     @property
     def years(self):
-        if self.created.year != self.edited.year:
+        if self.created and self.created.year != self.edited.year:
             return "%d-%d" % (self.created.year, self.edited.year)
         return str(self.edited.year)
 

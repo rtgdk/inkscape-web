@@ -37,7 +37,7 @@ def make_revision_with_plugins(obj, user=None, message=None, draft=True):
     if message == PUBLISH_COMMENT:
         return False
     if draft:
-        message = DRAFT_ID + message
+        message = "%(draftid)s%(message)s" % {'draftid':DRAFT_ID, 'message':message}
     return _make_revision_with_plugins(obj, user=user, message=message)
 
 helpers.make_revision_with_plugins = make_revision_with_plugins

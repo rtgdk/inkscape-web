@@ -717,7 +717,7 @@ hr {
   outline: none;
 }
 
-#sidecategory li > a.active,
+#sidecategory li.active,
 #sidecategory li:hover {
   background-color: #e7e9ea;
   text-shadow: 0 1px 0 #ffffff;

@@ -39,7 +39,7 @@
       <ul>
         {% for order in orders %}
             {% if order.active %}
-              <li><a class="active" href="{{ order.url }}"><label>{{ order.name }}</label><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
+              <li class="active"><a href="{{ order.url }}"><label>{{ order.name }}</label><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
             {% else %}
               <li><a href="{{ order.url }}">{{ order.name }}</a></li>
             {% endif %}
@@ -51,8 +51,8 @@
           <ul>
             {% for item in category %}
               {% if category == item %}
-                <li>
-                  <a class="active" {% if item.pk and item.user == request.user %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
+                <li class="active">
+                  <a {% if item.pk and item.user == request.user %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
                     <label>{{ item.name|default:item }}</label>
                     {% if item.pk and item.user == request.user %}
                        <span>{% trans "edit" %}</span>
@@ -78,7 +78,7 @@
               {% for item in category %}
                 {% if item and item.count %}
                   {% if category == item %}
-                    <li><a class="active">{{ item.name|default:item }}</a></li>
+                    <li class="active"><a>{{ item.name|default:item }}</a></li>
                   {% else %}
                     <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
                   {% endif %}
@@ -86,7 +86,7 @@
               {% endfor %}
             </ul>
           {% elif category.count == 1 %}
-            <ul><li><a class="active"><label>{{ category.active_items.1.name }}</label><span>{{ category.active_items.1.count }}</span></a></li></ul>
+            <ul><li class="active"><a><label>{{ category.active_items.1.name }}</label><span>{{ category.active_items.1.count }}</span></a></li></ul>
           {% endif %}
         {% endif %}
       {% endfor %}

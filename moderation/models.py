@@ -46,8 +46,6 @@ from django.utils.text import slugify
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
 
-import fix_django
-
 MODERATED = getattr(settings, 'MODERATED_MODELS', [])
 MODERATED_SELECTIONS = []
 MODERATED_INDEX = {}
@@ -61,7 +59,7 @@ FLAG_TYPES = (
 
 class TargetManager(Manager):
     def get_queryset(self):
-        # This requires fix_django.
+        # This requires django 1.9.5.
         return Manager.get_queryset(self).annotate(count=Count('target'), status=Max('flag')).order_by('-flagged')
 
     def recent(self):

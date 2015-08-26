@@ -49,7 +49,7 @@ from cms.utils.permissions import get_current_user as get_user
 null = dict(null=True, blank=True)
 
 __all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'ResourceMirror',
-           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin')
+           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin', 'Tag')
 
 DOMAINS = {
   'inkscape.org': 'Inkscape Website',
@@ -116,7 +116,7 @@ class Category(Model):
 
 class Tag(Model):
     name     = CharField(max_length=16)
-    parent   = ForeignKey('self', **null)
+    parent   = ForeignKey('self', related_name='children', **null)
     
     def __str__(self):
         return self.name

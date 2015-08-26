@@ -426,8 +426,9 @@ table.bioitem p a {
 #item-footer form {
   display: block;
 }
-#item-footer input,
-#item-footer button {
+#item-footer > input,
+#item-footer > form > button,
+#item-footer > button {
   float: right;
 }
 
@@ -473,6 +474,9 @@ table.bioitem p a {
 }
 div#view a {
   background-image: url("../images/icons/view.svg");
+}
+div#detailview a {
+  background-image: url("../images/icons/detailview.svg");
 }
 div#download a {
   background-image: url("../images/icons/download.svg");

@@ -288,8 +288,9 @@ if not DEBUG:
     SENDFILE_URL = MEDIA_URL
 
 AJAX_LOOKUP_CHANNELS = {
-  'user'    : {'model':'auth.User', 'search_field':'username'},
+  'user'    : {'model':'auth.User',             'search_field':'username'},
   'resource': {'model':'resource.ResourceFile', 'search_field':'name'},
+  'tags'    : ('resource.lookups', 'TagLookup'),
 }
 
 AJAX_SELECT_BOOTSTRAP = False

@@ -1,5 +1,5 @@
 {% extends 'resource/item.html' %}
-{% load i18n extras %}
+{% load i18n extras staticfiles %}
 
 {% block title %}{% trans "Edit Resource" %}{% endblock %}
 
@@ -37,6 +37,10 @@
   </div>
 
   <div id="item-footer">
+    {% if form.tags.errors %}
+      <div class="error">{{ form.tags.errors.as_text }}</div>
+    {% endif %}
+    {{ form.tags|placeholder:_("Tags of your artwork or resource") }}
     {% if item.next %}
       <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
       <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>

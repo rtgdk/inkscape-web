@@ -40,6 +40,7 @@ site.register(ResourceFile)
 site.register(Resource)
 site.register(ResourceMirror)
 site.register(Vote)
+site.register(Tag)
 
 class QuotaAdmin(ModelAdmin):
     list_display = ('name', 'quota_size')

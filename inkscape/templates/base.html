@@ -1,28 +1,32 @@
-{% load i18n %}<!DOCTYPE html>
-{% load cms_tags sekizai_tags %}
-{% load extras menu_tags %}
+<!DOCTYPE html>
+{% load i18n extras cms_tags menu_tags %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
     <meta charset="utf-8"/>
 
     <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-logo.png"/>
-    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
-    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
-    <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
+
+    {% block "css" %}
+      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
+      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
+      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
+    {% endblock %}
 
     <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
     {% if rss_url %}
       <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %}" href="{{ rss_url }}" />
     {% endif %}
 
-    {% render_block "css" %}
+    {% block "js" %}
+      <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
+      <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
+      <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
+    {% endblock %}
 
-    <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
-    <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
-
-    {% render_block "js" %}
+    <!--Sekizai blocks are depricated, when django-cms stops using them, remove-->
+    {% load sekizai_tags %}{% render_block "css" %}{% render_block "js" %}
+    {% if form %}{{ form.media }}{% endif %}
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />

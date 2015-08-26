@@ -35,6 +35,8 @@ from cms.utils.permissions import get_current_user as get_user
 from django.core.files.uploadedfile import InMemoryUploadedFile
 from cStringIO import StringIO
 
+from .fields import TagsChoiceField
+
 __all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceFileForm',
            'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
 
@@ -78,6 +80,8 @@ class GalleryMoveForm(ModelForm):
 
 
 class ResourceBaseForm(ModelForm):
+    tags = TagsChoiceField(Tag.objects.all())
+
     def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
         if hasattr(self.Meta, 'required'):
@@ -164,7 +168,7 @@ class ResourceBaseForm(ModelForm):
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc', 'download']:
+            if field.name in ['name', 'desc', 'tags', 'download']:
                 continue
             yield field
 
@@ -174,7 +178,7 @@ class ResourceFileForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'link', 'category', 'license', 'owner',
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner',
                   'thumbnail', 'signature', 'published', 'mirror', 'download']
         required = ['name', 'category', 'license', 'owner']
 
@@ -226,7 +230,7 @@ class ResourcePasteForm(ResourceBaseForm):
 
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'media_type', 'license', 'link', 'download']
+        fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link', 'download']
         required = ['name', 'license']
 
 
@@ -234,7 +238,7 @@ class ResourceEditPasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     class Meta:
         model = ResourceFile
-        fields = ['name', 'desc', 'media_type', 'license', 'link']
+        fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link']
         required = ['name', 'license']
 
 

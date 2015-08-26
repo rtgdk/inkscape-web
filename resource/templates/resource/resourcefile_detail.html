@@ -13,10 +13,12 @@
         </div>
       {% endif %}
 
+      <div class="tog" id="detailview"><a title="{% trans "Page views" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+      
       {% if object.mime.is_image %}
-        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
       {% elif object.mime.is_text %}
-        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+        <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
       {% endif %}
       {% if object.download %}
         {% if not object.mime.is_image or not object.license.nd and object.filename %}

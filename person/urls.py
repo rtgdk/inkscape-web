@@ -39,20 +39,22 @@ UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
 # Our user url implementation allows other urls files to add
 # their own urls to our user tree. Creating user functions.
 USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
-  url(r'^/?$',                    UserDetail(),  name='view_profile'),
-  url(r'^/gpg/$',                 UserGPGKey(),  name='user_gpgkey'),
-  url(r'^/friend/$',              MakeFriend(),  name='user_friend'),
-  url(r'^/unfriend/$',            LeaveFriend(), name='user_unfriend'),
+  url(r'^/?$',               UserDetail(),       name='view_profile'),
+  url(r'^/gpg/$',            UserGPGKey(),       name='user_gpgkey'),
+  url(r'^/friend/$',         MakeFriend(),       name='user_friend'),
+  url(r'^/unfriend/$',       LeaveFriend(),      name='user_unfriend'),
 )
 TEAM_URLS = url_tree(r'^\*(?P<team>[^\/]+)', 'person.views',
-  url(r'^/?$',                    TeamDetail(),  name='team'),
-  url(r'^/join/$',                JoinTeam(),    name='team.join'),
-  url(r'^/leave/$',               LeaveTeam(),   name='team.leave'),
+  url(r'^/?$',               TeamDetail(),       name='team'),
+  url(r'^/join/$',           AddMember(),        name='team.join'),
+  url(r'^/leave/$',          RemoveMember(),     name='team.leave'),
+  url(r'^/watch/$',          WatchTeam(),        name='team.watch'),
+  url(r'^/unwatch/$',        UnwatchTeam(),      name='team.unwatch'),
   
   url_tree(r'^/(?P<username>[^\/]+)/', 'person.views',
-    url(r'^remove/$',    RemoveMembership(),          name='team.remove'),
-    url(r'^approve/$',   ApproveMembership(no=False), name='team.approve'),
-    url(r'^disaprove/$', ApproveMembership(no=True),  name='team.disaprove'),
+    url(r'^remove/$',        RemoveMember(),      name='team.remove'),
+    url(r'^approve/$',       AddMember(),         name='team.approve'),
+    url(r'^disaprove/$',     AddMember(no=True),  name='team.disaprove'),
   ),
 )
 

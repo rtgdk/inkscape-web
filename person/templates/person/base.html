@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load i18n future extras sekizai_tags %}
+
+{% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
+
+{% block supercontent %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
+  {% endaddtoblock %}
+
+  <div id="profile" style="background-color: #1c1c1c; color: white;">
+    {% block "profile" %}{% endblock %}
+    <h1 id="name">{% block "name" %}{{ object.name }}{% endblock %}</h1>
+    <p id="bio">{% block "bio" %}{{ object.intro }}{% endblock %}</p>
+  </div>
+
+  <div id="right-sidebar">
+    <div id="sidecategory">{% block "side" %}{% endblock %}</div>
+  </div>
+
+  <div id="left-column">
+    {% if messages %}
+      <ul id="messages">
+        {% for message in messages %}
+          <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+    {% block "content" %}{% endblock %}
+  </div>
+{% endblock %}

@@ -22,6 +22,7 @@ import os
 
 from django.conf import settings
 from django.db.models import *
+from django.db.models.signals import m2m_changed
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
@@ -108,18 +109,14 @@ class Team(Model):
     def members(self):
         return self.group.user_set
 
+    @property
+    def peers(self):
+        if self.enrole == 'P':
+            return list(self.members.all()) + [self.admin]
+        return [self.admin]
+
     def get_absolute_url(self):
         return reverse('team', kwargs={'team': self.slug})
-
-    def join(self, user, admin=None):
-        if self.enrole == 'O' or \
-          (admin == self.admin and self.enrole == 'T') or \
-          (admin in self.members.all() and self.enrole == 'P'):
-            self.members.add(user)
-        elif self.enrole in 'PT' and admin is None:
-            self.requests.add(user)
-        else:
-            raise ValueError("Can't add user to team.")
 
     def save(self, **kwargs):
         if not self.name:
@@ -131,6 +128,14 @@ class Team(Model):
     def __unicode__(self):
         return self.name
 
+def update_mailinglist(sender, **kwargs):
+    """Subscribe member to mailing list if needed"""
+    import sys
+    sys.stderr.write("Mailing list: %s\n" % str(sender))
+    sys.stderr.write(" - %s\n" % str(kwargs))
+
+m2m_changed.connect(update_mailinglist, sender=Team.watchers.through)
+m2m_changed.connect(update_mailinglist, sender=User.groups.through)
 
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()

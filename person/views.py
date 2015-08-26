@@ -22,8 +22,10 @@
 
 from django.views.generic import UpdateView, DetailView, ListView, RedirectView
 from django.views.generic.detail import SingleObjectMixin
-from user_sessions.views import LoginRequiredMixin
+from django.utils.translation import ugettext_lazy as _
 from django.contrib import messages
+
+from user_sessions.views import LoginRequiredMixin
 
 from .models import User, UserDetails, Group, Team
 from .forms import PersonForm, AgreeToClaForm
@@ -103,39 +105,53 @@ class TeamDetail(DetailView):
     slug_url_kwarg = 'team'
     model          = Team
 
-class JoinTeam(LoginRequiredMixin, SingleObjectMixin, RedirectView):
+class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'team'
     model          = Team
     permanent      = False
 
-    def get_object(self):
-        team = SingleObjectMixin.get_object(self)
-        team.join(self.request.user)
-        return team
+    def get_user(self):
+        if 'username' in self.kwargs:
+            return User.objects.get(username=self.kwargs['username'])
+        return self.request.user
 
     def get_redirect_url(self, **kwargs):
+        self.action(self.get_object(), self.get_user(), self.request.user)
         return self.get_object().get_absolute_url()
 
-class ApproveMembership(JoinTeam):
-    def get_object(self):
-        team = SingleObjectMixin.get_object(self)
-        user = User.objects.get(username=self.kwargs['username'])
-        if not self.no:
-            team.join(user, admin=self.request.user)
+    def action(self, team, user, actor=None):
+        if getattr(self, 'no', False):
+            messages.warning(self.request, _("User Request Removed."))
+
+        elif team.enrole == 'O' or \
+          (actor == team.admin and team.enrole in 'PT') or \
+          (actor in team.members.all() and team.enrole == 'P'):
+            team.members.add(user)
+            messages.info(self.request, _("Team membership sucessfully added."))
+
+        elif team.enrole in 'PT' and actor == user:
+            team.requests.add(user)
+            return messages.info(self.request, _("Membership Request Recieved."))
+        else:
+            return messages.error(self.request, _("Can't add user to team. (not allowed)"))
+
         team.requests.remove(user)
-        return team
 
-class RemoveMembership(JoinTeam):
-    def get_object(self):
-        team = SingleObjectMixin.get_object(self)
-        user = self.request.user
-        if 'username' in self.kwargs:
-            user = User.objects.get(username=self.kwargs['username'])
-        if self.request.user in [user, team.admin]:
+class RemoveMember(AddMember):
+    def action(self, team, user, actor=None):
+        if actor in [user, team.admin]:
             team.members.remove(user)
-        return team
+            messages.info(self.request, _("User removed from team"))
+        else:
+            messages.error(self.request, _("Can not remove user from team. (not allowed)"))
 
-class LeaveTeam(RemoveMembership):
-    pass
+class WatchTeam(AddMember):
+    def action(self, team, user, actor=None):
+        team.watchers.add(user)
+        messages.info(self.request, _("User now watching team"))
 
+class UnwatchTeam(AddMember):
+    def action(self, team, user, actor=None):
+        team.watchers.remove(user)
+        messages.info(self.request, _("User is now NOT watching team"))
 

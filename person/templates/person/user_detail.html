@@ -1,17 +1,12 @@
-{% extends 'base.html' %}
+{% extends 'person/base.html' %}
 {% load user_session i18n future extras sekizai_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
-{% block supercontent %}
-  {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
-  {% endaddtoblock %}
+{% block "profile" %}
+  <img id="photo" src="{% if object.details.photo %}{{ object.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
 
-  <div id="profile" style="background-color: #1c1c1c; color: white;">
-    <img id="photo" src="{% if object.details.photo %}{{ object.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
-
-   <div class="socialicons">
+  <div class="socialicons">
      {% if object.moderation and request.user != object %}
        {% if object.moderation.i_flagged %}
          <img src="{{ STATIC_URL }}/images/social/flag.svg" title="{% trans "You have flagged this user." %}"/>
@@ -44,28 +39,28 @@
        <a href="{% url "message.new" object.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
      {% endif %}
     </div>
+  {% endblock %}
+  
+{% block "name" %}
+  {% if object.first_name %}
+    {{ object.first_name }} {{ object.last_name }}
+    <span id="username">{{ object.username }}</span>
+  {% else %}
+    {{ object.username }}
+    <span id="username">{% trans "Anonymous" %}</span>
+  {% endif %}
+    {% if object == request.user %}
+    <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
+  {% endif %}
+{% endblock %}
 
-    <h1 id="name">
-      {% if object.first_name %}
-        {{ object.first_name }} {{ object.last_name }}
-        <span id="username">{{ object.username }}</span>
-      {% else %}
-        {{ object.username }}
-        <span id="username">{% trans "Anonymous" %}</span>
-      {% endif %}
-      {% if object == request.user %}
-        <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
-      {% endif %}
-    </h1> 
-    <p id="bio">
-      {% block headerdesc %}
-        {% if object.details.bio %}{{ object.details.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
-      {% endblock %}
-    </p>
-  </div>
+{% block "bio" %}
+  {% block headerdesc %}
+    {% if object.details.bio %}{{ object.details.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
+  {% endblock %}
+{% endblock %}
 
-  <div id="right-sidebar">
-    <div id="sidecategory">
+{% block "side" %}
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Uploads" %}</h1>
       <ul>
         <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
@@ -107,9 +102,6 @@
           <span>{{ object.friends.count }}</span></a></li>
         <li><a><label>{% trans "Followers" %}</label>
           <span>{{ object.from_friends.count }}</span></a></li>
-
-
-
         <li><a><label>{% trans "Views" %}</label>
           <span>{{ object.resources.views }}</span></a></li>
         <li><a><label>{% trans "Downloads" %}</label>
@@ -146,10 +138,9 @@
    {% else %}
      </div>
    {% endif %}
-  </div>
+{% endblock %}
 
-  <div id="left-column">
-
+{% block "content" %}
     <h2>{% trans "Recent Uploads" %}
       {% if not object == request.user %}
         <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
@@ -200,6 +191,5 @@
       {% endif %}
     {% endif %}
   </div>
-</div>
-
 {% endblock %}
+

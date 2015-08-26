@@ -1048,6 +1048,7 @@ div.diff del {
   padding: 3px;
   text-decoration: none;
 }
+<<<<<<< TREE
 div.diff table.page th {
   background-color: white;
   padding-right: 5px;
@@ -1214,4 +1215,13 @@ div.tooltip:hover span {
 .open > .dropdown-toggle.btn-default {
   background-image: none;
 }
+.headingAnchors{
+  display:inline-block;
+  padding:0px 4px;
+}
 
+.headingAnchors:hover{
+  background-color:#ddd;
+  text-decoration:none !important;
+  border-radius:3px;
+}

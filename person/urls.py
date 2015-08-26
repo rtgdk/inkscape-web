@@ -45,7 +45,15 @@ USER_URLS = url_tree(r'^~(?P<username>[^\/]+)', 'person.views',
   url(r'^/unfriend/$',            LeaveFriend(), name='user_unfriend'),
 )
 TEAM_URLS = url_tree(r'^\*(?P<team>[^\/]+)', 'person.views',
-  url(r'^/$',                     TeamDetail(),  name='team'),
+  url(r'^/?$',                    TeamDetail(),  name='team'),
+  url(r'^/join/$',                JoinTeam(),    name='team.join'),
+  url(r'^/leave/$',               LeaveTeam(),   name='team.leave'),
+  
+  url_tree(r'^/(?P<username>[^\/]+)/', 'person.views',
+    url(r'^remove/$',    RemoveMembership(),          name='team.remove'),
+    url(r'^approve/$',   ApproveMembership(no=False), name='team.approve'),
+    url(r'^disaprove/$', ApproveMembership(no=True),  name='team.disaprove'),
+  ),
 )
 
 urlpatterns = patterns('',

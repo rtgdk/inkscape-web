@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
-{% load user_session i18n future extras sekizai_tags %}
+{% load i18n future extras sekizai_tags %}
+{% load static pagination_tags %}
 
 {% block title %}{{ object.name }}{% endblock %} 
 
@@ -20,15 +21,23 @@
 
   <div id="right-sidebar">
     <div id="sidecategory">
+      <a href="{% url "teams" %}" class="btn btn-default">&lt; Back to All Teams</a>
 
-      <button>&lt; Back to All Teams</button>
+    {% if request.user in object.members.all %}
+      <a href="{% url "team.leave" object.slug %}" class="btn btn-default" disabled>Leave Team</a>
+    {% else %}
       {% if object.enrole == 'O' %}
-        <button>Join Team</button>
+        <a href="{% url "team.join" object.slug %}" class="btn btn-primary">Join Team</a>
       {% elif object.enrole in 'PT' %}
-        <button>Request Membership</button>
+        {% if request.user in object.requests.all %}
+          <a class="btn" disabled>Request Sent</a>
+        {% else %}
+          <a href="{% url "team.join" object.slug %}" class="btn btn-primary">Request Membership</a>
+        {% endif %}
       {% elif object.enrole == 'C' %}
-        <button disabled>Membership Closed</button>
+        <a class="btn" disabled>Membership Closed</a>
       {% endif %}
+    {% endif %}
 
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>
       <ul>
@@ -38,17 +47,29 @@
       <h2>{% trans "Information" %}</h2>
       <ul>
         <li>
-          <a href="URL TO MEMBER LIST">
+          <a>
             <label>{% trans "Members" %}</label>
-            <span>{{ object.subscribers.count|default:0 }}</span>
+            <span>{{ object.members.count|default:0 }}</span>
           </a>
         </li>
         <li>
-          <a href="URL TO WATCHER LIST">
+          <a>
             <label>{% trans "Watchers" %}</label>
             <span>{{ object.watchers.all.count|default:0 }}</span>
           </a>
         </li>
+      </ul>
+        {% if object.admin == request.user %}
+          <h2>{% trans "Join Requests" %}</h2>
+          <ul>
+          {% for user in object.requests.all %}     
+            <li><label>{{ user }}</label>
+              <span><a href="{% url "team.approve" object.slug user.username %}">&#10003;</a>
+                    <a href="{% url "team.disaprove" object.slug user.username %}" class="no">&#10006;</a></span>
+            </li>
+          {% endfor %}
+          </ul>
+        {% endif %}
       </ul>
     </div>
   </div>
@@ -60,20 +81,30 @@
       {{ object.desc|safe }}
     </div>
   {% endif %}
-  {% if object.subscribers.count %}
-    <h2>{% trans "Newest Members" %}</h2>
+  {% if object.members.count %}
+    <h2>{% trans "Team Members" %}</h2>
 
+    {% autopaginate object.members.all 20 as members %}
     <div class="photos"/>
-      {% for user in object.subscribers %}
-        <div class="galleryitem{% if user == object.admin %} voted{% endif %}">
+      {% for user in members %}
+        <div class="galleryitem">
           <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="Full User Details"/></a>
-          <p title="Full User Details"><a href="{{ user.get_absolute_url }}">{{ user }}</a></p>
+          <p title="Full User Details"><a href="{{ user.get_absolute_url }}">{% if user == object.admin %} *{% endif %} {{ user }}</a></p>
+          {% if user == request.user or object.admin == request.user %}
+            <p class="tags">
+              <a href="{% url "team.remove" object.slug user.username %}">
+                <img src="{% static "mime/banner/delete.svg" %}" title="{% trans "Remove Membership" %}">
+              </a>
+            </p>
+          {% endif %}
         </div>
       {% endfor %}
     </div>
   {% else %}
     <h2>No Team Members</h2>
   {% endif %}
+  {% paginate %}
+
 </div>
 
 {% endblock %}

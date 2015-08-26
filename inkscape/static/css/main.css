@@ -695,7 +695,12 @@ hr {
   margin-bottom: 12px;
 }
 
-#sidecategory li a,
+#sidecategory .btn {
+  margin-bottom: 6px;
+  display: block;
+}
+
+#sidecategory ul > li,
 #sidecategory ul form {
   padding: 2px 4px 2px 15px;
   margin-bottom: 1px;
@@ -708,27 +713,27 @@ hr {
   cursor: pointer;
 }
 
-#sidecategory li a:focus {
+#sidecategory ul a:focus {
   outline: none;
 }
 
-#sidecategory li a.active,
-#sidecategory li a.active:hover {
+#sidecategory li > a.active,
+#sidecategory li:hover {
   background-color: #e7e9ea;
-}
-
-#sidecategory li a.active {
   text-shadow: 0 1px 0 #ffffff;
   color: #3f4547;
 }
 
-#sidecategory li a:hover {
-  color: #3f4547;
-  background-color: #f4f5f7;
+#sidecategory li > span > a {
+  margin-left: 4px;
 }
-
-#sidecategory li a span,
-#sidecategory ul form button {
+#sidecategory li > span {
+  display: table-cell;
+  vertical-align: middle;
+}
+#sidecategory li > a > span,
+#sidecategory li > span > a,
+#sidecategory ul button {
   background-color: #3a95c4;
   color: white;
   border-radius: 11px;
@@ -736,11 +741,19 @@ hr {
   padding: 0px 8px;
   vertical-align: middle;
   border: none;
+  text-shadow: none;
 }
-#sidecategory li a:hover span {
-  background-color: #e4e5e7;
+#sidecategory li > span > a.no {
+  background-color: #c43040;
 }
-#sidecategory li a label,
+#sidecategory li > span > a:hover {
+  background-color: #2a85a4;
+  text-decoration: none;
+}
+#sidecategory li > span > a.no:hover {
+  background-color: #a42030;
+}
+#sidecategory li label,
 #sidecategory ul form input {
   display: table-cell;
   width: 100%;
@@ -1181,5 +1194,24 @@ div.tooltip:hover span {
   background-image: linear-gradient(to bottom, #0088cc, #0044cc);
   background-repeat: repeat-x;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
+}
+.btn-default {
+  color: #333;
+  background-color: #fff;
+  border-color: #ccc;
+}
+.btn-default:hover,
+.btn-default:focus,
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  color: #333;
+  background-color: #e6e6e6;
+  border-color: #adadad;
+}
+.btn-default:active,
+.btn-default.active,
+.open > .dropdown-toggle.btn-default {
+  background-image: none;
 }
 

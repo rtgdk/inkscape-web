@@ -72,6 +72,7 @@ class MakeFriend(LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'username'
     slug_field     = 'username'
     model          = User
+    permanent      = False
 
     def get_object(self):
         user = SingleObjectMixin.get_object(self)
@@ -100,7 +101,41 @@ class TeamList(ListView):
 
 class TeamDetail(DetailView):
     slug_url_kwarg = 'team'
-    model = Team
+    model          = Team
 
+class JoinTeam(LoginRequiredMixin, SingleObjectMixin, RedirectView):
+    slug_url_kwarg = 'team'
+    model          = Team
+    permanent      = False
+
+    def get_object(self):
+        team = SingleObjectMixin.get_object(self)
+        team.join(self.request.user)
+        return team
+
+    def get_redirect_url(self, **kwargs):
+        return self.get_object().get_absolute_url()
+
+class ApproveMembership(JoinTeam):
+    def get_object(self):
+        team = SingleObjectMixin.get_object(self)
+        user = User.objects.get(username=self.kwargs['username'])
+        if not self.no:
+            team.join(user, admin=self.request.user)
+        team.requests.remove(user)
+        return team
+
+class RemoveMembership(JoinTeam):
+    def get_object(self):
+        team = SingleObjectMixin.get_object(self)
+        user = self.request.user
+        if 'username' in self.kwargs:
+            user = User.objects.get(username=self.kwargs['username'])
+        if self.request.user in [user, team.admin]:
+            team.members.remove(user)
+        return team
+
+class LeaveTeam(RemoveMembership):
+    pass
 
 

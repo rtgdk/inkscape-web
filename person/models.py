@@ -65,7 +65,8 @@ class UserDetails(Model):
             return self.photo.url
         return None
 
-class Twilight(Manager):
+
+class TwilightSparkle(Manager):
     def i_added(self):
         user = get_user()
         if user.is_authenticated():
@@ -74,8 +75,10 @@ class Twilight(Manager):
 
 class Friendship(Model):
     from_user = ForeignKey(User, related_name='friends')
-    user = ForeignKey(User, related_name='from_friends')
-    objects = Twilight()
+    user      = ForeignKey(User, related_name='from_friends')
+
+    objects   = TwilightSparkle()
+
 
 class Team(Model):
     ENROLES = (
@@ -87,8 +90,9 @@ class Team(Model):
     )
 
     admin    = ForeignKey(User, related_name='teams', **null)
-    members  = AutoOneToOneField(Group, related_name='team', **null)
+    group    = AutoOneToOneField(Group, related_name='team', **null)
     watchers = ManyToManyField(User, related_name='watches', **null)
+    requests = ManyToManyField(User, related_name='team_requests', **null)
 
     name     = CharField(_('Team Name'), max_length=32)
     slug     = SlugField(_('Team URL Slug'), max_length=32)
@@ -100,11 +104,22 @@ class Team(Model):
     mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
 
+    @property
+    def members(self):
+        return self.group.user_set
+
     def get_absolute_url(self):
         return reverse('team', kwargs={'team': self.slug})
 
-    def subscribers(self):
-        return self.members.user_set.all()
+    def join(self, user, admin=None):
+        if self.enrole == 'O' or \
+          (admin == self.admin and self.enrole == 'T') or \
+          (admin in self.members.all() and self.enrole == 'P'):
+            self.members.add(user)
+        elif self.enrole in 'PT' and admin is None:
+            self.requests.add(user)
+        else:
+            raise ValueError("Can't add user to team.")
 
     def save(self, **kwargs):
         if not self.name:
@@ -115,6 +130,7 @@ class Team(Model):
 
     def __unicode__(self):
         return self.name
+
 
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()

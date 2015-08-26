@@ -111,6 +111,7 @@ table.bioitem p {
 table.bioitem p.bio {
   margin: 5px 3px;
   padding: 0px 10px;
+  min-height: 134px;
 }
 table.bioitem p a {
   background-color: #eef;

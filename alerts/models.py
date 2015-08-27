@@ -46,6 +46,11 @@ class AlertTypeManager(Manager):
             self.filter(pk=obj.pk).update(**values)
         return (obj, created)
 
+class DummyObject(object):
+    __getattr__ = lambda self, *args, **kwargs: self
+    __call__ = lambda self, *args, **kwargs: self
+    __repr__ = lambda self: "Orphaned Object"
+    __iter__ = lambda self: [].__iter__()
 
 class AlertType(Model):
     """All Possible messages that users can receive, acts as a template"""
@@ -77,12 +82,17 @@ class AlertType(Model):
         super(AlertType, self).__init__(*args, **kwargs)
         # Late import to stop loop import
         from alerts.base import ALL_ALERTS
-        self._alerter = ALL_ALERTS[self.slug]
+        self._alerter = ALL_ALERTS.get(self.slug, None)
 
     def __getattr__(self, name):
         if hasattr(self._alerter, name):
             return getattr(self._alerter, name)
-        raise AttributeError("Can't find alert attribute: %s.%s" % (type(self).__name__, name))
+        try:
+            return super(AlertType, self).__getattr__(name)
+        except AttributeError:
+            if name in ('query', 'bump_prefix', '_used_joins', '_as_sql', 'get_compiler'):
+                raise
+            return DummyObject()
 
     def send_to(self, user, auth=None, **kwargs):
         """Creates a new alert for a certain user of this type.
@@ -134,6 +144,7 @@ class AlertType(Model):
     def __str__(self):
         return unicode(self.name)
 
+
 for (m, name) in AlertType.CATEGORIES:
     name = 'CATEGORY_'+name.replace(' ', '_').upper()
     setattr(AlertType, name, m)
@@ -154,7 +165,8 @@ class SettingsManager(Manager):
     def get_all(self, user):
         ret = []
         for alert_type in AlertType.objects.filter(enabled=True):
-            ret.append(self.get(user=user, alert=alert_type))
+            if alert_type._alerter:
+                ret.append(self.get(user=user, alert=alert_type))
         return ret
 
 

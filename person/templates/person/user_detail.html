@@ -143,7 +143,7 @@
 {% block "content" %}
     <h2>{% trans "Recent Uploads" %}
       {% if not object == request.user %}
-        <form class="subsform" method="POST" action="{% url "alert.subscribe" "user_gallery" object.pk %}">
+        <form class="subsform" method="POST" action="{% url "alert.subscribe" "resource.resource_alert" object.pk %}">
           {% csrf_token %}
           <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
         </form>

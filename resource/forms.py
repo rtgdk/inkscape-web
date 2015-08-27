@@ -80,7 +80,7 @@ class GalleryMoveForm(ModelForm):
 
 
 class ResourceBaseForm(ModelForm):
-    tags = TagsChoiceField(Tag.objects.all())
+    tags = TagsChoiceField(Tag.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
@@ -162,6 +162,7 @@ class ResourceBaseForm(ModelForm):
         obj = ModelForm.save(self, commit=False)
         if not obj.id:
             obj.user = self.user
+        obj.tags = self.cleaned_data['tags']
         obj.save(**kwargs)
         return obj
 

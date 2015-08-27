@@ -16,11 +16,6 @@ SCRIPT = """
     maxTags: 12,
     maxChars: 16,
     trimValue: true,
-    typeahead: {
-      source: function(term) {
-        return $.getJSON('%(ajax)s?term='+term);
-      },
-    }
   });
 </script>"""
 
@@ -29,7 +24,7 @@ class SelectTags(SelectMultiple):
         css = {
             'all': ('css/bootstrap-tagsinput.css',)
         }
-        js = ('js/bootstrap-tagsinput.js', 'js/bootstrap-typeahead.js')
+        js = ('js/bootstrap-tagsinput.js',)
 
     def render(self, name, value, **kwargs):
         html = super(SelectTags, self).render(name, value, **kwargs)
@@ -41,13 +36,12 @@ class SelectTags(SelectMultiple):
         # XXX This isn't as efficient as it could be because it
         # still loops /every/ tag possible. Replace with selected_choices
         if force_text(option_value) in selected_choices:
-            return super(SelectTags, self).render_option(selected_choices, option_label, option_label)
+            return super(SelectTags, self).render_option([], option_label, 'hidden')
         return ''
 
 
 class TagsChoiceField(ModelMultipleChoiceField):
     widget = SelectTags
-
 
     def _check_values(self, value):
         tags = list(self.get_or_create(value))

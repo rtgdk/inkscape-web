@@ -107,11 +107,14 @@
     <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
     {% if object.user == request.user %}
       <div id="item-footer">
+        {% for tag in object.tags.all %}
+          <span class="tag">{{ tag.name }}</span>
+        {% endfor %}
         <form action="{% url "edit_resource" object.id %}">
           <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>
         </form>
         <form action="{% url "delete_resource" object.id %}" onsubmit='return popUp("{% trans "Delete Upload" %}","{% trans "Are you sure you want to delete this upload?" %}","{% url "delete_resource" object.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
-          <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
+          <button id="deleteSide" class="end" type="submit">{% trans "Delete" %}</button>
         </form>
       </div>
     {% endif %}

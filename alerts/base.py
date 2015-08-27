@@ -27,7 +27,7 @@ from django.db.models import signals as django_signals
 from django.contrib.auth.models import User, Group
 from django.core.mail.message import EmailMultiAlternatives
 
-from alerts.tools import has_template, render_directly
+from alerts.tools import has_template, render_template, render_directly
 from alerts.models import UserAlert, UserAlertManager, AlertType
 
 import os
@@ -184,18 +184,20 @@ class BaseAlert(object):
         return render_directly(self.subject, self.format_data(context_data))
 
     def get_body(self, context_data):
-        try:
-            body = "{%% include \"%s\" %%}" % self.template
-            return render_directly(body, self.format_data(context_data))
-        except Exception as error:
-            return "Error! %s" % str(error)
+        return render_template(self.template, context_data)
 
     def send_email(self, recipient, context_data):
-        if recipient:
-            context_data = self.format_data(context_data)
-            subject = render_directly(self.email_subject, context_data)
-            body    = render_directly(self.email_template, context_data)
-            return EmailMultiAlternatives(subject, body, None, (recipient,))
+        if not recipient:
+            return False
+
+        context_data = self.format_data(context_data)
+        subject = render_directly(self.email_subject, context_data)
+        subject = subject.strip().replace('\n', ' ').replace('\r', ' ')
+        body    = render_template(self.email_template, context_data)
+        email   = EmailMultiAlternatives(subject, body, None, (recipient,))
+
+        # This will fail silently if not configured right
+        return email.send(True)
 
 
 class EditedAlert(BaseAlert):

@@ -32,7 +32,6 @@ h2 {
 .comment .details div,
 .comment .footer div {
   display: inline-block;
-  min-height: 24px;
 }
 .comment .status {
   border-right: 1px solid #ddd;

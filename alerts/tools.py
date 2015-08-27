@@ -23,7 +23,7 @@ This would be something the cms could do, but it'd need more in the way of varia
 controls in their system and they just don't have that yet.
 """
 
-__all__ = ['has_template', 'get_template', 'render_directly']
+__all__ = ['has_template', 'get_template', 'render_template', 'render_directly']
 
 import os
 
@@ -48,7 +48,8 @@ def has_template(template_name):
     for loader in template_source_loaders:
         for filename in loader.get_template_sources(template_name):
             # They should always exist, but check for weird template loaders
-            return filename
+            if os.path.isfile(filename):
+                return filename
     return None
 
 def get_template(template_name):
@@ -58,12 +59,14 @@ def get_template(template_name):
             return fhl.read()
     raise TemplateDoesNotExist(template_name)
 
+def render_template(template_name, context):
+    return render_directly(get_template(template_name), context)
 
 def render_directly(template, context):
     if type(context) is not Context:
         context = Context(context or {})
     if 'i18n' not in template:
-        template = "{% load i18n %}\n" + template
+        template = "{% load i18n %}" + template
     try:
         templated = Template(template)
         return templated.render(context)

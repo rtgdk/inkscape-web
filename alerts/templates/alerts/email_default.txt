@@ -1,0 +1,4 @@
+{% load i18n %}
+Message from the website for you.
+
+{{ object }}

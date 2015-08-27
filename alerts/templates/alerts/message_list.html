@@ -17,7 +17,7 @@
 <div class="comment" id="alert_{{ object.id }}">
   <div class="details">
     <div class="title">
-      {{ object.subject }}
+      <a href="{{ object.instance.get_absolute_url }}">{{ object.subject }}</a>
     </div>
     <div class="index">{{ object.created|timetag }}</div>
   </div>

@@ -1,0 +1,11 @@
+{% load i18n %}
+
+The website page '{{ instance }}' has been changed.
+
+{{ revision.diff.stub|safe }}
+
+Language: {{ language }}
+Published by: {{ revision.user }}
+Full Diff: {{ revision.diff.get_absolute_url }}
+Page: {{ instance.get_absolute_url }}
+

@@ -6,7 +6,9 @@
    <div class="status">{{ language }}</div>
    <div class="status">{{ revision.user }}</div>
    <div class="index">
-     <a href="{{ revision.diff.get_absolute_url }}">{% trans "See Full Diff" %}</a>
+     {% if revision %}
+       <a href="{{ revision.diff.get_absolute_url }}">{% trans "See Full Diff" %}</a>
+     {% endif %}
    </div>
 </div>
 

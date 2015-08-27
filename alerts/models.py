@@ -263,6 +263,10 @@ class UserAlert(Model):
         ret.update(self.values.as_dict())
         return ret
 
+    @property
+    def instance(self):
+        return self.objs.as_dict().get('instance', None)
+
     def save(self, **kwargs):
         create = not bool(self.created)
         ret = Model.save(self, **kwargs)

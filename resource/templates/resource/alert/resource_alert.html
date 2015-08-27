@@ -6,7 +6,7 @@
   <div class="text"><p>{{ instance.desc }}</p></div>
 </div>
 <div class="footer">
-   <div class="status">{{ instance.user }}</div>
+   <div class="status"><a href="{{ instance.user.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ instance.user }}</a></div>
    <div class="status">{{ instance.license }}</div>
    <div class="status">{{ instance.category }}</div>
    <div class="index"><a href="{{ instance.get_absolute_url }}">Full View</a></div>

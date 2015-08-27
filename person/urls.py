@@ -54,7 +54,7 @@ TEAM_URLS = url_tree(r'^\*(?P<team>[^\/]+)', 'person.views',
   url_tree(r'^/(?P<username>[^\/]+)/', 'person.views',
     url(r'^remove/$',        RemoveMember(),      name='team.remove'),
     url(r'^approve/$',       AddMember(),         name='team.approve'),
-    url(r'^disaprove/$',     AddMember(no=True),  name='team.disaprove'),
+    url(r'^disapprove/$',     AddMember(no=True),  name='team.disapprove'),
   ),
 )
 

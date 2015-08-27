@@ -40,7 +40,7 @@
     {% if form.tags.errors %}
       <div class="error">{{ form.tags.errors.as_text }}</div>
     {% endif %}
-    {{ form.tags|placeholder:_("Tags of your artwork or resource") }}
+    {{ form.tags|placeholder:_("Add your tags here, separated by comma") }}
     {% if item.next %}
       <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
       <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>

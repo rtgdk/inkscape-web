@@ -131,7 +131,7 @@ class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
 
         elif team.enrole in 'PT' and actor == user:
             team.requests.add(user)
-            return messages.info(self.request, _("Membership Request Recieved."))
+            return messages.info(self.request, _("Membership Request Received."))
         else:
             return messages.error(self.request, _("Can't add user to team. (not allowed)"))
 
@@ -143,15 +143,15 @@ class RemoveMember(AddMember):
             team.members.remove(user)
             messages.info(self.request, _("User removed from team"))
         else:
-            messages.error(self.request, _("Can not remove user from team. (not allowed)"))
+            messages.error(self.request, _("Cannot remove user from team. (not allowed)"))
 
 class WatchTeam(AddMember):
     def action(self, team, user, actor=None):
         team.watchers.add(user)
-        messages.info(self.request, _("User now watching team"))
+        messages.info(self.request, _("Now watching this team"))
 
 class UnwatchTeam(AddMember):
     def action(self, team, user, actor=None):
         team.watchers.remove(user)
-        messages.info(self.request, _("User is now NOT watching team"))
+        messages.info(self.request, _("No longer watching this team"))
 

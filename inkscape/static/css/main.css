@@ -733,6 +733,7 @@ hr {
 }
 #sidecategory li > a > span,
 #sidecategory li > span > a,
+#sidecategory li > a > span > span,
 #sidecategory ul button {
   background-color: #3a95c4;
   color: white;
@@ -1048,7 +1049,7 @@ div.diff del {
   padding: 3px;
   text-decoration: none;
 }
-<<<<<<< TREE
+
 div.diff table.page th {
   background-color: white;
   padding-right: 5px;

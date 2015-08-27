@@ -52,9 +52,9 @@
           <h2>{% trans "Join Requests" %}</h2>
           <ul>
           {% for user in object.requests.all %}     
-            <li><label>{{ user }}</label>
+            <li><label><a href="{{ user.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ user }}</a></label>
               <span><a href="{% url "team.approve" object.slug user.username %}">&#10003;</a>
-                    <a href="{% url "team.disaprove" object.slug user.username %}" class="no">&#10006;</a></span>
+                    <a href="{% url "team.disapprove" object.slug user.username %}" class="no">&#10006;</a></span>
             </li>
           {% empty %}
             <p>None</p>

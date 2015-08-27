@@ -97,14 +97,14 @@ class Team(Model):
 
     name     = CharField(_('Team Name'), max_length=32)
     slug     = SlugField(_('Team URL Slug'), max_length=32)
-    icon     = ImageField(_('Display Icon'), upload_to='teams')
+    icon     = ImageField(_('Display Icon'), upload_to='teams', default=os.path.join(settings.STATIC_URL, 'images', 'team.svg'))
 
     intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
-
+    
     @property
     def members(self):
         return self.group.user_set

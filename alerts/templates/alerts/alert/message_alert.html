@@ -3,7 +3,7 @@
   <div class="text"><p>{{ instance.body }}</p></div>
 </div>
 <div class="footer">
-   <div class="status">{% trans "from" %} {{ instance.sender }}</div>
+   <div class="status">{% trans "from" %} <a href="{{ instance.sender.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ instance.sender }}</a></div>
    <div class="index">
      <a href="{% url "message.new" instance.sender.username %}?reply_to={{ instance.pk }}">{% trans "Reply" %}</a>
    </div>

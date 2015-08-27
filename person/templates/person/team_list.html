@@ -8,7 +8,7 @@
 <p>The Inkscape community has several teams who meet, discuss and work on different aspects of developing Inkscape, looking after it's infrastructure and supporting the community around the project. Here you will find all the current teams and the ability to join them.</p>
 
 {% for team in object_list %}
-
+ {% if team.icon %}
   <table class="bioitem">
     <tr>
       <td class="img" rowspan="2"><a class="link" href="{{ team.get_absolute_url }}"><img src="{{ team.icon.url }}" title="{{ team }}"/></a></td>
@@ -18,8 +18,7 @@
       <td><p class="bio">{{ team.intro|safe }}&nbsp;</p></td>
     </tr>
   </table>
-
-
+ {% endif %}
 {% endfor %}
 
 {% endblock %}

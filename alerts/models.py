@@ -90,7 +90,7 @@ class AlertType(Model):
         try:
             return super(AlertType, self).__getattr__(name)
         except AttributeError:
-            if name in ('query', 'bump_prefix', '_used_joins', '_as_sql', 'get_compiler'):
+            if name[0] == '_' or name in ('query', 'bump_prefix', 'get_compiler'):
                 raise
             return DummyObject()
 
@@ -284,13 +284,13 @@ class UserAlertObject(Model):
     name    = CharField(max_length=32)
 
     table   = ForeignKey(ContentType, **null)
-    o_id    = PositiveIntegerField(null=True)
+    o_id    = PositiveIntegerField()
     target  = GenericForeignKey('table', 'o_id')
 
     objects = ObjectManager()
 
     def __str__(self):
-        return "AlertObject %s=%d" % (self.name, self.o_id)
+        return "AlertObject %s=%s" % (self.name, str(self.o_id))
 
 class UserAlertValue(Model):
     alert  = ForeignKey(UserAlert, related_name='values')

@@ -55,9 +55,9 @@ class BaseAlert(object):
     # much like ForeignKey related_name it creates reverse lookups.
     related_name = 'alerts'
 
-    subject  = "{{ object }}"
-    email_subject = "{% trans 'Website Alert:' %} {{ object }}"
-    object_name = "{{ object }}"
+    subject  = "{{ instance }}"
+    email_subject = "{% trans 'Website Alert:' %} {{ instance }}"
+    object_name = "{{ instance }}"
 
     # User specifies which user attribute on the instance alerts are sent
     alert_user  = '.'

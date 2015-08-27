@@ -240,20 +240,26 @@ class Resource(Model):
     def read_more(self):
         return len(self.desc) > 1000 or '[[...]]' in self.desc
 
-    def save(self, *args, **kwargs):
+    def save(self):
         if self.has_file_changed():
             self.edited = now()
             delattr(self, '_mime')
             self.media_type = self.find_media_type()
             (self.media_x, self.media_y) = self.find_media_coords()
 
+        signal = False
         if not self.created and self.published:
             self.created = now()
+            signal = True
+
+        set_slug(self)
+        ret = super(Resource, self).save()
+
+        if signal:
             from .alert import post_publish
             post_publish.send(sender=Resource, instance=self)
 
-        set_slug(self)
-        return Model.save(self, *args, **kwargs)
+        return ret
 
     def has_file_changed(self):
         return False

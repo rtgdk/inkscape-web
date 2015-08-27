@@ -21,8 +21,15 @@ from django.contrib.admin import ModelAdmin, StackedInline, site
 
 from .models import *
 
+class ObjectInline(StackedInline):
+    model = UserAlertObject
+    extra = 0
+
+class UserAlertAdmin(ModelAdmin):
+    inlines = [ObjectInline]
+
 site.register(AlertType)
-site.register(UserAlert)
+site.register(UserAlert, UserAlertAdmin)
 site.register(UserAlertSetting)
 site.register(AlertSubscription)
 

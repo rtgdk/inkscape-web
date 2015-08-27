@@ -18,34 +18,34 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Resource alerts
+CMS alerts
 """
 
 from django.utils.translation import ugettext_lazy as _
 
-from django.db.models import signals
-from django.dispatch import Signal
-
-from alerts.base import EditedAlert
+from alerts.base import BaseAlert
 from alerts.models import AlertType
 
-from .models import Resource
+from cms.models import Page
+import cms.signals as cms_signals
 
-post_publish = Signal(providing_args=["instance"])
-
-class ResourceAlert(EditedAlert):
-    name     = _("New Gallery Resource")
-    desc     = _("An alert is sent when the target user submits a resource.")
+class PagePublishedAlert(BaseAlert):
+    name     = _("Website Page Edited")
+    desc     = _("A page on the website has been published after editing.")
     category = AlertType.CATEGORY_USER_TO_USER
-    sender   = Resource
+    sender   = Page
 
-    subject       = "{% trans 'New submission:' %} {{ instance }}"
-    email_subject = "{% trans 'New submission:' %} {{ instance }}"
-    object_name   = "{{ instance }}'s {% trans 'Gallery Submissions' %}"
+    subject       = "{% trans 'Published:' %} {{ instance }}"
+    email_subject = "{% trans 'Published:' %} {{ instance }}"
+    object_name   = "{{ instance }}'s {% trans 'Website Page Published' %}"
     default_email = False
-    signal        = post_publish
+    signal        = cms_signals.post_publish
 
-    # We subscribe to the user of the instance, not the instance.
-    target_field = 'user'
+    def call(self, sender, **kwargs):
+        from reversion import get_for_object
+        objs = get_for_object(kwargs['instance'])
+        if objs:
+            kwargs['revision'] = objs[0].revision
+            return super(PagePublishedAlert, self).call(sender, **kwargs)
 
 

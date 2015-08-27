@@ -67,9 +67,9 @@ class SubscribeToolbar(CMSToolbar):
         if not self.request.current_page:
             return
         menu = self.toolbar.get_or_create_menu('subscribe', _('Subscribe'))
-        url = reverse('alert.subscribe', kwargs={'slug': "cms_page_published", 'pk': self.request.current_page.pk})
+        url = reverse('alert.subscribe', kwargs={'slug': "cmstabs.page_published_alert", 'pk': self.request.current_page.pk})
         menu.add_link_item(_('To This Page Only'), url=url)
-        url = reverse('alert.subscribe', kwargs={'slug': "cms_page_published"})
+        url = reverse('alert.subscribe', kwargs={'slug': "cmstabs.page_published_alert"})
         menu.add_link_item(_('To All Pages'), url=url)
         # XXX We could check existing subscriptions here
 

@@ -29,7 +29,6 @@ from django.core.validators import MaxLengthValidator
 from django.utils.text import slugify
 
 from pile.fields import ResizedImageField, AutoOneToOneField
-from cms.utils.permissions import get_current_user as get_user
 
 null = dict(null=True, blank=True)
 
@@ -69,6 +68,7 @@ class UserDetails(Model):
 
 class TwilightSparkle(Manager):
     def i_added(self):
+        from cms.utils.permissions import get_current_user as get_user
         user = get_user()
         if user.is_authenticated():
             return bool(self.get(from_user=user.pk))
@@ -120,7 +120,7 @@ class Team(Model):
 
     def save(self, **kwargs):
         if not self.name:
-            self.name = self.members.name
+            self.name = self.group.name
         if not self.slug:
             self.slug = slugify(self.name)
         return super(Team, self).save(**kwargs)

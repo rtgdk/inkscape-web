@@ -128,8 +128,9 @@ class AlertType(Model):
                 # Check if the instance has already been issued to this user's alerts.
                 i = kwargs['instance']
                 existing = UserAlert.objects.filter(user=user, alert=self,
-                    objs__o_id=i.pk, objs__name='instance').count()
-                if existing:
+                    objs__o_id=i.pk, objs__name='instance', deleted__isnull=True)
+                if existing.count():
+                    existing.update(viewed=None)
                     return None
             alert = UserAlert(user=user, alert=self)
             alert.save()

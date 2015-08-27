@@ -275,12 +275,13 @@ class GalleryList(CategoryListView):
     model = ResourceFile
     opts = (
       ('username', 'user__username'),
+      ('team',     'galleries__group__team__slug', False),
     )
     cats = (
       #('media_type', _("Media Type")),
       #('license', _("License")),
       ('category', _("Media Category")),
-      ('galleries', _("User Gallery"), 'get_galleries'),
+      ('galleries', _("Galleries"), 'get_galleries'),
     )
     order = '-liked'
     orders = (
@@ -308,13 +309,17 @@ class GalleryList(CategoryListView):
 
     def get_context_data(self, **kwargs):
         data = super(GalleryList, self).get_context_data(**kwargs)
-        if data.get('galleries', None) is not None:
-             data['object'] = data['galleries']
-        elif data.get('username', None):
-             data['object'] = data['username']
-             data['action'] = "InkSpace"
-        else:
-            data['action'] = "InkSpaces"
+  
+        if 'team' in data and data['team']:
+            # Our options are not yet returning the correct item
+            data['team'] = Group.objects.get(team__slug=data['team'])
+
+        data['action'] = "InkSpaces"
+        for name in ('galleries', 'team', 'username'):
+            if data.get(name, None) is not None:
+                data['object'] = data[name]
+                data['action'] = "InkSpace"
+                break
         return data
 
 

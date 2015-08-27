@@ -90,7 +90,7 @@ class Team(Model):
       ('S', _('Secret')),
     )
 
-    admin    = ForeignKey(User, related_name='teams', **null)
+    admin    = ForeignKey(User, related_name='admin_teams', **null)
     group    = AutoOneToOneField(Group, related_name='team', **null)
     watchers = ManyToManyField(User, related_name='watches', **null)
     requests = ManyToManyField(User, related_name='team_requests', **null)
@@ -139,6 +139,8 @@ m2m_changed.connect(update_mailinglist, sender=User.groups.through)
 
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()
+# Patch in a reverse lookup for teams so we get a solid team object list
+User.teams = lambda self: [group.team for group in self.groups.all()]
 
 class Ballot(Model):
     name  = CharField(max_length=128)

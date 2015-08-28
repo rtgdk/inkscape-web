@@ -240,7 +240,7 @@ class Resource(Model):
     def read_more(self):
         return len(self.desc) > 1000 or '[[...]]' in self.desc
 
-    def save(self):
+    def save(self, **kwargs):
         if self.has_file_changed():
             self.edited = now()
             delattr(self, '_mime')
@@ -253,7 +253,7 @@ class Resource(Model):
             signal = True
 
         set_slug(self)
-        ret = super(Resource, self).save()
+        ret = super(Resource, self).save(**kwargs)
 
         if signal:
             from .alert import post_publish

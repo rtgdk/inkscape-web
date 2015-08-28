@@ -40,7 +40,7 @@
   {"bio": "BIO_USER", "user": 3, "photo": "test/user.svg"}},
   
 {"pk": 1, "model": "person.team", "fields": 
-  {"admin": 1, "members": 1, "name": "Test Team", "slug": "testteam", "icon": "photos/admin.svg", "intro": "This team is our first test team. And this is its intro text.", "desc": "This here describes the first team's work in detail.", "enrole": "T"}},
+  {"admin": 1, "group": 1, "name": "Test Team", "slug": "testteam", "icon": "photos/admin.svg", "intro": "This team is our first test team. And this is its intro text.", "desc": "This here describes the first team's work in detail.", "enrole": "T"}},
 {"pk": 2, "model": "person.team", "fields": 
-  {"admin": 3, "members": 2, "name": "Team Two", "slug": "teamtwo", "icon": "test/user.svg", "intro": "This team is our second test team. And this is its intro text.", "desc": "This here describes the second team's work in detail.", "enrole": "O"}}
+  {"admin": 3, "group": 2, "name": "Team Two", "slug": "teamtwo", "icon": "test/user.svg", "intro": "This team is our second test team. And this is its intro text.", "desc": "This here describes the second team's work in detail.", "enrole": "O"}}
 ]

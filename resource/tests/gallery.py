@@ -490,9 +490,10 @@ class GalleryUserTests(BaseUserCase):
                            "Create a group gallery that does not belong to group %s" % src_gallery.group)
         target_gallery = target_galleries[0]
         
-        # GET
+        # GET - We allow moveing items out of the gallery and between galleries
+        # so the GET page will work.
         response = self._get('resource.move', pk=resource.pk, source=src_gallery.pk)
-        self.assertEqual(response.status_code, 403)
+        self.assertEqual(response.status_code, 200)
         
         # try to move a stranger's resource from a gallery belonging to a group I am in 
         # to a gallery of a group I am not in
@@ -699,8 +700,6 @@ class GalleryUserTests(BaseUserCase):
         # check GET
         response = self._get('gallery.edit', gallery_id=not_owned_gallery.pk)
         self.assertEqual(response.status_code, 403)
-        self.assertIsInstance(response.context['form'], GalleryForm)
-        self.assertContains(response, not_owned_gallery.name)
 
         # check POST
         response = self._post('gallery.edit', gallery_id=not_owned_gallery.pk, data={"name": "New Name", "group": ""})

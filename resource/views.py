@@ -55,6 +55,7 @@ class CreateGallery(GalleryMixin, OwnerCreateMixin, CreateView):
 
 class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
     form_class = GalleryForm
+    get_group = lambda self: None
 
 class DeleteResource(OwnerUpdateMixin, DeleteView):
     model  = Resource

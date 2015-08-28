@@ -10,22 +10,29 @@
 
 {% block "side" %}
     {% if request.user in object.members.all %}
-      <a href="{% url "team.leave" object.slug %}" class="btn btn-default" disabled>Leave Team</a>
+      <a href="{% url "team.leave" object.slug %}" class="btn btn-default" disabled title=
+          "{% trans "Leave this team." %}">Leave Team</a>
     {% elif request.user in object.watchers.all %}
-      <a href="{% url "team.unwatch" object.slug %}" class="btn btn-default">Stop Watching Team</a>
+      <a href="{% url "team.unwatch" object.slug %}" class="btn btn-default" title=
+          "{% trans "This means that you will no longer be kept up-to-date about this team's activities." %}">Stop Watching Team</a>
     {% else %}
       {% if object.enrole == 'O' %}
-        <a href="{% url "team.join" object.slug %}" class="btn btn-primary">Join Team</a>
+        <a href="{% url "team.join" object.slug %}" class="btn btn-primary" title=
+          "{% trans "Enrole yourself to become a member of this team." %}">Join Team</a>
       {% elif object.enrole in 'PT' %}
         {% if request.user in object.requests.all %}
-          <a class="btn" disabled>Request Sent</a>
+          <a class="btn" disabled title=
+          "{% trans "Your request for a team membership is pending." %}">Request Sent</a>
         {% else %}
-          <a href="{% url "team.join" object.slug %}" class="btn btn-primary">Request Membership</a>
+          <a href="{% url "team.join" object.slug %}" class="btn btn-primary" title=
+          "{% trans "Ask for a team membership." %}">Request Membership</a>
         {% endif %}
       {% elif object.enrole == 'C' %}
-        <a class="btn" disabled>Membership Closed</a>
+        <a class="btn" disabled title=
+        "{% trans "This team uses another mode of determining its members." %}">Membership Closed</a>
       {% endif %}
-      <a href="{% url "team.watch" object.slug %}" class="btn btn-default">Watch Team</a>
+      <a href="{% url "team.watch" object.slug %}" class="btn btn-default" title=
+      "{% trans "Watchers are kept up-to-date about what's going on in the team, but can't take part in their work." %}">Watch Team</a>
     {% endif %}
 
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>

@@ -79,7 +79,7 @@ class Subscribe(TemplateView, LoginRequired):
         (item, created, deleted) = AlertSubscription.objects.get_or_create(
             alert=data['alert_type'], user=request.user, target=data['pk'])
         if deleted:
-            messages.warning(request, _("Deleted %d previous subscriptions (supseeded)") % deleted)
+            messages.warning(request, _("Deleted %d previous subscription(s) (superseded)") % deleted)
         if created:
             messages.info(request, _('Subscription created!'))
         else:

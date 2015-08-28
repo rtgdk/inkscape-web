@@ -89,15 +89,16 @@ class Team(Model):
       ('C', _('Closed')),
       ('S', _('Secret')),
     )
+    ICON = os.path.join(settings.STATIC_URL, 'images', 'team.svg')
 
     admin    = ForeignKey(User, related_name='admin_teams', **null)
-    group    = AutoOneToOneField(Group, related_name='team', **null)
+    group    = AutoOneToOneField(Group, related_name='team')
     watchers = ManyToManyField(User, related_name='watches', **null)
     requests = ManyToManyField(User, related_name='team_requests', **null)
 
     name     = CharField(_('Team Name'), max_length=32)
     slug     = SlugField(_('Team URL Slug'), max_length=32)
-    icon     = ImageField(_('Display Icon'), upload_to='teams', default=os.path.join(settings.STATIC_URL, 'images', 'team.svg'))
+    icon     = ImageField(_('Display Icon'), upload_to='teams', default=ICON)
 
     intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)

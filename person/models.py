@@ -84,8 +84,8 @@ class Friendship(Model):
 class Team(Model):
     ENROLES = (
       ('O', _('Open')),
-      ('P', _('Peer Invite')),
-      ('T', _('Admin Invite')),
+      ('P', _('Peer Approval')),
+      ('T', _('Admin Approval')),
       ('C', _('Closed')),
       ('S', _('Secret')),
     )

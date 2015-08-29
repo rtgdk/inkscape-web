@@ -128,9 +128,9 @@ class AlertType(Model):
                 # Check if the instance has already been issued to this user's alerts.
                 i = kwargs['instance']
                 existing = UserAlert.objects.filter(user=user, alert=self,
-                    objs__o_id=i.pk, objs__name='instance', deleted__isnull=True)
+                    objs__o_id=i.pk, objs__name='instance',
+                    deleted__isnull=True, viewed__isnull=True)
                 if existing.count():
-                    existing.update(viewed=None)
                     return None
             alert = UserAlert(user=user, alert=self)
             alert.save()
@@ -139,6 +139,8 @@ class AlertType(Model):
                     UserAlertObject(alert=alert, name=key, target=value).save()
                 else:
                     UserAlertValue(alert=alert, name=key, target=unicode(value)).save()
+            # Do this after saving objects and values so email can use them.
+            alert.send_email()
             return alert
         return None
 
@@ -259,30 +261,20 @@ class UserAlert(Model):
 
     @property
     def data(self):
-        ret = self.objs.as_dict()
-        ret.update(self.values.as_dict())
-        return ret
+        return dict(list(self.objs) + list(self.values))
 
     @property
     def instance(self):
-        return self.objs.as_dict().get('instance', None)
+        return dict(self.objs).get('instance', None)
 
-    def save(self, **kwargs):
-        create = not bool(self.created)
-        ret = Model.save(self, **kwargs)
-        # This means: We didn't exist, and now we do.
-        if create and bool(self.created) and self.config.email:
-            self.alert.send_email(self.user.email, self.data)
-        return ret
+    def send_email(self):
+        return self.alert.send_email(self.user.email, self.data)
 
 
 class ObjectManager(Manager):
-    def as_dict(self):
-        result = {}
-        for item in self.get_queryset():
-            result[item.name] = item.target
-        return result
-
+    def __iter__(self):
+        for item in self.all():
+            yield (item.name, item.target)
 
 class UserAlertObject(Model):
     alert   = ForeignKey(UserAlert, related_name='objs')

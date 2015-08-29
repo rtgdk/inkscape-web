@@ -2,10 +2,10 @@
 
 The website page '{{ instance }}' has been changed.
 
-{{ revision.diff.stub|safe }}
+{{ diff.stub|safe }}
 
 Language: {{ language }}
-Published by: {{ revision.user }}
-Full Diff: {{ revision.diff.get_absolute_url }}
+Published by: {{ publisher }}
+Full Diff: {{ diff.get_absolute_url }}
 Page: {{ instance.get_absolute_url }}
 

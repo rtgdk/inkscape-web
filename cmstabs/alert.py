@@ -44,8 +44,10 @@ class PagePublishedAlert(BaseAlert):
     def call(self, sender, **kwargs):
         from reversion import get_for_object
         objs = get_for_object(kwargs['instance'])
-        if objs:
-            kwargs['revision'] = objs[0].revision
-            return super(PagePublishedAlert, self).call(sender, **kwargs)
+        if objs.count() > 0:
+            # First item is latest version.
+            kwargs['diff'] = objs[0].revision.diff
+            kwargs['publisher'] = objs[0].revision.user
+        return super(PagePublishedAlert, self).call(sender, **kwargs)
 
 

@@ -42,7 +42,7 @@ django-contrib-comments==1.5
 #bzr+ssh://bazaar.launchpad.net/+branch/djangocms-rosetta/
 
 # Django-CMS Plugins
-django-cms==3.1.0
+django-cms==3.1.2
 
 djangocms-toc==1.0.1
 djangocms-file==0.1

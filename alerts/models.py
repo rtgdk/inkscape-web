@@ -24,6 +24,7 @@ from django.db.models.signals import post_init
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
+from django.contrib.sites.models import Site
 from django.contrib.auth.models import User, Group
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -262,7 +263,8 @@ class UserAlert(Model):
 
     @property
     def data(self):
-        return dict(list(self.objs) + list(self.values) + [('alert', self)])
+        return dict(list(self.objs) + list(self.values) + \
+          [('alert', self), ('site', Site.objects.get_current())])
 
     @property
     def instance(self):

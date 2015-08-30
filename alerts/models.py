@@ -30,6 +30,7 @@ from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
+from django.utils import translation
 
 from collections import defaultdict
 
@@ -268,7 +269,14 @@ class UserAlert(Model):
         return dict(self.objs).get('instance', None)
 
     def send_email(self):
-        return self.alert.send_email(self.user.email, self.data)
+        lang = self.user.details.language
+        old = translation.get_language()
+        if lang:
+            translation.activate(lang)
+        ret = self.alert.send_email(self.user.email, self.data)
+        if lang:
+            translation.activate(old)
+        return ret
 
 
 class ObjectManager(Manager):

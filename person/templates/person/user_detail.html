@@ -145,14 +145,7 @@
 {% endblock %}
 
 {% block "content" %}
-    <h2>{% trans "Recent Uploads" %}
-      {% if not object == request.user %}
-        <form class="subsform" method="POST" action="{% url "alert.subscribe" "resource.resource_alert" object.pk %}">
-          {% csrf_token %}
-          <input class="subscribe" type="submit" alt="{% trans "Subscribe" %}" title="{% trans "Subscribe" %}" value=""/>
-        </form>
-      {% endif %}
-    </h2>
+    <h2>{% trans "Recent Uploads" %}</h2>
     
     {% if object.resources.latest %}
       {% with 4 as limit %}

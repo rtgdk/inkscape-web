@@ -41,7 +41,7 @@ class ResourceAlert(EditedAlert):
 
     subject       = "{% trans 'New submission:' %} {{ instance }}"
     email_subject = "{% trans 'New submission:' %} {{ instance }}"
-    object_name   = "{{ instance }}'s {% trans 'Gallery Submissions' %}"
+    object_name   = "{{ object }}'s {% trans 'Gallery Submissions' %}"
     default_email = False
     signal        = post_publish
 

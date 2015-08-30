@@ -947,27 +947,6 @@ a.roundel img {
   font-weight: bold;
 }
 
-/* style for subscription buttons */
-
-form.subsform {
-  display:inline;
-}
-
-input[type=submit].subscribe {
-    background-color: rgba(255, 255, 255, 0);
-    background-image: url("../images/icons/subscribe.svg");
-    repeat: no-repeat;
-    border: 0;
-    vertical-align: middle;
-    height: 21px;
-    width: 30px;
-    background-position: 0px -42px;
-}
-
-input[type=submit].subscribe:hover {
-    background-position: 0px 0px;
-}
-    
 /* style for tables with alternating rows */
 form.settingsform {
   display: inline-block;

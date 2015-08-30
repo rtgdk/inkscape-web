@@ -19,7 +19,7 @@
 #
 
 from django.core.urlresolvers import reverse
-from django.views.generic import UpdateView, CreateView
+from django.views.generic import UpdateView, CreateView, ListView
 from django.utils.translation import ugettext_lazy as _
 
 class CsrfWhenCaching(object):
@@ -70,6 +70,8 @@ class AutoBreadcrumbMiddleware(object):
             return _("Edit")
         elif isinstance(view, CreateView):
             return _("New")
+        elif isinstance(view, ListView):
+            return _("List")
 
     def _ancestors(self, obj):
         if hasattr(obj, 'parent') and obj.parent:

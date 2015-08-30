@@ -48,9 +48,9 @@ class EditProfile(UserMixin, UpdateView):
     def get_success_url(self):
         return self.get_object().get_absolute_url()
 
-class FacesView(LoginRequiredMixin, ListView):
-    template_name = 'person/profiles.html'
-    queryset = UserDetails.objects.all()
+class ProfileList(LoginRequiredMixin, ListView):
+    template_name = 'person/user_list.html'
+    model = UserDetails
 
 class UserDetail(DetailView):
     template_name  = 'person/user_detail.html'

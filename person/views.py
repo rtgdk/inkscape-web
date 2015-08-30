@@ -35,6 +35,8 @@ class UserMixin(LoginRequiredMixin):
         return self.request.user
 
 class AgreeToCla(UserMixin, UpdateView):
+    template_name = 'person/cla-agree.html'
+    action_name = _('Contributors License Agreement')
     form_class = AgreeToClaForm
 
     def get_success_url(self):

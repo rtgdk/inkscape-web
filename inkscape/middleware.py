@@ -63,11 +63,13 @@ class AutoBreadcrumbMiddleware(object):
             yield (None, _(action))
 
     def _action(self, view):
-        if isinstance(view, UpdateView):
+        name = getattr(view, 'action_name', None)
+        if name:
+            return name
+        elif isinstance(view, UpdateView):
             return _("Edit")
         elif isinstance(view, CreateView):
             return _("New")
-        return None
 
     def _ancestors(self, obj):
         if hasattr(obj, 'parent') and obj.parent:

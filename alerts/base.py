@@ -191,6 +191,7 @@ class BaseAlert(object):
             return False
 
         context_data = self.format_data(context_data)
+
         subject = render_directly(self.email_subject, context_data)
         subject = subject.strip().replace('\n', ' ').replace('\r', ' ')
         body    = render_template(self.email_template, context_data)

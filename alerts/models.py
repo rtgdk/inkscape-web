@@ -261,7 +261,7 @@ class UserAlert(Model):
 
     @property
     def data(self):
-        return dict(list(self.objs) + list(self.values))
+        return dict(list(self.objs) + list(self.values) + [('alert', self)])
 
     @property
     def instance(self):

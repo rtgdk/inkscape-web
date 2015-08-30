@@ -44,11 +44,11 @@
   {{ object.body }}
 </div>
 
-  {% paginate %}
-
   {% empty %}
     <h2>{% trans "No messages or alerts to view" %}</h2>
   {% endfor %}
 
+  {% paginate %}
+  
 {% endblock %}
 

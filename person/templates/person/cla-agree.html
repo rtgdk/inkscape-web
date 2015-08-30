@@ -1,18 +1,18 @@
 {% extends 'base.html' %}
 {% load i18n future extras %}
 
-{% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %}
+{% block title %}{% trans "Licencing of Contributions" %} | {{ object.name }}{% endblock %}
 
 {% block content %}
-  <h1>Contributors License Agreement</h1>
+  <h1>{% trans "Contributors License Agreement" %}</h1>
 
   {% if perms.person.website_cla_agreed %}
-    <p>You have agreed to the terms, thank you</p>
+    <p>{% trans "Thank you for agreeing to the terms for contributing to the Inkscape website. All your edits to the cms will be dual-licenced as CC-By-SA and GPL 2.0." %} </p>
   {% else %}
     {% include "person/cla.html" %}
     <form method="post">
       {% csrf_token %}
-      <button class="btn" type="submit">I Agree</button>
+      <button class="btn" type="submit">{% trans "I Agree" %}</button>
     </form>
   {% endif %}
 

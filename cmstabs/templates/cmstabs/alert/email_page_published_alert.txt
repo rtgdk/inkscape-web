@@ -1,11 +1,25 @@
-{% load i18n %}
+{% load i18n %}{% url "alert.settings" as message_settings_link %}
+{% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
 
-The website page '{{ instance }}' has been changed.
+{% blocktrans %}you are subscribed to website changes at {{ site }}.{% endblocktrans %}
+{% blocktrans with web_page=instance %}The following changes have been made to the page '{{ web_page }}':{% endblocktrans %}
+
+{% trans "Link" %}: {{ site }}{{ instance.get_absolute_url }}
+{% trans "Published by" %}: {{ publisher }}
+{% trans "Language" %}: {{ language }}
+{% trans "Full Diff" %}: {{ site }}{{ diff.get_absolute_url }}
+
+
+{% trans "Differences to previous version" %}:
+------------------------------------------------
 
 {{ diff.stub|safe }}
 
-Language: {{ language }}
-Published by: {{ publisher }}
-Full Diff: {{ diff.get_absolute_url }}
-Page: {{ instance.get_absolute_url }}
 
+{% trans "All the best," %}
+ {% trans "Inkscape.org Website" %}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+{% trans "Unsubscribe:" %}
+
+{% blocktrans %}If you do no longer want to receive these messages, you can edit your subscriptions and messaging settings at {{ site }}{{ message_settings_link }}.{% endblocktrans %}

@@ -118,7 +118,7 @@ a img {
 }
 
 /* for Tables of Contents on long pages */
-div.toc {
+div.toc, #toc {
   float: right;
   margin: 1em 0 1em 1em;
   padding: 1ex;
@@ -126,14 +126,16 @@ div.toc {
   border: 1px solid #ddd;
   width: 25%;
 }
-div.toc h2 {
+div.toc h2,
+#toc h2 {
   font-size: 120%;
   text-align: center;
   margin: 0 0 0.5ex 0;
   border: 0;
   padding: 0;
 }
-div.toc ul {
+div.toc ul,
+#toc ul {
   margin: 0;
   padding: 0 0 0 2em;
 }

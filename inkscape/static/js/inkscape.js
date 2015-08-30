@@ -27,7 +27,9 @@ $(document).ready(function() {
   if($(".inlinepages"))inlinePages();
   $("#toplogin input").focus(true, focused);
   $("#toplogin input").focusout(false, focused);
-  anchors();
+  if($('#toc').length == 0) {
+    anchors();
+  }
 });
 /*Link to anchors- H1 removed because normali is on top*/
 function anchors(){

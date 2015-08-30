@@ -125,6 +125,14 @@ class SettingsList(CategoryListView):
 
     def get_context_data(self, **data):
         data = super(SettingsList, self).get_context_data(**data)
+        if not self.request.user.email:
+            messages.warning(self.request,
+              _("You haven't told us your mail address yet! If you would like"
+              " to receive emails from inkscape.org, enter an email address"
+              " <a href='%(url)s'>in your profile</a>.") % \
+                {'url': reverse('edit_profile')}, extra_tags='safe')
+        data['object'] = self.request.user
+        data['action'] = _('Alert Settings')
         data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
         return data
 

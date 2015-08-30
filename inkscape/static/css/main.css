@@ -829,16 +829,31 @@ a.roundel img {
   padding: 3px;
 }
 
+#messages:empty {
+  display: none;
+}
 #messages {
-  margin: 12px 0px 2px;
+  list-style-type: none;
+  background-color: #1A1A1A;
+  margin: -4px 0px;
+  padding: 12px 4px;
 }
 #messages li {
-  border: 2px solid #888;
+  border: 2px solid white !important;
   border-radius: 8px;
   color: white;
   padding: 12px 52px;
   margin: 4px 30px;
   background: 9px center url(../images/messages/none.svg) no-repeat;
+}
+#messages .x-close {
+  float: right;
+  position: relative;
+  top: -5px;
+  right: -34px;
+  font-weight: bold;
+  font-size: 150%;
+  cursor: pointer;
 }
 #messages .info {
   background-image: url(../images/messages/info.svg);

@@ -116,21 +116,17 @@
     {% block menu %}
       <div class="nav"><ul id="menu">{% show_menu 0 100 100 %}</ul></div>
     {% endblock %}
+    {% if messages %}
+      <ul id="messages">{% for message in messages %}<li{% if message.tags %} class="{{ message.tags }}"{% endif %} title="{{ message.tags }}">
+        {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+      </li>{% endfor %}</ul>
+    {% endif %}
   </div>
 
   {% block supercontent %}
     <div id="content"{% block contentclasses %}{% endblock %}>
       <div class="wrapper">
         {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
-        {% if messages %}
-          <ul id="messages">
-            {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>
-                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
         {% block content %}{% endblock %}
       </div>
     </div>

@@ -10,15 +10,6 @@
 
   <h1>{% trans "Your Alert Settings" %}</h1>
 
-  <h2>{% trans "General" %}</h2>
-  
-  {% if not user.email %}
-    {% url 'edit_profile' as profile_url %}
-    {% blocktrans %}
-      You haven't told us your mail address yet! If you would like to receive emails from inkscape.org, enter an email address <a href="{{ profile_url }}">in your profile</a>.
-    {% endblocktrans %}
-  {% endif %}
-  
   <form class="settingsform" method="POST" action=".">
   {% csrf_token %}
 

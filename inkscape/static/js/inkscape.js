@@ -30,7 +30,19 @@ $(document).ready(function() {
   if($('#toc').length == 0) {
     anchors();
   }
+  close_elements();
 });
+
+function close_elements() {
+  $("#messages li").each(function() {
+    $(this).prepend("<span class='x-close'>x</span>");
+  });
+  $(".x-close").each(function() {
+    $(this).click(function() {
+      $(this).parent().remove();
+    });
+  });
+}
 /*Link to anchors- H1 removed because normali is on top*/
 function anchors(){
   var anchor = 'undefined';

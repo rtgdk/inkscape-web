@@ -3,21 +3,26 @@
 <div id='errors'></div>
 
 <div id="gallery">
- {% if username == request.user and galleries.id %}
+ {% if username == request.user or team_member %}
+   {% if galleries.id %}
+     {% url "resource.upload" galleries.id as upload_url %}
+     {% url "resource.drop" galleries.id as upload_drop %}
+   {% else %}
+     {% url "resource.upload" as upload_url %}
+     {% url "resource.drop" as upload_drop %}
+   {% endif %}
   <div class="galleryitem">
-    <div id="drop" class="link"><a href="{% url "resource.upload" galleries.id %}"><img src="{{ STATIC_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
-    <p><a href="{% url "resource.upload" galleries.id %}">{% trans "Submit Resource" %}</a></p>
+    <div id="drop" class="link"><a href="{{ upload_url }}"><img src="{{ STATIC_URL }}/images/add.svg" title="{% trans "Submit Resource" %}"/></a></div>
+    <p><a href="{{ upload_url }}">{% trans "Submit Resource" %}</a></p>
   </div>
   <script>
-    registerDropZone('drop', 'gallery', '{% url "resource.drop" galleries.id %}', '{{ STATIC_URL }}'); 
+    registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{{ STATIC_URL }}'); 
   </script>
- {% else %}
-  {% if not items and user == request.user %}
+ {% elif not items and user == request.user %}
   <div class="galleryitem">
     <div class="link"><a><img src="{{ STATIC_URL }}/images/none.svg" title="{% trans "Nothing in this InkSpace" %}"/></a></div>
     <p><a>{% trans "Nothing Yet" %}</a></p>
   </div>
-  {% endif %}
  {% endif %}
  {% if items %}
    {% autopaginate items limit as resources %}

@@ -314,6 +314,7 @@ class GalleryList(CategoryListView):
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
+            data['team_member'] = self.request.user in data['team'].user_set.all()
 
         data['action'] = "InkSpaces"
         for name in ('galleries', 'team', 'username'):

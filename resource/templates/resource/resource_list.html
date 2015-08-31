@@ -1,0 +1,34 @@
+{% load i18n pagination_tags static %}
+
+{% autopaginate items limit as resources %}
+
+  <div id="gallery">
+    {% if upload_url %}
+      <div class="galleryitem">
+        <div id="drop" class="link">
+          <a href="{{ upload_url }}"><img src="{% static "images/add.svg" %}"/></a>
+        </div>
+        <p><a href="{{ upload_url }}">{% trans "Submit Resource" %}</a></p>
+        <script>
+          registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{{ STATIC_URL }}'); 
+        </script>
+      </div>
+    {% elif team_member %}
+      <div class="galleryitem">
+        <div><a class="link"><img src="{% static "images/no.svg" %}"/></a></div>
+        <p class="label"><a>{% trans "Select Gallery to Upload" %}</a></p>
+      </div>
+    {% endif %}
+
+    {% for item in resources %}
+      {% include "resource/resource_item.html" %}
+    {% empty %}
+      <div class="galleryitem">
+        <div class="link"><img src="{% static "images/none.svg" %}"/></div>
+        <p>{% trans "Nothing Yet" %}</p>
+      </div>
+    {% endfor %}
+  </div>
+
+{% paginate %}
+

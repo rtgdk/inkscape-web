@@ -218,6 +218,9 @@ class Resource(Model):
 
     objects   = InheritedResourceManager()
 
+    class Meta:
+        get_latest_by = 'created'
+
     def __unicode__(self):
         return self.name
 
@@ -660,7 +663,7 @@ class GalleryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "cms/plugins/resource-%s.html" % (self.display or 'list')
+        return "resource/resource_%s.html" % (self.display or 'list')
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items per page'))
@@ -669,5 +672,5 @@ class CategoryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "cms/plugins/resource-%s.html" % (self.display or 'list')
+        return "resource/resource_%s.html" % (self.display or 'list')
 

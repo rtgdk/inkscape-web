@@ -87,7 +87,6 @@ class AlertUserTests(BaseUserCase):
         response = self._get('alerts', slug='alerts.message_alert')
         # THIS FAILS BECAUSE TEST SUITE HAS RESET THE DATABASE BUT NOT
         # THE APP, SO THE APP IS READY BUT EMPTY. IT NEEDS TO RE-INIT
-        print response
         #self.assertContains(response, '"')
         #self.assertContains(response, 'id="alert_1"')
         #self.assertNotContains(response, 'id="alert_3"')

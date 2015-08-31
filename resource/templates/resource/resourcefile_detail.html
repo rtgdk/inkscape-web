@@ -1,4 +1,4 @@
-{% extends 'resource/item.html' %}
+{% extends 'resource/resource_base.html' %}
 {% load i18n pile %}
 
 {% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user.details }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}

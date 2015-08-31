@@ -1,3 +1,4 @@
+{% load i18n %}
 {% url "resources" username=instance.user.username as gallery_link %}
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
  

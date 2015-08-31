@@ -12,7 +12,7 @@
           </a>
         {% else %}
           <a href="{% url "resource.copy" item.pk %}">
-            <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Copy to Gallery" %}">
+            <img src="{% static "mime/banner/copy.svg" %}" title="{% trans "Copy to Gallery" %}">
           </a>
         {% endif %}
         <a href="{% url "edit_resource" item.pk %}">

@@ -316,6 +316,15 @@ class GalleryList(CategoryListView):
             data['team'] = Group.objects.get(team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
 
+        if data['username'] == self.request.user \
+          or ('galleries' in data and data.get('team_member', False)):
+            k = {}
+            if data.get('galleries', None):
+                k['gallery_id'] = data['galleries'].pk
+            data['upload_url'] = reverse("resource.upload", kwargs=k)
+            data['upload_drop'] = reverse("resource.drop", kwargs=k)
+
+        data['items'] = data['object_list']
         data['action'] = "InkSpaces"
         for name in ('galleries', 'team', 'username'):
             if data.get(name, None) is not None:

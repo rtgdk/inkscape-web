@@ -150,7 +150,7 @@
     {% if object.resources.latest %}
       {% with 4 as limit %}
         {% with object.resources.latest as items %}
-          {% include "resource/list.html" %}
+          {% include "resource/resource_list.html" %}
         {% endwith %}
       {% endwith %}
     {% else %}
@@ -171,7 +171,7 @@
     {% if object.favorites.all %}
       {% with 4 as limit %}
         {% with object.favorites.items as items %}
-          {% include "resource/list.html" %}
+          {% include "resource/resource_list.html" %}
         {% endwith %}
       {% endwith %}
     {% else %}

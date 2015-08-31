@@ -47,3 +47,59 @@ except ImportError:
       logging.error("No settings found and default template failed to load.")
       exit(3)
 
+
+from django.contrib import admin
+from django.contrib.admin import sites
+from collections import defaultdict
+
+class MyAdminSite(admin.AdminSite):
+    merge = {
+      'person': 'auth',
+      'django_mailman': 'auth',
+      'user_sessions': 'auth',
+      'registration': 'auth',
+      'social_auth': 'auth',
+      'djangocms_snippet': 'cms',
+      'cmsdiff': 'cms',
+      'cmsplugin_news': 'cmstabs',
+      'redirects': 'sites',
+    }
+    rename = {
+      'auth': 'Users and Teams',
+      'cms': 'Django CMS',
+      'cmstabs': 'Inkscape CMS Extras',
+      'List': 'E-Mailing Lists',
+      'UserDetails': 'User Profiles',
+      'django_comments': 'Comments',
+      'UserSocialAuth': 'Social Authentications',
+      'TabCategory': 'Tab Categories',
+    }
+
+    def index(self, request, **kwargs):
+        response = super(MyAdminSite, self).index(request, **kwargs)
+        app_list = list(self.regen(response.context_data['app_list']))
+        app_list.sort(key=lambda x: x['name'].lower())
+        response.context_data['app_list'] = app_list
+        return response
+
+    def regen(self, apps):
+        to_merge = defaultdict(list)
+        for app in apps:
+            for model in app.get('models', []):
+                model['name'] = self.rename.get(model['object_name'], model['name'])
+            if app['app_label'] in self.merge:
+                to_merge[self.merge[app['app_label']]] += app.pop('models', [])
+            app['name'] = self.rename.get(app['app_label'], app['name'])
+
+        for app in apps:
+            if app['app_label'] in to_merge:
+                app['models'] += to_merge[app['app_label']]
+            if app.get('models', None):
+                app['models'].sort(key=lambda x: x['name'].lower())
+                yield app
+
+mysite = MyAdminSite()
+admin.site = mysite
+sites.site = mysite
+
+

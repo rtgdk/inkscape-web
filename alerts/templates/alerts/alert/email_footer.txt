@@ -1,0 +1,9 @@
+{% load i18n %}{% url "alert.settings" as message_settings_link %}
+{% trans "All the best," %}
+ {% trans "Inkscape.org Website" %}
+
+~~~~~~~~~~~~~~~~~~~~~~~~~
+{% trans "Unsubscribe:" %}
+
+{% blocktrans %}If you do no longer want to receive these messages, you canedit your subscriptions and messaging settings at {{ site }}{{ message_settings_link }}.{% endblocktrans %}
+

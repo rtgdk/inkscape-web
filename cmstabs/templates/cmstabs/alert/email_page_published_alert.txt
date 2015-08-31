@@ -1,4 +1,4 @@
-{% load i18n %}{% url "alert.settings" as message_settings_link %}
+{% load i18n %}
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
 
 {% blocktrans %}you are subscribed to website changes at {{ site }}.{% endblocktrans %}
@@ -16,10 +16,3 @@
 {{ diff.stub|safe }}
 
 
-{% trans "All the best," %}
- {% trans "Inkscape.org Website" %}
-
-~~~~~~~~~~~~~~~~~~~~~~~~~
-{% trans "Unsubscribe:" %}
-
-{% blocktrans %}If you do no longer want to receive these messages, you can edit your subscriptions and messaging settings at {{ site }}{{ message_settings_link }}.{% endblocktrans %}

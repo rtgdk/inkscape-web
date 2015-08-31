@@ -1,4 +1,4 @@
-{% load i18n %}{% url "alert.settings" as message_settings_link %}{% with instance.sender as sender %}
+{% load i18n %}{% with instance.sender as sender %}
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
 
 {% blocktrans %}you have received a message from {{ sender }}.{% endblocktrans %}
@@ -11,11 +11,4 @@
 {% trans "Reply" %}: {{ site }}{% url "message.new" instance.sender.username %}?reply_to={{ instance.pk }}
 {% blocktrans %}Visit {{ sender }}'s profile{% endblocktrans %}: {{ site }}{{ instance.sender.get_absolute_url }}
 {% trans "All my messages" %}: {{ site }}{% url 'alerts' %}
-
-{% trans "All the best," %}
- {% trans "Inkscape.org Website" %}
-
-~~~~~~~~~~~~~~~~~~~~~~~~~
-{% trans "Unsubscribe:" %}
-
-{% blocktrans %}If you do no longer want to receive these messages, you can edit your subscriptions and messaging settings at {{ site }}{{ message_settings_link }}.{% endblocktrans %}{% endwith %}
+{% endwith %}

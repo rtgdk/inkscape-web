@@ -57,6 +57,7 @@ class BaseAlert(object):
 
     subject  = "{{ instance }}"
     email_subject = "{% trans 'Website Alert:' %} {{ instance }}"
+    email_footer = 'alerts/alert/email_footer.txt'
     object_name = "{{ instance }}"
 
     # User specifies which user attribute on the instance alerts are sent
@@ -195,6 +196,8 @@ class BaseAlert(object):
         subject = render_directly(self.email_subject, context_data)
         subject = subject.strip().replace('\n', ' ').replace('\r', ' ')
         body    = render_template(self.email_template, context_data)
+        if self.email_footer is not None:
+            body += render_template(self.email_footer, context_data)
         email   = EmailMultiAlternatives(subject, body, None, (recipient,))
 
         # This will fail silently if not configured right

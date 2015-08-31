@@ -1,4 +1,4 @@
-{% url "resources" username=instance.user.username as gallery_link %}{% url "alert.settings" as message_settings_link %}
+{% url "resources" username=instance.user.username as gallery_link %}
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
  
 {% with instance.user as username %} 
@@ -15,11 +15,3 @@
 
 {% blocktrans with upload=instance %}Visit "{{ upload }}"{% endblocktrans %}: {{ site }}{{ instance.get_absolute_url }}
 
-
-{% trans "All the best," %}
- {% trans "Inkscape.org Website" %}
-
-~~~~~~~~~~~~~~~~~~~~~~~~~
-{% trans "Unsubscribe:" %}
-
-{% blocktrans %}If you do no longer want to receive these messages, you can edit your subscriptions and messaging settings at {{ site }}{{ message_settings_link }}.{% endblocktrans %}

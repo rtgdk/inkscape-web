@@ -271,13 +271,12 @@ class UserAlert(Model):
         return dict(self.objs).get('instance', None)
 
     def send_email(self):
-        lang = self.user.details.language
+        """Send alert email is user's own language"""
+        lang = self.user.details.language or 'en'
         old = translation.get_language()
-        if lang:
-            translation.activate(lang)
+        translation.activate(lang)
         ret = self.alert.send_email(self.user.email, self.data)
-        if lang:
-            translation.activate(old)
+        translation.activate(old)
         return ret
 
 

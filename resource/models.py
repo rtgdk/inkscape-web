@@ -118,7 +118,7 @@ class Tag(Model):
     name     = CharField(max_length=16)
     parent   = ForeignKey('self', related_name='children', **null)
     
-    def __str__(self):
+    def __unicode__(self):
         return self.name
 
 

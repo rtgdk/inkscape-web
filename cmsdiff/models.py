@@ -109,27 +109,23 @@ class RevisionDiff(Model):
         self.user = revision.user
         self.comment = revision.comment
 
-        # XXX SLOW PROCESS FAKED
-        self.content = "FAKED"
-        self.stub = "NONE"
-        return
-
         content = ""
         f_table  = ""
         diffs = []
         for version in revision.version_set.all():
             fields = version.field_dict
             previous = getattr(version.previous, 'field_dict', {})
-            for field in fields:
+            for field in set(list(fields) + list(previous)):
                 a = clean_text(previous.get(field, ''))
-                b = clean_text(fields[field])
+                b = clean_text(fields.get(field, ''))
                 if a == b:
                     # Field is the same for this item.
                     continue
                 if '\n' not in a and '\n' not in b:
-                    # Not a multi-line field, consider differently.
-                    if field not in ('changed_date',):
-                        f_table += FIELD_TEMPLATE % (field, a, b)
+                #    This process is _really_ expensive. (oops)
+                #    # Not a multi-line field, consider differently.
+                #    if field not in ('changed_date',):
+                #        f_table += FIELD_TEMPLATE % (field, a, b)
                     continue
                 diff = differ.diff_main(a, b)
                 differ.diff_cleanupSemantic(diff)

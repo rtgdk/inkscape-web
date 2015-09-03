@@ -5,16 +5,13 @@
 {% blocktrans with web_page=instance %}The following changes have been made to the page '{{ web_page }}':{% endblocktrans %}
 
 {% trans "Link" %}: {{ site }}{{ instance.get_absolute_url }}
-{% trans "Published by" %}: {{ publisher }}
+{% trans "Published by" %}: {{ revision.user }}
 {% trans "Language" %}: {{ language }}
-{% trans "Full Diff" %}: {{ site }}{{ diffs.0.get_absolute_url }}
+{% trans "Full Diff" %}: {{ site }}{{ revision.diff.get_absolute_url }}
 
 
 {% trans "Differences to previous version" %}:
 ------------------------------------------------
 
-{% for diff in diffs %}
-  {{ diff.stub_text }}
-{% endfor %}
-
+{{ revision.diff.stub_text }}
 

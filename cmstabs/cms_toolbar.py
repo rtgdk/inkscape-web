@@ -18,18 +18,17 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+
 from cms.toolbar_pool import toolbar_pool
 from cms.toolbar_base import CMSToolbar
 from cms.toolbar.items import TemplateItem, ButtonList
-
-from django.conf import settings
 
 @toolbar_pool.register
 class LiveToolbar(CMSToolbar):
     """Show a NOT LIVE! warning to users when on localhost or staging"""
     def populate(self):
+        from django.conf import settings
         if settings.DEBUG:
             # A full menu is not possible with our extra class for flashing red thing.
             #menu = self.toolbar.get_or_create_menu('live', _('NOT LIVE!'), position=0)
@@ -59,17 +58,4 @@ class LicenseAgreement(CMSToolbar):
         item = TemplateItem(template, context, self.toolbar.RIGHT)
         self.toolbar.add_item(item)
 
-
-@toolbar_pool.register
-class SubscribeToolbar(CMSToolbar):
-    """Displace a Subscribe to this page link."""
-    def populate(self):
-        if not self.request.current_page:
-            return
-        menu = self.toolbar.get_or_create_menu('subscribe', _('Subscribe'))
-        url = reverse('alert.subscribe', kwargs={'slug': "cmstabs.page_published_alert", 'pk': self.request.current_page.pk})
-        menu.add_link_item(_('To This Page Only'), url=url)
-        url = reverse('alert.subscribe', kwargs={'slug': "cmstabs.page_published_alert"})
-        menu.add_link_item(_('To All Pages'), url=url)
-        # XXX We could check existing subscriptions here
 

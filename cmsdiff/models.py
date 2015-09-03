@@ -26,18 +26,20 @@ import os
 import sys
 
 from django.db.models import *
-from django.utils.translation import ugettext_lazy as _
-from django.utils.timezone import now
-from django.utils.text import slugify
 from django.core.urlresolvers import reverse
 
-from pile.fields import AutoOneToOneField
-from reversion import get_for_object
-
-from reversion.models import Version, Revision
+from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
 from django.utils.encoding import force_text
+from django.utils.timezone import now
+from django.utils.text import slugify
 from django.utils.html import strip_tags, strip_spaces_between_tags, linebreaks
+
+from pile.fields import AutoOneToOneField
+
+from reversion import get_for_object
+from reversion.models import Version, Revision, UserModel
+
 
 null = dict(null=True, blank=True)
 
@@ -53,7 +55,6 @@ FIELD_TEMPLATE = """<tr class="del">
 
 try:
     from diff_match_patch import diff_match_patch
-    #from reversion.helpers import generate_diffs
 except ImportError:
     generate_diffs = None
     Revision.has_diffs = False
@@ -61,52 +62,58 @@ else:
     differ = diff_match_patch()
     Revision.has_diffs = True
 
-def get_previous(self):
-    """Bolster the Version implimentation with navigation"""
-    if not hasattr(self, '_previous'):
-        qs = Version.objects.filter(
-            object_id_int   = self.object_id_int,
-            content_type    = self.content_type,
-            revision_id__lt = self.revision.pk
-          ).order_by('-pk')
-        if qs.count() == 0:
-            self._previous = self
-        else:
-            self._previous = qs[0]
-    return self._previous
-Version.previous = property(get_previous)
-
-def get_previous_revision(self):
-    """Returns the previous revision"""
-    return self.version_set.all()[0].previous.revision
-Revision.previous = property(get_previous_revision)
-
-def has_previous(self):
-    return self.previous.pk != self.pk
-Version.has_previous = has_previous
-Revision.has_previous = has_previous
-
 def clean_text(text):
     return strip_tags(force_text(text)).replace("\n\n\n", "\n\n").strip()
 
 class RevisionDiff(Model):
-    revision = AutoOneToOneField(Revision, related_name='diff')
+    revision = AutoOneToOneField(Revision, related_name='diff', **null)
     content  = TextField()
     stub     = TextField(**null)
 
+    # We use these to record details from the revision, in case it's
+    # deleted at some point and we should record them.
+    user     = ForeignKey(UserModel, **null)
+    comment  = TextField(**null)
+
+    # When edited revisions get deleted, we try and preserve
+    # The diff and reattach to available 'published' revisions.
+    revisions = ManyToManyField(Revision, related_name='diffs', **null)
+
     def __str__(self):
-        return "Diff for Revison:pk%d" % (self.revision.pk)
+        if self.revision:
+            return "Diff for Revison:pk%d" % (self.revision.pk)
+        return "Orphaned Diff: %s" % (self.comment or '?')
 
     def get_absolute_url(self):
-        return reverse('cms.diff', kwargs={'pk':self.revision.pk})
+        return reverse('cms.diff', kwargs={'pk':self.pk})
 
     def save(self, **kwargs):
         if not self.content and Revision.has_diffs:
             self.refresh_diff()
-        super(RevisionDiff, self).save(**kwargs)
+        try:
+            super(RevisionDiff, self).save(**kwargs)
+        except:
+            pass
+
+    @property
+    def stub_text(self):
+        return self.stub.replace('<span>', '').replace('</span>', '\n\n')\
+            .replace('<del style="background:#ffe6e6;">', '-->').replace('</del>', '<--')\
+            .replace('<ins style="background:#e6ffe6;">', '++>').replace('</ins>', '<++')
 
     def refresh_diff(self):
         revision = self.revision
+        if not revision:
+            return
+
+        self.user = revision.user
+        self.comment = revision.comment
+
+        # XXX SLOW PROCESS FAKED
+        self.content = "FAKED"
+        self.stub = "NONE"
+        return
+
         content = ""
         f_table  = ""
         diffs = []

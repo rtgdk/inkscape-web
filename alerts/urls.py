@@ -17,11 +17,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
-try:
-    from django.conf.urls import patterns, url, include
-except ImportError:
-    from django.conf.urls.defaults import patterns, url, include
-
+from django.conf.urls import patterns, url, include
 from .views import *
 
 def url_tree(regex, *urls):
@@ -31,27 +27,30 @@ from person.urls import USER_URLS
 
 USER_URLS.url_patterns.extend([
   # Example message system
-  url(r'^/message/$', CreateMessage(), name="message.new"),
-  url(r'^/sent/$',    SentMessages(), name="message.sent"),
+  url(r'^/message/$',                CreateMessage(),name="message.new"),
+  url(r'^/sent/$',                   SentMessages(), name="message.sent"),
 ])
 
 urlpatterns = patterns('',
-  url(r'^settings/$',                SettingsList(),  name='alert.settings'),
-  url(r'^unsubscribe/(?P<pk>\d+)/$', unsubscribe,     name='alert.unsubscribe'),
+  url(r'^settings/$',                SettingsList(), name='alert.settings'),
 
-  url_tree(r'^(?P<alert_id>\d+)/',
-    url(r'^view/',   mark_viewed,     name="alert.view"),
-    url(r'^delete/', mark_deleted,    name='alert.delete'),
+  url_tree(r'^(?P<pk>\d+)/',
+    url(r'^view/',                   MarkViewed(),   name="alert.view"),
+    url(r'^delete/',                 MarkDeleted(),  name='alert.delete'),
   ),
 
-  url(r'^$',                  AlertList(), name="alerts"),
+  url(r'^$',                         AlertList(),    name="alerts"),
   url_tree(r'^(?P<slug>[^\/]+)/',
-    url(r'^$',                AlertList(), name="alerts"),
+    url(r'^$',                       AlertList(),    name="alerts"),
     url_tree(r'subscribe/',
-      url(r'^$',              Subscribe(), name='alert.subscribe'),
-      url(r'^(?P<pk>\d+)/$',  Subscribe(), name='alert.subscribe'),
+      url(r'^$',                     Subscribe(),    name='alert.subscribe'),
+      url(r'^(?P<pk>\d+)/$',         Subscribe(),    name='alert.subscribe'),
+    ),
+    url_tree(r'^unsubscribe/',
+      url(r'^$',                     Unsubscribe(),  name='alert.unsubscribe'),
+      url(r'^(?P<pk>\d+)/$',         Unsubscribe(),  name='alert.unsubscribe'),
     ),
   ),
-
+  url(r'^unsubscribe/(?P<pk>\d+)/$', Unsubscribe(),  name='alert.unsubscribe'),
 )
 

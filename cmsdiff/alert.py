@@ -23,14 +23,15 @@ CMS alerts
 
 from django.utils.translation import ugettext_lazy as _
 
+from cms.models import Page
+from django.utils.translation import get_language
+
 from alerts.base import BaseAlert
 from alerts.models import AlertType
-
-from cms.models import Page
-import cms.signals as cms_signals
+from cmsdiff.signals import post_revision
 
 class PagePublishedAlert(BaseAlert):
-    name     = _("Website Page Edited")
+    name     = _("Website Page Published")
     desc     = _("A page on the website has been published after editing.")
     category = AlertType.CATEGORY_USER_TO_USER
     sender   = Page
@@ -39,15 +40,9 @@ class PagePublishedAlert(BaseAlert):
     email_subject = "{% trans 'Published:' %} {{ instance }}"
     object_name   = "{{ instance }}'s {% trans 'Website Page Published' %}"
     default_email = False
-    signal        = cms_signals.post_publish
+    signal        = post_revision
 
-    def call(self, sender, **kwargs):
-        from reversion import get_for_object
-        objs = get_for_object(kwargs['instance'])
-        if objs.count() > 0:
-            # First item is latest version.
-            kwargs['diff'] = objs[0].revision.diff
-            kwargs['publisher'] = objs[0].revision.user
-        return super(PagePublishedAlert, self).call(sender, **kwargs)
-
+    def call(self, *args, **kwargs):
+        kwargs['language'] = get_language()
+        super(PagePublishedAlert, self).call(*args, **kwargs)
 

@@ -5,24 +5,24 @@
   <h1>
     {% block title %}
       {% if object %}
-        {% trans "Subscribe to" %} {{ object_name }}
+        {% trans "Subscribe to" %} {{ object }}
       {% else %}
-        {% trans "Subscribe to All" %} {{ alert_type.name }}
+        {% trans "Subscribe to All" %} {{ alert.name }}
       {% endif %}
     {% endblock %}
   </h1>
 
   {% if alert.default_email %}
-    <div>You will receive an email alert by default when you subscribe, but these can be switched off in your subscription settings.</div>
+    <div>You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{% url "alert.settings" %}">subscription settings</a>.</div>
   {% endif %}
-  <div>{{ alert_type.desc }}</div>
+  <div>{{ alert.desc }}</div>
 
   <form method="post" action=".">
     {% csrf_token %}
     <div class="form-buttons">
       <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
       <input type="submit" class="btn btn-primary" value="{% trans "Subscribe Me" %}"/>
-      <a class="btn btn-default" href="{{ next }}">{% trans "Cancel" %}</a>
+      <a class="btn btn-default" href="{% url "alert.settings" %}">{% trans "Cancel" %}</a>
     </div>
   </form>
 

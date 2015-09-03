@@ -114,7 +114,7 @@ class BaseAlert(object):
         # Set reverse lookup, the related name defaults to 'alerts'
         setattr(self.sender, self.related_name, ManagerDescriptor())
 
-    def call(self, sender, **kwargs):
+    def call(self, sender, signal=None, **kwargs):
         """Connect this method to the post_save signal and it will
            create an alert when the sender edits any object."""
         def send_to(recipient, kind=None):

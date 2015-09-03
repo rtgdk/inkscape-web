@@ -136,15 +136,22 @@ class AlertType(Model):
                     return None
             alert = UserAlert(user=user, alert=self)
             alert.save()
-            for (key, value) in kwargs.items() or ():
-                if isinstance(value, Model):
-                    UserAlertObject(alert=alert, name=key, target=value).save()
-                else:
-                    UserAlertValue(alert=alert, name=key, target=unicode(value)).save()
+            for (key, value) in kwargs.items():
+                alert.add_value(key, value)
             # Do this after saving objects and values so email can use them.
             alert.send_email()
             return alert
         return None
+
+    def subscribe_url(self, obj=None):
+        return self._url('subscribe', pk=(obj and obj.pk), slug=self.slug)
+
+    def unsubscribe_url(self, obj=None):
+        return self._url('unsubscribe', pk=(obj and obj.pk), slug=self.slug)
+
+    def _url(self, view, **kwargs):
+        kwargs = dict((a,b) for (a,b) in kwargs.items() if b is not None)
+        return reverse('alert.'+view, kwargs=kwargs)
 
     def __str__(self):
         return unicode(self.name)
@@ -263,8 +270,23 @@ class UserAlert(Model):
 
     @property
     def data(self):
-        return dict(list(self.objs) + list(self.values) + \
-          [('alert', self), ('site', SITE_ROOT )])
+        if not hasattr(self, '_data'):
+            ret = defaultdict(list, alert=self, site=SITE_ROOT)
+            for item in list(self.objs.all()) + list(self.values.all()):
+                if item.name[0] == '@':
+                    ret[item.name[1:]+'_list'].append(item.target)
+                else:
+                    ret[item.name] = item.target
+            self._data = ret
+        return self._data
+
+    def add_value(self, name, value):
+        if isinstance(value, (tuple, list)) and name[0] != '@':
+            [ self.add_value('@'+name, x) for x in value ]
+        elif isinstance(value, Model):
+            UserAlertObject(alert=self, name=name, target=value).save()
+        else:
+            UserAlertValue(alert=self, name=name, target=unicode(value)).save()
 
     @property
     def instance(self):
@@ -280,11 +302,6 @@ class UserAlert(Model):
         return ret
 
 
-class ObjectManager(Manager):
-    def __iter__(self):
-        for item in self.all():
-            yield (item.name, item.target)
-
 class UserAlertObject(Model):
     alert   = ForeignKey(UserAlert, related_name='objs')
     name    = CharField(max_length=32)
@@ -292,8 +309,6 @@ class UserAlertObject(Model):
     table   = ForeignKey(ContentType, **null)
     o_id    = PositiveIntegerField()
     target  = GenericForeignKey('table', 'o_id')
-
-    objects = ObjectManager()
 
     def __str__(self):
         return "AlertObject %s=%s" % (self.name, str(self.o_id))
@@ -303,13 +318,11 @@ class UserAlertValue(Model):
     name   = CharField(max_length=32)
     target = CharField(max_length=255)
 
-    objects = ObjectManager()
-
     def __str__(self):
         return "AlertValue %s=%s" % (self.name, self.target)
 
 
-class SubscriptionManager(Manager):
+class SubscriptionQuerySet(QuerySet):
     def get_or_create(self, target=None, **kwargs):
         """Handle the match between a null target and non-null targets"""
         deleted = 0
@@ -318,11 +331,11 @@ class SubscriptionManager(Manager):
             try:
                 obj = self.get(target__isnull=True, **kwargs)
             except AlertSubscription.DoesNotExist:
-                return super(SubscriptionManager, self).get_or_create(target=target, **kwargs) + (0,)
+                return super(SubscriptionQuerySet, self).get_or_create(target=target, **kwargs) + (0,)
             else:
                 return (obj, False, deleted)
 
-        (obj, created) = super(SubscriptionManager, self).get_or_create(target=target, **kwargs)
+        (obj, created) = super(SubscriptionQuerySet, self).get_or_create(target=target, **kwargs)
         if created:
             # replace all other existing subscriptions with this one.
             to_delete = self.filter(target__isnull=False, **kwargs)
@@ -330,8 +343,12 @@ class SubscriptionManager(Manager):
             to_delete.delete()
         return (obj, created, deleted)
 
-    def is_subscribed(self, target=None):
-        return self.filter(Q(target=target) | Q(target__isnull=True)).count()
+    def is_subscribed(self, target=None, directly=False):
+        if target is None:
+            return self.filter(target__isnull=True).count()
+        if directly:
+            return self.filter(target=target.pk).count()
+        return self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
 
 
 class AlertSubscription(Model):
@@ -339,7 +356,7 @@ class AlertSubscription(Model):
     user   = ForeignKey(User, related_name='alert_subscriptions')
     target = PositiveIntegerField(_("Object ID"), **null)
 
-    objects = SubscriptionManager()
+    objects = SubscriptionQuerySet.as_manager()
 
     def object(self):
         return self.alert.get_object(pk=self.target)

@@ -7,12 +7,14 @@
 {% trans "Link" %}: {{ site }}{{ instance.get_absolute_url }}
 {% trans "Published by" %}: {{ publisher }}
 {% trans "Language" %}: {{ language }}
-{% trans "Full Diff" %}: {{ site }}{{ diff.get_absolute_url }}
+{% trans "Full Diff" %}: {{ site }}{{ diffs.0.get_absolute_url }}
 
 
 {% trans "Differences to previous version" %}:
 ------------------------------------------------
 
-{{ diff.stub|safe }}
+{% for diff in diffs %}
+  {{ diff.stub_text }}
+{% endfor %}
 
 

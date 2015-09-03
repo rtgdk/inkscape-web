@@ -25,8 +25,12 @@ class ObjectInline(StackedInline):
     model = UserAlertObject
     extra = 0
 
+class ValueInline(StackedInline):
+    model = UserAlertValue
+    extra = 0
+
 class UserAlertAdmin(ModelAdmin):
-    inlines = [ObjectInline]
+    inlines = [ObjectInline, ValueInline]
 
 site.register(AlertType)
 site.register(UserAlert, UserAlertAdmin)

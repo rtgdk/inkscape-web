@@ -17,21 +17,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
-from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
-from django.template import RequestContext
 
-from .models import Revision, RevisionDiff
+from django.db.models import signals
+from django.dispatch import Signal
 
-class ViewDiff(DetailView):
-    model = RevisionDiff
-    template_name = "cmsdiff/revision_diff.html"
-
-    def get_object(self):
-        diff = super(ViewDiff, self).get_object()
-        # Attempt to re-attach deleted revision
-        if not diff.revision and diff.revisions.count() > 0:
-            diff = diff.revisions.all()[0].diff
-        return diff
-
+post_revision = Signal(providing_args=["instance", "revision"])
 

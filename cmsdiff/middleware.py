@@ -17,21 +17,22 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
-from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
-from django.template import RequestContext
 
-from .models import Revision, RevisionDiff
+from django.core.urlresolvers import reverse
+from django.utils.translation import ugettext_lazy as _
+from reversion.revisions import revision_context_manager as manager
+from cmsdiff.app import DRAFT_ID
 
-class ViewDiff(DetailView):
-    model = RevisionDiff
-    template_name = "cmsdiff/revision_diff.html"
+class CommentMiddleware(object):
+    """Adds a comment to the current draft revision if possible."""
+    def process_request(self, request):
+        self.comment = request.POST.get('revision_comment', None)
+        if request.method == 'POST' and self.comment:
+            manager.start()
 
-    def get_object(self):
-        diff = super(ViewDiff, self).get_object()
-        # Attempt to re-attach deleted revision
-        if not diff.revision and diff.revisions.count() > 0:
-            diff = diff.revisions.all()[0].diff
-        return diff
-
+    def process_response(self, request, response):
+        if self.comment:
+            manager.set_comment(DRAFT_ID + request.POST['revision_comment'])
+            manager.end()
+        return response
 

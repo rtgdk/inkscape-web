@@ -26,21 +26,30 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, CreateView, TemplateView
+from django.views.generic import ListView, DeleteView, CreateView, TemplateView, View
+from django.views.generic.detail import SingleObjectMixin
 
 from pile.views import CategoryListView
 
 from .models import User, UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
 
-class LoginRequired(object):
+class UserRequiredMixin(object):
+    def is_authorized(self, user):
+        return user.is_authenticated()
+
     def dispatch(self, request, *args, **kwargs):
-        if not request.user.is_authenticated():
+        if not self.is_authorized(request.user):
             raise PermissionDenied()
-        return super(LoginRequired, self).dispatch(request, *args, **kwargs)
+        return super(UserRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+class OwnerRequiredMixin(UserRequiredMixin):
+    def is_authorized(self, user):
+        return super(OwnerRequiredMixin, self).is_authorized() and \
+            self.get_object().user == user
+        
 
-class AlertList(CategoryListView, LoginRequired):
+class AlertList(CategoryListView, UserRequiredMixin):
     model = UserAlert
     opts = (
       ('alerttype', 'alert__slug'),
@@ -58,48 +67,59 @@ class AlertList(CategoryListView, LoginRequired):
         return data
 
 
-@login_required
-def mark_viewed(request, alert_id):
-    alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
-    alert.view()
-    return HttpResponse(alert.pk)
+class MarkViewed(View, SingleObjectMixin, OwnerRequiredMixin):
+    model = UserAlert
+    function = 'view'
+
+    def get(self, request, *args, **kwargs):
+        obj = self.get_object()
+        getattr(obj, self.function)()
+        return HttpResponse(obj.pk)
+ 
+
+class MarkDeleted(MarkViewed):
+    model = UserAlert
+    function = 'delete'
 
 
-@login_required
-def mark_deleted(request, alert_id):
-    alert = get_object_or_404(UserAlert, pk=alert_id, user=request.user)
-    alert.delete()
-    return HttpResponse(alert.pk)
+class Subscribe(CreateView, UserRequiredMixin):
+    model = AlertSubscription
+    action_name = _('Subscribe')
 
-class Subscribe(TemplateView, LoginRequired):
-    template_name = 'alerts/subscribe.html'
+    def get_context_data(self, **kwargs):
+        data = super(Subscribe, self).get_context_data(**kwargs)
+        data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
+        if 'pk' in self.kwargs:
+            data['object'] = data['alert'].get_object(pk=self.kwargs['pk'])
+            data['object_name'] = data['alert'].get_object_name(data['object'])
+        return data
 
     def post(self, request, **kwargs):
+        self.object = None
         data = self.get_context_data(**kwargs)
-        (item, created, deleted) = AlertSubscription.objects.get_or_create(
-            alert=data['alert_type'], user=request.user, target=data['pk'])
-        if deleted:
-            messages.warning(request, _("Deleted %d previous subscription(s) (superseded)") % deleted)
-        if created:
-            messages.info(request, _('Subscription created!'))
-        else:
-            messages.warning(request, _('Already subscribed to this!'))
+        kw = dict(user=request.user, target=self.kwargs.get('pk', None))
+        (self.object, a, b) = data['alert'].subscriptions.get_or_create(**kw)
+        b and messages.warning(request, _("Deleted %d previous subscription(s) (superseded)") % deleted)
+        a and messages.info(request, _('Subscription created!'))
+        not a and messages.warning(request, _('Already subscribed to this!'))
         return redirect('alert.settings')
 
-    def get_context_data(self, slug, pk=None):
-        alert_type = AlertType.objects.get(slug=slug)
-        alert_obj = pk and alert_type.get_object(pk=pk)
-        return super(Subscribe, self).get_context_data(
-            object_name=alert_type.get_object_name(alert_obj),
-            alert_type=alert_type, object=alert_obj,
-            pk=pk, slug=slug, action="Subscribe"
-          )
 
-@login_required
-def unsubscribe(request, pk):
-    sub = get_object_or_404(AlertSubscription, pk=pk, user=request.user)
-    sub.delete()
-    return redirect('alert.settings')
+class Unsubscribe(DeleteView, OwnerRequiredMixin):
+    model = AlertSubscription
+    action_name = _('Unsubscribe')
+    get_success_url = lambda self: reverse('alert.settings')
+
+    def get_object(self):
+        if 'slug' in self.kwargs:
+            alert = AlertType.objects.get(slug=self.kwargs['slug'])
+            kw = dict(user=request.user)
+            if 'pk' in self.kwargs:
+                kw['target'] = kwargs['pk']
+            else:
+                kw['target__isnull'] = True
+            return alert.subscriptions.get(**kw)
+        return super(Unsubscribe, self).get_object()
 
 
 class SettingsList(CategoryListView):

@@ -20,73 +20,97 @@
 We're going to monkey patch django-cms until we can get some of these patches live.
 """
 
-from cms.utils import helpers, get_cms_setting
-from cms.utils.compat.dj import is_installed
+from django.apps import AppConfig
 from django.contrib.contenttypes.models import ContentType
 
-DRAFT_ID = "DRAFT: "
-HISTORY_LIMIT = get_cms_setting("MAX_PAGE_HISTORY_REVERSIONS")
+from reversion.models import Revision, Version, post_revision_commit
+from cms.utils import helpers, get_cms_setting
 
+from .signals import post_revision
+
+DRAFT_ID = "DRAFT: "
 
 _make_revision_with_plugins = helpers.make_revision_with_plugins
 def make_revision_with_plugins(obj, user=None, message=None, draft=True):
-    """
-    Here we just want to ignore the published revision, it's happend already!
-    """
+    # Tag drafts so we can clean them up later
     from cms.admin.pageadmin import PUBLISH_COMMENT
-    if message == PUBLISH_COMMENT:
-        return False
-    if draft:
-        message = "%(draftid)s%(message)s" % {'draftid':DRAFT_ID, 'message':message}
-    return _make_revision_with_plugins(obj, user=user, message=message)
+    if draft and message != PUBLISH_COMMENT:
+        message = DRAFT_ID+message
 
+    _make_revision_with_plugins(obj, user=user, message=message)
 helpers.make_revision_with_plugins = make_revision_with_plugins
 
 
+def new_revision(instances, revision, versions, **kwargs):
+    # Is it a new published revision object?
+    if revision.comment.startswith(DRAFT_ID):
+        return
 
-def create_published_revision(self, page, publish=False):
-    """
-    We want to delete each of the previous revisions, but copy all their comments.
-    We will also remove entries past the max_revision
-    """
-    if not (publish and is_installed('reversion') and page):
-        return False
-
-    from reversion.models import Version, Revision
-    from cms.models.pagemodel import Page
-
-    content_type = ContentType.objects.get_for_model(Page)
-    versions  = Version.objects.filter(content_type=content_type, object_id_int=page.pk)
-    revisions = Revision.objects.filter(version__in=versions).distinct()
-    drafts    = revisions.filter(comment__startswith=DRAFT_ID)
+    try:
+        page = revision.page
+    except Version.DoesNotExist:
+        return # Not a CMS/Page revision
 
     # We want to record the users who drafted this change
     # It's in the log we know, but this might be helpful too
-    comments = drafts.values_list('comment', 'user__username')
-    users = set([ c[1] for c in comments ])
-    if len(users) > 1:
-        comment = '\n'.join([ "%s: %s" % (c[1], c[0][len(DRAFT_ID):]) for c in comments ])
-    else:
-        comment = '\n'.join([c[0][ len(DRAFT_ID):] for c in comments ])
+    drafts = page.revisions.filter(comment__startswith=DRAFT_ID)
 
     if drafts.count() > 0:
-        # XXX In a clean version, user would be passed in
-        user = drafts[0].user
+        (comments, users) = zip(*drafts.values_list('comment', 'user__username'))
+        comments = [ comment[len(DRAFT_ID):] for comment in comments ]
+        if len(set(users)) > 1 or revision.user.username != users[0]:
+            revision.comment = '\n'.join(["%s: %s" % cu for cu in zip(users, comments)])
+        else:
+            revision.comment = '\n'.join(comments)
+        revision.save()
         drafts.delete()
-        make_revision_with_plugins(page, user, comment, draft=False)
 
-    if HISTORY_LIMIT:
-        pks = revisions.order_by('-pk').values_list('pk', flat=True)[:HISTORY_LIMIT]
-        revisions.exclude(pk__in=pks).delete()
+    post_revision.send(type(page), instance=page, revision=revision)
 
 
-from django.apps import AppConfig
+def get_previous(self):
+    if not hasattr(self, '_previous'):
+        qs = type(self).objects.filter(
+            object_id_int   = self.object_id_int,
+            content_type    = self.content_type,
+            revision_id__lt = self.revision.pk
+          ).order_by('-pk')[:1]
+        if qs.count() == 0:
+            self._previous = None
+        else:
+            self._previous = qs[0]
+    return self._previous
+
+def get_previous_revision(self):
+    return getattr(self.version_set.all()[0].previous, 'revision', None)
+
+def has_previous(self):
+    return self.previous is not None
+
+def cleanup_history(self, page, publish=False):
+    if HISTORY_LIMIT and publish:
+        page.revisions.order_by('-pk')[HISTORY_LIMIT+1:].delete()
 
 class CmsDiffConfig(AppConfig):
     name = 'cmsdiff'
 
     def ready(self):
-        from cms.admin.pageadmin import PageAdmin
-        PageAdmin.cleanup_history = create_published_revision
+        from cms.models import Page
+
+        # We setup a property on any revision to get it's page. This is needed to link
+        # the revision back to it's progenitor object and thus to other revisons
+        page_type = ContentType.objects.get_for_model(Page)
+        Revision.page = property(lambda self: self.version_set.get(content_type=page_type).object)
+        Page.revisions = property(lambda self: Revision.objects.filter(version__content_type=page_type, version__object_id_int=self.pk))
+        Page.cleanup_history = cleanup_history
+
+        # Add some navigation properties (useful in templates)
+        Version.previous = property(get_previous)
+        Revision.previous = property(get_previous_revision)
+        Version.has_previous = has_previous
+        Revision.has_previous = has_previous
+
+        # Connect the revision creation signal to deal with drafts
+        post_revision_commit.connect(new_revision, dispatch_uid='cmsdiff')
 
 

@@ -28,13 +28,15 @@
 
   <table>
     <tr><th scope="row">{% trans "Changes By:" %}</th> <td>{{ object.user }}</td></tr>
-    <tr><th scope="row">{% trans "Changed:" %}</th>    <td>{{ object.date_created|timetag }}</td></tr>
-    <tr><th scope="row">{% trans "Date:" %}</th>       <td>{{ object.date_created|date }}</td></tr>
+    {% if object.revision %}
+      <tr><th scope="row">{% trans "Changed:" %}</th>    <td>{{ object.date_created|timetag }}</td></tr>
+      <tr><th scope="row">{% trans "Date:" %}</th>       <td>{{ object.date_created|date }}</td></tr>
+    {% endif %}
     <tr><th scope="row">{% trans "Comment:" %}</th>    <td>{{ object.comment }}</td></tr>
   </table>
 
   <div class="diff">
-    {{ object.diff.content|safe }}
+    {{ object.content|safe }}
   </div>
 
 {% endblock %}

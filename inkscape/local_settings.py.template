@@ -24,6 +24,20 @@ DATABASES = {
     },
 }
 
+# This IRC setting is auto eaten by easyirc, so it's kinda sad
+# the name is so generic. Oh well.
+CONNECTIONS = [
+    {
+        'name': 'freenode',
+        'host': 'irc.freenode.net',
+        'port': 6667,
+        'nick': 'webbot',
+        'autojoins': ['#inkscape'],
+        'enabled': True,
+        'autoreconnect': False,
+    }
+]
+
 GOOGLE_ANID = 'UA-XXXXXX-X'
 
 # >= haystack 2.0

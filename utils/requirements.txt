@@ -58,3 +58,5 @@ cmsplugin-search==0.7.3
 # We'd enable this, but the system requires the geoip-devel package
 # geoip
 
+easyirc==0.1.1
+

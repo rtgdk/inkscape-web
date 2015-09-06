@@ -135,6 +135,7 @@ class BaseAlert(object):
             for sub in self.alert_type.subscriptions.filter(q):
                 send_to(sub.user)
         # TODO: send_to returns a list of users sent to, but we don't log much here.
+        return True
 
     @property
     def instance_type(self):

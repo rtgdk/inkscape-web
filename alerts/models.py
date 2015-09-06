@@ -140,6 +140,7 @@ class AlertType(Model):
                 alert.add_value(key, value)
             # Do this after saving objects and values so email can use them.
             alert.send_email()
+            alert.send_irc_msg()
             return alert
         return None
 
@@ -268,6 +269,9 @@ class UserAlert(Model):
     def __str__(self):
         return self.subject.strip() or "No Subject"
 
+    def get_absolute_url(self):
+        return reverse('alerts')
+
     @property
     def data(self):
         if not hasattr(self, '_data'):
@@ -291,6 +295,9 @@ class UserAlert(Model):
     @property
     def instance(self):
         return dict(self.objs).get('instance', None)
+
+    def send_irc_msg(self):
+        return self.alert.send_irc_msg(self)
 
     def send_email(self):
         """Send alert email is user's own language"""

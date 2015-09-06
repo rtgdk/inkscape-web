@@ -67,6 +67,7 @@ TEMPLATE_DEBUG = DEBUG
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media', '')
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
 FIXTURE_DIRS = os.path.join(PROJECT_PATH, 'data', 'fixtures'),
+IRCBOT_PID = os.path.join(PROJECT_PATH, 'data', 'ircbot.pid')
 
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),

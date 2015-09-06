@@ -22,14 +22,15 @@ Inherit from these classes if you want to create your own alert connections.
 """
 __all__ = ['BaseAlert', 'EditedAlert', 'CreatedAlert']
 
-from django.db.models import Q
-from django.db.models import signals as django_signals
+from django.conf import settings
+from django.db.models import Q, signals as django_signals
 from django.contrib.auth.models import User, Group
 from django.core.mail.message import EmailMultiAlternatives
 
 from alerts.tools import has_template, render_template, render_directly
 from alerts.models import UserAlert, UserAlertManager, AlertType
 
+from signal import SIGUSR1
 import os
 import sys
 import re
@@ -186,6 +187,24 @@ class BaseAlert(object):
 
     def get_body(self, context_data):
         return render_template(self.template, context_data)
+
+    def send_irc_msg(self, user):
+        """
+        Send the running IRC bot a kick up the bum about a new alert.
+        """
+        try:
+            with open(settings.IRCBOT_PID, 'r') as pid:
+                pid = int(pid.read().strip())
+            with open('/proc/%d/cmdline' % pid, 'r') as proc:
+                assert('ircbot' in proc.read())
+            os.kill(pid, SIGUSR1)
+            return True
+        except:
+            # Any errors may mean:
+            # * IRCBOT not configured, not running
+            # * IRCBOT pid file exists but process isn't ircbot
+            # * We don't have permission to signal process
+            return False
 
     def send_email(self, recipient, context_data):
         if not recipient:

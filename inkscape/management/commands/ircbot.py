@@ -21,24 +21,64 @@
 Starts an irc bot to join the configured IRC channel.
 """
 
+import os
 import sys
+import time
+import atexit
+import signal
+import threading
 
 from easyirc.client.bot import BotClient
-from settings import SITE_ROOT
 
+from django.utils.timezone import now
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
+
 from person.models import UserDetails
-from alerts.models import Message
+from alerts.models import Message, UserAlert
 
 class Command(BaseCommand):
     help = 'Starts an irc bot that will join the main channel and interact with the website.'
 
+    def handle(self, *args, **options):
+        if not hasattr(settings, 'IRCBOT_PID'):
+            print "Please set IRCBOT_PID to a file location to enable bot."
+            sys.exit(1)
+
+        with open(settings.IRCBOT_PID, 'w') as pid:
+            pid.write(str(os.getpid()))
+        atexit.register(lambda: os.unlink(settings.IRCBOT_PID))
+
+        self.last_alert = now()
+        signal.signal(signal.SIGUSR1, self.recieve_alert)
+        self.client = BotClient()
+        self.register_all(type(self).__dict__)
+        self.client.start()
+
+        # Keep ircbot main thread running
+        print "Server Started!"
+        while True:
+            try:
+                time.sleep(2)
+                assert(self.client.connections[0].socket.connected)
+            except KeyboardInterrupt:
+                self.on_exit(None, None)
+                break
+            except AssertionError:
+                break
+
     def register_all(self, d):
         for name, func in d.items():
             if callable(func) and name.startswith('on_'):
-                print "Hooking up: %s" % func.__doc__
+                print "Hooking up: %s" % func.__name__
                 func = getattr(self, name)
                 self.client.events.msgregex.hookback(func.__doc__)(func)
+
+    def on_exit(self, context, message):
+        """The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."""
+        print "Bot is going to sleep!"
+        self.client.privmsg('#inkscape', 'I have to go!')
+        self.client.connections[0].socket.disconnect()
 
     def on_whois(self, context, message, address, nick):
         """^(\w+)[:\- ]*whois (\w+)"""
@@ -71,20 +111,19 @@ class Command(BaseCommand):
 
         return u'%s: Message Sent' % context.nick
 
-    def go_backward(self, message):
+    def recieve_alert(self, signum, frame):
         """
-        it would be nice if we could tie into alerts here so they appear on the irc channel
-        which could mean some admin alerts for things like cms page edits or it might mean
-        personal messages in the case of users.
+        When an alert is created, we dispatch the alert to the user on irc if they are available.
         """
-        pass # XXX Feature Future Request!
+        for alert in UserAlert.objects.filter(created__gt=self.last_alert):
+            self.last_alert = now()
+            user = alert.user
+            nick = user.details.ircnick
+            if nick:
+                self.client.privmsg(nick, "ALERT: %s ... More info: %s" % (alert.subject, alert.get_absolute_url()))
 
     @property
     def nick(self):
         return self.client.connections[0].tried_nick
 
-    def handle(self, *args, **options):
-        self.client = BotClient()
-        self.register_all(type(self).__dict__)
-        self.client.start()
 

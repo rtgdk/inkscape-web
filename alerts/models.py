@@ -126,7 +126,7 @@ class AlertType(Model):
 
     def _send_to(self, user, **kwargs):
         if self.enabled and (not self.group or self.group in user.groups):
-            if 'instance' in kwargs:
+            if 'instance' in kwargs and 'once' in kwargs:
                 # Check if the instance has already been issued to this user's alerts.
                 i = kwargs['instance']
                 existing = UserAlert.objects.filter(user=user, alert=self,

@@ -505,7 +505,7 @@ $(document).ready(function () {
 					el.bind(that.click, function () {
 						var _cmt = $('.cms_modal-buttons input[type="text"]');
 						if(_cmt.val() == '') { _cmt.css('border-color', 'red'); return; }
-						comment[0].setAttribute('value', _cmt.val());
+						if(comment.length > 0) { comment[0].setAttribute('value', _cmt.val()); }
 
 						if(item.is('input') || item.is('button')) item[0].click();
 						if(item.is('a')) that._loadContent(item.prop('href'), title);

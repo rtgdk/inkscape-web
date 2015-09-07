@@ -13,24 +13,31 @@
   {% autopaginate object_list 15 as items %}
 
   {% for object in items %}
+    {% with object.data as data %}
 
 <div class="comment" id="alert_{{ object.id }}">
   <div class="details">
-    <div class="title">
-      <a href="{{ object.instance.get_absolute_url }}">{{ object.subject }}</a>
-    </div>
+    {% if data.instance_deleted %}
+      <div class="title">{{ data.instance_deleted }}</div>
+    {% else %}
+      <div class="title">
+        <a href="{{ data.instance.get_absolute_url }}">{{ object.subject }}</a>
+      </div>
+    {% endif %}
     <div class="index">{{ object.created|timetag }}</div>
   </div>
-  <div class="body">
-    <div class="text"><p>{{ object.body }}</p></div>
-  </div>
-  <div class="footer">
-    <div class="status">{% trans "to" %} <a href="{{ object.recipient.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ object.recipient }}</a></div>
-  </div>
+  {% if not data.instance_deleted %}
+    <div class="body">
+      <div class="text"><p>{{ object.body }}</p></div>
+    </div>
+    <div class="footer">
+      <div class="status">{% trans "to" %} <a href="{{ object.recipient.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ object.recipient }}</a></div>
+    </div>
+  {% endif %}
 </div>
 
-  {% paginate %}
-
+      {% paginate %}
+    {% endwith %}
   {% empty %}
     <h2>{% trans "No sent messages" %}</h2>
   {% endfor %}

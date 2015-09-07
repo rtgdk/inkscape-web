@@ -292,10 +292,6 @@ class UserAlert(Model):
         else:
             UserAlertValue(alert=self, name=name, target=unicode(value)).save()
 
-    @property
-    def instance(self):
-        return dict(self.objs).get('instance', None)
-
     def send_irc_msg(self):
         return self.alert.send_irc_msg(self)
 

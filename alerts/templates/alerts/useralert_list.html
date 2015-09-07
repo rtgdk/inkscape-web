@@ -19,17 +19,23 @@
   {% autopaginate object_list 15 as items %}
 
   {% for object in items %}
+    {% with object.data as data %}
 
 <div class="comment" id="alert_{{ object.pk }}">
   <div class="details">
     <div class="title">
-      {% if not object.viewed %}
+      {% if data.instance_deleted %}
+        <img src="{{ STATIC_URL }}images/deleted.png" alt="{% trans "Deleted" %}"/>
+        {{ data.instance_deleted }} [DELETED]
+      {% elif not object.viewed %}
         <img src="{{ STATIC_URL }}images/email.png" alt="{% trans "New" %}" title="{% trans "New Message" %}"/>
+        {{ object.subject }}
+      {% else %}
+        {{ object.subject }}
       {% endif %}
-      {{ object.subject }}
     </div>
     <div class="index">
-      {% if not object.viewed %}
+      {% if not object.viewed and not data.instance_deleted %}
         <form class="runner" action="{% url "alert.view" object.pk %}">
           <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">&#10004;</button>
         </form>
@@ -41,9 +47,12 @@
     </div>
     <div class="index">{{ object.created|timetag }}</div>
   </div>
-  {{ object.body }}
+  {% if not data.instance_deleted %}
+    {{ object.body }}
+  {% endif %}
 </div>
 
+    {% endwith %}
   {% empty %}
     <h2>{% trans "No messages or alerts to view" %}</h2>
   {% endfor %}

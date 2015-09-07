@@ -23,12 +23,14 @@ Inherit from these classes if you want to create your own alert connections.
 __all__ = ['BaseAlert', 'EditedAlert', 'CreatedAlert']
 
 from django.conf import settings
+from django.dispatch import receiver
 from django.db.models import Q, signals as django_signals
-from django.contrib.auth.models import User, Group
 from django.core.mail.message import EmailMultiAlternatives
+from django.contrib.auth.models import User, Group
+from django.contrib.contenttypes.models import ContentType
 
 from alerts.tools import has_template, render_template, render_directly
-from alerts.models import UserAlert, UserAlertManager, AlertType
+from alerts.models import UserAlert, UserAlertManager, UserAlertObject, AlertType
 
 from signal import SIGUSR1
 import os
@@ -236,4 +238,15 @@ class CreatedAlert(BaseAlert):
         if kwargs.get('created', False):
             return super(CreatedAlert, self).call(sender, instance=instance, **kwargs)
         return False
+
+@receiver(django_signals.pre_delete)
+def objects_deleted(sender, instance, **kwargs):
+    """
+    Check our alert objects for deleted items and clean up
+    """
+    ct = ContentType.objects.get_for_model(type(instance))
+    qs = UserAlertObject.objects.filter(o_id=instance.pk, table=ct)
+    for obj in qs:
+        obj.alert.values.create(name='%s_deleted' % obj.name, target=unicode(instance))
+    qs.delete()
 

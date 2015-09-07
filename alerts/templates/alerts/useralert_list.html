@@ -26,7 +26,7 @@
     <div class="title">
       {% if data.instance_deleted %}
         <img src="{{ STATIC_URL }}images/deleted.png" alt="{% trans "Deleted" %}"/>
-        {{ data.instance_deleted }} [DELETED]
+        <del>{{ data.instance_deleted }}</del>
       {% elif not object.viewed %}
         <img src="{{ STATIC_URL }}images/email.png" alt="{% trans "New" %}" title="{% trans "New Message" %}"/>
         {{ object.subject }}
@@ -49,6 +49,10 @@
   </div>
   {% if not data.instance_deleted %}
     {{ object.body }}
+  {% else %}
+    <div class="body">
+      <div class="text">{% trans "This alert was for an object that no longer exists. It has been deleted." %}</div>
+    </div>
   {% endif %}
 </div>
 

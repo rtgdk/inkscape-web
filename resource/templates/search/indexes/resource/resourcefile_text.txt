@@ -3,5 +3,5 @@
 {{ object.link }}
 {{ object.category.name }}
 {% for gallery in object.galleries.all %}{{ gallery.name }} {% endfor %}
-{% for tag in object.tags.all %}{{ tag.name }} #{{ tag.name }}{% endfor %}
+{% for tag in object.tags.all %}#{{ tag.name }} {% endfor %}
 {% if object.is_text %}{{ object.as_text %}{% endif %}

@@ -222,6 +222,11 @@ CMS_NAVIGATION_EXTENDERS = (
     ('cmsplugin_news.navigation.get_nodes','News navigation'),
 )
 
+CKEDITOR_SETTINGS = {
+    'disableNativeSpellChecker': False,
+     'browserContextMenuOnCtrl': True,
+}
+
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
     'social_auth.backends.facebook.FacebookBackend',

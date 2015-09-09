@@ -224,7 +224,7 @@ CMS_NAVIGATION_EXTENDERS = (
 
 CKEDITOR_SETTINGS = {
     'disableNativeSpellChecker': False,
-     'browserContextMenuOnCtrl': True,
+    'browserContextMenuOnCtrl': True,
 }
 
 AUTHENTICATION_BACKENDS = (

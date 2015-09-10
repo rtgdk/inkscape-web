@@ -35,7 +35,7 @@ def make_revision_with_plugins(obj, user=None, message=None, draft=True):
     # Tag drafts so we can clean them up later
     from cms.admin.pageadmin import PUBLISH_COMMENT
     if draft and message != PUBLISH_COMMENT:
-        message = DRAFT_ID+message
+	message = "%(draftid)s%(message)s" % {'draftid':DRAFT_ID, 'message':message}
 
     _make_revision_with_plugins(obj, user=user, message=message)
 helpers.make_revision_with_plugins = make_revision_with_plugins

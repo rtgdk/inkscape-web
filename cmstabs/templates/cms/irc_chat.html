@@ -1,0 +1,16 @@
+{% load i18n static %}
+
+<h2>{% trans "Chat Now" %}</h2>
+{% if not request.user.is_authenticated %}
+  <img src="{% static "images/messages/error.svg" %}" style="float: left; margin: 20px;"/>
+  <p>{% trans "You must be logged on to the website to use the web IRC service." %}</p>
+  <a href="{% url 'auth_login' %}?next={{ request.path }}" class="btn">{% trans "Login Now" %}</a>
+{% elif not request.user.email %}
+  <img src="{% static "images/messages/warning.svg" %}" style="float: left; margin: 20px;"/>
+  <p>{% trans "You must have an email address configured to use the web IRC service." %}</p>
+  <a href="{% url 'edit_profile' %}?next={{ request.path }}" class="btn">{% trans "Add One Now" %}</a>
+{% else %}
+
+// IFRAME? Getting the irc chat to start automatically is quite a bit of work.
+
+{% endif %}

@@ -149,7 +149,7 @@ INSTALLED_APPS = (
     'cmsdiff',
     'reversion',
     'pile',
-    #'cmsrosetta',
+    'cmsrosetta',
     'treebeard',
     'cms',
     'menus',

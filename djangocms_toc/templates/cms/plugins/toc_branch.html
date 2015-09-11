@@ -1,0 +1,13 @@
+{% load cms_toc %}
+{% if bullet %}<ul>{% else %}<ol>{% endif %}
+  {% for item in children %}
+    {% if item.id %}
+      <li id="toc_{{ item.id }}"><a href="#{{ item.id }}">{{ item.title }}</a></li>
+    {% else %}
+      <li>{{ item.title }}</li>
+    {% endif %}
+    {% if item.children %}
+      {% toc_branch item.children bullet %}
+    {% endif %}
+  {% endfor %}
+{% if bullet %}</ul>{% else %}</ol>{% endif %}

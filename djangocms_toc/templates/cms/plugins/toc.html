@@ -1,0 +1,5 @@
+{% load cms_toc %}
+<div id="toc">
+ <h2>{{ plugin.title }}</h2>
+ {% toc_branch children plugin.bullet %}
+</div>

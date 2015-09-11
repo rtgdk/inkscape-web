@@ -1,6 +1,10 @@
 apache
 local_settings.py
 *.mo
+*.pyc
+*~
+.gitignore
+.git
 pythonenv
 sources
 build

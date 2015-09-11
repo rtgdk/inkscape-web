@@ -245,8 +245,11 @@ def objects_deleted(sender, instance, **kwargs):
     Check our alert objects for deleted items and clean up
     """
     ct = ContentType.objects.get_for_model(type(instance))
-    qs = UserAlertObject.objects.filter(o_id=instance.pk, table=ct)
-    for obj in qs:
-        obj.alert.values.create(name='%s_deleted' % obj.name, target=unicode(instance))
-    qs.delete()
+    try:
+        qs = UserAlertObject.objects.filter(o_id=instance.pk, table=ct)
+        for obj in qs:
+            obj.alert.values.create(name='%s_deleted' % obj.name, target=unicode(instance))
+        qs.delete()
+    except ValueError:
+        pass # I have no idea why this error happens.
 

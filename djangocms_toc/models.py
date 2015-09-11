@@ -20,9 +20,15 @@ from django.db.models import *
 
 from cms.models import CMSPlugin, Page
 
+CLASSES = (
+  ('right', "Float Right"),
+  ('inline', "Inline"),
+)
+
 class TableOfContents(CMSPlugin):
     title = CharField(_("Title"), max_length=128)
     bullet = BooleanField(_("Use Bullets"), default=False)
+    div_class = CharField(_("Class"), max_length=22, choices=CLASSES, default="right")
 
     def __str__(self):
         return self.title

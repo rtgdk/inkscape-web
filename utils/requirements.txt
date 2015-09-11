@@ -44,7 +44,6 @@ django-contrib-comments==1.5
 # Django-CMS Plugins
 django-cms==3.1.2
 
-djangocms-toc==1.0.1
 djangocms-file==0.1
 djangocms-link==1.5
 djangocms-picture==0.1

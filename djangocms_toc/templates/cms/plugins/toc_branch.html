@@ -4,7 +4,7 @@
     {% if item.id %}
       <li id="toc_{{ item.id }}"><a href="#{{ item.id }}">{{ item.title }}</a></li>
     {% else %}
-      <li>{{ item.title }}</li>
+      <li><a>{{ item.title }}</a></li>
     {% endif %}
     {% if item.children %}
       {% toc_branch item.children bullet %}

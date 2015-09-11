@@ -118,26 +118,32 @@ a img {
 }
 
 /* for Tables of Contents on long pages */
-div.toc, #toc {
+div.toc,
+#toc.right {
   float: right;
-  margin: 1em 0 1em 1em;
-  padding: 1ex;
+  margin: 1em -1em 1em 1em;
+  padding: 1em;
   background-color: white;
   border: 1px solid #ddd;
-  width: 25%;
+  width: 40%;
 }
-div.toc h2,
-#toc h2 {
+#toc.inline {
+  margin-top: 1em;
+  padding: 2ex;
+  background-color: white;
+  border: 1px solid #ddd;
+}
+div.toc h2, #toc h2 {
   font-size: 120%;
   text-align: center;
   margin: 0 0 0.5ex 0;
   border: 0;
   padding: 0;
 }
-div.toc ul,
-#toc ul {
+div.toc ul, #toc.right ul,
+div.toc ol, #toc.right ol {
   margin: 0;
-  padding: 0 0 0 2em;
+  padding: 0 0 0 1em;
 }
 /* specific styles for layout */
 #content {

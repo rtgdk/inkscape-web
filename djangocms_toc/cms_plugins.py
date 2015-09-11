@@ -43,6 +43,8 @@ class TocParser(HTMLParser):
                 parents.pop()
             parents[-1]['children'].append(child)
             parents.append({'children': child['children'], 'level': item['level']})
+        if len(ret['children']) == 1:
+            return ret['children'][0]['children']
         return ret['children']
 
     def handle_starttag(self, tag, attrs):

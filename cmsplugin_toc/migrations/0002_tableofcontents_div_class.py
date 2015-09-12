@@ -7,7 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('djangocms_toc', '0001_initial'),
+        ('cmsplugin_toc', '0001_initial'),
     ]
 
     operations = [

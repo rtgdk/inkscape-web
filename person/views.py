@@ -129,31 +129,40 @@ class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
           (actor == team.admin and team.enrole in 'PT') or \
           (actor in team.members.all() and team.enrole == 'P'):
             team.members.add(user)
-            messages.info(self.request, _("Team membership sucessfully added."))
-
+            if self.mailing_list_modified(team, user):
+                messages.info(self.request, _("Team membership added and user subscribed to mailing list."))
+            else:
+                messages.info(self.request, _("Team membership sucessfully added."))
         elif team.enrole in 'PT' and actor == user:
             team.requests.add(user)
             return messages.info(self.request, _("Membership Request Received."))
         else:
             return messages.error(self.request, _("Can't add user to team. (not allowed)"))
-
         team.requests.remove(user)
+
+    def mailing_list_modified(self, team, user):
+        return user in getattr(team, 'mailman_users', [])
 
 class RemoveMember(AddMember):
     def action(self, team, user, actor=None):
         if actor in [user, team.admin]:
             team.members.remove(user)
-            messages.info(self.request, _("User removed from team"))
-        else:
-            messages.error(self.request, _("Cannot remove user from team. (not allowed)"))
+            if self.mailing_list_modified(team, user):
+                return messages.info(self.request, _("User removed from team and mailing list."))
+            return messages.info(self.request, _("User removed from team."))
+        messages.error(self.request, _("Cannot remove user from team. (not allowed)"))
 
 class WatchTeam(AddMember):
     def action(self, team, user, actor=None):
         team.watchers.add(user)
+        if self.mailing_list_modified(team, user):
+            return messages.info(self.request, _("Now watching this team and subscribed to it's mailing list."))
         messages.info(self.request, _("Now watching this team"))
 
 class UnwatchTeam(AddMember):
     def action(self, team, user, actor=None):
         team.watchers.remove(user)
+        if self.mailing_list_modified(team, user):
+            return messages.info(self.request, _("No longer watching this team or it's mailing list."))
         messages.info(self.request, _("No longer watching this team"))
 

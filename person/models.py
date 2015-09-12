@@ -112,6 +112,10 @@ class Team(Model):
         return self.group.user_set
 
     @property
+    def team(self):
+        return self
+
+    @property
     def peers(self):
         if self.enrole == 'P':
             return list(self.members.all()) + [self.admin]
@@ -130,11 +134,25 @@ class Team(Model):
     def __unicode__(self):
         return self.name
 
-def update_mailinglist(sender, **kwargs):
+def _sub_ml(action, team, user):
+    if action == 'pre_remove':
+        team.mailman.unsubscribe(user.email)
+    elif action == 'post_add':
+        team.mailman.subscribe(user.email, user.first_name, user.last_name)
+
+def update_mailinglist(model, pk_set, instance, action, **kwargs):
     """Subscribe member to mailing list if needed"""
-    import sys
-    sys.stderr.write("Mailing list: %s\n" % str(sender))
-    sys.stderr.write(" - %s\n" % str(kwargs))
+    team = instance.team
+    team.mailman_users = []
+    for user in model.objects.filter(pk__in=pk_set):
+        if user.email and team.mailman:
+            try:
+                _sub_ml(action, team, user)
+            except Exception:
+                team.mailman_users.append(user.pk)
+            finally:
+                team.mailman_users.append(user)
+
 
 m2m_changed.connect(update_mailinglist, sender=Team.watchers.through)
 m2m_changed.connect(update_mailinglist, sender=User.groups.through)

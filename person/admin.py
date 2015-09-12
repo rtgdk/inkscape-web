@@ -20,9 +20,13 @@
 
 from django.contrib import admin
 from django.contrib.sessions.models import Session
+from django.contrib.admin import site, ModelAdmin
 
 from .models import *
 
-admin.site.register(UserDetails)
-admin.site.register(Team)
+class TeamAdmin(ModelAdmin):
+    readonly_fields = ('watchers', 'requests')
+
+site.register(UserDetails)
+site.register(Team, TeamAdmin)
 

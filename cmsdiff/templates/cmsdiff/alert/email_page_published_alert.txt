@@ -2,16 +2,14 @@
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
 
 {% blocktrans %}you are subscribed to website changes at {{ site }}.{% endblocktrans %}
-{% blocktrans with web_page=instance %}The following changes have been made to the page '{{ web_page }}':{% endblocktrans %}
+{% blocktrans with web_page=instance %}The page '{{ web_page }}' was changed:{% endblocktrans %}
 
 {% trans "Link" %}: {{ site }}{{ instance.get_absolute_url }}
 {% trans "Published by" %}: {{ revision.user }}
 {% trans "Language" %}: {{ language }}
-{% trans "Full Diff" %}: {{ site }}{{ revision.diff.get_absolute_url }}
 
+{% trans "Overview of changes" %}:
 
-{% trans "Differences to previous version" %}:
-------------------------------------------------
+{{ revision.diff.comment }}
 
-{{ revision.diff.stub_text }}
-
+{% blocktrans with link=revision.diff.get_absolute_url%}You can find the full diff at {{ site }}{{ link }}.{% endblocktrans %}

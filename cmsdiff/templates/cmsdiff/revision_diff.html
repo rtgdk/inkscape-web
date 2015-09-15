@@ -32,7 +32,7 @@
       <tr><th scope="row">{% trans "Changed:" %}</th>    <td>{{ object.date_created|timetag }}</td></tr>
       <tr><th scope="row">{% trans "Date:" %}</th>       <td>{{ object.date_created|date }}</td></tr>
     {% endif %}
-    <tr><th scope="row">{% trans "Comment:" %}</th>    <td>{{ object.comment }}</td></tr>
+    <tr><th scope="row">{% trans "Comment:" %}</th>    <td>{{ object.comment|linebreaks }}</td></tr>
   </table>
 
   <div class="diff">

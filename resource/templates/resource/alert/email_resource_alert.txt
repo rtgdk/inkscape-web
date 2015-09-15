@@ -15,4 +15,3 @@
 {% trans "Description" %}: {{ instance.description }}
 
 {% blocktrans with upload=instance %}Visit "{{ upload }}"{% endblocktrans %}: {{ site }}{{ instance.get_absolute_url }}
-

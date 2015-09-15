@@ -1,7 +1,7 @@
 {% load i18n %}{% with instance.sender as sender %}
 {% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
 
-{% blocktrans %}you have received a message from {{ sender }}.{% endblocktrans %}
+{% blocktrans %}{{ sender }}, another user of the Inkscape web site, has sent you a personal message:{% endblocktrans %}
 
 {{ instance.subject }}
 ================================================

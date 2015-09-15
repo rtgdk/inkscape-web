@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="body">
-  <div class="text"><p>{{ revision.diff.stub|safe }}</p></div>
+  <div class="text"><p>{% trans "Overview of changes"%}:</p><p>{{ revision.diff.comment|linebreaks }}</p></div>
 </div>
 <div class="footer">
    <div class="status">{{ language }} </div>
@@ -9,4 +9,3 @@
    <a href="{{ revision.diff.get_absolute_url }}">{% trans "See Full Diff" %}</a>
    </div>
 </div>
-

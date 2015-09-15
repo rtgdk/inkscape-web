@@ -1,4 +1,5 @@
 {% load i18n %}{% url "alert.settings" as message_settings_link %}
+
 {% trans "All the best," %}
  {% trans "Inkscape.org Website" %}
 

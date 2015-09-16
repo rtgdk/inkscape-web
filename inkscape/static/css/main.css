@@ -627,13 +627,20 @@ body > .footer .nav ul {
 }
 #final-footer {
   text-align: center;
-  color: #999999;
   margin-bottom: 20px;
 }
 #final-footer :link,
-#final-footer :link:hover,
+#final-footer a,
+#final-footer :link:visited,
 #final-footer :link:active {
+  color: #aaa;
+  padding: 10px;
+  margin: 15px 8px;
+}
+#final-footer :link:hover,
+#final-footer a:hover {
   color: #ff7e28;
+  text-decoration: none;
 }
 #left-column {
   float: left;

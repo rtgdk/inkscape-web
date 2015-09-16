@@ -162,16 +162,11 @@ InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"
   {% endblock %}
 
   {% block finalfooter %}
-    <p id="final-footer">{% trans "Website designed by" %}
-      <a href="http://skymaiden.com">Hinerangi Courtenay</a>
-      {% trans "in Inkscape and developed by" %}
-      <a href="http://doctormo.org">Martin Owens</a>
-      <br/>{% trans "and powered by" %}
-      <a href="https://www.djangoproject.com/">Django</a>, 
-      <a href="https://www.django-cms.org/en/">django-cms</a>, 
-      <a href="http://www.fastly.com/">fastly.com</a> and 
-      <a href="https://osuosl.org/">OSUOSL</a> - 
-      <a href="http://wiki.inkscape.org/wiki/index.php/WebSite">{% trans "Website development guide" %}</a>
+    <p id="final-footer">
+      <a href="http://skymaiden.com" title="Website Designed in Inkscape">Hinerangi Courtenay</a>
+      <a href="http://doctormo.org" title="Developed in Django">Martin Owens</a>
+      <a href="http://www.fastly.com/" title="Data Cached by Fastly">Fastly</a>
+      <a href="https://osuosl.org/" title="Site Hosted by OSUOSL">OSUOSL</a>
     </p>
   {% endblock %}
 </body>

@@ -632,7 +632,8 @@ body > .footer .nav ul {
 #final-footer :link,
 #final-footer a,
 #final-footer :link:visited,
-#final-footer :link:active {
+#final-footer :link:active,
+#final-footer span {
   color: #aaa;
   padding: 10px;
   margin: 15px 8px;

@@ -22,29 +22,38 @@
 
 #set -e
 
-DIR="$( cd "$( dirname "${BASH_DOCS[0]}" )" && pwd )"
-cd $DIR/../
+TARGET="$( cd "$( dirname "${BASH_SOURCE[0]}" )/../" && pwd )"
+
+if [ -f "data/deployment" ]; then
+    source "data/deployment"
+else
+    echo "Local deployment: $TARGET"
+fi
 
 TEST=$@
-export DOCS="/tmp/docs"
-source "data/deployment"
+export FORCE=0
+export DOC_SOURCE="/tmp/inkscape-docs"
 export DOC_TARGET="$TARGET/data/media/doc"
 
+cd $TARGET
+
 if [ ! -d "$DOC_TARGET" ]; then
-    echo "Target doesn't exist: $DOC_TARGET"
-    exit 2
+    echo "Target doesn't exist: $DOC_TARGET, Creating..."
+    mkdir -p $DIR_TARGET
 fi
 
-if [ ! -d "$DOCS" ]; then
-    echo "Can't find docs in $DOC_SOURCE"
-    exit 1
+if [ ! -d "$DOC_SOURCE" ]; then
+    echo "Can't find docs in $DOC_SOURCE, Downloading..."
+    cd /tmp
+    bzr branch lp:inkscape-docs
+    export FORCE=1
 fi
 
-cd $DOCS
+cd $DOC_SOURCE
 
 if [ -d $DOC_TARGET ]; then
   bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
-  if [[ $? == 0 ]]; then
+  if [[ $? == 0 || $FORCE == 1 ]]; then
     echo "New revisions found, updating!"
     echo "Sending docs to ${DOC_TARGET}..."
     rsync -ua $TEST --exclude='.bzr/' --delete . $DOC_TARGET

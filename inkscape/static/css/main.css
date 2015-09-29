@@ -10,6 +10,10 @@
   font-style: normal;
 }
 @font-face {
+  font-family: 'EuphoriaScript';
+  src: url("../fonts/euphoriascript-regular.ttf") format("truetype");
+}
+@font-face {
   font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 400;
@@ -260,11 +264,12 @@ div.reginfo {
   display: block;
 }
 #logo h2 {
-  margin: 0 0 0 64px;
+  margin: -4px 0 0 64px;
   padding: 0;
   border: 0;
-  font-size: 17px;
+  font-size: 28px;
   font-weight: normal;
+  font-family: EuphoriaScript;
 }
 #logo h2 a {
   padding-left: 17px;

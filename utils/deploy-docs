@@ -32,7 +32,7 @@ fi
 
 TEST=$@
 export FORCE=0
-export DOC_SOURCE="/tmp/inkscape-docs"
+export DOC_SOURCE="/tmp/inkscape-docs-export-website"
 export DOC_TARGET="$TARGET/data/media/doc"
 
 cd $TARGET
@@ -45,7 +45,7 @@ fi
 if [ ! -d "$DOC_SOURCE" ]; then
     echo "Can't find docs in $DOC_SOURCE, Downloading..."
     cd /tmp
-    bzr branch lp:inkscape-docs
+    bzr branch lp:inkscape-docs-export-website
     export FORCE=1
 fi
 

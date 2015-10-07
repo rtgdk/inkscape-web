@@ -4,11 +4,11 @@
 
 {% block content %}
 
- <h1 id='item-title'>{{ item }}</h1>
+ <h1 id='object-title'>{{ object }}</h1>
 
- <div class="item{% if form %} edit{% endif %}">
-   {% if item.is_file and item.mime.is_text %}
-     <div class="text" title="{{ item.media_type }}">{{ item.as_lines }}</div>
+ <div class="object{% if form %} edit{% endif %}">
+   {% if object.is_file and object.mime.is_text %}
+     <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>
    {% endif %}
  </div>
 {% endblock %}

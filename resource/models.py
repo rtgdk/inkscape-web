@@ -453,11 +453,18 @@ class ResourceFile(Resource):
         """Returns the contents as text"""
         return syntaxer(self.as_text(), self.mime())
 
-    def as_text(self):
+    def as_line_preview(self):
+        """Returns a few lines of text"""
+        return syntaxer(self.as_text(20), self.mime())
+
+    def as_text(self, lines=None):
         if self.mime().is_text() or 'svg' in str(self.mime()):
-            self.download.file.open()
-            self.download.file.seek(0)
-            return self.download.file.read().decode('utf-8')
+            text = self.download.file
+            text.open()
+            text.seek(0)
+            if lines is not None:
+                return "".join(next(text.file) for x in xrange(lines))
+            return text.read().decode('utf-8')
         return "Not text!"
 
 

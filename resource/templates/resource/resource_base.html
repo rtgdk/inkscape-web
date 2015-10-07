@@ -36,8 +36,14 @@
       <div class="image only">
         <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}"></a>
       </div>
-    {% elif object.mime.is_text and object.media_x < 300 %}
-      <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>
+    {% elif object.mime.is_text %}
+      {% if object.media_x < 300 %}
+        <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>
+      {% else %}
+        <div class="text" title="{{ object.media_type }}">{{ object.as_line_preview }}
+          <ol><li><code><a href="{% url "view_resource" object.id %}">More ...</a></code></li></ol>
+        </div>
+      {% endif %}
     {% else %}
       <div class="image file">
         <a href="{% url "download_resource" object.id object.filename %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>

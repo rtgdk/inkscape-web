@@ -99,7 +99,11 @@ class CmsDiffConfig(AppConfig):
 
         # We setup a property on any revision to get it's page. This is needed to link
         # the revision back to it's progenitor object and thus to other revisons
-        page_type = ContentType.objects.get_for_model(Page)
+        try:
+            page_type = ContentType.objects.get_for_model(Page)
+        except RuntimeError:
+            return # Not setup yet.
+
         Revision.page = property(lambda self: self.version_set.get(content_type=page_type).object)
         Page.revisions = property(lambda self: Revision.objects.filter(version__content_type=page_type, version__object_id_int=self.pk))
         Page.cleanup_history = cleanup_history

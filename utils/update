@@ -44,8 +44,6 @@ fi
 
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."
-    echo " * syncdb"
-    $MANAGE syncdb  -v 0 --noinput
     echo " * migrate"
     $MANAGE migrate -v 0
     echo " * DONE"

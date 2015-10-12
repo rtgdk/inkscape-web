@@ -142,6 +142,8 @@ def _sub_ml(action, team, user):
 
 def update_mailinglist(model, pk_set, instance, action, **kwargs):
     """Subscribe member to mailing list if needed"""
+    if not hasattr(instance, 'team'):
+        return
     team = instance.team
     team.mailman_users = []
     for user in model.objects.filter(pk__in=pk_set):

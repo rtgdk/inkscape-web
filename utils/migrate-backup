@@ -208,6 +208,18 @@ UPDATES = {
     [ rename, 'cmstabs.tabcategory' ],
     [ download, 'icon' ],
   ),
+  'projects.project': (
+    [ set_to, 'proposer', A_USER ],
+    [ set_to, 'manager', A_USER ],
+    [ set_to, 'reviewer', A_USER ],
+    [ set_to, 'second', A_USER ],
+  ),
+  'projects.projectupdate': (
+    [ set_to, 'creator', A_USER ],
+  ),
+  'projects.worker': (
+    [ set_to, 'user', A_USER ],
+  ),
   'extra.tab': (
     [ rename, 'cmstabs.tab' ],
     [ download, 'download' ],

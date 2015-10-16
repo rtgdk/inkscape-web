@@ -151,28 +151,47 @@ class GalleryUserTests(BaseUserCase):
         self.assertContains(response, owner.username)
         self.assertEqual(response.context['object_list'].count(), resources.count())
         self.assertNotContains(response, '<form method="POST" action="' + reverse('new_gallery'))
-      
+    
     def test_view_group_gallery(self):
-        """Look at a gallery belonging to a group of users (team in UI),
-        not being a member of that group and not the owner of the gallery"""
+        """Look at a global gallery belonging to a group of users (team in UI), 
+        containing all items that have been uploaded into its subgalleries
+        not being a member of that group. After this, look at a subgallery, to 
+        see if it contains the right items, too."""
         galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
                                    .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0,
+        self.assertGreater(galleries.count(), 1,
                            "Create a group gallery where %s is not a member, and not the owner" % self.user)
-        gallery = galleries[0]
-        #add a resource to that gallery, so it will show up
-        resource_owner = gallery.group.user_set.all()[0]
-        resources = Resource.objects.filter(user=resource_owner, published=True)
-        self.assertGreater(resources.count(), 1,
-                           "Add a public resource for user %s" % resource_owner)
-        gallery.items.add(resources[0], resources[1])
+        subgallery = galleries[0]
+        other_subgallery = galleries[1]
         
-        # Group galleries should be linked by their team's name plus the gallery slug
-        # so that their url doesn't link to their original author's user account.
-        response = self._get('resources', galleries=gallery.slug, team=gallery.group.team.slug)
+        this_group = subgallery.group
+        
+        #add resources to both subgalleries
+        resource_owner = subgallery.group.user_set.all()[0]
+        resources = Resource.objects.filter(user=resource_owner, published=True)
+        self.assertGreater(resources.count(), 2,
+                           "Add a public resource for user %s" % resource_owner)
+        subgallery.items.add(resources[0], resources[1])
+        other_subgallery.items.add(resources[2])
+        
+        all_this_groups_items = [item for gal in this_group.galleries.all() for item in gal.items.all()]
+        
+        # First part: fetch global team gallery page, containing all subgalleries and all their resources
+        response = self._get('resources', team=subgallery.group.team.slug)
+        
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(gallery.items.count(), response.context['object_list'].count())
-        for item in gallery.items.all():
+        
+        # make sure all resources from all subgalleries are on that page
+        self.assertEqual(len(all_this_groups_items), response.context['object_list'].count())
+        for item in subgallery.items.all():
+            self.assertContains(response, item.name)
+            
+        # Second part: fetch a team's subgallery and check if it contains the right resources
+        response = self._get('resources', galleries=subgallery.slug, team=subgallery.group.team.slug)
+        
+        self.assertEqual(response.status_code, 200)
+        self.assertEqual(subgallery.items.count(), response.context['object_list'].count())
+        for item in subgallery.items.all():
             self.assertContains(response, item.name)
     
     def test_narrow_user_gallery_owner(self):
@@ -805,28 +824,72 @@ class GalleryUserTests(BaseUserCase):
 
     # Gallery RSS tests
     def test_gallery_rss_feed(self):
-        """Make sure that every gallery has the correct rss feed"""
-        # TODO:
-        # Should feeds be dependent on the user that views them? is_visible() in line 277 causes this.
-        # Also causes that people get different feeds depending on being logged out or in...
-        # Would this confuse feed readers?
-        # What's with the additional search term and ordering? Those are currently appended to the rss url
+        """Make sure that the main gallery has the correct rss feed, also for
+        categories, ordering, subgalleries"""
         galleries = Gallery.objects.all()
         
-        resources = Resource.objects.filter(published=True)#.order_by('pk')# pk for no error
+        resources = Resource.objects.filter(published=True)
+        self.assertGreater(resources.count(), 3, "Create some published resources!")
         response = self._get('resources_rss')
         self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        self.assertContains(response, "</item>", resources.count())
         for resource in resources:
             self.assertContains(response, resource.name)
             self.assertContains(response, resource.get_absolute_url())
-        #TODO: 
-        #test for search terms and ordering and:
-        #response = self._get('resources_rss', category=category)
-        #response = self._get('resources_rss', username=username)
-        #response = self._get('resources_rss', username=username, category=category)
-        #response = self._get('resources_rss', username=username, galleries=gallery.slug)
-        #response = self._get('resources_rss', username=username, galleries=gallery.slug, category=category)
-        pass
+
+        # select a category
+        cat = resources[0].category
+        cat_resources = Resource.objects.filter(published=True, category=cat)
+        response = self._get('resources_rss', category=cat.value)
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        self.assertContains(response, "</item>", cat_resources.count())
+        for resource in cat_resources:
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
+        
+        # select a username, which is used for all the rest of test
+        resources = Resource.objects.exclude(user=self.user) # prevent hassle with unpublished items visible to owner
+        u = resources[0].user
+        user_resources = resources.filter(user=u)
+        response = self._get('resources_rss', username=u.username)
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        self.assertContains(response, "</item>", user_resources.count())
+        for resource in user_resources:
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
+            
+        # select a user + a category
+        cat = user_resources[0].category
+        u_c_resources = user_resources.filter(category=cat)
+        response = self._get('resources_rss', username=u.username, category=cat.value)
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        self.assertContains(response, "</item>", u_c_resources.count())
+        for resource in u_c_resources:
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
+            
+        # select a user + a gallery    
+        user_galleries = u.galleries.all()
+        self.assertGreater(user_galleries.count(), 0, "Create a gallery for user %s" % u.username)
+        g = user_galleries[0]
+        # add a resource to that gallery, so we have some contents
+        g.items.add(user_resources[0])
+        response = self._get('resources_rss', username=u.username, galleries=g.slug)
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        self.assertContains(response, "</item>", g.items.count())
+        for resource in user_resources.filter(galleries=g):
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
+        
+        # select user, gallery and category
+        cat = user_resources[0].category
+        response = self._get('resources_rss', username=u.username, galleries=g.slug, category=cat.value)
+        self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
+        expected = user_resources.filter(galleries=g, category=cat)
+        self.assertContains(response, "</item>", expected.count())
+        for resource in expected:
+            self.assertContains(response, resource.name)
+            self.assertContains(response, resource.get_absolute_url())
 
 class GalleryAnonTests(BaseCase):
     """Tests for AnonymousUser"""

@@ -371,7 +371,7 @@
   "fields": {
     "user": 2,
     "group": 1,
-    "name": "Gallery Five for Group",
+    "name": "Gallery Five for Group Test",
     "slug": "gallery-five-group"
   },
   "model": "resource.gallery",
@@ -396,5 +396,24 @@
   },
   "model": "resource.gallery",
   "pk": 7
+},
+{
+  "fields": {
+    "user": 2,
+    "group": 1,
+    "name": "Gallery Eight for Group Test",
+    "slug": "gallery-eight-group"
+  },
+  "model": "resource.gallery",
+  "pk": 8
+},
+{
+  "fields": {
+    "user": 1,
+    "name": "Gallery for User Admin",
+    "slug": "gallery-belonging-to-admin"
+  },
+  "model": "resource.gallery",
+  "pk": 9
 }
 ]

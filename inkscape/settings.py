@@ -116,6 +116,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.user.CurrentUserMiddleware',
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cmsdiff.middleware.CommentMiddleware',
+    'cmsdiff.middleware.ObjectToolbarMiddleware',
     'social_auth.middleware.SocialAuthExceptionMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'person.middleware.SetLastVisitMiddleware',

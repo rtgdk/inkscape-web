@@ -20,7 +20,9 @@
 
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.contenttypes.models import ContentType
 from reversion.revisions import revision_context_manager as manager
+
 from cmsdiff.app import DRAFT_ID
 
 class CommentMiddleware(object):
@@ -34,5 +36,21 @@ class CommentMiddleware(object):
         if self.comment:
             manager.set_comment(DRAFT_ID + request.POST['revision_comment'])
             manager.end()
+        return response
+
+class ObjectToolbarMiddleware(object):
+    """Adds an Objects menu item for quick admin access to current context"""
+    def admin_link(self, obj, method='change'):
+       ct = ContentType.objects.get_for_model(type(obj))
+       return reverse('admin:%s_%s_%s' % (ct.app_label, ct.model, method), args=(obj.pk,)) 
+
+    def process_template_response(self, request, response):
+        if request.user.is_authenticated() and request.user.is_superuser:
+            obj = response.context_data.get('object', None)
+            if obj:
+                menu = request.toolbar.get_or_create_menu('object-menu', _('Object'))
+                x = {'otype': type(obj).__name__}
+                menu.add_modal_item(_('Purge %(otype)s') % x, url=self.admin_link(obj, 'delete'))
+                menu.add_modal_item(_('Edit %(otype)s') % x, url=self.admin_link(obj, 'change'))
         return response
 

@@ -61,6 +61,13 @@ class DeleteResource(OwnerUpdateMixin, DeleteView):
     model  = Resource
     action = "Delete Resource"
 
+    def get_success_url(self):
+        # Called before object is deleted
+        obj = self.get_object().parent
+        if hasattr(obj, 'get_absolute_url'):
+            return obj.get_absolute_url()
+        return reverse('my_profile')
+
 class EditResource(OwnerUpdateMixin, UpdateView):
     model = ResourceFile
     action = "Edit Resource"

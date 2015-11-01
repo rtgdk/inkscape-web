@@ -159,7 +159,6 @@ INSTALLED_APPS = (
     'djangocms_text_ckeditor',
     'djangocms_file',
     'djangocms_picture',
-    'djangocms_snippet',
     'djangocms_link',
     'cmsplugin_toc',
     'cmsplugin_search',
@@ -311,7 +310,6 @@ MIGRATION_MODULES = {
   'djangocms_file': 'djangocms_file.migrations_django',
   'djangocms_link': 'djangocms_link.migrations_django',
   'djangocms_picture': 'djangocms_picture.migrations_django',
-  'djangocms_snippet': 'djangocms_snippet.migrations_django',
   'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
   'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django',
 }

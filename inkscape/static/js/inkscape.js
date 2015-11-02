@@ -27,11 +27,23 @@ $(document).ready(function() {
   if($(".inlinepages"))inlinePages();
   $("#toplogin input").focus(true, focused);
   $("#toplogin input").focusout(false, focused);
+  $("[src$='.svg']").error(onSvgError);
+  $(".image.only img").error(iconInstead);
   if($('#toc').length == 0) {
     anchors();
   }
   close_elements();
 });
+
+function iconInstead(event) {
+  this.src = $(this).data('icon');
+}
+
+function onSvgError(event) {
+  if(this.src.slice(-3)=='svg') {
+    this.src = this.src.slice(0,-3) + "png";
+  }
+}
 
 function close_elements() {
   $("#messages li").each(function() {
@@ -156,12 +168,6 @@ function selectInlinePage() {
   });
   $(this).toggleClass('selected', true)
   $("#"+this.id+"-page").toggleClass('selected', true)
-}
-
-function getPng(t) {
-  if(t.src.slice(-3)=='svg') {
-    t.src = t.src.slice(0,-3) + "png";
-  }
 }
 
 /* == PopUp implimentation == */

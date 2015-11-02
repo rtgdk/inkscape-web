@@ -21,6 +21,7 @@
 Models for resource system, provides license, categories and resource downloads.
 """
 
+import gzip
 import sys
 import os
 
@@ -35,7 +36,6 @@ from django.core.validators import MaxLengthValidator
 from django.conf import settings
 
 from model_utils.managers import InheritanceManager
-
 
 from pile.fields import ResizedImageField
 from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
@@ -449,6 +449,9 @@ class ResourceFile(Resource):
                 return self.download.url
         return Resource.icon(self)
 
+    def icon_only(self):
+        return Resource.icon(self)
+
     def as_lines(self):
         """Returns the contents as text"""
         return syntaxer(self.as_text(), self.mime())
@@ -462,6 +465,9 @@ class ResourceFile(Resource):
             text = self.download.file
             text.open()
             text.seek(0)
+            # GZip magic number for svgz files.
+            if text.peek(2) == '\x1f\x8b':
+                text = gzip.GzipFile(fileobj=text)
             if lines is not None:
                 return "".join(next(text.file) for x in xrange(lines))
             return text.read().decode('utf-8')

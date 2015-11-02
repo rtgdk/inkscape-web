@@ -34,7 +34,7 @@
  {% elif object.is_file %}
     {% if object.mime.is_image %}
       <div class="image only">
-        <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}"></a>
+        <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.icon_only }}"></a>
       </div>
     {% elif object.mime.is_text %}
       {% if object.media_x < 300 %}

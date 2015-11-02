@@ -41,7 +41,7 @@
       <div id="logo">
         {% block logo %}
           <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.svg{% endblock %}"
-             width="64" height="64" alt="Inkscape" onerror="getPng(this);"/></a>
+             width="64" height="64" alt="Inkscape"/></a>
           <h1><a href="/" tabindex="-1">Inkscape</a></h1>
           <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
         {% endblock %}
@@ -170,6 +170,6 @@
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
 InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"
-  id="dev-stamp" onerror="getPng(this);"/></a>
+  id="dev-stamp"/></a>
 </body>
 </html>

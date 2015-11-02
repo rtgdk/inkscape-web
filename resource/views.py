@@ -235,17 +235,15 @@ class DownloadResource(ViewResource):
                    }, context_instance=RequestContext(request))
                 response['refresh'] = "3; url=%s" % mirror.get_url(item)
                 return response
-        return redirect(item.download.url)
 
-    # Content-Disposition code here allows downloads to work better. XXX
-    # The thinking here is that it must a) redirect to a fastly cache just
-    # Like the above, BUT include the attachment sendfile part to improve
-    # user experence for images and similar files.
-    #url = item.download.path
-    #if not settings.DEBUG:
-        # Correct for nginx redirect
-        #url =  '/get' + url[6:]
-    #return sendfile(request, url, attachment=True)
+        if settings.DEBUG:
+            # We still use sendfile for development because it's useful
+            return sendfile(request, item.download.path, attachment=True)
+
+        # But live now uses nginx directly to set the Content-Disposition
+        # since the header will be passed to the fastly cache from nginx
+        # but the sendfile method will fail because of the internal redirect.
+        return redirect(item.download.url.replace('/media/', '/dl/'))
 
 
 def mirror_resources(request, uuid=None):

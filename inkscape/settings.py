@@ -289,10 +289,8 @@ GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 SENDFILE_BACKEND = 'sendfile.backends.development'
-if not DEBUG:
-    SENDFILE_BACKEND = 'sendfile.backends.nginx'
-    SENDFILE_ROOT = MEDIA_ROOT
-    SENDFILE_URL = MEDIA_URL
+SENDFILE_ROOT = MEDIA_ROOT
+SENDFILE_URL = MEDIA_URL
 
 AJAX_LOOKUP_CHANNELS = {
   'user'    : {'model':'auth.User',             'search_field':'username'},

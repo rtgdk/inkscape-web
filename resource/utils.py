@@ -54,13 +54,12 @@ class CodeHtmlFormatter(formatters.HtmlFormatter):
             yield i, "<li><code>%s</code></li>" % t
         yield 0, '</ol>'
 
-from django.core.files.uploadedfile import InMemoryUploadedFile
+from django.core.files.base import File
 def peek(self, t):
     ret = self.read(t)
     self.seek(0)
     return ret
-InMemoryUploadedFile.peek = peek
-
+File.peek = peek
 
 def syntaxer(text, mime):
     """Highlights text files based on their type"""

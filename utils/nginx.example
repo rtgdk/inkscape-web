@@ -26,12 +26,15 @@ server {
     }
 
     location /media/ { # MEDIA_URL
-        alias /var/www/www.inkscape.org/data/media/;
+      alias /var/www/www.inkscape.org/data/media/;
     }
 
-    location /get/ { # Used by sendfile to redirect internally for downloads
-        alias /var/www/www.inkscape.org/data/media/;
-        internal;
+    location /dl/ { # DOWNLOAD VERSION
+      alias /var/www/www.inkscape.org/data/media/;
+      if ($request_filename ~ "^.*/(.+)$"){
+          set $fname $1;
+          add_header Content-Disposition 'attachment; filename="$fname"';
+      }
     }
 
     location / {

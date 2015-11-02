@@ -166,7 +166,8 @@ class ResourceManager(Manager):
         return sum(f.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
 
     def latest(self):
-        return self.get_queryset().exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
+        user = get_user()
+        return self.for_user(user).exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
 
 
 class GroupGalleryManager(ResourceManager):

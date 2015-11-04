@@ -167,7 +167,7 @@ class ResourceManager(Manager):
 
     def latest(self):
         user = get_user()
-        return self.for_user(user).exclude(category=Category.objects.get(pk=1)).order_by('created')[:4]
+        return self.for_user(user).exclude(category=Category.objects.get(pk=1)).order_by('-created')[:4]
 
 
 class GroupGalleryManager(ResourceManager):

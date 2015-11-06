@@ -62,3 +62,13 @@ for (key, d) in local:
     if type(d) is function:
         setattr(User, key, d)
 
+
+def group_breadcrumb_name(self):
+    try:
+        return str(self.team)
+    except:
+        return str(self)
+
+Group.breadcrumb_name = group_breadcrumb_name
+
+

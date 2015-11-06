@@ -2,10 +2,16 @@
 {% load i18n %}
 
 {% block title %}{% trans "New User Registration" %}{% endblock %}
+{% block "breadcrumbs" %}{% endblock %}
 
-{% block supercontent %}
+{% block content %}
 
 <h2>{% trans "New User Registration" %}</h2>
+
+{% if request.user.is_authenticated %}
+  <p>{% trans "You are already a registered user." %}</p>
+  <p><a href="{% url "my_profile" %}" class="btn btn-active">My User Profile</a></p>
+{% else %}
 
 <p>{% trans "Welcome, in order to register you must have a valid email address." %}</p>
 
@@ -58,5 +64,6 @@
   </tr>
 </table>
 </form>
+{% endif %}
 
 {% endblock %}

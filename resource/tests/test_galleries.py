@@ -22,8 +22,6 @@
 Test Resource Items and Lists
 """
 
-__all__ = ('GalleryUserTests', 'GalleryAnonTests')
-
 import os
 
 from urllib import urlencode

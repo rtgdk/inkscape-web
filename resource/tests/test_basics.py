@@ -26,8 +26,6 @@ from django.core.urlresolvers import reverse
 from resource.models import License, Category, Resource, Tag, Gallery
 
 from .base import BaseCase, BaseAnonCase
-from .resources import *
-from .gallery import *
 
 from inkscape.middleware import AutoBreadcrumbMiddleware
 

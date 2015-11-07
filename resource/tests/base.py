@@ -21,6 +21,10 @@
 """
 Base TestCase for Resource and Gallery Tests.
 """
+
+# FLAG: do not report failures from here in tracebacks
+__unittest = True
+
 import os
 
 from datetime import date

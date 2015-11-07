@@ -4,7 +4,6 @@ from __future__ import unicode_literals
 from django.db import models, migrations
 from django.conf import settings
 
-
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -24,7 +23,11 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        migrations.AlterField(
+        migrations.RemoveField(
+            model_name='team',
+            name='mailman',
+        ),
+        migrations.AddField(
             model_name='team',
             name='mailman',
             field=models.ForeignKey(blank=True, to='django_mailman.List', null=True),

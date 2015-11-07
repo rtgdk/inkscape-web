@@ -103,6 +103,10 @@ class TeamDetail(DetailView):
     slug_url_kwarg = 'team'
     model          = Team
 
+class ChatWithTeam(TeamDetail):
+    template_name = 'person/team_chat.html'
+    action_name = _("Chat")
+
 class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'team'
     model          = Team

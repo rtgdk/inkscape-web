@@ -61,6 +61,11 @@ class UserDetails(Model):
             return "%s %s" % (self.user.first_name, self.user.last_name)
         return self.user.username
 
+    def get_ircnick(self):
+        if not self.ircnick:
+            return self.user.username
+        return self.ircnick
+
     def photo_url(self):
         if self.photo:
             return self.photo.url
@@ -105,6 +110,7 @@ class Team(Model):
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = ForeignKey('django_mailman.List', **null)
+    ircroom  = CharField(_('IRC Chatroom Name'), max_length=64, **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
     
     @property
@@ -134,7 +140,7 @@ class Team(Model):
     def __unicode__(self):
         return self.name
 
-def _sub_ml(action, team, user):
+def subscribe_to_list(action, team, user):
     if action == 'pre_remove':
         team.mailman.unsubscribe(user.email)
     elif action == 'post_add':
@@ -149,12 +155,11 @@ def update_mailinglist(model, pk_set, instance, action, **kwargs):
     for user in model.objects.filter(pk__in=pk_set):
         if user.email and team.mailman:
             try:
-                _sub_ml(action, team, user)
+                subscribe_to_list(action, team, user)
             except Exception:
                 team.mailman_users.append(user.pk)
             finally:
                 team.mailman_users.append(user)
-
 
 m2m_changed.connect(update_mailinglist, sender=Team.watchers.through)
 m2m_changed.connect(update_mailinglist, sender=User.groups.through)

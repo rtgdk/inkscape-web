@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+
+<h1>{{ object }} {% trans "Chatroom" %}</h1>
+
+<div><iframe src="https://kiwiirc.com/client/irc.freenode.net/?nick={{ request.user.details.get_ircnick }}#{{ object.ircroom }}" style="border:0; width:100%; height:450px;"></iframe></div>
+
+<!--<div style="padding: 20px; width: 80%; margin: auto; border: 1px solid black; margin-bottom: 20px;">
+<p>Hi,<br />
+<br />
+This is an applet for the English #inkscape IRC channel on freenode (<a href="irc://irc.freenode.org/#inkscape">irc://irc.freenode.org/#inkscape</a>) that you can connect to with any IRC client.<br />
+<br />
+As an Inkscape user, you are welcome to ask questions here. (There is another channel for Inkscape developers, please see below. Also if you are not comfortable asking questions in English, see below for other options to get help) - but if you do, please stick around at least 10-15 minutes (or sometimes more) for an answer.</p>
+
+<p>A lot of people are connected to it (users and developers alike), but few of them are connected and live &quot;right now&quot;. All the people who answer are volunteers, and may or may not be available at the particular time you are there.</p>
+
+<p>Please read</p>
+
+<p><a href=""><img style="width:32px;" src="{% static "mime/pdf.svg" %}" title="{% trans "Ask Smart Questions" %}" /> {% trans "Asking Smart Questions" %}</a> {% trans "to get the most out of this chat." %}</p>
+
+<div style="text-align: right;">The Inkscape chat team</div>
+</div>-->
+
+{% endblock %}

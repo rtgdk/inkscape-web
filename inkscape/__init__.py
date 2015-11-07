@@ -64,7 +64,7 @@ class MyAdminSite(admin.AdminSite):
       'redirects': 'sites',
     }
     rename = {
-      'auth': 'Users and Teams',
+      'auth': 'All Users and Teams',
       'cms': 'Django CMS',
       'cmstabs': 'Inkscape CMS Extras',
       'List': 'E-Mailing Lists',

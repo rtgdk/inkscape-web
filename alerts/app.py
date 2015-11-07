@@ -23,21 +23,25 @@ Loads all the alert modules and registers everything when ready.
 
 import re
 import sys
-
 from importlib import import_module
 
 from django.apps import AppConfig, apps
 from django.utils.module_loading import module_has_submodule
+from django.db.models.signals import post_migrate
 
 from alerts.base import BaseAlert
 
 ALERT_MODULE_NAME = 'alert'
-IS_TEST = 'test' in sys.argv
+IS_TEST = 'test' in sys.argv or 'autotest' in sys.argv
 
 class AlertsConfig(AppConfig):
     name = 'alerts'
 
     def ready(self):
+        post_migrate.connect(self.get_ready, sender=self)
+        self.get_ready()
+
+    def get_ready(self, *args, **kwargs):
         for app_config in apps.app_configs.values():
             app = app_config.module
             if module_has_submodule(app, ALERT_MODULE_NAME):

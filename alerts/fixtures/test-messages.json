@@ -1,6 +1,62 @@
 [
 {
   "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2015-11-07T04:43:42.799Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "cmsdiff.page_published_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 1
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2015-11-07T04:43:42.806Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "resource.resource_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 2
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2015-11-07T04:43:42.812Z",
+    "enabled": true,
+    "private": true,
+    "default_email": true,
+    "slug": "alerts.message_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 3
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2015-11-07T04:52:37.661Z",
+    "enabled": true,
+    "private": true,
+    "default_email": true,
+    "slug": "alerts.test_message_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 4
+},
+{
+  "fields": {
     "body": "Single Message",
     "sender": 2,
     "created": "2015-07-14T05:00:25.580Z",

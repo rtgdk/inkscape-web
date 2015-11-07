@@ -94,9 +94,9 @@ class AlertUserTests(BaseUserCase):
 
     def test_list_all_alerts(self):
         response = self._get('alerts')
-        self.assertContains(response, 'id="alert_2"')
-        self.assertContains(response, 'id="alert_1"')
-        self.assertContains(response, 'id="alert_3"')
+        self.assertContains(response, 'Subject One')
+        self.assertContains(response, 'Subject Two')
+        self.assertContains(response, 'Subject Three')
 
     def test_view_alert(self):
         pass

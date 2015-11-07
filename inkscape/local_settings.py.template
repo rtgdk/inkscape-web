@@ -7,6 +7,10 @@ PROJECT_PATH = os.path.abspath(os.path.join(CODE_PATH, ".."))
 SITE_ADDRESS = 'localhost:8000'
 SITE_NAME = 'inkscape-website-dev'
 
+# Enable this line to use django-autotest-command package
+# during your development process (it's useful!)
+# EXTRA_APPS = ['autotest']
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

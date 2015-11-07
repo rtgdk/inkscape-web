@@ -49,6 +49,7 @@ GOOGLE_ANID = None
 # Place where uploaded files and static can be seen online
 MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
+EXTRA_APPS = []
 
 #
 # --- Above this line, settings can be over-ridden for deployment
@@ -172,7 +173,8 @@ INSTALLED_APPS = (
     'django_comments',
     'django_mailman',
     'alerts',
-)
+) + tuple(EXTRA_APPS)
+
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (

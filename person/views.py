@@ -103,7 +103,7 @@ class TeamDetail(DetailView):
     slug_url_kwarg = 'team'
     model          = Team
 
-class ChatWithTeam(TeamDetail):
+class ChatWithTeam(LoginRequiredMixin, TeamDetail):
     template_name = 'person/team_chat.html'
     action_name = _("Chat")
 

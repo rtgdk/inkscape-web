@@ -225,9 +225,9 @@ UPDATES = {
     [ download, 'download' ],
     [ set_to, 'user', A_USER ],
   ),
-  'cmsplugin_pygments.pygmentsplugin': (
-    [ delete ],
-  ),
+  'cmsplugin_pygments.pygmentsplugin': ([delete],),
+  'djangocms_snippet.snippet': ([delete],),
+  'djangocms_snippet.snippetptr': ([delete],),
 }
 
 def log(message):

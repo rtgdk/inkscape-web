@@ -42,7 +42,7 @@ django-contrib-comments==1.5
 -e git://github.com/doctormo/django-cms-rosetta.git#egg=cmsrosetta
 
 # Django-CMS Plugins
-django-cms==3.1.2
+django-cms==3.1.3
 
 djangocms-file==0.1
 djangocms-link==1.5

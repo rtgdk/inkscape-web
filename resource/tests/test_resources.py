@@ -357,10 +357,13 @@ class ResourceUserTests(BaseUserCase):
         name = self.download.name
         quot = self.user.quota()
 
+	print quot, default_quota.size
+
         self.assertGreater(os.path.getsize(name), quot,
             "Make sure that the file %s is bigger than %d byte" % (name, quot))
 
         response = self._post('resource.upload', data=self.data)
+        print response
         self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
 
     def test_submit_item_unacceptable_license(self):
@@ -490,7 +493,7 @@ class ResourceUserTests(BaseUserCase):
                        fn=resource.filename(), follow=False)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+        self.assertEqual(response.url, 'http://testserver/dl/test/file3.svg')
 
         resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 1)
@@ -767,7 +770,7 @@ class ResourceAnonTests(BaseAnonCase):
                        fn=resource.filename(), follow=False)
 
         self.assertEqual(response.status_code, 302)
-        self.assertEqual(response.url, 'http://testserver/media/test/file3.svg')
+        self.assertEqual(response.url, 'http://testserver/dl/test/file3.svg')
 
         resource = Resource.objects.get(pk=resource.pk)
         self.assertEqual(resource.downed, 1)

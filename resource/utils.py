@@ -197,6 +197,9 @@ def hash_verify(sig_type, sig, data):
     return hasher.hexdigest() == digest
 
 def gpg_verify(user, sig, data):
+    """
+    You can not verify the same data file with two different signatures twice.
+    """
     import gnupg
     gpg = gnupg.GPG(gnupghome=os.path.join(settings.MEDIA_ROOT, 'gnupg'))
     gpg.import_keys(str(user.details.gpg_key))

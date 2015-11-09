@@ -25,30 +25,9 @@ from django.core.urlresolvers import reverse
 
 from resource.models import License, Category, Resource, Tag, Gallery
 
-from .base import BaseCase, BaseAnonCase
+from .base import BaseCase, BaseAnonCase, BaseBreadcrumbCase
 
-from inkscape.middleware import AutoBreadcrumbMiddleware
-
-class Breadcrumbs(BaseAnonCase):
-    def assertBreadcrumbRequest(self, url, *terms, **kwargs):
-        response = self._get(url, **kwargs)
-        for term in terms:
-            if len(term) == 1:
-                self.assertContains(response, '<span class="crumb">%s<' % term)
-                continue
-            self.assertContains(response, 'href="%s" class="crumb">%s<' % term)
-
-    def assertBreadcrumbs(self, obj, *terms, **kwargs):
-        """Test breadcrumbs in both generation and template request"""
-        crumbs = list(AutoBreadcrumbMiddleware()._crumbs(object=obj, **kwargs))
-        (links1, names1) = zip(*crumbs)
-        (links2, names2) = zip(*terms)
-        # The i18n gets in the way of testing the names
-        #self.assertTupleEqual(names1, names2)
-        self.assertTupleEqual(links1, links2)
-        if hasattr(obj, 'get_absolute_url'):
-            self.assertBreadcrumbRequest(obj.get_absolute_url(), *terms)
-
+class Breadcrumbs(BaseBreadcrumbCase):
     def test_resource_breadcrumbs(self):
         """Resource item breadcrumbs"""
         #TODO: adapt to actual team page, remove duplicity

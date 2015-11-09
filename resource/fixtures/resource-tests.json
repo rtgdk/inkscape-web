@@ -98,7 +98,7 @@
     "signature": "test/bad.sig",
     "owner": true,
     "mirror": false,
-    "download": "test/file1.svg"
+    "download": "test/file2.txt"
   },
   "model": "resource.resourcefile",
   "pk": 8

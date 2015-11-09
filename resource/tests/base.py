@@ -26,6 +26,7 @@ Base TestCase for Resource and Gallery Tests.
 __unittest = True
 
 import os
+import haystack
 
 from datetime import date
 
@@ -40,7 +41,9 @@ from user_sessions.utils.tests import Client
 
 from django.http import HttpRequest
 from django.conf import settings
-import haystack
+
+from resource.models import ResourceFile
+from inkscape.middleware import AutoBreadcrumbMiddleware
 
 TEST_INDEX = {
   'default': {
@@ -137,4 +140,38 @@ class BaseAnonCase(BaseCase):
     def setUp(self):
         super(BaseAnonCase, self).setUp()
         self.set_session_cookies()
+
+    def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
+        rec = ResourceFile.objects.filter(**kw)
+        self.assertGreater(rec.count(),0,"Resources needed with: %s" % str(kw))
+
+        for resource in rec:
+            self.assertEqual(resource.endorsement(), endorse,
+                "Endorsement doesn't match for file: %s and sig %s" %
+                (resource.download, resource.signature))
+
+
+class BaseBreadcrumbCase(BaseAnonCase):
+    def assertBreadcrumbRequest(self, url, *terms, **kwargs):
+        response = self._get(url, **kwargs)
+        try:
+            for term in terms:
+                if len(term) == 1:
+                    self.assertContains(response, '<span class="crumb">%s<' % term)
+                    continue
+                self.assertContains(response, 'href="%s" class="crumb">%s<' % term)
+        except:
+            print response
+            raise
+
+    def assertBreadcrumbs(self, obj, *terms, **kwargs):
+        """Test breadcrumbs in both generation and template request"""
+        crumbs = list(AutoBreadcrumbMiddleware()._crumbs(object=obj, **kwargs))
+        (links1, names1) = zip(*crumbs)
+        (links2, names2) = zip(*terms)
+        # The i18n gets in the way of testing the names
+        #self.assertTupleEqual(names1, names2)
+        self.assertTupleEqual(links1, links2)
+        if hasattr(obj, 'get_absolute_url'):
+            self.assertBreadcrumbRequest(obj.get_absolute_url(), *terms)
 

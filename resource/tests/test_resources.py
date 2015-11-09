@@ -357,13 +357,10 @@ class ResourceUserTests(BaseUserCase):
         name = self.download.name
         quot = self.user.quota()
 
-	print quot, default_quota.size
-
         self.assertGreater(os.path.getsize(name), quot,
             "Make sure that the file %s is bigger than %d byte" % (name, quot))
 
         response = self._post('resource.upload', data=self.data)
-        print response
         self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
 
     def test_submit_item_unacceptable_license(self):
@@ -493,6 +490,8 @@ class ResourceUserTests(BaseUserCase):
                        fn=resource.filename(), follow=False)
 
         self.assertEqual(response.status_code, 302)
+        # We expect a 'dl' link instead of a 'media' link because
+        # we hand off the download even in development versions.
         self.assertEqual(response.url, 'http://testserver/dl/test/file3.svg')
 
         resource = Resource.objects.get(pk=resource.pk)
@@ -821,15 +820,6 @@ class ResourceAnonTests(BaseAnonCase):
             response = self._get('resource', pk=resource.pk)
             self.assertContains(response, '<iframe')
             self.assertContains(response, 'VideoTag')
-
-    def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
-        rec = ResourceFile.objects.filter(**kw)
-        self.assertGreater(rec.count(),0,"Resources needed with: %s" % str(kw))
-
-        for resource in rec:
-            self.assertEqual(resource.endorsement(), endorse,
-                "Endorsement doesn't match for file: %s and sig %s" %
-                (resource.download, resource.signature))
 
     def test_endorsement(self):
         """Make sure GPG and Hashes work for downloads"""

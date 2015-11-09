@@ -41,7 +41,6 @@
     {% if object.ircroom %}
       <a href="{% url "team.chat" object.slug %}" class="btn btn-default" title=
           "{% trans "Go to this team's IRC Chatroom." %} (#{{ object.ircroom }})">Team Chatroom</a>
-
     {% endif %}
 
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>

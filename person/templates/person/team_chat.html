@@ -3,6 +3,8 @@
 
 {% block content %}
 
+{% if object.ircroom %}
+
 <h1>{{ object }} {% trans "Chatroom" %}</h1>
 
 <div><iframe src="https://kiwiirc.com/client/irc.freenode.net/?nick={{ request.user.details.get_ircnick }}#{{ object.ircroom }}" style="border:0; width:100%; height:450px;"></iframe></div>
@@ -22,5 +24,10 @@ As an Inkscape user, you are welcome to ask questions here. (There is another ch
 
 <div style="text-align: right;">The Inkscape chat team</div>
 </div>-->
+{% else %}
+
+<h1>{{ object }} {% trans "has no chat room" %}</h1>
+
+{% endif %}
 
 {% endblock %}

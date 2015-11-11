@@ -22,9 +22,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import *
 
 class FeedbackForm(Form):
+    email = EmailField(label=_("Contact Email"), required=True)
     comment = CharField(
         widget=Textarea(attrs={
-            'placeholder': 'Your comments or questions...'
+            'placeholder': _('Your comments or questions...')
         }), required=True )
 
 

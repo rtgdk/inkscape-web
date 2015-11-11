@@ -22,6 +22,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.contrib.auth.decorators import login_required
 from django.template import RequestContext
+from django.views.generic import TemplateView, FormView
+from django.core.urlresolvers import reverse_lazy
 
 from .forms import FeedbackForm
 from .models import ErrorLog
@@ -29,19 +31,35 @@ from .models import ErrorLog
 from django.conf import settings
 from django.core.mail import send_mail
 
-def contact_us(request):
-    form = FeedbackForm(request.POST or None)
-    if form.is_valid():
-        sender = 'Anonymous User <unknown@inkscape.org>'
-        if request.user.is_authenticated():
-            sender = request.user.email
-            if request.user.first_name:
-                sender = '%s %s <%s>' % (request.user.first_name, request.user.last_name, request.user.email)
-        recipients = [ "%s <%s>" % (a,b) for (a,b) in settings.ADMINS ]
-        send_mail("Website Feedback", form.cleaned_data['comment'], sender, recipients)
-        return render_to_response('feedback.html', {}, RequestContext(request))
-    return render_to_response('feedback.html', { 'form': form }, RequestContext(request))   
+class ContactOk(TemplateView):
+    template_name = 'feedback.html'
 
+class ContactUs(FormView):
+    template_name = 'feedback.html'
+    form_class = FeedbackForm
+    success_url = reverse_lazy('contact.ok')
+
+    def get_initial(self):
+        if self.request.user.is_authenticated():
+            return {'email': self.request.user.email}
+        return {}
+
+    def form_valid(self, form):
+        recipients = ["%s <%s>" % (a,b) for (a,b) in settings.ADMINS]
+        send_mail("Website Feedback", form.cleaned_data['comment'],
+            self.get_sender(form.cleaned_data['email']), recipients)
+        return super(ContactUs, self).form_valid(form) 
+
+    def get_sender(self, email):
+        if self.request.user.is_authenticated():
+            user = self.request.user
+            if not user.first_name:
+                return email
+            return '%s %s <%s>' % (user.first_name, user.last_name, email)
+        if '<' not in email:
+            return 'Anonymous User <%s>' % email
+        return email
+        
 
 def robots(request):
     return render_to_response('robots.txt', {},

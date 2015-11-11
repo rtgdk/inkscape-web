@@ -14,6 +14,8 @@
   </div>
 
   <p>{% trans "Don't forget to say who you are and to mention a way to contact you, such as an email address, if you need to get a response back." %}</p>
+  <label>{{ form.email.label }}:</label> {{ form.email }}
+
   <div class="desc">
     {{ form.comment }}
   </div>

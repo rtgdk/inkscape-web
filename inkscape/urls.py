@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 
-from .views import SearchView
+from .views import SearchView, ContactUs, ContactOk
 
 urlpatterns = patterns('',
     url(r'^', include('social_auth.urls')),
@@ -33,7 +33,8 @@ urlpatterns = patterns('',
 
 urlpatterns += i18n_patterns('inkscape.views',
     url(r'^robots\.txt$',  'robots',       name='robots.txt'),
-    url(r'^contact/us/$',  'contact_us',   name='contact'),
+    url(r'^contact/us/$',  ContactUs.as_view(), name='contact'),
+    url(r'^contact/ok/$',  ContactOk.as_view(), name='contact.ok'),
     url(r'^search/$',      SearchView(),   name='search'),
     url(r'^error/$',       'errors',       name='errors'),
 

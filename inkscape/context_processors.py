@@ -48,7 +48,7 @@ if os.path.exists(VERSION_FILE):
 REVISION_FILE = os.path.join(settings.PROJECT_PATH, 'data', 'revision')
 if os.path.isfile(REVISION_FILE):
     with open(REVISION_FILE, 'r') as fhl:
-        REVISION = fhl.read().strip()
+        WEBSITE_REVISION = fhl.read().strip()
 
 def version(request):
     return {

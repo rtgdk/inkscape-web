@@ -5,6 +5,8 @@ Running the website locally:
 
  1) ./utils/init
  2) ./utils/manage runserver
+ 3) Load up http://localhost:8000/
+ 4) Log in with admin / 123456
 
 Updating the Website:
 

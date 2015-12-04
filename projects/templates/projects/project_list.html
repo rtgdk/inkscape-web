@@ -15,8 +15,6 @@
     <div class="project-item">
         {% for project in items %}
             {% include "projects/project_item.html"  %}
-            {% include "projects/project_item.html"  %}
-            {% include "projects/project_item.html"  %}
         {% empty %}
             {% trans "Sorry, no projects found" %}
         {% endfor %}

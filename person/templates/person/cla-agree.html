@@ -7,7 +7,7 @@
   <h1>{% trans "Contributors License Agreement" %}</h1>
 
   {% if perms.person.website_cla_agreed %}
-    <p>{% trans "Thank you for agreeing to the terms for contributing to the Inkscape website. All your edits to the cms will be dual-licenced as CC-By-SA and GPL 2.0." %} </p>
+    <p>{% trans "Thank you for agreeing to the terms for contributing to the Inkscape website. All your edits to the cms will be dual-licenced as CC-BY-SA 4.0 and GPLv2 or later." %} </p>
   {% else %}
     {% include "person/cla.html" %}
     <form method="post">

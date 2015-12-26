@@ -72,8 +72,8 @@ FACEBOOK_APP_ID = ''
 FACEBOOK_APP_SECRET = ''
 
 # Localhost registration for oauth ONLY (not for use live)
-GOOGLE_OAUTH2_CLIENT_ID      = '112239585184-nuu42abso85v2f5t2nqstt1stmkqa6u6.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET  = 'eUHvEyHNfXJWOnbM_H26ZA9W'
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY    = '112239585184-nuu42abso85v2f5t2nqstt1stmkqa6u6.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'eUHvEyHNfXJWOnbM_H26ZA9W'
 
 LINKEDIN_CONSUMER_KEY = ''
 LINKEDIN_CONSUMER_SECRET = ''

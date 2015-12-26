@@ -99,8 +99,8 @@ class Team(Model):
 
     admin    = ForeignKey(User, related_name='admin_teams', **null)
     group    = AutoOneToOneField(Group, related_name='team')
-    watchers = ManyToManyField(User, related_name='watches', **null)
-    requests = ManyToManyField(User, related_name='team_requests', **null)
+    watchers = ManyToManyField(User, related_name='watches', blank=True)
+    requests = ManyToManyField(User, related_name='team_requests', blank=True)
 
     name     = CharField(_('Team Name'), max_length=32)
     slug     = SlugField(_('Team URL Slug'), max_length=32)

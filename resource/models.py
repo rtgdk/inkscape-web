@@ -199,7 +199,7 @@ class Resource(Model):
     slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
     category  = ForeignKey(Category, related_name='items', **null)
-    tags      = ManyToManyField(Tag, related_name='resources', **null)
+    tags      = ManyToManyField(Tag, related_name='resources', blank=True)
 
     created   = DateTimeField(**null) # Start of copyright, when 'published=True'
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
@@ -546,7 +546,7 @@ class Gallery(Model):
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
     slug      = CharField(max_length=70)
-    items     = ManyToManyField(Resource, related_name='galleries', **null)
+    items     = ManyToManyField(Resource, related_name='galleries', blank=True)
 
     objects   = GalleryManager()
 
@@ -646,7 +646,7 @@ class Views(Model):
 
 
 class Quota(Model):
-    group    = ForeignKey(Group, related_name='quotas', unique=True, **null)
+    group    = OneToOneField(Group, related_name='quotas', **null)
     size     = IntegerField(_("Quota Size (KiB)"), default=1024)
 
     def __str__(self):

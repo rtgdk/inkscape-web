@@ -26,7 +26,7 @@ from django.utils.timezone import now
 
 from settings import SITE_ROOT
 from django.contrib.auth.models import User, Group
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse

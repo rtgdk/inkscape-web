@@ -75,7 +75,7 @@ class Project(Model):
     is_fundable = BooleanField(default=False)
     is_approved = BooleanField(_('Pre-approved'), default=False)
 
-    criteria = ManyToManyField('Criteria', **null)
+    criteria = ManyToManyField('Criteria', blank=True)
 
     def __str__(self):
         return self.title

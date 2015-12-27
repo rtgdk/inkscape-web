@@ -139,12 +139,12 @@ ROOT_URLCONF = 'inkscape.urls'
 
 INSTALLED_APPS = (
     'inkscape', # Goes first
+    'person', # Goes next
     'django.contrib.sites',
     'django.contrib.auth',
     'user_sessions',
     'registration',
     'social.apps.django_app.default',
-    'person',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.admin',
@@ -183,12 +183,12 @@ INSTALLED_APPS = (
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
-    ('auth.user',               _('Website User')),
+    ('person.user',             _('Website User')),
     ('resource.resourcefile',   _('Gallery Resource')),
     ('django_comments.comment', _('User Comment')),
 )
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'person.User'
 
 # activate automatically filled menues and deactivate redirection to English for non-translated cms pages
 CMS_LANGUAGES = {

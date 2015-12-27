@@ -25,14 +25,14 @@
 <!-- picture   -->
     <div class="resourcepic">
       <div class="aligner">
-        <a href="{{profile_url}}"><img src="{% if object.target.details.photo %}{{ object.target.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+        <a href="{{profile_url}}"><img src="{% if object.target.photo %}{{ object.target.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
         <a class="button" href="{{ object.target.get_absolute_url }}">{% trans "Visit profile" %}</a>
       </div>
     </div>
       
 <!--description / link -->
     <div class="resourcedesc">
-      {% if object.target.details.bio %}{{ object.target.details.bio|truncatewords:60|urlize|linebreaks }}{% else %}{{ object.target.username }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
+      {% if object.target.bio %}{{ object.target.bio|truncatewords:60|urlize|linebreaks }}{% else %}{{ object.target.username }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
     </div>
 
 <!-- information -->
@@ -46,7 +46,7 @@
         {% endif %}
         </dd>
        <dt>{% trans "Last Seen" %}</dt>
-         <dd>{% if object.target.details.last_seen %}{{ object.target.details.last_seen|timesince }}{% else %}{% trans "Never" %}{% endif %}</dd>
+         <dd>{% if object.target.last_seen %}{{ object.target.last_seen|timesince }}{% else %}{% trans "Never" %}{% endif %}</dd>
        <dt>{% trans "Joined On" %}</dt><dd>{{ object.target.date_joined|timesince }}</dd>
        <dt>{% trans "All Uploads" %}</dt><dd><a href="{% url "flat_resources" object.target.id %}">{% trans "View" %}
       </dl>

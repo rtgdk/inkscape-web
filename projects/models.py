@@ -26,7 +26,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.utils.text import slugify
 
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse
@@ -37,6 +36,7 @@ from pile.fields import ResizedImageField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
+from django.conf import settings
 
 class ProjectType(Model):
     value = CharField(_('Type Name'), max_length=128)
@@ -65,10 +65,10 @@ class Project(Model):
     created  = DateTimeField(auto_now_add=True, db_index=True)
     edited   = DateTimeField(auto_now=True)
 
-    proposer = ForeignKey(User, related_name='proposed_projects', default=get_user)
-    manager  = ForeignKey(User, related_name='manages_projects', **null)
-    reviewer = ForeignKey(User, related_name='reviews_projects', **null)
-    second   = ForeignKey(User, related_name='seconds_projects', **null)
+    proposer = ForeignKey(settings.AUTH_USER_MODEL, related_name='proposed_projects', default=get_user)
+    manager  = ForeignKey(settings.AUTH_USER_MODEL, related_name='manages_projects', **null)
+    reviewer = ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews_projects', **null)
+    second   = ForeignKey(settings.AUTH_USER_MODEL, related_name='seconds_projects', **null)
 
     project_type = ForeignKey(ProjectType)
 
@@ -100,7 +100,7 @@ class Project(Model):
 class Worker(Model):
     """Acts as both a statement of assignment and application process"""
     project  = ForeignKey(Project, related_name='workers')
-    user     = ForeignKey(User, related_name='works')
+    user     = ForeignKey(settings.AUTH_USER_MODEL, related_name='works')
 
     plan     = TextField(validators=[MaxLengthValidator(8192)], **null)
 
@@ -162,7 +162,7 @@ class ProjectUpdate(Model):
     image    = ResizedImageField(_("Image"), max_height=400, max_width=400,
                      upload_to=os.path.join('project', 'update', '%Y'), **null)
 
-    creator  = ForeignKey(User, default=get_user)
+    creator  = ForeignKey(settings.AUTH_USER_MODEL, default=get_user)
     created  = DateTimeField(auto_now_add=True, db_index=True)
     edited   = DateTimeField(auto_now=True)
 

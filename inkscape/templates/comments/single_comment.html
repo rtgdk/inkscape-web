@@ -5,7 +5,7 @@
   <div class="details">
     <div class="title">
       {% url 'view_profile' comment.user.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.details.photo %}{{ comment.user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.photo %}{{ comment.user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
         {% url 'view_profile' comment.user.username as profile_url %}
         {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date %}

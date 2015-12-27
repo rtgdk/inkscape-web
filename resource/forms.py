@@ -94,7 +94,7 @@ class ResourceBaseForm(ModelForm):
 
         if not self.user.has_perm('resource.change_resourcemirror'):
             self.fields.pop('mirror', None)
-        if not self.user.details.gpg_key:
+        if not self.user.gpg_key:
             self.fields.pop('signature', None)
         if not self.instance or self.instance.mime().is_image():
             self.fields.pop('thumbnail', None)

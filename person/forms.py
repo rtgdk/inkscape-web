@@ -26,7 +26,7 @@ from django.contrib.auth.models import Permission
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
 
-from .models import User, UserDetails
+from .models import User
 
 class PasswordForm(PasswordResetForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))
@@ -48,6 +48,7 @@ class AgreeToClaForm(Form):
 class UserForm(ModelForm):
     password1 = CharField(label=_('Password'), widget=PasswordInput(), required=False)
     password2 = CharField(label=_('Confirm'), widget=PasswordInput(), required=False)
+    ircpass = CharField(widget=PasswordInput(), required=False)
 
     class Meta:
         model = User
@@ -81,18 +82,4 @@ class UserForm(ModelForm):
             self.instance.set_password(password)
         ModelForm.save(self, **kwargs)
 
-class UserDetailsForm(ModelForm):
-    ircpass = CharField(widget=PasswordInput(), required=False)
-
-    class Meta:
-        model = UserDetails
-        exclude = ('user','last_seen','visits')
-
-from .multiform import MultiModelForm
-
-class PersonForm(MultiModelForm):
-    base_forms = [
-        ('self', UserForm),
-        ('details', UserDetailsForm),
-    ]
 

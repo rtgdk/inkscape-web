@@ -27,8 +27,8 @@ from django.contrib import messages
 
 from user_sessions.views import LoginRequiredMixin
 
-from .models import User, UserDetails, Group, Team
-from .forms import PersonForm, AgreeToClaForm
+from .models import User, Group, Team
+from .forms import UserForm, AgreeToClaForm
 
 class UserMixin(LoginRequiredMixin):
     def get_object(self):
@@ -43,7 +43,7 @@ class AgreeToCla(UserMixin, UpdateView):
         return self.request.POST.get('next', '/')
 
 class EditProfile(UserMixin, UpdateView):
-    form_class = PersonForm
+    form_class = UserForm
 
     def get_success_url(self):
         return self.get_object().get_absolute_url()

@@ -24,12 +24,12 @@ from django.db.models import *
 from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
-from django.contrib.auth.models import User
+from django.conf import settings
+from .settings import OTHER_LANGS, DEFAULT_LANG, \
+    LINK_AS_ABSOLUTE_URL, USE_LINK_ON_EMPTY_CONTENT_ONLY
 
 from cms.utils.permissions import get_current_user as get_user
 from cms.models import CMSPlugin
-
-from . import settings
 
 import sys
 import inspect
@@ -82,8 +82,8 @@ class News(Model):
     created      = DateTimeField(auto_now_add=True, editable=False)
     updated      = DateTimeField(auto_now=True, editable=False)
 
-    creator      = ForeignKey(User, related_name="created_news", default=get_user)
-    editor       = ForeignKey(User, blank=True, null=True, related_name="edited_news")
+    creator      = ForeignKey(settings.AUTH_USER_MODEL, related_name="created_news", default=get_user)
+    editor       = ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="edited_news")
 
     link         = URLField(_('Link'), blank=True, null=True,
                      help_text=_('This link will be used a absolute url for this item and replaces'
@@ -95,7 +95,7 @@ class News(Model):
     # and specifying 1. a list of translated fields which __getattr always passes UP to the
     # translated version and 2. a list of base fields which __getattr always passes DOWN to the root.
     # All mechanisms to do with translations would then be brought into that generic class.
-    language     = CharField(_("Language"), max_length=5, choices=settings.OTHER_LANGS,
+    language     = CharField(_("Language"), max_length=5, choices=OTHER_LANGS,
                      help_text=_("Translated version of another news item."))
     translation_of = ForeignKey("self", blank=True, null=True, related_name="translations")
 
@@ -146,11 +146,11 @@ class News(Model):
         return not self.is_original() and (self.trans == self or self.trans.updated < self.updated)
 
     def is_original(self):
-        return not hasattr(self, '_lang') or self._lang == settings.DEFAULT_LANG
+        return not hasattr(self, '_lang') or self._lang == DEFAULT_LANG
 
     def get_absolute_url(self):
-        if settings.LINK_AS_ABSOLUTE_URL and self.link:
-            if settings.USE_LINK_ON_EMPTY_CONTENT_ONLY and not self.content:
+        if LINK_AS_ABSOLUTE_URL and self.link:
+            if USE_LINK_ON_EMPTY_CONTENT_ONLY and not self.content:
                 return self.link
         if self.is_published and self.slug:
             return reverse('news_detail', kwargs={

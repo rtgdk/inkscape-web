@@ -31,7 +31,8 @@ from django.views.generic.detail import SingleObjectMixin
 
 from pile.views import CategoryListView
 
-from .models import User, UserAlert, Message, \
+from django.contrib.auth import get_user_model
+from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
 
 class UserRequiredMixin(object):
@@ -188,7 +189,7 @@ class CreateMessage(CreateView):
     def get_initial(self):
         """Add reply to subject initial data"""
         initial = super(CreateMessage, self).get_initial()
-        self.recipient = get_object_or_404(User, username=self.kwargs.get('username',''))
+        self.recipient = get_object_or_404(get_model_user(), username=self.kwargs.get('username',''))
         rto = self.get_reply_to()
         if rto:
             initial['subject'] = (rto.reply_to and "Re: " or "") + rto.subject

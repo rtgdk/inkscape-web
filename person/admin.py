@@ -26,6 +26,6 @@ from .models import *
 class TeamAdmin(ModelAdmin):
     readonly_fields = ('watchers', 'requests')
 
-site.register(UserDetails)
+site.register(User)
 site.register(Team, TeamAdmin)
 

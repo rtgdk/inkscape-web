@@ -23,19 +23,21 @@ import os
 from django.conf import settings
 from django.db.models import *
 from django.db.models.signals import m2m_changed
+
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 from django.utils.text import slugify
 
+from django.contrib.auth.models import Group, AbstractUser
 from pile.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 
-from .userextra import User, Group
-
-class UserDetails(Model):
-    user  = AutoOneToOneField(User, related_name='details')
+@python_2_unicode_compatible
+class User(AbstractUser):
     bio   = TextField(validators=[MaxLengthValidator(4096)], **null)
     photo = ResizedImageField(_('Photograph (square)'), null=True, blank=True,
               upload_to='photos', max_width=190, max_height=190)
@@ -53,13 +55,18 @@ class UserDetails(Model):
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
+    @property
+    def name(self):
+        if self.first_name or self.last_name:
+            return self.get_full_name()
+        return self.username
+
     class Meta:
         permissions = [("website_cla_agreed", "Agree to Website License")]
-
-    def __unicode__(self):
-        if self.user.first_name:
-            return "%s %s" % (self.user.first_name, self.user.last_name)
-        return self.user.username
+        db_table = 'auth_user'
 
     def get_ircnick(self):
         if not self.ircnick:
@@ -70,6 +77,36 @@ class UserDetails(Model):
         if self.photo:
             return self.photo.url
         return None
+
+    def quota(self):
+        from resource.models import Quota
+        groups = Q(group__in=self.groups.all()) | Q(group__isnull=True)
+        quotas = Quota.objects.filter(groups)
+        if quotas.count():
+            return quotas.aggregate(Max('size'))['size__max'] * 1024
+        return 0
+
+    def get_absolute_url(self):
+        return reverse('view_profile', kwargs={'username':self.username})
+
+    def sessions(self):
+        return self.session_set.filter(expire_date__gt=timezone.now())
+  
+    def is_moderator(self):
+        return self.has_perm("comments.can_moderate")
+
+    def visited_by(self, by_user):
+        if by_user != self:
+            self.visits += 1
+            self.save()
+
+
+def group_breadcrumb_name(self):
+    try:
+        return str(self.team)
+    except:
+        return str(self)
+Group.group_breadcrumb_name = group_breadcrumb_name
 
 
 class TwilightSparkle(Manager):
@@ -176,8 +213,6 @@ m2m_changed.connect(exclusive_subscription, sender=User.groups.through)
 
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()
-# Patch in a reverse lookup for teams so we get a solid team object list
-User.teams = property(lambda self: Team.objects.filter(group__in=self.groups.all()))
 
 class Ballot(Model):
     name  = CharField(max_length=128)
@@ -207,21 +242,5 @@ class BallotVotes(Model):
 
     def __str__(self):
         return "%s's Vote on Ballot %s" % (self.user, self.ballot)
-
-
-# ===== CMS Plugins ===== #
-
-
-from cms.models import CMSPlugin
-
-class GroupPhotoPlugin(CMSPlugin):
-    STYLES = (
-      ('L', _('Simple List')),
-      ('P', _('Photo Heads')),
-      ('B', _('Photo Bios')),
-    )
-
-    source = ForeignKey(Group)
-    style  = CharField(_('Display Style'), max_length=1, choices=STYLES)
 
 

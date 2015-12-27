@@ -1,7 +1,7 @@
 {% extends 'resource/resource_base.html' %}
 {% load i18n pile %}
 
-{% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user.details }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
+{% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
 {% block "description" %}
   <div class="info">
@@ -43,7 +43,7 @@
       {% endif %}
 
       <h2>{{ object.name }}</h2>
-      <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user.details }}</a></div>
+      <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a></div>
 
     </div>
 

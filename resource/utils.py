@@ -202,6 +202,6 @@ def gpg_verify(user, sig, data):
     """
     import gnupg
     gpg = gnupg.GPG(gnupghome=os.path.join(settings.MEDIA_ROOT, 'gnupg'))
-    gpg.import_keys(str(user.details.gpg_key))
+    gpg.import_keys(str(user.gpg_key))
     return bool(gpg.verify_file(sig, data.path))
 

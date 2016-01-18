@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load i18n pile sekizai_tags %}
+
+{% block title %}
+  {% if project %}
+    {% trans "Update project" %} | {{ object.title }}
+  {% else %}
+    {% trans "New Project" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
+  {% endaddtoblock %}
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {% if project %}Update project "{{ project }}"
+      <div>
+        {% if user.is_authenticated %}
+          {% if user.email %}
+            {{ form }}
+          {% else %}
+            {% url 'edit_profile' as profile_url %}
+            <div>
+              {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to suggest a new project!{% endblocktrans %}
+            </div>
+          {% endif %}
+        {% else %}
+          {% url 'auth_login' as login_url %}
+          <div>
+            {% blocktrans %}Please <a href="{{login_url}}">log in</a> to suggest a project!{% endblocktrans %}
+          </div>
+        {% endif %}
+      </div>
+    {% else %}
+    <div>{{ form }}</div>
+    {% endif %}
+    <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+  </form>
+
+{% endblock %}

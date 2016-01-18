@@ -47,7 +47,7 @@ class ProjectType(Model):
 
 class Project(Model):
     """A project details work that needs to be done"""
-    sort   = IntegerField(_("Importance"))
+    sort   = IntegerField(_("Importance"), default=0)
     title  = CharField(_('Title'), max_length=100)
     slug   = SlugField(unique=True)
 
@@ -168,6 +168,3 @@ class ProjectUpdate(Model):
 
     def __str__(self):
         return self.describe
-
-
-

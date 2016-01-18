@@ -23,7 +23,7 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 
-from pile.views import DetailView, CategoryListView, breadcrumbs
+from pile.views import DetailView, CategoryListView, CreateView, UpdateView, breadcrumbs
 from .models import Project
 
 class ProjectList(CategoryListView):
@@ -54,3 +54,23 @@ class ProjectView(DetailView):
         )
         return data
 
+class NewProject(CreateView):
+    model = Project
+    fields = ('title',) # 'description', 'related_files'
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.proposer = self.request.user
+        obj.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('projects')
+  
+class UpdateProject(UpdateView):
+    model = Project
+    pass
+  
+class MyProjects(CategoryListView):
+    model = Project
+    pass

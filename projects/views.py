@@ -56,7 +56,15 @@ class ProjectView(DetailView):
 
 class NewProject(CreateView):
     model = Project
-    fields = ('title',) # 'description', 'related_files'
+    fields = ('title', 'project_type', 'desc')
+
+    def get_context_data(self, **kwargs):
+        data = CreateView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+            'Propose Project',
+        )
+        return data
 
     def form_valid(self, form):
         obj = form.save(commit=False)
@@ -73,4 +81,13 @@ class UpdateProject(UpdateView):
   
 class MyProjects(CategoryListView):
     model = Project
+    
+    def get_context_data(self, **kwargs):
+        data = CategoryListView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            (self.request.user, str(self.request.user.details)),
+            'My Projects',
+        )
+        return data
+    
     pass

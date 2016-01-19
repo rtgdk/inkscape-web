@@ -20,6 +20,8 @@
 
 import os
 
+from django.conf import settings
+
 from django.db.models import *
 
 from django.utils.translation import ugettext_lazy as _
@@ -47,18 +49,31 @@ class ProjectType(Model):
 
 class Project(Model):
     """A project details work that needs to be done"""
-    sort   = IntegerField(_("Importance"), default=0)
+    
+    IMPORTANCES = (
+      (0, _('Wishlist')),
+      (1, _('Low')),
+      (2, _('Medium')),
+      (3, _('High')),
+      (4, _('Critical')),
+    )
+    
+    LOGO   = os.path.join(settings.STATIC_URL, 'images', 'project_logo.png')
+    BANNER = os.path.join(settings.STATIC_URL, 'images', 'project_banner.png')
+    
+    sort   = IntegerField(_('Importance'), choices=IMPORTANCES, default=2)
     title  = CharField(_('Title'), max_length=100)
     slug   = SlugField(unique=True)
+    desc   = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
 
-    banner   = ResizedImageField(_("Banner (120x920)"), max_height=120, max_width=920,
+    banner   = ResizedImageField(_("Banner (920x120)"), max_height=120, max_width=920,
                                                         min_height=90, min_width=600,
-                          upload_to=os.path.join('project', 'banner'))
+                          upload_to=os.path.join('project', 'banner'), default=BANNER)
     logo     = ResizedImageField(_("Logo (150x150)"), max_height=150, max_width=150,
                                                       min_height=150, min_width=150,
-                          upload_to=os.path.join('project', 'logo'))
+                          upload_to=os.path.join('project', 'logo'), default=LOGO)
 
-    duration = IntegerField(_('Expected Duration in Days'))
+    duration = IntegerField(_('Expected Duration in Days'), default=0)
     started  = DateTimeField(**null)
     finished = DateTimeField(**null)
 
@@ -96,7 +111,11 @@ class Project(Model):
     def get_absolute_url(self):
         return reverse('project', kwargs={'slug': self.slug})
 
-
+    #@property
+    #def people(self):
+      #"""Can be used to send update emails to everyone involved, or for filtering"""
+      
+      
 class Worker(Model):
     """Acts as both a statement of assignment and application process"""
     project  = ForeignKey(Project, related_name='workers')
@@ -168,3 +187,12 @@ class ProjectUpdate(Model):
 
     def __str__(self):
         return self.describe
+      
+class RelatedFile(Model):
+    """Allows to add files to Project Update reports"""
+    
+    for_update = ForeignKey(ProjectUpdate, related_name='related_files')
+    updatefile = FileField(_("Related File"), upload_to=os.path.join('project', 'related_files'))
+                           
+    def __str__(self):
+        return self.updatefile.filename

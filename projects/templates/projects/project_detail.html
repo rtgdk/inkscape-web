@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% load i18n pile sekizai_tags %}
+{% load i18n pile sekizai_tags markdown_deux_tags %}
 
 {% block title %}{% trans "Project" %} | {{ object.title }}{% endblock %}
 
@@ -20,7 +20,7 @@
             {% if update.image %}
               <img src="{{ update.image.url }}" style="float: left;"/>
             {% endif %}
-            <p>{{ update.describe }}</p>
+            <div class="markdown">{{ update.describe|markdown }}</div>
             <hr/>
         {% endfor %}
     </div>

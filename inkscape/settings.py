@@ -173,6 +173,7 @@ INSTALLED_APPS = (
     'django_comments',
     'django_mailman',
     'alerts',
+    'markdown_deux',
 ) + tuple(EXTRA_APPS)
 
 SESSION_ENGINE = 'user_sessions.backends.db'

@@ -38,6 +38,7 @@ django-user-sessions==1.2.0
 django-sendfile==0.3.6
 django-pile==0.7.4
 django-contrib-comments==1.5
+django-markdown-deux==1.0.5
 #djangocms-rosetta==1.0
 -e git://github.com/doctormo/django-cms-rosetta.git#egg=cmsrosetta
 
@@ -57,4 +58,3 @@ cmsplugin-search==0.7.3
 # geoip
 
 easyirc==0.1.1
-

@@ -1,7 +1,7 @@
 #
 # Copyright 2013, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -29,4 +29,3 @@ urlpatterns = patterns('',
   url(r'^$',                   ProjectList(), name="projects"),
   url(r'^(?P<slug>[\w-]+)/$',  ProjectView(), name="project"),
 )
-

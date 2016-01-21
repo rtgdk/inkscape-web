@@ -1,7 +1,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -20,5 +20,3 @@
 """Forms for projects"""
 
 from django.forms import *
-
-

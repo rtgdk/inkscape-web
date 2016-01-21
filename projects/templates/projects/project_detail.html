@@ -15,45 +15,45 @@
 
   <div>
     <div id="left-column">
-        <h1>{% trans "Project Updates" %}</h1>
-        {% for update in object.updates.all %}
-            {% if update.image %}
-              <img src="{{ update.image.url }}" style="float: left;"/>
-            {% endif %}
-            <p>{{ update.describe }}</p>
-            <hr/>
-        {% endfor %}
+	<h1>{% trans "Project Updates" %}</h1>
+	{% for update in object.updates.all %}
+	    {% if update.image %}
+	      <img src="{{ update.image.url }}" style="float: left;"/>
+	    {% endif %}
+	    <p>{{ update.describe }}</p>
+	    <hr/>
+	{% endfor %}
     </div>
     <div id="right-sidebar">
        <div class="status">
-        <label class="author">{% trans "Proposed By" %}:</label>
-        <span class="author">{{ object.proposer }}</span>
+	<label class="author">{% trans "Proposed By" %}:</label>
+	<span class="author">{{ object.proposer }}</span>
 
-        <label class="goal">{% trans "Goal" %}:</label>
-        <span class="goal">{{ object.funding.goal }} $1000</span>
+	<label class="goal">{% trans "Goal" %}:</label>
+	<span class="goal">{{ object.funding.goal }} $1000</span>
 
-        <label class="remaining">{% trans "Remaining" %}:</label>
-        <span class="remaining">{{ object.finished|timeuntil }}</span>
+	<label class="remaining">{% trans "Remaining" %}:</label>
+	<span class="remaining">{{ object.finished|timeuntil }}</span>
        </div>
 
        <div class="progress">
-        <div class="bar" style="width: 50%">
-            <strong>{% trans "Achieved" %}:</strong>
-            $500
-        </div>
+	<div class="bar" style="width: 50%">
+	    <strong>{% trans "Achieved" %}:</strong>
+	    $500
+	</div>
        </div>
 
        {% if object.started %}
        <h3>{% trans "Project Progress" %}</h3>
        <ol class="checklist">
-         {% for del in object.deliverables.all %}
-           <li{% if del.finished %} class="done"{% endif %}>{{ del }}</li>
-           <ul>
-           {% for task in del.tasks.all %}
-             <li{% if task.finished %} class="done"{% endif %}>{{ task }}</li>
-           {% endfor %}
-           </ul>
-         {% endfor %}
+	 {% for del in object.deliverables.all %}
+	   <li{% if del.finished %} class="done"{% endif %}>{{ del }}</li>
+	   <ul>
+	   {% for task in del.tasks.all %}
+	     <li{% if task.finished %} class="done"{% endif %}>{{ task }}</li>
+	   {% endfor %}
+	   </ul>
+	 {% endfor %}
        </ol>
        {% endif %}
 

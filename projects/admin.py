@@ -1,7 +1,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -42,7 +42,7 @@ class ProjectAdmin(AjaxSelectAdmin):
       'manager': 'user',
       'reviewer': 'user',
       'second': 'user' })
-    
+
     fieldsets = (
         (None, {
           'fields': ('title', 'project_type', 'banner', 'logo', 'is_fundable', 'is_approved', 'sort')
@@ -80,4 +80,3 @@ class DeliverableAdmin(ModelAdmin):
     inlines = (TaskInline,)
 
 site.register(Deliverable, DeliverableAdmin)
-

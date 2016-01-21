@@ -1,7 +1,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -112,7 +112,7 @@ class Worker(Model):
         p = (str(self.user), str(self.project))
         if not self.assigned:
             return "%s application for %s" % p
-        return "%s working on %s" % p 
+        return "%s working on %s" % p
 
 
 class Deliverable(Model):
@@ -123,7 +123,7 @@ class Deliverable(Model):
 
     targeted = DateField(**null)
     finished = DateField(**null)
-    
+
     class Meta:
         ordering = 'sort',
 
@@ -138,7 +138,7 @@ class Task(Model):
 
     targeted = DateField(**null)
     finished = DateField(**null)
-    
+
     class Meta:
         ordering = 'targeted',
 
@@ -149,7 +149,7 @@ class Task(Model):
 class Criteria(Model):
     content  = CharField(_('Criteria'), max_length=255)
     detail   = TextField(validators=[MaxLengthValidator(4096)], **null)
-    
+
     def __str__(self):
         return self.content
 
@@ -168,6 +168,3 @@ class ProjectUpdate(Model):
 
     def __str__(self):
         return self.describe
-
-
-

@@ -2,10 +2,6 @@
 
 {% load i18n pile sekizai_tags %}
 
-{% addtoblock "css" %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
-{% endaddtoblock %}
-
 {% block title %}
   {% if project %}
     {% trans "Update project" %} | {{ object.title }}

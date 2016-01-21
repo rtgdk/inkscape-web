@@ -28,7 +28,7 @@ from person.urls import USER_URLS
 urlpatterns = patterns('',
   url(r'^$',                         ProjectList(),   name="projects"),
   url(r'^new/$',                     NewProject(),    name="new_project"),
-  url(r'^update/(?P<slug>[\w-]+)/$', UpdateProject(), name="update_project"),
+  url(r'^(?P<slug>[\w-]+)/update/$', UpdateProject(), name="update_project"),
   url(r'^(?P<slug>[\w-]+)/$',        ProjectView(),   name="project"),
 )
 

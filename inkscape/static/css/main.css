@@ -626,6 +626,7 @@ body > .footer .nav ul {
   border-radius: 7px;
   color: #333333;
   outline: 0;
+  cursor: pointer;
 }
 .button:hover, a.button:focus, a.button:active {
   text-decoration: none;

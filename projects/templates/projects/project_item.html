@@ -5,26 +5,21 @@
 
     <h3>{{ project.title }}</h3>
 
-    <div class="status">
-      <!--
-        <label class="author">{% trans "Proposed By" %}:</label>
-        <span class="author">{{ project.proposer }}</span>
-
-        <label class="goal">{% trans "Goal" %}:</label>
-        <span class="goal">{{ project.funding.goal }} $1000</span>
-
-        <label class="remaining">{% trans "Remaining" %}:</label>
-        <span class="remaining">{{ project.finished|timeuntil }}</span>
-       -->
-    </div>
-
-    <div class="progress">
-      <div class="bar" style="width: 50%">
-         <strong>{% trans "Achieved" %}:</strong>
-         $500
+    {% if project.started %}
+      <div class="progress" title= "{% trans "Progress" %}">
+        <div class="bar" style="width: {{ project.progress }}">
+        </div>
       </div>
-    </div>
-
-    <p>{{ project.updates.all.0.describe|truncatewords:54 }}</p>
+    {% endif %}
+    
+    {% if project.is_fundable %}
+      <div class="progress" title="{% trans "Achieved" %}">
+        <div class="bar" style="width: 20%">
+          <strong>&nbsp;100/500$</strong>
+        </div>
+      </div>
+    {% endif %}
+    
+    <p>{% if project.pitch %}{{ project.pitch }}{% else %}{% trans "Review pending" %}{% endif %}</p>
   </a>
 

@@ -19,6 +19,7 @@
 #
 
 import os
+import datetime
 
 from django.conf import settings
 
@@ -63,6 +64,7 @@ class Project(Model):
     
     sort   = IntegerField(_('Importance'), choices=IMPORTANCES, default=2)
     title  = CharField(_('Title'), max_length=100)
+    pitch  = CharField(_('Short Summary'), max_length=255, **null)
     slug   = SlugField(unique=True)
     desc   = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
 
@@ -104,12 +106,35 @@ class Project(Model):
         """Returns a float, percentage of completed deliverable items"""
         count = self.deliverables.all().count()
         if count:
-            done = self.deliverables.filter(complete=True).count()
-            return (float(count) / done) * 100.0
+            done = self.deliverables.filter(finished__isnull=False).count()
+            if done > 0:
+              return (float(count) / done) * 100.0
         return self.finished and 100.0 or 0.0
 
     def get_absolute_url(self):
         return reverse('project', kwargs={'slug': self.slug})
+
+    def get_status(self):
+      """Returns a (preliminary) status string for displaying in templates
+      possible status include: proposed (needs review), application phase (free to take), 
+      in progress, finished"""
+      
+      if self.manager is None:
+          return _("Proposed")
+      elif self.workers.count() == 0:
+          return _("Application Phase")
+      elif self.started is not None:
+          return _("In Progress")
+      elif self.finished is not None:
+          return _("Completed")
+      else:
+          return _("Undetermined")
+
+    def get_expected_enddate(self):
+        if self.started is not None:
+            return self.started + datetime.timedelta(days=self.duration)
+        else:
+            return datetime.datetime.now() + datetime.timedelta(days=self.duration)
 
     #@property
     #def people(self):

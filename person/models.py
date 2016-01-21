@@ -78,6 +78,17 @@ class User(AbstractUser):
             return self.photo.url
         return None
 
+    def photo_preview(self):
+        if self.photo:
+            return '<img src="%s" style="max-width: 200px; max-height: 250px;"/>' % self.photo.url
+        # Return an embeded svg, it's easier than dealing with static files.
+        return """
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="250">
+           <path style="stroke:#6c6c6c;stroke-width:.5px;fill:#ece8e6;"
+           d="m1.2 1.2v248h27.6c-9.1-43 8-102 40.9-123-49.5-101 111-99.9 61.5 1.18 36.6 35.4 48.6 78.1 39.1 122h28.5v-248z"
+           /></svg>"""
+    photo_preview.allow_tags = True
+
     def quota(self):
         from resource.models import Quota
         groups = Q(group__in=self.groups.all()) | Q(group__isnull=True)

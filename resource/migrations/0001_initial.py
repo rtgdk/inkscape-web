@@ -49,7 +49,6 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
-                ('slug', models.CharField(max_length=70)),
                 ('group', models.ForeignKey(related_name='galleries', blank=True, to='auth.Group', null=True)),
             ],
             options={
@@ -105,14 +104,12 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
-                ('slug', models.SlugField(max_length=70)),
                 ('desc', models.TextField(blank=True, null=True, verbose_name='Description', validators=[django.core.validators.MaxLengthValidator(50192)])),
                 ('created', models.DateTimeField(null=True, blank=True)),
                 ('edited', models.DateTimeField(null=True, blank=True)),
                 ('published', models.BooleanField(default=False)),
                 ('thumbnail', pile.fields.ResizedImageField(format=b'PNG', upload_to=b'resources/thumb', max_width=190, min_height=0, max_height=190, blank=True, min_width=0, null=True, verbose_name='Thumbnail')),
                 ('link', models.URLField(null=True, verbose_name='External Link', blank=True)),
-                ('liked', models.PositiveIntegerField(default=0)),
                 ('viewed', models.PositiveIntegerField(default=0)),
                 ('downed', models.PositiveIntegerField(default=0, verbose_name='Downloaded')),
                 ('media_type', models.CharField(max_length=64, null=True, verbose_name='File Type', blank=True)),
@@ -169,22 +166,12 @@ class Migration(migrations.Migration):
             bases=(models.Model,),
         ),
         migrations.CreateModel(
-            name='Views',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('session', models.CharField(max_length=40)),
-                ('resource', models.ForeignKey(related_name='views', to='resource.Resource')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('resource', models.ForeignKey(related_name='votes', to='resource.Resource')),
                 ('voter', models.ForeignKey(related_name='favorites', to=settings.AUTH_USER_MODEL)),
+                ('vote', models.BooleanField(default=True)),
             ],
             options={
             },

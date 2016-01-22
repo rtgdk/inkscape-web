@@ -24,7 +24,7 @@ from django.db.models.signals import post_init
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
-from settings import SITE_ROOT
+from django.conf import settings
 from django.contrib.auth.models import User, Group
 from django.contrib.contenttypes.generic import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
@@ -275,7 +275,7 @@ class UserAlert(Model):
     @property
     def data(self):
         if not hasattr(self, '_data'):
-            ret = defaultdict(list, alert=self, site=SITE_ROOT)
+            ret = defaultdict(list, alert=self, site=settings.SITE_ROOT)
             for item in list(self.objs.all()) + list(self.values.all()):
                 if item.name[0] == '@':
                     ret[item.name[1:]+'_list'].append(item.target)

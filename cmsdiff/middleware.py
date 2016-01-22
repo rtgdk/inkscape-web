@@ -33,7 +33,7 @@ class CommentMiddleware(object):
             manager.start()
 
     def process_response(self, request, response):
-        if self.comment:
+        if getattr(self, 'comment', None):
             manager.set_comment(DRAFT_ID + request.POST['revision_comment'])
             manager.end()
         return response

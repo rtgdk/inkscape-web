@@ -2,17 +2,20 @@
 from __future__ import unicode_literals
 
 from django.db import models, migrations
+from django.conf import settings
+import django.core.validators
+import pile.fields
 
 
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('person', '0003_auto_20150606_0226'),
+        ('person', '0001_initial'),
     ]
 
     operations = [
-        migrations.AlterModelOptions(
-            name='userdetails',
-            options={'permissions': [('website_cla_agreed', 'Agree to Website License')]},
+        migrations.AlterModelTable(
+            name='team',
+            table=None,
         ),
     ]

@@ -6,6 +6,29 @@ import django.utils.timezone
 from django.conf import settings
 import django.core.validators
 
+from django.db.migrations.operations.base import Operation
+class DeleteIfExists(Operation):
+    """Delete a table if exists (ignores model)"""
+    def __init__(self, table_name):
+        self.table_name = table_name
+
+    def state_forwards(self, app_label, state):
+        pass
+
+    def database_forwards(self, app_label, schema_editor, from_state, to_state): 
+        schema_editor.execute("SET FOREIGN_KEY_CHECKS=0")
+        schema_editor.execute("DROP TABLE IF EXISTS %(table)s CASCADE" % {
+            "table": schema_editor.quote_name(self.table_name),
+        })
+        schema_editor.execute("SET FOREIGN_KEY_CHECKS=1")
+
+    def database_backwards(self, app_label, schema_editor, from_state, to_state):
+        pass
+
+    def describe(self):
+        return "Delete %s table if exists" % self.table_name
+
+
 
 class Migration(migrations.Migration):
 
@@ -16,6 +39,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
+        DeleteIfExists('alerts_alertsubscription'),
         migrations.CreateModel(
             name='AlertSubscription',
             fields=[
@@ -26,6 +50,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        DeleteIfExists('alerts_alerttype'),
         migrations.CreateModel(
             name='AlertType',
             fields=[
@@ -42,6 +67,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        DeleteIfExists('alerts_message'),
         migrations.CreateModel(
             name='Message',
             fields=[
@@ -57,6 +83,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        DeleteIfExists('alerts_useralert'),
         migrations.CreateModel(
             name='UserAlert',
             fields=[
@@ -71,6 +98,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        DeleteIfExists('alerts_useralertobject'),
         migrations.CreateModel(
             name='UserAlertObject',
             fields=[
@@ -84,6 +112,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
+        DeleteIfExists('alerts_useralertsetting'),
         migrations.CreateModel(
             name='UserAlertSetting',
             fields=[

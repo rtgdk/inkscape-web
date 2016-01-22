@@ -28,6 +28,7 @@ from person.urls import USER_URLS
 urlpatterns = patterns('',
   url(r'^$',                         ProjectList(),   name="projects"),
   url(r'^new/$',                     NewProject(),    name="new_project"),
+  url(r'^gsoc/$',                    ProjectGsocList.as_view(), name="projects.gsoc"),
   url(r'^(?P<slug>[\w-]+)/update/$', UpdateProject(), name="update_project"),
   url(r'^(?P<slug>[\w-]+)/$',        ProjectView(),   name="project"),
 )

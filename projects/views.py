@@ -22,6 +22,7 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.views.generic import ListView
 
 from pile.views import DetailView, CategoryListView, CreateView, UpdateView, breadcrumbs
 from .models import Project
@@ -39,6 +40,25 @@ class ProjectList(CategoryListView):
         data = CategoryListView.get_context_data(self, **kwargs)
         data['breadcrumbs'] = breadcrumbs(
             ('projects', 'Projects'),
+        )
+        return data
+
+
+# Google Summer of Code Projects
+class ProjectGsocList(ListView):
+    template_name = 'projects/project_gsoc_list.html'
+    model = Project
+    cats = (
+    ('project_type', 'type'),
+    )
+    opts = (
+    ('complete', 'completed__isnull'),
+    )
+ 
+    def get_context_data(self, **kwargs):
+        data = ListView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+        ('projects.gsoc', 'Google Summer of Code Projects'),
         )
         return data
 

@@ -121,7 +121,7 @@ class Project(Model):
       
       if self.manager is None:
           return _("Proposed")
-      elif self.workers.count() == 0:
+      elif self.workers.count() == 0: # FIXME: workers should still be able to apply even if another worker has already applied!
           return _("Application Phase")
       elif self.started is not None:
           return _("In Progress")

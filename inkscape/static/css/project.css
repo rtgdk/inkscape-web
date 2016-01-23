@@ -14,7 +14,88 @@
   
 }
 
-a.project:hover {text-decoration: none;}
+.project-full {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 1em 0 0.5em;
+  clear: both;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.project-full .details {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.project-full .details div,
+.project-full .mfooter div {
+  display: inline-block;
+}
+
+.project-full .details .title {
+  padding: 4px 8px;
+  font-size: 140%;
+}
+
+.project-full .details .title div {
+  margin-left: 50px;
+}
+
+.project-full .body {
+  padding: 1%;
+  min-height: 4em;
+}
+
+.project-full .body .pitch {
+  font-style: italic;
+}
+
+.desc,
+.info {
+  display: table-cell;
+}
+
+.desc {
+  padding: 6px 20px;
+  min-height: 200px;
+  width: 500px;
+  vertical-align: top;
+}
+
+.info {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 20px;
+  width: 300px;
+}
+
+.info dl {
+  font-size: 15px;
+  line-height: 17px;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 12px;
+  margin: 0px 0px 7px 0px;
+}
+
+.info dt {
+  padding: 0px;
+  clear: left;
+  float: left;
+  margin-right: 8px;
+  color: #888;
+}
+
+.info dd {
+  float: left;
+  margin: 0px;
+}
 
 .project img {
   width: 150px;
@@ -23,18 +104,22 @@ a.project:hover {text-decoration: none;}
   border: 2px solid #ccc;
 }
 .progress {
-  background-color: red;
-  border-radius: 20px;
+  background-image: linear-gradient(to bottom, #eee 0%, #bbb 50%, #aaa 100%);
   color: #fff;
 }
 .bar {
-  background-color: green;
   width: 0%;
-  height: 22px;
+  height: 16px;
   display: block;
-  border-radius: 20px 0 0 20px;
 }
 
+.bar.money {
+  background-image: linear-gradient(to bottom, #fbf6e5 0%, #fad809 50%, #e4c405 100%);
+}
+
+.bar.work {
+  background-image: linear-gradient(to bottom, #e5f4fb 0%, #3a95c4 50%, #3289b6 100%);
+}
 /* Project Detail Page */
 
 .banner img {

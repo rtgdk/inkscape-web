@@ -108,7 +108,7 @@ class Project(Model):
         if count:
             done = self.deliverables.filter(finished__isnull=False).count()
             if done > 0:
-              return (float(count) / done) * 100.0
+              return (done / float(count)) * 100.0
         return self.finished and 100.0 or 0.0
 
     def get_absolute_url(self):
@@ -139,6 +139,12 @@ class Project(Model):
     #@property
     #def people(self):
       #"""Can be used to send update emails to everyone involved, or for filtering"""
+      #all_people = []
+      #all_workers = [worker.user for worker in self.workers.all()]
+      #for person in [self.proposer, self.manager, self.reviewer, self.second] + all_workers:
+        #if person is not None:
+          #all_people.append(person)
+      #return all_people
       
       
 class Worker(Model):

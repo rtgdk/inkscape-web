@@ -23,9 +23,10 @@ from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView
+from django.db.models import Q
 
 from pile.views import DetailView, CategoryListView, CreateView, UpdateView, breadcrumbs
-from .models import Project
+from .models import Project, ProjectUpdate
 
 class ProjectList(CategoryListView):
     model = Project
@@ -95,10 +96,31 @@ class NewProject(CreateView):
     def get_success_url(self):
         return reverse('projects')
   
-class UpdateProject(UpdateView):
-    model = Project
-    pass
-  
+class UpdateProject(CreateView):
+    model = ProjectUpdate
+    fields = ('describe', 'image')
+    
+    def get_project(self):
+      return Project.objects.get(slug=self.kwargs['project'])
+    
+    def get_context_data(self, **kwargs):
+      data = super(CreateView, self).get_context_data(**kwargs)
+      data['project'] = self.get_project()
+      data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+            'Update Project',
+        )
+      return data
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.project = self.get_project()
+        obj.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('project', kwargs={'slug': self.kwargs['project']})
+
 class MyProjects(CategoryListView):
     model = Project
     
@@ -110,4 +132,12 @@ class MyProjects(CategoryListView):
         )
         return data
     
-    pass
+    def get_queryset(self, **kwargs):
+        # can't filter by method, only by db fields
+        q = super(MyProjects, self).get_queryset(**kwargs).filter(
+                    Q(workers__user=self.request.user) | 
+                    Q(proposer=self.request.user) | 
+                    Q(manager=self.request.user) | 
+                    Q(reviewer=self.request.user) | 
+                    Q(second=self.request.user)).distinct()
+        return q

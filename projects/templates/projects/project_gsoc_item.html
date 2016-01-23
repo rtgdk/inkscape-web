@@ -1,0 +1,156 @@
+{% load i18n pile %}
+
+<!--
+  <a class="project teaser well" href="{{ project.get_absolute_url }}">
+    <img src="{{ project.logo.url }}" />
+
+    <h3>P1: {{ project.title }}</h3>
+
+    <div class="status">
+        <label class="author">{% trans "Proposed By" %}:</label>
+        <span class="author">{{ project.proposer }}</span>
+    </div>
+
+    <p>TODO: Fill in fields</p>
+
+    <p>{{ project.updates.all.0.describe|truncatewords:54 }}</p>
+  </a>
+
+-->
+
+<p>The following is a list of formal project suggestions, but do not feel limited to only these - some of our best contributions have been unique ideas that students had in mind from other sources!
+</p>
+
+<p>See also <a href="http://wiki.inkscape.org//wiki/index.php/Development_Project_Ideas" title="Development Project Ideas">Development Project Ideas</a> and <a href="https://blueprints.launchpad.net/inkscape/">https://blueprints.launchpad.net/inkscape/</a></p>
+
+<br />
+
+<div class="project-full">
+  <div class="details">
+    <div class="title">P1. Better CSS Style Sheet Support</div>
+  </div>
+  <div class="body">
+    <div class="desc">
+      <p>Enhance Inkscape's support for CSS style sheets.</p>
+
+<p><u>Detailed Description</u>
+</p><p>Currently Inkscape support of CSS style sheets is limited to the reading and parsing of one internal style sheet. The styles are immediately stored in the style attribute for each object thus changes to the style sheet (awkwardly possible now through the XML editor) are not recognized. This project will:
+</p>
+<ul><li> Add to each object property a means to track the source of the property value.</li>
+<li> Create a dialog for editing internal style sheets. The dialog needs to:
+<ul><li> Support selectors based on object type, object id, and object class.</li>
+<li> Create selection sets based on the above selectors.</li>
+<li> Create and edit class names.</li></ul></li></ul>
+<p>A dialog similar to (and perhaps merged with) the trunk Selection Set dialog might be a good model to follow.
+</p><p>Stretch goals include:
+</p>
+<ul><li> Support external style sheets.</li>
+<li> Support multiple internal style sheets.</li>
+<li> Support CSS 3 selectors.</li>
+<li> Support parsing of 'font-face'.</li></ul>
+<p><u>Use Cases</u>
+</p>
+<ul><li> Support externally created SVGs.</li>
+<li> Producing better SVGs for the Web.</li>
+<li> Changing style on multiple objects at once (palettes).</li></ul>
+      <p><u>Related Material</u></p>
+      <ul>
+        <li> <a href="https://www.w3.org/TR/CSS2/">CSS 2 Specification</a></li>
+        <li> <a href="https://www.w3.org/TR/css-2015/">CSS 2015 Snapshot</a></li>
+      </ul>
+
+    </div>
+    <div class="info">
+      <dl>
+        <dt>Estimation of difficulty:</dt> <dd>Moderately hard</dd>
+        <dt>Potential mentors:</dt> <dd>Tavmjong Bah</dd>
+        <dt>Programming skills needed:</dt> <dd>C++</dd>
+        <dt>Prerequisites:</dt> <dd>CSS style sheets experience</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="mfooter"></div>
+</div>
+
+<br />
+
+<div class="project-full">
+  <div class="details">
+    <div class="title">P2. Development Project Management System</div>
+  </div>
+  <div class="body">
+    <div class="desc">
+<p>Enhance Inkscape's web tools for managing development projects.</p>
+
+<p><u>Detailed Description</u></p>
+
+<p>Design and implement tools to allow submitting and editing ideas for development projects.  Create various project listing views that display projects that need further editing, lists of projects meeting various criteria (e.g. janitorial, new features, programming language, etc.), assigned projects, completed projects, and so forth.
+</p>
+
+<p>This work would be part of a larger, ongoing effort to unify Inkscape's various collections of task ideas into a single system, to make them easier for potential contributors to review and select from.  Some of this project has already been implemented, so you would be focusing on enhancing its user interfaces to make it more powerful and more broadly usable.
+</p>
+
+<p><u>Use Cases</u>
+</p>
+<ul><li> "Janitorial" tasks suitable for new developers looking for easy ways to get involved in Inkscape development</li>
+<li> Google Summer of Code Project Ideas (this page!!)</li>
+<li> Funded development work, with funds supplied by various fundraisers</li>
+<li> User-supplied requests for feature enhancements</li></ul>
+<p><u>Related Material</u>
+</p>
+<ul><li> Current collections of tasks that we want to eventually migrate into this system:
+<ul><li> <a href="http://wiki.inkscape.org/wiki/index.php/Janitorial_tasks">http://wiki.inkscape.org/wiki/index.php/Janitorial_tasks</a></li>
+<li> <a href="https://blueprints.launchpad.net/inkscape/">https://blueprints.launchpad.net/inkscape/</a></li></ul></li>
+<li> <a href="https://inkscape.org/en/support-us/funded-development/">High level specification for the system</a></li>
+<li> <a href="http://wiki.inkscape.org/wiki/index.php/FundedProjectSystemDevelopment" title="FundedProjectSystemDevelopment">FundedProjectSystemDevelopment</a> related tasks</li></ul>
+
+    </div>
+    <div class="info">
+      <dl>
+        <dt>Estimation of difficulty:</dt> <dd>Moderately hard</dd>
+        <dt>Potential mentors:</dt> <dd>Bryce Harrington</dd>
+        <dt>Programming skills needed:</dt> <dd>Python</dd>
+        <dt>Prerequisites:</dt> <dd>Django web app development</dd>
+      </dl>
+    </div>
+  </div>
+  <div class="mfooter"></div>
+</div>
+<br />
+
+<div class="project-full">
+  <div class="details">
+    <div class="title">P3. Improved Eraser tool</div>
+  </div>
+  <div class="body">
+    <div class="desc">
+<p><u>Detailed Description</u>
+</p><p>The <b>Eraser tool</b> has some limitations in cut-out from objects mode:
+</p>
+<ul><li> There is a minimum width of 1 unit in the line to cut, thus the resulting parts don't fit exactly (1 unit gap minimum).</li>
+<li> This mode does not work with groups.</li>
+<li> The cut is not constrained: no straight or parallel modes.</li></ul>
+<p>The goal is make an optional to produce a zero width cut that solves the above problems.<br />
+There are new Boolean operations, implemented but not used in trunk. We need to switch the division method from Livarot to these new operations.<br />
+Another feature interesting is a button to get the guides over the selected item and use it as cut-out.<br />
+We can make optional check to convert strokes to path previously to cut to avoid continuing with stroke thought cut-out item fills.<br />
+¿Maybe can become into a Scissor tool?
+</p><p><u>Use Cases</u>
+</p>
+<ul><li> Better item slicing.</li></ul>
+
+    </div>
+    <div class="info">
+      <dl>
+        <dt>Estimation of difficulty:</dt> <dd>Moderately hard</dd>
+        <dt>Potential mentors:</dt> <dd>Jabier Arraiza (Spanish, some English)</dd>
+        <dt>Programming skills needed:</dt> <dd>C++</dd>
+        <dt>Prerequisites:</dt> <dd><i>None</i></dd>
+
+      </dl>
+    </div>
+  </div>
+  <div class="mfooter"></div>
+</div>
+
+<br />

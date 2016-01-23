@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% load i18n pile sekizai_tags %}
+
+{% block title %}
+    {% trans "Update project" %} | {{ object.project.title }}
+{% endblock %}
+
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
+{% endaddtoblock %}
+
+{% block content %}
+  <h1>Update project "{{ project }}"</h1>
+
+  {% if not user.is_authenticated %}
+    {% url 'auth_login' as login_url %}
+    <div>
+      {% blocktrans %}Please <a href="{{login_url}}">log in</a> to update this project!{% endblocktrans %}
+    </div>
+  {% elif not user.email %}
+    {% url 'edit_profile' as profile_url %}
+    <div>
+      {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to update this project!{% endblocktrans %}
+    </div>
+  {% else %}
+    <form method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      
+      {% for field in form %}
+        <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+        {{ field }}
+      {% endfor %}
+      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+    </form>
+  {% endif %}
+{% endblock %}

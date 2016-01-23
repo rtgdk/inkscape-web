@@ -16,14 +16,12 @@
 
   {% if object.started %}
     <div class="progress" title= "{% trans "Progress" %}">
-      <div class="bar" style="width: {{ object.progress }}">
+      <div class="bar work" style="width: {{ object.progress|floatformat }}%;">
       </div>
     </div>
-  {% endif %}
-  
-  {% if object.is_fundable %}
+  {% elif object.is_fundable%}
     <div class="progress" title="{% trans "Achieved" %}">
-      <div class="bar" style="width: 20%">
+      <div class="bar money" style="width: 20%;">
         <strong>&nbsp;100/500$</strong>
       </div>
     </div>
@@ -32,12 +30,14 @@
   <div id="left-column">
     <h1>{{ object.title }}</h1>
     <p>{{ object.desc }}</p>
-    
-    {% if object.started %}
+
+    {% if object.get_status.0 == 2 %}
+      <a class="button" href="application_url">{% trans "Apply for this project" %}</a>
+    {% elif object.started %}
       <p class="workers">{% trans "Worked on by" %}:
-          {% for worker in object.workers_set.all %}
+          {% for worker in object.workers.all %}
             {% if worker.assigned %}
-              <a href="{{ worker.get_absolute_url }}">{{ worker }}</a> 
+              <a href="{{ worker.get_absolute_url }}">{{ worker.user }}</a> 
             {% endif %}
           {% endfor %}
       </p>

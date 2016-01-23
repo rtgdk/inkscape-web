@@ -9,16 +9,19 @@
 
   <h1>{% block title %}{% trans "Inkscape Projects" %}{% endblock %}</h1>
 
+  <p>The following is a list of formal project suggestions, but do not feel limited to only these - some of our best contributions have been unique ideas that students had in mind from other sources!</p>
+
+  <p>See also <a href="http://wiki.inkscape.org//wiki/index.php/Development_Project_Ideas" title="Development Project Ideas">Development Project Ideas</a> and <a href="https://blueprints.launchpad.net/inkscape/">https://blueprints.launchpad.net/inkscape/</a></p>
+  
+  
   {% autopaginate object_list 22 as items %}
 
   <div class="project-list">
-    <div class="project-item">
         {% for project in items %}
             {% include "projects/project_item.html"  %}
         {% empty %}
             {% trans "Sorry, no projects found" %}
         {% endfor %}
-    </div>
   </div>
 
   {% paginate %}

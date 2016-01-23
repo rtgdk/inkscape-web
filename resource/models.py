@@ -278,7 +278,9 @@ class Resource(Model):
     def get_absolute_url(self):
         if self.category and self.category.id == 1:
             return reverse('pasted_item', args=[str(self.id)])
-        return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
+        if self.slug:
+            return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
+        return reverse('resource', kwargs={'pk': self.pk})
 
     @property
     def years(self):
@@ -567,10 +569,12 @@ class Gallery(Model):
               'team': self.group.team.slug,
               'galleries': self.slug,
             })
-        return reverse('resources', kwargs={
-          'username': self.user.username,
-          'galleries': self.slug,
-        })
+        if self.slug:
+            return reverse('resources', kwargs={
+              'username': self.user.username,
+              'galleries': self.slug,
+            })
+        return reverse('resources', kwargs={'gallery_id': self.pk})
 
     @property
     def value(self):

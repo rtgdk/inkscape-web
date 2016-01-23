@@ -2,6 +2,7 @@
 
   <a class="project teaser well" href="{{ project.get_absolute_url }}">
     <img src="{{ project.logo.url }}" />
+    <div class="image-overlay difficulty{{ project.sort }}"></div> <!--difficulty level, to be filled with background image via CSS-->
 
     <h3>{{ project.title }}</h3>
 

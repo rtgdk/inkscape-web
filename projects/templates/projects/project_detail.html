@@ -58,7 +58,7 @@
       <span class="author"><a href="{{ object.proposer.get_absolute_url }}">{{ object.proposer }}</a></span>
       
       <label class="status">{% trans "Status" %}:</label>
-      <span class="status">{{ object.get_status }}</span>
+      <span class="status">{{ object.get_status.1 }}</span>
       
       {% if object.manager %}
         <label class="person">{% trans "Managed by" %}:</label>

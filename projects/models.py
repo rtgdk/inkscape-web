@@ -51,18 +51,18 @@ class ProjectType(Model):
 class Project(Model):
     """A project details work that needs to be done"""
     
-    IMPORTANCES = (
-      (0, _('Wishlist')),
-      (1, _('Low')),
-      (2, _('Medium')),
-      (3, _('High')),
-      (4, _('Critical')),
+    DIFFICULTIES = (
+      (0, _('Unknown')),
+      (1, _('Easy')),
+      (2, _('Moderate')),
+      (3, _('Hard')),
+      (4, _('Very hard')),
     )
     
     LOGO   = os.path.join(settings.STATIC_URL, 'images', 'project_logo.png')
     BANNER = os.path.join(settings.STATIC_URL, 'images', 'project_banner.png')
     
-    sort   = IntegerField(_('Importance'), choices=IMPORTANCES, default=2)
+    sort   = IntegerField(_('Difficulty'), choices=DIFFICULTIES, default=2)
     title  = CharField(_('Title'), max_length=100)
     pitch  = CharField(_('Short Summary'), max_length=255, **null)
     slug   = SlugField(unique=True)
@@ -115,20 +115,20 @@ class Project(Model):
         return reverse('project', kwargs={'slug': self.slug})
 
     def get_status(self):
-      """Returns a (preliminary) status string for displaying in templates
+      """Returns a (preliminary) status number / string tuple for displaying in templates
       possible status include: proposed (needs review), application phase (free to take), 
-      in progress, finished"""
+      in progress, finished. The number could be used for CSS classing."""
       
       if self.manager is None:
-          return _("Proposed")
-      elif self.workers.count() == 0: # FIXME: workers should still be able to apply even if another worker has already applied!
-          return _("Application Phase")
+          return (1, _("Proposed"))
+      elif self.started is None:
+          return (2, _("Application Phase"))
       elif self.started is not None:
-          return _("In Progress")
+          return (3, _("In Progress"))
       elif self.finished is not None:
-          return _("Completed")
+          return (4, _("Completed"))
       else:
-          return _("Undetermined")
+          return (0, _("Undetermined"))
 
     def get_expected_enddate(self):
         if self.started is not None:

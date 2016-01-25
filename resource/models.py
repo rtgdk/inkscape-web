@@ -558,9 +558,9 @@ class Gallery(Model):
     def __unicode__(self):
         if self.group:
             return _("%(gallery_name)s (for group %(group_name)s)") \
-                  % {'gallery_name': self.name, 'group_name': str(self.group)}
+                  % {'gallery_name': self.name, 'group_name': unicode(self.group)}
         return  _("%(gallery_name)s (by %(user_name)s)") \
-                  % {'gallery_name': self.name, 'user_name': str(self.user)}
+                  % {'gallery_name': self.name, 'user_name': unicode(self.user)}
 
     def save(self, *args, **kwargs):
         set_slug(self)

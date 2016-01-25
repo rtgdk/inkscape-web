@@ -31,7 +31,7 @@
       <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     {% endif %}
   </div>
- {% elif object.is_file %}
+ {% elif object.is_file and object.is_available %}
     {% if object.mime.is_image %}
       <div class="image only">
         <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.icon_only }}"></a>

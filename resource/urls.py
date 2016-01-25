@@ -27,19 +27,20 @@ def url_tree(regex, *urls):
 
 from person.urls import USER_URLS, TEAM_URLS
 
+PATTERNS = [
+  url(r'^$',                              GalleryList(), name='resources'),
+  url(r'^rss/$',                          GalleryFeed(), name='resources_rss'),
+  url(r'^all/(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
+  url(r'^all/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
+]
+
 owner_patterns = [
   url_tree(r'^/gallery/',
-    url(r'^$',                                            GalleryList(), name='resources'),
-    url(r'^rss/$',                                        GalleryFeed(), name='resources_rss'),
-    url(r'^(?P<galleries>[^\/]+)/$',                      GalleryList(), name='resources'),
-    url(r'^(?P<galleries>[^\/]+)/rss/$',                  GalleryFeed(), name='resources_rss'),
-    url(r'^all/(?P<category>[^\/]+)/$',                   GalleryList(), name='resources'),
-    url(r'^all/(?P<category>[^\/]+)/rss/$',               GalleryFeed(), name='resources_rss'),
-    url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/$', GalleryList(), name='resources'),
-    url(r'^(?P<galleries>[^\/]+)/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
+    url_tree(r'^(?P<galleries>[^\/]+)/', *PATTERNS),
+    *PATTERNS
   ),
   # Try a utf-8 url, see if it breaks web browsers.
-  url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'),            ViewResource(), name='resource'),
+  url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'), ViewResource(), name='resource'),
 ]
 # Add to the username user profile and teamname
 USER_URLS.url_patterns.extend(owner_patterns)
@@ -72,6 +73,7 @@ urlpatterns = patterns('',
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
       url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
+      *PATTERNS
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',

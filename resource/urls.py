@@ -28,16 +28,15 @@ def url_tree(regex, *urls):
 from person.urls import USER_URLS, TEAM_URLS
 
 PATTERNS = [
-  url(r'^$',                              GalleryList(), name='resources'),
-  url(r'^rss/$',                          GalleryFeed(), name='resources_rss'),
-  url(r'^all/(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
-  url(r'^all/(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
+  url(r'^$',                           GalleryList(), name='resources'),
+  url(r'^rss/$',                       GalleryFeed(), name='resources_rss'),
+  url(r'^=(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
+  url(r'^=(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
 ]
 
 owner_patterns = [
   url_tree(r'^/gallery/',
-    url_tree(r'^(?P<galleries>[^\/]+)/', *PATTERNS),
-    *PATTERNS
+    *(PATTERNS + [url_tree(r'^(?P<galleries>[^\/]+)/', *PATTERNS)])
   ),
   # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'), ViewResource(), name='resource'),
@@ -88,9 +87,6 @@ urlpatterns = patterns('',
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
       url(r'^(?P<fn>[^\/]+)$',   DownloadResource(),  name='download_resource'),
     ),
-
-    url(r'^(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
-    url(r'^(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
   ),
 )
 

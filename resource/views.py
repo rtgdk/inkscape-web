@@ -282,6 +282,7 @@ class GalleryList(CategoryListView):
     opts = (
       ('username', 'user__username'),
       ('team',     'galleries__group__team__slug', False),
+      ('gallery_id', 'galleries__id', False),
     )
     cats = (
       #('media_type', _("Media Type")),

@@ -423,7 +423,10 @@ class ResourceFile(Resource):
         return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
 
     def is_visible(self):
-        return Resource.is_visible(self) and os.path.exists(self.download.path)
+        return Resource.is_visible(self) and self.is_available()
+
+    def is_available(self):
+        return os.path.exists(self.download.path)
 
     def has_file_changed(self):
         return not self.download._committed
@@ -547,7 +550,7 @@ class Gallery(Model):
     user      = ForeignKey(User, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
-    slug      = CharField(max_length=70)
+    slug      = SlugField(max_length=70)
     items     = ManyToManyField(Resource, related_name='galleries', **null)
 
     objects   = GalleryManager()

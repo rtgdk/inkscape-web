@@ -28,5 +28,11 @@
       {% endif %}
     </p>
   </div>
+{% elif not item.is_available %}
+  <div class="galleryitem">
+    <a class="link" href="{{ item.get_absolute_url }}"><img src="{% static "images/linked-image-not-found.png" %}" title="{{ item.summary_string }}"/></a>
+    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+    <p class="tags"></p>
+  </div>
 {% endif %}
 

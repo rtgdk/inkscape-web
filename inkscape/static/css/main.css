@@ -28,9 +28,9 @@
   animation-iteration-count: infinite;
 }
 @keyframes warning {
-    0% { opacity: 1.0 }
-    90% { opacity: 1.0 }
-    100% { opacity: 0.0 }
+  0% { opacity: 1.0 }
+  90% { opacity: 1.0 }
+  100% { opacity: 0.0 }
 }
 
 /* generic content styles */
@@ -104,18 +104,18 @@ th[scope="col"] { text-align: center; }
 
 /* styles for cms picture plugin */
 span.align-right img {
-    display: block;
-    float: right;
-    margin: 1ex 0 1ex 1.5em;
+  display: block;
+  float: right;
+  margin: 1ex 0 1ex 1.5em;
 }
 span.align-left img {
-    display: block;
-    float: left;
-    margin: 1ex 1.5em 1ex 0;
+  display: block;
+  float: left;
+  margin: 1ex 1.5em 1ex 0;
 }
 span.align-center img {
-    display: block;
-    margin: 1ex auto;
+  display: block;
+  margin: 1ex auto;
 }
 
 /* for IE */
@@ -192,10 +192,10 @@ div.toc ol, #toc.right ol {
 }
 
 div.reginfo {
-    width: 400px;
-    padding: 0 14px 0 14px;
-    float: right;
-    margin: 0 30px;
+  width: 400px;
+  padding: 0 14px 0 14px;
+  float: right;
+  margin: 0 30px;
 }
 
 #topsearch {
@@ -353,11 +353,11 @@ div.reginfo {
   animation-iteration-count: infinite;
 }
 @keyframes pulse {
-    0% { transform: rotate(-2deg); box-shadow: 0px 0px 0px 0px #bacef9; opacity: 1.0 }
-    20% { opacity: 0.4 }
-    30% { opacity: 1.0 }
-    40% { opacity: 0.4 }
-    100% { transform: rotate(2deg); box-shadow: 0px 0px 2px 0px #bacef9; opacity: 0.4 }
+  0% { transform: rotate(-2deg); box-shadow: 0px 0px 0px 0px #bacef9; opacity: 1.0 }
+  20% { opacity: 0.4 }
+  30% { opacity: 1.0 }
+  40% { opacity: 0.4 }
+  100% { transform: rotate(2deg); box-shadow: 0px 0px 2px 0px #bacef9; opacity: 0.4 }
 } 
 #languages a {
   background-repeat: no-repeat;
@@ -823,24 +823,24 @@ hr {
 }
 
 ol.checklist > li.done {
-    font-weight: bold;
+  font-weight: bold;
 }
 
 ol.checklist ul {
-    list-style: none;
-    padding: 0px;
+  list-style: none;
+  padding: 0px;
 }
 ol.checklist ul li
 {
-    background: left center url(../images/bullet-pass.png) no-repeat;
-    background-image: url(../images/bullet-pass.svg);
-    margin-left: 12px;
-    padding: 2px 0 2px 22px;
+  background: left center url(../images/bullet-pass.png) no-repeat;
+  background-image: url(../images/bullet-pass.svg);
+  margin-left: 12px;
+  padding: 2px 0 2px 22px;
 }
 ol.checklist ul li.done
 {
-    background: left center url(../images/bullet-tick.png) no-repeat;
-    background-image: url(../images/bullet-tick.svg);
+  background: left center url(../images/bullet-tick.png) no-repeat;
+  background-image: url(../images/bullet-tick.svg);
 }
 
 a.roundel {
@@ -1256,3 +1256,37 @@ div.tooltip:hover span {
   transition: opacity 1.5s ease;
   opacity: 1;
 }
+
+/* Pagination  */
+ul.pagination {
+  display: inline-block;
+  padding: 0;
+  margin: 0;
+}
+
+ul.pagination li {
+  display: inline;
+  float: left;
+}
+ul.pagination li a,
+ul.pagination li span {
+  display: block;
+  text-decoration: none;
+  color: black;
+  padding: 6px 12px;
+  transition: background-color .3s;
+  border: 1px solid #ddd;
+  min-height: 24px;
+}
+
+ul.pagination li.active span {
+  background-color: #3A95C4;
+  border: 1px solid #3A95C4;
+  color: white;
+}
+
+ul.pagination li a:hover {
+  background-color: #ddd;
+  text-decoration: none;
+}
+

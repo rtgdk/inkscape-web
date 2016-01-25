@@ -69,7 +69,9 @@
             <dt>{% trans "Lines" %}</dt><dd> {{ object.media_x }}</dd>
             <dt>{% trans "Words" %}</dt><dd> {{ object.media_y }}</dd>
           {% endif %}
-          <dt>{% trans "Size" %}</dt><dd>{{ object.download.size|filesizeformat }}</dd>
+          {% if object.is_available %}
+            <dt>{% trans "Size" %}</dt><dd>{{ object.download.size|filesizeformat }}</dd>
+          {% endif %}
         {% else %}
           <dt>{% trans "Linked From" %}</dt><dd>{{ object.link_from }}</dd>
         {% endif %}

@@ -53,6 +53,7 @@ class Release(Model):
     edited        = DateTimeField(_('Last edited'), auto_now=True)
     created       = DateTimeField(_('Date created'), auto_now_add=True,
                                                      db_index=True)
+    background    = ResizedImageField(**upload_to('background', 960, 300))
 
     manager       = ForeignKey(User, related_name='manages_releases',
                                     verbose_name=_("Release Manager"), **null)
@@ -71,10 +72,26 @@ class Release(Model):
     def get_absolute_url(self):
         return reverse('release', kwargs={'version': self.version})
 
+    def all_platforms(self):
+        result = []
+        for release in self.platforms.all():
+            result += release.platform.ancestors()
+        return list(set(result))
+
     @property
     def tabs(self):
-        return list(set(specific.platform.root()
-                    for specific in self.platforms.all()))
+        platforms = self.all_platforms()
+        roots = []
+        for platform in platforms:
+            if not platform.parent:
+                yield platform
+            children = platform.children.all()
+            releases = list(platform.releases.filter(release=self))
+            if len(releases) > 0:
+                platform.release = releases[0]
+            platform.filtered = [child
+                for child in platforms
+                    if child in children]
 
 
 class Platform(Model):
@@ -83,9 +100,10 @@ class Platform(Model):
     desc       = CharField(_('Description'), max_length=255)
     parent     = ForeignKey( 'self', related_name='children', verbose_name=_("Parent Platform"), **null)
     manager    = ForeignKey( User, verbose_name=_("Platform Manager"), **null) 
+    codename   = CharField(max_length=255, **null)
 
-    icon       = ResizedImageField(_('Icon (32x32)'),         **upload_to('icons', 32, 32))
-    image      = ResizedImageField(_('Logo (256x256)'),       **upload_to('icons', 256, 256))
+    icon       = ResizedImageField(**upload_to('icons', 32, 32))
+    image      = ResizedImageField(**upload_to('icons', 256, 256))
 
     uuid       = lambda self: slugify(self.name)
     tab_name   = lambda self: self.name
@@ -93,6 +111,18 @@ class Platform(Model):
     tab_cat    = lambda self: {'icon': self.icon}
     root       = lambda self: self.ancestors()[-1]
     depth      = lambda self: len(self.ancestors) - 1
+
+    class Meta:
+        ordering = 'codename',
+
+    def save(self, **kwargs):
+        codename = str(self)
+        if self.codename != codename:
+            self.codename = codename
+            if self.pk:
+                for child in self.children.all():
+                    child.save()
+        return super(Platform, self).save(**kwargs)
 
     def ancestors(self, _to=None):
         _to = _to or [self]
@@ -114,6 +144,7 @@ class Platform(Model):
 
     def __str__(self):
         return (" : ").join([anc.name for anc in self.ancestors()][::-1])
+
 
 class ReleasePlatform(Model):
     release    = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')

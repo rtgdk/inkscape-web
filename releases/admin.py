@@ -20,6 +20,8 @@
 
 from django.contrib.admin import *
 from django.forms import ModelForm
+from ajax_select import make_ajax_field
+from ajax_select.admin import AjaxSelectAdmin
 
 from .models import *
 
@@ -29,10 +31,19 @@ class PlatformInline(StackedInline):
     #readonly_fields = ('created',)
     #list_display = ('title', 'manager', 'started')
 
-class ReleaseAdmin(ModelAdmin):
+class ReleaseForm(ModelForm):
+    manager = make_ajax_field(Release, 'manager', 'user')
+    reviewer = make_ajax_field(Release, 'reviewer', 'user')
+
+class ReleaseAdmin(AjaxSelectAdmin):
+    form = ReleaseForm
     inlines = (PlatformInline,)
 
 class PlatformForm(ModelForm):
+    manager = make_ajax_field(Platform, 'manager', 'user')
+
+    class Meta:
+        exclude = ('codename',)
 
     def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
@@ -41,7 +52,7 @@ class PlatformForm(ModelForm):
             non_parents = [ p.pk for p in self.instance.descendants() ] + [self.instance.pk]
             self.fields['parent'].queryset = self.fields['parent'].queryset.exclude(pk__in=non_parents)
 
-class PlatformAdmin(ModelAdmin):
+class PlatformAdmin(AjaxSelectAdmin):
     form = PlatformForm
 
 site.register(Release, ReleaseAdmin)

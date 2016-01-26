@@ -105,7 +105,7 @@ class Migration(migrations.Migration):
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=64)),
                 ('desc', models.TextField(blank=True, null=True, verbose_name='Description', validators=[django.core.validators.MaxLengthValidator(50192)])),
-                ('created', models.DateTimeField(null=True, blank=True)),
+                ('created', models.DateTimeField()),
                 ('edited', models.DateTimeField(null=True, blank=True)),
                 ('published', models.BooleanField(default=False)),
                 ('thumbnail', pile.fields.ResizedImageField(format=b'PNG', upload_to=b'resources/thumb', max_width=190, min_height=0, max_height=190, blank=True, min_width=0, null=True, verbose_name='Thumbnail')),

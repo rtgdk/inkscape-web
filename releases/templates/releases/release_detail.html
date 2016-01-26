@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load sekizai_tags i18n %}
+{% load static sekizai_tags i18n %}
 
 {% block title %}Download {{ object }}{% endblock %}
 
@@ -11,70 +11,52 @@
 {% endaddtoblock %}
 
 <div id="shield" class="download">
-  <div id="banners">
+  <div id="banners" {% if not platform and object.background %}style="background-image:url({{ object.background.url }})"{% endif %}>
     {% for tab in object.tabs %}
       <div {% if platform == tab.uuid %}class="current"{% endif %}>
-        {% for rp in object.platforms.all %}
-          {% if rp.platform.depth == 1 %}
-            {% ifchanged platform.parent %}
-            {% endifchanged %} 
-          {% elif rp.platform.depth == 2 %}
-
-          {% endif %}
-              {% with releaseplatform.platform as platform %}
-                {% if releaseplatform.platform.root.name == tab.tab_name %}
-                    {% ifchanged platform.root %}
-                      {% if platform.root.image %}
-                        <div style="background-image:url({{ platform.root.image.url }})">
+          <div>
+              <ul>
+                {% for child in tab.filtered %}
+                  <li class="child">
+                      {% if child.icon %}
+                          <img src="{{ child.icon.url }}">
                       {% else %}
-                        <div>
+                          <img src="{% static "images/releases/icon.png" %}">
                       {% endif %}
-                    {% else %}
-                       </ul></li></ul>
-                    {% endifchanged %}
-
-                    <ul>
-                      <li>
-                        {% if platform.parent.icon %}
-                          <img src="{{ platform.parent.icon.url }}">
-                        {% endif %}
-                        {{ platform.parent.name }}
-                        <ul>
-
-                  {% endifchanged %}
-
-                  <li class="platform" tabindex="{{forloop.counter0}}">
-                    {{ platform.name }}
-                    {% if platform.parent.image %}
-                      <div style="background-image:url('{{ platform.parent.image.url }}')">
-                    {% else %}
-                      <div>
-                    {% endif %}
-                      <p>{{ platform.desc }}
-                        <a href="{{ releaseplatform.download }}">Download</a>
-                        <a href="{{ releaseplatform.more_info }}">More Info</a>
-                        <a href="{{ releaseplatform.howto }}">Detailed Instructions</a>
-                      </p>
-                    </div>
+                      {{ child.name }}
+                      <ul>
+                        {% for subchild in child.filtered %}
+                        <li class="platform" tabindex="{{ forloop.counter0 }}">
+                          <p>{{ subchild.name }}</p>
+                          <div>
+                            {% if subchild.image %}
+                            <img src="{{ subchild.image.url }}" title="{{ child }}"/>
+                            {% elif child.image %}
+                              <img src="{{ child.image.url }}" title="{{ child }}"/>
+                            {% endif %}
+                            <p>
+                              {% if subchild.release.download %}
+                                <a href="{{ subchild.release.download }}">Download</a>
+                              {% else %}
+                                <span>No Download Available</span>
+                              {% endif %}
+                              {% if subchild.release.more_info %}
+                                <a href="{{ subchild.release.more_info }}">More Info</a>
+                              {% endif %}
+                              {% if subchild.release.howto %}
+                                <a href="{{ subchild.release.howto }}">Detailed Instructions</a>
+                              {% endif %}
+                            </p>
+                          </div>
+                        </li>
+                        {% endfor %}
+                      </ul>
                   </li>
-                {% endif %}
-              {% endwith %}
-            {% endfor %}
-                        </ul>
-                    </li>
-                </ul>
-            </div>
-        </div>
+                {% endfor %}
+              </ul>
+          </div>
       </div>
     {% endfor %}
-    {% if object.tabs|length == 0 %}
-    <div class="current">
-        <div>
-            <div id="question">?</div>
-            <div id="nodata">No Data</div>
-        </div>
-    </div>
-    {% endif %}
   </div>
   <ul class="tabs">
     {% for tab in object.tabs %}
@@ -92,7 +74,7 @@
 
   <div id="left-column" class="notes">
     <h2>Release Notes</h2>
-    {{ release_notes|safe|default:"No Release Notes" }}
+    <p>{{ release_notes|safe|default:"No Release Notes" }}</p>
   </div>
 
   <div id="right-sidebar" class="releases">
@@ -102,7 +84,7 @@
       <ul>
         {% for release in releases %}
           <li>
-            <a href="{{ release.get_absolute_url }}"{% if release == object %} class="active"{% endif %}>
+          <a {% if release != object %}href="{{ release.get_absolute_url }}" class="active"{% endif %}>
               <label>{{ release.codename|default:release.release_date }}</label>
               <span>{{ release.version }}</span>
             </a>
@@ -112,8 +94,4 @@
     {% endif %}
     </div>
   </div>
-
-
-
-
 {% endblock %}

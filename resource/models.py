@@ -201,7 +201,7 @@ class Resource(Model):
     category  = ForeignKey(Category, related_name='items', **null)
     tags      = ManyToManyField(Tag, related_name='resources', **null)
 
-    created   = DateTimeField(**null) # Start of copyright, when 'published=True'
+    created   = DateTimeField(**null) 
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
     published = BooleanField(default=False)
 

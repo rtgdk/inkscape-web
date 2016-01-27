@@ -21,7 +21,7 @@
 Shows all the available urls for a django website, useful for debugging.
 """
 
-import urls
+import inkscape.urls
 
 from django.core.management.base import BaseCommand, CommandError
 
@@ -33,7 +33,7 @@ class Command(BaseCommand):
         self.start_url = None
         if len(args) > 0:
             self.start_url = args[0]
-        self.show_urls(urls.urlpatterns)
+        self.show_urls(inkscape.urls.urlpatterns)
 
     def urls_name(self, uc):
         if isinstance(uc, list) and uc:

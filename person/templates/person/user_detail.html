@@ -35,7 +35,7 @@
      {% if object.details.tbruser %}
        <a href="http://{{ object.details.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
      {% endif %}
-     {% if request.object.is_authenticated and request.user != object %}
+     {% if request.user.is_authenticated and request.user != object %}
        <a href="{% url "message.new" object.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
      {% endif %}
     </div>

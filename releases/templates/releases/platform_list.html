@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load static i18n %}
+
+{% block title %}All Release Platforms{% endblock %}
+
+{% block content %}
+
+  <h1>Platform Managers</h1>
+  <p>{% trans "Platforms can be managed by certain people who take responsibily for that platform. They act as the contact and mediator between the distribution repository or the compiler of the binary downloads. This does not mean they guarentee the packages will work, but they may be able to help if a package is broken." %}
+  {% with object_list as platforms %}
+    {% include "releases/platform_sublist.html" %}
+  {% endwith %}
+
+{% endblock %}

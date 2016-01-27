@@ -25,6 +25,7 @@ def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
 urlpatterns = patterns('',
+  url(r'^platforms/',              PlatformList(), name="platforms"),
   url(r'^$',                       ReleaseView(), name="releases"),
   url_tree(r'^(?P<version>[\w\+\.-]+)/',
     url('^$',                      ReleaseView(), name="release"),

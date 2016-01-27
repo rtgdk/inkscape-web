@@ -124,6 +124,13 @@ class Platform(Model):
                     child.save()
         return super(Platform, self).save(**kwargs)
 
+    def get_manager(self):
+        if self.manager:
+            return self.manager
+        if self.parent:
+            return self.parent.get_manager()
+        return None
+
     def ancestors(self, _to=None):
         _to = _to or [self]
         if self.parent and self.parent not in _to:

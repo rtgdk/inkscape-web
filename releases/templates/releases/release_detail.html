@@ -79,8 +79,35 @@
 
   <div id="right-sidebar" class="releases">
     <div id="sidecategory">
+      <h1>{{ object }}</h1>
+      <h2>{% trans "Responsible People" %}</h2>
+      <ul>
+        <li>
+          {% if object.manager %}
+            <label>{% trans "Manager" %}:
+              <a href="{{ object.manager.get_absolute_url }}">{{ object.manager }}</a>
+            </label>
+          {% else %}
+            <label>{% trans "No Manager" %}</label>
+          {% endif %}
+        </li>
+        <li>
+          {% if object.reviewer %}
+            <label>{% trans "Reviewer" %}:
+              <a href="{{ object.reviewer.get_absolute_url }}">{{ object.reviewer }}</a>
+            </label>
+          {% else %}
+            <label>{% trans "No Reviewer" %}</label>
+          {% endif %}
+        </li>
+        <li>
+          <a href="{% url "platforms" %}">
+            <label>Platform Managers...</label>
+          </a>
+        </li>
+      </ul>
     {% if releases.count > 1 %}
-      <h2>All Inkscape Releases</h2>
+      <h2>{% trans "All Inkscape Releases" %}</h2>
       <ul>
         {% for release in releases %}
           <li>

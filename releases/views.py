@@ -19,12 +19,9 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect
-from django.utils.translation import ugettext_lazy as _
-from django.core.urlresolvers import reverse
+from django.views.generic import ListView, DetailView
 
-from pile.views import DetailView, ListView, breadcrumbs
-from .models import Release
+from .models import Platform, Release
 
 class ReleaseList(ListView):
     template_name = 'releases/release_detail.html'
@@ -47,4 +44,9 @@ class ReleaseView(DetailView):
             data['platform'] = self.kwargs.get('platform', None)
         data['releases'] = Release.objects.all()
         return data
+
+class PlatformList(ListView):
+    queryset = Platform.objects.filter(parent__isnull=True)
+    action = "Platform Managers"
+    breadcrumbs = ('Platform Managers',)
 

@@ -87,6 +87,7 @@ urlpatterns = patterns('',
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
       url(r'^(?P<fn>[^\/]+)$',   DownloadResource(),  name='download_resource'),
     ),
+    *PATTERNS
   ),
 )
 

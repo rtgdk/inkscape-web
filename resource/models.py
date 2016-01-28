@@ -111,7 +111,7 @@ class Category(Model):
         return slugify(self.name)
 
     def get_absolute_url(self):
-        return reverse('resources', kwargs={'category': self.pk})
+        return reverse('resources', kwargs={'category': self.value})
 
 
 class Tag(Model):

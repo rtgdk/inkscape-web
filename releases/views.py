@@ -48,5 +48,5 @@ class ReleaseView(DetailView):
 class PlatformList(ListView):
     queryset = Platform.objects.filter(parent__isnull=True)
     action = "Platform Managers"
-    breadcrumbs = ('Platform Managers',)
+    breadcrumbs = (_('Platform Managers'),)
 

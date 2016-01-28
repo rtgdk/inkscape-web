@@ -1,9 +1,9 @@
 {% extends "base.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block supercontent %}
 
-<div style="text-align: center;">
+<div style="text-align: center; margin: 40px; padding: 40px; border: 2px #f0f0f0;">
 
 <h1>{% block title %}{% trans "User Login" %}{% endblock %}</h1>
 
@@ -32,6 +32,8 @@
 
 <input type="hidden" name="next" value="{{ next }}" />
 </form>
+
+<hr/>
 
 <h1>{% trans "Social Network Login" %}</h1>
 

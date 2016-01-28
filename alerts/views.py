@@ -31,23 +31,9 @@ from django.views.generic.detail import SingleObjectMixin
 
 from pile.views import CategoryListView
 
+from .mixins import UserRequiredMixin, OwnerRequiredMixin
 from .models import User, UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
-
-class UserRequiredMixin(object):
-    def is_authorized(self, user):
-        return user.is_authenticated()
-
-    def dispatch(self, request, *args, **kwargs):
-        if not self.is_authorized(request.user):
-            raise PermissionDenied()
-        return super(UserRequiredMixin, self).dispatch(request, *args, **kwargs)
-
-class OwnerRequiredMixin(UserRequiredMixin):
-    def is_authorized(self, user):
-        return super(OwnerRequiredMixin, self).is_authorized() and \
-            self.get_object().user == user
-        
 
 class AlertList(CategoryListView, UserRequiredMixin):
     model = UserAlert
@@ -122,7 +108,7 @@ class Unsubscribe(DeleteView, OwnerRequiredMixin):
         return super(Unsubscribe, self).get_object()
 
 
-class SettingsList(CategoryListView):
+class SettingsList(UserRequiredMixin, CategoryListView):
     model = AlertSubscription
 
     def get_queryset(self, **kwargs):
@@ -157,14 +143,14 @@ class SettingsList(CategoryListView):
         return data
 
 
-class SentMessages(ListView):
+class SentMessages(UserRequiredMixin, ListView):
     model = Message
 
     def get_queryset(self):
         return self.request.user.sent_messages.all()
 
 
-class CreateMessage(CreateView):
+class CreateMessage(UserRequiredMixin, CreateView):
     model = Message
     fields = ('subject','body','recipient','reply_to')
 

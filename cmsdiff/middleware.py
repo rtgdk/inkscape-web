@@ -52,7 +52,13 @@ class ObjectToolbarMiddleware(object):
             if obj:
                 menu = request.toolbar.get_or_create_menu('object-menu', _('Object'))
                 x = {'otype': type(obj).__name__}
-                menu.add_modal_item(_('Purge %(otype)s') % x, url=self.admin_link(obj, 'delete'))
-                menu.add_modal_item(_('Edit %(otype)s') % x, url=self.admin_link(obj, 'change'))
+                try:
+                    menu.add_modal_item(_('Purge %(otype)s') % x, url=self.admin_link(obj, 'delete'))
+                except:
+                    pass
+                try:
+                    menu.add_modal_item(_('Edit %(otype)s') % x, url=self.admin_link(obj, 'change'))
+                except:
+                    pass
         return response
 

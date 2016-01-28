@@ -16,11 +16,21 @@ class DeleteIfExists(Operation):
         pass
 
     def database_forwards(self, app_label, schema_editor, from_state, to_state): 
-        schema_editor.execute("SET FOREIGN_KEY_CHECKS=0")
-        schema_editor.execute("DROP TABLE IF EXISTS %(table)s CASCADE" % {
-            "table": schema_editor.quote_name(self.table_name),
-        })
-        schema_editor.execute("SET FOREIGN_KEY_CHECKS=1")
+        if schema_editor.connection.vendor == 'mysql':
+            schema_editor.execute("SET FOREIGN_KEY_CHECKS=0")
+            try:
+                schema_editor.execute("DROP TABLE IF EXISTS %(table)s CASCADE" % {
+                    "table": schema_editor.quote_name(self.table_name),
+                })
+            except Exception as error:
+                if 'Warning' not in type(error).__name__:
+                    raise
+                print str(error)
+            schema_editor.execute("SET FOREIGN_KEY_CHECKS=1")
+        else:
+            schema_editor.execute("DROP TABLE IF EXISTS %(table)s" % {
+                "table": schema_editor.quote_name(self.table_name),
+            })
 
     def database_backwards(self, app_label, schema_editor, from_state, to_state):
         pass

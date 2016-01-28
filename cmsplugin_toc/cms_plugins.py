@@ -20,49 +20,12 @@ Table of contents plugin to django-cms. Automatically loaded by django-cms.
 
 from django.utils.translation import ugettext_lazy as _
 
-from HTMLParser import HTMLParser
 from cms.plugin_pool import plugin_pool
 from cms.plugin_base import CMSPluginBase
 
 from django.conf import settings
 
 from .models import TableOfContents
-
-
-class TocParser(HTMLParser):
-    def get_toc(self, body):
-        self.head = None
-        self.toc = []
-        self.feed(body)
-
-        ret = {'children':[], 'level': -1}
-        parents = [ret]
-        for item in self.toc:
-            child = { 'title': item['title'] or _('Untitled Section'), 'id': item.get('id', None), 'children': [] }
-            while item['level'] <= parents[-1]['level']:
-                parents.pop()
-            parents[-1]['children'].append(child)
-            parents.append({'children': child['children'], 'level': item['level']})
-        if len(ret['children']) == 1:
-            return ret['children'][0]['children']
-        return ret['children']
-
-    def handle_starttag(self, tag, attrs):
-        if tag[0] == 'h':
-            attrs = dict(attrs)
-            attrs['level'] = int(tag[1])
-            attrs['title'] = ''
-            self.head = attrs
-
-    def handle_endtag(self, tag):
-        if tag[0] == 'h':
-            self.toc.append( self.head )
-            self.head = None
-
-    def handle_data(self, data):
-        if self.head:
-            self.head['title'] += unicode(data)
-
 
 class TableOfContentsPlugin(CMSPluginBase):
     model = TableOfContents
@@ -71,25 +34,16 @@ class TableOfContentsPlugin(CMSPluginBase):
     allow_children = False
     text_enabled = True
 
-    def _tree(self, instance):
-        if instance.parent:
-            # TOC is based on parent contents only
-            plugins = [ instance.parent.get_plugin_instance()[0] ]
-        else:
-            # TOC is based on ALL available plugins
-            plugins = [ plugin.get_plugin_instance()[0] \
-                for place in instance.page.placeholders.all() \
-                for plugin in place.get_plugins(instance.language) ]
+    def icon_src(self, instance):
+        return settings.STATIC_URL + "images/cms/toc.svg"
 
-        # We'll do something much smarter in the future
-        toc = TocParser().get_toc(plugins[0].body)
-        return toc
+    def icon_alt(self, instance):
+        return "Table of Contents"
 
     def render(self, context, instance, placeholder):
         context.update({
             'placeholder': placeholder,
             'plugin'     : instance,
-            'children'   : self._tree(instance),
         })
         return context
 

@@ -124,6 +124,10 @@ a img {
 }
 
 /* for Tables of Contents on long pages */
+#toc {
+  font-size: 12pt;
+  line-height: 150%;
+}
 div.toc,
 #toc.right {
   float: right;

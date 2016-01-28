@@ -29,9 +29,6 @@ $(document).ready(function() {
   $("#toplogin input").focusout(false, focused);
   $("[src$='.svg']").error(onSvgError);
   $(".image.only img").error(iconInstead);
-  if($('#toc').length == 0) {
-    anchors();
-  }
   close_elements();
 });
 
@@ -54,50 +51,6 @@ function close_elements() {
       $(this).parent().remove();
     });
   });
-}
-/*Link to anchors- H1 removed because normali is on top*/
-function anchors(){
-  var anchor = 'undefined';
-  var showToc = false;
-  var prevH = 2;
-  var toc ='<div class="toc"><ul>';
-  $('.wrapper h2,.wrapper h3,.wrapper h4,.wrapper h5,.wrapper h6').each(function(i, heading){
-    var onH = parseInt($(heading).prop("tagName").replace("H",""));
-    anchor = $(heading).attr('name');
-    if(typeof $(heading).attr('id') !== 'undefined'){
-        anchor = $(heading).attr('id');
-    }
-    if(typeof anchor !== 'undefined'){
-        showToc = true;
-        if(prevH < onH){
-            toc += '<ul>';
-        }
-        if(prevH > onH){
-            toc += '</li></ul></li>';
-        }
-        toc += '<li><div><a href="#' + anchor + '">' + $(heading).html() + '</a></div>';
-        if(prevH === onH){
-            toc += '</li>';
-        }
-        $(heading).mouseenter(function(){
-            if($(heading).children(".headingAnchors").length == 0){
-                var headingAnchor = $(heading).attr('name');
-                if(typeof $(heading).attr('id') !== 'undefined'){
-                    headingAnchor = $(heading).attr('id');
-                }
-                $(heading).html($(heading).html() + ' <a href="#' + headingAnchor + '" class="headingAnchors" >⚓</a>');
-            }
-        })
-        $(heading).mouseleave(function(){
-            $(heading).children(".headingAnchors").remove();
-        })
-        prevH = onH;
-    }
-  })
-  toc +='</ul></div>';
-  if(showToc && $('.toc').length === 0){
-    $(toc).insertBefore($('.wrapper h1'));
-  }
 }
 
 function focused(unhide) {

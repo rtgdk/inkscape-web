@@ -617,7 +617,7 @@ class VoteManager(Manager):
 
     def items(self):
         f = dict( ('votes__'+a,b) for (a,b) in self.core_filters.items() )
-        return Resource.objects.filter(**f)
+        return Resource.objects.filter(published=True, **f)
 
 
 class Vote(Model):

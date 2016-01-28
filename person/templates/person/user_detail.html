@@ -168,7 +168,7 @@
     {% endif %}
 
     <h2>{% trans "Favorite Artworks" %}</h2>
-    {% if object.favorites.all %}
+    {% if object.favorites.items.count > 0 %}
       {% with 4 as limit %}
         {% with object.favorites.items as items %}
           {% include "resource/resource_list.html" %}
@@ -180,10 +180,10 @@
           <p>{% trans "No favorites yet." %}</p>
         </div>
       {% else %}
-        {% url "resources" as thegallerylink %}
+        {% url "resources" as gallery_url %}
         <div class="galleryitem nothing">
            <p>{% trans "No favorites yet?" %}</p>
-           <p>{% blocktrans %}Visit <a href="{{ thegallerylink }}">the gallery</a> to see what other Inkscape users have created!{% endblocktrans %}</p>
+           <p>{% blocktrans %}Visit <a href="{{ gallery_url }}">the gallery</a> to see what other Inkscape users have created!{% endblocktrans %}</p>
         </div>
       {% endif %}
     {% endif %}

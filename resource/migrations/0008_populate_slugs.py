@@ -9,6 +9,8 @@ def populate(apps, schema_editor):
         cls = apps.get_model("resource", mod)
         for item in cls.objects.all():
             set_slug(item)
+            if hasattr(item, 'liked'):
+                item.liked = item.votes.count()
             item.save()
 
 def depopulate(*args):

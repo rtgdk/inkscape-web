@@ -281,9 +281,7 @@ OPENID_AX_PROVIDER_MAP = {
   },
 }
 
-FACEBOOK_EXTENDED_PERMISSIONS = (
-    'email',
-)
+FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 

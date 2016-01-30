@@ -195,9 +195,7 @@ Group.resources = property(lambda self: GroupGalleryManager(self))
 
 
 class InheritedResourceManager(InheritanceManager, ResourceManager):
-    def get_queryset(self):
-        return InheritanceManager.get_queryset(self)\
-            .select_subclasses('resourcefile').order_by('-created')
+    pass
 
 
 class Resource(Model):

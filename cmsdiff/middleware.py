@@ -44,21 +44,21 @@ class ObjectToolbarMiddleware(object):
        ct = ContentType.objects.get_for_model(type(obj))
        return reverse('admin:%s_%s_%s' % (ct.app_label, ct.model, method), args=(obj.pk,)) 
 
+    def menu_item(self, obj, menu, label, action, qs=''):
+        try:
+            url = self.admin_link(obj, action)
+            menu.add_modal_item(label % {'otype': type(obj).__name__}, url=url+qs)
+        except:
+            pass
+
     def process_template_response(self, request, response):
         if request.user.is_authenticated() and request.user.is_superuser:
             obj = response.context_data.get('object', None)
             if type(obj).__name__ == 'SimpleLazyObject':
                 obj = obj._wrapped
             if obj:
-                menu = request.toolbar.get_or_create_menu('object-menu', _('Object'))
-                x = {'otype': type(obj).__name__}
-                try:
-                    menu.add_modal_item(_('Purge %(otype)s') % x, url=self.admin_link(obj, 'delete'))
-                except:
-                    pass
-                try:
-                    menu.add_modal_item(_('Edit %(otype)s') % x, url=self.admin_link(obj, 'change'))
-                except:
-                    pass
+                menu = request.toolbar.get_or_create_menu('object-menu',_('Object'))
+                self.menu_item(obj, menu, _('Purge %(otype)s'), 'delete', '?next=/')
+                self.menu_item(obj, menu, _('Edit %(otype)s'), 'change')
         return response
 

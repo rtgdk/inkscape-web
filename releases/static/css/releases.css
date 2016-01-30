@@ -126,6 +126,8 @@
 
 #shield.download #banners {
   margin-bottom: 12px;
+  background-repeat: no-repeat;
+  background-color: black;
 }
 
 #shield div#question {

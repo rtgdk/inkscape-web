@@ -1265,19 +1265,20 @@ div.tooltip:hover span {
 ul.pagination,
 div.pagination {
   display: inline-block;
+  margin: 10px 2px 20px;
   padding: 0;
-  margin: 0;
 }
 
 ul.pagination li,
-div.pagination li {
+div.pagination span,
+div.pagination a {
   display: inline;
   float: left;
 }
 ul.pagination li a,
 ul.pagination li span,
-div.pagination li a,
-div.pagination li span {
+div.pagination a,
+div.pagination span {
   display: block;
   text-decoration: none;
   color: black;
@@ -1288,14 +1289,14 @@ div.pagination li span {
 }
 
 ul.pagination li.active span,
-div.pagination li.active span {
+div.pagination span.current {
   background-color: #3A95C4;
   border: 1px solid #3A95C4;
   color: white;
 }
 
 ul.pagination li a:hover,
-div.pagination li a:hover {
+div.pagination a:hover {
   background-color: #ddd;
   text-decoration: none;
 }

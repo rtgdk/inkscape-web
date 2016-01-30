@@ -171,7 +171,7 @@ class ResourceManager(Manager):
 
     def disk_usage(self):
         # This could be done better by storing the file sizes
-        return sum(f.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if os.path.exists(f.download.path))
+        return sum(f.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if f.download and os.path.exists(f.download.path))
 
     def latest(self):
         user = get_user()
@@ -360,11 +360,15 @@ class Resource(Model):
         class NotLocalDownload(object):
             def __init__(self, link):
                 self.link = link
+            @property
             def url(self):
                 return self.link
+            @property
             def path(self):
                 return '/'.join(self.link.split('/')[3:])
-        return NotLocalDownload(self.link)
+        if self.link:
+            return NotLocalDownload(self.link)
+        return None
 
 OWNS = (
   (None, _('No permission')),

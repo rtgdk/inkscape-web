@@ -214,7 +214,7 @@ class DownloadResource(ViewResource):
             item.save()
             return redirect(item.download.url)
 
-        if fn not in ['download/', item.filename()]:
+        if fn not in ['download', item.filename()]:
             messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
             return redirect(item.get_absolute_url())
 

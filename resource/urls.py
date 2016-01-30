@@ -85,7 +85,7 @@ urlpatterns = patterns('',
       url(r'^copy/$',            MoveResource(),      name='resource.copy'),
       url(r'^readme.txt$',       down_readme,         name='resource.readme'),
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
-      url(r'^(?P<fn>[^\/]+)$',   DownloadResource(),  name='download_resource'),
+      url(r'^(?P<fn>[^\/]+)/?$', DownloadResource(),  name='download_resource'),
     ),
     *PATTERNS
   ),

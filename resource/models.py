@@ -70,7 +70,11 @@ class License(Model):
     nc  = BooleanField(_('Non-Commercial'), default=False)
     nd  = BooleanField(_('Non-Derivative'), default=False)
 
-    visible  = BooleanField(default=True)
+    selectable = BooleanField(default=True,
+        help_text=_("This license can be selected by all users when uploading."))
+    filterable = BooleanField(default=True,
+        help_text=_("This license can be used as a filter in gallery indexes."))
+
     replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
 
     @property
@@ -91,7 +95,11 @@ class Category(Model):
     name     = CharField(max_length=64)
     desc     = TextField(validators=[MaxLengthValidator(1024)], **null)
 
-    visible  = BooleanField(default=True)
+    selectable = BooleanField(default=True,
+        help_text=_("This category can be selected by all users when uploading."))
+    filterable = BooleanField(default=True,
+        help_text=_("This category can be used as a filter in gallery indexes."))
+
     acceptable_licenses = ManyToManyField(License)
 
     start_contest = DateField(blank=True, null=True,
@@ -373,7 +381,7 @@ class ResourceFile(Resource):
 
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
 
-    license    = ForeignKey(License, limit_choices_to={'visible': True}, **null)
+    license    = ForeignKey(License, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))

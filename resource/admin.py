@@ -29,8 +29,8 @@ from .forms import ModelForm
 from .models import *
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'visible')
-    list_filter = ('visible',)
+    list_display = ('name', 'selectable', 'filterable')
+    list_filter = ('selectable', 'filterable')
     search_fields = ('name',)
 
 site.register(License, CategoryAdmin)

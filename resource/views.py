@@ -286,8 +286,8 @@ class GalleryList(CategoryListView):
     )
     cats = (
       #('media_type', _("Media Type")),
-      #('license', _("License")),
-      ('category', _("Media Category")),
+      ('category', _("Media Category"), 'get_categories'),
+      ('license', _("License"), 'get_licenses'),
       ('galleries', _("Galleries"), 'get_galleries'),
     )
     order = '-liked'
@@ -303,6 +303,12 @@ class GalleryList(CategoryListView):
         if self.get_value('username') != self.request.user.username:
             qs = qs.filter(published=True)
         return qs
+
+    def get_licenses(self):
+        return License.objects.filter(filterable=True)
+
+    def get_categories(self):
+        return Category.objects.filter(filterable=True)
 
     def get_galleries(self):
         username = self.get_value('username')

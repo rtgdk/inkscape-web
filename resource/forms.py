@@ -105,10 +105,14 @@ class ResourceBaseForm(ModelForm):
 
         if 'category' in self.fields:
             f = self.fields['category']
-            f.queryset = f.queryset.filter(visible=True).filter(
+            f.queryset = f.queryset.filter(selectable=True).filter(
                 Q(start_contest__isnull=True) | (
                 Q(start_contest__lt=now().date()) &
                 Q(end_contest__gt=now().date()) ))
+
+        if 'license' in self.fields:
+            f = self.fields['license']
+            f.queryset = f.queryset.filter(selectable=True)
 
         if 'owner' in self.fields:
             f = self.fields['owner']

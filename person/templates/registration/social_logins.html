@@ -1,0 +1,6 @@
+{% with next as request.GET.next|default:request.path %}
+  <a href="{% url "socialauth_begin" 'google-oauth2' %}?next={{ next }}" id="toplogin-google"></a>
+  <a href="{% url "socialauth_begin" 'facebook' %}?next={{ next }}" id="toplogin-facebook"></a>
+  <a href="{% url "socialauth_begin" 'twitter' %}?next={{ next }}" id="toplogin-twitter"></a>
+  <a href="{% url "socialauth_begin" 'yahoo' %}?next={{ next }}" id="toplogin-yahoo"></a>
+{% endwith %}

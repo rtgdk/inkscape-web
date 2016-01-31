@@ -88,7 +88,7 @@ class PublishResource(OwnerUpdateMixin, DetailView):
 
 
 class MoveResource(OwnerUpdateMixin, UpdateView):
-    template_name = 'resource/resourcefile_move.html'
+    template_name = 'resources/resourcefile_move.html'
     form_class = GalleryMoveForm
     model = Resource
     
@@ -131,7 +131,7 @@ class UploadResource(OwnerCreateMixin, CreateView):
 
 class DropResource(UploadResource):
     content_type  = 'text/plain'
-    template_name = 'resource/ajax/add.txt'
+    template_name = 'resources/ajax/add.txt'
     form_class    = ResourceAddForm
 
     def form_valid(self, form):
@@ -192,14 +192,14 @@ def like_resource(request, pk, like):
     
 def down_readme(request, pk):
     item = get_object_or_404(Resource, id=pk)
-    return render_to_response('resource/readme.txt', {'item': item},
+    return render_to_response('resources/readme.txt', {'item': item},
       context_instance=RequestContext(request),
       content_type="text/plain")
 
 from sendfile import sendfile
 
 class DownloadResource(ViewResource):
-    template_name = 'resource/view_text.html'
+    template_name = 'resources/view_text.html'
 
     def get(self, request, *args, **kwargs):
         fn = kwargs.get('fn', None)
@@ -228,7 +228,7 @@ class DownloadResource(ViewResource):
         if item.mirror:
             mirror = ResourceMirror.objects.select_mirror(item.edited)
             if mirror:
-                response = render_to_response('resource/mirror-item.html', {
+                response = render_to_response('resources/mirror-item.html', {
                      'mirror': mirror,
                      'item': item,
                      'url': mirror.get_url(item),
@@ -256,7 +256,7 @@ def mirror_resources(request, uuid=None):
     }
     if mirror:
         mirror.do_sync()
-    return render_to_response('resource/mirror.html', c,
+    return render_to_response('resources/mirror.html', c,
         context_instance=RequestContext(request))
 
 

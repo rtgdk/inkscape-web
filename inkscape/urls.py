@@ -50,7 +50,7 @@ urlpatterns += i18n_patterns('inkscape.views',
     url(r'^moderation/',include('moderation.urls')),
     url(r'^news/',      include('cmsplugin_news.urls')),
     url(r'^',           include('person.urls')),
-    url(r'^',           include('resource.urls')),
+    url(r'^',           include('resources.urls')),
     url(r'^',           include('cms.urls')),
 )
 

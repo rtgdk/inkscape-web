@@ -9,7 +9,7 @@ from django.conf import settings
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resource', '0001_initial'),
+        ('resources', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
         ('cms', '0002_auto_20140816_1918'),
     ]
@@ -41,7 +41,7 @@ class Migration(migrations.Migration):
                 ('btn_link', models.CharField(max_length=255, null=True, verbose_name='Button Link', blank=True)),
                 ('btn_icon', models.CharField(blank=True, max_length=12, null=True, verbose_name='Button Icon', choices=[(b'download', 'Download Icon')])),
                 ('draft', models.ForeignKey(blank=True, to='cmstabs.Tab', null=True)),
-                ('license', models.ForeignKey(to='resource.License')),
+                ('license', models.ForeignKey(to='resources.License')),
                 ('shield', models.ForeignKey(related_name='tabs', to='cmstabs.ShieldPlugin')),
             ],
             options={

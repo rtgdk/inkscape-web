@@ -18,7 +18,7 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from resource.tests.base import BaseCase, BaseUserCase, BaseAnonCase
+from resources.tests.base import BaseCase, BaseUserCase, BaseAnonCase
 from alerts.models import Message, AlertType, UserAlertManager
 from alerts.alert import MessageAlert
 

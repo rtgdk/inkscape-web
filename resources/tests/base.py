@@ -42,7 +42,7 @@ from user_sessions.utils.tests import Client
 from django.http import HttpRequest
 from django.conf import settings
 
-from resource.models import ResourceFile
+from resources.models import ResourceFile
 from inkscape.middleware import AutoBreadcrumbMiddleware
 
 TEST_INDEX = {

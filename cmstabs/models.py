@@ -34,7 +34,7 @@ from django.core.urlresolvers import reverse
 from cms.models import CMSPlugin
 from pile.fields import ResizedImageField
 
-from resource.models import License, User
+from resources.models import License, User
 
 null = dict(null=True, blank=True)
 

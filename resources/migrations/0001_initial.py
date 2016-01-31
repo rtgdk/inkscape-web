@@ -28,6 +28,7 @@ class Migration(migrations.Migration):
                 ('visible', models.BooleanField(default=True)),
             ],
             options={
+                'db_table': 'resource_category',
             },
             bases=(models.Model,),
         ),
@@ -37,10 +38,11 @@ class Migration(migrations.Migration):
                 ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('limit', models.PositiveIntegerField(verbose_name='Number of items per page')),
                 ('display', models.CharField(blank=True, max_length=32, null=True, verbose_name='Display Style', choices=[(b'list', 'Gallery List'), (b'rows', 'Gallery Rows')])),
-                ('source', models.ForeignKey(to='resource.Category')),
+                ('source', models.ForeignKey(to='resources.Category')),
             ],
             options={
                 'abstract': False,
+                'db_table': 'resource_categoryplugin',
             },
             bases=('cms.cmsplugin',),
         ),
@@ -52,6 +54,7 @@ class Migration(migrations.Migration):
                 ('group', models.ForeignKey(related_name='galleries', blank=True, to='auth.Group', null=True)),
             ],
             options={
+                'db_table': 'resource_gallery',
             },
             bases=(models.Model,),
         ),
@@ -61,10 +64,11 @@ class Migration(migrations.Migration):
                 ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
                 ('limit', models.PositiveIntegerField(verbose_name='Number of items per page')),
                 ('display', models.CharField(blank=True, max_length=32, null=True, verbose_name='Display Style', choices=[(b'list', 'Gallery List'), (b'rows', 'Gallery Rows')])),
-                ('source', models.ForeignKey(to='resource.Gallery')),
+                ('source', models.ForeignKey(to='resources.Gallery')),
             ],
             options={
                 'abstract': False,
+                'db_table': 'resource_galleryplugin',
             },
             bases=('cms.cmsplugin',),
         ),
@@ -82,9 +86,10 @@ class Migration(migrations.Migration):
                 ('nc', models.BooleanField(default=False, verbose_name='Non-Commercial')),
                 ('nd', models.BooleanField(default=False, verbose_name='Non-Derivitive')),
                 ('visible', models.BooleanField(default=True)),
-                ('replaced', models.ForeignKey(verbose_name='Replaced by', blank=True, to='resource.License', null=True)),
+                ('replaced', models.ForeignKey(verbose_name='Replaced by', blank=True, to='resources.License', null=True)),
             ],
             options={
+                'db_table': 'resource_license',
             },
             bases=(models.Model,),
         ),
@@ -96,6 +101,7 @@ class Migration(migrations.Migration):
                 ('group', models.ForeignKey(related_name='quotas', null=True, blank=True, to='auth.Group', unique=True)),
             ],
             options={
+                'db_table': 'resource_quota',
             },
             bases=(models.Model,),
         ),
@@ -117,23 +123,25 @@ class Migration(migrations.Migration):
                 ('media_y', models.IntegerField(null=True, blank=True)),
             ],
             options={
+                'db_table': 'resource_resource',
             },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
             name='ResourceFile',
             fields=[
-                ('resource_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='resource.Resource')),
+                ('resource_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='resources.Resource')),
                 ('download', models.FileField(upload_to=b'resources/file', verbose_name='Consumable File')),
                 ('owner', models.BooleanField(default=True, verbose_name='Permission', choices=[(None, 'No permission'), (True, 'I own the work'), (False, 'I have permission')])),
                 ('signature', models.FileField(upload_to=b'resources/sigs', null=True, verbose_name='Signature/Checksum', blank=True)),
                 ('verified', models.BooleanField(default=False)),
                 ('mirror', models.BooleanField(default=False)),
-                ('license', models.ForeignKey(blank=True, to='resource.License', null=True)),
+                ('license', models.ForeignKey(blank=True, to='resources.License', null=True)),
             ],
             options={
+                'db_table': 'resource_resourcefile',
             },
-            bases=('resource.resource',),
+            bases=('resources.resource',),
         ),
         migrations.CreateModel(
             name='ResourceMirror',
@@ -151,6 +159,7 @@ class Migration(migrations.Migration):
                 ('manager', models.ForeignKey(default=cms.utils.permissions.get_current_user, to=settings.AUTH_USER_MODEL)),
             ],
             options={
+                'db_table': 'resource_resourcemirror',
             },
             bases=(models.Model,),
         ),
@@ -159,9 +168,10 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=16)),
-                ('parent', models.ForeignKey(blank=True, to='resource.Tag', null=True)),
+                ('parent', models.ForeignKey(blank=True, to='resources.Tag', null=True)),
             ],
             options={
+                'db_table': 'resource_tag',
             },
             bases=(models.Model,),
         ),
@@ -169,24 +179,25 @@ class Migration(migrations.Migration):
             name='Vote',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('resource', models.ForeignKey(related_name='votes', to='resource.Resource')),
+                ('resource', models.ForeignKey(related_name='votes', to='resources.Resource')),
                 ('voter', models.ForeignKey(related_name='favorites', to=settings.AUTH_USER_MODEL)),
                 ('vote', models.BooleanField(default=True)),
             ],
             options={
+                'db_table': 'resource_vote',
             },
             bases=(models.Model,),
         ),
         migrations.AddField(
             model_name='resource',
             name='category',
-            field=models.ForeignKey(related_name='items', blank=True, to='resource.Category', null=True),
+            field=models.ForeignKey(related_name='items', blank=True, to='resources.Category', null=True),
             preserve_default=True,
         ),
         migrations.AddField(
             model_name='resource',
             name='tags',
-            field=models.ManyToManyField(related_name='resources', null=True, to='resource.Tag', blank=True),
+            field=models.ManyToManyField(related_name='resources', null=True, to='resources.Tag', blank=True, db_table='resource_resource_tags'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -198,7 +209,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gallery',
             name='items',
-            field=models.ManyToManyField(related_name='galleries', null=True, to='resource.Resource', blank=True),
+            field=models.ManyToManyField(related_name='galleries', null=True, to='resources.Resource', blank=True, db_table=b'resource_gallery_items'),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -210,7 +221,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='category',
             name='acceptable_licenses',
-            field=models.ManyToManyField(to='resource.License'),
+            field=models.ManyToManyField(to='resources.License', db_table=b'resource_category_acceptable_licenses'),
             preserve_default=True,
         ),
     ]

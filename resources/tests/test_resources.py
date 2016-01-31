@@ -31,9 +31,9 @@ from .base import BaseCase, BaseUserCase, BaseAnonCase
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 
-from resource.models import Resource, ResourceFile, Quota, Gallery, Category
-from resource.forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
-from resource.utils import video_embed
+from resources.models import Resource, ResourceFile, Quota, Gallery, Category
+from resources.forms import ResourceFileForm, ResourceEditPasteForm, ResourcePasteForm
+from resources.utils import video_embed
 
 class ResourceTests(BaseCase):
     """Test non-request functions and methods"""

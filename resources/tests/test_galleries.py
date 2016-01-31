@@ -32,9 +32,9 @@ from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 
-from resource.models import Resource, Gallery, Category
-from resource.views import GalleryList
-from resource.forms import GalleryForm
+from resources.models import Resource, Gallery, Category
+from resources.views import GalleryList
+from resources.forms import GalleryForm
 
 class GalleryUserTests(BaseUserCase):
     """Gallery viewing and sorting tests"""

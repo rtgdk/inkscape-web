@@ -7,14 +7,14 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('resource', '0006_auto_20160123_0517'),
+        ('resources', '0003_auto_20150604_2027'),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='gallery',
-            name='slug',
-            field=models.SlugField(max_length=70),
+            model_name='tag',
+            name='parent',
+            field=models.ForeignKey(related_name='children', blank=True, to='resources.Tag', null=True),
             preserve_default=True,
         ),
     ]

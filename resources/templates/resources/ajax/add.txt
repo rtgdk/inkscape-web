@@ -1,0 +1,1 @@
+{% if item %}OK|{% include "resources/resource_item.html" %}{% else %}{{ form.errors }}{% endif %}

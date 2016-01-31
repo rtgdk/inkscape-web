@@ -23,7 +23,7 @@ Other items in the resource app.
 """
 from django.core.urlresolvers import reverse
 
-from resource.models import License, Category, Resource, Tag, Gallery
+from resources.models import License, Category, Resource, Tag, Gallery
 
 from .base import BaseCase, BaseAnonCase, BaseBreadcrumbCase
 

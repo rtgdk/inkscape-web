@@ -77,6 +77,9 @@ class License(Model):
 
     replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
 
+    class Meta:
+        db_table = 'resource_license'
+
     @property
     def value(self):
         return self.code
@@ -100,7 +103,7 @@ class Category(Model):
     filterable = BooleanField(default=True,
         help_text=_("This category can be used as a filter in gallery indexes."))
 
-    acceptable_licenses = ManyToManyField(License)
+    acceptable_licenses = ManyToManyField(License, db_table='resource_category_acceptable_licenses')
 
     start_contest = DateField(blank=True, null=True,
        help_text="If specified, this category will have special voting rules.")

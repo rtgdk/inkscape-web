@@ -9,7 +9,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('resource', '0001_initial'),
+        ('resources', '0001_initial'),
         ('django_comments', '__first__'),
         ('moderation', '0001_initial'),
     ]
@@ -29,7 +29,7 @@ class Migration(migrations.Migration):
             name='ResourcefileFlag',
             fields=[
                 ('flag_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='moderation.Flag')),
-                ('target', models.ForeignKey(related_name='moderation', to='resource.ResourceFile')),
+                ('target', models.ForeignKey(related_name='moderation', to='resources.ResourceFile')),
             ],
             options={
             },

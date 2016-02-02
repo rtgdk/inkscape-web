@@ -53,7 +53,7 @@ class ObjectToolbarMiddleware(object):
 
     def process_template_response(self, request, response):
         if request.user.is_authenticated() and request.user.is_superuser:
-            obj = response.context_data.get('object', None)
+            obj = getattr(response, 'context_data', {}).get('object', None)
             if type(obj).__name__ == 'SimpleLazyObject':
                 obj = obj._wrapped
             if obj:

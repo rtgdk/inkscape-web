@@ -173,7 +173,9 @@ INSTALLED_APPS = (
     'django_comments',
     'django_mailman',
     'alerts',
+    'debug_toolbar',
 ) + tuple(EXTRA_APPS)
+
 
 SESSION_ENGINE = 'user_sessions.backends.db'
 
@@ -337,6 +339,17 @@ LOGGING = {
         },
     },
 }
+
+def show_toolbar(request):
+    return 'I_WISH_KNEW_WHAT_WAS_GOING_ON' in request.GET
+
+DEBUG_TOOLBAR_PATCH_SETTINGS = True
+DEBUG_TOOLBAR_CONFIG = {
+    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    'MEDIA_URL': '/media/debug/',
+    'INTERCEPT_REDIRECTS': False,
+}
+
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

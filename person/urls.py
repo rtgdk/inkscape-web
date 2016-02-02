@@ -34,7 +34,7 @@ AC = TemplateView.as_view(template_name='registration/activation_complete.html')
 RC = TemplateView.as_view(template_name='registration/registration_complete.html')
 RK = TemplateView.as_view(template_name='registration/registration_closed.html')
 RG = RegistrationView.as_view(form_class=RegisForm)
-UIDB = r'^(?P<uidb64>.+?)/(?P<token>.+)/$'
+UIDB = r'^(?P<uidb64>[0-9A-Za-z_\-]+?)/(?P<token>.+)/$'
 
 # Our user url implementation allows other urls files to add
 # their own urls to our user tree. Creating user functions.

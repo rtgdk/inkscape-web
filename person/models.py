@@ -45,7 +45,6 @@ class User(AbstractUser):
 
     ircnick = CharField(_('IRC Nickname'), max_length=20, **null)
     ircpass = CharField(_('Freenode Password (optional)'), max_length=128, **null)
-    ircdev  = BooleanField(_('Join Developer Channel'), default=False)
 
     dauser  = CharField(_('deviantArt User'), max_length=64, **null)
     ocuser  = CharField(_('openClipArt User'), max_length=64, **null)

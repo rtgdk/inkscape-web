@@ -8,8 +8,8 @@
 }
 
 #shield.download #banners > div > div {
-  margin: 0px 250px 0px 0px;
-  width: 670px;
+  margin: 0px 250px 0px -50px;
+  width: 720px;
 }
 
 #shield.download #banners ul ul div {
@@ -19,6 +19,7 @@
 
 #shield.download #banners ul ul {
   float: right;
+  text-align: right;
 }
 
 #shield.download #banners > div > div > ul > li {
@@ -29,10 +30,11 @@
   display: block;
   font-size: 20px;
   margin-bottom: 6px;
-  padding: 6px 0px 0px;
+  padding: 6px 0px 4px;
   line-height: 1px;
   vertical-align: middle;
   min-height: 37px;
+  overflow:auto;
   box-shadow: 2px 2px 8px -5px #000;
 }
 
@@ -53,7 +55,8 @@
 }
 
 #shield.download #banners li ul {
-  margin: -3px 10px 0px 0px;
+  margin: -3px 10px 0px 0px !important;
+  max-width: 450px;
 }
 
 #shield.download #banners ul ul li:focus div,
@@ -154,4 +157,3 @@
   overflow: hidden;
   padding: 8px 14px !important;
 }
-

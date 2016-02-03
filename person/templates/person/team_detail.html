@@ -94,7 +94,7 @@
     <div class="photos"/>
       {% for user in members %}
         <div class="galleryitem">
-          <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.details.photo %}{{ user.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="Full User Details"/></a>
+          <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="Full User Details"/></a>
           <p title="Full User Details"><a href="{{ user.get_absolute_url }}">{% if user == object.admin %} *{% endif %} {{ user }}</a></p>
           {% if user == request.user or object.admin == request.user %}
             <p class="tags">

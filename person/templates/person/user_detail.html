@@ -4,7 +4,7 @@
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
 {% block "profile" %}
-  <img id="photo" src="{% if object.details.photo %}{{ object.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
+  <img id="photo" src="{% if object.photo %}{{ object.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
 
   <div class="socialicons">
      {% if object.moderation and request.user != object %}
@@ -26,14 +26,14 @@
      {% if object.is_moderator %}
        {% if object == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderator" %}"/></a>
      {% endif %}
-     {% if object.details.dauser %}
-       <a href="http://{{ object.details.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
+     {% if object.dauser %}
+       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
      {% endif %}
-     {% if object.details.ocuser %}
-       <a href="https://openclipart.org/user-detail/{{ object.details.ocuser }}"><img src="{{ STATIC_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
+     {% if object.ocuser %}
+       <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{{ STATIC_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
      {% endif %}
-     {% if object.details.tbruser %}
-       <a href="http://{{ object.details.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
+     {% if object.tbruser %}
+       <a href="http://{{ object.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
      {% endif %}
      {% if request.user.is_authenticated and request.user != object %}
        <a href="{% url "message.new" object.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
@@ -56,7 +56,7 @@
 
 {% block "bio" %}
   {% block headerdesc %}
-    {% if object.details.bio %}{{ object.details.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
+    {% if object.bio %}{{ object.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet" %}{% endif %}
   {% endblock %}
 {% endblock %}
 
@@ -65,7 +65,7 @@
       <ul>
         <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
         <li><a href="{% url "resources" username=object.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
-        {% if object.details.gpg_key %}
+        {% if object.gpg_key %}
           <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
         {% endif %}
         {% if object != request.user %}
@@ -91,14 +91,14 @@
 
       <h2>{% trans "Information" %}</h2>
       <ul>
-        {% if object.details.last_seen %}
+        {% if object.last_seen %}
           <li><a><label>{% trans "Last Seen" %}</label>
-            <span title="{{ object.details.last_seen|ago }} ({{ object.details.last_seen|date:"Y-m-d" }})">{{ object.details.last_seen|ago:1 }}</span></a></li>
+            <span title="{{ object.last_seen|ago }} ({{ object.last_seen|date:"Y-m-d" }})">{{ object.last_seen|ago:1 }}</span></a></li>
         {% endif %}
         <li><a><label>{% trans "Joined" %}</label>
           <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
         <li><a><label>{% trans "Profile Visits" %}</label>
-          <span>{{ object.details.visits }}</span></a></li>
+          <span>{{ object.visits }}</span></a></li>
 
         <li><a><label>{% trans "Friends" %}</label>
           <span>{{ object.friends.count }}</span></a></li>

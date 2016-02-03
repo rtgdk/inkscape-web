@@ -24,12 +24,12 @@ Record and control releases.
 import os
 
 from django.db.models import *
+from django.conf import settings
 
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.utils.text import slugify
 
-from django.contrib.auth.models import User
 from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse
@@ -55,9 +55,9 @@ class Release(Model):
                                                      db_index=True)
     background    = ResizedImageField(**upload_to('background', 960, 300))
 
-    manager       = ForeignKey(User, related_name='manages_releases',
+    manager       = ForeignKey(settings.AUTH_USER_MODEL, related_name='manages_releases',
                                     verbose_name=_("Release Manager"), **null)
-    reviewer      = ForeignKey(User, related_name='reviews_releases',
+    reviewer      = ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews_releases',
                                     verbose_name=_("Release Reviewer"), **null)
 
     class Meta:
@@ -98,8 +98,8 @@ class Platform(Model):
     """A list of all platforms we release to"""
     name       = CharField(_('Name'), max_length=64)
     desc       = CharField(_('Description'), max_length=255)
-    parent     = ForeignKey( 'self', related_name='children', verbose_name=_("Parent Platform"), **null)
-    manager    = ForeignKey( User, verbose_name=_("Platform Manager"), **null) 
+    parent     = ForeignKey('self', related_name='children', verbose_name=_("Parent Platform"), **null)
+    manager    = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Platform Manager"), **null) 
     codename   = CharField(max_length=255, **null)
 
     icon       = ResizedImageField(**upload_to('icons', 32, 32))

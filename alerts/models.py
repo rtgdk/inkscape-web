@@ -18,6 +18,9 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth import get_user_model
+from django.conf import settings
+
 from django.db.models import *
 from django.db.models.signals import post_init
 
@@ -25,8 +28,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
 from django.conf import settings
-from django.contrib.auth.models import User, Group
-from django.contrib.contenttypes.generic import GenericForeignKey
+from django.contrib.auth.models import Group
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
 from django.core.urlresolvers import reverse
@@ -113,12 +116,12 @@ class AlertType(Model):
             return []
         if isinstance(user, Group):
             users = user.users
-        elif isinstance(user, User):
+        elif isinstance(user, get_user_model()):
             users = [ user ]
         elif user == 'all':
-            if not isinstance(auth, User) or not auth.is_superuser:
+            if not isinstance(auth, get_user_model()) or not auth.is_superuser:
                 raise ValueError("You are not authorized to send an alert to everyone.")
-            users = User.objects.all()
+            users = get_user_model().objects.all()
         else:
             raise ValueError("You must specify a user or group to send an alert to.")
 
@@ -184,7 +187,7 @@ class SettingsManager(Manager):
 
 
 class UserAlertSetting(Model):
-    user    = ForeignKey(User, related_name='alert_settings')
+    user    = ForeignKey(settings.AUTH_USER_MODEL, related_name='alert_settings')
     alert   = ForeignKey(AlertType, related_name='settings')
     hide    = BooleanField(_("Hide Alerts"), default=True)
     email   = BooleanField(_("Send Email Alert"), default=False)
@@ -236,7 +239,7 @@ class UserAlertManager(Manager):
 
 class UserAlert(Model):
     """A single altert for a specific user"""
-    user    = ForeignKey(User, related_name='alerts')
+    user    = ForeignKey(settings.AUTH_USER_MODEL, related_name='alerts')
     alert   = ForeignKey(AlertType, related_name='sent')
 
     created = DateTimeField(auto_now_add=True)
@@ -297,7 +300,7 @@ class UserAlert(Model):
 
     def send_email(self):
         """Send alert email is user's own language"""
-        lang = self.user.details.language or 'en'
+        lang = self.user.language or 'en'
         old = translation.get_language()
         translation.activate(lang)
         ret = self.alert.send_email(self.user.email, self.data)
@@ -347,16 +350,17 @@ class SubscriptionQuerySet(QuerySet):
         return (obj, created, deleted)
 
     def is_subscribed(self, target=None, directly=False):
+        # XXX This is broken now
         if target is None:
-            return self.filter(target__isnull=True).count()
+            return False #self.filter(target__isnull=True).count()
         if directly:
-            return self.filter(target=target.pk).count()
-        return self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
+            return False #self.filter(target=target.pk).count()
+        return False #self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
 
 
 class AlertSubscription(Model):
     alert  = ForeignKey(AlertType, related_name='subscriptions')
-    user   = ForeignKey(User, related_name='alert_subscriptions')
+    user   = ForeignKey(settings.AUTH_USER_MODEL, related_name='alert_subscriptions')
     target = PositiveIntegerField(_("Object ID"), **null)
 
     objects = SubscriptionQuerySet.as_manager()
@@ -374,8 +378,8 @@ class Message(Model):
     """
      User messages are a simple alert example system allowing users to send messages between each other.
     """
-    sender    = ForeignKey(User, related_name="sent_messages")
-    recipient = ForeignKey(User, related_name="messages")
+    sender    = ForeignKey(settings.AUTH_USER_MODEL, related_name="sent_messages")
+    recipient = ForeignKey(settings.AUTH_USER_MODEL, related_name="messages")
     reply_to  = ForeignKey('self', related_name="replies", **null)
     subject   = CharField(max_length=128)
     body      = TextField(_("Message Body"), validators=[MaxLengthValidator(8192)], **null)

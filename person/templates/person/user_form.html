@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <h1>{% block title %}{% trans "Edit Profile" %}{% endblock %}</h1>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.non_field_errors }}
+
+    {% for label, fieldset in form.fieldsets %}
+      <h2>{{ label }}</h2>
+
+      <table class="block">
+        {% for field in fieldset %}
+          <tr>
+            <th scope="row">{{ field.label }}:
+              {% if field.help_text %}
+                <div class="tooltip"> 
+                  <img class="help" src="{{ STATIC_URL }}/images/icons/help.svg" alt="?"/>
+                  <span><img class="ttarrow" src="{{ STATIC_URL }}/images/icons/tooltiparrow.svg" />{{ field.help_text|safe }}</span>
+                </div>
+              {% endif %}
+            </th>
+            <td>{{ field }}</td>
+          </tr>
+          {% if field.errors %}
+            <tr>
+              <td colspan="2" class='error'>{{ field.errors|striptags }}</td>
+            </tr>
+          {% endif %}
+        {% endfor %}
+      </table>
+    {% endfor %}
+
+    <input type="submit" value="{% trans "Save" %}"/>
+  </form>
+
+<h2>{% trans "Preferences" %}</h2>
+
+<a href="{% url "alert.settings" %}">{% trans "Edit Message Settings" %}</a>
+
+{% endblock %}

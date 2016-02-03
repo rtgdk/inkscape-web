@@ -20,7 +20,7 @@
     <h2>{{ form.name|placeholder:_("Resource Name") }}
       {% if item and not form %}
         <span class="by">{% trans "by" %}
-          <a href="{{ item.user.get_absolute_url }}">{{ item.user.details }}</a>
+          <a href="{{ item.user.get_absolute_url }}">{{ item.user }}</a>
         </span>
       {% endif %}
     </h2>

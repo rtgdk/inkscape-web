@@ -77,7 +77,7 @@ class RevisionDiff(Model):
 
     # When edited revisions get deleted, we try and preserve
     # The diff and reattach to available 'published' revisions.
-    revisions = ManyToManyField(Revision, related_name='diffs', **null)
+    revisions = ManyToManyField(Revision, related_name='diffs', blank=True)
 
     def __str__(self):
         if self.revision:

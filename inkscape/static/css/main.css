@@ -1171,15 +1171,20 @@ div.tooltip:hover span {
   left: -13px;
 }
 
-#cms_toolbar .cms_toolbar-item-logo a {
+.cms-toolbar .cms-toolbar-item-inkscape {
+  line-height: 46px;
+}
+
+.cms-toolbar .cms-toolbar-item-inkscape a {
   background: transparent !important;
   text-indent: 0px !important;
   width: 100px !important;
   text-transform: none !important;
-  font-weight: bold;
+  font-weight: bold !important;
+  font-size: 16px !important;
 }
 
-#cms_toolbar .cms_toolbar-item-logo a span {
+.cms-toolbar-item-inkscape a span {
   background-color: black;
   border-radius: 4px;
   color: white;

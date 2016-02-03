@@ -26,7 +26,7 @@ from django.contrib.auth.models import Permission
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
 
-from .models import User, UserDetails
+from .models import User
 
 class PasswordForm(PasswordResetForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))
@@ -48,12 +48,22 @@ class AgreeToClaForm(Form):
 class UserForm(ModelForm):
     password1 = CharField(label=_('Password'), widget=PasswordInput(), required=False)
     password2 = CharField(label=_('Confirm'), widget=PasswordInput(), required=False)
+    ircpass = CharField(widget=PasswordInput(), required=False)
 
     class Meta:
         model = User
         exclude = ('user_permissions', 'is_superuser', 'groups', 'last_login',
-                   'is_staff', 'is_active', 'date_joined')
-        fields = ('username', 'first_name', 'last_name', 'email', 'password1', 'password2')
+                   'is_staff', 'is_active', 'date_joined', 'visits', 'last_seen',
+                   'password')
+
+    def fieldsets(self):
+        d = dict((field.name, field) for field in self)
+        yield _("Account Settings"), [ d[k]
+            for k in ['username', 'email', 'password1', 'password2', 'language']]
+        yield _("Personal Details"), [ d[k]
+            for k in ['first_name', 'last_name', 'bio', 'photo', 'gpg_key']]
+        yield _("Social Settings"), [ d[k]
+            for k in ['ircnick', 'dauser', 'ocuser', 'tbruser']] # ircpass
 
     def clean(self):
         password1 = self.cleaned_data['password1']
@@ -81,18 +91,4 @@ class UserForm(ModelForm):
             self.instance.set_password(password)
         ModelForm.save(self, **kwargs)
 
-class UserDetailsForm(ModelForm):
-    ircpass = CharField(widget=PasswordInput(), required=False)
-
-    class Meta:
-        model = UserDetails
-        exclude = ('user','last_seen','visits')
-
-from .multiform import MultiModelForm
-
-class PersonForm(MultiModelForm):
-    base_forms = [
-        ('self', UserForm),
-        ('details', UserDetailsForm),
-    ]
 

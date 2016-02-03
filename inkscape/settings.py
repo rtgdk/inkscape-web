@@ -35,7 +35,7 @@ LANGUAGES = (
     ('ru', 'Russian'),
     ('ja', 'Japanese'),
     ('zh', 'Chinese'),
-    ('zh-tw', 'Simplified Chinese'),
+    ('zh-hant', 'Simplified Chinese'),
     ('ko', 'Korean'),
 )
 
@@ -51,17 +51,17 @@ MEDIA_URL = '/media/'
 STATIC_URL = '/static/'
 EXTRA_APPS = []
 
+SESSION_COOKIE_AGE = 1209600 # Two weeks
+
 #
 # --- Above this line, settings can be over-ridden for deployment
-# 
+#
 from inkscape import *
 
 sys.path.insert(0, os.path.join(PROJECT_PATH, 'libs'))
 
 HOST_ROOT = SITE_ADDRESS
 SITE_ROOT = "http://%s" % SITE_ADDRESS
-
-TEMPLATE_DEBUG = DEBUG
 
 # Place where files can be uploaded
 # Place where media can be served from in development mode
@@ -79,28 +79,35 @@ ROSETTA_EXTRA_PATHS = (
 
 # List of callables that know how to import templates from various sources.
 TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',  
-    'django.template.loaders.app_directories.Loader',  
+    'django.template.loaders.filesystem.Loader',
+    'django.template.loaders.app_directories.Loader',
 )
 if not DEBUG:
     # Add a template loader if not in debug
-    TEMPLATE_LOADERS = (('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),)
+    TEMPLATE_LOADERS = (
+        ('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),
+    )
 
-TEMPLATE_CONTEXT_PROCESSORS = global_settings.TEMPLATE_CONTEXT_PROCESSORS + (
-    'inkscape.context_processors.version',
-    'inkscape.context_processors.design',
-    'django.contrib.auth.context_processors.auth',
-    'django.contrib.messages.context_processors.messages',
-    'django.core.context_processors.i18n',
-    'django.core.context_processors.request',
-    'django.core.context_processors.media',
-    'django.core.context_processors.static',
-    'cms.context_processors.cms_settings',
-    'sekizai.context_processors.sekizai',
-    'social_auth.context_processors.social_auth_by_name_backends',
-    'social_auth.context_processors.social_auth_by_type_backends',
-    'social_auth.context_processors.social_auth_backends',
-)
+TEMPLATES = [{
+    'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'APP_DIRS': True,
+    'OPTIONS': {
+      'context_processors': (
+        'inkscape.context_processors.version',
+        'inkscape.context_processors.design',
+        'social.apps.django_app.context_processors.backends',
+        'social.apps.django_app.context_processors.login_redirect',
+        'django.contrib.auth.context_processors.auth',
+        'django.contrib.messages.context_processors.messages',
+        'django.core.context_processors.i18n',
+        'django.core.context_processors.request',
+        'django.core.context_processors.media',
+        'django.core.context_processors.static',
+        'cms.context_processors.cms_settings',
+        'sekizai.context_processors.sekizai',
+      )
+    }
+}]
 
 MIDDLEWARE_CLASSES = (
     'inkscape.middleware.AutoBreadcrumbMiddleware',
@@ -111,6 +118,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
+    'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
     'inkscape.middleware.CsrfWhenCaching',
     'cms.middleware.language.LanguageCookieMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
@@ -118,7 +126,6 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cmsdiff.middleware.CommentMiddleware',
     'cmsdiff.middleware.ObjectToolbarMiddleware',
-    'social_auth.middleware.SocialAuthExceptionMiddleware',
     'pagination.middleware.PaginationMiddleware',
     'person.middleware.SetLastVisitMiddleware',
 )
@@ -134,12 +141,12 @@ ROOT_URLCONF = 'inkscape.urls'
 
 INSTALLED_APPS = (
     'inkscape', # Goes first
+    'person', # Goes next
     'django.contrib.sites',
     'django.contrib.auth',
     'user_sessions',
-    'social_auth',
-    'person',
     'registration',
+    'social.apps.django_app.default',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.admin',
@@ -180,20 +187,22 @@ INSTALLED_APPS = (
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
-    ('auth.user',               _('Website User')),
+    ('person.user',             _('Website User')),
     ('resources.resourcefile',  _('Gallery Resource')),
     ('django_comments.comment', _('User Comment')),
 )
 
-AUTH_USER_MODEL = 'auth.User'
+AUTH_USER_MODEL = 'person.User'
 
-# activate automatically filled menues and deactivate redirection to English for non-translated cms pages
+# activate automatically filled menues and deactivate redirection to English
+# for non-translated cms pages
 CMS_LANGUAGES = {
     'default': {
         'fallbacks': ['en'],
         'public': True,
         'hide_untranslated': False, # fill the menu
-        'redirect_on_fallback': False, # stay in the selected language instead of going to /en/ urls
+        'redirect_on_fallback': False,
+        # stay in the selected language instead of going to /en/ urls
     }
 }
 
@@ -232,25 +241,12 @@ CKEDITOR_SETTINGS = {
 }
 
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.OpenIDBackend',
+    'social.backends.google.GoogleOAuth2',
+    'social.backends.facebook.FacebookOAuth2',
+    'social.backends.twitter.TwitterOAuth',
+    'social.backends.yahoo.YahooOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-# Custom pipeline to insert openid to oauth2 migration
-SOCIAL_AUTH_PIPELINE = (
-  'social_auth.backends.pipeline.social.social_auth_user',
-  'inkscape.google_pipeline.migrate_from_openid',
-  'social_auth.backends.pipeline.user.get_username',
-  'social_auth.backends.pipeline.user.create_user',
-  'social_auth.backends.pipeline.social.associate_user',
-  'social_auth.backends.pipeline.social.load_extra_data',
-  'social_auth.backends.pipeline.user.update_user_details',
-)
-
 
 ACCOUNT_ACTIVATION_DAYS = 7
 
@@ -287,7 +283,6 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 
-# This setting is for django-social-auth
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
 SENDFILE_BACKEND = 'sendfile.backends.development'

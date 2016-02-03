@@ -29,10 +29,11 @@ from django.db.models import *
 from django.utils.text import slugify
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse
 from django.core.files.images import get_image_dimensions
 from django.core.validators import MaxLengthValidator
+from django.contrib.auth import get_user_model
 from django.conf import settings
 
 from model_utils.managers import InheritanceManager
@@ -148,7 +149,7 @@ class ResourceManager(Manager):
 
     def get_absolute_url(self):
         obj = self.parent
-        if isinstance(obj, User):
+        if isinstance(obj, get_user_model()):
             return reverse('resources', kwargs={'username': obj.username})
         elif isinstance(obj, Group):
             return reverse('resources', kwargs={'team': obj.team.slug})
@@ -203,12 +204,12 @@ class InheritedResourceManager(InheritanceManager, ResourceManager):
 
 class Resource(Model):
     is_file   = False
-    user      = ForeignKey(User, related_name='resources', default=get_user)
+    user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
     category  = ForeignKey(Category, related_name='items', **null)
-    tags      = ManyToManyField(Tag, related_name='resources', **null)
+    tags      = ManyToManyField(Tag, related_name='resources', blank=True)
 
     created   = DateTimeField(**null) 
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
@@ -515,7 +516,7 @@ class MirrorManager(Manager):
 class ResourceMirror(Model):
     uuid     = CharField(_("Unique Identifier"), max_length=64, default=uuid4)
     name     = CharField(max_length=64)
-    manager  = ForeignKey(User, default=get_user)
+    manager  = ForeignKey(settings.AUTH_USER_MODEL, default=get_user)
     url      = URLField(_("Full Base URL"))
     capacity = PositiveIntegerField(_("Capacity (MB/s)"))
     created  = DateTimeField(default=now)
@@ -560,11 +561,11 @@ class GalleryManager(Manager):
 
 
 class Gallery(Model):
-    user      = ForeignKey(User, related_name='galleries', default=get_user)
+    user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
-    items     = ManyToManyField(Resource, related_name='galleries', **null)
+    items     = ManyToManyField(Resource, related_name='galleries', blank=True)
 
     objects   = GalleryManager()
 
@@ -636,7 +637,7 @@ class VoteManager(Manager):
 class Vote(Model):
     """Vote for a resource in some way"""
     resource = ForeignKey(Resource, related_name='votes')
-    voter    = ForeignKey(User, related_name='favorites')
+    voter    = ForeignKey(settings.AUTH_USER_MODEL, related_name='favorites')
 
     objects = VoteManager()
     
@@ -666,20 +667,11 @@ class Views(Model):
 
 
 class Quota(Model):
-    group    = ForeignKey(Group, related_name='quotas', unique=True, **null)
+    group    = OneToOneField(Group, related_name='quotas', **null)
     size     = IntegerField(_("Quota Size (KiB)"), default=1024)
 
     def __str__(self):
         return str(self.group)
-
-def quota_for_user(user):
-    groups = Q(group__in=user.groups.all()) | Q(group__isnull=True)
-    quotas = Quota.objects.filter(groups)
-    if quotas.count():
-        return quotas.aggregate(Max('size'))['size__max'] * 1024
-    return 0
-
-User.quota = quota_for_user
 
 # ------------- CMS ------------ #
 

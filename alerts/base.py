@@ -29,8 +29,7 @@ from django.core.mail.message import EmailMultiAlternatives
 from django.contrib.auth.models import User, Group
 from django.contrib.contenttypes.models import ContentType
 
-from alerts.tools import has_template, render_template, render_directly
-from alerts.models import UserAlert, UserAlertManager, UserAlertObject, AlertType
+from alerts.template_tools import has_template, render_template, render_directly
 
 from signal import SIGUSR1
 import os
@@ -51,7 +50,7 @@ class BaseAlert(object):
     default_email = True
 
     signal   = django_signals.post_save
-    category = AlertType.CATEGORY_UNKNOWN
+    category = '?'
     sender   = None
 
     # What lookup should be attached to the sender model;
@@ -74,6 +73,7 @@ class BaseAlert(object):
     target_field = None
 
     def __init__(self, slug, **kwargs):
+        from alerts.models import AlertType, UserAlert, UserAlertManager
         self.slug = slug
 
         # Check the setup of this alert class
@@ -244,6 +244,7 @@ def objects_deleted(sender, instance, **kwargs):
     """
     Check our alert objects for deleted items and clean up
     """
+    from alerts.models import UserAlertObject
     ct = ContentType.objects.get_for_model(type(instance))
     try:
         qs = UserAlertObject.objects.filter(o_id=instance.pk, table=ct)

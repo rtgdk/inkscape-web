@@ -23,19 +23,21 @@ import os
 from django.conf import settings
 from django.db.models import *
 from django.db.models.signals import m2m_changed
+
+from django.utils import timezone
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 from django.utils.text import slugify
 
+from django.contrib.auth.models import Group, AbstractUser
 from pile.fields import ResizedImageField, AutoOneToOneField
 
 null = dict(null=True, blank=True)
 
-from .userextra import User, Group
-
-class UserDetails(Model):
-    user  = AutoOneToOneField(User, related_name='details')
+@python_2_unicode_compatible
+class User(AbstractUser):
     bio   = TextField(validators=[MaxLengthValidator(4096)], **null)
     photo = ResizedImageField(_('Photograph (square)'), null=True, blank=True,
               upload_to='photos', max_width=190, max_height=190)
@@ -48,18 +50,31 @@ class UserDetails(Model):
     dauser  = CharField(_('deviantArt User'), max_length=64, **null)
     ocuser  = CharField(_('openClipArt User'), max_length=64, **null)
     tbruser = CharField(_('Tumblr User'), max_length=64, **null)
-    gpg_key = TextField(_('GPG Public Key'), validators=[MaxLengthValidator(262144)], **null)
+    gpg_key = TextField(_('GPG Public Key'),
+        help_text=_("""
+          <strong>Signing and Checksums for Uploads</strong><br/>
+          Either fill in a valid GPG key, so you can sign your uploads, or just enter any text to activate the upload validation feature which verifies your uploads by comparing checksums." %}<br/>
+          <strong>Usage in file upload/editing form:</strong><br/>
+          If you have submitted a GPG key, you can upload a *.sig file, and your upload can be verified. You can also submit these checksum file types:" %}<br/>
+          *.md5, *.sha1, *.sha224, *.sha256, *.sha384 {% trans "or" %} *.sha512
+        """),
+        validators=[MaxLengthValidator(262144)], **null)
 
     last_seen = DateTimeField(**null)
     visits    = IntegerField(default=0)
 
+    def __str__(self):
+        return self.name
+
+    @property
+    def name(self):
+        if self.first_name or self.last_name:
+            return self.get_full_name()
+        return self.username
+
     class Meta:
         permissions = [("website_cla_agreed", "Agree to Website License")]
-
-    def __unicode__(self):
-        if self.user.first_name:
-            return "%s %s" % (self.user.first_name, self.user.last_name)
-        return self.user.username
+        db_table = 'auth_user'
 
     def get_ircnick(self):
         if not self.ircnick:
@@ -70,6 +85,47 @@ class UserDetails(Model):
         if self.photo:
             return self.photo.url
         return None
+
+    def photo_preview(self):
+        if self.photo:
+            return '<img src="%s" style="max-width: 200px; max-height: 250px;"/>' % self.photo.url
+        # Return an embeded svg, it's easier than dealing with static files.
+        return """
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="250">
+           <path style="stroke:#6c6c6c;stroke-width:.5px;fill:#ece8e6;"
+           d="m1.2 1.2v248h27.6c-9.1-43 8-102 40.9-123-49.5-101 111-99.9 61.5 1.18 36.6 35.4 48.6 78.1 39.1 122h28.5v-248z"
+           /></svg>"""
+    photo_preview.allow_tags = True
+
+    def quota(self):
+        from resources.models import Quota
+        groups = Q(group__in=self.groups.all()) | Q(group__isnull=True)
+        quotas = Quota.objects.filter(groups)
+        if quotas.count():
+            return quotas.aggregate(Max('size'))['size__max'] * 1024
+        return 0
+
+    def get_absolute_url(self):
+        return reverse('view_profile', kwargs={'username':self.username})
+
+    def sessions(self):
+        return self.session_set.filter(expire_date__gt=timezone.now())
+  
+    def is_moderator(self):
+        return self.has_perm("comments.can_moderate")
+
+    def visited_by(self, by_user):
+        if by_user != self:
+            self.visits += 1
+            self.save()
+
+
+def group_breadcrumb_name(self):
+    try:
+        return str(self.team)
+    except:
+        return str(self)
+Group.group_breadcrumb_name = group_breadcrumb_name
 
 
 class TwilightSparkle(Manager):
@@ -99,8 +155,8 @@ class Team(Model):
 
     admin    = ForeignKey(User, related_name='admin_teams', **null)
     group    = AutoOneToOneField(Group, related_name='team')
-    watchers = ManyToManyField(User, related_name='watches', **null)
-    requests = ManyToManyField(User, related_name='team_requests', **null)
+    watchers = ManyToManyField(User, related_name='watches', blank=True)
+    requests = ManyToManyField(User, related_name='team_requests', blank=True)
 
     name     = CharField(_('Team Name'), max_length=32)
     slug     = SlugField(_('Team URL Slug'), max_length=32)
@@ -176,8 +232,6 @@ m2m_changed.connect(exclusive_subscription, sender=User.groups.through)
 
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()
-# Patch in a reverse lookup for teams so we get a solid team object list
-User.teams = property(lambda self: Team.objects.filter(group__in=self.groups.all()))
 
 class Ballot(Model):
     name  = CharField(max_length=128)
@@ -207,21 +261,5 @@ class BallotVotes(Model):
 
     def __str__(self):
         return "%s's Vote on Ballot %s" % (self.user, self.ballot)
-
-
-# ===== CMS Plugins ===== #
-
-
-from cms.models import CMSPlugin
-
-class GroupPhotoPlugin(CMSPlugin):
-    STYLES = (
-      ('L', _('Simple List')),
-      ('P', _('Photo Heads')),
-      ('B', _('Photo Bios')),
-    )
-
-    source = ForeignKey(Group)
-    style  = CharField(_('Display Style'), max_length=1, choices=STYLES)
 
 

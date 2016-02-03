@@ -74,4 +74,17 @@ class Migration(migrations.Migration):
             field=models.ForeignKey(related_name='front_tabs', blank=True, to=settings.AUTH_USER_MODEL, null=True),
             preserve_default=True,
         ),
+         migrations.CreateModel(
+            name='GroupPhotoPlugin',
+            fields=[
+                ('cmsplugin_ptr', models.OneToOneField(parent_link=True, auto_created=True, primary_key=True, serialize=False, to='cms.CMSPlugin')),
+                ('style', models.CharField(max_length=1, verbose_name='Display Style', choices=[(b'L', 'Simple List'), (b'P', 'Photo Heads'), (b'B', 'Photo Bios')])),
+                ('source', models.ForeignKey(to='auth.Group')),
+            ],
+            options={
+                'abstract': False,
+                'db_table': 'person_groupphotoplugin',
+            },
+            bases=('cms.cmsplugin',),
+        ),
     ]

@@ -18,15 +18,33 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.utils.translation import ugettext_lazy as _
+
 from django.contrib import admin
-from django.contrib.sessions.models import Session
 from django.contrib.admin import site, ModelAdmin
+from django.contrib.auth.admin import UserAdmin
 
 from .models import *
 
 class TeamAdmin(ModelAdmin):
     readonly_fields = ('watchers', 'requests')
 
-site.register(UserDetails)
 site.register(Team, TeamAdmin)
+
+
+class UserAdmin(UserAdmin):
+    readonly_fields = ('photo_preview',)
+    # We make a copy of the fieldsets from the UserAdmin class so we can
+    # customise it without any compelxity. Copied from Django 1.8.
+    fieldsets = ( 
+        (None, {'fields': ('username', 'password')}),
+        (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'language',
+                              'bio', 'gpg_key', 'photo_preview', 'photo')}),
+        (_('Social Networks'), {'fields': ('ircnick', 'ircdev', 'dauser', 'ocuser', 'tbruser')}),
+        (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
+                                       'groups', 'user_permissions')}),
+        (_('Important dates'), {'fields': ('last_login', 'date_joined', 'last_seen', 'visits')}),
+    ) 
+
+site.register(User, UserAdmin)
 

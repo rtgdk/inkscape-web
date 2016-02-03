@@ -28,11 +28,12 @@ from django.template import RequestContext
 from django.core.urlresolvers import reverse
 from django.views.generic import ListView, DeleteView, CreateView, TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
+from django.contrib.auth import get_user_model
 
 from pile.views import CategoryListView
 
 from .mixins import UserRequiredMixin, OwnerRequiredMixin
-from .models import User, UserAlert, Message, \
+from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
 
 class AlertList(CategoryListView, UserRequiredMixin):
@@ -174,7 +175,7 @@ class CreateMessage(UserRequiredMixin, CreateView):
     def get_initial(self):
         """Add reply to subject initial data"""
         initial = super(CreateMessage, self).get_initial()
-        self.recipient = get_object_or_404(User, username=self.kwargs.get('username',''))
+        self.recipient = get_object_or_404(get_model_user(), username=self.kwargs.get('username',''))
         rto = self.get_reply_to()
         if rto:
             initial['subject'] = (rto.reply_to and "Re: " or "") + rto.subject

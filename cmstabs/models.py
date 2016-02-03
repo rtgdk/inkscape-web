@@ -20,21 +20,23 @@
 Extra models for cms widgets only useful to inkscape website
 """
 
-__all__ = ('TabCategory', 'Tab', 'ShieldPlugin', 'InlinePages', 'InlinePage')
+__all__ = ('TabCategory', 'Tab', 'ShieldPlugin', 'InlinePages', 'InlinePage', 'GroupPhotoPlugin')
 
 import os
 import sys
 
+from django.conf import settings
 from django.db.models import *
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.utils.text import slugify
 from django.core.urlresolvers import reverse
+from django.contrib.auth.models import Group
 
 from cms.models import CMSPlugin
 from pile.fields import ResizedImageField
 
-from resources.models import License, User
+from resources.models import License
 
 null = dict(null=True, blank=True)
 
@@ -55,7 +57,7 @@ BTNS = (
 class Tab(Model):
     link     = URLField(_('External Link'), **null)
     name     = CharField(max_length=64)
-    user     = ForeignKey(User, related_name='front_tabs', **null)
+    user     = ForeignKey(settings.AUTH_USER_MODEL, related_name='front_tabs', **null)
     download = FileField(_('Background'), upload_to='shields/backgrounds')
     license  = ForeignKey(License)
 
@@ -147,4 +149,17 @@ class InlinePage(CMSPlugin):
     def __unicode__(self):
         return self.title
 
+
+class GroupPhotoPlugin(CMSPlugin):
+    STYLES = ( 
+      ('L', _('Simple List')),
+      ('P', _('Photo Heads')),
+      ('B', _('Photo Bios')),
+    )   
+
+    source = ForeignKey(Group)
+    style  = CharField(_('Display Style'), max_length=1, choices=STYLES)
+
+    class Meta:
+        db_table = 'person_groupphotoplugin'
 

@@ -5,7 +5,7 @@
   <div class="details">
     <div class="title">
       {% url 'view_profile' object.implicated.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.details.photo %}{{ object.implicated.details.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.photo %}{{ object.implicated.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
         {% blocktrans with object.implicated.username as user_name and object.target.submit_date|timetag as creation_date and object.target.get_content_object_url as the_url and object.target.content_object.name as resource_name %}
           <a href="{{profile_url}}">{{user_name}}</a> wrote {{creation_date}} about <a href="{{ the_url }}">{{ resource_name }}</a>:

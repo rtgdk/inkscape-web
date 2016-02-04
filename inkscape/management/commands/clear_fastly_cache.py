@@ -28,7 +28,6 @@ import fastly
 
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
-from django.contrib.sites.models import Site
 from django.templatetags.static import static
 
 def touch(fname, times=None):
@@ -58,10 +57,14 @@ class Command(NoArgsCommand):
           purge old ones too if old=True (all static files)
         """
         root = settings.STATIC_ROOT
+
         if not os.path.isdir(root):
-            sys.stderr.write("\nStatic directory doesn't exist or is empty. "
-                "Have you run collectstatic yet?\n\n")
-            return
+            return sys.stderr.write("\nStatic directory doesn't exist or is "
+                "empty. Have you run collectstatic yet?\n\n")
+
+        elif 'fastly.net' not in settings.STATIC_URL:
+            return sys.stderr.write("Fastly not being used for this website."
+                "(set STATIC_URL)\n")
 
         last_clear = 0
         last_file = os.path.join(root, '.fastly_cleared')
@@ -96,9 +99,7 @@ class Command(NoArgsCommand):
         """Purge any static file from the fastly cache"""
         # We don't want to just use get static url, because that just points
         # back to fastly cache which is not what we need for this api
-        site = Site.objects.get_current()
         url = static(path)
-        if '://' in url:
-            url = '/' + url.split('/', 3)[-1]
-        self.api.purge_url(site.domain, 'https://inkscape.global.ssl.fastly.net/static/css/gallery.css')
+        (domain, location) = url.split('://', 1)[-1].split('/', 1)
+        self.api.purge_url(domain, '/' + location)
 

@@ -37,11 +37,15 @@ def has_template(template_name):
         return False
 
 def render_template(template_name, context):
-    return render_directly(get_template(template_name), context)
+    template = get_template(template_name)
+    return render_directly(template, context)
 
 def render_directly(template, context):
     if type(context) is not Context:
         context = Context(context or {})
+    if isinstance(template, (str, unicode)):
+        template = "{% load i18n %}" + template
+        template = Template(template)
     try:
         return template.render(context)
     except (VariableDoesNotExist, TemplateSyntaxError) as error:

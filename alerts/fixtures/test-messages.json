@@ -21,7 +21,7 @@
     "enabled": true,
     "private": false,
     "default_email": false,
-    "slug": "resource.resource_alert",
+    "slug": "resources.resource_alert",
     "default_hide": false
   },
   "model": "alerts.alerttype",

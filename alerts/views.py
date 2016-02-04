@@ -71,6 +71,7 @@ class MarkDeleted(MarkViewed):
 
 class Subscribe(CreateView, UserRequiredMixin):
     model = AlertSubscription
+    fields = '__all__'
     action_name = _('Subscribe')
 
     def get_context_data(self, **kwargs):

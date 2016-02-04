@@ -69,7 +69,7 @@
           <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
         {% endif %}
         {% if object != request.user %}
-          <li><a href="{% url "alert.subscribe" "resource.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
+          <li><a href="{% url "alert.subscribe" "resources.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
         {% else %}
           <li><a href="{% url "resource.upload" %}">{% trans "New Upload" %}</a></li>
         {% endif %}

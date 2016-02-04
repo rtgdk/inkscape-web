@@ -9,7 +9,7 @@
     "mirror": false,
     "download": "test/file1.svg"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 1
 },
 {
@@ -22,7 +22,7 @@
     "mirror": false,
     "download": "test/file2.txt"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 2
 },
 {
@@ -35,7 +35,7 @@
     "mirror": false,
     "download": "test/file3.svg"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 3
 },
 {
@@ -48,7 +48,7 @@
     "mirror": false,
     "download": "test/file4.svg"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 4
 },
 {
@@ -61,7 +61,7 @@
     "mirror": false,
     "download": "test/file5.svg"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 5
 },
 {
@@ -74,7 +74,7 @@
     "mirror": false,
     "download": "test/file2.txt"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 6
 },
 {
@@ -87,7 +87,7 @@
     "mirror": false,
     "download": "test/preview5.png"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 7
 },
 {
@@ -100,7 +100,7 @@
     "mirror": false,
     "download": "test/file2.txt"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 8
 },
 {
@@ -113,7 +113,7 @@
     "mirror": false,
     "download": "test/file1.svg"
   },
-  "model": "resource.resourcefile",
+  "model": "resources.resourcefile",
   "pk": 9
 },
 {
@@ -137,7 +137,7 @@
     "thumbnail": "",
     "link": ""
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 1
 },
 {
@@ -161,7 +161,7 @@
     "thumbnail": "",
     "link": "http://link.com/"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 2
 },
 {
@@ -185,7 +185,7 @@
     "thumbnail": "test/preview3.png",
     "link": ""
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 3
 },
 {
@@ -208,7 +208,7 @@
     "thumbnail": "test/preview4.jpg",
     "link": "http://google.com/"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 4
 },
 {
@@ -231,7 +231,7 @@
     "thumbnail": "test/preview4.jpg",
     "link": "http://google.com/"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 5
 },
 {
@@ -255,7 +255,7 @@
     "thumbnail": "",
     "link": "http://link.com/"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 6
 },
 {
@@ -279,7 +279,7 @@
     "thumbnail": "",
     "link": "https://www.youtube.com/watch?v=VideoTag012"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 7
 },
 {
@@ -303,7 +303,7 @@
     "thumbnail": "",
     "link": "http://vimeo.com/VideoTag"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 8
 },
 {
@@ -327,7 +327,7 @@
     "thumbnail": "",
     "link": "http://linkforpicture.com/"
   },
-  "model": "resource.resource",
+  "model": "resources.resource",
   "pk": 9
 },
 {
@@ -336,7 +336,7 @@
     "name": "Gallery by User Three",
     "slug": "gallery-one"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 1
 },
 {
@@ -345,7 +345,7 @@
     "name": "Gallery by User Two",
     "slug": "gallery-two"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 2
 },
 {
@@ -355,7 +355,7 @@
     "name": "Gallery Three for Group",
     "slug": "gallery-group"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 3
 },
 {
@@ -364,7 +364,7 @@
     "name": "Another Gallery by User Three",
     "slug": "gallery-four"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 4
 },
 {
@@ -374,7 +374,7 @@
     "name": "Gallery Five for Group Test",
     "slug": "gallery-five-group"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 5
 },
 {
@@ -384,7 +384,7 @@
     "name": "Gallery Six for Group Two",
     "slug": "gallery-six-group"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 6
 },
 {
@@ -394,7 +394,7 @@
     "name": "A Group Gallery for Group Two by User Three",
     "slug": "gallery-seven"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 7
 },
 {
@@ -404,7 +404,7 @@
     "name": "Gallery Eight for Group Test",
     "slug": "gallery-eight-group"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 8
 },
 {
@@ -413,7 +413,7 @@
     "name": "Gallery for User Admin",
     "slug": "gallery-belonging-to-admin"
   },
-  "model": "resource.gallery",
+  "model": "resources.gallery",
   "pk": 9
 }
 ]

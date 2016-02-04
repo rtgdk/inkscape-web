@@ -1,1 +1,1 @@
-[{"pk": 1, "model": "resource.quota", "fields": {"group": null, "size": 1024000}}]
+[{"pk": 1, "model": "resources.quota", "fields": {"group": null, "size": 1024000}}]

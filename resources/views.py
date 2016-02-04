@@ -32,11 +32,12 @@ from django.utils.timezone import now
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import Group, User
+from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.conf import settings
-
 from django.template import RequestContext
+
+from person.models import User
 from pile.views import *
 
 from .mixins import *

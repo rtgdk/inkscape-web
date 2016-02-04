@@ -25,7 +25,6 @@ class DeleteIfExists(Operation):
             except Exception as error:
                 if 'Warning' not in type(error).__name__:
                     raise
-                print str(error)
             schema_editor.execute("SET FOREIGN_KEY_CHECKS=1")
         else:
             schema_editor.execute("DROP TABLE IF EXISTS %(table)s" % {
@@ -49,7 +48,7 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        DeleteIfExists('alerts_alertsubscription'),
+        #DeleteIfExists('alerts_alertsubscription'),
         migrations.CreateModel(
             name='AlertSubscription',
             fields=[
@@ -60,7 +59,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        DeleteIfExists('alerts_alerttype'),
+        #DeleteIfExists('alerts_alerttype'),
         migrations.CreateModel(
             name='AlertType',
             fields=[
@@ -77,7 +76,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        DeleteIfExists('alerts_message'),
+        #DeleteIfExists('alerts_message'),
         migrations.CreateModel(
             name='Message',
             fields=[
@@ -93,7 +92,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        DeleteIfExists('alerts_useralert'),
+        #DeleteIfExists('alerts_useralert'),
         migrations.CreateModel(
             name='UserAlert',
             fields=[
@@ -108,7 +107,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        DeleteIfExists('alerts_useralertobject'),
+        #DeleteIfExists('alerts_useralertobject'),
         migrations.CreateModel(
             name='UserAlertObject',
             fields=[
@@ -122,7 +121,7 @@ class Migration(migrations.Migration):
             },
             bases=(models.Model,),
         ),
-        DeleteIfExists('alerts_useralertsetting'),
+        #DeleteIfExists('alerts_useralertsetting'),
         migrations.CreateModel(
             name='UserAlertSetting',
             fields=[

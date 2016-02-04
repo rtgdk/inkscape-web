@@ -247,6 +247,8 @@ class Resource(Model):
         return self.user.resources
 
     def description(self):
+        if not self.desc:
+            return '-'
         if '[[...]]' in self.desc:
             return self.desc.split('[[...]]')[0]
         return self.desc[:1000]

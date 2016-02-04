@@ -34,7 +34,7 @@ from django.utils.timezone import now
 from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 
-from person.models import UserDetails
+from person.models import User
 from alerts.models import Message, UserAlert
 
 class Command(BaseCommand):
@@ -84,10 +84,10 @@ class Command(BaseCommand):
         """^(\w+)[:\- ]*whois (\w+)"""
         if self.nick != address:
             return
-        users = UserDetails.objects.filter(ircnick__iexact=nick)
+        users = User.objects.filter(ircnick__iexact=nick)
         if users.count() > 0:
             return context.nick + ': ' + '\n'.join([u"%s - %s/%s" %
-              (str(profile.user), SITE_ROOT, profile.user.get_absolute_url())
+              (str(profile.user), SITE_ROOT, profile.get_absolute_url())
               for profile in users])
         return context.nick + ': No user with irc nickname "%s" on the website.' % nick
 
@@ -96,18 +96,18 @@ class Command(BaseCommand):
         if self.nick != address:
             return
 
-        from_user = UserDetails.objects.filter(ircnick__iexact=context.nick)
+        from_user = User.objects.filter(ircnick__iexact=context.nick)
         if from_user.count() != 1:
             return u'Your irc nickname must be configured on the website. Or it must be the only user with this irc nickname.'
 
-        to_user = UserDetails.objects.filter(ircnick__iexact=nick)
+        to_user = User.objects.filter(ircnick__iexact=nick)
         if to_user.count() > 1:
             return u'Too many users have that irc nickname configured.'
         elif to_user.count() == 0:
             return u'Can not find user with irc nickname "%s"' % nick
         
         message = Message.objects.create(subject="From IRC", body=body,
-                     sender=from_user.get().user, recipient=to_user.get().user)
+                     sender=from_user.get(), recipient=to_user.get())
 
         return u'%s: Message Sent' % context.nick
 
@@ -118,7 +118,7 @@ class Command(BaseCommand):
         for alert in UserAlert.objects.filter(created__gt=self.last_alert):
             self.last_alert = now()
             user = alert.user
-            nick = user.details.ircnick
+            nick = user.ircnick
             if nick:
                 self.client.privmsg(nick, "ALERT: %s ... More info: %s" % (alert.subject, alert.get_absolute_url()))
 

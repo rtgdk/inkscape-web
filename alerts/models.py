@@ -95,8 +95,9 @@ class AlertType(Model):
         try:
             return super(AlertType, self).__getattr__(name)
         except AttributeError:
-            if name[0] == '_' or name in ('query', 'bump_prefix', 'get_compiler'):
-                raise
+            raise
+            # New issues were found here and this is the fouth time, this is not a
+            # good solution to the issue of having Orphaned plugins
             return DummyObject()
 
     def send_to(self, user, auth=None, **kwargs):

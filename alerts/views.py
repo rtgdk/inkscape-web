@@ -36,7 +36,7 @@ from .mixins import UserRequiredMixin, OwnerRequiredMixin
 from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
 
-class AlertList(CategoryListView, UserRequiredMixin):
+class AlertList(UserRequiredMixin, CategoryListView):
     model = UserAlert
     opts = (
       ('alerttype', 'alert__slug'),
@@ -54,7 +54,7 @@ class AlertList(CategoryListView, UserRequiredMixin):
         return data
 
 
-class MarkViewed(View, SingleObjectMixin, OwnerRequiredMixin):
+class MarkViewed(OwnerRequiredMixin, View, SingleObjectMixin):
     model = UserAlert
     function = 'view'
 
@@ -69,7 +69,7 @@ class MarkDeleted(MarkViewed):
     function = 'delete'
 
 
-class Subscribe(CreateView, UserRequiredMixin):
+class Subscribe(UserRequiredMixin, CreateView):
     model = AlertSubscription
     fields = '__all__'
     action_name = _('Subscribe')
@@ -93,7 +93,7 @@ class Subscribe(CreateView, UserRequiredMixin):
         return redirect('alert.settings')
 
 
-class Unsubscribe(DeleteView, OwnerRequiredMixin):
+class Unsubscribe(OwnerRequiredMixin, DeleteView):
     model = AlertSubscription
     action_name = _('Unsubscribe')
     get_success_url = lambda self: reverse('alert.settings')

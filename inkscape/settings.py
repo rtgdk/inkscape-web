@@ -77,21 +77,15 @@ ROSETTA_EXTRA_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'inkscape'),
 )
 
-# List of callables that know how to import templates from various sources.
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
-)
-if not DEBUG:
-    # Add a template loader if not in debug
-    TEMPLATE_LOADERS = (
-        ('django.template.loaders.cached.Loader', TEMPLATE_LOADERS),
-    )
-
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
-    'APP_DIRS': True,
     'OPTIONS': {
+      'loaders': [
+          ('django.template.loaders.cached.Loader', [
+              'django.template.loaders.filesystem.Loader',
+              'django.template.loaders.app_directories.Loader',
+          ]),
+      ],
       'context_processors': (
         'inkscape.context_processors.version',
         'inkscape.context_processors.design',
@@ -108,6 +102,9 @@ TEMPLATES = [{
       )
     }
 }]
+if DEBUG:
+    # Remove caching for DEBUG
+    TEMPLATES[0]['OPTIONS']['loaders'] = TEMPLATES[0]['OPTIONS']['loaders'][0][1]
 
 MIDDLEWARE_CLASSES = (
     'inkscape.middleware.AutoBreadcrumbMiddleware',

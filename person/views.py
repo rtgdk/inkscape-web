@@ -46,6 +46,8 @@ class EditProfile(UserMixin, UpdateView):
     form_class = UserForm
 
     def get_success_url(self):
+        if 'next' in self.request.POST:
+            return self.request.POST['next']
         return self.get_object().get_absolute_url()
 
 class UserDetail(DetailView):

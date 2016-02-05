@@ -14,15 +14,20 @@
     {% else %}
       {% url 'edit_profile' as profile_url %}
       <div>
-        {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to leave a comment!{% endblocktrans %}
+        {% blocktrans with profile_url|add:"?next="|add:request.path as url %}
+          You need to <a href="{{url}}">add an email address to your profile</a> if you'd like to leave a comment!
+        {% endblocktrans %}
       </div>
     {% endif %}
   {% else %}
     {% url 'auth_login' as login_url %}
     <div>
-      {% blocktrans %}Please <a href="{{login_url}}">log in</a> to leave a comment!{% endblocktrans %}
+      {% blocktrans with login_url|add:"?next="|add:request.path as url %}
+        Please <a href="{{url}}">log in</a> to leave a comment!
+      {% endblocktrans %}
     </div>
   {% endif %}
 </div>
+
 
 <!-- todo: replace comment.get_content_object_url with comment.get_absolute_url or %get_comment_permalink comment% in all templates, if there won't be a single comment view page -->

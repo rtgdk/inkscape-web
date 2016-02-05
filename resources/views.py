@@ -299,11 +299,10 @@ class GalleryList(CategoryListView):
       ('-edited', _('Last Updated')),
     )
 
-    def base_queryset(self):
-        qs = super(GalleryList, self).base_queryset()
+    def extra_filters(self):
         if self.get_value('username') != self.request.user.username:
-            qs = qs.filter(published=True)
-        return qs
+            return dict(published=True)
+        return {}
 
     def get_licenses(self):
         return License.objects.filter(filterable=True)
@@ -323,7 +322,7 @@ class GalleryList(CategoryListView):
 
     def get_context_data(self, **kwargs):
         data = super(GalleryList, self).get_context_data(**kwargs)
-  
+
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
@@ -352,19 +351,17 @@ class GalleryFeed(CategoryFeed, GalleryList):
     description = "Gallery Resources RSS Feed"
 
     def items(self):
-        for item in self.get_queryset():
-            if hasattr(item, 'object'):
-                item = item.object
-            if callable(item):
-                item = item()
-            if item.is_visible():
+        for item in CategoryFeed.items(self):
+            if self.query:
+                yield item.object
+            else:
                 yield item
 
     def item_title(self, item):
         return item.name
 
     def item_description(self, item):
-        return item.description()
+        return item.description
 
     def item_guid(self, item):
         return '#'+str(item.pk)

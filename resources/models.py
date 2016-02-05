@@ -111,7 +111,7 @@ class Category(Model):
     end_contest = DateField(**null)
 
     def __str__(self):
-        return str(self.name)
+        return self.name.encode('utf8')
 
     @property
     def votes(self):
@@ -234,6 +234,9 @@ class Resource(Model):
 
     def __unicode__(self):
         return self.name
+
+    def __str__(self):
+        return self.name.encode('utf8')
 
     def summary_string(self):
         return _("%(file_title)s by %(file_author)s (%(years)s)") \
@@ -554,7 +557,8 @@ class ResourceMirror(Model):
         return os.path.join(self.url, 'file', filename)
 
     def __str__(self):
-        return "Mirror '%s' from '%s'" % (self.name, self.host)
+        return "Mirror '%s' from '%s'" % \
+                (self.name.encode('utf8'), self.host.encode('utf8'))
 
 
 class GalleryManager(Manager):
@@ -573,10 +577,13 @@ class Gallery(Model):
 
     def __unicode__(self):
         if self.group:
-            return _("%(gallery_name)s (for group %(group_name)s)") \
+            return _(u"%(gallery_name)s (for group %(group_name)s)") \
                   % {'gallery_name': self.name, 'group_name': unicode(self.group)}
-        return  _("%(gallery_name)s (by %(user_name)s)") \
+        return  _(u"%(gallery_name)s (by %(user_name)s)") \
                   % {'gallery_name': self.name, 'user_name': unicode(self.user)}
+
+    def __str__(self):
+        return unicode(self).encode('utf8')
 
     def save(self, *args, **kwargs):
         set_slug(self)

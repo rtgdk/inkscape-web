@@ -53,6 +53,9 @@ EXTRA_APPS = []
 
 SESSION_COOKIE_AGE = 1209600 # Two weeks
 
+# Allow realtime updates of pages
+#HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
+
 #
 # --- Above this line, settings can be over-ridden for deployment
 #
@@ -287,7 +290,7 @@ SENDFILE_ROOT = MEDIA_ROOT
 SENDFILE_URL = MEDIA_URL
 
 AJAX_LOOKUP_CHANNELS = {
-  'user'    : {'model':'auth.User', 'search_field':'username'},
+  'user'    : {'model':'person.User', 'search_field':'username'},
   'resource': {'model':'resources.ResourceFile', 'search_field':'name'},
   'tags'    : ('resources.lookups', 'TagLookup'),
 }

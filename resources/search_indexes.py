@@ -24,8 +24,8 @@ from .models import ResourceFile
 class ResourceFileIndex(SearchIndex, Indexable):
     text      = CharField(document=True, use_template=True)
 
-    edited    = DateTimeField(model_attr='edited')
-    created   = DateTimeField(model_attr='created')
+    edited    = DateTimeField(model_attr='edited', null=True)
+    created   = DateTimeField(model_attr='created', null=True)
     published = BooleanField(model_attr='published')
 
     def get_model(self):
@@ -36,6 +36,7 @@ class ResourceFileIndex(SearchIndex, Indexable):
 
     def index_queryset(self, using=None):
         """Used when the entire index for model is updated."""
+        # This would need changing if we used the signal updater
         return self.get_model().objects.filter(published=True)
 
 

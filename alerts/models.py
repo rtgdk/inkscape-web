@@ -51,12 +51,6 @@ class AlertTypeManager(Manager):
             self.filter(pk=obj.pk).update(**values)
         return (obj, created)
 
-class DummyObject(object):
-    __getattr__ = lambda self, *args, **kwargs: self
-    __call__ = lambda self, *args, **kwargs: self
-    __repr__ = lambda self: "Orphaned Object"
-    __iter__ = lambda self: [].__iter__()
-
 class AlertType(Model):
     """All Possible messages that users can receive, acts as a template"""
     CATEGORIES = (
@@ -92,13 +86,7 @@ class AlertType(Model):
     def __getattr__(self, name):
         if hasattr(self._alerter, name):
             return getattr(self._alerter, name)
-        try:
-            return super(AlertType, self).__getattr__(name)
-        except AttributeError:
-            raise
-            # New issues were found here and this is the fouth time, this is not a
-            # good solution to the issue of having Orphaned plugins
-            return DummyObject()
+        return getattr(super(AlertType, self), name)
 
     def send_to(self, user, auth=None, **kwargs):
         """Creates a new alert for a certain user of this type.
@@ -159,7 +147,10 @@ class AlertType(Model):
         return reverse('alert.'+view, kwargs=kwargs)
 
     def __str__(self):
-        return unicode(self.name)
+        try:
+            return unicode(self.name)
+        except AttributeError:
+            return "Orphan (%s)" % self.slug
 
 
 for (m, name) in AlertType.CATEGORIES:

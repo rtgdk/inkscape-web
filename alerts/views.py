@@ -2,7 +2,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -26,7 +26,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, DeleteView, CreateView, TemplateView, View
+from django.views.generic import ListView, DeleteView, CreateView, \
+        TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 
@@ -176,7 +177,7 @@ class CreateMessage(UserRequiredMixin, CreateView):
     def get_initial(self):
         """Add reply to subject initial data"""
         initial = super(CreateMessage, self).get_initial()
-        self.recipient = get_object_or_404(get_model_user(), username=self.kwargs.get('username',''))
+        self.recipient = get_object_or_404(get_user_model(), username=self.kwargs.get('username',''))
         rto = self.get_reply_to()
         if rto:
             initial['subject'] = (rto.reply_to and "Re: " or "") + rto.subject

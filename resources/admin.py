@@ -59,7 +59,7 @@ class QuotaAdmin(ModelAdmin):
         return _('Quota for Everyone')
 
     def quota_size(self, obj):
-        return filesizeformat(obj.size)
+        return filesizeformat(obj.size * 1024)
 
 site.register(Quota, QuotaAdmin)
 

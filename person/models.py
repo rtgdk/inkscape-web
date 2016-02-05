@@ -118,6 +118,10 @@ class User(AbstractUser):
             self.visits += 1
             self.save()
 
+    @property
+    def teams(self):
+        return Team.objects.filter(group__in=self.groups.all())
+
 
 def group_breadcrumb_name(self):
     try:

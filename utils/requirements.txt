@@ -33,7 +33,7 @@ django-polymorphic==0.5.5
 django-reversion==1.8.7
 django-mptt==0.6.1
 django-mailman==0.4
-django-recaptcha==1.0
+django-recaptcha==1.0.5
 django-split-json-widget==0.2
 #django-user-sessions==1.2.0
 -e git://github.com/Bouke/django-user-sessions.git#egg=user_session

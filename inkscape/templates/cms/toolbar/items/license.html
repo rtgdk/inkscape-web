@@ -1,7 +1,8 @@
 {% load i18n %}
-<div class="cms_toolbar-item cms_toolbar-item-buttons cms_toolbar-item_switch_save-edit">
+
+<div class="cms-toolbar-item cms-toolbar-item-buttons">
   <div id="agreement" style="display: none;">{% include "person/cla.html" %}</div>
-  <a class="cms_btn cms_btn-action cms_btn-switch-save" href="{% url 'agree_to_cla' %}" title="Agree to Website License Agreement">
+  <a class="cms-btn cms-btn-action cms-btn-switch-save" href="{% url 'agree_to_cla' %}" title="Agree to Website License Agreement">
     {% trans "Start Editing Website" %}
   </a>
   <script>

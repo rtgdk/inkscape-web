@@ -77,7 +77,7 @@ class User(AbstractUser):
 
     def get_ircnick(self):
         if not self.ircnick:
-            return self.user.username
+            return self.username
         return self.ircnick
 
     def photo_url(self):

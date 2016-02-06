@@ -236,33 +236,3 @@ m2m_changed.connect(exclusive_subscription, sender=User.groups.through)
 # Patch in the url so we get a better front end view from the admin.
 Group.get_absolute_url = lambda self: self.team.get_absolute_url()
 
-class Ballot(Model):
-    name  = CharField(max_length=128)
-    team  = ForeignKey(Team, related_name='ballots')
-    desc  = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
-
-    def __str__(self):
-        return self.name
-
-
-class BallotItem(Model):
-    ballot = ForeignKey(Ballot, related_name='items')
-    name  = CharField(max_length=128)
-
-    def __str__(self):
-        return self.name
-
-
-class BallotVotes(Model):
-    ballot = ForeignKey(Ballot, related_name='votes')
-    user   = ForeignKey(User, related_name='ballot_votes')
-    item   = ForeignKey(BallotItem, related_name='votes')
-    order  = IntegerField(default=0)
-
-    class Meta:
-        unique_together = ('user', 'item', 'order')
-
-    def __str__(self):
-        return "%s's Vote on Ballot %s" % (self.user, self.ballot)
-
-

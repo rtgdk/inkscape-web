@@ -36,6 +36,14 @@ from django.core.management.base import BaseCommand, CommandError
 
 from person.models import User
 from alerts.models import Message, UserAlert
+from resources.models import Category
+
+def url(item):
+    """Returns the full URL"""
+    if hasattr(item, 'get_absolute_url'):
+        item = item.get_absolute_url()
+    return settings.SITE_ROOT.rstrip('/') + unicode(item)
+
 
 class Command(BaseCommand):
     help = 'Starts an irc bot that will join the main channel and interact with the website.'
@@ -77,7 +85,10 @@ class Command(BaseCommand):
     def on_exit(self, context, message):
         """The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."""
         print "Bot is going to sleep!"
-        self.client.privmsg('#inkscape', 'I have to go!')
+        try:
+            self.client.quit()
+        except:
+            pass
         self.client.connections[0].socket.disconnect()
 
     def on_whois(self, context, message, address, nick):
@@ -86,9 +97,8 @@ class Command(BaseCommand):
             return
         users = User.objects.filter(ircnick__iexact=nick)
         if users.count() > 0:
-            return context.nick + ': ' + '\n'.join([u"%s - %s/%s" %
-              (str(profile.user), SITE_ROOT, profile.get_absolute_url())
-              for profile in users])
+            return context.nick + ': ' + '\n'.join([u"%s - %s" %
+              (str(profile), url(profile)) for profile in users])
         return context.nick + ': No user with irc nickname "%s" on the website.' % nick
 
     def on_tell(self, context, message, address, nick, body):
@@ -110,6 +120,14 @@ class Command(BaseCommand):
                      sender=from_user.get(), recipient=to_user.get())
 
         return u'%s: Message Sent' % context.nick
+
+    def on_art(self, context, message):
+        """Get Latest Art"""
+        cat = Category.object.filter(name='Artwork')
+        if cat.count() < 1:
+            return
+        item = cat.items.filter(visible=True).latest('-created')
+        return u"%s by %s: %s" % (unicode(item), unicode(item.user), url(item))
 
     def recieve_alert(self, signum, frame):
         """

@@ -123,10 +123,10 @@ class Command(BaseCommand):
 
     def on_art(self, context, message):
         """Get Latest Art"""
-        cat = Category.object.filter(name='Artwork')
+        cat = Category.objects.filter(name='Artwork')
         if cat.count() < 1:
             return
-        item = cat.items.filter(visible=True).latest('-created')
+        item = cat[0].items.filter(published=True).latest('created')
         return u"%s by %s: %s" % (unicode(item), unicode(item.user), url(item))
 
     def recieve_alert(self, signum, frame):

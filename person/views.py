@@ -23,32 +23,22 @@
 from django.views.generic import UpdateView, DetailView, ListView, RedirectView
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.translation import ugettext_lazy as _
+from django.shortcuts import get_object_or_404
 from django.contrib import messages
+from django.http import HttpResponseRedirect
 
-from user_sessions.views import LoginRequiredMixin
+from .models import User, Team
+from .forms import UserForm, AgreeToClaForm, Permission
+from .mixins import LoginRequiredMixin, UserMixin, NextUrlMixin
 
-from .models import User, Group, Team
-from .forms import UserForm, AgreeToClaForm
 
-class UserMixin(LoginRequiredMixin):
-    def get_object(self):
-        return self.request.user
-
-class AgreeToCla(UserMixin, UpdateView):
+class AgreeToCla(NextUrlMixin, UserMixin, UpdateView):
     template_name = 'person/cla-agree.html'
     action_name = _('Contributors License Agreement')
     form_class = AgreeToClaForm
 
-    def get_success_url(self):
-        return self.request.POST.get('next', '/')
-
-class EditProfile(UserMixin, UpdateView):
+class EditProfile(NextUrlMixin, UserMixin, UpdateView):
     form_class = UserForm
-
-    def get_success_url(self):
-        if 'next' in self.request.POST:
-            return self.request.POST['next']
-        return self.get_object().get_absolute_url()
 
 class UserDetail(DetailView):
     template_name  = 'person/user_detail.html'
@@ -106,8 +96,27 @@ class TeamDetail(DetailView):
     model          = Team
 
 class ChatWithTeam(LoginRequiredMixin, TeamDetail):
-    template_name = 'person/team_chat.html'
     action_name = _("Chat")
+
+    @property
+    def template_name(self):
+        if not self.request.user.has_perm('person.use_irc'):
+            return 'chat/tutorial.html'
+        return 'person/team_chat.html'
+
+    def get(self, request, *args, **kwargs):
+        if request.GET.get('irc') == 'ok':
+            irc = Permission.objects.get(codename='use_irc')
+            request.user.user_permissions.add(irc)
+            return HttpResponseRedirect(request.path)
+        return super(ChatWithTeam, self).get(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        data = super(ChatWithTeam, self).get_context_data(**kwargs)
+        data['page'] = int(self.request.GET.get('page', 1))
+        data['chat_page'] = "chat/page-%s.svg" % data['page']
+        return data
+
 
 class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'team'

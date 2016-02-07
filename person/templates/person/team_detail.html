@@ -6,6 +6,11 @@
 
 {% block "profile" %}
   <img id="photo" src="{{ object.icon.url }}"/>
+  <div class="socialicons">
+    <a href="{% url "teams" %}">
+      <img src="{% static "images/social/back.svg" %}" title="{% trans "Back to all teams." %}"/>
+    </a>
+  </div>
 {% endblock %}
 
 {% block "side" %}

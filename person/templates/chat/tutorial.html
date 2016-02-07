@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block "css" %}{{ block.super }}
+<style>
+#irchat {
+  font-family: Ubuntu;
+  text-align: center;
+  background-color: rgb(210, 163, 240);
+  height: 530px;
+  border: 0px solid #6c4576;
+  border-width: 0px 4px;
+}
+#irchat h1,
+#irchat h2 {
+  background-color: #edd9f7;
+  font-family: Ubuntu;
+  font-weight: bold;
+  text-shadow:
+    -2px -2px 0 #f3e6fa,
+     2px -2px 0 #f3e6fa,
+    -2px  2px 0 #f3e6fa,
+     2px  2px 0 #f3e6fa;
+  margin: 0px;
+  padding: 10px 2px;
+  box-shadow: 0px 2px 2px #000;
+}
+#irchat h2 {
+  background-color: #e4c6f5;
+}
+#irchat h2 {
+  border: 0px;
+}
+#irchat .chat-middle {
+  height: 320px;
+  text-align: left;
+  margin: 30px 40px 30px 120px;
+  line-height: 2;
+  font-size: 16pt;
+}
+#irchat .chat-button {
+  background-color: #e4c6f5;
+  box-shadow: 0px -2px 2px #444;
+  padding: 9px;
+}
+</style>
+{% endblock %}
+
+{% block supercontent %}
+  <form action="" method="get">
+    <div id="irchat">
+      <h1>Using Chat: First Time Tutorial</h1>
+      {% if page == 1 %}
+        <h2>Research the Problem Before Asking</h2>
+        <div class="chat-middle">
+          <img src="{% static "images/chat/research.svg" %}" style="float: right;"/>
+          <br>
+          <ul>
+            <li>Read the documentation</li>
+            <li>Search the Website</li>
+            <li>Look for tutorials</li>
+            <li>Do an internet search</li>
+          </ul>
+        </div>
+      {% elif page == 2 %}
+        <h2>Ask The Right People</h2>
+        <div class="chat-middle">
+          <img src="{% static "images/chat/people.svg" %}" style="float: right;"/>
+          <br>
+          <ul>
+            <li>Don't ask when busy</li>
+            <li>Ask everybody, not one person</li>
+            <li>Keep developer questions to the developer room</li>
+            <li>Issues must be reported to the bug tracker</li>
+          </ul>
+        </div>
+      {% elif page == 3 %}
+        <h2>Ask Good Questions</h2>
+        <div class="chat-middle">
+          <img src="{% static "images/chat/questions.svg" %}" style="float: right;"/>
+          <br>
+          <ul>
+            <li>Don't ask to ask</li>
+            <li>Be clear with your questions</li>
+            <li>Include the reason or purpose</li>
+            <li>Respond to requests for clarification</li>
+          </ul>
+        </div>
+      {% elif page == 4 %}
+        <h2>Be Patient</h2>
+        <div class="chat-middle">
+          <img src="{% static "images/chat/patient.svg" %}" style="float: right;"/>
+          <br>
+          <p>Wait for an answer, not all users in chatrooms are checking all the time, but they will respond when they can.</p>
+        </div>
+      {% endif %}
+      <div class="chat-button">
+        {% if page > 1 %}
+          <button type="submit" name="page" value="{{ page|add:-1 }}" class="btn">{% trans "Back" %}</button>
+        {% endif %}
+        <button type="submit" class="btn"
+          {% if page == 4 %}
+            name="irc" value="ok"
+          {% else %}
+            name="page" value="{{ page|add:1 }}"
+          {% endif %}>{% trans "I Understand" %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

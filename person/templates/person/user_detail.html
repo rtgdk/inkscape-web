@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n future extras sekizai_tags %}
+{% load user_session i18n future extras static %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
@@ -9,34 +9,34 @@
   <div class="socialicons">
      {% if object.moderation and request.user != object %}
        {% if object.moderation.i_flagged %}
-         <img src="{{ STATIC_URL }}/images/social/flag.svg" title="{% trans "You have flagged this user." %}"/>
+         <img src="{% static "images/social/flag.svg" %}" title="{% trans "You have flagged this user." %}"/>
        {% else %}
-         <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{{ STATIC_URL }}/images/social/flag.svg"/></a>
+         <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{% static "images/social/flag.svg" %}"/></a>
          <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
        {% endif %}
        {% if object.from_friends.i_added %}
-         <a href="{% url "user_unfriend" object.username %}"><img src="{{ STATIC_URL }}/images/social/friend.svg" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
+         <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
        {% else %}
-         <a href="{% url "user_friend" object.username %}"><img src="{{ STATIC_URL }}/images/social/friend.svg" title="{% trans "Make friends with this user." %}"/></a>
+         <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user." %}"/></a>
        {% endif %}
      {% endif %}
      {% if object.is_staff %}
-       {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{{ STATIC_URL }}/images/social/admin.svg" title="{% trans "Inkscape Website Administrator" %}"/></a>
+       {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{% static "images/social/admin.svg" %}" title="{% trans "Inkscape Website Administrator" %}"/></a>
      {% endif %}
      {% if object.is_moderator %}
-       {% if object == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{{ STATIC_URL }}/images/social/moderation.svg" title="{% trans "Inkscape Community Moderator" %}"/></a>
+       {% if object == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
      {% endif %}
      {% if object.dauser %}
-       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{{ STATIC_URL }}/images/social/deviantart.svg" title="{% trans "My deviantArt Account" %}"/></a>
+       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My deviantArt Account" %}"/></a>
      {% endif %}
      {% if object.ocuser %}
-       <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{{ STATIC_URL }}/images/social/openclipart.svg" title="{% trans "My openClipart Profile" %}"/></a>
+       <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{% static "images/social/openclipart.svg" %}" title="{% trans "My openClipart Profile" %}"/></a>
      {% endif %}
      {% if object.tbruser %}
-       <a href="http://{{ object.tbruser }}.tumblr.com/"><img src="{{ STATIC_URL }}/images/social/tumblr.svg" title="{% trans "My Tumblr" %}"/></a>
+       <a href="http://{{ object.tbruser }}.tumblr.com/"><img src="{% static "images/social/tumblr.svg" %}" title="{% trans "My Tumblr" %}"/></a>
      {% endif %}
      {% if request.user.is_authenticated and request.user != object %}
-       <a href="{% url "message.new" object.username %}"><img src="{{ STATIC_URL }}/images/social/message.svg" title="{% trans "Send Message" %}"/></a>
+       <a href="{% url "message.new" object.username %}"><img src="{% static "images/social/message.svg" %}" title="{% trans "Send Message" %}"/></a>
      {% endif %}
     </div>
   {% endblock %}

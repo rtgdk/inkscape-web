@@ -72,7 +72,10 @@ class User(AbstractUser):
         return self.username
 
     class Meta:
-        permissions = [("website_cla_agreed", "Agree to Website License")]
+        permissions = [
+            ("use_irc", _("IRC Chat Training Complete")),
+            ("website_cla_agreed", _("Agree to Website License")),
+        ]
         db_table = 'auth_user'
 
     def get_ircnick(self):

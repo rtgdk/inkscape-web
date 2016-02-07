@@ -24,13 +24,13 @@ from django.http import HttpResponseRedirect
 from django.conf import settings
 
 class UserRequiredMixin(object):
-    def is_authorised(self):
+    def is_authorised(self, user):
         return True
 
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated():
             return HttpResponseRedirect(settings.LOGIN_URL)
-        if not self.is_authorised():
+        if not self.is_authorised(request.user):
             raise PermissionDenied()
         return super(UserRequiredMixin, self).dispatch(request, *args, **kwargs)
 

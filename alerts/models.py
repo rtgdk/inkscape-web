@@ -346,7 +346,7 @@ class SubscriptionQuerySet(QuerySet):
         if target is None:
             return False #self.filter(target__isnull=True).count()
         if directly:
-            return False #self.filter(target=target.pk).count()
+            return False #self.filter(target_id=target.pk).count()
         return False #self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
 
 

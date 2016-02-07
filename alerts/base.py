@@ -26,7 +26,8 @@ from django.conf import settings
 from django.dispatch import receiver
 from django.db.models import Q, signals as django_signals
 from django.core.mail.message import EmailMultiAlternatives
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import Group
+from django.contrib.auth import get_user_model
 from django.contrib.contenttypes.models import ContentType
 
 from alerts.template_tools import has_template, render_template, render_directly
@@ -125,7 +126,7 @@ class BaseAlert(object):
                  return self.alert_type.send_to(recipient, **kwargs)
 
         instance = kwargs['instance']
-        send_to(getattr(instance, self.alert_user, None), User)
+        send_to(getattr(instance, self.alert_user, None), get_user_model())
         send_to(getattr(instance, self.alert_group, None), Group)
 
         if not self.private:

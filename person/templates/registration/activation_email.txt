@@ -1,4 +1,4 @@
-{% load url from future %}{% load i18n %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
+{% load i18n %}{% autoescape off %}{% filter wordwrap:72 %}{% trans "Hi," %}
 
 {% trans "This is an automatic email to help you complete your registration with www.inkscape.org."%}
 

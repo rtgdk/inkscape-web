@@ -1,0 +1,16 @@
+{% load i18n %}
+<li id="topmessages">
+  <p><a href="{% url "alerts" %}{% if request.user.alerts.new %}?new=True" class="alert"{% else %}"{% endif %}>&nbsp;<!--"--></a></p>
+  <div class="topdrop">
+    {% if request.user.alerts.new %}
+      <p><a href="{% url "alerts" %}?new=True">{% trans "New Messages" %} ({{ request.user.alerts.new.count }})</a></p>
+    {% endif %}
+    {% if request.user.alerts.all %}
+      <p><a href="{% url "alerts" %}">{% trans "All Messages" %} ({{ request.user.alerts.all.count }})</a></p>
+    {% endif %}
+    {% if request.user.sent_messages.all %}
+      <p><a href="{% url "message.sent" request.user.username %}">{% trans "Sent Messages" %}</a></p>
+    {% endif %}
+    <p style="padding-top: 6px;"><a href="{% url "alert.settings" %}">{% trans "Message Settings" %}</a></p>
+  </div>
+</li>

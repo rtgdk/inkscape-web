@@ -30,13 +30,19 @@ import threading
 
 from easyirc.client.bot import BotClient
 
-from django.utils.timezone import now
+from django.db.models import Q
+from django.db import connection
 from django.conf import settings
+from django.utils.timezone import now
+from django.db.utils import OperationalError
+from django.utils.translation import ugettext as _
+from django.utils import translation
 from django.core.management.base import BaseCommand, CommandError
 
 from person.models import User
 from alerts.models import Message, UserAlert
 from resources.models import Category
+
 
 def url(item):
     """Returns the full URL"""
@@ -45,8 +51,54 @@ def url(item):
     return settings.SITE_ROOT.rstrip('/') + unicode(item)
 
 
+class BotCommand(object):
+    """A bot command decorator class"""
+    LANGS = [l[0] for l in settings.LANGUAGES]
+
+    def __init__(self, directed=True):
+        self.directed = directed
+
+    def __call__(self, func):
+        def _inner(inner_self, context, message, *args, **kwargs):
+            """Some basic extra filtering for directed commands"""
+            if self.directed:
+                if context.target.startswith('#'):
+                    if not message.startswith(inner_self.nick + ':') \
+                      and not message.endswith(inner_self.nick):
+                        return
+
+            translation.activate('en')
+            connection.close_if_unusable_or_obsolete()
+            if context:
+                channel_lang = context.target.split('-')[-1]
+                users = User.objects.filter(ircnick__iexact=context.ident.nick)
+                if users.count() == 1:
+                    translation.activate(users[0].language)
+                elif channel_lang in self.LANGS:
+                    translation.activate(channel_lang)
+
+            try:
+                return func(inner_self, context, *args, **kwargs)
+            except OperationalError as error:
+                if 'gone away' in str(error):
+                    return "The database is being naughty, reconnecting..."
+                else:
+                    return "A database error, hmmm."
+            except Exception:
+                context.connection.privmsg(context.target, "There was an error")
+                raise
+
+        _inner.__doc__ = func.__doc__
+        _inner.__name__ = func.__name__
+        return _inner
+
+
 class Command(BaseCommand):
     help = 'Starts an irc bot that will join the main channel and interact with the website.'
+
+    @property
+    def nick(self):
+        return self.client.connections[0].tried_nick
 
     def handle(self, *args, **options):
         if not hasattr(settings, 'IRCBOT_PID'):
@@ -70,8 +122,7 @@ class Command(BaseCommand):
                 time.sleep(2)
                 assert(self.client.connections[0].socket.connected)
             except KeyboardInterrupt:
-                self.on_exit(None, None)
-                break
+                self.on_exit(None, '')
             except AssertionError:
                 break
 
@@ -82,46 +133,61 @@ class Command(BaseCommand):
                 func = getattr(self, name)
                 self.client.events.msgregex.hookback(func.__doc__)(func)
 
-    def on_exit(self, context, message):
+    @BotCommand(False)
+    def on_exit(self, context):
         """The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."""
         print "Bot is going to sleep!"
         try:
             self.client.quit()
-        except:
-            pass
-        self.client.connections[0].socket.disconnect()
+            # Make sure we quit, no reconnection for us.
+            sys.exit(0)
+            #self.client.connections[0].socket.disconnect()
+        except Exception as error:
+            print "Error quitting: %s" % str(error)
 
-    def on_whois(self, context, message, address, nick):
-        """^(\w+)[:\- ]*whois (\w+)"""
-        if self.nick != address:
-            return
-        users = User.objects.filter(ircnick__iexact=nick)
+    @BotCommand()
+    def on_hello(self, context):
+        """Hello"""
+        return _("Hello there %(nick)s") % {'nick': context.ident.nick}
+        #context.connection.privmsg('#inkscape-web', "Hello there!" + \
+        #  ', ident:' + context.ident + \
+        #  ', nick:' + context.ident.nick + \
+        #  ', username:' + context.ident.username + \
+        #  ', host:' + context.ident.host + \
+        #  ', msgtype:' + context.msgtype + \
+        #  ', target:' + context.target
+        #  )
+
+    @BotCommand()
+    def on_whois(self, context, nick):
+        """whois (\w+)"""
+        users = User.objects.filter(Q(ircnick__iexact=nick) | Q(username__iexact=nick))
         if users.count() > 0:
             return context.nick + ': ' + '\n'.join([u"%s - %s" %
               (str(profile), url(profile)) for profile in users])
-        return context.nick + ': No user with irc nickname "%s" on the website.' % nick
+            return context.nick + ': ' + _(u'No user with irc nickname "%(nick)s" on the website.') % {'nick': nick}
 
-    def on_tell(self, context, message, address, nick, body):
-        """^(\w+)[:\- ]*tell (\w+) (.+)$"""
-        if self.nick != address:
-            return
-
+    @BotCommand()
+    def on_tell(self, context, nick, body):
+        """tell (\w+) (.+)$"""
         from_user = User.objects.filter(ircnick__iexact=context.nick)
         if from_user.count() != 1:
-            return u'Your irc nickname must be configured on the website. Or it must be the only user with this irc nickname.'
+            return _(u'Your irc nickname must be configured on the website. '
+                      'Or it must be the only user with this irc nickname.')
 
         to_user = User.objects.filter(ircnick__iexact=nick)
         if to_user.count() > 1:
-            return u'Too many users have that irc nickname configured.'
+            return _(u'Too many users have that irc nickname configured.')
         elif to_user.count() == 0:
-            return u'Can not find user with irc nickname "%s"' % nick
+            return _(u'Can not find user with irc nickname "%(nick)s"') % {'nick': nick}
         
         message = Message.objects.create(subject="From IRC", body=body,
                      sender=from_user.get(), recipient=to_user.get())
 
-        return u'%s: Message Sent' % context.nick
+        return u'%s: ' % context.nick + _('Message Sent')
 
-    def on_art(self, context, message):
+    @BotCommand()
+    def on_art(self, context):
         """Get Latest Art"""
         cat = Category.objects.filter(name='Artwork')
         if cat.count() < 1:
@@ -137,11 +203,14 @@ class Command(BaseCommand):
             self.last_alert = now()
             user = alert.user
             nick = user.ircnick
-            if nick:
-                self.client.privmsg(nick, "ALERT: %s ... More info: %s" % (alert.subject, alert.get_absolute_url()))
-
-    @property
-    def nick(self):
-        return self.client.connections[0].tried_nick
+            if not nick:
+                continue
+            translation.activate(user.language or 'en')
+            self.client.privmsg(nick,
+              _("ALERT: %(subject)s ... More info: %(url)s") % {
+                'subject': alert.subject,
+                'url': url(alert.get_absolute_url()),
+              }
+            )
 
 

@@ -41,7 +41,7 @@ urlpatterns = patterns('',
 
   url(r'^$',                         AlertList(),    name="alerts"),
   url_tree(r'^(?P<slug>[^\/]+)/',
-    url(r'^$',                       AlertList(),    name="alerts"),
+    url(r'^$',                       AlertList(),    name="alert.category"),
     url_tree(r'subscribe/',
       url(r'^$',                     Subscribe(),    name='alert.subscribe'),
       url(r'^(?P<pk>\d+)/$',         Subscribe(),    name='alert.subscribe'),

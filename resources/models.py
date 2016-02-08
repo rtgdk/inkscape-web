@@ -257,6 +257,8 @@ class Resource(Model):
         return self.desc[:1000]
 
     def read_more(self):
+        if not self.desc:
+            return False
         return len(self.desc) > 1000 or '[[...]]' in self.desc
 
     def save(self, **kwargs):

@@ -26,7 +26,7 @@ from django.db.models.signals import m2m_changed
 
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import ugettext_lazy as _, get_language
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 from django.utils.text import slugify
@@ -149,6 +149,19 @@ class Friendship(Model):
     objects   = TwilightSparkle()
 
 
+class TeamChatRoom(Model):
+    admin    = ForeignKey(User, **null)
+    channel  = CharField(_('IRC Chatroom Name'), max_length=64)
+    language = CharField(max_length=5, default='en', choices=settings.LANGUAGES)
+    team     = ForeignKey('Team', related_name='ircrooms')
+
+    class Meta:
+        unique_together = (('language', 'team'),)
+
+    def __str__(self):
+        return 'IRC: %s' % self.channel
+
+
 class Team(Model):
     ENROLES = (
       ('O', _('Open')),
@@ -172,9 +185,17 @@ class Team(Model):
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = ForeignKey('django_mailman.List', **null)
-    ircroom  = CharField(_('IRC Chatroom Name'), max_length=64, **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
     
+    @property
+    def ircroom(self):
+        lang = get_language()
+        rooms = dict(self.ircrooms.values_list('language', 'channel'))
+        if rooms:
+            return rooms.get(lang, rooms.get('en', rooms.values()[0]))
+        return None
+
+
     @property
     def members(self):
         return self.group.user_set

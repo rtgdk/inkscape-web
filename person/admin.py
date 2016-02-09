@@ -20,19 +20,31 @@
 
 from django.utils.translation import ugettext_lazy as _
 
-from django.contrib import admin
-from django.contrib.admin import site, ModelAdmin
+from django.forms import *
+from django.contrib.admin import *
 from django.contrib.auth.admin import UserAdmin
+
+from ajax_select import make_ajax_field, make_ajax_form
+from ajax_select.admin import AjaxSelectAdmin
 
 from .models import *
 
-class TeamAdmin(ModelAdmin):
+class ChatRoomInline(TabularInline):
+    model = TeamChatRoom
+    # XXX admin field can not be added until Ajaxselect works
+    fields = ('channel', 'language')
+
+class TeamAdmin(AjaxSelectAdmin):
+    form = make_ajax_form(Team, {'admin': 'user'}, show_help_text=True)
+    list_display = ('name', 'group', 'admin', 'enrole')
+    inlines = (ChatRoomInline,)
     readonly_fields = ('watchers', 'requests')
 
 site.register(Team, TeamAdmin)
 
 
 class UserAdmin(UserAdmin):
+    search_fields = ('username', 'first_name', 'last_name', 'bio', 'ircnick')
     readonly_fields = ('photo_preview',)
     # We make a copy of the fieldsets from the UserAdmin class so we can
     # customise it without any compelxity. Copied from Django 1.8.

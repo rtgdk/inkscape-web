@@ -51,7 +51,7 @@ class Command(BaseCommand):
             return
         target = summary.split('/', 2)[-1]
         (gname, fname) = target.split('/')
-        path = os.path.join(self.SF_DIR, target)
+        path = os.path.join(self.SF_DIR, 'files', target)
         target = path.replace(settings.MEDIA_ROOT, '').strip('/')
         if not os.path.isfile(path):
             print(" ! %s" % target)
@@ -70,7 +70,10 @@ class Command(BaseCommand):
             with open(sig_file, 'r') as sigh:
                 media_hash = sigh.read()
         sig_file = target.split('/')[-1] + '.' + hash_type
-        sig = get_sig(sig_file, media_hash)
+        try:
+            sig = get_sig(sig_file, media_hash)
+        except:
+            sig = None
         name = target.split('/')[-1].rsplit('.', 1)[0]\
             .replace('_', ' ').replace('-', ' ')
 
@@ -104,5 +107,5 @@ class Command(BaseCommand):
                     feed = parse(fhl.read().replace(' algo="md5"', ''))
                 for kwargs in feed['entries']:
                     if self.parse_sf_file(**kwargs):
-                        return
+                        pass
 

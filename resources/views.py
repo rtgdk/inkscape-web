@@ -313,8 +313,11 @@ class GalleryList(CategoryListView):
     def get_galleries(self):
         username = self.get_value('username')
         if username:
-            return User.objects.get(username=username)\
-                .galleries.filter(group__isnull=True)
+            try:
+                return User.objects.get(username=username)\
+                    .galleries.filter(group__isnull=True)
+            except User.DoesNotExist:
+                return None
         team = self.get_value('team')
         if team:
             return Group.objects.get(team__slug=team).galleries.all()

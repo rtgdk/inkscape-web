@@ -258,5 +258,10 @@ m2m_changed.connect(exclusive_watching, sender=Team.watchers.through)
 m2m_changed.connect(exclusive_subscription, sender=User.groups.through)
 
 # Patch in the url so we get a better front end view from the admin.
-Group.get_absolute_url = lambda self: self.team.get_absolute_url()
+def get_team_url(self):
+    try:
+        return self.team.get_absolute_url()
+    except Team.DoesNotExist:
+        return '/'
+Group.get_absolute_url = get_team_url
 

@@ -35,6 +35,7 @@ from django.core.files.images import get_image_dimensions
 from django.core.validators import MaxLengthValidator
 from django.contrib.auth import get_user_model
 from django.conf import settings
+from person.models import Team
 
 from model_utils.managers import InheritanceManager
 
@@ -593,11 +594,14 @@ class Gallery(Model):
 
     def get_absolute_url(self):
         if self.group:
-            return reverse('resources', kwargs={
-              'team': self.group.team.slug,
-              'galleries': self.slug,
-            })
-        if self.slug:
+            try:
+              return reverse('resources', kwargs={
+                'team': self.group.team.slug,
+                'galleries': self.slug,
+              })
+            except Team.DoesNotExist:
+                pass
+        elif self.slug:
             return reverse('resources', kwargs={
               'username': self.user.username,
               'galleries': self.slug,

@@ -22,10 +22,10 @@ from resources.tests.base import BaseCase, BaseUserCase, BaseAnonCase
 from alerts.models import Message, AlertType, UserAlertManager
 from alerts.alert import MessageAlert
 
-from django.contrib.auth.models import User
+from person.models import User
 
 class BasicTests(BaseCase):
-    fixtures = ['test-auth',]
+    fixtures = ['test-auth', 'test-alerttypes']
 
     def test_registration(self):
         """Message alerts have been registered"""
@@ -53,7 +53,7 @@ class BasicTests(BaseCase):
 
 
 class AlertUserTests(BaseUserCase):
-    fixtures = ['test-auth', 'test-messages']
+    fixtures = ['test-auth', 'test-alerttypes', 'test-messages']
 
     def test_00_fixture_messages(self):
         self.assertEqual(Message.objects.count(), 3)
@@ -84,7 +84,7 @@ class AlertUserTests(BaseUserCase):
         pass
 
     def test_list_alerts(self):
-        response = self._get('alerts', slug='alerts.message_alert')
+        response = self._get('alert.category', slug='alerts.message_alert')
         # THIS FAILS BECAUSE TEST SUITE HAS RESET THE DATABASE BUT NOT
         # THE APP, SO THE APP IS READY BUT EMPTY. IT NEEDS TO RE-INIT
         #self.assertContains(response, '"')

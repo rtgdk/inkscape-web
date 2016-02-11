@@ -140,6 +140,7 @@ if not DEBUG:
 ROOT_URLCONF = 'inkscape.urls'
 
 INSTALLED_APPS = (
+    'autotest',
     'inkscape', # Goes first
     'person', # Goes next
     'django.contrib.sites',
@@ -181,7 +182,7 @@ INSTALLED_APPS = (
     'django_mailman',
     'alerts',
     'debug_toolbar',
-) + tuple(EXTRA_APPS)
+)
 
 
 SESSION_ENGINE = 'user_sessions.backends.db'

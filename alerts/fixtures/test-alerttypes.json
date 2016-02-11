@@ -1,0 +1,58 @@
+[
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2016-01-28T19:05:43Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "cmsdiff.page_published_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 1
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2016-01-28T19:05:43Z",
+    "enabled": true,
+    "private": true,
+    "default_email": true,
+    "slug": "alerts.message_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 3
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2016-01-31T18:06:53Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "resources.resource_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 4
+},
+{
+  "fields": {
+    "category": "U",
+    "group": null,
+    "created": "2016-02-04T02:33:49Z",
+    "enabled": true,
+    "private": true,
+    "default_email": true,
+    "slug": "alerts.test_message_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 5
+}
+]

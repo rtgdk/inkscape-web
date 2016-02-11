@@ -1,12 +1,12 @@
 
  * Comment System
   * For news
-  * For Artworks
-  * For users (Messaging?)
+  - For Artworks
+  - For users (Messaging?)
  * Notification System
   * For news
   * For translators
-  * For new artworks
+  - For new artworks
   * For new favorites
   * For new comments
   * For new replies

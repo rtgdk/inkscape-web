@@ -17,21 +17,3 @@ Updating the CMS Content:
 
  1) ./utils/refresh-cms
 
-Deploying the website:
-
- Using apache or httpd and mysql or postgresql.
-
- 1) Deploy to /var/www/www.inkscape.org/
- 2) cd /var/www/www.inkscape.org/inkscape
- 3) Copy settings_local.py.template to settings_local.py
- 4) Edit this new file in your text editor.
- 5) Update all values for the live system including
-  a) Database server, name and password etc
-  b) Email sevice details for smtp, security, password etc
-  c) Random secrate key for django's internal use
-  d) Keys for any and all services such as twitter, facebook etc
- 6) Deploy apache2 configuration correctly (see django docs for details)
- 7) ./manage syncdb
- 8) ./manage migrate
- 9) service apache2 restart or /etc/init.d/apache2 restart
-

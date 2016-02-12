@@ -1,0 +1,15 @@
+<ul>
+  {% for release in objs %}
+    {% if release == obj %}
+      <li class="subtle active"><a>
+    {% else %}
+    <li class="subtle"><a href="{% if latest %}{{ release.latest.get_absolute_url }}{% else %}{{ release.get_absolute_url }}{% endif %}">
+    {% endif %}
+    <label>{{ release.codename|default:release.version }}</label>
+    {% if release.release_date %}
+      <span>{{ release.release_date.year }}</span>
+    {% endif %}
+      </a>
+    </li>
+  {% endfor %}
+</ul>

@@ -43,7 +43,10 @@ class ReleaseView(DetailView):
         tabs = list(data['object'].tabs)
         if tabs:
             data['platform'] = self.kwargs.get('platform', None)
-        data['releases'] = Release.objects.all()
+        data['parent'] = data['object'].parent or data['object']
+        data['releases'] = Release.objects.filter(
+                parent__isnull=True, release_date__isnull=False)
+        data['development'] = Release.objects.filter(release_date__isnull=True)
         return data
 
 class PlatformList(ListView):

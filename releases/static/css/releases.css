@@ -1,8 +1,8 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright 2015, Jabiertxof <jtx@jtx.marker.es> */
 
 #shield.download #banners > div {
-  background-color: #333333;
-  background-image: url("../images/releases/background.png");
+  background-color: transparent !important;
+  background-image: none;
   border-bottom: 0px none;
   border-radius: 0px 0px 15px 15px;
 }

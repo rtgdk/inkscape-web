@@ -108,6 +108,8 @@ class User(AbstractUser):
         return 0
 
     def get_absolute_url(self):
+        if not self.username:
+            return '/'
         return reverse('view_profile', kwargs={'username':self.username})
 
     def sessions(self):

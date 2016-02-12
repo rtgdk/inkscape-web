@@ -59,6 +59,7 @@ class Release(Model):
                                     verbose_name=_("Release Manager"), **null)
     reviewer      = ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews_releases',
                                     verbose_name=_("Release Reviewer"), **null)
+    parent        = ForeignKey('self', related_name='children', **null)
 
     class Meta:
         ordering = '-release_date',
@@ -76,7 +77,15 @@ class Release(Model):
         result = []
         for release in self.platforms.all():
             result += release.platform.ancestors()
-        return list(set(result))
+        return sorted(list(set(result)), key=lambda i: -i.order)
+
+    @property
+    def revisions(self):
+        return Release.objects.filter(Q(parent_id=self.pk) | Q(id=self.pk))
+
+    @property
+    def latest(self):
+        return self.revisions.order_by('-release_date')[0]
 
     @property
     def tabs(self):
@@ -101,6 +110,11 @@ class Platform(Model):
     parent     = ForeignKey('self', related_name='children', verbose_name=_("Parent Platform"), **null)
     manager    = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Platform Manager"), **null) 
     codename   = CharField(max_length=255, **null)
+    order      = PositiveIntegerField(default=0)
+
+    matcher    = CharField(max_length=128,
+                     help_text=_("Autopick this platform if UserAgent "
+                                 "matches this regular expression"), **null)
 
     icon       = ResizedImageField(**upload_to('icons', 32, 32))
     image      = ResizedImageField(**upload_to('icons', 256, 256))
@@ -113,7 +127,7 @@ class Platform(Model):
     depth      = lambda self: len(self.ancestors) - 1
 
     class Meta:
-        ordering = 'codename',
+        ordering = '-order', 'codename'
 
     def save(self, **kwargs):
         codename = str(self)

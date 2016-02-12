@@ -736,18 +736,20 @@ hr {
   display: block;
   line-height: 150%;
   font-size: 10.5pt;
-  cursor: pointer;
 }
 
 #sidecategory ul a:focus {
   outline: none;
 }
 
-#sidecategory li.active,
-#sidecategory li:hover {
+#sidecategory li:not(.active):hover {
   background-color: #e7e9ea;
   text-shadow: 0 1px 0 #ffffff;
   color: #3f4547;
+}
+#sidecategory li.subtle.active {
+  background-color: #3a95c4;
+  color: white;
 }
 
 #sidecategory li > span > a {
@@ -770,6 +772,10 @@ hr {
   border: none;
   text-shadow: none;
 }
+#sidecategory li.subtle > a > span {
+  background-color: #f5f5f5;
+  color: #666;
+}
 #sidecategory li > span > a.no {
   background-color: #c43040;
 }
@@ -788,6 +794,8 @@ hr {
   padding: 0px;
   margin: 0px;
   border-radius: 0px;
+}
+#sidecategory a:link label {
   cursor: pointer;
 }
 #sidecategory ul form {
@@ -813,7 +821,7 @@ hr {
   visibility: visible;
 }
 
-#sidecategory li a.active span {
+#sidecategory li.active a span {
   background-color: white;
   color: #3f4547;
 }

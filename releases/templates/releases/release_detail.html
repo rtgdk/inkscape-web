@@ -11,7 +11,12 @@
 {% endaddtoblock %}
 
 <div id="shield" class="download">
-  <div id="banners" {% if not platform and object.background %}style="background-image:url({{ object.background.url }})"{% endif %}>
+  <div id="banners"
+    {% if object.background %}
+      style="background-image:url({{ object.background.url }})"
+    {% elif parent.background %}
+      style="background-image:url({{ parent.background.url }})"
+    {% endif %}>
     {% for tab in object.tabs %}
       <div {% if platform == tab.uuid %}class="current"{% endif %}>
           <div>
@@ -60,7 +65,7 @@
   </div>
   <ul class="tabs">
     {% for tab in object.tabs %}
-      <li {% if platform == tab.uuid %}class="current"{% endif %}>
+      <li {% if platform == tab.uuid %}class="current"{% endif %} data-matcher="{{ tab.matcher }}">
         <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
           {% if tab.tab_cat.icon %}
             <img src="{{ tab.tab_cat.icon.url }}"/>
@@ -106,18 +111,17 @@
           </a>
         </li>
       </ul>
+    {% if parent.revisions.count > 1 %}
+      <h2>{% trans "Other Revisions" %}</h2>
+      {% include "releases/release_sidelist.html" with objs=parent.revisions obj=object %}
+    {% endif %}
     {% if releases.count > 1 %}
-      <h2>{% trans "All Inkscape Releases" %}</h2>
-      <ul>
-        {% for release in releases %}
-          <li>
-          <a {% if release != object %}href="{{ release.get_absolute_url }}" class="active"{% endif %}>
-              <label>{{ release.codename|default:release.release_date }}</label>
-              <span>{{ release.version }}</span>
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
+      <h2>{% trans "Versions" %}</h2>
+      {% include "releases/release_sidelist.html" with objs=releases obj=parent latest=True %}
+    {% endif %}
+    {% if development.count > 0 %}
+      <h2>{% trans "In Development" %}</h2>
+      {% include "releases/release_sidelist.html" with objs=development obj=object latest=True %}
     {% endif %}
     </div>
   </div>

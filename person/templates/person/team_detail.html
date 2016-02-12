@@ -43,7 +43,7 @@
       {% endif %}
     {% endif %}
 
-    {% if object.ircroom %}
+    {% if object.ircrooms.count > 0 %}
       <a href="{% url "team.chat" object.slug %}" class="btn btn-default" title=
           "{% trans "Go to this team's IRC Chatroom." %} (#{{ object.ircroom }})">Team Chatroom</a>
     {% endif %}

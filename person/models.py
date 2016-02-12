@@ -188,15 +188,11 @@ class Team(Model):
 
     mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
-    
-    @property
-    def ircroom(self):
-        lang = get_language()
-        rooms = dict(self.ircrooms.values_list('language', 'channel'))
-        if rooms:
-            return rooms.get(lang, rooms.get('en', rooms.values()[0]))
-        return None
 
+    @property
+    def channels(self):
+        return self.ircrooms.filter(language__in=[get_language(), 'en'])\
+                .values('language', 'channel')
 
     @property
     def members(self):

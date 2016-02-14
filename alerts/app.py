@@ -60,8 +60,6 @@ class AlertsConfig(AppConfig):
         try:
             cls(slug) # Singleton
         except Exception as err:
-            if any(cmd in sys.argv for cmd in ['makemigrations', 'migrate']):
-                sys.stderr.write("Alert skipped during migration: %s\n" % slug)
-            else:    
+            if any(cmd in sys.argv for cmd in ['runserver', 'shell']):
                 sys.stderr.write("Err in alert: %s\n%s\n" % (slug, str(err)))
 

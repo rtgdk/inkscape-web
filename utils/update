@@ -38,6 +38,8 @@ if [ $REQUIRES -nt $PIP ]; then
     touch $PIP
 fi
 
+./utils/update-pot
+
 if [ -e '.bzr' ]; then
     bzr revno > ./data/revision
 fi

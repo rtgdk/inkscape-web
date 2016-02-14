@@ -50,8 +50,8 @@ MANAGE="./utils/manage"
 
 # Create tables, migrations etc
 ./utils/update
-# Adds any extra moderator tables the first syncdb missed
-./utils/manage syncdb --noinput
+# Adds any extra moderator tables the first migrate
+./utils/manage migrate --noinput
 
 $MANAGE loaddata dev-auth
 echo ""

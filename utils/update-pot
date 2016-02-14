@@ -1,0 +1,17 @@
+#!/bin/bash
+
+DIR="data/locale"
+mkdir -p $DIR
+cd $DIR
+
+if [ ! -e 'website' ]; then
+    bzr branch lp:inkscape-web/translations website
+    cd website
+else
+    cd website
+    bzr pull
+fi
+
+cd ../../../
+./utils/manage compilemessages
+

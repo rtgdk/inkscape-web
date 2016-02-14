@@ -220,7 +220,7 @@ UPDATES = {
   'projects.worker': (
     [ set_to, 'user', A_USER ],
   ),
-  'extra.tab': (
+  'cmstabs.tab': (
     [ rename, 'cmstabs.tab' ],
     [ download, 'download' ],
     [ set_to, 'user', A_USER ],

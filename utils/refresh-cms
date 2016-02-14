@@ -22,7 +22,7 @@
 
 set -e
 
-SOURCE="content_reformed" # normally 'content'
+SOURCE="content"
 FIXTURES="./data/fixtures"
 
 echo "Downloading media from https://${1}inkscape.org..."
@@ -36,14 +36,6 @@ echo "Downloading live fixtures..."
 mkdir -p data/fixtures
 wget -q https://${1}inkscape.org/media/groups.json.gz -O /tmp/groups.json.gz --no-check-certificate
 gunzip -c /tmp/groups.json.gz > data/fixtures/groups.json
-
-echo "Resetting cms plugins..."
-
-#./utils/manage migrate --fake cms zero
-#./utils/manage migrate --fake cmsplugin_news zero
-
-#./utils/manage migrate --fake cms
-#./utils/manage migrate --fake cmsplugin_news
 
 echo "Loading new cms data..."
 

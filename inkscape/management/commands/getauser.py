@@ -21,7 +21,7 @@
 Returns the id for a single user. This is used to migrate backups for use locally.
 """
 
-from django.contrib.auth.models import User
+from person.models import User
 
 from django.core.management.base import BaseCommand, CommandError
 

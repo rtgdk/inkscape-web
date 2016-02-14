@@ -26,6 +26,15 @@ from django.contrib import admin
 
 from .views import SearchView, ContactUs, ContactOk
 
+from cms import appresolver
+old = appresolver.get_app_patterns
+def get_app_patterns(*args, **kwargs):
+    try:
+        return old(*args, **kwargs)
+    except:
+        return []
+appresolver.get_app_patterns = get_app_patterns
+
 urlpatterns = patterns('',
   url(r'^', include('social.apps.django_app.urls', namespace='social')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\

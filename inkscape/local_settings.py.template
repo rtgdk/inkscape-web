@@ -19,12 +19,6 @@ DATABASES = {
         'PASSWORD': '',
         'HOST': '',
         'PORT': '',
-
-        'TEST_ENGINE': 'django.db.backends.sqlite3',
-        'TEST_NAME': '%s/data/testing.db' % PROJECT_PATH,
-        'TEST_USER': '',
-        'TEST_PASSWORD': '',
-        'TEST_HOST': '',
     },
 }
 

@@ -12,7 +12,7 @@
   <table class="bioitem">
     <tr>
       <td class="img" rowspan="2"><a class="link" href="{{ team.get_absolute_url }}"><img src="{{ team.icon.url }}" title="{{ team }}"/></a></td>
-      <td><p title="{{ team.mailman }}"><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></p></td>
+      <td><p {% if team.mailman %}title="{{ team.mailman }}"{% endif %}><a href="{{ team.get_absolute_url }}">{{ team.name }}</a></p></td>
     </tr>
     <tr>
       <td><p class="bio">{{ team.intro|safe }}&nbsp;</p></td>

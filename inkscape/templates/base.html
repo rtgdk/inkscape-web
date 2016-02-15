@@ -150,12 +150,11 @@
       <a href="http://www.fastly.com/" title="Data Cached by Fastly">Fastly</a>
       <a href="https://osuosl.org/" title="Site Hosted by OSUOSL">OSUOSL</a>
       <a href="/support-us/sponsors" title="Our Sponsors">More...</a>
-    </p>
-  {% endblock %}
-  <a href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
+      <a id="dev-stamp" href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
-InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"
-  id="dev-stamp"/></a>
+InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"/></a>
+    </p>
+  {% endblock %}
 </body>
 </html>

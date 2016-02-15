@@ -638,6 +638,7 @@ body > .footer .nav ul {
 #final-footer {
   text-align: center;
   margin-bottom: 20px;
+  position: relative;
 }
 #final-footer :link,
 #final-footer a,
@@ -1260,15 +1261,17 @@ div.tooltip:hover span {
   border-radius:3px;
 }
 
-#dev-stamp {
+p#final-footer #dev-stamp {
   position: absolute;
-  right: 3px;
-  top: 3px;
+  left: 3px;
+  top: -14px;
+  margin: 0;
+  padding: 0;
   transition: opacity 0.2s ease;
   opacity: 0.05;
-  z-index: -1;
 }
-#dev-stamp:hover {
+
+p#final-footer #dev-stamp:hover {
   transition: opacity 1.5s ease;
   opacity: 1;
 }

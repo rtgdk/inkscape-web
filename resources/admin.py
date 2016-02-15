@@ -41,11 +41,19 @@ class ResourceFileForm(ModelForm):
         help_text=_('Select Resource\'s Owner'))
 
 class ResourceFileAdmin(ModelAdmin):
+    list_display = ('name', 'user', 'gallery')
+    list_filter = ('published', 'category')
+    search_fields = ('name', 'user__username', 'galleries__name')
     readonly_fields = ('slug','liked','viewed','downed','fullview')
     form = ResourceFileForm
 
+class ResourceAdmin(ModelAdmin):
+    list_display = ('name', 'user', 'gallery')
+    list_filter = ('published', 'category')
+    search_fields = ('name', 'user__username', 'galleries__name')
+
 site.register(ResourceFile, ResourceFileAdmin)
-site.register(Resource)
+site.register(Resource, ResourceAdmin)
 site.register(ResourceMirror)
 site.register(Vote)
 site.register(Tag)

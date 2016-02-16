@@ -76,5 +76,7 @@ cd $TARGET
 
 ./utils/update
 
+./utils/manage clear_fastly_cache
+
 touch ./data/wsgi.conf
 

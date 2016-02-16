@@ -54,6 +54,7 @@ class BasicTests(BaseCase):
 
 class AlertUserTests(BaseUserCase):
     fixtures = ['test-auth', 'test-alerttypes', 'test-messages']
+    alert_type = 'alerts.test_message_alert'
 
     def test_00_fixture_messages(self):
         self.assertEqual(Message.objects.count(), 3)
@@ -66,10 +67,38 @@ class AlertUserTests(BaseUserCase):
         self.assertEqual(user.alerts.count(), 3)
 
     def test_subscribe_class(self):
-        pass
+        response = self._get('alert.subscribe', slug=self.alert_type)
+        self.assertContains(response, "Subscribe to All Personal Message")
+
+        response = self._post('alert.subscribe', slug=self.alert_type)
+        self.assertContains(response, "Subscription created")
+
+        self.assertTrue(hasattr(Message, 'subscriptions'))
+        self.assertEqual(Message.subscriptions.count(), 1)
+
+        sub = Message.subscriptions.get()
+        self.assertEqual(sub.alert.slug, self.alert_type)
+        self.assertEqual(sub.user.username, 'tester')
+        self.assertEqual(sub.target, None)
+
+        self.assertEqual(Message.objects.get(pk=1).subscriptions.count(), 0)
 
     def test_subscribe_item(self):
-        pass
+        response = self._get('alert.subscribe', slug=self.alert_type, pk=1)
+        self.assertContains(response, "Subscribe to Message from Testing Staff to Testing User")
+
+        response = self._post('alert.subscribe', slug=self.alert_type, pk=1)
+        self.assertContains(response, "Subscription created")
+
+        self.assertTrue(hasattr(Message, 'subscriptions'))
+
+        subs = Message.objects.get(pk=1).subscriptions
+        self.assertEqual(subs.count(), 1)
+        self.assertEqual(subs.get().alert.slug, self.alert_type)
+        self.assertEqual(subs.get().user.username, 'tester')
+        self.assertEqual(subs.get().target, 1)
+
+        self.assertEqual(Message.subscriptions.count(), 0)
 
     def test_subdcribe_item_removed(self):
         pass
@@ -85,11 +114,8 @@ class AlertUserTests(BaseUserCase):
 
     def test_list_alerts(self):
         response = self._get('alert.category', slug='alerts.message_alert')
-        # THIS FAILS BECAUSE TEST SUITE HAS RESET THE DATABASE BUT NOT
-        # THE APP, SO THE APP IS READY BUT EMPTY. IT NEEDS TO RE-INIT
-        #self.assertContains(response, '"')
-        #self.assertContains(response, 'id="alert_1"')
-        #self.assertNotContains(response, 'id="alert_3"')
+        self.assertContains(response, '"')
+        self.assertContains(response, 'id="alert_')
         # Test does not contains different alert type (test alert type?)
 
     def test_list_all_alerts(self):

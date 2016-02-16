@@ -191,23 +191,14 @@ class UserAlertSetting(Model):
 
 
 class UserAlertManager(Manager):
-    def __init__(self, target=None, alert_type=None):
-        self.target = target
-        self.alert_type = alert_type
-        super(UserAlertManager, self).__init__()
-
-    def __str__(self):
-        return "UserAlertManager for '%s' (%s)" % \
-            (str(self.target), type(self.target).__name__)
-
     def get_queryset(self):
         queryset = super(UserAlertManager, self).get_queryset()
 
-        if self.target is not None:
+        if getattr(self, 'target', None) is not None:
             ct = UserAlertObject.target.get_content_type(obj=self.target)
             queryset = queryset.filter(objs__table=ct, objs__o_id=self.target.pk)
 
-        if self.alert_type is not None:
+        if getattr(self, 'alert_type', None) is not None:
             queryset = queryset.filter(alert=self.alert_type)
 
         return queryset.filter(deleted__isnull=True).order_by('-created')
@@ -320,6 +311,21 @@ class UserAlertValue(Model):
         return "AlertValue %s=%s" % (self.name, self.target)
 
 
+class AlertSubscriptionManager(Manager):
+    def get_queryset(self):
+        queryset = super(AlertSubscriptionManager, self).get_queryset()
+
+        if getattr(self, 'alert_type', None) is not None:
+            queryset = queryset.filter(alert=self.alert_type)
+        if hasattr(self, 'target'):
+            if self.target is not None:
+                queryset = queryset.filter(target=self.target.pk)
+            else:
+                queryset = queryset.filter(target__isnull=True)
+
+        return queryset
+
+# XXX Joining the AlertSubscriptionManager to the QuerySet is needed
 class SubscriptionQuerySet(QuerySet):
     def get_or_create(self, target=None, **kwargs):
         """Handle the match between a null target and non-null targets"""

@@ -39,6 +39,21 @@ import re
 
 ALL_ALERTS = {}
 
+class ManagerDescriptor(object):
+    """This descriptor is a class and object property as needed"""
+    def __init__(self, manager=None, **kwargs):
+        self.kwargs = kwargs
+        self.manager = manager
+
+    def __get__(self, obj, klass=None):
+        """Get a normal manager, but add in an extra attributes"""
+        manager = self.manager()
+        manager.target = obj
+        for key, value in self.kwargs.items():
+            setattr(manager, key, value)
+        return manager
+
+
 class BaseAlert(object):
     """None model parent class for your alert signals"""
     # We really don't want to allow anyone to subscribe to
@@ -57,6 +72,7 @@ class BaseAlert(object):
     # What lookup should be attached to the sender model;
     # much like ForeignKey related_name it creates reverse lookups.
     related_name = 'alerts'
+    related_sub  = 'subscriptions'
 
     subject  = "{{ instance }}"
     email_subject = "{% trans 'Website Alert:' %} {{ instance }}"
@@ -74,7 +90,7 @@ class BaseAlert(object):
     target_field = None
 
     def __init__(self, slug, **kwargs):
-        from alerts.models import AlertType, UserAlert, UserAlertManager
+        from alerts.models import AlertType
         self.slug = slug
 
         # Check the setup of this alert class
@@ -108,15 +124,16 @@ class BaseAlert(object):
         else:
             self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
 
-        class ManagerDescriptor(object):
-            """This descriptor is a class and object property as needed"""
-            def __get__(desc, obj, klass=None):
-                manager = UserAlertManager(obj, self.alert_type)
-                manager.model = UserAlert
-                return manager
-
         # Set reverse lookup, the related name defaults to 'alerts'
-        setattr(self.sender, self.related_name, ManagerDescriptor())
+        from alerts.models import UserAlert, UserAlertManager
+        man = ManagerDescriptor(UserAlertManager, alert_type=self.alert_type, model=UserAlert)
+        setattr(self.sender, self.related_name, man)
+
+        # Reverse lookup for number of subscriptions to this object
+        from alerts.models import AlertSubscription, AlertSubscriptionManager
+        man = ManagerDescriptor(AlertSubscriptionManager,
+                alert_type=self.alert_type, model=AlertSubscription)
+        setattr(self.sender, self.related_sub, man)
 
     def call(self, sender, signal=None, **kwargs):
         """Connect this method to the post_save signal and it will

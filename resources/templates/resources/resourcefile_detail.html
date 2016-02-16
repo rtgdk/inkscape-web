@@ -42,7 +42,7 @@
             >&nbsp;</a><p>{{ object.votes.count }}</p></div>
       {% endif %}
 
-      <h2>{{ object.name }}</h2>
+      <h2 class="truncate">{{ object.name }}</h2>
       <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a></div>
 
     </div>
@@ -56,7 +56,7 @@
     </div>
 
     <div class="side">
-      <h2>{% if object.category %}{{ object.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>
+      <h2 class="truncate">{% if object.category %}{{ object.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>
     
       {% if not object.is_file %}
         <a class="link" href="{{ object.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="{% trans "Link"%}" title="{% trans "Follow Link (external site)" %}"/></a>
@@ -76,7 +76,7 @@
           <dt>{% trans "Linked From" %}</dt><dd>{{ object.link_from }}</dd>
         {% endif %}
         <dt>{% trans "Created" %}</dt><dd>{{ object.created|timetag }}</dd>
-        <dt>{% trans "Type" %}</dt><dd>{{ object.media_type }}</dd>
+        <dt>{% trans "Type" %}</dt><dd title="{{ object.media_type }}">{{ object.media_type|truncatechars:16 }}</dd>
       </dl>
 
       {% if object.license %}

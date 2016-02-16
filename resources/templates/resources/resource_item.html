@@ -1,9 +1,10 @@
 {% load i18n static %}
 
 {% if item.is_visible %}
-  <div class="galleryitem{% if not item.published %} unpublished{% endif %}{% if item.voted %} voted{% endif %}">
-    <a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}" title="{{ item.summary_string }}"/></a>
-    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+  <div class="galleryitem{% if not item.published %} unpublished{% endif %}{% if item.voted %} voted{% endif %}" 
+    title="{{ item.summary_string }}">
+    <a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}"/></a>
+    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="tags">
       {% if item.user == request.user %}
         {% if gallery %}
@@ -29,9 +30,9 @@
     </p>
   </div>
 {% elif not item.is_available %}
-  <div class="galleryitem">
-    <a class="link" href="{{ item.get_absolute_url }}"><img src="{% static "images/linked-image-not-found.png" %}" title="{{ item.summary_string }}"/></a>
-    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p>
+  <div class="galleryitem" title="{{ item.summary_string }}">
+    <a class="link" href="{{ item.get_absolute_url }}"><img src="{% static "images/linked-image-not-found.png" %}"/></a>
+    <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="tags"></p>
   </div>
 {% endif %}

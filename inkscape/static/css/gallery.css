@@ -41,22 +41,27 @@
   padding: 0px;
   margin: 0px;
   overflow: hidden;
-  word-wrap: break-word;
-}
-.galleryitem .label a {
   background-color: #eef;
   display:table-cell;
   margin: 2px;
   padding: 3px;
-  color: #035;
   height: 4em;
   width: 150px;
-  vertical-align: middle;
+  word-wrap: break-word;
   border-radius: 16px;
+  vertical-align: middle;
+}
+
+.galleryitem .label:hover {
+  border-radius: 0px;
+}
+
+.galleryitem .label a {
+  color: #035;
+  display: block;
 }
 .galleryitem .label a:hover {
   text-decoration: none;
-  border-radius: 0px;
 }
 .galleryitem p.new a {
   background-color: #efe;

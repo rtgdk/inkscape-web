@@ -13,7 +13,7 @@
       {% include "comments/new_form.html" %}
     {% else %}
       {% url 'edit_profile' as profile_url %}
-      <div>
+      <div id="item-footer">
         {% blocktrans with profile_url|add:"?next="|add:request.path as url %}
           You need to <a href="{{url}}">add an email address to your profile</a> if you'd like to leave a comment!
         {% endblocktrans %}
@@ -21,7 +21,7 @@
     {% endif %}
   {% else %}
     {% url 'auth_login' as login_url %}
-    <div>
+    <div id="item-footer">
       {% blocktrans with login_url|add:"?next="|add:request.path as url %}
         Please <a href="{{url}}">log in</a> to leave a comment!
       {% endblocktrans %}

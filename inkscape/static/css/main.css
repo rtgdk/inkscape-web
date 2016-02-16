@@ -102,6 +102,11 @@ th[scope="row"] { text-align: right; }
 
 th[scope="col"] { text-align: center; }
 
+.truncate, .truncate * {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 /* styles for cms picture plugin */
 span.align-right img {
   display: block;

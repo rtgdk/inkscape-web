@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n future extras static %}
+{% load user_session i18n humanize future extras static %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
@@ -98,16 +98,18 @@
         <li><a><label>{% trans "Joined" %}</label>
           <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
         <li><a><label>{% trans "Profile Visits" %}</label>
-          <span>{{ object.visits }}</span></a></li>
+          <span>{{ object.visits|intcomma }}</span></a></li>
 
         <li><a><label>{% trans "Friends" %}</label>
-          <span>{{ object.friends.count }}</span></a></li>
-        <li><a><label>{% trans "Followers" %}</label>
-          <span>{{ object.from_friends.count }}</span></a></li>
-        <li><a><label>{% trans "Views" %}</label>
-          <span>{{ object.resources.views }}</span></a></li>
+          <span>{{ object.friends.mutual.count|intcomma }}</span></a></li>
+        <li><a><label>{% trans "Subscribers" %}</label>
+          <span>{{ object.resources.subscriptions.count|intcomma }}</span></a></li>
+        <li><a><label>{% trans "Gallery Views" %}</label>
+          <span>{{ object.resources.views|intcomma }}</span></a></li>
+        <li><a><label>{% trans "Gallery Stars" %}</label>
+          <span>{{ object.resources.likes|intcomma }}</span></a></li>
         <li><a><label>{% trans "Downloads" %}</label>
-          <span>{{ object.resources.downloads }}</span></a></li>
+          <span>{{ object.resources.downloads|intcomma }}</span></a></li>
         {% if object == request.user or object.is_staff %}
         <li><a><label>{% trans "Upload Quota" %}</label>
           <span title="{{ object.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ object.quota|filesizeformat }}">{{ object.resources.disk_usage|percent:object.quota }}</span></a></li>

@@ -144,13 +144,22 @@ class TwilightSparkle(Manager):
             return bool(self.get(from_user=user.pk))
         return False
 
+    def mutual(self):
+        """Returns a mutual set of friends"""
+        return self.get_queryset()\
+                .filter(from_user__from_friends__from_user=F('user'))
+
+@python_2_unicode_compatible
 class Friendship(Model):
     from_user = ForeignKey(User, related_name='friends')
     user      = ForeignKey(User, related_name='from_friends')
 
     objects   = TwilightSparkle()
 
+    def __str__(self):
+        return u"%s loves %s" % (str(self.from_user), str(self.user))
 
+@python_2_unicode_compatible
 class TeamChatRoom(Model):
     admin    = ForeignKey(User, **null)
     channel  = CharField(_('IRC Chatroom Name'), max_length=64)

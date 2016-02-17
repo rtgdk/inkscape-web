@@ -159,11 +159,21 @@ class ResourceManager(Manager):
     def for_user(self, user):
         return self.get_queryset().filter(Q(user=user.id) | Q(published=True))
 
+    def subscriptions(self):
+        """Returns a queryset of users who get alerts for new resources"""
+        kwargs = {}
+        if 'user' in self.core_filters:
+            kwargs['target'] = self.core_filters['user'].pk
+        return ResourceFile.subscriptions.filter(**kwargs)
+
     def downloads(self):
         return self.get_queryset().aggregate(Sum('downed')).values()[0]
 
     def views(self):
         return self.get_queryset().aggregate(Sum('viewed')).values()[0]
+
+    def likes(self):
+        return self.get_queryset().aggregate(Sum('liked')).values()[0]
 
     def new(self):
         return self.get_queryset().filter(category__isnull=True)

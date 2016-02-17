@@ -39,7 +39,7 @@ cd $TARGET
 
 if [ ! -d "$DOC_TARGET" ]; then
     echo "Target doesn't exist: $DOC_TARGET, Creating..."
-    mkdir -p $DIR_TARGET
+    mkdir -p $DOC_TARGET
 fi
 
 if [ ! -d "$DOC_SOURCE" ]; then

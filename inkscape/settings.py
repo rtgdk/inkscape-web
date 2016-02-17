@@ -154,6 +154,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'django.contrib.redirects',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'ajax_select',
     'haystack',
     'cmsdiff',

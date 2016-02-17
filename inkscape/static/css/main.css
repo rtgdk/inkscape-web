@@ -1,5 +1,7 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright Chris Morgan (2010), Martin Owens (2012) */
 
+@import "ubuntu.css";
+
 /*A font by Jos Buivenga (exljbris) -> www.exljbris.com*/
 @font-face {
   font-family: 'CallunaRegular';
@@ -14,12 +16,6 @@
 @font-face {
   font-family: 'EuphoriaScript';
   src: url("../fonts/euphoriascript-regular.ttf") format("truetype");
-}
-@font-face {
-  font-family: 'Ubuntu';
-  font-style: normal;
-  font-weight: 400;
-  src: local('Ubuntu'), url(../fonts/ubuntu.woff) format('woff');
 }
 .debugwarn a span {
   color: red !important;
@@ -91,6 +87,12 @@ h3 {
   color: #000000;
   font-size: 115%;
   font-weight: normal;
+  margin: 1.5ex 0 0.5ex;
+}
+
+h4 {
+  font-weight: bold;
+  font-size: 100%;
   margin: 1.5ex 0 0.5ex;
 }
 

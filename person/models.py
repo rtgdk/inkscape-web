@@ -242,6 +242,8 @@ def update_mailinglist(model, pk_set, instance, action, **kwargs):
         return
     team = instance.team
     team.mailman_users = []
+    if not pk_set or not pk_set | {None}:
+        return
     for user in model.objects.filter(pk__in=pk_set):
         if user.email and team.mailman:
             try:

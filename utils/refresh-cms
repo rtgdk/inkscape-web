@@ -23,21 +23,21 @@
 set -e
 
 SOURCE="content"
-FIXTURES="./data/fixtures"
+FIX="./data/fixtures"
+mkdir -p $FIX
 
 echo "Downloading media from https://${1}inkscape.org..."
+ADDR = "https://${1}inkscape.org/media/"
 
-wget -q https://${1}inkscape.org/media/$SOURCE.json.gz -O /tmp/contents.json.gz --no-check-certificate
-gunzip -c /tmp/contents.json.gz \
- | ./utils/migrate-backup - > $FIXTURES/live_content.json
+wget -q ${ADDR}${SOURCE}.json.gz -O /tmp/cont.json.gz --no-check-certificate
+gunzip -c /tmp/cont.json.gz | ./utils/migrate-backup - > $FIX/live_content.json
 
 echo "Downloading live fixtures..."
 
-mkdir -p data/fixtures
-wget -q https://${1}inkscape.org/media/groups.json.gz -O /tmp/groups.json.gz --no-check-certificate
-gunzip -c /tmp/groups.json.gz > data/fixtures/groups.json
+wget -q ${ADDR}auth.json.gz -O /tmp/auth.json.gz --no-check-certificate
+gunzip -c /tmp/auth.json.gz | ./utils/migrate-backup - > $FIX/live_auth.json
 
 echo "Loading new cms data..."
 
-./utils/manage loaddata live_content
+./utils/manage loaddata live_auth live_content
 

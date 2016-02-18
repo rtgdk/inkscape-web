@@ -1,5 +1,4 @@
 #!/usr/bin/env python
-
 #
 # Copyright 2013, Martin Owens <doctormo@gmail.com>
 #
@@ -171,59 +170,63 @@ def update_treebeard(row, **kwargs):
 
 UPDATES = {
   'cms.page': (
-    [ update_cms, 'template' ],
-    #[ update_treebeard ],
-    [ delete, 'moderator_state' ],
-    #[ delete, 'tree_id' ],
-    #[ delete, 'rght' ],
-    #[ delete, 'lft' ],
-    #[ delete, 'level' ],
+    [update_cms, 'template'],
+    #[update_treebeard],
+    [delete, 'moderator_state'],
+    #[delete, 'tree_id'],
+    #[delete, 'rght'],
+    #[delete, 'lft'],
+    #[delete, 'level'],
   ),
   'cms.cmsplugin': (
-    #[ update_treebeard ],
-    #[ delete, 'tree_id' ],
-    #[ delete, 'rght' ],
-    #[ delete, 'lft' ],
-    #[ delete, 'level' ],
+    #[update_treebeard],
+    #[delete, 'tree_id'],
+    #[delete, 'rght'],
+    #[delete, 'lft'],
+    #[delete, 'level'],
   ),
   'cms.usersettings': (
-    [ set_to, 'user', A_USER ],
-    [ unique, 'user' ],
+    [set_to, 'user', A_USER],
+    [unique, 'user'],
   ),
   # Set the creator to admin account
   'cmsplugin_news.news': (
-    [ set_to, 'creator', A_USER ],
-    [ set_to, 'editor', A_USER ],
+    [set_to, 'creator', A_USER],
+    [set_to, 'editor', A_USER],
   ),
   'djangocms_file.file': (
-    [ download, 'file' ],
+    [download, 'file'],
   ),
   'djangocms_picture.picture': (
-    [ download, 'image' ],
+    [download, 'image'],
   ),
   'extra.shieldplugin': (
-    [ rename, 'cmstabs.shieldplugin' ],
+    [rename, 'cmstabs.shieldplugin'],
   ),
   'extra.tabcategory': (
-    [ rename, 'cmstabs.tabcategory' ],
-    [ download, 'icon' ],
+    [rename, 'cmstabs.tabcategory'],
+    [download, 'icon'],
   ),
   'projects.project': (
-    [ set_to, 'proposer', A_USER ],
-    [ set_to, 'manager', A_USER ],
-    [ set_to, 'reviewer', A_USER ],
-    [ set_to, 'second', A_USER ],
+    [set_to, 'proposer', A_USER],
+    [set_to, 'manager', A_USER],
+    [set_to, 'reviewer', A_USER],
+    [set_to, 'second', A_USER],
   ),
   'projects.projectupdate': (
-    [ set_to, 'creator', A_USER ],
+    [set_to, 'creator', A_USER],
   ),
   'projects.worker': (
-    [ set_to, 'user', A_USER ],
+    [set_to, 'user', A_USER],
+  ),
+  'person.team': (
+    [set_to, 'admin', A_USER],
+    [delete, 'requests'],
   ),
   'cmstabs.tab': (
-    [ rename, 'cmstabs.tab' ],
-    [ download, 'download' ],
-    [ set_to, 'user', A_USER ],
+    [rename, 'cmstabs.tab'],
+    [download, 'download'],
+    [set_to, 'user', A_USER],
   ),
   'cmsplugin_pygments.pygmentsplugin': ([delete],),
   'djangocms_snippet.snippet': ([delete],),
@@ -304,7 +307,8 @@ def update(content, updates):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) == 1 or (sys.argv[1] != '-' and not os.path.exists(sys.argv[1])):
+    if len(sys.argv) == 1 or (
+      sys.argv[1] != '-' and not os.path.exists(sys.argv[1])):
         sys.stderr.write(str(__doc__) % str(sys.argv[0]))
         sys.exit(1)
 

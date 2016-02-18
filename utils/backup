@@ -43,7 +43,7 @@ $MANAGE dumpdata cms djangocms_text_ckeditor menus sekizai \
 
 # This group dump does open us up to a security hole as it lets
 # anyone know how our groups are set up on live. (but we need to test)
-$MANAGE dumpdata auth.Group -n | gzip -9 > $DIR/data/media/groups.json.gz
+$MANAGE dumpdata auth --indent=2 --natural-foreign --natural-primary | gzip -9 > $DIR/data/media/auth.json.gz
 
 cd $DEST/cms_db
 

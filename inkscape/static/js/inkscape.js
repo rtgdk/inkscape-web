@@ -29,8 +29,24 @@ $(document).ready(function() {
   $("#toplogin input").focusout(false, focused);
   $("[src$='.svg']").error(onSvgError);
   $(".image.only img").error(iconInstead);
+  $(".dotdotdot").click(paginator_expand);
   close_elements();
 });
+
+function paginator_expand(event) {
+  // On clicking ... in a paginator, this js will expand it
+  var a = parseInt($(this).prev().text());
+  var b = parseInt($(this).next().text());
+  $(this).attr('href', $(this).attr('data-href'));
+  $(this).removeAttr('data-href');
+  var template = this.outerHTML;
+  for (var i = a + 1; i < b; i++) {
+      var html = template.replace(/\.\.\./g, i);
+      $(html).insertBefore($(this));
+  }
+  $(this).hide();
+  return false;
+}
 
 function iconInstead(event) {
   this.src = $(this).data('icon');

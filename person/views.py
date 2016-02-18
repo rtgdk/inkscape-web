@@ -100,7 +100,8 @@ class ChatWithTeam(LoginRequiredMixin, TeamDetail):
 
     @property
     def template_name(self):
-        if not self.request.user.has_perm('person.use_irc'):
+        if not self.request.user.has_perm('person.use_irc') \
+          or 'tutorial' in self.request.GET:
             return 'chat/tutorial.html'
         return 'person/team_chat.html'
 

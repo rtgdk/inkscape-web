@@ -96,7 +96,7 @@ class CategoryTests(BaseCase):
         """Test methods for categories""" 
         cat = Category.objects.get(name="UI Mockup")
         self.assertEqual(cat.value, "ui-mockup")
-        self.assertEqual(cat.get_absolute_url(), "/en/gallery/4/")
+        self.assertEqual(cat.get_absolute_url(), "/en/gallery/=ui-mockup/")
 
 class TagTests(BaseCase):
     def test_tags(self):

@@ -95,6 +95,10 @@ class TeamDetail(DetailView):
     slug_url_kwarg = 'team'
     model          = Team
 
+class TeamCharter(TeamDetail):
+    action_name = _("Team Charter")
+    template_name = 'person/team_charter.html'
+
 class ChatWithTeam(LoginRequiredMixin, TeamDetail):
     action_name = _("Chat")
 

@@ -14,38 +14,42 @@
 {% endblock %}
 
 {% block "side" %}
+    {% if team.charter %}
+      <a href="{% url "team.charter" object.slug %}" class="btn btn-primary" disabled title=
+        "{% trans "View team charter detailing responsibilities and rules." %}">{% trans "Team Charter" %}</a>
+    {% endif %}
     {% if request.user in object.members.all %}
       <a href="{% url "team.leave" object.slug %}" class="btn btn-default" disabled title=
-          "{% trans "Leave this team." %}">Leave Team</a>
+        "{% trans "Leave this team." %}">{% trans "Leave Team" %}</a>
     {% elif request.user in object.watchers.all %}
       <a href="{% url "team.unwatch" object.slug %}" class="btn btn-default" title=
-          "{% trans "This means that you will no longer be kept up-to-date about this team's activities." %}">Stop Watching Team</a>
+        "{% trans "This means that you will no longer be kept up-to-date about this team's activities." %}">{% trans "Stop Watching Team" %}</a>
     {% else %}
       <a href="{% url "team.watch" object.slug %}" class="btn btn-default" title=
-      "{% trans "Watchers are kept up-to-date about what's going on in the team, but can't take part in their work." %}">Watch Team</a>
+        "{% trans "Watchers are kept up-to-date about what's going on in the team, but can't take part in their work." %}">{% trans "Watch Team" %}</a>
     {% endif %}
 
     {% if request.user not in object.members.all %}
       {% if object.enrole == 'O' %}
         <a href="{% url "team.join" object.slug %}" class="btn btn-primary" title=
-          "{% trans "Enrole yourself to become a member of this team." %}">Join Team</a>
+          "{% trans "Enrole yourself to become a member of this team." %}">{% trans "Join Team" %}</a>
       {% elif object.enrole in 'PT' %}
         {% if request.user in object.requests.all %}
           <a class="btn" disabled title=
-          "{% trans "Your request for a team membership is pending." %}">Request Sent</a>
+            "{% trans "Your request for a team membership is pending." %}">{% trans "Request Sent" %}</a>
         {% else %}
           <a href="{% url "team.join" object.slug %}" class="btn btn-primary" title=
-          "{% trans "Ask for a team membership." %}">Request Membership</a>
+            "{% trans "Ask for a team membership." %}">{% trans "Request Membership" %}</a>
         {% endif %}
       {% elif object.enrole == 'C' %}
         <a class="btn" disabled title=
-        "{% trans "This team uses another mode of determining its members." %}">Membership Closed</a>
+          "{% trans "This team uses another mode of determining its members." %}">{% trans "Membership Closed" %}</a>
       {% endif %}
     {% endif %}
 
     {% if object.ircrooms.count > 0 %}
       <a href="{% url "team.chat" object.slug %}" class="btn btn-default" title=
-          "{% trans "Go to this team's IRC Chatroom." %} (#{{ object.ircroom }})">Team Chatroom</a>
+        "{% trans "Go to this team's IRC Chatroom." %} (#{{ object.ircroom }})">{% trans "Team Chatroom" %}</a>
     {% endif %}
 
       <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace" %}</h1>

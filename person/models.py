@@ -194,6 +194,8 @@ class Team(Model):
 
     intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
     desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
+    charter  = TextField(_('Charter'), validators=[MaxLengthValidator(30240)], **null)
+    side_bar = TextField(_('Side Bar'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = ForeignKey('django_mailman.List', **null)
     enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)

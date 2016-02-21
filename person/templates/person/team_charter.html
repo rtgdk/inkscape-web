@@ -1,0 +1,33 @@
+{% extends 'person/base.html' %}
+{% load i18n future extras sekizai_tags %}
+{% load static pagination_tags %}
+
+{% block title %}{{ object.name }} {% trans "Charter" %}{% endblock %} 
+
+{% block "profile" %}
+  <a href="{{ object.get_absolute_url }}"> <img id="photo" src="{{ object.icon.url }}"/></a>
+{% endblock %}
+
+{% block "name" %}{{ object.name }} {% trans "Charter" %}{% endblock %}
+{% block "bio" %}{% trans "Each inkscape team has responsibilities, rules and specific privilages, these are documented here so all teams understand how they are supported to work and what may be required of them." %}{% endblock %}
+
+{% block "side" %}
+  {{ object.side_bar|safe }}
+{% endblock %}
+
+{% block "content" %}
+  {% if object.desc %}
+    <h2>{% trans "Team Details" %}</h2>
+    <div class="info">
+      {{ object.desc|safe }}
+    </div>
+  {% endif %}
+  {% if object.charter %}
+    <h2>{% trans "Charter Document" %}</h2>
+    <div class="info">
+      {{ object.charter|safe }}
+    </div>
+  {% endif %}
+
+{% endblock %}
+

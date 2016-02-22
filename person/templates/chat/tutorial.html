@@ -2,99 +2,87 @@
 {% load i18n static %}
 
 {% block "css" %}{{ block.super }}
-<style>
-#irchat {
-  font-family: Ubuntu;
-  text-align: center;
-  background-color: rgb(210, 163, 240);
-  height: 530px;
-  border: 0px solid #6c4576;
-  border-width: 0px 4px;
-}
-#irchat h1,
-#irchat h2 {
-  background-color: #edd9f7;
-  font-family: Ubuntu;
-  font-weight: bold;
-  text-shadow:
-    -2px -2px 0 #f3e6fa,
-     2px -2px 0 #f3e6fa,
-    -2px  2px 0 #f3e6fa,
-     2px  2px 0 #f3e6fa;
-  margin: 0px;
-  padding: 10px 2px;
-  box-shadow: 0px 2px 2px #000;
-}
-#irchat h2 {
-  background-color: #e4c6f5;
-}
-#irchat h2 {
-  border: 0px;
-}
-#irchat .chat-middle {
-  height: 320px;
-  text-align: left;
-  margin: 30px 40px 30px 120px;
-  line-height: 2;
-  font-size: 16pt;
-}
-#irchat .chat-button {
-  background-color: #e4c6f5;
-  box-shadow: 0px -2px 2px #444;
-  padding: 9px;
-}
-</style>
+  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/tutorial.css"/>
 {% endblock %}
 
 {% block supercontent %}
   <form action="" method="get">
     <div id="irchat">
-      <h1>Using Chat: First Time Tutorial</h1>
+      <h1>{% trans "Using Chat: First Time Tutorial" %}</h1>
       {% if page == 1 %}
-        <h2>Research the Problem Before Asking</h2>
         <div class="chat-middle">
           <img src="{% static "images/chat/research.svg" %}" style="float: right;"/>
-          <br>
+          <h2>{% trans "Research the Problem Before Asking" %}</h2>
           <ul>
-            <li>Read the documentation</li>
-            <li>Search the Website</li>
-            <li>Look for tutorials</li>
-            <li>Do an internet search</li>
+            <li class="tooltip"><a href="/learn/" target="_blank">
+              {% trans "Read the documentation" %}</a></li>
+            <li class="tooltip"><a href="/learn/faq/" target="_blank">
+              {% trans "Check the Frequently Asked Questions" %}</a></li>
+            <li class="tooltip"><a href="/search/" target="_blank">
+              {% trans "Search the Website" %}</a></li>
+            <li class="tooltip"><a href="/learn/tutorials/" target="_blank">
+              {% trans "Look for tutorials" %}</a></li>
+            <li class="tooltip"><a href="http://forum.inkscapecommunity.com/" target="_blank">
+              {% trans "Find answers in the Forum" %}</a></li>
+            <li class="tooltip"><a href="https://duckduckgo.com/?q=inkscape+help" target="_blank">
+              {% trans "Do an internet search" %}</a></li>
           </ul>
         </div>
       {% elif page == 2 %}
-        <h2>Ask The Right People</h2>
         <div class="chat-middle">
-          <img src="{% static "images/chat/people.svg" %}" style="float: right;"/>
-          <br>
+          <img src="{% static "images/chat/questions.svg" %}" style="float: right;"/>
+          <h2>{% trans "Ask The Right People" %}</h2>
           <ul>
-            <li>Don't ask when busy</li>
-            <li>Ask everybody, not one person</li>
-            <li>Keep developer questions to the developer room</li>
-            <li>Issues must be reported to the bug tracker</li>
+            <li class="tooltip">
+              <span>{% trans "If the chat room has many messages from lots of different people, it is worth waiting for the chat room to calm down before asking your question." %}</span>
+              {% trans "Don't ask when busy" %}
+            </li>
+            <li class="tooltip">
+              <span>{% trans "If you only ask one person, you may miss out on the help of others who may know the answer or can offer more specific information." %}</span>
+              {% trans "Ask everybody, not one person" %}
+            </li>
+            <li class="tooltip">
+              <span>{% trans "There are different rooms where chat happens, and questions about the development, code or other technical subjects should be kept to the developer's chat room." %}</span>
+              {% trans "Keep technical questions to the developer's chat room" %}
+            </li>
+            <li class="tooltip">
+              <span>{% trans "If you want a problem in the software to be fixed, you need to report the issue in the bug tracker. This is a system of recording problems and allows developers to sort it and attach useful information. It's kept in a database so they don't forget to fix it if they are busy right now." %}</span>
+              {% trans "Issues should be reported properly" %}
+            </li>
           </ul>
         </div>
       {% elif page == 3 %}
-        <h2>Ask Good Questions</h2>
         <div class="chat-middle">
           <img src="{% static "images/chat/questions.svg" %}" style="float: right;"/>
-          <br>
+          <h2>{% trans "Ask Good Questions" %}</h2>
           <ul>
-            <li>Don't ask to ask</li>
-            <li>Be clear with your questions</li>
-            <li>Include the reason or purpose</li>
-            <li>Respond to requests for clarification</li>
+            <li class="tooltip">
+              <span>{% trans "There is no need asking if you're allowed to ask questions. The answer is Yes and you're invited to ask your question directly." %}</span>
+              {% trans "Don't ask if it's ok to ask a question" %}</li>
+            <li class="tooltip">
+              <span>{% trans "You may have to restate your question in a different way in order for others to understand you. Try to be as clear as possible each time you state the issue you have." %}</span>
+              {% trans "Be clear with your questions" %}</li>
+            <li class="tooltip">
+              <span>{% trans "Sometimes the question you have is so specific that it hides a more general question which could be answered with a new method you may not have considered before. So always try and state what you are attempting to do overall." %}</span>
+              {% trans "Include the reason or purpose" %}</li>
+            <li class="tooltip">
+              <span>{% trans "The chat room is an active place, your attention is needed to respond quickly to others who are trying to help you as they try and get to the root of problems." %}</span>
+              {% trans "Respond to requests for clarification" %}</li>
           </ul>
         </div>
       {% elif page == 4 %}
-        <h2>Be Patient</h2>
         <div class="chat-middle">
           <img src="{% static "images/chat/patient.svg" %}" style="float: right;"/>
-          <br>
-          <p>Wait for an answer, not all users in chatrooms are checking all the time, but they will respond when they can.</p>
+          <h3>{% trans "Be Patient" %}</h3>
+          <p>{% trans "Wait for an answer, not all users in chatrooms are checking all the time, but they will respond when they can." %}</p>
+          <h3>{% trans "Say Thanks" %}</h3>
+          <p>{% trans "All chat room helpers are volunteers and showing your appreciation is very much encouraged." %}</p>
         </div>
       {% endif %}
       <div class="chat-button">
+        {% if 'tutorial' in request.GET %}
+          <input name='tutorial' value='1' type='hidden'/>
+        {% endif %}
         {% if page > 1 %}
           <button type="submit" name="page" value="{{ page|add:-1 }}" class="btn">{% trans "Back" %}</button>
         {% endif %}

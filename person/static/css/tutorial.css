@@ -1,0 +1,43 @@
+#irchat {
+  font-family: Ubuntu;
+  text-align: center;
+  background-color: rgb(210, 163, 240);
+  height: 530px;
+  border: 0px solid #6c4576;
+  border-width: 0px 4px;
+}
+#irchat h1 {
+  background-color: #edd9f7;
+  font-family: Ubuntu;
+  font-weight: bold;
+  text-shadow:
+    -2px -2px 0 #f3e6fa,
+     2px -2px 0 #f3e6fa,
+    -2px  2px 0 #f3e6fa,
+     2px  2px 0 #f3e6fa;
+  margin: 0px;
+  padding: 10px 2px;
+  box-shadow: 0px 2px 2px #000;
+}
+#irchat h2 {
+  border: 0px;
+}
+#irchat .chat-middle {
+  height: 365px;
+  text-align: left;
+  margin: 30px 40px 30px 120px;
+  line-height: 2;
+  font-size: 16pt;
+}
+#irchat .chat-middle p {
+  padding: 0px;
+  margin: 0px;
+}
+#irchat .chat-button {
+  background-color: #e4c6f5;
+  box-shadow: 0px -2px 2px #444;
+  padding: 9px;
+}
+#irchat a {
+  color: #6c4576;
+}

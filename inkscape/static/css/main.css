@@ -1142,21 +1142,27 @@ div.diff .del {
 
 /* ============== Tooltips =============== */
 
+.tooltip {
+  font-weight: 400;
+  cursor: pointer;
+}
+li.tooltip {
+  list-style-image: url('../images/icons/help.svg');
+}
 div.tooltip {
   display: inline;
-  font-weight: 400;
 }
 
-div.tooltip img.help {
+.tooltip img.help {
   vertical-align: middle;
 }
 
-div.tooltip strong {
+.tooltip strong {
   font-size: 11pt;
   line-height: 30px;
 }
 
-div.tooltip span {
+.tooltip span {
   z-index: 10;
   display: none;
   padding: 14px 20px;
@@ -1170,7 +1176,7 @@ div.tooltip span {
   font-size: 10pt;
 } 
 
-div.tooltip:hover span {
+.tooltip:hover span {
   display: inline;
   position: absolute;
   color: white;

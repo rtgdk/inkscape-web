@@ -34,9 +34,9 @@ gunzip -c /tmp/cont.json.gz | ./utils/migrate-backup - > $FIX/live_content.json
 
 echo "Downloading live fixtures..."
 
-wget -q ${ADDR}auth.json.gz -O /tmp/auth.json.gz --no-check-certificate
-gunzip -c /tmp/auth.json.gz | ./utils/migrate-backup - > $FIX/live_auth.json
+#wget -q ${ADDR}auth.json.gz -O /tmp/auth.json.gz --no-check-certificate
+#gunzip -c /tmp/auth.json.gz | ./utils/migrate-backup - > $FIX/live_auth.json
 
 echo "Loading new cms data..."
 
-./utils/manage loaddata live_auth live_content
+./utils/manage loaddata live_content

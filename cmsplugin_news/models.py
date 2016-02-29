@@ -86,7 +86,7 @@ class News(Model):
     editor       = ForeignKey(settings.AUTH_USER_MODEL, blank=True, null=True, related_name="edited_news")
 
     link         = URLField(_('Link'), blank=True, null=True,
-                     help_text=_('This link will be used a absolute url for this item and replaces'
+                     help_text=_('This link will be used as absolute url for this item and replaces'
                                  ' the view logic. <br />Note that by default this only applies for'
                                  ' items with an empty "content" field.'))
 

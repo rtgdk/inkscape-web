@@ -14,7 +14,7 @@
 <p class="error">{% trans "Please correct the errors below" %}: {{ form.errors }}</p>
 {% endif %}
 
-  <h2>{% trans "Translate News Article into" %} {{ language }}</h2>
+  <h2>{% blocktrans %}Translate News Article into {{ language }}{% endblocktrans %}</h2>
 
     <table>
       <tr><th scope="col" colspan="2">{% trans "New Translation" %}</th><th>{% trans "Original" %}</th></tr>

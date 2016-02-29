@@ -30,7 +30,7 @@
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />
-    <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extention,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
+    <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extension,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
   </head>
 
 <body id="page-{% block body-pageid %}{{ PAGE_ID }}{% endblock %}" class="{% block body-classes %}{% endblock %}">
@@ -135,8 +135,8 @@
       </div>
       <p>
         {% block "foot" %}
-          {% trans "Inkscape is Free and Open Source Software licensed under the" %}
-          <a href="http://www.gnu.org/licenses/gpl-2.0.html">GPL</a>.
+          {% blocktrans with "http://www.gnu.org/licenses/gpl-2.0.html" as gpl_url %}Inkscape is Free and Open Source Software licensed under the 
+          <a href="{{ gpl_url }}">GPL</a>.{% endblocktrans %}
         {% endblock %}
       </p>
     </div>

@@ -10,7 +10,7 @@
 	{% for object in object_list %}
         {% include "news/list_item.html" %}
 	{% empty %}
-		<li>{% trans "No news for this day" %}</li>
+		<li>{% trans "No news for this day." %}</li>
 	{% endfor %}
 </ul>
 {% endblock %}

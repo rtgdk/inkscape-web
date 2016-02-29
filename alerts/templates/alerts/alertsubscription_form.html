@@ -5,15 +5,16 @@
   <h1>
     {% block title %}
       {% if object %}
-        {% trans "Subscribe to" %} {{ object }}
+        {% blocktrans %}Subscribe to {{ object }}{% endblocktrans %}
       {% else %}
-        {% trans "Subscribe to All" %} {{ alert.name }}
+        {% blocktrans with alert.name as alert_name %}Subscribe to All {{ alert_name }}{% endblocktrans %}
       {% endif %}
     {% endblock %}
   </h1>
 
   {% if alert.default_email %}
-    <div>You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{% url "alert.settings" %}">subscription settings</a>.</div>
+  {% url "alertsettings" as alertsettings_url %}
+    <div>{% blocktrans %}You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
   {% endif %}
   <div>{{ alert.desc }}</div>
 

@@ -7,7 +7,7 @@
       {% url 'view_profile' object.implicated.username as profile_url %}
       <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.photo %}{{ object.implicated.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
-          {% blocktrans with object.implicated as user_name and object.target.get_absolute_url as the_url and object.target.name as resource_name %}
+          {% blocktrans trimmed with object.implicated as user_name and object.target.get_absolute_url as the_url and object.target.name as resource_name %}
             <a href="{{profile_url}}">{{user_name}}</a> posted <a href="{{ the_url }}">{{ resource_name }}</a>
           {% endblocktrans %}: 
       </div>

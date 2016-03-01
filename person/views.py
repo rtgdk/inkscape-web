@@ -173,12 +173,12 @@ class WatchTeam(AddMember):
         team.watchers.add(user)
         if self.mailing_list_modified(team, user):
             return messages.info(self.request, _("Now watching this team and subscribed to it's mailing list."))
-        messages.info(self.request, _("Now watching this team"))
+        messages.info(self.request, _("Now watching this team."))
 
 class UnwatchTeam(AddMember):
     def action(self, team, user, actor=None):
         team.watchers.remove(user)
         if self.mailing_list_modified(team, user):
             return messages.info(self.request, _("No longer watching this team or it's mailing list."))
-        messages.info(self.request, _("No longer watching this team"))
+        messages.info(self.request, _("No longer watching this team."))
 

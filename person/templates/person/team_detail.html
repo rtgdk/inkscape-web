@@ -8,7 +8,7 @@
   <img id="photo" src="{{ object.icon.url }}"/>
   <div class="socialicons">
     <a href="{% url "teams" %}">
-      <img src="{% static "images/social/back.svg" %}" title="{% trans "Back to all teams." %}"/>
+      <img src="{% static "images/social/back.svg" %}" title="{% trans "Back to all teams" %}"/>
     </a>
   </div>
 {% endblock %}
@@ -32,7 +32,7 @@
     {% if request.user not in object.members.all %}
       {% if object.enrole == 'O' %}
         <a href="{% url "team.join" object.slug %}" class="btn btn-primary" title=
-          "{% trans "Enrole yourself to become a member of this team." %}">{% trans "Join Team" %}</a>
+          "{% trans "Enroll yourself to become a member of this team." %}">{% trans "Join Team" %}</a>
       {% elif object.enrole in 'PT' %}
         {% if request.user in object.requests.all %}
           <a class="btn" disabled title=

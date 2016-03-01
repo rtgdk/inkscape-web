@@ -4,6 +4,11 @@
 {% block "error-msg" %}
   <p>{% trans "The website is broken in some way. Now we've emailed the people who look after the website to let them know you've had problems, so please don't worry." %}</p>
   <hr/>
-  <p><a href="{% url "contact" %}?subject=Error500">{% trans "Contact an admin" %}</a> {% trans "to let them know what you were doing if you think it will help find the error." %}</p>
+  <p>
+    {% url "contact" as contact_url %}
+    {% blocktrans trimmed %}
+     <a href="{{ contact_url }}?subject=Error500">Contact an admin</a> to let them know what you were doing if you think it will help find the error.
+    {% endblocktrans %}
+  </p>
 {% endblock %}
 

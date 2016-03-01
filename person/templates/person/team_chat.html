@@ -9,6 +9,6 @@
       <iframe src="https://kiwiirc.com/client/irc.freenode.net/?nick={{ request.user.get_ircnick }}{% for irc in object.channels %}{% if not forloop.first %},{% endif %}#{{ irc.channel }}{% endfor %}" style="border:0; width:100%; height:450px;"></iframe>
     </div>
   {% else %}
-    <h1>{{ object }} {% trans "has no chat room" %}</h1>
+    <h1>{% blocktrans %}{{ object }} has no chat room{% endblocktrans %}</h1>
   {% endif %}
 {% endblock %}

@@ -8,7 +8,7 @@
       <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.photo %}{{ comment.user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
       <div>
         {% url 'view_profile' comment.user.username as profile_url %}
-        {% blocktrans with comment.user as user_name and comment.submit_date|timetag as comment_date %}
+        {% blocktrans trimmed with comment.user as user_name and comment.submit_date|timetag as comment_date %}
           <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}}:
         {% endblocktrans %}
       </div>

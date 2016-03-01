@@ -1,12 +1,11 @@
 {% extends "error/base.html" %}
 {% load i18n %}
 
-
 {% block "error-msg" %}
-  {% blocktrans %}
+  {% blocktrans trimmed %}
     <p>Couldn't find what you were looking for.</p>
     <p>If you don't know why you got here, maybe you'd like to <a href="/search/">search</a> to see if you can find what you were looking for.</p>
     <hr/>
     <p>If you've followed a link from our site, or are using a link that used to work before, please tell us <a href="https://bugs.launchpad.net/inkscape-web">here</a> and we'll fix it.</p>
-  {% endblocktrans %}
+  {% endblocktrans %} 
 {% endblock %}

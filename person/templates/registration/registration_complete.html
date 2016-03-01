@@ -11,7 +11,9 @@
 <p>{% trans "Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration." %}</p>
 
 <p>
-{% trans "If you don't receive it shortly, please check your spam folder." %} {% trans "If it's not there, please" %} <a href="{% url "contact" %}?subject=Lost activation code">{% trans "contact us" %}</a>.
+{% url "contact" as contact_url %}
+{% blocktrans trimmed %}If you don't receive it shortly, please check your spam folder. 
+If it's not there, please <a href="{{ contact_url }}?subject=Lost activation code">contact us</a>.{% endblocktrans %}
 </p>
 
 {% endblock %}

@@ -47,16 +47,18 @@ class User(AbstractUser):
     ircpass = CharField(_('Freenode Password (optional)'), max_length=128, **null)
 
     dauser  = CharField(_('deviantArt User'), max_length=64, **null)
-    ocuser  = CharField(_('openClipArt User'), max_length=64, **null)
+    ocuser  = CharField(_('Openclipart User'), max_length=64, **null)
     tbruser = CharField(_('Tumblr User'), max_length=64, **null)
     gpg_key = TextField(_('GPG Public Key'),
-        help_text=_("""
-          <strong>Signing and Checksums for Uploads</strong><br/>
-          Either fill in a valid GPG key, so you can sign your uploads, or just enter any text to activate the upload validation feature which verifies your uploads by comparing checksums." %}<br/>
-          <strong>Usage in file upload/editing form:</strong><br/>
-          If you have submitted a GPG key, you can upload a *.sig file, and your upload can be verified. You can also submit these checksum file types:" %}<br/>
-          *.md5, *.sha1, *.sha224, *.sha256, *.sha384 {% trans "or" %} *.sha512
-        """),
+        help_text=_("".join(
+          ('<strong>Signing and Checksums for Uploads</strong><br/> ',
+          'Either fill in a valid GPG key, so you can sign your uploads, ',
+          'or just enter any text to activate the upload validation feature ',
+          'which verifies your uploads by comparing checksums.<br/>',
+          '<strong>Usage in file upload/editing form:</strong><br/>',
+          'If you have submitted a GPG key, you can upload a *.sig file, ',
+          'and your upload can be verified. You can also submit these checksum file types:<br/>',
+          '*.md5, *.sha1, *.sha224, *.sha256, *.sha384 or *.sha512',))),
         validators=[MaxLengthValidator(262144)], **null)
 
     last_seen = DateTimeField(**null)
@@ -198,7 +200,7 @@ class Team(Model):
     side_bar = TextField(_('Side Bar'), validators=[MaxLengthValidator(10240)], **null)
 
     mailman  = ForeignKey('django_mailman.List', **null)
-    enrole   = CharField(_('Enrolement'), max_length=1, default='O', choices=ENROLES)
+    enrole   = CharField(_('Enrollment'), max_length=1, default='O', choices=ENROLES)
 
     @property
     def channels(self):

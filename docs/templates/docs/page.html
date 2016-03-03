@@ -1,10 +1,10 @@
 {% extends 'base.html' %}
 
-{% load sekizai_tags %}
+{% load static sekizai_tags %}
 
 {% block content %}
   {% addtoblock "css" %}
-      <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/docs.css" >
+      <link rel="stylesheet" type="text/css" href="{% static "css/docs.css" %}" >
   {% endaddtoblock %}
 
   <h1>{% block title %}{{ title }}{% endblock %}</h1>

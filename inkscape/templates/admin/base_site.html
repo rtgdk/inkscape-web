@@ -1,12 +1,12 @@
 {% extends "admin/base.html" %}
-{% load i18n sekizai_tags %}
+{% load i18n sekizai_tags static %}
 
 {% block title %}{{ title }} | {% trans "Inkscape Website Administration" %}{% endblock %}
 {% block extrahead %}
-  <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-admin-logo.png"/>
-  <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.min.js"></script>
-  <script type="text/javascript" src="{{ STATIC_URL }}js/jquery-ui.js"></script>
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/jquery-ui.css"/>
+  <link rel="shortcut icon" href="{% static "images/inkscape-admin-logo.png" %}"/>
+  <script type="text/javascript" src="{% static "admin/js/jquery.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/jquery-ui.js" %}"></script>
+  <link rel="stylesheet" type="text/css" href="{% static "css/jquery-ui.css" %}"/>
 {% endblock %}
 
 {% block branding %}

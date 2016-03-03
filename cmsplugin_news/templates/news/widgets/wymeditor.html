@@ -1,4 +1,4 @@
-{% load i18n %}
+{% load static i18n %}
 <script type="text/javascript">
 
 // Global var, for storing callbacks, see below.
@@ -12,7 +12,7 @@ jQuery(document).ready(function(){
     jQuery('#id_{{ name }}').wymeditor({
         lang: '{{ language }}',
         skin: 'django',
-        skinPath: "{{ STATIC_URL }}cms/js/wymeditor/skins/django/",
+        skinPath: "{% static "cms/js/wymeditor/skins/django/" %}",
         updateSelector: 'input[type=submit],',
         updateEvent: 'click',
 		logoHtml: '',

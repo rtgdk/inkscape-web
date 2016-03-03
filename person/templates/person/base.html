@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
-{% load i18n future extras sekizai_tags %}
+{% load i18n static extras sekizai_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
 {% block supercontent %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/profile.css" >
+    <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}" >
   {% endaddtoblock %}
 
   <div id="profile" style="background-color: #1c1c1c; color: white;">

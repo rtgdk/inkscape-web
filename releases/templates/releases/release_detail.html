@@ -6,8 +6,8 @@
 {% block supercontent %}
 
 {% addtoblock "css" %}
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/shield.css"/>
-  <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/releases.css"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
 {% endaddtoblock %}
 
 <div id="shield" class="download">

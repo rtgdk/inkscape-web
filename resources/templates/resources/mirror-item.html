@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n static %}
 
 {% block content %}
 
@@ -7,7 +7,7 @@
     p { max-width: 400px; margin-right: auto; margin-left: auto; }
   </style>
   <div style="text-align: center;">
-    <img src="{{ STATIC_URL }}images/mirror.svg" title="{{ mirror.name }}"/>
+    <img src="{% static "images/mirror.svg" %}" title="{{ mirror.name }}"/>
     <h1>{% block title %}{% trans "Downloading" %}{% endblock %} {% trans "from" %} {{ mirror.name }}</h1>
     <p>{% blocktrans with mirror.name as mirror_name %}Thank you to our friends hosting {{ mirror_name }} for delivering this file.{% endblocktrans %}</p>
     <p>{% blocktrans %}Click <a href="{{ url }}">here</a> if the download doesn't start in 3 seconds.{% endblocktrans %}</p>

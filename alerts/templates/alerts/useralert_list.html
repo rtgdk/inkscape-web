@@ -1,16 +1,16 @@
 {% extends "base.html" %}
 
 {% load sekizai_tags %}
-{% load i18n pagination_tags pile %}
+{% load i18n static pagination_tags pile %}
 
 {% block title %}{% trans "Messages" %}{% endblock %} 
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/alert.css" %}"/>
   {% endaddtoblock %}
   {% addtoblock "js" %}
-    <script type="text/javascript" src="{{ STATIC_URL }}js/alert.js"></script>
+    <script type="text/javascript" src="{% static "js/alert.js" %}"></script>
   {% endaddtoblock %}
 
 
@@ -25,10 +25,10 @@
   <div class="details">
     <div class="title">
       {% if data.instance_deleted %}
-        <img src="{{ STATIC_URL }}images/deleted.png" alt="{% trans "Deleted" %}"/>
+        <img src="{% static "images/deleted.png" %}" alt="{% trans "Deleted" %}"/>
         <del>{{ data.instance_deleted }}</del>
       {% elif not object.viewed %}
-        <img src="{{ STATIC_URL }}images/email.png" alt="{% trans "New" %}" title="{% trans "New Message" %}"/>
+        <img src="{% static "images/email.png" %}" alt="{% trans "New" %}" title="{% trans "New Message" %}"/>
         {{ object.subject }}
       {% else %}
         {{ object.subject }}

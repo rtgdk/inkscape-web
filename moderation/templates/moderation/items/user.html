@@ -1,4 +1,4 @@
-{% load i18n comments pile %}
+{% load i18n static comments pile %}
 
 
 <div class="moderation {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
@@ -25,7 +25,7 @@
 <!-- picture   -->
     <div class="resourcepic">
       <div class="aligner">
-        <a href="{{profile_url}}"><img src="{% if object.target.photo %}{{ object.target.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+        <a href="{{profile_url}}"><img src="{% if object.target.photo %}{{ object.target.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
         <a class="button" href="{{ object.target.get_absolute_url }}">{% trans "Visit profile" %}</a>
       </div>
     </div>

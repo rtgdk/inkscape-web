@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-{% load i18n extras cms_tags menu_tags %}
+{% load i18n extras cms_tags menu_tags static %}
 <html lang="{{ LANGUAGE_CODE }}">
   <head>
     <title>{% block alltitle %}{% block title %}{{ title|default:"Draw Freely." }}{% endblock %} | Inkscape{% endblock %}</title>
     <meta charset="utf-8"/>
 
-    <link rel="shortcut icon" href="{{ STATIC_URL }}images/inkscape-logo.png"/>
+    <link rel="shortcut icon" href="{% static "images/inkscape-logo.png" %}"/>
 
     {% block "css" %}
-      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/main.css"/>
-      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/text.css"/>
-      <link rel="stylesheet"    type="text/css" href="{{ STATIC_URL }}css/gallery.css"/>
+      <link rel="stylesheet"    type="text/css" href="{% static "css/main.css" %}"/>
+      <link rel="stylesheet"    type="text/css" href="{% static "css/text.css" %}"/>
+      <link rel="stylesheet"    type="text/css" href="{% static "css/gallery.css" %}"/>
     {% endblock %}
 
     <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
@@ -19,9 +19,9 @@
     {% endif %}
 
     {% block "js" %}
-      <script type="text/javascript" src="{{ STATIC_URL }}admin/js/jquery.js"></script>
-      <script type="text/javascript" src="{{ STATIC_URL }}js/inkscape.js"></script>
-      <script type="text/javascript" src="{{ STATIC_URL }}js/gallery.js"></script>
+      <script type="text/javascript" src="{% static "admin/js/jquery.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/inkscape.js" %}"></script>
+      <script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
     {% endblock %}
 
     <!--Sekizai blocks are depricated, when django-cms stops using them, remove-->
@@ -40,7 +40,7 @@
     <div id="cleartop">
       <div id="logo">
         {% block logo %}
-          <a href="/"><img src="{% block logo-url %}{{ STATIC_URL }}images/inkscape-logo.svg{% endblock %}"
+          <a href="/"><img src="{% block logo-url %}{% static "images/inkscape-logo.svg" %}{% endblock %}"
              width="64" height="64" alt="Inkscape"/></a>
           <h1><a href="/" tabindex="-1">Inkscape</a></h1>
           <h2><a href="/" tabindex="-1">{% trans "Draw Freely." %}</a></h2>
@@ -76,7 +76,7 @@
             <li id="toplogin">
               <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;</p>
               <div  class="topdrop">
-                <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
                 {% if request.user.is_moderator %}
                   <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
                 {% endif %}
@@ -94,7 +94,7 @@
         {% block rightheader %}
         <form id="topsearch" method="get" action="{% url "search" %}">
           <input type="text" name="q" id="q" placeholder="{% trans "Search" %}">
-          <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
+          <button><img src="{% static "images/search.svg" %}" alt="{% trans "Search" %}"/></button>
         </form>
         {% endblock %}
       </div>
@@ -150,7 +150,7 @@
       <a href="http://www.fastly.com/" title="Data Cached by Fastly">Fastly</a>
       <a href="https://osuosl.org/" title="Site Hosted by OSUOSL">OSUOSL</a>
       <a href="/support-us/sponsors" title="Our Sponsors">More...</a>
-      <a id="dev-stamp" href="https://code.launchpad.net/inkscape-web"><img src="{{ STATIC_URL }}/images/django.svg" title="{% trans "This site is running:" %}
+      <a id="dev-stamp" href="https://code.launchpad.net/inkscape-web"><img src="{% static "/images/django.svg" %}" title="{% trans "This site is running:" %}
 Python {{ PYTHON_VERSION }}
 Django {{ DJANGO_VERSION }}
 InkscapeWeb {{ WEBSITE_VERSION }} (r{{ WEBSITE_REVISION }})" alt="PY"/></a>

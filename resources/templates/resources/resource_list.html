@@ -10,7 +10,7 @@
         </div>
         <p><a href="{{ upload_url }}">{% trans "Submit Resource" %}</a></p>
         <script>
-          registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{{ STATIC_URL }}'); 
+          registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{% static "/" %}'); 
         </script>
       </div>
     {% elif team_member %}

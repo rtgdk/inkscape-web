@@ -1,11 +1,11 @@
-{% load i18n pile comments %}
+{% load i18n static pile comments %}
 
 <div class="moderation {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
     
   <div class="details">
     <div class="title">
       {% url 'view_profile' object.implicated.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.photo %}{{ object.implicated.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if object.implicated.photo %}{{ object.implicated.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
       <div>
           {% blocktrans trimmed with object.implicated as user_name and object.target.get_absolute_url as the_url and object.target.name as resource_name %}
             <a href="{{profile_url}}">{{user_name}}</a> posted <a href="{{ the_url }}">{{ resource_name }}</a>
@@ -39,7 +39,7 @@
           {% if object.target.mime.is_image %}
               <a href="{{ object.target.get_absolute_url }}"><img src="{{ object.target.download.url }}" alt="{% trans "Image" %}"></a>
           {% elif object.target.mime.is_text %}
-            <a href="{{ object.target.get_absolute_url }}"><img src="{{ STATIC_URL }}mime/text.svg" title="{{ object.target.media_type }}"/></a>
+            <a href="{{ object.target.get_absolute_url }}"><img src="{% static "mime/text.svg" %}" title="{{ object.target.media_type }}"/></a>
           {% else %}
               <a href="{% url "view_resource" object.target.id %}"><img src="{{ object.target.icon }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
@@ -48,7 +48,7 @@
             {% if object.target.thumbnail %}
               <img src="{{ object.target.icon }}" alt="{% trans "Item Image" %}"/>
             {% else %}
-              <img src="{{ STATIC_URL }}images/link.svg" alt="{% trans "Item Link" %}"/>
+              <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
             {% endif %}
             </a>
         {% endif %}
@@ -68,7 +68,7 @@
     <div class="resourceinfo">
     
       {% if not object.target.is_file %}
-        <a class="link" href="{{ object.target.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
+        <a class="link" href="{{ object.target.link }}"><img src="{% static "/images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
       {% endif %}
       <dl>
         <dt>{% trans "Category" %}</dt>

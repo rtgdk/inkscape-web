@@ -1,11 +1,11 @@
-{% load i18n comments pile %}
+{% load i18n comments static pile %}
 
 <div class="comment">
   <a name="c{{ comment.id }}"></a>
   <div class="details">
     <div class="title">
       {% url 'view_profile' comment.user.username as profile_url %}
-      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.photo %}{{ comment.user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/></a>
+      <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.photo %}{{ comment.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
       <div>
         {% url 'view_profile' comment.user.username as profile_url %}
         {% blocktrans trimmed with comment.user as user_name and comment.submit_date|timetag as comment_date %}

@@ -1,6 +1,6 @@
-{% load i18n comments sekizai_tags %}
+{% load i18n comments sekizai_tags static %}
 
-{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/comments.css" media="all" />{% endaddtoblock %}
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}" media="all" />{% endaddtoblock %}
 
 
 <div id="comments">

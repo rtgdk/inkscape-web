@@ -1,10 +1,10 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n humanize future extras static %}
+{% load user_session i18n humanize extras static %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
 {% block "profile" %}
-  <img id="photo" src="{% if object.photo %}{{ object.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}"/>
+  <img id="photo" src="{% if object.photo %}{{ object.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/>
 
   <div class="socialicons">
      {% if object.moderation and request.user != object %}

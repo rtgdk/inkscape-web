@@ -1,12 +1,12 @@
 {% extends "base.html" %}
 
-{% load i18n pile sekizai_tags %}
+{% load i18n static pile sekizai_tags %}
 
 {% block title %}{% trans "Project" %} | {{ object.title }}{% endblock %}
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/project.css" %}"/>
   {% endaddtoblock %}
 
   <div class="banner">

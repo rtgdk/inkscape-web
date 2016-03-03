@@ -1,5 +1,5 @@
 {% extends 'resources/resource_base.html' %}
-{% load i18n pile %}
+{% load i18n static pile %}
 
 {% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
@@ -59,7 +59,7 @@
       <h2 class="truncate">{% if object.category %}{{ object.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>
     
       {% if not object.is_file %}
-        <a class="link" href="{{ object.link }}"><img src="{{ STATIC_URL }}/images/link_to.svg" alt="{% trans "Link"%}" title="{% trans "Follow Link (external site)" %}"/></a>
+        <a class="link" href="{{ object.link }}"><img src="{% static "/images/link_to.svg" %}" alt="{% trans "Link"%}" title="{% trans "Follow Link (external site)" %}"/></a>
       {% endif %}
       <dl>
         {% if object.is_file %}    
@@ -88,13 +88,13 @@
       {% if object.signature %}
          <a class="signature" href="{{ object.signature.url }}">
            {% if object.endorsement == 10 %}
-             <img src="{{ STATIC_URL }}images/endorse/official.svg" title="{% trans "Official (Signed by Inkscape Packager)" %}"/>
+             <img src="{% static "images/endorse/official.svg" %}" title="{% trans "Official (Signed by Inkscape Packager)" %}"/>
            {% elif object.endorsement == 5 %}
-             <img src="{{ STATIC_URL }}images/endorse/signed.svg" title="{% trans "Signed (by Uploader)" %}"/>
+             <img src="{% static "images/endorse/signed.svg" %}" title="{% trans "Signed (by Uploader)" %}"/>
            {% elif object.endorsement == 1 %}
-             <img src="{{ STATIC_URL }}images/endorse/verified.svg" title="{% trans "Verified (Hash Matches)" %}"/>
+             <img src="{% static "images/endorse/verified.svg" %}" title="{% trans "Verified (Hash Matches)" %}"/>
            {% else %}
-             <img src="{{ STATIC_URL }}images/endorse/broken.svg" title="{% trans "Broken Signature or Hash!" %}"/>
+             <img src="{% static "images/endorse/broken.svg" %}" title="{% trans "Broken Signature or Hash!" %}"/>
            {% endif %}
          </a>
       {% endif %}

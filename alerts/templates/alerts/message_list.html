@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% load sekizai_tags %}
-{% load i18n pagination_tags pile %}
+{% load i18n static pagination_tags pile %}
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/alert.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/alert.css" %}"/>
   {% endaddtoblock %}
 
   <h1>{% block title %}{% trans "Sent Messages" %}{% endblock %}</h1>

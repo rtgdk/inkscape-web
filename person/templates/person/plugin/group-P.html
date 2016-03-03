@@ -1,3 +1,4 @@
+{% load static %}
 
 <h2>{{ instance.source }}</h2>
 
@@ -5,7 +6,7 @@
 {% for user in users %}
 
   <div class="galleryitem">
-    <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{{ STATIC_URL }}images/photo.png{% endif %}" title="{{ user }}"/></a>
+    <a class="link" href="{{ user.get_absolute_url }}"><img src="{% if user.photo %}{{ user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" title="{{ user }}"/></a>
     <p title="{{ user.email }}"><a href="{{ url user.get_absolute_url }}">{{ user }}</a></p>
   </div>
 

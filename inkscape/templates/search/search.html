@@ -1,19 +1,19 @@
 {% extends 'base.html' %}
-{% load i18n sekizai_tags %}
+{% load i18n sekizai_tags static %}
 
 {% block rightheader %}{% endblock %}
 
 {% block content %}
 
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/search.css" >
+    <link rel="stylesheet" type="text/css" href="{% static "css/search.css" %}" >
   {% endaddtoblock %}
 
   <h2>{% block title %}{% trans "Search" %}{% endblock %}</h2>
 
   <form method="get" action="{% url "search" %}">
     <input type="text" name="q" id="q" value="{{ query }}" placeholder="{% trans "Search" %}">
-    <button><img src="{{ STATIC_URL }}images/search.svg" alt="{% trans "Search" %}"/></button>
+    <button><img src="{% static "images/search.svg" %}" alt="{% trans "Search" %}"/></button>
   </form>
 
     <form method="get" action=".">

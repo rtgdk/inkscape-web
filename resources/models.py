@@ -304,8 +304,8 @@ class Resource(Model):
         return (None, None)
 
     def get_absolute_url(self):
-        if self.category and self.category.id == 1:
-            return reverse('pasted_item', args=[str(self.id)])
+        if self.category_id and self.category_id == 1:
+            return reverse('pasted_item', args=[str(self.pk)])
         if self.slug:
             return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
         return reverse('resource', kwargs={'pk': self.pk})
@@ -326,7 +326,7 @@ class Resource(Model):
         return None
 
     def is_visible(self):
-        return get_user() == self.user or self.published
+        return get_user().pk == self.user_id or self.published
 
     def voted(self):
         return self.votes.for_user(get_user()).first()

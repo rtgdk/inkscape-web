@@ -23,6 +23,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 from reversion.revisions import revision_context_manager as manager
 
+from cms.toolbar.items import Menu
+from cms.constants import LEFT
 from cmsdiff.app import DRAFT_ID
 
 class CommentMiddleware(object):
@@ -57,7 +59,10 @@ class ObjectToolbarMiddleware(object):
             if type(obj).__name__ == 'SimpleLazyObject':
                 obj = obj._wrapped
             if obj:
-                menu = request.toolbar.get_or_create_menu('object-menu',_('Object'))
+                menu = Menu(_('Object'), request.toolbar.csrf_token, side=LEFT)
+                request.toolbar.menus['object-menu'] = menu
+                request.toolbar.add_item(menu, position=None)
+
                 self.menu_item(obj, menu, _('Purge %(otype)s'), 'delete', '?next=/')
                 self.menu_item(obj, menu, _('Edit %(otype)s'), 'change')
         return response

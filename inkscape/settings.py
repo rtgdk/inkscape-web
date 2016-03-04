@@ -1,4 +1,8 @@
 # -*- coding: utf-8 -*-
+"""
+Inkscape's default settings module, will look for a local_settings.py
+module to override /some/ of the settings defined here.
+"""
 
 from django.utils.translation import ugettext_lazy as _
 from django.conf import global_settings
@@ -52,6 +56,8 @@ STATIC_URL = '/static/'
 EXTRA_APPS = []
 
 SESSION_COOKIE_AGE = 1209600 # Two weeks
+ENABLE_CACHING = False
+ENABLE_DEBUG_TOOLBAR = True
 
 # Allow realtime updates of pages
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
@@ -68,6 +74,8 @@ SITE_ROOT = "http://%s" % SITE_ADDRESS
 
 # Place where files can be uploaded
 # Place where media can be served from in development mode
+LOGBOOK_ROOT = os.path.join(PROJECT_PATH, 'data', 'logs')
+DESIGN_ROOT = os.path.join(PROJECT_PATH, 'data', 'static', 'design')
 MEDIA_ROOT = os.path.join(PROJECT_PATH, 'data', 'media', '')
 STATIC_ROOT = os.path.join(PROJECT_PATH, 'data', 'static')
 FIXTURE_DIRS = os.path.join(PROJECT_PATH, 'data', 'fixtures'),
@@ -82,12 +90,11 @@ ROSETTA_EXTRA_PATHS = (
 
 TEMPLATES = [{
     'BACKEND': 'django.template.backends.django.DjangoTemplates',
+    'DIRS': [DESIGN_ROOT],
     'OPTIONS': {
       'loaders': [
-          ('django.template.loaders.cached.Loader', [
-              'django.template.loaders.filesystem.Loader',
-              'django.template.loaders.app_directories.Loader',
-          ]),
+          'django.template.loaders.filesystem.Loader',
+          'django.template.loaders.app_directories.Loader',
       ],
       'context_processors': (
         'inkscape.context_processors.version',
@@ -105,9 +112,6 @@ TEMPLATES = [{
       )
     }
 }]
-if DEBUG:
-    # Remove caching for DEBUG
-    TEMPLATES[0]['OPTIONS']['loaders'] = TEMPLATES[0]['OPTIONS']['loaders'][0][1]
 
 MIDDLEWARE_CLASSES = (
     'inkscape.middleware.AutoBreadcrumbMiddleware',
@@ -130,12 +134,20 @@ MIDDLEWARE_CLASSES = (
     'person.middleware.SetLastVisitMiddleware',
 )
 
-# Add caching middleware only if we're live.
-if not DEBUG:
+# ===== CACHING ===== #
+
+if ENABLE_CACHING:
+    # Caching Middleware caches whole pages, can cause issues
     MIDDLEWARE_CLASSES = \
       ('django.middleware.cache.UpdateCacheMiddleware',) + \
       MIDDLEWARE_CLASSES + \
       ('django.middleware.cache.FetchFromCacheMiddleware',)
+
+    # Template caching allows quicker fetches
+    TEMPLATES[0]['OPTIONS']['loaders'] = (
+        'django.template.loaders.cached.Loader',
+        TEMPLATES[0]['OPTIONS']['loaders'],
+      )
 
 ROOT_URLCONF = 'inkscape.urls'
 
@@ -182,15 +194,15 @@ INSTALLED_APPS = (
     'django_comments',
     'django_mailman',
     'alerts',
-    'debug_toolbar',
+    #'logbook',
 )
 
 
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
-    ('person.user',             _('Website User')),
-    ('resources.resourcefile',  _('Gallery Resource')),
+    ('person.user', _('Website User')),
+    ('resources.resourcefile', _('Gallery Resource')),
     ('django_comments.comment', _('User Comment')),
 )
 
@@ -200,8 +212,8 @@ AUTH_USER_MODEL = 'person.User'
 # for non-translated cms pages
 CMS_LANGUAGES = {
     'default': {
-        'fallbacks': ['en'],
         'public': True,
+        'fallbacks': ['en'],
         'hide_untranslated': False, # fill the menu
         'redirect_on_fallback': False,
         # stay in the selected language instead of going to /en/ urls
@@ -209,21 +221,22 @@ CMS_LANGUAGES = {
 }
 
 CMS_TEMPLATES = (
-    ('cms/normal.html',   _('Normal Page')),
+    ('cms/front.html', _('Three Column Page')),
+    ('cms/super.html', _('Full Screen')),
+    ('cms/normal.html', _('Normal Page')),
+    ('cms/develop.html', _('Developer Page')),
     ('cms/withside.html', _('Side Bar Page')),
-    ('cms/front.html',    _('Three Column Page')),
-    ('cms/super.html',    _('Full Screen')),
-    ('cms/develop.html',  _('Developer Page')),
 )
 
 # activate automatic filling-in of contents for non-translated cms pages
-CMS_PLACEHOLDER_CONF = {placeholder : {'language_fallback': True,} for placeholder in [
-    'normal_template_content', 
-    'front_body', 
-    'column_one', 
-    'column_two', 
-    'column_three', 
-    'sidebar_template_content',]
+CMS_PLACEHOLDER_CONF = {
+  placeholder : {'language_fallback': True,} for placeholder in [
+    'normal_template_content',
+    'front_body',
+    'column_one',
+    'column_two',
+    'column_three',
+    'sidebar_template_content']
 }
 
 CMS_APPLICATIONS_URLS = (
@@ -234,7 +247,7 @@ CMS_APPHOOKS = (
    'inkscape.cms_app.SearchApphook',
 )
 CMS_NAVIGATION_EXTENDERS = (
-    ('cmsplugin_news.navigation.get_nodes','News navigation'),
+    ('cmsplugin_news.navigation.get_nodes', 'News navigation'),
 )
 
 CKEDITOR_SETTINGS = {
@@ -253,8 +266,8 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
-LOGIN_URL          = '/user/login/'
-LOGIN_ERROR_URL    = '/user/login/'
+LOGIN_URL = '/user/login/'
+LOGIN_ERROR_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/user/'
 
 RECAPTCHA_USE_SSL = True
@@ -266,9 +279,9 @@ OPENID_AX = [{
   "count": 1,
   "required": True,
   "alias": "email",
-  },{
+  }, {
   "type_uri": "http://axschema.org/schema/fullname",
-  "count":1 ,
+  "count":1,
   "required": False,
   "alias": "fname",
 }]
@@ -285,7 +298,7 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email']
 
 GEOIP_PATH = os.path.join(PROJECT_PATH, 'data', 'geoip')
 
-SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+SESSION_SERIALIZER = 'django.contrib.sessions.serializers.PickleSerializer'
 
 SENDFILE_BACKEND = 'sendfile.backends.development'
 SENDFILE_ROOT = MEDIA_ROOT
@@ -302,14 +315,6 @@ AJAX_SELECT_INLINES = 'inline'
 
 TEST_RUNNER = 'inkscape.runner.InkscapeTestSuiteRunner'
 SILENCED_SYSTEM_CHECKS = ["1_6.W002"]
-
-MIGRATION_MODULES = {
-  'djangocms_file': 'djangocms_file.migrations_django',
-  'djangocms_link': 'djangocms_link.migrations_django',
-  'djangocms_picture': 'djangocms_picture.migrations_django',
-  'djangocms_text_ckeditor': 'djangocms_text_ckeditor.migrations_django',
-  'cmsplugin_pygments': 'cmsplugin_pygments.migrations_django',
-}
 
 ERROR_RATE_LIMIT = 300 # 5 minutes
 
@@ -337,16 +342,42 @@ LOGGING = {
     },
 }
 
-def show_toolbar(request):
-    return 'I_WISH_KNEW_WHAT_WAS_GOING_ON' in request.GET
+# ===== Debug Toolbar ===== #
+
+#if ENABLE_DEBUG_TOOLBAR:
+    # We're not even going to trust debug_toolbar on live
+    #INSTALLED_APPS += ('debug_design', 'debug_toolbar',
+    #                   'debug_toolbar_line_profiler')
+    #MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
+    #TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
+    #if DEBUG:
+    #    STATICFILES_DIRS = [DESIGN_ROOT]
+
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = True
 DEBUG_TOOLBAR_CONFIG = {
-    'SHOW_TOOLBAR_CALLBACK': show_toolbar,
+    'SHOW_TEMPLATE_CONTEXT': True,
+    # TURN ON DEBUG VIA A LINK IN THE WEBSITE, SOMETHIN WE CAN ADD TO COOKIES
+    'SHOW_TOOLBAR_CALLBACK': lambda req: 'debug' in req.GET or 'debug' in req.META.get('HTTP_REFERER', ''),
     'MEDIA_URL': '/media/debug/',
     'INTERCEPT_REDIRECTS': False,
 }
-
+DEBUG_TOOLBAR_PANELS = (
+    'debug_toolbar_line_profiler.panel.ProfilingPanel',
+    'debug_toolbar.panels.versions.VersionsPanel',
+    'debug_toolbar.panels.timer.TimerPanel',
+    'debug_toolbar.panels.settings.SettingsPanel',
+    'debug_toolbar.panels.headers.HeadersPanel',
+    'debug_toolbar.panels.request.RequestPanel',
+    'debug_toolbar.panels.sql.SQLPanel',
+    'debug_toolbar.panels.templates.TemplatesPanel',
+    'debug_toolbar.panels.staticfiles.StaticFilesPanel',
+    'debug_toolbar.panels.cache.CachePanel',
+    'debug_toolbar.panels.signals.SignalsPanel',
+    'debug_toolbar.panels.logging.LoggingPanel',
+    'debug_toolbar.panels.redirects.RedirectsPanel',
+    #'debug_toolbar.panels.profiling.ProfilingPanel',
+)
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

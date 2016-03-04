@@ -49,11 +49,10 @@ django-autotest-command==1.4
 django_sekizai==0.9.0
 django-cms==3.2.0
 
-djangocms-file==0.1
-djangocms-link==1.5
-djangocms-picture==0.1
-djangocms-text-ckeditor==2.4.3
-cmsplugin-pygments==0.7.3
+djangocms-file==0.2.1
+djangocms-link==1.7.1
+djangocms-picture==0.2.0
+djangocms-text-ckeditor==2.8.1
 
 cmsplugin-filery==1.0.1
 cmsplugin-search==0.7.3

@@ -186,7 +186,7 @@ class ResourceManager(Manager):
 
     def disk_usage(self):
         # This could be done better by storing the file sizes
-        return sum(f.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if f.download and os.path.exists(f.download.path))
+        return sum(f.resourcefile.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if f.resourcefile.download and os.path.exists(f.resourcefile.download.path))
 
     def latest(self):
         user = get_user()

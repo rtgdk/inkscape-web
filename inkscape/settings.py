@@ -194,7 +194,7 @@ INSTALLED_APPS = (
     'django_comments',
     'django_mailman',
     'alerts',
-    #'logbook',
+    'logbook',
 )
 
 
@@ -344,14 +344,14 @@ LOGGING = {
 
 # ===== Debug Toolbar ===== #
 
-#if ENABLE_DEBUG_TOOLBAR:
+if ENABLE_DEBUG_TOOLBAR:
     # We're not even going to trust debug_toolbar on live
-    #INSTALLED_APPS += ('debug_design', 'debug_toolbar',
-    #                   'debug_toolbar_line_profiler')
-    #MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
-    #TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
-    #if DEBUG:
-    #    STATICFILES_DIRS = [DESIGN_ROOT]
+    INSTALLED_APPS += ('debug_design', 'debug_toolbar',
+                       'debug_toolbar_line_profiler')
+    MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
+    TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
+    if DEBUG:
+        STATICFILES_DIRS = [DESIGN_ROOT]
 
 
 DEBUG_TOOLBAR_PATCH_SETTINGS = True
@@ -364,6 +364,7 @@ DEBUG_TOOLBAR_CONFIG = {
 }
 DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar_line_profiler.panel.ProfilingPanel',
+    'debug_design.panels.DesignPanel',
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',
     'debug_toolbar.panels.settings.SettingsPanel',

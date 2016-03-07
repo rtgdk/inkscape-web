@@ -1,0 +1,58 @@
+{% load i18n %}
+
+{% load cycle from debug_toolbar_compat %}
+{% load static from staticfiles%}
+
+<h4>{% trans "Your recent changes (can only be seen by you)" %}</h4>
+
+<ul>
+  <li class="template"><a href="">File A</a></li>
+  <li class="template"><a href="">File B</a></li>
+  <li class="css"><a href="">File C</a></li>
+  <li class="css"><a href="">File D</a></li>
+  <li class="image"><a href="">File E</a></li>
+  <li class="js"><a href="">File F</a></li>
+</ul>
+
+<div class="buttons">
+  <a href="" class="btn btn-default">Commit these changes</a>
+  <a href="" class="btn btn-default">Revert these changes</a>
+  <a href="" class="btn btn-default">Show all</a>
+</div>
+
+<hr/>
+<h4>{% trans "Comitted design (can be seen by everyone on this side)" %}</h4>
+
+<ul>
+  <li class="template"><a href="">File A</a></li>
+  <li class="template"><a href="">File B</a></li>
+  <li class="css"><a href="">File C</a></li>
+  <li class="css"><a href="">File D</a></li>
+  <li class="image"><a href="">File E</a></li>
+  <li class="js"><a href="">File F</a></li>
+</ul>
+
+<div class="buttons">
+  <a href="" class="btn btn-default">Publish to developers</a>
+  <a href="" class="btn btn-default">Show all</a>
+</div>
+
+<hr/>
+<h4>{% trans "Comitted design (can be seen by everyone on this side)" %}</h4>
+
+<ul>
+  <li class="template"><a href="">File A</a></li>
+  <li class="template"><a href="">File B</a></li>
+  <li class="css"><a href="">File C</a></li>
+  <li class="css"><a href="">File D</a></li>
+  <li class="image"><a href="">File E</a></li>
+  <li class="js"><a href="">File F</a></li>
+</ul>
+
+<div class="buttons">
+  <a href="" class="btn btn-default">Publish to developers</a>
+  <a href="" class="btn btn-default">Show all</a>
+</div>
+
+
+

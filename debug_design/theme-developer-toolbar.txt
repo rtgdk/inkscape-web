@@ -1,0 +1,10 @@
+A full theme editor would:
+
+ * Use debug toolbar as a base
+ * Enable editing of templates
+ * Show context variables available
+ * Allow editing of css, uploading of static images
+ * Use folders to create new themes, so different ones can be used
+ * Use a template loader module to choose the selected theme
+ * Each theme is a git repository with undo/redo
+ * No caching of templates (warn if caching is used)

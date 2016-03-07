@@ -227,21 +227,28 @@ class BaseAlert(object):
             # * We don't have permission to signal process
             return False
 
-    def send_email(self, recipient, context_data):
+    def send_email(self, recipient, context_data, **kwargs):
         if not recipient:
             return False
 
         context_data = self.format_data(context_data)
-
         subject = render_directly(self.email_subject, context_data)
-        subject = subject.strip().replace('\n', ' ').replace('\r', ' ')
-        body    = render_template(self.email_template, context_data)
+
+        kwargs.update({
+            'subject': subject.strip().replace('\n', ' ').replace('\r', ' '),
+            'body': render_template(self.email_template, context_data),
+            'to': [recipient],
+        })
+
         if self.email_footer is not None:
-            body += render_template(self.email_footer, context_data)
-        email   = EmailMultiAlternatives(subject, body, None, (recipient,))
+            kwargs['body'] += render_template(self.email_footer, context_data)
+
+        #if self.alert_type.CATEGORY_USER_TO_USER:
+        #    this doesn't work yet because we don't know how to get the sender
+        #    kwargs['reply_to'] = self.get_sender(context_data)
 
         # This will fail silently if not configured right
-        return email.send(True)
+        return EmailMultiAlternatives(**kwargs).send(True)
 
 
 class EditedAlert(BaseAlert):

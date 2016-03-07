@@ -33,7 +33,7 @@ from cmsdiff.signals import post_revision
 class PagePublishedAlert(BaseAlert):
     name     = _("Website Page Published")
     desc     = _("A page on the website has been published after editing.")
-    category = AlertType.CATEGORY_USER_TO_USER
+    category = AlertType.CATEGORY_SYSTEM_TO_USER
     sender   = Page
 
     subject       = "{% trans 'Published:' %} {{ instance }}"

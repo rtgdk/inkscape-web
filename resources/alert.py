@@ -36,7 +36,7 @@ post_publish = Signal(providing_args=["instance"])
 class ResourceAlert(EditedAlert):
     name     = _("New Gallery Resource")
     desc     = _("An alert is sent when the target user submits a resource.")
-    category = AlertType.CATEGORY_USER_TO_USER
+    category = AlertType.CATEGORY_SYSTEM_TO_USER
     sender   = Resource
 
     subject       = "{% trans 'New submission:' %} {{ instance }}"

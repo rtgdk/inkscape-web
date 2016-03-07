@@ -281,14 +281,10 @@ class UserAlert(Model):
     def send_irc_msg(self):
         return self.alert.send_irc_msg(self)
 
-    def send_email(self):
+    def send_email(self, **kwargs):
         """Send alert email is user's own language"""
-        lang = self.user.language or 'en'
-        old = translation.get_language()
-        translation.activate(lang)
-        ret = self.alert.send_email(self.user.email, self.data)
-        translation.activate(old)
-        return ret
+        with translation.override(self.user.language or 'en'):
+            return self.alert.send_email(self.user.email, self.data, **kwargs)
 
 
 class UserAlertObject(Model):

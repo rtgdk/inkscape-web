@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+
+  <h1>Metric: {{ object }}</h1>
+
+  {% for family, names in object.families %}
+    <h2><a href="https://duckduckgo.com/?q={{ family }}" target="_new">{{ family }}</a></h2>
+    <ul>
+    {% for name, ncount in names %}
+      <li>"{{ name }}" ({{ ncount }})</li>
+    {% endfor %}
+  </ul>
+  {% endfor %}
+
+{% endblock %}

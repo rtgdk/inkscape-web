@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load i18n static %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "nvd3/nv.d3.min.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "nvd3/charts.css" %}"/>
+{% endblock %}
+
+{% block "js" %}{{ block.super }}
+  <script type="text/javascript" src="{% static "nvd3/d3.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "nvd3/nv.d3.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "nvd3/autochart.js" %}"></script>
+  <script type="text/javascript" src="{% static "nvd3/nodegraph.js" %}"></script>
+{% endblock %}
+
+{% block content %}
+
+  <h1>{% trans "Website Logs" %}</h1>
+
+{% for metric, names, period_values in days %}
+  <h2>{{ metric.name }}</h2>
+
+  <table style="display: block;" title="Daily over the last month" id="metric_{{ metric.name }}" class="autochart" data-x-format="DATE:%d">
+    <tr>
+      <th data-column="x">Date</th>
+      {% for name in names %}
+        <th data-column="y">{{ name }}</th>
+      {% endfor %}
+    </tr>
+    {% for period, values in period_values %}
+      <tr>
+        <td data-cell="{{ period|date:"Y-m-d" }}">{{ period }}</td>
+        {% for count in values %}
+          <td data-cell="{{ count }}">{{ count }}</td>
+        {% endfor %}
+      </tr>
+    {% endfor %}
+  </table>
+{% endfor %}
+
+{% endblock %}

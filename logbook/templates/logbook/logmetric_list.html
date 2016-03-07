@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block content %}
+
+  <h1>LogBook Metrics</h1>
+
+  <ul>
+    {% for object in object_list %}
+      <li><a href="{% url "logbook:metric" object.name %}">{{ object }}</a></li>
+    {% endfor %}
+  </ul>
+
+{% endblock %}

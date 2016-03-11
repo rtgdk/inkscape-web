@@ -29,7 +29,7 @@ from django.utils._os import safe_join
 from django.core.exceptions import SuspiciousFileOperation
 from django.template.loaders.filesystem import Loader as BaseLoader
 
-from themer import get_theme
+from .themer import Themer
 
 def get_path(path):
     """Makes a path if needed"""
@@ -52,14 +52,19 @@ class Loader(BaseLoader):
         """
         Return the next nearest designer template.
         """
-        theme = get_theme()
-        if theme is not None:
-            try:
+        try:
+            themer = Themer()
+            for theme in themer.themes:
+                if os.path.isfile():
+                    themer.add_template(template_name)
                 template_dir = os.path.join(DR, theme, 'templates')
                 print "TRYING THEME FILE: %s / %s" % (theme, template_name)
                 yield safe_join(get_path(template_dir), template_name)
-            except SuspiciousFileOperation:
-                pass
+        except KeyError:
+            print "No request object? WTF"
+            pass
+        except SuspiciousFileOperation:
+            pass
 
 from django.templatetags.static import StaticNode
 
@@ -76,7 +81,7 @@ def new_handle_simple(cls, path):
         new_path = os.path.join(DR, theme, path)
         if os.path.exists(new_path):
             #record[path]
-            path = new_path.replace(root, '').strip('/')
+            path = new_path.replace(root, '')
     sys.stderr.write(" @@ PATH -- %s\n" % str(path))
     return OLD_HS(path)
 

@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% load i18n pile sekizai_tags %}
+
+{% block title %}
+  {% if project %}
+    {% trans "Update project" %} | {{ object.title }}
+  {% else %}
+    {% trans "New Project" %}
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if project %}
+      {% include 'projects/project_update.html' %}
+  {% else %}
+      {% include 'projects/project_propose.html' %}
+  {% endif %}
+{% endblock %}

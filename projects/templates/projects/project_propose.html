@@ -1,0 +1,45 @@
+{% load i18n pile sekizai_tags %}
+
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/project.css" %}"/>
+{% endaddtoblock %}
+
+<h1>Propose a project</h1>
+
+{% if not user.is_authenticated %}
+  {% url 'auth_login' as login_url %}
+  <div>
+    {% blocktrans %}Please <a href="{{login_url}}">log in</a> to suggest a project!{% endblocktrans %}
+  </div>
+{% elif not user.email %}
+  {% url 'edit_profile' as profile_url %}
+  <div>
+    {% blocktrans %}You need to <a href="{{profile_url}}">add an email address to your profile</a> if you'd like to suggest a new project!{% endblocktrans %}
+  </div>
+{% else %}
+  <form id="propose-form" method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <div>{{ form.non_field_errors }}</div>
+  
+    <div class="label-above left" id="for-title">
+      <label for="id_title"{% if form.title.errors %}class="error" title="{{ form.title.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.title.label }}{% if form.title.field.required %} *{% endif %}</label>
+      <div class="formfield">{{ form.title|placeholder:_("A concise title for your proposal") }}</div>
+    </div>
+  
+    <div class="label-above right" id="for-project-type">
+      <label for="id_project_type" {% if form.project_type.errors %}class="error" title="{{ form.project_type.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.project_type.label }}{% if form.project_type.field.required %} *{% endif %}</label>
+      <div class="formfield">{{ form.project_type }}</div>
+    </div>
+  
+    <div class="label-above">
+      <label for="id_desc" {% if form.desc.errors %}class="error" title="{{ form.desc.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.desc.label }}{% if form.desc.field.required %} *{% endif %}</label>
+      <div class="formfield">{{ form.desc|placeholder:_("Describe your proposal for a development project here") }}</div>
+    </div>
+
+    <div class="button-area">
+      <button class="button right" type="submit" name="save" value="1">{% trans "Submit" %}</button>
+      <a class="button right" href="{% url 'projects' %}">{% trans "Cancel" %}</a>
+    </div>
+  </form>
+{% endif %}

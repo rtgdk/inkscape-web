@@ -197,7 +197,6 @@ INSTALLED_APPS = (
     'logbook',
 )
 
-
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (

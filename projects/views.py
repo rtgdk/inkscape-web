@@ -2,7 +2,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom
+# This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -22,9 +22,11 @@
 from django.http import Http404, HttpResponse, HttpResponseRedirect
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse
+from django.views.generic import ListView
+from django.db.models import Q
 
-from pile.views import DetailView, CategoryListView, breadcrumbs
-from .models import Project
+from pile.views import DetailView, CategoryListView, CreateView, UpdateView, breadcrumbs
+from .models import Project, ProjectUpdate
 
 class ProjectList(CategoryListView):
     model = Project
@@ -43,6 +45,25 @@ class ProjectList(CategoryListView):
         return data
 
 
+# Google Summer of Code Projects
+class ProjectGsocList(ListView):
+    template_name = 'projects/project_gsoc_list.html'
+    model = Project
+    cats = (
+    ('project_type', 'type'),
+    )
+    opts = (
+    ('complete', 'completed__isnull'),
+    )
+ 
+    def get_context_data(self, **kwargs):
+        data = ListView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+        ('projects.gsoc', 'Google Summer of Code Projects'),
+        )
+        return data
+
+
 class ProjectView(DetailView):
     model = Project
 
@@ -53,3 +74,70 @@ class ProjectView(DetailView):
             data['object'],
         )
         return data
+
+class NewProject(CreateView):
+    model = Project
+    fields = ('title', 'project_type', 'desc')
+
+    def get_context_data(self, **kwargs):
+        data = CreateView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+            'Propose Project',
+        )
+        return data
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.proposer = self.request.user
+        obj.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('projects')
+  
+class UpdateProject(CreateView):
+    model = ProjectUpdate
+    fields = ('describe', 'image')
+    
+    def get_project(self):
+      return Project.objects.get(slug=self.kwargs['project'])
+    
+    def get_context_data(self, **kwargs):
+      data = super(CreateView, self).get_context_data(**kwargs)
+      data['project'] = self.get_project()
+      data['breadcrumbs'] = breadcrumbs(
+            ('projects', 'Projects'),
+            'Update Project',
+        )
+      return data
+
+    def form_valid(self, form):
+        obj = form.save(commit=False)
+        obj.project = self.get_project()
+        obj.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+    def get_success_url(self):
+        return reverse('project', kwargs={'slug': self.kwargs['project']})
+
+class MyProjects(CategoryListView):
+    model = Project
+    
+    def get_context_data(self, **kwargs):
+        data = CategoryListView.get_context_data(self, **kwargs)
+        data['breadcrumbs'] = breadcrumbs(
+            (self.request.user, str(self.request.user.details)),
+            'My Projects',
+        )
+        return data
+    
+    def get_queryset(self, **kwargs):
+        # can't filter by method, only by db fields
+        q = super(MyProjects, self).get_queryset(**kwargs).filter(
+                    Q(workers__user=self.request.user) | 
+                    Q(proposer=self.request.user) | 
+                    Q(manager=self.request.user) | 
+                    Q(reviewer=self.request.user) | 
+                    Q(second=self.request.user)).distinct()
+        return q

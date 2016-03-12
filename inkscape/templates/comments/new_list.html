@@ -1,13 +1,11 @@
 {% load comments i18n %}
 
-<div> 
-  {% with comment_list|dictsortreversed:"submit_date" as comments_list %}   
-    {% for comment in comments_list %}
-      {% if not comment.moderation.is_deleted %}
-        {% with forloop.counter0|add:1 as comment_counter %}
-          {% include "comments/single_comment.html" %}
-        {% endwith %}
-      {% endif %}
-    {% endfor %}
-  {% endwith %}
+<div>   
+  {% for comment in comment_list %}
+    {% if not comment.moderation.is_deleted %}
+      {% with forloop.counter0|add:1 as comment_counter %}
+        {% include "comments/single_comment.html" %}
+      {% endwith %}
+    {% endif %}
+  {% endfor %}
 </div>

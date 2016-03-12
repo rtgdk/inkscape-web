@@ -1,5 +1,7 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright 2014, Martin Owens <doctormo@gmail.com> */
 
+/* Project List Page */
+
 .project {
   display: inline-block;
   text-align: center;
@@ -9,22 +11,116 @@
   margin: 10px;
   padding: 10px;
   border: 2px solid #ccc;
+  
 }
+
+.project-full {
+  display: inline-block;
+  border: 1px solid #ddd;
+  margin: 1em 0 0.5em;
+  clear: both;
+  width: 100%;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.project-full .details {
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+  text-align: left;
+  border-radius: 8px 8px 0 0;
+}
+
+.project-full .details div,
+.project-full .mfooter div {
+  display: inline-block;
+}
+
+.project-full .details .title {
+  padding: 4px 8px;
+  font-size: 140%;
+}
+
+.project-full .details .title div {
+  margin-left: 50px;
+}
+
+.project-full .body {
+  padding: 1%;
+  min-height: 4em;
+}
+
+.project-full .body .pitch {
+  font-style: italic;
+}
+
+.desc,
+.info {
+  display: table-cell;
+}
+
+.desc {
+  padding: 6px 20px;
+  min-height: 200px;
+  width: 500px;
+  vertical-align: top;
+}
+
+.info {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 20px;
+  width: 300px;
+}
+
+.info dl {
+  font-size: 15px;
+  line-height: 17px;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 12px;
+  margin: 0px 0px 7px 0px;
+}
+
+.info dt {
+  padding: 0px;
+  clear: left;
+  float: left;
+  margin-right: 8px;
+  color: #888;
+}
+
+.info dd {
+  float: left;
+  margin: 0px;
+}
+
 .project img {
-  width: 200px;
-  height: 200px;
+  width: 150px;
+  height: 150px;
   padding: 5px;
   border: 2px solid #ccc;
 }
-.project .progress {
-  background-color: red;
+.progress {
+  background-image: linear-gradient(to bottom, #eee 0%, #bbb 50%, #aaa 100%);
+  color: #fff;
 }
-.project .bar {
-  background-color: green;
+.bar {
   width: 0%;
-  height: 22px;
+  height: 16px;
   display: block;
 }
+
+.bar.money {
+  background-image: linear-gradient(to bottom, #fbf6e5 0%, #fad809 50%, #e4c405 100%);
+}
+
+.bar.work {
+  background-image: linear-gradient(to bottom, #e5f4fb 0%, #3a95c4 50%, #3289b6 100%);
+}
+/* Project Detail Page */
 
 .banner img {
   max-width: 920px;
@@ -32,10 +128,100 @@
   min-width: 600px;
   min-height: 90px;
   display: inline-block;
+  background-color: #fff;
 }
 
 .banner {
   text-align: center;
+  background-color: #333;
+  background-image: linear-gradient(to bottom, #2e2a2e 0%, #1e1e1e 35%);
+  border-radius: 10px 10px 0 0;
+  line-height: 0;
+  padding: 20px 35px;
+  text-align: center;
 }
 
+.updateimage {
+  max-width: 200px;
+  max-height: 200px;
+}
 
+.project-detail #right-sidebar {
+  width: 30%;
+}
+
+.project-detail #left-column {
+  width: 65%
+}
+
+.statuslist {
+  display: inline-block;
+}
+
+.statuslist label, .statuslist span {
+  display: inline-block;
+  margin: 0.3em 0;
+}
+
+.statuslist label {
+  float: left;
+  clear: left;
+  margin-right: 0.5em;
+}
+
+.statuslist span {
+  float: right;
+}
+
+/* Propose Project Page */
+
+#propose-form {
+  padding: 1em;
+}
+
+#propose-form .label-above {
+  display: inline-block;
+  margin: 0.5em 0;
+  width: 100%;
+  border: 1px solid #ddd;
+  border-radius: 8px 8px 0 0;
+}
+
+#propose-form .label-above > label {
+  display: block;
+  clear: both;
+  font-size: 140%;
+  padding: 0.5em;
+  border-radius: 8px 8px 0 0;
+  background-color: #eee;
+  border-bottom: 1px solid #ddd;
+}
+
+#propose-form .formfield {
+  padding: 0.5em;
+}
+
+#propose-form #for-title {
+  width: 60%;
+}
+
+#propose-form #for-project-type {
+  width: 35%;
+}
+
+#propose-form .left {
+  display: inline-block;
+  float: left;
+}
+
+#propose-form .right {
+  display: inline-block;
+  float: right;
+  margin-left: 2em;
+}
+
+#propose-form input, #propose-form textarea, #propose-form select {
+  margin: auto;
+  width: 99%;
+  display: inline-block;
+}

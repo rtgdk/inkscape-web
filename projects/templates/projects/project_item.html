@@ -1,29 +1,43 @@
-{% load i18n pile %}
+{% load i18n pile markdown_deux_tags %}
 
-  <a class="project teaser well" href="{{ project.get_absolute_url }}">
-    <img src="{{ project.logo.url }}" />
-
-    <h3>{{ project.title }}</h3>
-
-    <div class="status">
-      <!--
-	<label class="author">{% trans "Proposed By" %}:</label>
-	<span class="author">{{ project.proposer }}</span>
-
-	<label class="goal">{% trans "Goal" %}:</label>
-	<span class="goal">{{ project.funding.goal }} $1000</span>
-
-	<label class="remaining">{% trans "Remaining" %}:</label>
-	<span class="remaining">{{ project.finished|timeuntil }}</span>
-       -->
+<div class="project-full">
+  <div class="details">
+    <div class="title"><a href="{{ project.get_absolute_url }}">{{ project.title }}</a></div>
+  </div>
+  <div class="body">
+    <div class="desc">
+      <p class="pitch">{% if project.pitch %}{{ project.pitch }}{% else %}{% trans "Review pending" %}{% endif %}</p>
+      
+      <h3>{% trans "Detailed Description" %}</h3>
+      <div class="markdown">{{ project.desc|markdown }}</div> <!--needs some styling that prevents crazy markup-->
     </div>
-
-    <div class="progress">
-      <div class="bar" style="width: 50%">
-	 <strong>{% trans "Achieved" %}:</strong>
-	 $500
+    <div class="info">
+      <img src="{{ project.logo.url }}" alt="{% trans "Logo for project" %}&quot;{{project.title}}&quot;"/>
+      <div class="image-overlay difficulty{{ project.sort }}"></div> <!--difficulty level, to be filled with background image via CSS-->
+      
+      {% if project.started %}
+      <div class="progress" title= "{% trans "Progress" %}">
+        <div class="bar work" style="width: {{ project.progress|floatformat }}%;"></div>
       </div>
-    </div>
-
-    <p>{{ project.updates.all.0.describe|truncatewords:54 }}</p>
-  </a>
+      {% elif project.is_fundable %}
+        <div class="progress" title="{% trans "Achieved" %}">
+          <div class="bar money" style="width: 20%;"> <!--needs to retrieve real funding data-->
+            <strong>&nbsp;100/500$</strong>
+          </div>
+        </div>
+        <a class="button" href="project.donation_url">{% trans "Fund this!" %}</a>
+      {% endif %}
+      
+      <dl>
+        <dt>{% trans "Status" %}:</dt> <dd>{{ project.get_status.1 }}</dd>
+        <dt>{% trans "Estimation of difficulty" %}:</dt> <dd>{{ project.get_sort_display }}</dd>
+        <!-- The items below will need a corresponding database field -->
+        <dt>Potential mentors:</dt> <dd>Tavmjong Bah</dd> <!-- project.manager ?-->
+        <dt>Programming skills needed:</dt> <dd>C++</dd>
+        <dt>Prerequisites:</dt> <dd>CSS style sheets experience</dd>
+      </dl>
+      <a class="button" href="{{ project.get_absolute_url }}">{% trans "View full project info" %}</a>
+    </div> <!--info-->
+  </div> <!--body-->
+  <div class="mfooter"></div>
+</div> <!--project-full-->

@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+
+{% load i18n sekizai_tags pagination_tags %}
+
+{% block content %}
+  {% addtoblock "css" %}
+    <link rel="stylesheet" type="text/css" href="{% static "css/project.css" %}"/>
+  {% endaddtoblock %}
+
+  <h1>{% block title %}{% trans "Project Ideas for Google Summer of Code" %}{% endblock %}</h1>
+
+  {% autopaginate object_list 22 as items %}
+
+  <div class="project-list">
+    <div class="project-item">
+        {% for project in items %}
+            {% include "projects/project_gsoc_item.html"  %}
+        {% empty %}
+            {% trans "Sorry, no projects found" %}
+        {% endfor %}
+    </div>
+  </div>
+
+  {% paginate %}
+
+{% endblock %}

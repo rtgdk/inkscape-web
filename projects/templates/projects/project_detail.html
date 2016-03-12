@@ -6,7 +6,7 @@
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/project.css" %}"/>
   {% endaddtoblock %}
 
 <div class="project-detail">

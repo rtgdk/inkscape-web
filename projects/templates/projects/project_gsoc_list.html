@@ -4,7 +4,7 @@
 
 {% block content %}
   {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{{ STATIC_URL }}css/project.css"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/project.css" %}"/>
   {% endaddtoblock %}
 
   <h1>{% block title %}{% trans "Project Ideas for Google Summer of Code" %}{% endblock %}</h1>

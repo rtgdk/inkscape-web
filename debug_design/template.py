@@ -58,10 +58,10 @@ class Loader(BaseLoader):
                 if os.path.isfile():
                     themer.add_template(template_name)
                 template_dir = os.path.join(DR, theme, 'templates')
-                print "TRYING THEME FILE: %s / %s" % (theme, template_name)
+                #print "TRYING THEME FILE: %s / %s" % (theme, template_name)
                 yield safe_join(get_path(template_dir), template_name)
         except KeyError:
-            print "No request object? WTF"
+            #print "No request object? WTF"
             pass
         except SuspiciousFileOperation:
             pass

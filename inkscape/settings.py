@@ -57,7 +57,7 @@ EXTRA_APPS = []
 
 SESSION_COOKIE_AGE = 1209600 # Two weeks
 ENABLE_CACHING = False
-ENABLE_DEBUG_TOOLBAR = True
+ENABLE_DEBUG_TOOLBAR = False
 
 # Allow realtime updates of pages
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'

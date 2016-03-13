@@ -195,6 +195,7 @@ INSTALLED_APPS = (
     'django_mailman',
     'alerts',
     'logbook',
+    'markdown_deux',
 )
 
 SESSION_ENGINE = 'user_sessions.backends.db'

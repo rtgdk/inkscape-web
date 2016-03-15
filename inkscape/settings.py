@@ -144,10 +144,10 @@ if ENABLE_CACHING:
       ('django.middleware.cache.FetchFromCacheMiddleware',)
 
     # Template caching allows quicker fetches
-    TEMPLATES[0]['OPTIONS']['loaders'] = (
+    TEMPLATES[0]['OPTIONS']['loaders'] = [(
         'django.template.loaders.cached.Loader',
         TEMPLATES[0]['OPTIONS']['loaders'],
-      )
+      )]
 
 ROOT_URLCONF = 'inkscape.urls'
 

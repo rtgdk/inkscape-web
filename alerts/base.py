@@ -274,6 +274,7 @@ def objects_deleted(sender, instance, **kwargs):
     ct = ContentType.objects.get_for_model(type(instance))
 
     # django-cms does a lot of deleting, we want to ignore it
+    global KNOWN_TYPES
     if not KNOWN_TYPES:
         KNOWN_TYPES = UserAlertValue.objects.values_list('table_id', flat=True).distinct()
     if ct.pk not in KNOWN_TYPES:

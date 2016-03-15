@@ -55,8 +55,8 @@ class Loader(BaseLoader):
         try:
             themer = Themer()
             for theme in themer.themes:
-                if os.path.isfile():
-                    themer.add_template(template_name)
+                #if os.path.isfile():
+                #    themer.add_template(template_name)
                 template_dir = os.path.join(DR, theme, 'templates')
                 #print "TRYING THEME FILE: %s / %s" % (theme, template_name)
                 yield safe_join(get_path(template_dir), template_name)
@@ -75,8 +75,8 @@ def new_handle_simple(cls, path):
     """Monkey patch in statci theme support"""
     root = DR if settings.DEBUG else settings.STATIC_ROOT
 
-    theme = get_theme()
-    if theme is not None:
+    themer = Themer()
+    for theme in themer.themes:
         #record = getattr(request, 'static_files', set())
         new_path = os.path.join(DR, theme, path)
         if os.path.exists(new_path):

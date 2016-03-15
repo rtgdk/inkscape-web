@@ -346,19 +346,22 @@ LOGGING = {
 
 if ENABLE_DEBUG_TOOLBAR:
     # We're not even going to trust debug_toolbar on live
-    INSTALLED_APPS += ('debug_design', 'debug_toolbar',
-                       'debug_toolbar_line_profiler')
-    MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
-    TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
+    #INSTALLED_APPS += ('debug_design', 'debug_toolbar',
+    #                   'debug_toolbar_line_profiler')
+    INSTALLED_APPS += ('debug_toolbar',)
+    #MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
+    #TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
+
+    DEBUG_TOOLBAR_PATCH_SETTINGS = True
+
     if DEBUG:
         STATICFILES_DIRS = [DESIGN_ROOT]
 
 
-DEBUG_TOOLBAR_PATCH_SETTINGS = True
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
     # TURN ON DEBUG VIA A LINK IN THE WEBSITE, SOMETHIN WE CAN ADD TO COOKIES
-    'SHOW_TOOLBAR_CALLBACK': lambda req: 'debug' in req.GET or 'debug' in req.META.get('HTTP_REFERER', ''),
+    'SHOW_TOOLBAR_CALLBACK': lambda req: DEBUG, #'debug' in req.GET or 'debug' in req.META.get('HTTP_REFERER', ''),
     'MEDIA_URL': '/media/debug/',
     'INTERCEPT_REDIRECTS': False,
 }

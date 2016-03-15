@@ -33,32 +33,17 @@ class Themer(object):
     """This is a per-request singleton, i.e. completely mad"""
     root = settings.DESIGN_ROOT
 
-    def __new__(cls, *args, **kwargs):
-        request = RequestMiddleware.get_request(None)
-        if request is None:
-            raise KeyError("No request object, thus no theme.")
-
-        if hasattr(request, 'themer'):
-            return request.themer
-
-        obj = super(Themer, cls).__new__(request, *args, **kwargs)
-        request.themer = obj
-        return obj
-
-    def __init__(self, request):
-        # We do this to protect new (this isn't the best way to do this)
-        if not hasattr(self, 'request'):
-            if not os.path.isdir(self.root):
-                raise IOError("No design root directory: '%s'." % self.root)
-            self.request = request
-            self.files = defaultdict(set)
-            self.themed = defaultdict(set)
+    def __init__(self):
+        if not os.path.isdir(self.root):
+            raise IOError("No design root directory: '%s'." % self.root)
+        self.files = defaultdict(set)
+        self.themed = defaultdict(set)
 
     @property
     def themes(self):
         """Returns an ordered list of theme directories"""
-        if self.request.user.is_authenticated():
-            return [self.request.user.username, 'default']
+        #if self.request.user.is_authenticated():
+        #    return [self.request.user.username, 'default']
         return ['default']
 
     def file_request(self, kind, filename, path=None):
@@ -69,9 +54,9 @@ class Themer(object):
             # attempt each file here and reply with a path
             pass
 
-    #def add_template(self, path, theme=None):
-    #    """Add a detected template to this request's tracking"""
-    #    path = path.strip('/')
+    def add_template(self, path, theme=None):
+        """Add a detected template to this request's tracking"""
+        path = path.strip('/')
     #    self.site_templates.add(path)
     #    if theme is not None:
     #        self.theme_templates[theme].add(path)

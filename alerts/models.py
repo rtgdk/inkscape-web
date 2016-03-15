@@ -32,6 +32,7 @@ from django.contrib.auth.models import Group
 from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
 
+from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 from django.utils import translation

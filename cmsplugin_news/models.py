@@ -37,23 +37,6 @@ import inspect
 class LanguageNotSet(Exception):
     pass
 
-class LanguageQuerySet(QuerySet):
-    def select_language(self, lang):
-        self.language = lang
-        return self
-
-    def _clone(self, *args, **kwargs):
-        qs = super(LanguageQuerySet, self)._clone(*args, **kwargs)
-        if hasattr(qs, 'select_language'):
-            qs.select_language(self.language)
-        return qs
-
-    def iterator(self):
-        if not hasattr(self, 'language'):
-            raise LanguageNotSet("Can't iterate over news before the language is selected (%s)." % id(self))
-        for result in super(LanguageQuerySet, self).iterator():
-            yield result.select_language(self.language)
-
 
 class PublishedManager(Manager):
     """This manager allows filtering of published vs not-published as well as language
@@ -65,8 +48,17 @@ class PublishedManager(Manager):
     def get_queryset(self):
         if not hasattr(self, 'language'):
             raise LanguageNotSet("Can't do a language dependant query before the language is selected.")
-        return LanguageQuerySet(self.model, using=self._db).select_language(self.language)\
-                .filter(is_published=True, pub_date__lte=timezone.now(), translation_of__isnull=True)
+
+        qs = super(PublishedManager, self).get_queryset()
+        english = qs.filter(translation_of__isnull=True)
+
+        if self.language == 'en':
+            qs = english
+        else:
+            untranslated = english.exclude(translations__language='fr')
+            qs = untranslated | qs.filter(language=self.language)
+
+        return qs.filter(is_published=True, pub_date__lte=timezone.now())
 
 
 class News(Model):
@@ -95,7 +87,7 @@ class News(Model):
     # and specifying 1. a list of translated fields which __getattr always passes UP to the
     # translated version and 2. a list of base fields which __getattr always passes DOWN to the root.
     # All mechanisms to do with translations would then be brought into that generic class.
-    language     = CharField(_("Language"), max_length=5, choices=OTHER_LANGS,
+    language     = CharField(_("Language"), max_length=8, choices=OTHER_LANGS, db_index=True,
                      help_text=_("Translated version of another news item."))
     translation_of = ForeignKey("self", blank=True, null=True, related_name="translations")
 
@@ -137,10 +129,10 @@ class News(Model):
         return self.translations.all()
 
     def get_translation(self, lang):
-        for item in self.get_translations():
-            if item.language == lang:
-                return item
-        return None
+        try:
+            return self.get_translations().get(language=lang)
+        except News.DoesNotExist:
+            return None
 
     def needs_translation(self):
         return not self.is_original() and (self.trans == self or self.trans.updated < self.updated)

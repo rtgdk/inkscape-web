@@ -264,21 +264,22 @@ class CreatedAlert(BaseAlert):
             return super(CreatedAlert, self).call(sender, instance=instance, **kwargs)
         return False
 
-KNOWN_TYPES = None
-@receiver(django_signals.pre_delete)
+#@receiver(django_signals.pre_delete)
 def objects_deleted(sender, instance, **kwargs):
     """
     Check our alert objects for deleted items and clean up
     """
+    return # XXX Disabled for now.
+
     from alerts.models import UserAlertObject
     ct = ContentType.objects.get_for_model(type(instance))
 
     # django-cms does a lot of deleting, we want to ignore it
-    global KNOWN_TYPES
-    if not KNOWN_TYPES:
-        KNOWN_TYPES = UserAlertValue.objects.values_list('table_id', flat=True).distinct()
-    if ct.pk not in KNOWN_TYPES:
-        return
+    #global KNOWN_TYPES
+    #if not KNOWN_TYPES:
+    #    KNOWN_TYPES = UserAlertValue.objects.values_list('table_id', flat=True).distinct()
+    #if ct.pk not in KNOWN_TYPES:
+    #    return
 
     try:
         qs = UserAlertObject.objects.filter(o_id=instance.pk, table=ct)

@@ -1,18 +1,8 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright Chris Morgan (2010), Martin Owens (2012) */
 
 @import "ubuntu.css";
+@import "libertine.css";
 
-/*A font by Jos Buivenga (exljbris) -> www.exljbris.com*/
-@font-face {
-  font-family: 'CallunaRegular';
-  src: url("../fonts/calluna-regular-webfont.eot");
-  src: local("☺"),
-       url("../fonts/calluna-regular-webfont.woff") format("woff"),
-       url("../fonts/calluna-regular-webfont.ttf") format("truetype"),
-       url("../fonts/calluna-regular-webfont.svg#webfontV868CxYz") format("svg");
-  font-weight: normal;
-  font-style: normal;
-}
 @font-face {
   font-family: 'EuphoriaScript';
   src: url("../fonts/euphoriascript-regular.ttf") format("truetype");
@@ -68,7 +58,7 @@ pre {
 }
 
 h1, #google-groups-logo {
-  font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+  font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
 h1 {
   font-size: 240%;
@@ -263,7 +253,7 @@ div.reginfo {
   text-decoration: none;
 }
 #logo h1 {
-  font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+  font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
   margin: 0 0 0 64px;
   padding: 0;
   border: 0;
@@ -1054,7 +1044,7 @@ div.donationlogo {
   font-size: 240%;
   font-weight: normal;
   line-height: 35px;
-  font-family: CallunaRegular, Calluna, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+  font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
 }
 
 p.pclear {

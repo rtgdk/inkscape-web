@@ -1,0 +1,288 @@
+@font-face {
+    font-family: 'LinuxLibertineBold';
+        src: url('../fonts/LinuxLibertineBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineBoldItalic';
+        src: url('../fonts/LinuxLibertineBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineDisplayORegular';
+        src: url('../fonts/LinuxLibertineDisplayORegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineDisplayRegular';
+        src: url('../fonts/LinuxLibertineDisplayRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineInitialsInitials';
+        src: url('../fonts/LinuxLibertineInitialsInitials.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineInitialsOInitials';
+        src: url('../fonts/LinuxLibertineInitialsOInitials.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineItalic';
+        src: url('../fonts/LinuxLibertineItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineMonoMono';
+        src: url('../fonts/LinuxLibertineMonoMono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineMonoOMono';
+        src: url('../fonts/LinuxLibertineMonoOMono.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineOBold';
+        src: url('../fonts/LinuxLibertineOBold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineOBoldItalic';
+        src: url('../fonts/LinuxLibertineOBoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineOItalic';
+        src: url('../fonts/LinuxLibertineOItalic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineORegular';
+        src: url('../fonts/LinuxLibertineORegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineOSemibold';
+        src: url('../fonts/LinuxLibertineOSemibold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineOSemiboldItalic';
+        src: url('../fonts/LinuxLibertineOSemiboldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineRegular';
+        src: url('../fonts/LinuxLibertineRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineSemibold';
+        src: url('../fonts/LinuxLibertineSemibold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+@font-face {
+    font-family: 'LinuxLibertineSemiboldItalic';
+        src: url('../fonts/LinuxLibertineSemiboldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+ /* The following rules are deprecated. */ 
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineBold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineBoldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Display O';
+        src: url('../fonts/LinuxLibertineDisplayORegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Display';
+        src: url('../fonts/LinuxLibertineDisplayRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Initials';
+        src: url('../fonts/LinuxLibertineInitialsInitials.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Initials O';
+        src: url('../fonts/LinuxLibertineInitialsOInitials.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineItalic.ttf') format('truetype');
+    font-weight: normal;
+    font-style: italic;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Mono';
+        src: url('../fonts/LinuxLibertineMonoMono.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine Mono O';
+        src: url('../fonts/LinuxLibertineMonoOMono.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineOBold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineOBoldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineOItalic.otf') format('opentype');
+    font-weight: normal;
+    font-style: italic;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineORegular.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineOSemibold.otf') format('opentype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine O';
+        src: url('../fonts/LinuxLibertineOSemiboldItalic.otf') format('opentype');
+    font-weight: bold;
+    font-style: italic;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineRegular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineSemibold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+      }
+
+
+
+@font-face {
+    font-family: 'Linux Libertine';
+        src: url('../fonts/LinuxLibertineSemiboldItalic.ttf') format('truetype');
+    font-weight: bold;
+    font-style: italic;
+      }
+

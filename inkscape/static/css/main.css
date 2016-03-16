@@ -1332,3 +1332,45 @@ div.pagination a:hover {
   background-color: #ddd;
   text-decoration: none;
 }
+/* Line profiler css */
+#djDebug .line_tb {
+  border: 1px red solid;
+}
+#djDebug .line_tb th {
+  text-align: left !important;
+  background-color: #eee;
+  border-bottom: 1px #ccc solid;
+}
+#djDebug .line_tb tbody td pre {
+  border: 0px;
+  margin: 0px;
+  background-color: transparent;
+}
+#djDebug .line_tb tr[weight="NaN"] td,
+#djDebug .line_tb tr[weight="NaN"] pre {
+  color: #bbb;
+}
+#djDebug .line_tb tr[weight="5"] td { background-color:  #efefef; }
+#djDebug .line_tb tr[weight="10"] td { background-color: #efdfdf; }
+#djDebug .line_tb tr[weight="15"] td { background-color: #efcfcf; }
+#djDebug .line_tb tr[weight="20"] td { background-color: #efbfbf; }
+#djDebug .line_tb tr[weight="25"] td { background-color: #efafaf; }
+#djDebug .line_tb tr[weight="30"] td { background-color: #efa8a8; }
+#djDebug .line_tb tr[weight="35"] td { background-color: #ef9898; }
+#djDebug .line_tb tr[weight="40"] td { background-color: #ef8888; }
+#djDebug .line_tb tr[weight="45"] td { background-color: #ef7878; }
+#djDebug .line_tb tr[weight="50"] td { background-color: #ef7070; }
+#djDebug .line_tb tr[weight="55"] td { background-color: #ef6868; }
+#djDebug .line_tb tr[weight="60"] td { background-color: #ef6060; }
+#djDebug .line_tb tr[weight="65"] td { background-color: #ef5858; }
+#djDebug .line_tb tr[weight="70"] td { background-color: #ef5050; }
+#djDebug .line_tb tr[weight="75"] td { background-color: #ef4848; }
+#djDebug .line_tb tr[weight="80"] td { background-color: #ef4040; }
+#djDebug .line_tb tr[weight="85"] td { background-color: #ef3838; }
+#djDebug .line_tb tr[weight="90"] td { background-color: #ef3030; }
+#djDebug .line_tb tr[weight="95"] td { background-color: #ef2828; }
+#djDebug .line_tb tr[weight="100"] td { background-color: #ef2020; }
+
+#djDebug .djdt-panelContent table {
+  display: table !important;
+}

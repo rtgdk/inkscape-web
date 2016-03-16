@@ -346,16 +346,16 @@ LOGGING = {
 
 if ENABLE_DEBUG_TOOLBAR:
     # We're not even going to trust debug_toolbar on live
-    #INSTALLED_APPS += ('debug_design', 'debug_toolbar',
-    #                   'debug_toolbar_line_profiler')
-    INSTALLED_APPS += ('debug_toolbar',)
+    INSTALLED_APPS += ('debug_design', 'debug_toolbar',
+                       'debug_toolbar_line_profiler')
+    #INSTALLED_APPS += ('debug_toolbar',)
     #MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
     #TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
 
     DEBUG_TOOLBAR_PATCH_SETTINGS = True
 
     if DEBUG:
-        STATICFILES_DIRS = [DESIGN_ROOT]
+        STATICFILES_DIRS += [DESIGN_ROOT]
 
 
 DEBUG_TOOLBAR_CONFIG = {
@@ -366,7 +366,7 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 DEBUG_TOOLBAR_PANELS = (
-        #'debug_toolbar_line_profiler.panel.ProfilingPanel',
+    'debug_toolbar_line_profiler.panel.ProfilingPanel',
     'debug_design.panels.DesignPanel',
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',

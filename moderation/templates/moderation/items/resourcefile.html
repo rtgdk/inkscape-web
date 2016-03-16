@@ -68,7 +68,7 @@
     <div class="resourceinfo">
     
       {% if not object.target.is_file %}
-        <a class="link" href="{{ object.target.link }}"><img src="{% static "/images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
+        <a class="link" href="{{ object.target.link }}"><img src="{% static "images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
       {% endif %}
       <dl>
         <dt>{% trans "Category" %}</dt>

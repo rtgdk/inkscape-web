@@ -22,6 +22,8 @@
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import ListView, DetailView
 
+from pile.views import breadcrumbs
+
 from .models import Platform, Release
 
 class ReleaseList(ListView):
@@ -51,5 +53,12 @@ class ReleaseView(DetailView):
 
 class PlatformList(ListView):
     queryset = Platform.objects.filter(parent__isnull=True)
-    breadcrumbs = (_('Platform Managers'),)
+    
+    def get_context_data(self, **kwargs):
+      data = super(ListView, self).get_context_data(**kwargs)
+      data['breadcrumbs'] = breadcrumbs(
+            ('releases', 'Releases'),
+            'Platform Managers',
+        )
+      return data
 

@@ -1,13 +1,19 @@
 
 <ul>
   {% for platform in platforms %}
-  <li style="color: {% if not platform.get_manager %}#800{% else %}#000{% endif %};">{{ platform.name }}
-      {% if platform.manager %} - <a href="{{ platform.manager.get_absolute_url }}">{{ platform.manager }}</a>{% endif %}
+  <li>
+      {% if platform.manager %}
+        {{ platform.name }} - <a href="{{ platform.manager.get_absolute_url }}">{{ platform.manager }}</a>
+      {% elif platform.children.count == 1 and platform.children.all.0.manager %}
+        {{ platform.name }} - <a href="{{ platform.children.all.0.manager.get_absolute_url }}">{{ platform.children.all.0.manager }}</a>
+      {% else %}
+        <span style="color: #800;">{{ platform.name }}</span>
+      {% endif %}
       {% if platform.children.count > 1 %}
         {% with platform.children.all as platforms %}
           {% include "releases/platform_sublist.html" %}
         {% endwith %}
       {% endif %}
-    </li>
+  </li>
   {% endfor %}
 </ul>

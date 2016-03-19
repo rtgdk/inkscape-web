@@ -222,7 +222,7 @@ class UserAlertManager(Manager):
 
 
 class UserAlert(Model):
-    """A single altert for a specific user"""
+    """A single alert for a specific user"""
     user    = ForeignKey(settings.AUTH_USER_MODEL, related_name='alerts')
     alert   = ForeignKey(AlertType, related_name='sent')
 

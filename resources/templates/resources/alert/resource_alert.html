@@ -3,7 +3,7 @@
   <div class="preview">
     <a href="{{ instance.get_absolute_url }}"><img src="{{ instance.icon }}" alt="{% trans "Preview" %}"></a>
   </div>
-  <div class="text"><p>{{ instance.desc }}</p></div>
+  <div class="text">{{ instance.description|urlize|linebreaks }}</div>
 </div>
 <div class="footer">
    <div class="status"><a href="{{ instance.user.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ instance.user }}</a></div>

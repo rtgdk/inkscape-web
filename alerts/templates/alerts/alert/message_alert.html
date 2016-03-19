@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="body">
-  <div class="text"><p>{{ instance.body }}</p></div>
+  <div class="text">{{ instance.body|urlize|linebreaks }}</div>
 </div>
 <div class="footer">
    <div class="status">{% trans "from" %} <a href="{{ instance.sender.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ instance.sender }}</a></div>

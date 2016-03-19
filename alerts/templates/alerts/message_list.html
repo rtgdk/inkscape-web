@@ -28,7 +28,7 @@
   </div>
   {% if not data.instance_deleted %}
     <div class="body">
-      <div class="text"><p>{{ object.body }}</p></div>
+      <div class="text">{{ object.body|urlize|linebreaks }}</div>
     </div>
     <div class="footer">
       <div class="status">{% trans "to" %} <a href="{{ object.recipient.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ object.recipient }}</a></div>

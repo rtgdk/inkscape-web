@@ -1,9 +1,6 @@
 {% load i18n admin_urls cms_tags %}
 <div class="submit-row">
-{% if show_save %}
-  <input name="revision_comment" id="revision_comment" placeholder="{% trans "Revision Comment" %}"/>
-  <input type="submit" value="{% trans 'Save' %}" class="default" name="_save" />
-{% endif %}
+{% if show_save %}<input type="submit" value="{% trans 'Save' %}" class="default" name="_save" />{% endif %}
 {% if show_delete_link %}
     <p class="deletelink-box"><a href="{% cms_admin_url "cms_page_delete_plugin" original.pk %}" class="deletelink">{% trans "Delete" %}</a></p>
 {% endif %}
@@ -11,3 +8,15 @@
 {% if show_save_and_add_another %}<input type="submit" value="{% trans 'Save and add another' %}" name="_addanother" />{% endif %}
 {% if show_save_and_continue %}<input type="submit" value="{% trans 'Save and continue editing' %}" name="_continue" />{% endif %}
 </div>
+<script>
+  $(document).ready(function() {
+    $('.cms-modal-frame > iframe', parent.document).load(function() {
+      var bs = $('.cms-modal-buttons-inner', parent.document);
+      bs.append($('<div class="cms-modal-item-buttons"><input type="text" id="modal_comment" placeholder="Comment" style="border: 1px solid #ddd; height: 30px; padding: 4px;"></div>', parent.document));
+      $('.submit-row').append($('<input name="revision_comment" id="revision_comment" placeholder="{% trans "Revision Comment" %}"/>'));
+      $('#modal_comment', parent.document).change(function() {
+        $('#revision_comment').val($(this).val());
+      });
+    });
+  });
+</script>

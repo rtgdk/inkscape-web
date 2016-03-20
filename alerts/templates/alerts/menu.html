@@ -1,8 +1,8 @@
 {% load i18n %}
 <!--This needs to be replaced by a simple single ajax request instead-->
-<!--li id="topmessages">
-  <p><a href="{$ url "alerts" $}{$ if request.user.alerts.new $}?new=True" class="alert"{$ else $}"{$ endif $}>&nbsp;</a></p>
-  <div class="topdrop">
+<li id="topmessages">
+  <p><a id="alerts" href="{% url "alerts" %}" style="line-height: 2px;">&nbsp;</a></p>
+  <!--p><a href="{$ url "alerts" $}{$ if request.user.alerts.new $}?new=True" class="alert"{$ else $}"{$ endif $}>&nbsp;</a></p>
     {$ if request.user.alerts.new $}
       <p><a href="{$ url "alerts" $}?new=True">{$ trans "New Messages" $} ({{ request.user.alerts.new.count }})</a></p>
     {$ endif $}
@@ -13,5 +13,5 @@
       <p><a href="{$ url "message.sent" request.user.username $}">{$ trans "Sent Messages" $}</a></p>
     {$ endif $}
     <p style="padding-top: 6px;"><a href="{$ url "alert.settings" $}">{$ trans "Message Settings" $}</a></p>
-  </div>
-</li-->
+  </div-->
+</li>

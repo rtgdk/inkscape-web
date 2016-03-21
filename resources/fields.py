@@ -52,8 +52,13 @@ class TagsChoiceField(ModelMultipleChoiceField):
         for tag in frozenset(values):
             if isinstance(tag, int) or tag.isdigit():
                 yield tag
-            else:
+                continue
+            try:
                 tag = tag.replace('_', ' ').replace('-', ' ').title()
                 yield Tag.objects.get_or_create(name=tag)[0].pk
+            except Exception as error:
+                if "value too long" in str(error):
+                    raise ValidationError("Tag is too long!")
+                raise
 
 

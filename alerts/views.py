@@ -19,7 +19,7 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.http import Http404, HttpResponse, HttpResponseRedirect
+from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.decorators import login_required
@@ -36,6 +36,16 @@ from pile.views import CategoryListView
 from .mixins import UserRequiredMixin, OwnerRequiredMixin
 from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
+
+class AlertsJson(UserRequiredMixin, View):
+     def get(self, request):
+         alerts = request.user.alerts
+         context = {
+           'types': tuple(AlertType.objects.values()) or None,
+           'new': tuple(alerts.new().values()) or None,
+         }
+         return JsonResponse(context)
+
 
 class AlertList(UserRequiredMixin, CategoryListView):
     model = UserAlert

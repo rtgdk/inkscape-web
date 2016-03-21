@@ -40,6 +40,7 @@ urlpatterns = patterns('',
   ),
 
   url(r'^$',                         AlertList(),    name="alerts"),
+  url(r'^json/$',                    AlertsJson(),   name="alerts.json"),
   url_tree(r'^(?P<slug>[^\/]+)/',
     url(r'^$',                       AlertList(),    name="alert.category"),
     url_tree(r'subscribe/',

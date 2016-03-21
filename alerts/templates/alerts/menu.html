@@ -1,7 +1,68 @@
-{% load i18n %}
+{% load i18n static %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="topmessages">
   <p><a id="alerts" href="{% url "alerts" %}" style="line-height: 2px;">&nbsp;</a></p>
+  <div class="topdrop" id="alert_bucket" data-url="{% url "alerts.json" %}" data-sound="{% static "warp.wav" %}">
+  <script type="text/javascript">
+    $(document).ready(function() {
+      var originalTitle = document.title;
+      var wasAlerted = false;
+      var titleTimer = null;
+      var beep = null;
+
+      var window_focus;
+      $(window).focus(function() {window_focus = true;})
+               .blur(function() {window_focus = false;});
+
+      function updateAlerts(isLoading) {
+        var alerts  = $('#alerts');
+        var bucket  = $('#alert_bucket');
+
+        $.getJSON( bucket.data('url'), function( data ) {
+          bucket.empty();
+          if(data.new == null) {
+            data.new = [];
+          }
+          bucket.append($("<p><a id='new_messages' href='"
+              + alerts.attr('href') + "'>"
+              + data.new.length + " New Message(s)</a></p>"));
+
+          if(data.new.length > 1) {
+            /* Yes I have unread messages */
+            if(!wasAlerted) {
+              /* No I was not previously alerted */
+              alerts.addClass('alert');
+              if(!isLoading) {
+                if(beep == null) {
+                  beep = new Audio($("#alert_bucket").data('sound'));
+                }
+                beep.play();
+                if(!window_focus) {
+                  titleTimer = window.setInterval(function() {
+                    document.title = document.title == originalTitle
+                              ? "New Message!"  : originalTitle;
+                  }, 1200);
+                  $(window).on("focus",function() {
+                    document.title = originalTitle;
+                    clearInterval(titleTimer);
+                  });
+                }
+              }
+              wasAlerted = true;
+            }
+          } else {
+            clearInterval(titleTimer);
+            alerts.removeClass('alert');
+            wasAlerted = false;
+          }
+        });
+      }
+
+      updateAlerts(true);
+      var updater =  window.setInterval(updateAlerts, 5000)  /* 900000 == 15 mins */
+
+    });
+  </script>
   <!--p><a href="{$ url "alerts" $}{$ if request.user.alerts.new $}?new=True" class="alert"{$ else $}"{$ endif $}>&nbsp;</a></p>
     {$ if request.user.alerts.new $}
       <p><a href="{$ url "alerts" $}?new=True">{$ trans "New Messages" $} ({{ request.user.alerts.new.count }})</a></p>
@@ -12,6 +73,6 @@
     {$ if request.user.sent_messages.all $}
       <p><a href="{$ url "message.sent" request.user.username $}">{$ trans "Sent Messages" $}</a></p>
     {$ endif $}
-    <p style="padding-top: 6px;"><a href="{$ url "alert.settings" $}">{$ trans "Message Settings" $}</a></p>
-  </div-->
+    <p style="padding-top: 6px;"><a href="{$ url "alert.settings" $}">{$ trans "Message Settings" $}</a></p-->
+  </div>
 </li>

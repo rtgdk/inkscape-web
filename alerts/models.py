@@ -190,8 +190,26 @@ class UserAlertSetting(Model):
     def __str__(self):
         return "User Alert Setting"
 
+class UserAlertQuerySet(QuerySet):
+    def serialise(self):
+        # It's not possible to use qs.values(...) because we need
+        # to return the subject and body lines too which are template
+        # rendered and not just values in the database.
+        return [
+            {
+                'id': item.pk, 
+                'subject': item.subject,
+                'body': item.body,
+                'created': item.created,
+                'viewed': item.viewed,
+                'deleted': item.deleted,
+                'alert': item.alert.pk,
+            } for item in self ]
+
 
 class UserAlertManager(Manager):
+    _queryset_class = UserAlertQuerySet
+
     def get_queryset(self):
         queryset = super(UserAlertManager, self).get_queryset()
 
@@ -308,21 +326,6 @@ class UserAlertValue(Model):
         return "AlertValue %s=%s" % (self.name, self.target)
 
 
-class AlertSubscriptionManager(Manager):
-    def get_queryset(self):
-        queryset = super(AlertSubscriptionManager, self).get_queryset()
-
-        if getattr(self, 'alert_type', None) is not None:
-            queryset = queryset.filter(alert=self.alert_type)
-        if hasattr(self, 'target'):
-            if self.target is not None:
-                queryset = queryset.filter(target=self.target.pk)
-            else:
-                queryset = queryset.filter(target__isnull=True)
-
-        return queryset
-
-# XXX Joining the AlertSubscriptionManager to the QuerySet is needed
 class SubscriptionQuerySet(QuerySet):
     def get_or_create(self, target=None, **kwargs):
         """Handle the match between a null target and non-null targets"""
@@ -351,6 +354,22 @@ class SubscriptionQuerySet(QuerySet):
         if directly:
             return False #self.filter(target_id=target.pk).count()
         return False #self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
+
+class AlertSubscriptionManager(Manager):
+    _queryset_class = SubscriptionQuerySet
+
+    def get_queryset(self):
+        queryset = super(AlertSubscriptionManager, self).get_queryset()
+
+        if getattr(self, 'alert_type', None) is not None:
+            queryset = queryset.filter(alert=self.alert_type)
+        if hasattr(self, 'target'):
+            if self.target is not None:
+                queryset = queryset.filter(target=self.target.pk)
+            else:
+                queryset = queryset.filter(target__isnull=True)
+
+        return queryset
 
 
 class AlertSubscription(Model):

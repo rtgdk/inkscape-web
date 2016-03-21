@@ -58,6 +58,8 @@ EXTRA_APPS = []
 SESSION_COOKIE_AGE = 1209600 # Two weeks
 ENABLE_CACHING = False
 ENABLE_DEBUG_TOOLBAR = False
+ENABLE_DESIGN_TOOLBAR = False
+ENABLE_PROFILER_TOOLBAR = False
 
 # Allow realtime updates of pages
 #HAYSTACK_SIGNAL_PROCESSOR = 'haystack.signals.RealtimeSignalProcessor'
@@ -345,19 +347,7 @@ LOGGING = {
 
 # ===== Debug Toolbar ===== #
 
-if ENABLE_DEBUG_TOOLBAR:
-    # We're not even going to trust debug_toolbar on live
-    INSTALLED_APPS += ('debug_design', 'debug_toolbar',
-                       'debug_toolbar_line_profiler')
-    #INSTALLED_APPS += ('debug_toolbar',)
-    #MIDDLEWARE_CLASSES += ('debug_design.middleware.RequestMiddleware',)
-    #TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
-
-    DEBUG_TOOLBAR_PATCH_SETTINGS = True
-
-    if DEBUG:
-        STATICFILES_DIRS += [DESIGN_ROOT]
-
+DEBUG_TOOLBAR_PATCH_SETTINGS = True
 
 DEBUG_TOOLBAR_CONFIG = {
     'SHOW_TEMPLATE_CONTEXT': True,
@@ -367,7 +357,6 @@ DEBUG_TOOLBAR_CONFIG = {
     'INTERCEPT_REDIRECTS': False,
 }
 DEBUG_TOOLBAR_PANELS = (
-    'debug_toolbar_line_profiler.panel.ProfilingPanel',
     'debug_design.panels.DesignPanel',
     'debug_toolbar.panels.versions.VersionsPanel',
     'debug_toolbar.panels.timer.TimerPanel',
@@ -381,8 +370,25 @@ DEBUG_TOOLBAR_PANELS = (
     'debug_toolbar.panels.signals.SignalsPanel',
     'debug_toolbar.panels.logging.LoggingPanel',
     'debug_toolbar.panels.redirects.RedirectsPanel',
-    #'debug_toolbar.panels.profiling.ProfilingPanel',
 )
+
+if ENABLE_DEBUG_TOOLBAR:
+    # We're not even going to trust debug_toolbar on live
+    INSTALLED_APPS += 'debug_toolbar',
+
+    if ENABLE_DESIGN_TOOLBAR:
+        INSTALLED_APPS += 'debug_design',
+        MIDDLEWARE_CLASSES += 'debug_design.middleware.RequestMiddleware',
+        DEBUG_TOOLBAR_PANELS += 'debug_design.panels.DesignPanel',
+        TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
+        if DEBUG:
+            STATICFILES_DIRS += [DESIGN_ROOT]
+
+    if ENABLE_PROFILER_TOOLBAR:
+        INSTALLED_APPS += 'debug_toolbar_line_profiler',
+        DEBUG_TOOLBAR_PANELS += 'debug_toolbar_line_profiler.panel.ProfilingPanel',
+
+
 
 # ===== Migration to MySQL Special Code ===== #
 # Allows us an extra option for turning off key checks

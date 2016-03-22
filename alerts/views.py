@@ -33,21 +33,21 @@ from django.contrib.auth import get_user_model
 
 from pile.views import CategoryListView
 
-from .mixins import UserRequiredMixin, OwnerRequiredMixin
+from .mixins import NeverCacheMixin, UserRequiredMixin, OwnerRequiredMixin
 from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
 
-class AlertsJson(UserRequiredMixin, View):
-     def get(self, request):
-         alerts = request.user.alerts
-         context = {
+class AlertsJson(NeverCacheMixin, UserRequiredMixin, View):
+    def get(self, request):
+        alerts = request.user.alerts
+        context = {
            'types': tuple(AlertType.objects.values()) or None,
            'new': tuple(alerts.new().values()) or None,
-         }
-         return JsonResponse(context)
+        }
+        return JsonResponse(context)
 
 
-class AlertList(UserRequiredMixin, CategoryListView):
+class AlertList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
     model = UserAlert
     opts = (
       ('alerttype', 'alert__slug'),
@@ -65,7 +65,7 @@ class AlertList(UserRequiredMixin, CategoryListView):
         return data
 
 
-class MarkViewed(OwnerRequiredMixin, View, SingleObjectMixin):
+class MarkViewed(NeverCacheMixin, OwnerRequiredMixin, View, SingleObjectMixin):
     model = UserAlert
     function = 'view'
 
@@ -80,7 +80,7 @@ class MarkDeleted(MarkViewed):
     function = 'delete'
 
 
-class Subscribe(UserRequiredMixin, CreateView):
+class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
     model = AlertSubscription
     fields = '__all__'
     action_name = _('Subscribe')
@@ -104,7 +104,7 @@ class Subscribe(UserRequiredMixin, CreateView):
         return redirect('alert.settings')
 
 
-class Unsubscribe(OwnerRequiredMixin, DeleteView):
+class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     model = AlertSubscription
     action_name = _('Unsubscribe')
     get_success_url = lambda self: reverse('alert.settings')
@@ -121,7 +121,7 @@ class Unsubscribe(OwnerRequiredMixin, DeleteView):
         return super(Unsubscribe, self).get_object()
 
 
-class SettingsList(UserRequiredMixin, CategoryListView):
+class SettingsList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
     model = AlertSubscription
 
     def get_queryset(self, **kwargs):
@@ -156,14 +156,14 @@ class SettingsList(UserRequiredMixin, CategoryListView):
         return data
 
 
-class SentMessages(UserRequiredMixin, ListView):
+class SentMessages(NeverCacheMixin, UserRequiredMixin, ListView):
     model = Message
 
     def get_queryset(self):
         return self.request.user.sent_messages.all()
 
 
-class CreateMessage(UserRequiredMixin, CreateView):
+class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
     model = Message
     fields = ('subject','body','recipient','reply_to')
 

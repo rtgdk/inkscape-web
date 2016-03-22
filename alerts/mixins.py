@@ -23,6 +23,14 @@ from django.core.exceptions import PermissionDenied
 from django.http import HttpResponseRedirect
 from django.conf import settings
 
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page, never_cache
+
+class NeverCacheMixin(object):
+    @method_decorator(never_cache)
+    def dispatch(self, *args, **kwargs):
+        return super(NeverCacheMixin, self).dispatch(*args, **kwargs)
+
 class UserRequiredMixin(object):
     def is_authorised(self, user):
         return True

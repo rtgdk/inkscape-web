@@ -23,9 +23,18 @@ from django.utils.translation import ugettext_lazy as _
 from django.forms import *
 from django.contrib.admin import *
 from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.models import Permission
 
 from ajax_select import make_ajax_field, make_ajax_form
 from ajax_select.admin import AjaxSelectAdmin
+
+# Add permission to admin so we can remove old stuff
+class PermissionAdmin(ModelAdmin):
+    list_display = ('name', 'content_type', 'codename')
+    search_fields = ('name', 'codename')
+    list_filter = ('content_type',)
+
+site.register(Permission, PermissionAdmin)
 
 from .models import *
 

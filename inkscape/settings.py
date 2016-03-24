@@ -256,6 +256,11 @@ CMS_NAVIGATION_EXTENDERS = (
 CKEDITOR_SETTINGS = {
     'disableNativeSpellChecker': False,
     'browserContextMenuOnCtrl': True,
+    'readOnly': False,
+}
+CKEDITOR_READONLY = {
+    'readOnly': True,
+    'disableReadonlyStyling': True,
 }
 
 AUTHENTICATION_BACKENDS = (

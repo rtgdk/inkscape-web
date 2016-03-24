@@ -1,0 +1,15 @@
+{% load i18n %}
+
+<div class="article{% if not object.is_published %} unpub{% endif %}">
+  <h2><a href="{{ object.get_absolute_url }}">{{ object.title }}</a></h2>
+  <div class="postdate">
+    {% if object.is_published %}
+      {{ object.pub_date }}
+    {% else %}
+      ({% trans "not published" %})
+    {% endif %}
+  </div>
+  <p>{{ object.excerpt|safe }}</p>
+  <a class="readmore" href="{{ object.get_absolute_url }}">{% trans "Read more" %}</a>
+</div>
+

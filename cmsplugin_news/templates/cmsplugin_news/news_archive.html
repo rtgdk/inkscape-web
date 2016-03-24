@@ -1,0 +1,12 @@
+{% extends "cmsplugin_news/base.html" %}
+
+{% load i18n %}
+
+{% load i18n %}
+
+{% block "newscontent" %}
+  <h1>{% trans "Latest news" %}</h1>
+  {% for object in latest %}
+    {% include "cmsplugin_news/list_item.html" %}
+  {% endfor %}
+{% endblock %}

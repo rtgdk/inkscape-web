@@ -1,4 +1,4 @@
-{% extends "news/base.html" %}
+{% extends "cmsplugin_news/base.html" %}
 {% load i18n %}
 
 {% block title %}{% trans "News for" %} {{ month|date:'F Y' }}{% endblock %}
@@ -7,7 +7,7 @@
   <h1>{% trans "News for" %} {{ month|date:'F Y' }}</h1>
 
   {% for object in object_list %}
-    {% include "news/list_item.html" %}
+    {% include "cmsplugin_news/list_item.html" %}
   {% empty %}
     <h2>{% trans "No news for this month." %}</h2>
   {% endfor %}

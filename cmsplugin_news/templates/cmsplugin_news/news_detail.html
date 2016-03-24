@@ -1,0 +1,20 @@
+{% extends "cmsplugin_news/base.html" %}
+
+{% load i18n %}
+
+{% block headerdesc %}{{ object.excerpt }}{% endblock %}
+
+{% block "precontent" %}
+  {% if not object.is_published %}
+    <ul id="messages">
+      <li class="error" title="Use the admin menu to publish it.">{% trans "This article is not published yet!" %}</li>
+    </ul>
+  {% endif %}
+{% endblock %}
+
+{% block "newscontent" %}
+  <h1>{% block title %}{{ object.title }}{% endblock %}</h1>
+  <p class="postdate">{{ object.pub_date }}</p>
+  {{ object.content|safe }}
+{% endblock %}
+

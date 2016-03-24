@@ -59,20 +59,20 @@ def _get_nodes(request):
 
         year_id = 'newsitem-year-%d' % date.year
         if year_id not in nodes:
-            url = reverse('news_archive_year', kwargs=dict(year=date.year))
+            url = reverse('news:archive_year', kwargs=dict(year=date.year))
             nodes[year_id] = NavigationNode(date.year, url, year_id, visible=True)
             yield nodes[year_id]
 
         month_id = 'newsitem-month-%d.%d' % (date.year, date.month)
         if month_id not in nodes:
-            url =  reverse('news_archive_month', kwargs=dict(year=date.year, month=strf(date, '%m')))
+            url =  reverse('news:archive_month', kwargs=dict(year=date.year, month=strf(date, '%m')))
             nodes[month_id] = NavigationNode(_(strf(date, '%B')), url, month_id, year_id, visible=False)
             yield nodes[month_id]
 
         # This precision might be too much
         #day_id = 'newsitem-day-%d.%d.%d' % (date.year, date.month, date.day)
         #if day_id not in nodes:
-        #    url = reverse('news_archive_day', kwargs=dict(year=date.year, month=strf(date, "%m"), day=strf(date, "%d")))
+        #    url = reverse('news:archive_day', kwargs=dict(year=date.year, month=strf(date, "%m"), day=strf(date, "%d")))
         #    nodes[day_id] = NavigationNode(strf(date, '%d%th'), url, day_id, month_id, visible=False)
         #    yield nodes[day_id]
 

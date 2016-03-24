@@ -1,0 +1,20 @@
+{% extends "admin/change_form.html" %}
+{% load i18n admin_urls %}
+
+{% block submit_buttons_top %}
+{% endblock %}
+
+{% block submit_buttons_bottom %}
+  <div class="submit-row">
+    {% if translation %}
+      <input type="submit" value="{% trans 'Save Translation' %}" class="default" name="_save" />
+    {% elif original.is_published %}
+      <input type="submit" value="{% trans 'Save' %}" class="default" name="_save" />
+      <button type="submit" value="" name="is_published" class="deletelink">{% trans 'Unpublish' %}</button>
+    {% else %}
+      <button type="submit" value="1" name="is_published" class="default">{% trans 'Publish' %}</button>
+      <input type="submit" value="{% trans 'Save' %}" class="" name="_save" />
+    {% endif %}
+  </div>
+{% endblock %}
+

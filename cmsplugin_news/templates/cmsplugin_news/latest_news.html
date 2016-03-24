@@ -1,5 +1,5 @@
 {% load i18n static %}
-<a style="float: right;" href="{% url "news_rss" %}"><img src="{% static "images/rss.png" %}" alt="{% trans "RSS Feed" %}"/></a>
+<a style="float: right;" href="{% url "news:rss" %}"><img src="{% static "images/rss.png" %}" alt="{% trans "RSS Feed" %}"/></a>
 <div class="cmsplugin-news">
   <div class="content">
 {% if latest %}
@@ -14,6 +14,6 @@
 {% else %}
  <p class="empty">{% trans "No news yet" %}</p>
 {% endif %}
-<!--<a href="{ url news_archive_index %}">{% trans "Archive" %}</a>-->
+<!--<a href="{ url "news:archive_index" %}">{% trans "Archive" %}</a>-->
   </div>
 </div>

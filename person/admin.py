@@ -52,9 +52,9 @@ class UserAdmin(UserAdmin):
         (None, {'fields': ('username', 'password')}),
         (_('Personal info'), {'fields': ('first_name', 'last_name', 'email', 'language',
                               'bio', 'gpg_key', 'photo_preview', 'photo')}),
-        (_('Social Networks'), {'fields': ('ircnick', 'dauser', 'ocuser', 'tbruser')}),
         (_('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser',
-                                       'groups', 'user_permissions')}),
+            'groups', 'user_permissions'), 'classes': ('collapse', 'close'),}),
+        (_('Social Networks'), {'fields': ('ircnick', 'dauser', 'ocuser', 'tbruser')}),
         (_('Important dates'), {'fields': ('last_login', 'date_joined', 'last_seen', 'visits')}),
     ) 
 

@@ -13,7 +13,7 @@
       <link rel="stylesheet"    type="text/css" href="{% static "css/gallery.css" %}"/>
     {% endblock %}
 
-    <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="/news/feed/"/>
+    <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="{% url "news:rss" %}"/>
     {% if rss_url %}
       <link rel="alternate" type="application/rss+xml" title="{% trans "RSS Feed" %}" href="{{ rss_url }}" />
     {% endif %}
@@ -110,6 +110,7 @@
   </div>
 
   {% block supercontent %}
+    {% block "precontent" %}{% endblock %}
     <div id="content"{% block contentclasses %}{% endblock %}>
       <div class="wrapper">
         {% block "breadcrumbs" %}{% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}{% endblock %}

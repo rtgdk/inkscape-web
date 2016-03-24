@@ -32,12 +32,12 @@ class NewsFeed(Feed):
     title = settings.FEED_TITLE
     description = settings.FEED_DESCRIPTION
 
-    title_template = 'news/feeds/item_title.html'
-    description_template = 'news/feeds/item_description.html'
+    title_template = 'cmsplugin_news/feeds/item_title.html'
+    description_template = 'cmsplugin_news/feeds/item_description.html'
 
     @property
     def link(self):
-        return reverse('news_archive_index')
+        return reverse('news:archive_index')
 
     def items(self):
         models.News.published.select_language(get_language())

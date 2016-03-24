@@ -1,7 +1,7 @@
 #
 # Copyright 2015, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -17,8 +17,12 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+Views for the cmsdiff functionality.
+"""
+
 from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView
+from django.views.generic import DetailView, RedirectView
 from django.template import RequestContext
 
 from .models import Revision, RevisionDiff

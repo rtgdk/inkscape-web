@@ -1,10 +1,10 @@
-try:
-    from django.conf.urls import patterns, url, include
-except ImportError:
-    from django.conf.urls.defaults import patterns, url, include
+"""
+Provides views for the cms diff functionality.
+"""
 
-from .views import *
+from django.conf.urls import patterns, url
+from .views import ViewDiff
 
 urlpatterns = patterns('',
-   url(r'^diff/(?P<pk>\d+)/$', ViewDiff(), name='cms.diff'),
+   url(r'^diff/(?P<pk>\d+)/$', ViewDiff.as_view(), name='cms.diff'),
 )

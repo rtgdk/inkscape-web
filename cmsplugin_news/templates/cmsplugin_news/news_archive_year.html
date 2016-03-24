@@ -14,7 +14,7 @@
   </div>
   <div id="right-sidebar">
     <div id="sidecategory">
-      <h2>Months</h2>
+      <h2>{% trans 'Months' %}</h2>
       <ul>
       {% for date in date_list %}
         <li><a href="{% url "news:archive_month" year=year.year month=date|date:'m'  %}"><label>{{ date|date:"F" }}</label></a></li>

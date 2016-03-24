@@ -7,7 +7,7 @@
 {% block "precontent" %}
   {% if not object.is_published %}
     <ul id="messages">
-      <li class="error" title="Use the admin menu to publish it.">{% trans "This article is not published yet!" %}</li>
+      <li class="error" title="{% trans "Use the admin menu to publish it." %}">{% trans "This article is not published yet!" %}</li>
     </ul>
   {% endif %}
 {% endblock %}

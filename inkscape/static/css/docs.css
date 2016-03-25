@@ -50,7 +50,8 @@
 }
 span.menu-command
 {
-	font-family: verdana, sans-serif;
+	color: #777;
+	font: italic small-caps bold 1em/1.4em verdana, sans-serif;
 }
 span.firstterm
 {

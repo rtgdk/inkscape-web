@@ -2,6 +2,7 @@
 Allow tags to be created on the fly
 """
 
+from django.forms import ValidationError
 from django.utils.encoding import force_text
 from django.utils.safestring import mark_safe
 

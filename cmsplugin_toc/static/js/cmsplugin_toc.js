@@ -32,9 +32,9 @@ $.fn.slugify = function() {
 
 /*Link to anchors- H1 removed because normali is on top*/
 function initialise_anchors(){
-  var upper_limit = 2;
+  var levels_stack = [];
   var list = $('#toc').data('bullets') == 'True' ? 'ul' : 'ol';
-  var toc = '<' + list + '>';
+  var toc = '';
 
   $('.wrapper h2,.wrapper h3,.wrapper h4,.wrapper h5,.wrapper h6').each(function(i, heading){
     if($(heading).closest('#toc').length > 0) { return; }
@@ -56,15 +56,17 @@ function initialise_anchors(){
     // Re-anchor to just before the header so the goto link includes the header
     $('<span id="' + anchor + '"></span>').insertBefore($(heading));
 
-    if(upper_limit < header_level){
+    if(levels_stack.length == 0 || header_level > levels_stack[levels_stack.length - 1]){
         toc += '<' + list + '>';
-    } else if (upper_limit > header_level) {
-        toc += '</li></' + list + '></li>';
-    }
-    toc += '<li><div><a href="#' + anchor + '">' + $(heading).text() + '</a></div>';
-    if(upper_limit === header_level){
+        levels_stack.push(header_level);
+    } else{
         toc += '</li>';
     }
+    while(levels_stack.length > 0 && header_level < levels_stack[levels_stack.length - 1]){
+        toc += '</' + list + '></li>';
+        levels_stack.pop();
+    }
+    toc += '<li><div><a href="#' + anchor + '">' + $(heading).text() + '</a></div>';
     $(heading).mouseenter(function(){
         if($(heading).children(".headingAnchors").length == 0){
             $(heading).html($(heading).html() + ' <a href="#' + anchor + '" class="headingAnchors" >⚓</a>');
@@ -73,8 +75,10 @@ function initialise_anchors(){
     $(heading).mouseleave(function(){
         $(heading).children(".headingAnchors").remove();
     })
-    upper_limit = header_level;
   })
-  toc += '</' + list + '>';
+  while(levels_stack.length > 0){
+    toc += '</li></' + list + '>';
+    levels_stack.pop();
+  }
   $('#toc').append(toc).show();
 }

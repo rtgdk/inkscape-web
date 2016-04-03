@@ -120,13 +120,6 @@ class ResourceBaseForm(ModelForm):
             f = self.fields['owner']
             f.to_python = self.ex_clean_owner(f.to_python)
         
-    def get_jquery_filter(self, qs, m2m_field):
-        """Returns a dictionary, each value is a list of filtered items by pk"""
-        ret = defaultdict(list)
-        for (pk, m2m_pk) in list(qs.values_list('pk', m2m_field)):
-            ret[pk].append(m2m_pk)
-        return list(ret.items())
-
     def ex_clean_owner(self, f):
         """We want to clean owner, but django to_python validator catches our
            error before we get a chance to explain it to the user. Intercept in

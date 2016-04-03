@@ -20,22 +20,22 @@
 """
 Forms for the gallery system
 """
+from cStringIO import StringIO
+
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
+from django.utils.timezone import now
 from django.utils.text import slugify
 from django.db.models import Model, Q
-from django.utils.timezone import now
+from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .models import *
 from .utils import ALL_TEXT_TYPES
+from .fields import FilterSelect, TagsChoiceField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
 
-from django.core.files.uploadedfile import InMemoryUploadedFile
-from cStringIO import StringIO
-
-from .fields import TagsChoiceField
 
 __all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceFileForm',
            'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
@@ -113,11 +113,20 @@ class ResourceBaseForm(ModelForm):
         if 'license' in self.fields:
             f = self.fields['license']
             f.queryset = f.queryset.filter(selectable=True)
+            if 'category' in self.fields:
+                f.widget = FilterSelect(f.queryset, 'category', 'id_category', f.widget)
 
         if 'owner' in self.fields:
             f = self.fields['owner']
             f.to_python = self.ex_clean_owner(f.to_python)
         
+    def get_jquery_filter(self, qs, m2m_field):
+        """Returns a dictionary, each value is a list of filtered items by pk"""
+        ret = defaultdict(list)
+        for (pk, m2m_pk) in list(qs.values_list('pk', m2m_field)):
+            ret[pk].append(m2m_pk)
+        return list(ret.items())
+
     def ex_clean_owner(self, f):
         """We want to clean owner, but django to_python validator catches our
            error before we get a chance to explain it to the user. Intercept in
@@ -133,8 +142,11 @@ class ResourceBaseForm(ModelForm):
         ret = self.cleaned_data['license']
         if 'category' in self._meta.fields:
             category = self.cleaned_data.get('category', None)
-            if category and ret not in category.acceptable_licenses.all():
-                raise ValidationError(_("This is not an acceptable license for this category"))
+            acceptable = list(category.acceptable_licenses.all())
+            if category and ret not in acceptable:
+                accept = '\n'.join([" * %s" % str(acc) for acc in acceptable])
+                raise ValidationError(_("This is not an acceptable license "
+                      "for this category, Acceptable licenses:\n%s") % accept)
         return ret
 
     def clean_category(self):

@@ -21,6 +21,25 @@
 var max_size = 3000000; // 3MB file limit on previews
 var debug = true;
 
+$(document).ready(function() {
+  $('select[data-filter_by]').each(function() {
+    var target = $(this);
+    $('#' + target.data('filter_by')).change(function() {
+      var val = parseInt($(this).val());
+      $('option', target).each(function() {
+          var filter = $(this).data('filter');
+          if(filter != undefined) {
+            if(val in filter) {
+              $(this).removeAttr("disabled");
+            } else {
+              $(this).attr("disabled", "true");
+            }
+          }
+      });
+    }).change();
+  });
+});
+
 function addEventHandler(obj, evt, handler) {
   if(obj.addEventListener) { // W3C Method
     obj.addEventListener(evt, handler, false);

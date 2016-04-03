@@ -24,16 +24,15 @@
         </span>
       {% endif %}
     </h2>
-  <div class="desc{% if form.desc.errors %} descerr{% endif %}">
-    {{ form.desc|placeholder:_("Description of your artwork or resource") }}
-  </div>
-  <div class="side">
-    {% for field in form.auto %}
-      <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
-      {{ field }}
-    {% endfor %}
-  </div>
-
+    <div class="desc{% if form.desc.errors %} descerr{% endif %}">
+      {{ form.desc|placeholder:_("Description of your artwork or resource") }}
+    </div>
+    <div class="side">
+      {% for field in form.auto %}
+        <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+        {{ field }}
+      {% endfor %}
+    </div>
   </div>
 
   <div id="item-footer">

@@ -24,7 +24,33 @@ var debug = true;
 $(document).ready(function() {
   $('select[data-filter_by]').each(function() {
     var target = $(this);
-    $('#' + target.data('filter_by')).change(function() {
+    var filters = [];
+
+    $('option', target).each(function() {
+        // Record all filters into one list for counter test
+        var filter = $(this).data('filter');
+        if(filter != undefined) {
+            filters = filters.concat(filter);
+        }
+    });
+
+    var filter_by = $('#' + target.data('filter_by'));
+    $('option', filter_by).each(function() {
+        // Disble any counter options with no filters, this should
+        // Warn admins that their license selection isn't working.
+        var val = parseInt($(this).attr('value'));
+        if(!isNaN(val) && filters.indexOf(val) == -1) {
+            $(this).attr("disabled", "true");
+        }
+    });
+
+    filter_by.change(function() {
+      // Disable any options not suitable/filtered out.
+      if($(this).val()) {
+        target.removeAttr("disabled");
+      } else {
+        target.attr("disabled", "true");
+      }
       var val = parseInt($(this).val());
       $('option', target).each(function() {
           var filter = $(this).data('filter');

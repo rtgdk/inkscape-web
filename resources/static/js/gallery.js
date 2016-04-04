@@ -1,5 +1,5 @@
 //
-// Copyright 2014, Martin Owens <doctormo@gmail.com>
+// Copyright 2016, Martin Owens <doctormo@gmail.com>
 //
 // This file is part of the software inkscape-web, consisting of custom 
 // code for the Inkscape project's django-based website.
@@ -29,10 +29,11 @@ $(document).ready(function() {
       $('option', target).each(function() {
           var filter = $(this).data('filter');
           if(filter != undefined) {
-            if(val in filter) {
+            if(filter.indexOf(val) >= 0) {
               $(this).removeAttr("disabled");
             } else {
               $(this).attr("disabled", "true");
+              $(this).removeAttr("selected");
             }
           }
       });

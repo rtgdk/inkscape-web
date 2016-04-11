@@ -1,0 +1,12 @@
+#irchat img.fullscreen {
+  display: block;
+  position: absolute;
+}
+
+#irchat.full-screen {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  /* Go ontop of ALL, including django-cms */
+  z-index: 1000000000;
+}

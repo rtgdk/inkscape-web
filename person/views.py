@@ -29,15 +29,14 @@ from django.http import HttpResponseRedirect
 
 from .models import User, Team
 from .forms import UserForm, AgreeToClaForm, Permission
-from .mixins import LoginRequiredMixin, UserMixin, NextUrlMixin
+from .mixins import LoginRequiredMixin, NeverCacheMixin, UserMixin, NextUrlMixin
 
-
-class AgreeToCla(NextUrlMixin, UserMixin, UpdateView):
+class AgreeToCla(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
     template_name = 'person/cla-agree.html'
     action_name = _('Contributors License Agreement')
     form_class = AgreeToClaForm
 
-class EditProfile(NextUrlMixin, UserMixin, UpdateView):
+class EditProfile(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
     form_class = UserForm
 
 class UserDetail(DetailView):
@@ -60,7 +59,7 @@ class MyProfile(UserMixin, UserDetail):
 
 # ====== FRIENDSHIP VIEWS =========== #
 
-class MakeFriend(LoginRequiredMixin, SingleObjectMixin, RedirectView):
+class MakeFriend(NeverCacheMixin, LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'username'
     slug_field     = 'username'
     model          = User
@@ -99,7 +98,7 @@ class TeamCharter(TeamDetail):
     action_name = _("Team Charter")
     template_name = 'person/team_charter.html'
 
-class ChatWithTeam(LoginRequiredMixin, TeamDetail):
+class ChatWithTeam(NeverCacheMixin, LoginRequiredMixin, TeamDetail):
     action_name = _("Chat")
 
     @property
@@ -123,7 +122,7 @@ class ChatWithTeam(LoginRequiredMixin, TeamDetail):
         return data
 
 
-class AddMember(LoginRequiredMixin, SingleObjectMixin, RedirectView):
+class AddMember(NeverCacheMixin, LoginRequiredMixin, SingleObjectMixin, RedirectView):
     slug_url_kwarg = 'team'
     model          = Team
     permanent      = False

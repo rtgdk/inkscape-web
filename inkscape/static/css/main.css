@@ -30,7 +30,7 @@ body {
   font-family: 'Ubuntu', 'Liberation Sans', sans-serif;
   color: #333333;
 }
-#menu{
+#menu {
   margin-left:50px;
 }
 :link, :visited {
@@ -55,6 +55,7 @@ pre {
   background-color: #f5f5f5;
   padding: 0.5ex 0.5em;
   margin: 0.5ex 0;
+  overflow: auto;
 }
 
 h1, #google-groups-logo {

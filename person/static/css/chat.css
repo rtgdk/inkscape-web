@@ -5,8 +5,13 @@
 
 #irchat.full-screen {
   position: absolute;
-  top: 0px;
-  left: 0px;
+  top: 4px;
+  right: 4px;
+
   /* Go ontop of ALL, including django-cms */
   z-index: 1000000000;
+
+  position:absolute;
+  cursor:pointer;
 }
+

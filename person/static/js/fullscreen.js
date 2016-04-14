@@ -1,18 +1,27 @@
 $(function() {
   function fullscreen() {
+    var x_pad = 4;
+    var y_pad = 4;
     var chat = $('#irchat.full-screen');
     chat.css({
-      'width': $(window).width(),
-      'height': $(window).height()
+      'width': $(window).width() - (x_pad * 2),
+      'height': $(window).height() - (y_pad * 4)
     });
     $('iframe', chat).css({
-      'height': $(window).height()
+      'height': $(window).height() - (y_pad * 2)
     });
     var offset = $('#irchat').offset();
-    $('img.fullscreen').css({
-      'top': offset.top + 5,
-      'left': offset.left + $('#irchat').outerWidth() - 38
-    });
+    if(chat.length > 0) {
+      $('img.fullscreen').css({
+        'top': offset.top,
+        'left': offset.left + $('#irchat').outerWidth() - 32 - (x_pad * 2)
+      });
+    } else {
+      $('img.fullscreen').css({
+        'top': offset.top + y_pad,
+        'left': offset.left + $('#irchat').outerWidth() - 32 - x_pad
+      });
+    }
   }
 
   $(window).resize(function() {

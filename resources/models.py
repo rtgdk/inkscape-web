@@ -411,6 +411,7 @@ class ResourceFile(Resource):
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
     verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
+    embed      = BooleanField(default=False)
 
     objects   = ResourceManager()
 

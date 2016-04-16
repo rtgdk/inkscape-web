@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static comments extras %}
+{% load i18n static comments extras svg %}
 
 {% block content %}
 
@@ -32,9 +32,15 @@
   </div>
  {% elif object.is_file and object.is_available %}
     {% if object.mime.is_image %}
-      <div class="image only">
-        <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.icon_only }}"></a>
-      </div>
+      {% if object.embed %}
+        <div class="image svg">
+          {{ object.as_text|svg_size:"850|100%"|safe }}
+        </div>
+      {% else %}
+        <div class="image only">
+          <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.icon_only }}"></a>
+        </div>
+      {% endif %}
     {% elif object.mime.is_text %}
       {% if object.media_x < 300 %}
         <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>

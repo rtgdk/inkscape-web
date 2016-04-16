@@ -101,7 +101,6 @@ TEMPLATES = [{
       ],
       'context_processors': (
         'inkscape.context_processors.version',
-        'inkscape.context_processors.design',
         'social.apps.django_app.context_processors.backends',
         'social.apps.django_app.context_processors.login_redirect',
         'django.contrib.auth.context_processors.auth',
@@ -381,6 +380,7 @@ if ENABLE_DEBUG_TOOLBAR:
     INSTALLED_APPS += 'debug_toolbar',
 
     if ENABLE_DESIGN_TOOLBAR:
+        #'inkscape.context_processors.design??',
         INSTALLED_APPS += 'debug_design',
         MIDDLEWARE_CLASSES += 'debug_design.middleware.RequestMiddleware',
         DEBUG_TOOLBAR_PANELS += 'debug_design.panels.DesignPanel',

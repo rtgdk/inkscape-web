@@ -379,15 +379,6 @@ if ENABLE_DEBUG_TOOLBAR:
     # We're not even going to trust debug_toolbar on live
     INSTALLED_APPS += 'debug_toolbar',
 
-    if ENABLE_DESIGN_TOOLBAR:
-        #'inkscape.context_processors.design??',
-        INSTALLED_APPS += 'debug_design',
-        MIDDLEWARE_CLASSES += 'debug_design.middleware.RequestMiddleware',
-        DEBUG_TOOLBAR_PANELS += 'debug_design.panels.DesignPanel',
-        TEMPLATES[0]['OPTIONS']['loaders'].insert(0, 'debug_design.template.Loader')
-        if DEBUG:
-            STATICFILES_DIRS += [DESIGN_ROOT]
-
     if ENABLE_PROFILER_TOOLBAR:
         INSTALLED_APPS += 'debug_toolbar_line_profiler',
         DEBUG_TOOLBAR_PANELS += 'debug_toolbar_line_profiler.panel.ProfilingPanel',

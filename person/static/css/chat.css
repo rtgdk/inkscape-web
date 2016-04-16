@@ -1,17 +1,24 @@
-#irchat img.fullscreen {
-  display: block;
-  position: absolute;
-}
-
 #irchat.full-screen {
-  position: absolute;
-  top: 4px;
-  right: 4px;
-
-  /* Go ontop of ALL, including django-cms */
-  z-index: 1000000000;
-
-  position:absolute;
-  cursor:pointer;
+    left: 0;
+    position: absolute !important;
+    top: 0;
+    z-index: 1000000000;
 }
-
+#irchat {
+    position: relative;
+}
+#irchat img.fullscreen {
+    display: block;
+    cursor: pointer;
+    position: absolute;
+    right: 14px;
+    top: 8px;
+    width: 19px;
+    border-width:1px;
+    border-color:#FF7300;
+    border-radius:2px;
+    border-style:solid;
+}
+#irchat img.fullscreen:hover {
+    border-color:#fff;
+}

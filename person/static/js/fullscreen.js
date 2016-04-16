@@ -1,33 +1,22 @@
 $(function() {
   function fullscreen() {
-    var x_pad = 4;
-    var y_pad = 4;
+    $('html, body').css({
+      'overflow':'hidden'
+    })
     var chat = $('#irchat.full-screen');
     chat.css({
-      'width': $(window).width() - (x_pad * 2),
-      'height': $(window).height() - (y_pad * 4)
+      'width': $(window).width(),
+      'height': $(window).height()
     });
+
     $('iframe', chat).css({
-      'height': $(window).height() - (y_pad * 2)
+      'height': $(window).height()
     });
-    var offset = $('#irchat').offset();
-    if(chat.length > 0) {
-      $('img.fullscreen').css({
-        'top': offset.top,
-        'left': offset.left + $('#irchat').outerWidth() - 32 - (x_pad * 2)
-      });
-    } else {
-      $('img.fullscreen').css({
-        'top': offset.top + y_pad,
-        'left': offset.left + $('#irchat').outerWidth() - 32 - x_pad
-      });
-    }
   }
 
   $(window).resize(function() {
     fullscreen();         
   });
-  fullscreen();
 
   $('img.fullscreen').click(function() {
     var chat = $('#irchat');
@@ -35,6 +24,9 @@ $(function() {
         chat.removeClass('full-screen');
         chat.css({'width': '', 'height': ''});
         $('iframe', chat).css({'height': '450px'});
+        $('html, body').css({
+          'overflow':'hidden'
+        })
     } else {
         chat.addClass('full-screen');
     }

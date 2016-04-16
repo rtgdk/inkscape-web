@@ -35,6 +35,7 @@ command -v virtualenv &> /dev/null || {
     echo "I require pythonenv, but it is not installed. Aborting."
     exit 1;
   }
+  echo "I require pythonenv, but it is not installed. I will need sudo to install it..."
   sudo apt-get install python-virtualenv
 }
 
@@ -43,6 +44,7 @@ python ./utils/python-bedeveled || {
     echo "I require python headers, but they are not installed. Aborting."
     exit 1;
   }
+  echo "I require python-dev, but it is not installed, attempting install..."
   sudo apt-get install python-dev
 }
 

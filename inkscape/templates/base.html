@@ -51,26 +51,8 @@
           {% language_chooser "languages.html" %}
 
           {% if not request.user.is_authenticated %}
-            <li id="toplogin">
+            <li id="toplogin" class="not-authenticated">
               <p><a href="{% url "auth_login" %}">{% trans "Log in / Register" %}</a></p>
-              <div class="topdrop">
-                <form action="{% url "auth_login" %}" method="POST">
-                  {% csrf_token %}
-                  <label for="toplogin-username">{% trans "Username" %}</label>
-                  <input name="username" id="toplogin-username" type="text" tabindex=1>
-                  <label for="toplogin-password">{% trans "Password" %} (<a href="{% url "password_reset" %}">{% trans "reset" %}</a>)</label>
-                  <input name="password" id="toplogin-password" type="password" tabindex=2>
-                  <input class="button" type="submit" value="{% trans "Log in" %}" tabindex=3>
-                  <input name="next" type="hidden" value="{{ request.path }}"/>
-                </form>
-                <form action="{% url "auth_register" %}" method="GET">
-                  <input class="button" type="submit" value="{% trans "Register" %}" tabindex=4>
-                </form>
-                <div id="toplogin-alternate">
-                  <span>{% trans "Or log in using:" %}</span>
-                  {% include "registration/social_logins.html" %}
-                </div>
-              </div>
             </li>
           {% else %}
             <li id="toplogin">

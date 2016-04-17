@@ -317,7 +317,19 @@ div.reginfo {
   display: block;
   box-shadow: 0px 9px 7px #111;
 }
-.header #topdrops > li:hover > p,
+.header #topdrops > li.not-authenticated:hover p{
+  padding: 0px;
+  margin-bottom: 0px;
+  border-radius: 0 0 4px 4px;
+  cursor:pointer;
+  background-color:#FF4C00 !important;
+}
+.header #topdrops > li.not-authenticated:hover  a{
+  padding: 6px 10px 14px 10px;
+  text-decoration:none !important;
+  display:block;
+}
+.header #topdrops > li.:hover > p,
 .header #topdrops > li.focused > p {
   padding-bottom: 14px;
   margin-bottom: 0px;
@@ -422,6 +434,19 @@ div.reginfo {
 }
 #toplogin form {
   display: inline;
+}
+.login{
+  width:35%;
+  float:left;
+  padding:20px 40px;
+}
+#userLogin{
+  border-width: 0px 1px 0px 0px;
+  border-style:solid;
+  border-color:#ddd;
+  width:270px;
+  border-style:dotted;
+  
 }
 #topdrops p a {
   color: white;
@@ -1365,3 +1390,5 @@ div.pagination a:hover {
 #djDebug .djdt-panelContent table {
   display: table !important;
 }
+
+

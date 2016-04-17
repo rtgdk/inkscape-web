@@ -1,0 +1,11 @@
+{% load i18n static %}
+<html>
+  <head>
+    <title>{{ object.name}} {% trans "by" %} {{ object.user }}</title>
+    <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
+    <script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
+  </head>
+  <body>
+    {% include "resources/resourcefile_view.html" %}
+  </body>
+</html>

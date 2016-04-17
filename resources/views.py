@@ -153,6 +153,11 @@ class ViewResource(DetailView):
             return qs.filter(user__username=self.kwargs['username'])
         return qs
 
+    def get_template_names(self, *args, **kw):
+        if self.request.GET.get('modal', False):
+            return 'resources/resourcefile_modal.html'
+        return super(ViewResource, self).get_template_names(*args, **kw)
+
     def get(self, request, *args, **kwargs):
         ret = super(ViewResource, self).get(request, *args, **kwargs)
         if self.object.is_new:
@@ -162,6 +167,7 @@ class ViewResource(DetailView):
                 request.session['test'] = 'True'
                 self.object.set_viewed(request.session)
         return ret
+
 
 @login_required
 def like_resource(request, pk, like):

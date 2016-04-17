@@ -10,7 +10,6 @@
     {% block "css" %}
       <link rel="stylesheet"    type="text/css" href="{% static "css/main.css" %}"/>
       <link rel="stylesheet"    type="text/css" href="{% static "css/text.css" %}"/>
-      <link rel="stylesheet"    type="text/css" href="{% static "css/gallery.css" %}"/>
     {% endblock %}
 
     <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="{% url "news:rss" %}"/>
@@ -21,7 +20,6 @@
     {% block "js" %}
       <script type="text/javascript" src="{% static "admin/js/jquery.js" %}"></script>
       <script type="text/javascript" src="{% static "js/inkscape.js" %}"></script>
-      <script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
     {% endblock %}
 
     <!--Sekizai blocks are depricated, when django-cms stops using them, remove-->

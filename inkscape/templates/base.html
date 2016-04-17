@@ -49,8 +49,11 @@
           {% language_chooser "languages.html" %}
 
           {% if not request.user.is_authenticated %}
+            <li id="toplogin" class="not-authenticated login-button">
+              <p><a href="{% url "auth_login" %}">{% trans "Log in" %}</a></p>
+            </li>
             <li id="toplogin" class="not-authenticated">
-              <p><a href="{% url "auth_login" %}">{% trans "Log in / Register" %}</a></p>
+              <p><a href="{% url "auth_register" %}">{% trans "Register" %}</a></p>
             </li>
           {% else %}
             <li id="toplogin">

@@ -25,6 +25,7 @@ Views for resource system, adding items, entering new categories for widgets etc
 import sys
 import os
 
+from datetime import timedelta
 from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -354,10 +355,19 @@ class GalleryList(CategoryListView):
                 break
         return data
 
+class GalleryPick(GalleryList):
+    def get_template_names(self):
+        return ['resources/resourcefile_picker.html']
 
 class GalleryFeed(CategoryFeed, GalleryList):
     title = "Gallery Feed"
     description = "Gallery Resources RSS Feed"
+
+    def extra_filters(self):
+        # Limit RSS feeds to the last month
+        extra = super(GalleryFeed, self).extra_filters()
+        extra['created__gt'] = now() - timedelta(days=32)
+        return extra
 
     def items(self):
         for item in CategoryFeed.items(self):

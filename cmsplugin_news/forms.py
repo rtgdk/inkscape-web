@@ -51,11 +51,12 @@ class NewsAdminForm(ModelForm):
         if 'translation_of' in self.fields:
             self.fields['translation_of'].queryset = self.english
 
+        kw = dict(configuration='CKEDITOR_NEWS')
         if 'excerpt' in self.fields:
-            self.fields['excerpt'].widget = TextEditorWidget()
+            self.fields['excerpt'].widget = TextEditorWidget(**kw)
 
         if 'content' in self.fields:
-            self.fields['content'].widget = TextEditorWidget()
+            self.fields['content'].widget = TextEditorWidget(**kw)
 
 
 class TranslationForm(NewsAdminForm):

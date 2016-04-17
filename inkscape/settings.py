@@ -257,6 +257,23 @@ CKEDITOR_SETTINGS = {
     'browserContextMenuOnCtrl': True,
     'readOnly': False,
 }
+CKEDITOR_NEWS = {
+  'extraPlugins': 'image',
+  'filebrowserImageBrowseUrl': '/gallery/pick/',
+  'toolbar_HTMLField': [
+      ['Undo', 'Redo'], ['ShowBlocks'],
+      ['Format', 'Styles', '-', 'RemoveFormat'],
+      ['TextColor', 'BGColor', '-', 'PasteText', 'PasteFromWord'],
+      ['Maximize', ''],
+      '/',
+      ['Bold', 'Italic', 'Underline', '-', 'Subscript', 'Superscript'],
+      ['JustifyLeft', 'JustifyCenter', 'JustifyRight'],
+      ['Image', '-', 'HorizontalRule'],
+      ['Link', 'Unlink'],
+      ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Table'],
+      ['Source']
+    ],
+}
 CKEDITOR_READONLY = {
     'readOnly': True,
     'disableReadonlyStyling': True,

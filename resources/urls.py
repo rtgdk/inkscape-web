@@ -29,6 +29,7 @@ from person.urls import USER_URLS, TEAM_URLS
 
 PATTERNS = [
   url(r'^$',                           GalleryList(), name='resources'),
+  url(r'^pick/$',                      GalleryPick(), name='resources_pick'),
   url(r'^rss/$',                       GalleryFeed(), name='resources_rss'),
   url(r'^=(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
   url(r'^=(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
@@ -58,8 +59,6 @@ urlpatterns = patterns('',
   ),
 
   url_tree(r'^gallery/',
-    url(r'^$',             GalleryList(),    name='resources'),
-    url(r'^rss/$',         GalleryFeed(),    name='resources_rss'),
     url(r'^new/$',         CreateGallery(),  name='new_gallery'),
     url(r'^paste/$',       PasteIn(),        name='pastebin'),
     url(r'^upload/$',      UploadResource(), name='resource.upload'),

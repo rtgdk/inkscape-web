@@ -201,9 +201,9 @@ div.reginfo {
 }
 
 #topsearch {
-  margin: 18px 0px 5px;
-  clear: both;
-  float: right;
+  position:absolute;
+  top:60px;
+  right:0px;
 }
 
 #topsearch * {
@@ -325,7 +325,7 @@ div.reginfo {
   background-color:#FF4C00 !important;
 }
 .header #topdrops > li.not-authenticated:hover  a{
-  padding: 6px 10px 14px 10px;
+  padding: 6px 10px 7px 10px;
   text-decoration:none !important;
   display:block;
 }
@@ -436,17 +436,9 @@ div.reginfo {
   display: inline;
 }
 .login{
-  width:35%;
-  float:left;
-  padding:20px 40px;
-}
-#userLogin{
-  border-width: 0px 1px 0px 0px;
-  border-style:solid;
-  border-color:#ddd;
-  width:270px;
-  border-style:dotted;
-  
+  padding: 40px;
+  text-align:center;
+  width:80%
 }
 #topdrops p a {
   color: white;
@@ -508,6 +500,7 @@ div.reginfo {
 }
 #header-right {
   float: right;
+  position:relative !important;
 }
 /* navigation */
 .header .nav {
@@ -1390,5 +1383,6 @@ div.pagination a:hover {
 #djDebug .djdt-panelContent table {
   display: table !important;
 }
+
 
 

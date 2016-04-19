@@ -30,7 +30,7 @@
     </p>
   </div>
 {% elif not item.is_available %}
-  <div class="galleryitem" title="{{ item.summary_string }}">
+  <div class="galleryitem unavailable" title="{{ item.summary_string }}">
     <a class="link" href="{{ item.get_absolute_url }}"><img src="{% static "images/linked-image-not-found.png" %}"/></a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="tags"></p>

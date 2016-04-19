@@ -2,7 +2,7 @@
 # Copyright 2015, Maren Hachmann <marenhachmann@yahoo.com>
 #                 Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -23,11 +23,13 @@ Base TestCase for Resource and Gallery Tests.
 """
 
 # FLAG: do not report failures from here in tracebacks
+# pylint: disable=invalid-name
 __unittest = True
 
-import os
+import types
 import haystack
 
+from os.path import dirname, join, abspath
 from datetime import date
 
 from django.test import TestCase
@@ -52,32 +54,68 @@ TEST_INDEX = {
   },
 }
 
-@override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX)
+DIR = dirname(__file__)
+MEDIA = abspath(join(DIR, '..', 'fixtures', 'media'))
+
+@override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX, MEDIA_ROOT=MEDIA)
 class BaseCase(TestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
+    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests'
+               ]
 
     def open(self, filename, *args):
         "Opens a file relative to this test script"
-        return open(os.path.join(os.path.dirname(__file__), filename), *args)
+        return open(join(DIR, filename), *args)
 
-    def _get(self, url_name, *arg, **kw):
+    def getObj(self, qs, **kw):
+        """
+        Get an object from django, assert it exists, return it.
+
+        qs      - a QuerySet or Model class
+        count   - number of objects to get (default: 1)
+        exclude - exclude filter to run (default: None)
+        **kw    - include filter to run (default: None)
+        """
+        count = kw.pop('count', 1)
+
+        # Is the queryset a class? It's probably a model class
+        if isinstance(qs, (types.TypeType, types.ClassType)):
+            qs = qs.objects.all()
+
+        if 'exclude' in kw:
+            qs = qs.exclude(**kw.pop('exclude'))
+        if kw:
+            qs = qs.filter(**kw)
+
+        # Assert we have enough objects to return
+        self.assertGreater(qs.count(), count - 1)
+
+        # Return either one object or a list of objects limited to count
+        return qs[0] if count == 1 else qs[:count]
+
+    def assertGet(self, url_name, *arg, **kw):
         "Make a generic GET request with the best options"
         data = kw.pop('data', {})
         method = kw.pop('method', self.client.get)
         follow = kw.pop('follow', True)
+        status = kw.pop('status', None)
         get_param = kw.pop('get_param', None)
+
         if url_name[0] == '/':
             url = url_name
         else:
             url = reverse(url_name, kwargs=kw, args=arg)
         if get_param:
-            url += '?' + get_param 
-        return method(url, data, follow=follow)
-      
-    def _post(self, *arg, **kw):
+            url += '?' + get_param
+
+        response = method(url, data, follow=follow)
+        if status:
+            self.assertEqual(response.status_code, status)
+        return response
+
+    def assertPost(self, *arg, **kw):
         "Make a generic POST request with the best options"
         kw['method'] = self.client.post
-        return self._get(*arg, **kw)
+        return self.assertGet(*arg, **kw)
 
     def set_session_cookies(self):
         """Set session data regardless of being authenticated"""
@@ -112,7 +150,7 @@ class BaseCase(TestCase):
         self.download = self.open('../fixtures/media/test/file5.svg')
         self.thumbnail = self.open('../fixtures/media/test/preview5.png')
         self.data = {
-          'download': self.download, 
+          'download': self.download,
           'thumbnail': self.thumbnail,
           'name': 'Test Resource Title',
           'link': 'http://www.inkscape.org',
@@ -122,7 +160,6 @@ class BaseCase(TestCase):
           'owner': 'True',
           'published': 'on',
         }
-        #self.set_session_cookies() # activate to test AnonymousUser tests, but deactivated mirrors reality
 
     def tearDown(self):
         call_command('clear_index', interactive=False, verbosity=0)
@@ -143,7 +180,7 @@ class BaseAnonCase(BaseCase):
 
     def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
         rec = ResourceFile.objects.filter(**kw)
-        self.assertGreater(rec.count(),0,"Resources needed with: %s" % str(kw))
+        self.assertGreater(rec.count(), 0, "No resources with: %s" % str(kw))
 
         for resource in rec:
             self.assertEqual(resource.endorsement(), endorse,
@@ -153,16 +190,17 @@ class BaseAnonCase(BaseCase):
 
 class BaseBreadcrumbCase(BaseAnonCase):
     def assertBreadcrumbRequest(self, url, *terms, **kwargs):
-        response = self._get(url, **kwargs)
+        cont = self.assertGet(url, **kwargs).content
+        crumbs = cont.split('breadcrumbs">', 1)[-1].split('</div>')[0]
         try:
             for term in terms:
                 if len(term) == 1:
-                    self.assertContains(response, '<span class="crumb">%s<' % term)
+                    self.assertIn('<span class="crumb">%s<' % term, crumbs)
                     continue
-                self.assertContains(response, 'href="%s" class="crumb">%s<' % term)
-        except:
-            print response
-            raise
+                self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
+        except AssertionError:
+            raise AssertionError("Breadcrumb %s missing from %s" % (
+                str(term), crumbs))
 
     def assertBreadcrumbs(self, obj, *terms, **kwargs):
         """Test breadcrumbs in both generation and template request"""

@@ -19,7 +19,6 @@ visiting a new object after drag-and-drop upload
 votes (models, 103, Returns a queryset of Votes for this category)
 tag names
 a lot in resourcemanager (models, 123+)
-def has_file_changed(self): return False ?
 find_media_type(self): return None ?
 years(self) with two different years
 next(self): 

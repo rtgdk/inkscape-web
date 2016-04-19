@@ -134,7 +134,7 @@ def group_breadcrumb_name(self):
         return str(self.team)
     except:
         return str(self)
-Group.group_breadcrumb_name = group_breadcrumb_name
+Group.breadcrumb_name = group_breadcrumb_name
 
 
 class TwilightSparkle(Manager):

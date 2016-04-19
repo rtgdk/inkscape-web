@@ -64,7 +64,7 @@ class Breadcrumbs(BaseBreadcrumbCase):
         for gallery in galleries:
             self.assertBreadcrumbs(gallery,
                 (reverse('pages-root'), "Home"),
-                (gallery.group.get_absolute_url(), gallery.group.team),
+                (gallery.group.get_absolute_url(), gallery.group.team.name),
                 (reverse('resources', kwargs={'team': gallery.group.team.slug}), "InkSpaces"),
                 (gallery.get_absolute_url(), gallery.name,))
 

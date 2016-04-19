@@ -118,6 +118,32 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file1.svg"
+  },
+  "model": "resources.resourcefile",
+  "pk": 10
+},
+{
+  "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "test/good.sig",
+    "owner": false,
+    "mirror": false,
+    "download": "test/file1.svg"
+  },
+  "model": "resources.resourcefile",
+  "pk": 11
+},
+{
+  "fields": {
     "category": 1,
     "user": 3,
     "name": "Resource One",
@@ -329,6 +355,54 @@
   },
   "model": "resources.resource",
   "pk": 9
+},
+{
+  "fields": {
+    "category": 4,
+    "user": 3,
+    "name": "Resource Ten",
+    "slug": "resource-ten",
+    "desc": "Big description for Resource Ten",
+    "created": "2015-04-04T16:42:41.433Z",
+    "edited": "2015-04-20T16:42:41.417Z",
+    "published": true,
+    "viewed": 1,
+    "liked": 145,
+    "downed": 0,
+    "fullview": 0,
+    "tags": [],
+    "media_type": "image/svg+xml",
+    "media_x": 100,
+    "media_y": 100,
+    "thumbnail": "",
+    "link": ""
+  },
+  "model": "resources.resource",
+  "pk": 10
+},
+{
+  "fields": {
+    "category": 3,
+    "user": 3,
+    "name": "Resource Eleven",
+    "slug": "resource-eleven",
+    "desc": "RE11",
+    "created": "2015-04-08T16:42:41.433Z",
+    "edited": "2015-04-15T16:42:41.417Z",
+    "published": true,
+    "viewed": 22,
+    "liked": 13,
+    "downed": 499,
+    "fullview": 345,
+    "tags": [],
+    "media_type": "plastic/woman",
+    "media_x": 200,
+    "media_y": 300,
+    "thumbnail": "",
+    "link": "http://linkforpicture.com/"
+  },
+  "model": "resources.resource",
+  "pk": 11
 },
 {
   "fields": {

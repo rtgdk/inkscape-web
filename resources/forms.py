@@ -169,7 +169,7 @@ class ResourceBaseForm(ModelForm):
 
     def save(self, commit=False, **kwargs):
         obj = ModelForm.save(self, commit=False)
-        if not obj.id:
+        if not obj.pk:
             obj.user = self.user
         obj.save(**kwargs)
         obj.tags = self.cleaned_data['tags']

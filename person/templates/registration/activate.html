@@ -1,8 +1,12 @@
-{% extends "base.html" %}
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block content %}
+{% block "title" %}{% block "page-title" %}{% trans "Registration Activation" %}{% endblock %}{% endblock %}
 
-<h1>{% block title %}{% trans "Activate?" %}{% endblock %}</h1>
+{% block "dialog-body" %}
+  <p>{% blocktrans %}The activation has failed (I think), please try to register again or check the email.{% endblocktrans %}</p>
+{% endblock %}
 
+{% block "dialog-buttons" %}
+  <a class="btn btn-default" href="{{ contact_url }}">{% trans "Contact Us" %}</a>
 {% endblock %}

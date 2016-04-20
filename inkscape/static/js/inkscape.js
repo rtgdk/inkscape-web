@@ -22,15 +22,15 @@
 $(document).ready(function() {
   if($("#menu"))menu();
   if($('[class|="maxHeight"]')[0])maxHeight();
-  if($("#toplogin"))adjustBar();
   if($("#shield .tabs"))furnishTabs();
   if($(".inlinepages"))inlinePages();
-  $("#toplogin input").focus(true, focused);
-  $("#toplogin input").focusout(false, focused);
+  $("#tab_user input").focus(true, focused);
+  $("#tab_user input").focusout(false, focused);
   $("[src$='.svg']").error(onSvgError);
   $(".image.only img").error(iconInstead);
   $(".dotdotdot").click(paginator_expand);
   close_elements();
+  adjustBar();
 });
 
 function paginator_expand(event) {
@@ -218,10 +218,12 @@ function menu(){
     }
 }
 
-function adjustBar(){
-    var tw = parseInt( $("#toplogin").width() );
-    var fw = parseInt( $("#toplogin").children(".topdrop").width() );
-    $("#toplogin").children(".topdrop").css('margin-left', (tw-fw-20)+"px");
+function adjustBar() {
+    $("#tabs > li.dropdown").each(function() {
+        var tab_width = parseInt($(this).width());
+        var drop_width = parseInt($(this).children("div").width());
+        $(this).children("div").css('margin-left', (tab_width - drop_width)+"px");
+    });
 }
 
 function maxHeight(){

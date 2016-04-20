@@ -1,19 +1,19 @@
-{% extends "base.html" %}
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Registration Complete" %}{% endblock %}
-{% block "breadcrumbs" %}{% endblock %}
+{% block "title" %}{% block "page-title" %}{% trans "Registration Complete" %}{% endblock %}{% endblock %}
 
-{% block content %}
-
-<h1>{% trans "Registration Complete" %}</h1>
-
-<p>{% trans "Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration." %}</p>
-
-<p>
 {% url "contact" as contact_url %}
-{% blocktrans trimmed %}If you don't receive it shortly, please check your spam folder. 
-If it's not there, please <a href="{{ contact_url }}?subject=Lost activation code">contact us</a>.{% endblocktrans %}
-</p>
 
+{% block "dialog-body" %}
+  <p>{% trans "Thank you for registering. You will very soon receive an email with a confirmation link. Please follow this link in order to complete your registration." %}</p>
+  </p>
+    {% blocktrans trimmed %}If you don't receive it shortly, please check your spam folder. 
+    If it's not there, please <a href="{{ contact_url }}?subject=Lost activation code">contact us</a>.{% endblocktrans %}
+  </p>
+{% endblock %}
+
+{% block "dialog-buttons" %}
+  <a class="btn btn-default" href="{{ contact_url }}">{% trans "Contact Us" %}</a>
+  <a class="btn btn-primary" href="/">{% trans "Done" %}</a>
 {% endblock %}

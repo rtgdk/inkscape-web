@@ -1,16 +1,16 @@
 {% load menu_tags %}
 {% load i18n %}
-<li id="languages">
+<li id="tab_languages" class="dropdown">
   {% for language in languages %}
     {% ifequal current_language language.0 %}
     <p>{{ language.1 }}</p>
     {% endifequal %}  
   {% endfor %}
-  <ul class="topdrop">
+  <div>
     {% for language in languages %}
       {% language language.0 %}
-      <li class="{% ifequal current_language language.0 %}selected{% endifequal %}"><a href="{% page_language_url language.0 %}">{{ language.1 }}</a></li>
+      <p><a class="{% ifequal current_language language.0 %}selected{% endifequal %}" href="{% page_language_url language.0 %}">{{ language.1 }}</a></p>
       {% endlanguage %}
     {% endfor %}
-  </ul>
+  </div>
 </li>

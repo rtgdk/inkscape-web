@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load i18n static extras %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/modal.css" %}"/>
+{% endblock %}
+
+{% block supercontent %}
+  <div class="modal-dialog">
+    <form class="modal-content" method="POST" action="{% block "dialog-action" %}{% endblock %}">
+      {% csrf_token %}
+      {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+      <div class="modal-header">
+        {% block "dialog-title" %}<h4 class="modal-title">{% block "title" %}Dialog Title{% endblock %}</h4>{% endblock %}
+        {% block "dialog-subtitle" %}{% endblock %}
+        {% if form.non_field_errors %}
+          {{ form.non_field_errors }}
+        {% endif %}
+      </div>
+      <div class="modal-body">
+        {% if messages %}
+          <ul id="messages">
+            {% for message in messages %}
+              <li{% if message.tags %} class="{{ message.tags }}"{% endif %} title="{{ message.tags }}">
+                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
+              </li>
+            {% endfor %}
+          </ul>
+        {% endif %}
+        {% block "dialog-body" %}{% endblock %}
+        {% block "dialog-form" %}
+          {% if form %}
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="form-group">
+                {% if field.errors %}{{ field.errors }}{% endif %}
+                {{ field.label_tag }}
+                {{ field|placeholder:field.label }}
+              </div>
+            {% endfor %}
+          {% endif %}
+        {% endblock %}
+      </div>
+      <div class="modal-footer">{% block "dialog-buttons" %}{% endblock %}
+      </div>
+    </form>
+  </div>
+{% endblock %}

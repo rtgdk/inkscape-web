@@ -1,17 +1,17 @@
-{% extends "base.html" %}
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Activation Complete" %}{% endblock %}
-{% block "breadcrumbs" %}{% endblock %}
+{% block "title" %}{% block "page-title" %}{% trans "Registration Activation Complete" %}{% endblock %}{% endblock %}
 
-{% block content %}
-
-<h1>{% trans "Activation Complete" %}</h1>
-
-<p>{% trans "Your user account has been created. Please log in using your username and password." %}</p>
-<p>
 {% url "contact" as contact_url %}
-{% blocktrans %}If you have any problems, please <a href="{{contact_url}}?subject=Lost activation code"> contact us</a>.{% endblocktrans %}
-</p>
 
+{% block "dialog-body" %}
+  <p>{% trans "Your user account has been created. Please log in using your username and password." %}</p>
+  {% blocktrans %}If you have any problems, please <a href="{{contact_url}}?subject=Lost activation code"> contact us</a>.{% endblocktrans %}
+</p>
+{% endblock %}
+
+{% block "dialog-buttons" %}
+  <a class="btn btn-default" href="{{ contact_url }}">{% trans "Contact Us" %}</a>
+  <a class="btn btn-primary" href="{% url "auth_login" %}">{% trans "Login" %}</a>
 {% endblock %}

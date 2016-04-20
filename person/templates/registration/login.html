@@ -1,41 +1,18 @@
-{% extends "base.html" %}
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block supercontent %}
+{% block "page-title" %}{% block "title" %}{% trans "User Login" %}{% endblock %}{% endblock %}
 
-<div id="userLogin" class="login">
+{% block "dialog-buttons" %}
+  <a class="btn btn-default" href="{% url "password_reset" %}">{% trans "Reset Password" %}</a>
+  <button class="btn btn-primary" type="submit">{% trans "Login" %}</button>
 
-<h1>{% block title %}{% trans "User Login" %}{% endblock %}</h1>
-
-{% if form.errors %}
-<p>{% trans "Your username and password didn't match. Please try again." %}</p>
-{% endif %}
-
-<form method="post" action="{% url "auth_login" %}" style="display: inline-block;">
-{% csrf_token %}
-<table>
-  <tr>
-    <th scope="row"><label for="id_username">{{ form.username.label_tag }}</th>
-    <td>{{ form.username }}</td>
-  </tr>
-  <tr>
-    <th scope="row"><label for="id_password">{{ form.password.label_tag }}</th>
-    <td>{{ form.password }}</td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align: right;">
-      <a href="{% url "password_reset" %}" style="margin-right: 20px; vertical-align: middle;">{% trans "Reset Password" %}</a>
-      <input type="submit" value="{% trans "Login" %}" style="float: right;"/>
-    </td>
-  </tr>
-</table>
-<input type="hidden" name="next" value="{{ next }}" />
-</form>
-<hr />
-<h1>{% trans "Social Network Login" %}</h1>
-
-<div id="toplogin-alternate" style="text-align: center; display: inline-block;">{% include "registration/social_logins.html" %}</div>
-
-</div>
-
+  <div class="float-left">
+    {% with next as request.GET.next|default:request.path %}
+      <a class="btn social google" href="{% url "social:begin" 'google-oauth2' %}?next={{ next }}" title="{% trans "Login via Google+" %}"></a>
+      <a class="btn social facebook" href="{% url "social:begin" 'facebook' %}?next={{ next }}" title="{% trans "Login via Facebook" %}"></a>
+      <a class="btn social twitter" href="{% url "social:begin" 'twitter' %}?next={{ next }}" title="{% trans "Login via Twitter" %}"></a>
+      <a class="btn social yahoo" href="{% url "social:begin" 'yahoo' %}?next={{ next }}" title="{% trans "Login via Yahoo" %}"></a>
+    {% endwith %}
+  </div>
 {% endblock %}

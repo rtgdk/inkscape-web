@@ -45,21 +45,22 @@
         {% endblock %}
       </div>
       <div id="header-right">
-        <ul id="topdrops">
+        <ul id="tabs">
           {% language_chooser "languages.html" %}
 
           {% if not request.user.is_authenticated %}
-            <li id="toplogin" class="not-authenticated login-button">
+            <li id="tab_login">
               <p><a href="{% url "auth_login" %}?next={{ request.path }}">{% trans "Log in" %}</a></p>
             </li>
-            <li id="toplogin" class="not-authenticated">
+            <li id="tab_register">
               <p><a href="{% url "auth_register" %}">{% trans "Register" %}</a></p>
             </li>
           {% else %}
-            <li id="toplogin">
+            <li id="tab_user" class="dropdown">
               <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;</p>
-              <div  class="topdrop">
+              <div>
                 <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                <hr/>
                 {% if request.user.is_moderator %}
                   <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
                 {% endif %}

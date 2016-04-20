@@ -184,22 +184,6 @@ div.toc ol, #toc.right ol {
   color: #666666;
 }
 
-.reginfo {
-  border: 1px solid #284c69;
-  box-shadow: 0 0 5px #284c69;
-  background-color: #dbe7f1;
-  color: #221100;
-  overflow:hidden;
-  border-radius: 8px;
-}
-
-div.reginfo {
-  width: 400px;
-  padding: 0 14px 0 14px;
-  float: right;
-  margin: 0 30px;
-}
-
 #topsearch {
   position:absolute;
   top:60px;
@@ -281,81 +265,86 @@ div.reginfo {
   text-align: center;
 }
 /* dropdowns on the right */
-.header #topdrops {
+#tabs {
   float: right;
   margin: 0;
   padding: 0;
   list-style: none;
   color: white;
+  font-size: 10pt;
 }
-.header .topdrop {
-  background-color: #333333;
-  padding: 10px;
-  border-radius: 6px;
+#tabs > li {
+  float: left;
+  margin-left: 5px;
+}
+#tabs > li.dropdown:hover > p {
+  border-radius: 0px;
+  padding-bottom: 12px;
+}
+#tabs > li > p {
+  cursor: pointer;
+  display: block;
+  border-radius: 0 0 5px 5px;
+  background: #333 right 6px center;
+  padding: 5px 10px 7px 10px;
+  margin: 0px;
+}
+#tabs > li > p:hover {
+  background-color: #555;
+}
+#tabs > li > p > a {
+  color: white;
+}
+#tabs > li > p > a:hover {
+  text-decoration: none;
+}
+#tabs > li.dropdown > div {
+  background-color: #333;
+  border-radius: 5px 0 5px 5px;
   display: none;
   position: absolute;
   z-index: 10;
 }
-.header .topdrop img.userphoto {
+#tabs > li.dropdown:hover > div,
+#tabs > li.dropdown.focused > div {
+  display: block;
+  box-shadow: 0px 9px 7px #111;
+}
+#tabs > li.dropdown > div > p {
+  margin: 0px;
+}
+#tabs > li.dropdown > div > hr {
+  margin: 5px 20px;
+}
+#tabs > li.dropdown > div > p > a {
+  display: block;
+  padding: 6px 20px;
+  color: white;
+}
+#tabs > li.dropdown > div > p > a:hover,
+#tabs > li.dropdown > div > p > a.selected {
+  text-decoration: none;
+  background-color: #555;
+}
+#tabs > li.dropdown > div > p:last-child > a:hover,
+#tabs > li.dropdown > div > p:last-child > a.selected {
+  border-radius: 0 0 5px 5px;
+}
+#tabs > li.dropdown > div > p:first-child > a:hover,
+#tabs > li.dropdown > div > p:first-child > a.selected {
+  border-radius: 5px 0 0 0;
+}
+/* Login topdrop */
+#tabs img.userphoto {
   width: 64px;
   height: 64px;
   background-size: 64px;
   background-repeat: no-repeat;
-  display: inline-block;
-  float: left;
-  margin-right: 8px;
+  display: block;
+  margin: 9px auto;
   font-size: 0px;
 }
-.header #topdrops {
-  font-size: 10pt;
-}
-.header #topdrops > li {
-  float: left;
-}
-.header #topdrops > li:hover > .topdrop,
-.header #topdrops > li.focused > .topdrop {
-  display: block;
-  box-shadow: 0px 9px 7px #111;
-}
-.header #topdrops > li.not-authenticated.login-button{
-  margin-right:9px;
-}
-.header #topdrops > li.not-authenticated:hover p{
-  padding: 0px;
-  margin-bottom: 0px;
-  border-radius: 0 0 4px 4px;
-  cursor:pointer;
-  background-color:#FF4C00 !important;
-}
-.header #topdrops > li.not-authenticated:hover  a{
-  padding: 6px 10px 7px 10px;
-  text-decoration:none !important;
-  display:block;
-}
-.header #topdrops > li:hover > p,
-.header #topdrops > li.focused > p {
-  padding-bottom: 14px;
-  margin-bottom: 0px;
-  border-radius: 0;
-}
-.header #topdrops #languages {
-  margin-right: 10px;
-}
-.header #topdrops #languages .topdrop {
-  width: 130px;
-  padding: 0px;
-  margin: 0px;
-  border-radius: 0 0 5px 5px;
-}
-#topmessages {
-  margin-left: 10px;
-}
-#topmessages .topdrop {
-  margin-left: -104px;
-  width: 120px;
-  border-radius: 5px 0 5px 5px;
-}
-#topmessages > p > a {
+#tab_messages > p > a {
   display: block;
   width: 16px;
   height: 12px;
@@ -363,7 +352,7 @@ div.reginfo {
   text-decoration: none;
   margin: 2px 0px;
 }
-#topmessages > p > a.alert {
+#tab_messages > p > a.alert {
   background-position: -16px;
   animation: pulse 0.8s;
   animation-direction: alternate;
@@ -376,133 +365,10 @@ div.reginfo {
   40% { opacity: 0.4 }
   100% { transform: rotate(2deg); box-shadow: 0px 0px 2px 0px #bacef9; opacity: 0.4 }
 } 
-#languages a {
-  background-repeat: no-repeat;
-  background-position: 8px 10px;
-  display: block;
-  padding: 10px 10px 10px 30px;
-  color: white;
-  font-size: 11px;
-  line-height: 11px;
-}
-#languages li.selected a {
-  background-color: #464646;
-}
-#languages a:hover {
-  background-color: #4d4d4d;
-  text-decoration: none;
-}
-#languages li:last-child a:hover {
-  border-radius: 0 0 5px 5px;
-}
-.header #languages .topdrop {
-  list-style-type: none;
-}
-.header #topdrops > li > p {
-  display: block;
-  border-radius: 0 0 5px 5px;
-  background: #333333 right 6px center;
-  margin: 0;
-  padding: 5px 10px 7px 10px;
-  margin-bottom:7px;
-}
-.header #topdrops p {
-  cursor: default;
-  margin: 1px 0px;
-  font-family: "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
-}
-.header #toplogin p {
-  margin: 1px 0px 3px 72px;
-}
-#toplogin .topdrop {
-  width: 220px;
-  border-radius: 5px 0px 5px 5px;
-  margin-left: -20px;
-}
-#toplogin-alternate {
-  display: inline-block;
-  padding: 10px 10px 0px;
-}
-#toplogin p {
-  margin-top: 0;
-  font-size: 14px;
-}
-#toplogin label {
-  margin-top: 12px;
-  margin-bottom: 3px;
-  display: block;
-}
-#toplogin input {
-  display: inline-block;
-}
-#toplogin form {
-  display: inline;
-}
-.login{
-  padding: 40px;
-  text-align:center;
-  width:80%
-}
-#topdrops p a {
-  color: white;
-  font-size: 90%;
-}
-.topdrop p {
-  font-size: 15px !important;
-}
-.topdrop .button {
-  font-size: 14px;
-  margin-top: 12px;
-  width: 100px;
-  padding: 3px;
-  float: left;
-}
-.topdrop .button:first-child {
-  float: right;
-}
-#toplogin-username, #toplogin-password {
-  width: 208px;
-  font-size: 14px;
-  padding: 3px;
-}
-#toplogin-alternate span {
-  display: block;
-  float: left;
-  margin: 10px 0;
-  font-size: 12px;
-}
-#toplogin-alternate a {
-  display: block;
-  float: left;
-  width: 24px;
-  height: 24px;
-  margin-left: 15px;
-  background-image: url(../images/login-sprite.png);
-}
-#toplogin-alternate #toplogin-google {
-  clear: left;
-  margin-left: 0;
-}
-#toplogin-alternate #toplogin-facebook {
-  background-position: -24px;
-}
-#toplogin-alternate #toplogin-twitter {
-  background-position: -48px;
-}
-#toplogin-alternate #toplogin-yahoo {
-  background-position: -72px;
-}
-#toplogin-alternate #toplogin-live {
-  background-position: -96px;
-}
-#toplogin-alternate #toplogin-wordpress {
-  background-position: -120px;
-}
 #cleartop {
   height: 110px;
 }
 #header-right {
-  float: right;
   position:relative !important;
 }
 /* navigation */
@@ -1248,7 +1114,9 @@ div.tooltip {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 1px 2px rgba(0, 0, 0, 0.05);
   margin-right: 5px;
 }
-
+.btn:hover {
+  text-decoration: none;
+}
 .btn-primary {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);

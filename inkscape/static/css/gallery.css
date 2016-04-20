@@ -1,6 +1,5 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright 2013, Martin Owens <doctormo@gmail.com> */
 
-
 .galleryitem {
   display: inline-block;
   padding: 4px;
@@ -15,25 +14,17 @@
   border: 2px solid #cce;
   background-color: #eef;
 } 
-.galleryitem a.link img,
-.bioitem a.link img {
+.galleryitem a.link img {
   max-width: 150px;
   max-height: 150px;
   vertical-align: middle;
   display: inline-block;
 }
-.galleryitem a.link,
-.bioitem a.link {
+.galleryitem a.link {
   min-width: 150px;
   min-height: 150px;
   display: block;
   line-height: 147px;
-}
-.bioitem a.link {
-  padding: 14px;
-}
-.bioitem a.link img {
-  border-radius: 5px;
 }
 .galleryitem .label {
   max-width: 150px;
@@ -71,43 +62,6 @@
   margin: 23px 0px;
   width: 130px;
 }
-table.bioitem {
-  border-collapse: collapse;
-  border: solid #cce 2px;
-  margin: 5px;
-  padding: 6px;
-  min-width: 162px;
-  text-align: center;
-  vertical-align: middle;
-  width: 100%;
-}
-table.bioitem td {
-  padding: 0px;
-}
-table.bioitem td.img {
-  background-color: #334;
-  width: 0px;
-  padding: 0px;
-}
-table.bioitem p {
-  text-align: left;
-  margin: 0px;
-  height: 100%;
-}
-table.bioitem p.bio {
-  margin: 5px 3px;
-  padding: 0px 10px;
-  min-height: 134px;
-}
-table.bioitem p a {
-  background-color: #eef;
-  display: block;
-  margin: 0px;
-  padding: 6px 3px 6px 12px;
-  font-size: 18px;
-  color: #157;
-}
-
 .galleryitem div.link input {
   max-width: 150px;
   max-height: 150px;

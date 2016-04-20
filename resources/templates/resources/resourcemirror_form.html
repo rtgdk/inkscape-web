@@ -7,7 +7,6 @@
 
 <p>{% trans "Thank you for volunteering to join the Inkscape mirror pool. Each mirror will be made available to users downloading large files from Inkscape's website depending on their hosting capacity." %}</p>
 
-<div class="item">
  <form method="post">
   {% csrf_token %}
 
@@ -25,6 +24,5 @@
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
   </div>
  </form>
-</div>
 {% endblock %}
 

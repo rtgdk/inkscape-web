@@ -1,4 +1,6 @@
-{% load static %}
+{% load static sekizai_tags %}
+
+{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static "css/bio.css" %}"/>{% endaddtoblock %}
 
 <div class="photos"/>
 {% for user in users %}

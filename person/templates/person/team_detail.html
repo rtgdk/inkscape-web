@@ -3,6 +3,9 @@
 {% load static pagination_tags %}
 
 {% block title %}{{ object.name }}{% endblock %} 
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
+{% endblock %}
 
 {% block "profile" %}
   <img id="photo" src="{{ object.icon.url }}"/>

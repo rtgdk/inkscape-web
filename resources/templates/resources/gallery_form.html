@@ -5,8 +5,6 @@
 
 <h1>{% block title %}{% trans "Edit InkSpace" %}{% endblock %}</h1>
 
-<div class="item">
-
  <form method="post">
   {% csrf_token %}
 
@@ -26,6 +24,5 @@
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
   </div>
  </form>
-</div>
 {% endblock %}
 

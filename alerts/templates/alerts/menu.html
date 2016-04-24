@@ -1,8 +1,16 @@
 {% load i18n static %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="tab_messages" class="dropdown">
-  <p><a id="alerts" href="{% url "alerts" %}" style="line-height: 2px;">&nbsp;</a></p>
-  <div id="alert_bucket" data-url="{% url "alerts.json" %}" data-sound="{% static "warp.wav" %}" style="width: 150px;">
+  <p><a id="alerts" style="line-height: 2px;">&nbsp;</a></p>
+  <div style="width: 150px;">
+    <p>
+      <a id='new_messages' href="{% url "alerts" %}">{% trans "Messages" %}
+        <span id="alert_bucket" data-url="{% url "alerts.json" %}" 
+        data-sound="{% static "warp.wav" %}" 
+        data-trans="{% trans "(%(some_number)s new)" %}"></span>
+      </a>
+      <a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a>
+    </p>
     <script type="text/javascript">
     $(document).ready(function() {
       var originalTitle = document.title;
@@ -23,9 +31,7 @@
           if(data.new == null) {
             data.new = [];
           }
-          bucket.append($("<p><a id='new_messages' href='"
-              + alerts.attr('href') + "'>"
-              + data.new.length + " New Message(s)</a></p>"));
+          bucket.append(" " + bucket.data('trans').replace("%(some_number)s", data.new.length));
 
           if(data.new.length > 0) {
             /* Yes I have unread messages */

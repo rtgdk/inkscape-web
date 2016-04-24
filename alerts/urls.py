@@ -28,7 +28,6 @@ from person.urls import USER_URLS
 USER_URLS.url_patterns.extend([
   # Example message system
   url(r'^/message/$',                CreateMessage(),name="message.new"),
-  url(r'^/sent/$',                   SentMessages(), name="message.sent"),
 ])
 
 urlpatterns = patterns('',
@@ -41,6 +40,7 @@ urlpatterns = patterns('',
 
   url(r'^$',                         AlertList(),    name="alerts"),
   url(r'^json/$',                    AlertsJson(),   name="alerts.json"),
+  url(r'^sent/$',                    SentMessages(), name="message.sent"),
   url_tree(r'^(?P<slug>[^\/]+)/',
     url(r'^$',                       AlertList(),    name="alert.category"),
     url_tree(r'subscribe/',

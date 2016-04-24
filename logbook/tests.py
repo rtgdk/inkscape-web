@@ -29,11 +29,29 @@ from datetime import date
 from logbook.asserting import TestCase, BaseCase, override_settings
 from logbook.models import LogName, LogMetric, LogRequest, LogValue, LogPeriod
 from logbook.analysis import process_results
-from logbook.parser import parse_logs, AGENT_CACHE
+from logbook.parser import parse_logs, AGENT_CACHE, user_agents
 from logbook.settings import get_setting
 
 WIND = 'download/windows'
 LINX = 'download/linux'
+
+if not user_agents:
+    # The user_agents module isn't available, so we'll add some cached values
+    AGENT_CACHE[-7985492147856592190] = []
+    AGENT_CACHE[2307330943812977727] = [('os', ('Windows', '10')), ('browser', ('Chrome', '47'))]
+    AGENT_CACHE[8387961549586277991] = [('os', ('Android', '5.1')), ('browser', ('Chrome', '38M')), ('device', ('Samsung', 'SM-N920C'))]
+    AGENT_CACHE[8991742294718112177] = [('os', ('Linux', 'Ubuntu')), ('browser', ('Firefox', '43'))]
+    AGENT_CACHE[-3331878396053352693] = [('os', ('Linux', 'Ubuntu')), ('browser', ('Firefox', '42'))]
+    AGENT_CACHE[2653303025075231619] = [('browser', ('Bot', 'Baiduspider'))]
+    AGENT_CACHE[-126096650150825800] = [('browser', ('Bot', 'bingbot'))]
+    AGENT_CACHE[240407478013959810] = [('browser', ('Bot', 'Googlebot'))]
+    AGENT_CACHE[-3775843684641215841] = [('os', ('Linux', '3.13')), ('browser', ('Bot', 'Python Requests'))]
+    AGENT_CACHE[-3023881853768432087] = [('browser', ('Bot', 'Apache-HttpClient'))]
+    AGENT_CACHE[-2671430300838129903] = [('browser', ('Bot', 'ZEEFscraper'))]
+    AGENT_CACHE[-5685902084964927210] = [('browser', ('Bot', 'Sogou web spider'))]
+    AGENT_CACHE[-421933450344972659] = [('browser', ('Bot', 'Googlebot-Image'))]
+    AGENT_CACHE[3948824748557086037] = [] #('browser', ('Bot', 'Feedbin'))]
+
 
 @override_settings(LOGBOOK_TEST="Foo")
 class SettingsTest(TestCase):
@@ -267,7 +285,7 @@ class ParsingTests(BaseCase):
         )
         self.assertObjects(LogValue.objects.filter(metric__name='browser'),
             ['name__family', 'name__name'],
-            ('Chrome ', '38M'),
+            ('Chrome', '38M'),
             ('Bot', 'Apache-HttpClient'),
             ('Bot', 'Baiduspider'),
             ('Bot', 'bingbot'),

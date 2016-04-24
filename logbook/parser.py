@@ -189,10 +189,14 @@ AGENT_CACHE = {}
 
 def get_agent(agent):
     """Use the user agent string to get browser and os"""
-    if user_agents and agent:
+    if agent:
         uid = hash(agent)
         if uid not in AGENT_CACHE:
-            AGENT_CACHE[uid] = list(agent_filter(parse_agent(agent)))
+            if not user_agents:
+                sys.stderr.write("Agent not parsed: %d=%s\n" % (uid, agent))
+                AGENT_CACHE[uid] = []
+            else:
+                AGENT_CACHE[uid] = list(agent_filter(parse_agent(agent)))
         return AGENT_CACHE[uid]
     return []
 

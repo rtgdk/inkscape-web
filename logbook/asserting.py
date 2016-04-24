@@ -76,8 +76,10 @@ class BaseCase(TestCase):
                 (a, b) = (b, a)
             elif len(a) == len(b):
                 return []
-            scope = range(len(b), len(a))
-            return "\n".join([", ".join(item(a[i])) for i in scope])
+            msg = ''
+            for diff in set(a) ^ set(b):
+                msg += " %s %s\n" % ('+-'[diff in a], str(diff))
+            return msg
 
         self.assertEqual(len(expected), len(got),
                 "Expected %d rows, got %d rows:\n%s" % (

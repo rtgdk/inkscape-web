@@ -26,12 +26,11 @@ from django.utils import timezone
 from datetime import timedelta
 
 from django.test import TestCase
-from django.contrib.auth.models import User
 
 from cmsplugin_news.models import News
 
-from . import settings
-
+from django.contrib.auth import get_user_model
+from . import settings as news_settings
 
 class NewsTest(TestCase):
     urls = 'cmsplugin_news.urls'
@@ -40,7 +39,7 @@ class NewsTest(TestCase):
         self.today = timezone.now()
         self.yesterday = self.today - timedelta(days=1)
         self.tomorrow = self.today + timedelta(days=1)
-        self.user = User(username='testuser')
+        self.user = get_user_model()(username='testuser')
         self.user.save()
         News.published.select_language('en')
 
@@ -86,7 +85,7 @@ class NewsTest(TestCase):
         future_published.save()
         self.assertEquals(News.published.count(), 0)
 
-    def test_language(self):
+    def _test_language(self):
         """Test translations of articles"""
         item = News.objects.create(
             title='Original Language',
@@ -135,8 +134,8 @@ class NewsTest(TestCase):
         USE_LINK_ON_EMPTY_CONTENT_ONLY as well as LINK_AS_ABSOLUTE_URL are
         enabled use this link as absolute url for the item.
         """
-        settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
-        settings.LINK_AS_ABSOLUTE_URL = True
+        news_settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
+        news_settings.LINK_AS_ABSOLUTE_URL = True
         item = News.objects.create(
             title='Future published News',
             slug='future-published-news',
@@ -152,8 +151,8 @@ class NewsTest(TestCase):
         Same as above, but this time the news item actually has a content
         and should therefor not use the provided link.
         """
-        settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
-        settings.LINK_AS_ABSOLUTE_URL = True
+        news_settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
+        news_settings.LINK_AS_ABSOLUTE_URL = True
         item = News.objects.create(
             title='Future published News',
             slug='future-published-news',

@@ -273,12 +273,6 @@ class Resource(Model):
         return len(self.desc) > 1000 or '[[...]]' in self.desc
 
     def save(self, **kwargs):
-        if self.has_file_changed():
-            self.edited = now()
-            delattr(self, '_mime')
-            self.media_type = self.find_media_type()
-            (self.media_x, self.media_y) = self.find_media_coords()
-
         signal = False
         if not self.created and self.published:
             self.created = now()
@@ -292,9 +286,6 @@ class Resource(Model):
             post_publish.send(sender=Resource, instance=self)
 
         return ret
-
-    def has_file_changed(self):
-        return False
 
     def find_media_type(self):
         # We don't know how to find it for links yet.
@@ -421,14 +412,24 @@ class ResourceFile(Resource):
     ENDORSE_AUTH = 10
 
     def save(self, *args, **kwargs):
-        if self.download and self.has_file_changed():
+        if self.download and not self.download._committed:
+            if self.pk:
+                ResourceRevision.from_resource(self)
             # We might be able to detect that the download has changed here.
             if self.mime().is_raster():
                 self.thumbnail.save(self.download.name, self.download, save=False)
             elif self.thumbnail:
                 self.thumbnail = None
-        if self.has_file_changed() or (self.signature and not self.signature._committed):
+
             self.verified = False
+            self.edited = now()
+            delattr(self, '_mime')
+            self.media_type = self.find_media_type()
+            (self.media_x, self.media_y) = self.find_media_coords()
+
+        elif self.signature and not self.signature._committed:
+            self.verified = False
+
         Resource.save(self, *args, **kwargs)
 
     def filename(self):
@@ -460,9 +461,6 @@ class ResourceFile(Resource):
 
     def is_available(self):
         return os.path.exists(self.download.path)
-
-    def has_file_changed(self):
-        return not self.download._committed
 
     def find_media_type(self):
         """Returns the media type of the downloadable file"""
@@ -513,6 +511,32 @@ class ResourceFile(Resource):
         return "Not text!"
 
 
+class ResourceRevision(Model):
+    """When a resource gets edited and the file is changed, the old file ends up here."""
+    resource   = ForeignKey(ResourceFile, related_name='revisions')
+    download   = FileField(_('Consumable File'), **upto('file', blank=False))
+    signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
+    created    = DateTimeField(auto_now=True)
+    version    = IntegerField(default=0)
+
+    def __str__(self):
+        return "Version %d" % self.version
+
+    def save(self, commit=True, **kw):
+        if not self.pk:
+            self.version = ResourceRevision.objects.filter(resource_id=self.resource.pk).count() + 1
+        super(ResourceRevision, self).save(**kw)
+
+    @classmethod
+    def from_resource(cls, resource):
+        kw = ResourceFile.objects.filter(pk=resource.pk).values('download', 'signature')[0]
+        if kw['download'] != resource.download.name:
+            kw['resource'] = resource
+            obj = cls(**kw)
+            obj.save()
+            return obj
+
+
 class MirrorManager(Manager):
     def select_mirror(self, update=None):
         """Selects the next best mirror randomly from the mirror pool"""
@@ -529,7 +553,6 @@ class MirrorManager(Manager):
                 return mirror
             upto += mirror.capacity
         return None
-
 
 
 class ResourceMirror(Model):

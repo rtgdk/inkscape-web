@@ -26,7 +26,9 @@ Base TestCase for Resource and Gallery Tests.
 # pylint: disable=invalid-name
 __unittest = True
 
+import os
 import types
+import shutil
 import haystack
 
 from os.path import dirname, join, abspath
@@ -55,7 +57,7 @@ TEST_INDEX = {
 }
 
 DIR = dirname(__file__)
-MEDIA = abspath(join(DIR, '..', 'fixtures', 'media'))
+MEDIA = settings.MEDIA_ROOT.rstrip('/') + '_test'
 
 @override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX, MEDIA_ROOT=MEDIA)
 class BaseCase(TestCase):
@@ -114,8 +116,21 @@ class BaseCase(TestCase):
 
     def assertPost(self, *arg, **kw):
         "Make a generic POST request with the best options"
+        errs = kw.pop('form_errors', None)
         kw['method'] = self.client.post
-        return self.assertGet(*arg, **kw)
+        response = self.assertGet(*arg, **kw)
+
+        if errs:
+            for (field, msg) in errs.items():
+                self.assertFormError(response, 'form', field, msg)
+        elif response.context and 'form' in response.context:
+            form = response.context['form']
+            if 'status' in kw and kw['status'] == 200 and form:
+                msg = ''
+                for field in form.errors:
+                    msg += "%s: %s\n" % (field, ','.join(form.errors[field]))
+                self.assertFalse(bool(form.errors), msg)
+        return response
 
     def set_session_cookies(self):
         """Set session data regardless of being authenticated"""
@@ -144,11 +159,20 @@ class BaseCase(TestCase):
         super(TestCase, self).setUp()
         self.client = Client()
 
+        media = os.path.join(MEDIA, 'test')
+        if not os.path.isdir(media):
+            os.makedirs(media)
+        source = os.path.join(DIR, '..', 'fixtures', 'media', 'test')
+        for fname in os.listdir(source):
+            target = os.path.join(media, fname)
+            if not os.path.isfile(target):
+                shutil.copy(os.path.join(source, fname), target)
+
         haystack.connections.reload('default')
         call_command('rebuild_index', interactive=False, verbosity=0)
 
-        self.download = self.open('../fixtures/media/test/file5.svg')
-        self.thumbnail = self.open('../fixtures/media/test/preview5.png')
+        self.download = self.open(os.path.join(source, 'file5.svg'))
+        self.thumbnail = self.open(os.path.join(source, 'preview5.png'))
         self.data = {
           'download': self.download,
           'thumbnail': self.thumbnail,

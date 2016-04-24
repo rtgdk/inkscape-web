@@ -72,8 +72,12 @@ def errors(request):
 
 def error(request, **c):
     error = c['error']
-    response = render_to_response('error/%s.html' % error, c,
-        context_instance=RequestContext(request))
+    context = RequestContext(request)
+    try:
+        response = render_to_response('error/%s.html' % error, c, context_instance=context)
+    except:
+        response = render_to_response('error/error.html', c, context_instance=context)
+
     if not settings.DEBUG or error != '404':
         try:
             ErrorLog.objects.get_or_create(uri=request.get_full_path(), status=int(error))[0].add()

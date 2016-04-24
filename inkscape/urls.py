@@ -49,7 +49,7 @@ urlpatterns += i18n_patterns('inkscape.views',
 
     url(r'^admin/lookups/', include('ajax_select.urls')),
     url(r'^admin/',     include(admin.site.urls)),
-    url(r'^tr/',        include('cmsrosetta.urls')),
+    #url(r'^tr/',        include('cmsrosetta.urls')),
     url(r'^doc/',       include('docs.urls')),
     url(r'^projects/',   include('projects.urls')),
     url(r'^release/',   include('releases.urls')),

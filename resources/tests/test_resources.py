@@ -277,11 +277,11 @@ class ResourceUserTests(BaseUserCase):
         self.assertEqual(ResourceFile.objects.count(), num + 1)
         self.assertContains(response, "foofoo")
         
-        response = self.assertPost('pastebin', data=shortdata, status=200)
+        response = self.assertPost('pastebin', data=shortdata, form_errors={
+              'download': 'Text is too small for the pastebin.',
+            })
         self.assertEqual(ResourceFile.objects.count(), num + 1)
         self.assertContains(response, "blahblah")
-        self.assertIsInstance(response.context['form'], ResourcePasteForm)
-        self.assertFormError(response, 'form', 'download', 'Text is too small for the pastebin.')
 
     def test_submit_gallery_failure(self):
         """Test when no permission to submit exists"""
@@ -362,11 +362,9 @@ class ResourceUserTests(BaseUserCase):
 
         num = ResourceFile.objects.count()
         
-        response = self.assertPost('resource.upload', data=self.data, status=200)
-        self.assertIsInstance(response.context['form'], ResourceFileForm)
-        self.assertFormError(response, 'form', 'license',
-            'This is not an acceptable license for this category, '
-            'Acceptable licenses:\n * Public Domain (PD)')
+        response = self.assertPost('resource.upload', data=self.data, form_errors={
+            'license': 'This is not an acceptable license for this category, '
+                       'Acceptable licenses:\n * Public Domain (PD)'})
         self.assertEqual(ResourceFile.objects.count(), num)
     
     # Resource Like tests:
@@ -521,7 +519,12 @@ class ResourceUserTests(BaseUserCase):
         self.assertContains(response, resource.name)
         
         # check POST
-        response = self.assertPost('edit_resource', pk=resource.pk, status=200)
+        data = {
+            'name': 'New Name',
+            'license': 1,
+            'media_type': 'text/css',
+        }
+        response = self.assertPost('edit_resource', pk=resource.pk, data=data, status=200)
 
     def test_edit_item_being_the_owner(self):
         """Test if we can edit an item which belongs to us"""
@@ -537,7 +540,7 @@ class ResourceUserTests(BaseUserCase):
         self.assertContains(response, resource.name)
 
         # check POST
-        response = self.assertPost('edit_resource', pk=resource.pk, status=200)
+        response = self.assertPost('edit_resource', pk=resource.pk, data={})
       
     def test_edit_item_by_other_user(self):
         """Check that we can't access the edit form for other people's items"""
@@ -584,6 +587,35 @@ class ResourceUserTests(BaseUserCase):
         self.assertPost('delete_resource', pk=resource.pk, status=403)
         
         self.assertEqual(resource, ResourceFile.objects.get(pk=resource.pk))
+
+
+    def test_no_revision_on_create(self):
+        """We don't get a revision with a new resource"""
+        self.assertPost('resource.drop', data={
+          'name': "my_resource",
+          'download': self.download,
+        }, status=200)
+        resource = ResourceFile.objects.get(name='my_resource')
+        self.assertEqual(resource.revisions.count(), 0)
+
+    def test_no_revision_on_edit(self):
+        """We don't get a revision with a no-file edit"""
+        resource = self.getObj(ResourceFile, user=self.user, category=3)
+        data = self.data.copy()
+        data.pop('download')
+        data['name'] = 'updated'
+        response = self.assertPost('edit_resource', pk=resource.pk, data=data, status=200)
+        resource = ResourceFile.objects.get(pk=resource.pk)
+        self.assertEqual(resource.name, 'updated')
+        self.assertEqual(resource.revisions.count(), 0)
+
+    def test_new_revision_on_save(self):
+        """We do get a revision with a file edit"""
+        resource = self.getObj(ResourceFile, user=self.user, category=3)
+        self.assertPost('edit_resource', pk=resource.pk, data=self.data, status=200)
+        resource = ResourceFile.objects.get(pk=resource.pk)
+        self.assertEqual(resource.name, 'Test Resource Title')
+        self.assertEqual(resource.revisions.count(), 1)
 
 
 class ResourceAnonTests(BaseAnonCase):

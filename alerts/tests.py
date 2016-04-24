@@ -67,10 +67,10 @@ class AlertUserTests(BaseUserCase):
         self.assertEqual(user.alerts.count(), 3)
 
     def test_subscribe_class(self):
-        response = self._get('alert.subscribe', slug=self.alert_type)
+        response = self.assertGet('alert.subscribe', slug=self.alert_type)
         self.assertContains(response, "Subscribe to All Personal Message")
 
-        response = self._post('alert.subscribe', slug=self.alert_type)
+        response = self.assertPost('alert.subscribe', slug=self.alert_type)
         self.assertContains(response, "Subscription created")
 
         self.assertTrue(hasattr(Message, 'subscriptions'))
@@ -84,10 +84,10 @@ class AlertUserTests(BaseUserCase):
         self.assertEqual(Message.objects.get(pk=1).subscriptions.count(), 0)
 
     def test_subscribe_item(self):
-        response = self._get('alert.subscribe', slug=self.alert_type, pk=1)
+        response = self.assertGet('alert.subscribe', slug=self.alert_type, pk=1)
         self.assertContains(response, "Subscribe to Message from Testing Staff to Testing User")
 
-        response = self._post('alert.subscribe', slug=self.alert_type, pk=1)
+        response = self.assertPost('alert.subscribe', slug=self.alert_type, pk=1)
         self.assertContains(response, "Subscription created")
 
         self.assertTrue(hasattr(Message, 'subscriptions'))
@@ -113,13 +113,13 @@ class AlertUserTests(BaseUserCase):
         pass
 
     def test_list_alerts(self):
-        response = self._get('alert.category', slug='alerts.message_alert')
+        response = self.assertGet('alert.category', slug='alerts.message_alert')
         self.assertContains(response, '"')
         self.assertContains(response, 'id="alert_')
         # Test does not contains different alert type (test alert type?)
 
     def test_list_all_alerts(self):
-        response = self._get('alerts')
+        response = self.assertGet('alerts')
         self.assertContains(response, 'Subject One')
         self.assertContains(response, 'Subject Two')
         self.assertContains(response, 'Subject Three')

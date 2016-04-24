@@ -162,6 +162,8 @@ class NewsTest(TestCase):
             link='http://lala.com/',
             creator=self.user,
         )
+        # XXX This get_absolute_url fails because the url namespaces aren't loaded
+        # yet and I wonder if this is something to do with testing urls.
         self.assertNotEquals('http://lala.com/', item.get_absolute_url())
 
 

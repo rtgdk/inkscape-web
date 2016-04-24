@@ -132,7 +132,7 @@ MIDDLEWARE_CLASSES = (
     'cms.middleware.toolbar.ToolbarMiddleware',
     'cmsdiff.middleware.CommentMiddleware',
     'cmsdiff.middleware.ObjectToolbarMiddleware',
-    'pagination.middleware.PaginationMiddleware',
+    'linaro_django_pagination.middleware.PaginationMiddleware',
     'person.middleware.SetLastVisitMiddleware',
 )
 
@@ -179,7 +179,7 @@ INSTALLED_APPS = (
     'cms',
     'menus',
     'sekizai',
-    'pagination',
+    'linaro_django_pagination',
     'djangocms_text_ckeditor',
     'djangocms_file',
     'djangocms_picture',

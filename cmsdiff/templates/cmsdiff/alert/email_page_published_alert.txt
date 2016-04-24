@@ -10,6 +10,6 @@
 
 {% trans "Overview of changes" %}:
 
-{{ revision.diff.comment }}
+{{ revision.comment }}
 
 {% blocktrans with link=revision.diff.get_absolute_url%}You can find the full diff at {{ site }}{{ link }}.{% endblocktrans %}

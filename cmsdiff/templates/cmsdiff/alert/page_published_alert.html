@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="body">
-  <div class="text"><p>{% trans "Overview of changes"%}:</p><p>{{ revision.diff.comment|linebreaks }}</p></div>
+  <div class="text"><p>{% trans "Overview of changes"%}:</p><p>{{ revision.comment|linebreaks }}</p></div>
 </div>
 <div class="footer">
    <div class="status">{{ language }} </div>

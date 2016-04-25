@@ -294,6 +294,7 @@ div.toc ol, #toc.right ol {
 }
 #tabs > li > p > a {
   color: white;
+  outline: 0;
 }
 #tabs > li > p > a:hover {
   text-decoration: none;
@@ -320,6 +321,7 @@ div.toc ol, #toc.right ol {
   display: block;
   padding: 6px 20px;
   color: white;
+  outline: 0;
 }
 #tabs > li.dropdown > div > p > a:hover,
 #tabs > li.dropdown > div > p > a.selected {

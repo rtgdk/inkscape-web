@@ -308,7 +308,7 @@ div.toc ol, #toc.right ol {
 #tabs > li.dropdown:hover > div,
 #tabs > li.dropdown.focused > div {
   display: block;
-  box-shadow: 0px 9px 7px #111;
+  box-shadow: 0px 7px 7px rgba(17, 17, 17, 0.5);
 }
 #tabs > li.dropdown > div > p {
   margin: 0px;

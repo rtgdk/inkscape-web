@@ -164,7 +164,9 @@
         {% url "resources" username=object.username as yourinkspacelink %}
         <div class="galleryitem nothing">
            <p>{% trans "No uploads yet?" %}</p>
-           <p>{% blocktrans %}Visit <a href="{{ yourinkspacelink }}">your Inkspace</a> and create a gallery to start sharing your work with other Inkscape users!{% endblocktrans %}</p>
+           <p>{% blocktrans trimmed %}Visit <a href="{{ yourinkspacelink }}">your InkSpace</a> and 
+           create a gallery to start sharing your artwork, tutorials, extensions and everything 
+           else related to Inkscape with other Inkscape users!{% endblocktrans %}</p>
         </div>
       {% endif %}
     {% endif %}
@@ -191,4 +193,3 @@
     {% endif %}
   </div>
 {% endblock %}
-

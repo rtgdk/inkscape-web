@@ -81,7 +81,7 @@
 
       {% if object.license %}
         <a class="license" href="{{ object.license.link }}">
-          <img src="{{ object.license.icon.url }}" alt="{{ object.license }}" title="{% if object.owner %}Copyright © {{ object.years }} {{ object.user.name }}{% endif %}{{ object.license }}"/>
+          <img src="{{ object.license.icon.url }}" alt="{{ object.license }}" title="{% if object.owner %}Copyright © {{ object.years }} {{ object.user.name }}{% endif %} {{ object.license }}"/>
         </a>
       {% endif %}
 

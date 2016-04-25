@@ -7,7 +7,8 @@
       <a id='new_messages' href="{% url "alerts" %}">{% trans "Messages" %}
         <span id="alert_bucket" data-url="{% url "alerts.json" %}" 
         data-sound="{% static "warp.wav" %}" 
-        data-trans="{% trans "(%(some_number)s new)" %}"></span>
+        {% comment %}Translators: Leave SOME_NUMBER intact, this is for the number of new messages{% endcomment %}
+        data-trans="{% trans "(SOME_NUMBER new)" %}"></span>
       </a>
       <a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a>
     </p>
@@ -31,7 +32,7 @@
           if(data.new == null) {
             data.new = [];
           }
-          bucket.append(" " + bucket.data('trans').replace("%(some_number)s", data.new.length));
+          bucket.append(" " + bucket.data('trans').replace("SOME_NUMBER", data.new.length));
 
           if(data.new.length > 0) {
             /* Yes I have unread messages */

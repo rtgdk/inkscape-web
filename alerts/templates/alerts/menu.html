@@ -10,8 +10,8 @@
         {% comment %}Translators: Leave SOME_NUMBER intact, this is for the number of new messages{% endcomment %}
         data-trans="{% trans "(SOME_NUMBER new)" %}"></span>
       </a>
-      <a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a>
     </p>
+    <p><a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a></p>
     <script type="text/javascript">
     $(document).ready(function() {
       var originalTitle = document.title;

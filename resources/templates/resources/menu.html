@@ -1,0 +1,11 @@
+{% load i18n static %}
+<!--This needs to be replaced by a simple single ajax request instead-->
+<li id="tab_resources" class="dropdown">
+  <p><a id="resources" style="line-height: 2px;">&nbsp;</a></p>
+  <div style="width: 200px;">
+    <p><a id='new_upload' href="{% url "resource.upload" %}">{% trans "Upload Art or Resource" %}</a></p>
+    <p><a id='new_paste' href="{% url "pastebin" %}">{% trans "New PasteBin" %}</a></p>
+    <hr/>
+    <p><a id='all_galleries' href="{% url "resources" username=request.user.username %}">My Galleries</a></p>
+  </div>
+</li>

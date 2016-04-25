@@ -346,13 +346,17 @@ div.toc ol, #toc.right ol {
   margin: 9px auto;
   font-size: 0px;
 }
-#tab_messages > p > a {
+#tab_messages > p > a,
+#tab_resources > p > a{
   display: block;
   width: 16px;
   height: 12px;
   background: url(../images/message.svg) 0 50% no-repeat;
   text-decoration: none;
   margin: 2px 0px;
+}
+#tab_resources > p > a {
+  background: url(../images/resource.svg) 0 50% no-repeat;
 }
 #tab_messages > p > a.alert {
   background-position: -16px;

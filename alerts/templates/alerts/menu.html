@@ -4,7 +4,7 @@
   <p><a id="alerts" style="line-height: 2px;">&nbsp;</a></p>
   <div style="width: 150px;">
     <p>
-      <a id='new_messages' href="{% url "alerts" %}">{% trans "Messages" %}
+      <a id='new_messages' href="{% url "alerts" %}">{% trans "Inbox" %}
         <span id="alert_bucket" data-url="{% url "alerts.json" %}" 
         data-sound="{% static "warp.wav" %}" 
         {% comment %}Translators: Leave SOME_NUMBER intact, this is for the number of new messages{% endcomment %}
@@ -12,6 +12,8 @@
       </a>
     </p>
     <p><a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a></p>
+    <hr/>
+    <p><a href="{% url "alert.settings" %}">{% trans "Message Settings" %}</a></p>
     <script type="text/javascript">
     $(document).ready(function() {
       var originalTitle = document.title;

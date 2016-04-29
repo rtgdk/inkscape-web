@@ -25,6 +25,7 @@
   min-height: 150px;
   display: block;
   line-height: 147px;
+  outline: none;
 }
 .galleryitem .label {
   max-width: 150px;
@@ -50,12 +51,14 @@
 .galleryitem .label a {
   color: #035;
   display: block;
+  outline: none;
 }
 .galleryitem .label a:hover {
   text-decoration: none;
 }
 .galleryitem p.new a {
   background-color: #efe;
+  outline: none;
 }
 .galleryitem progress {
   height: 15px;

@@ -84,7 +84,8 @@ class TrackCacheMiddleware(object):
         We process the response, looking for the cached key
         """
         if not getattr(request, '_cache_update_cache', False) \
-            or request.method not in ('GET', 'HEAD'):
+              or not request.method in ('GET', 'HEAD') \
+              or not hasattr(response, 'context_data'):
             return response
 
         cache_key = get_cache_key(request, self.key_prefix, 'GET', cache=self.cache)

@@ -125,7 +125,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.contrib.redirects.middleware.RedirectFallbackMiddleware',
     'social.apps.django_app.middleware.SocialAuthExceptionMiddleware',
-    'inkscape.middleware.CsrfWhenCaching',
     'cms.middleware.language.LanguageCookieMiddleware',
     'cms.middleware.page.CurrentPageMiddleware',
     'cms.middleware.user.CurrentUserMiddleware',
@@ -141,6 +140,7 @@ MIDDLEWARE_CLASSES = (
 if ENABLE_CACHING:
     # Caching Middleware caches whole pages, can cause issues
     MIDDLEWARE_CLASSES = \
+      ('inkscape.middleware.TrackCacheMiddleware',) + \
       ('django.middleware.cache.UpdateCacheMiddleware',) + \
       MIDDLEWARE_CLASSES + \
       ('django.middleware.cache.FetchFromCacheMiddleware',)

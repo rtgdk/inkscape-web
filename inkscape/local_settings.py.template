@@ -22,6 +22,14 @@ DATABASES = {
     },
 }
 
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': '127.0.0.1:11211',
+        'TIMEOUT': 3600, # One hour
+    }
+}
+
 # This IRC setting is auto eaten by easyirc, so it's kinda sad
 # the name is so generic. Oh well.
 CONNECTIONS = [

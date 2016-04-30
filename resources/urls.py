@@ -27,22 +27,23 @@ def url_tree(regex, *urls):
 
 from person.urls import USER_URLS, TEAM_URLS
 
-RESOURCE_PATTERNS = [
-  url(r'^$',                           ResourceList(), name='resources'),
-  url(r'^pick/$',                      ResourcePick(), name='resources_pick'),
-  url(r'^rss/$',                       ResourceFeed(), name='resources_rss'),
-  url(r'^=(?P<category>[^\/]+)/$',     ResourceList(), name='resources'),
-  url(r'^=(?P<category>[^\/]+)/rss/$', ResourceFeed(), name='resources_rss'),
-]
+def resource_search(rl=ResourceList, rf=ResourceFeed, rp=ResourcePick):
+    """Generate standard url patterns for resource listing"""
+    return [
+      url(r'^$',                           rl(), name='resources'),
+      url(r'^pick/$',                      rp(), name='resources_pick'),
+      url(r'^rss/$',                       rf(), name='resources_rss'),
+      url(r'^=(?P<category>[^\/]+)/$',     rl(), name='resources'),
+      url(r'^=(?P<category>[^\/]+)/rss/$', rf(), name='resources_rss'),
+    ]
 
 owner_patterns = [
-  url_tree(r'^/galleries/',
-    url(r'^$',                         GalleryList(), name='galleries'),
-    url(r'(?P<gallery_id>\d+)/$',      GalleryView(), name='gallery'),
-  ),
+  url(r'^/galleries/$', GalleryList(), name='galleries'),
   url_tree(r'^/gallery/',
-    *(RESOURCE_PATTERNS + [
-        url_tree(r'^(?P<galleries>[^\/]+)/', *RESOURCE_PATTERNS)
+    *(resource_search() + [
+      url_tree(r'^(?P<galleries>[^\/]+)/',
+        *resource_search(rl=GalleryView)
+      )
     ])
   ),
   # Try a utf-8 url, see if it breaks web browsers.
@@ -56,11 +57,11 @@ urlpatterns = patterns('',
   url(r'^paste/(?P<pk>\d+)/$',            ViewResource(),   name='pasted_item'),
 
   url_tree('^mirror/',
-    url(r'^$',                            mirror_resources, name='mirror'),
+    url(r'^$',                            MirrorIndex(),    name='mirror'),
     url(r'^add/$',                        MirrorAdd(),      name='mirror.add'),
-    url_tree(r'^(?P<uuid>[\w-]+)/',
-      url(r'^$',                          mirror_resources, name='mirror'),
-      url(r'^file/(?P<filename>[^\/]+)$', mirror_resource,  name="mirror.item"),
+    url_tree(r'^(?P<slug>[\w-]+)/',
+      url(r'^$',                          MirrorView(),     name='mirror'),
+      url(r'^file/(?P<filename>[^\/]+)$', MirrorResource(), name="mirror.item"),
     ),
   ),
 
@@ -75,7 +76,7 @@ urlpatterns = patterns('',
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
       url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
-      *RESOURCE_PATTERNS
+      *resource_search()
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',
@@ -90,7 +91,7 @@ urlpatterns = patterns('',
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
       url(r'^(?P<fn>[^\/]+)/?$', DownloadResource(),  name='download_resource'),
     ),
-    *RESOURCE_PATTERNS
+    *resource_search()
   ),
 )
 

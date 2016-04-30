@@ -1,0 +1,89 @@
+{% load i18n %}
+
+<html>
+  <head>
+    <title>{% trans "Inkscape Mirrors" %}</title>
+    <style>
+      body{margin:0;padding:20px;background:#FFFFFF;font-family:Ubuntu, Helvetica, sans-serif;font-size:15px;color:#555;}
+      a{text-decoration:underline;color:#FF2929;}
+      td,th {padding: 12px;}
+      th:first-child {text-align: left;}
+    </style>
+  </head>
+  <body>
+
+  {% block "header" %}
+    <h1>{% trans "Inkscape Download Mirrors" %}</h1>
+
+    <p>{% trans "Welcome to the mirrors resource page. This page is not meant for public consumption but as an overview of the mirrors available for Inkscape downloads." %}</p>
+
+     <table>
+      <tr>
+        <th>{% trans "Alive" %}</th>
+        <th>{% trans "Name" %}</th>
+        <th>{% trans "Last Sync" %}</th>
+        <th>{% trans "Last Check" %}</th>
+        <th>{% trans "Capacity" %}</th>
+      </tr>
+      {% for mirror in object_list %}
+        <tr>
+          <td title="HTTP:{{ mirror.chk_return }}">{% if mirror.chk_return == 200 %}{% trans "Online" %}{% else %}{% trans "Disabled" %}{% endif %}</td>
+          <td>
+            <a href="{{ mirror.url }}">{{ mirror.name }}</a>
+            {% if request.user.is_superuser or request.user == mirror.admin %}
+              [<a href="{% url "mirror" mirror.uuid %}">mirror page</a>]
+            {% endif %}
+          </td>
+          <td>{{ mirror.sync_time|date:"Y-m-d H:i:s" }} ({{ mirror.sync_count }} {% trans "times" %})</td>
+          <td>{{ mirror.chk_time|date:"Y-m-d H:i:s" }}</li>
+          <td>{{ mirror.capacity }}MB/s</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <hr/>
+  {% endblock %}
+
+  {% with object_list.model.resources as items %}
+    {% block "downloads" %}
+      <h2>{% trans "All Inkscape Downloads" %}</h2>
+
+      <table>
+        <tr>
+          <th>{% trans "Filename" %}</th>
+          <th>{% trans "Size" %}</th>
+          <th>{% trans "Last Modified" %}</th>
+          <th>{% trans "Signature" %}</th>
+          <th>{% trans "ReadMe" %}</th>
+        </tr>
+        {% for item in items %}
+          <tr>
+            {% if object %}
+              <td><a href="{% url "mirror.item" object.uuid item.filename %}">{{ item }}</a></td>
+            {% else %}
+              <td><a href="{{ item.download.url }}">{{ item }}</a></td>
+            {% endif %}
+            {% if item.download.is_valid %}
+              <td>{{ item.download.size|filesizeformat }}</td>
+            {% else %}
+              <td>{% trans "Missing File" %}</td>
+            {% endif %}
+            <td>{{ item.edited|date:"Y-m-d H:i:s" }}</td>
+            {% if item.signature %}
+              <td><a href="{{ item.signature.url }}">.sig</a></td>
+            {% else %}
+              <td>-</td>
+            {% endif %}
+            <td><a href="{% url "resource.readme" item.pk %}">readme.txt</a></td>
+          </tr>
+        {% endfor %}
+      </table>
+    <hr/>
+    {% endblock %}
+  {% endwith %}
+
+  {% block "footer" %}
+    <p>{% trans "Last Updated" %}: [N/A] (master index, do not mirror)</p>
+  {% endblock %}
+  </body>
+</html>
+

@@ -576,7 +576,12 @@ class ResourceMirror(Model):
         return self.url.split('/')[2]
 
     def get_absolute_url(self):
-        return reverse('mirror', kwargs={'uuid': self.uuid})
+        return reverse('mirror', kwargs={'slug': self.uuid})
+
+    @staticmethod
+    def resources():
+        """List of all mirrored resources"""
+        return ResourceFile.objects.filter(mirror=True)      
 
     def do_sync(self):
         self.sync_time = now()

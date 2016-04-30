@@ -63,9 +63,6 @@ class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
 class GalleryList(GalleryMixin, OwnerViewMixin, ListView):
     action = "All Resource Galleries"
 
-class GalleryView(GalleryMixin, OwnerViewMixin, DetailView):
-    pass
-
 class DeleteResource(OwnerUpdateMixin, DeleteView):
     model  = Resource
     action = "Delete Resource"
@@ -261,33 +258,30 @@ class DownloadResource(ViewResource):
         return redirect(item.download.url.replace('/media/', '/dl/'))
 
 
-def mirror_resources(request, uuid=None):
-    mirror = get_object_or_404(ResourceMirror, uuid=uuid) if uuid else None
-    c = {
-      'mirror'     : mirror,
-      'items'      : ResourceFile.objects.filter(mirror=True),
-      'now'        : now(),
-      'mirrors'    : ResourceMirror.objects.all(),
-    }
-    if mirror:
-        mirror.do_sync()
-    return render_to_response('resources/mirror.html', c,
-        context_instance=RequestContext(request))
+class MirrorIndex(ListView):
+    model = ResourceMirror
 
+class MirrorView(DetailView):
+    model = ResourceMirror
+    slug_field = 'uuid'
 
-def mirror_resource(request, uuid, filename):
-    mirror = get_object_or_404(ResourceMirror, uuid=uuid)
-    item = get_object_or_404(ResourceFile, download=os.path.join('resources', 'file', filename))
-    url = item.download.path
-    if not settings.DEBUG:
-        # Correct for nginx redirect
-        url =  '/get' + url[6:]
-    return sendfile(request, url, attachment=True)
+    def get(self, *args, **kw):
+        self.get_object().do_sync()
+        return super(MirrorView, self).get(*args, **kw)
 
-
+class MirrorResource(MirrorView):
+    def get(self, request, *args, **kw):
+        mirror = self.get_object()
+        path = os.path.join('resources', 'file', self.kwargs['filename'])
+        url = get_object_or_404(ResourceFile, download=path).download.path
+        if not settings.DEBUG:
+            # use nginx context-disposition on live
+            return redirect(url.replace('/media/', '/dl/'))
+        # Still use sendfile for local development
+        return sendfile(request, url, attachment=True)
 
 class MirrorAdd(CreateView):
-    model      = ResourceMirror
+    model = ResourceMirror
     form_class = MirrorAddForm
 
 
@@ -361,6 +355,11 @@ class ResourceList(CategoryListView):
                 data['action'] = "InkSpace"
                 break
         return data
+
+class GalleryView(ResourceList):
+    """Allow for a special version of the resource display for galleries"""
+    def get_template_names(self):
+        return ['resources/gallery_detail.html']
 
 class ResourcePick(ResourceList):
     def get_template_names(self):

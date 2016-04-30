@@ -1,0 +1,23 @@
+{% extends "resources/resourcemirror_list.html" %}
+{% load i18n %}
+
+{% block "title" %}{{ object.name }} - {% endblock %}
+
+{% block "header" %}
+  <h1>{{ object.name }}</h1>
+
+  {% if object.sync_count < 4 %}
+    <p><strong>{% trans "Mirror Instructions:" %}</strong> {% trans "Copy this URL and use it to download all the resource files that need to be mirrored. You can use wget or other basic mirroring software to refresh all the files." %} 
+    {% url "contact" as contact_url %}
+    {% blocktrans %}Please contact the <a href="{{ contact_url }}">Website Administrator</a> if you have any problems. <em>(this message will self distruct in {% endblocktrans %}T{{ "-4"|add:object.sync_count }})</em></p>
+  {% endif %}
+{% endblock %}
+
+{% block "downloads" %}
+  {% with object.resources as items %}{{ block.super }}{% endwith %}
+{% endblock %}
+
+{% block "footer" %}
+  <p>{% trans "Last Updated" %}: <strong>{{ object.sync_time|date:"Y-m-d H:i:s"|default:"Never Updated" }}</strong></p>
+{% endblock %}
+

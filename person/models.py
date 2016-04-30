@@ -128,6 +128,13 @@ class User(AbstractUser):
     def teams(self):
         return Team.objects.filter(group__in=self.groups.all())
 
+    def i_subscribed(self):
+        from cms.utils.permissions import get_current_user as get_user
+        user = get_user()
+        if user.is_authenticated():
+	    return bool(self.resources.subscriptions().get(user=user.pk))
+        return False
+
 
 def group_breadcrumb_name(self):
     try:

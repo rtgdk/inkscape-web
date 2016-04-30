@@ -12,86 +12,15 @@
 {% endblock %}
 
 {% block supercontent %}
-
- <div id="content"{% block contentclasses %}{% endblock %}>
-  <div class="wrapper">
-    <div id="left-column">
-      {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
-      {% include "resources/resource_list.html" with limit=20 %}
-    </div>
-    <div id="right-sidebar">
-      <h2>
-        <a href="{{ rss_url }}"><img src="{% static "images/rss.png" %}" title="{% trans "RSS Feed" %}"></a>
-        {% blocktrans with object_list.count as number_of_objects %}Found {{ number_of_objects }} Items{% endblocktrans %}
-      </h2>
-      {% if object_list or query %}
-        <form class="search" method="get" action="{{ url }}">
-          <input type="text" name="q" value="{{ query|default:'' }}" placeholder="{% trans "Search for Resources" %}"/>
-          {% if query %}
-            <a href="{{ clear_url }}"><img title="{% trans "Clear Search" %}" src="{% static "images/clear-search.svg" %}"/></a>
-          {% endif %}
-        </form>
-      {% endif %}
-
-     <div id="sidecategory">
-      <h2>{% trans "Order By" %}</h2>
-      <ul>
-        {% for order in orders %}
-            {% if order.active %}
-              <li><a href="{{ order.url }}"><label>{{ order.name }}</label><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
-            {% else %}
-              <li><a href="{{ order.url }}">{{ order.name }}</a></li>
-            {% endif %}
-        {% endfor %}
-      </ul>
-      {% for category in categories %}
-        {% if category.cid == "galleries" %}
-          <h2>{{ category.name }}</h2>
-          <ul>
-            {% for item in category %}
-              {% if category == item %}
-                <li class="active">
-                  <a {% if item.pk and item.user == request.user %}href="{% url "gallery.edit" item.pk %}"{% endif %}>
-                    <label>{{ item.name|default:item }}</label>
-                    {% if item.pk and item.user == request.user %}
-                       <span>{% trans "edit" %}</span>
-                    {% endif %}
-                  </a>
-                </li>
-              {% else %}
-                <li><a href="{{ item.url }}"><label>{{ item.name|default:item}}</label><span>{{ item.count }}</span></a></li>
-              {% endif %}
-            {% endfor %}
-            {% if username == request.user %}
-              <form method="POST" action="{% url "new_gallery" %}">
-                {% csrf_token %}
-                <input name="name" value="" placeholder="{% trans "New Gallery" %}"/>
-                <button type="submit">+</button>
-              </form>
-            {% endif %}
-          </ul>
-        {% elif category.count > 0 %}
-          <h2>{{ category.name }}</h2>
-          {% if category.count > 1 %}
-            <ul>
-              {% for item in category %}
-                {% if item and item.count %}
-                  {% if category == item %}
-                    <li class="active"><a>{{ item.name|default:item }}</a></li>
-                  {% else %}
-                    <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
-                  {% endif %}
-                {% endif %}
-              {% endfor %}
-            </ul>
-          {% elif category.count == 1 %}
-            <ul><li class="active"><a><label>{{ category.active_items.1.name }}</label><span>{{ category.active_items.1.count }}</span></a></li></ul>
-          {% endif %}
-        {% endif %}
-      {% endfor %}
-     </div>
+  <div id="content"{% block contentclasses %}{% endblock %}>
+    <div class="wrapper">
+      <div id="left-column">
+        {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+        {% include "resources/resourcefile_icons.html" with limit=20 %}
+      </div>
+      <div id="right-sidebar">
+        {% include "resources/resourcefile_leftbar.html" %}
+      </div>
     </div>
   </div>
- </div>
-
 {% endblock %}

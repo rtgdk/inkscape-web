@@ -218,6 +218,10 @@ class Team(Model):
         return self.group.user_set
 
     @property
+    def parent(self):
+        return (reverse('teams'), _('Teams'))
+
+    @property
     def team(self):
         return self
 

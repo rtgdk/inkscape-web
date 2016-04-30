@@ -289,7 +289,7 @@ class ResourceList(CategoryListView):
     rss_view = 'resources_rss'
     model = ResourceFile
     opts = (
-      ('username', 'user__username'),
+      ('username', 'user__username', False),
       ('team',     'galleries__group__team__slug', False),
       ('gallery_id', 'galleries__id', False),
     )
@@ -338,6 +338,14 @@ class ResourceList(CategoryListView):
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
+        if 'galleries' in data and data['galleries']:
+            # our options are not yet returning the correct item
+            try:
+                data['galleries'] = Gallery.objects.get(slug=data['galleries'])
+            except Gallery.DoesNotExist:
+                data['galleries'] = None
+        if 'username' in data and data['username']:
+            data['username'] = User.objects.get(username=data['username'])
 
         if data['username'] == self.request.user \
           or ('galleries' in data and data.get('team_member', False)):
@@ -351,13 +359,19 @@ class ResourceList(CategoryListView):
         data['action'] = "InkSpaces"
         for name in ('galleries', 'team', 'username'):
             if data.get(name, None) is not None:
-                data['object'] = data[name]
-                data['action'] = "InkSpace"
-                break
+                if isinstance(data[name], Model):
+                    data['object'] = data[name]
+                    if name == 'galleries':
+                        data['action'] = None
+                    break
         return data
 
 class GalleryView(ResourceList):
     """Allow for a special version of the resource display for galleries"""
+    opts = ResourceList.opts + \
+       (('galleries', 'galleries__slug', False),)
+    cats = ()
+
     def get_template_names(self):
         return ['resources/gallery_detail.html']
 

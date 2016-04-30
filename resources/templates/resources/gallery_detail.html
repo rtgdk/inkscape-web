@@ -1,25 +1,29 @@
-{% extends 'person/base.html' %}
-{% load i18n extras sekizai_tags %}
-{% load static pagination_tags %}
+{% extends 'base.html' %}
+{% load i18n static menu_tags %}
 
-{% block title %}{{ object.name }}{% endblock %} 
+{% block title %}{{ object.name }} - InkSpaces{% endblock %} 
 {% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}" >
   <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
 {% endblock %}
 
-{% block "profile" %}
-  <img id="photo" src="{{ object.icon }}"/>
-{% endblock %}
+{% block supercontent %}
+  <div id="bread">
+    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+  </div>
+  <div id="profile" style="background-color: #1c1c1c; color: white;">
+    <img id="photo" src="{{ object.icon }}"/>
+    <h1 id="name">{{ object.name }}</h1>
+    <p id="bio">{{ object.desc }}</p>
+  </div>
 
-{% block "bio" %}{{ object.desc }}{% endblock %}
-
-{% block "side" %}
-  <h1>Hello</h1>
-{% endblock %}
-
-{% block "content" %}
-  {% if object.resources.count %}
-    {% include "resources/resource_list.html" with limit=20 %}
-  {% endif %}
+  <div class="wrapper">
+    <div id="left-column">
+      {% include "resources/resourcefile_icons.html" with limit=20 %}
+    </div>
+    <div id="right-sidebar">
+      {% include "resources/resourcefile_leftbar.html" %}
+    </div>
+  </div>
 {% endblock %}
 

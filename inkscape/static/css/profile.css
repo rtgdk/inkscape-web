@@ -59,6 +59,31 @@
   line-height: 40px;
   color: #DEDEDE;
 }
+#bread .breadcrumbs {
+  background-image: linear-gradient(to top, #1A1A1A 0%, #000 100%);
+  border-top: #333 1px solid;
+  padding: 0px;
+  margin: 0px 2px;
+}
+#bread .breadcrumbs strong {
+  display: none;
+}
+#bread .breadcrumbs a {
+  display: inline-block;
+  color: white;
+  border-right: 2px solid #333;
+  padding: 5px 6px;
+  margin-right: -4px;
+}
+#bread .breadcrumbs span {
+  color: #999;
+  padding: 5px 6px;
+}
+#bread .breadcrumbs a:hover {
+  text-decoration: none;
+  background-color: #222;
+}
+
 
 #profile h1 span {
   font-size: 50%;

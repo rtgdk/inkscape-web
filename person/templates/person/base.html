@@ -1,13 +1,16 @@
 {% extends 'base.html' %}
-{% load i18n static extras sekizai_tags %}
+{% load i18n static menu_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
-{% block supercontent %}
-  {% addtoblock "css" %}
+{% block "css" %}{{ block.super }}
     <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}" >
-  {% endaddtoblock %}
+{% endblock %}
 
+{% block supercontent %}
+  <div id="bread">
+    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+  </div>
   <div id="profile" style="background-color: #1c1c1c; color: white;">
     {% block "profile" %}{% endblock %}
     <h1 id="name">{% block "name" %}{{ object.name }}{% endblock %}</h1>

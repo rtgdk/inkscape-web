@@ -130,7 +130,9 @@ class AutoBreadcrumbMiddleware(object):
         target = object if object is not None else parent
         if target is not None:
             for obj in self._ancestors(target):
-                if hasattr(obj, 'get_absolute_url'):
+                if isinstance(obj, tuple) and len(obj) == 2:
+                    yield obj
+                elif hasattr(obj, 'get_absolute_url'):
                     yield (obj.get_absolute_url(), self._name(obj))
                 else:
                     yield (None, self._name(obj))

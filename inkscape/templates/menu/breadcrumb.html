@@ -7,7 +7,7 @@
       {% else %}
         <a href="{{ crumb.0 }}" class="crumb">{{ crumb.1 }}</a>
       {% endif %}
-      {% if not forloop.last %}&raquo;{% endif %}
+      {% if not forloop.last %}<strong>&raquo;</strong>{% endif %}
     {% endfor %}
   {% endif %}
 {% else %}

@@ -163,7 +163,7 @@
     {% if object.resources.latest %}
       {% with 4 as limit %}
         {% with object.resources.latest as items %}
-          {% include "resources/resource_list.html" %}
+          {% include "resources/resourcefile_icons.html" %}
         {% endwith %}
       {% endwith %}
     {% else %}
@@ -186,7 +186,7 @@
     {% if object.favorites.items.count > 0 %}
       {% with 4 as limit %}
         {% with object.favorites.items as items %}
-          {% include "resources/resource_list.html" %}
+          {% include "resources/resourcefile_icons.html" %}
         {% endwith %}
       {% endwith %}
     {% else %}

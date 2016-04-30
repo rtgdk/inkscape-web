@@ -33,7 +33,7 @@ from django.core.urlresolvers import reverse
 from django.core.management import call_command
 
 from resources.models import Resource, ResourceFile, Gallery, Category
-from resources.views import GalleryList
+from resources.views import ResourceList
 from resources.forms import GalleryForm
 
 from person.models import User
@@ -102,7 +102,7 @@ class GalleryUserTests(BaseUserCase):
                            "Create a few public resources for the global gallery")
 
         baseresponse = self.assertGet('resources')
-        orderlist = [ordering[0] for ordering in GalleryList.orders]
+        orderlist = [ordering[0] for ordering in ResourceList.orders]
         self.assertGreater(len(orderlist), 3,
                            "Create some possible orderings for your gallery")
         rev_orderlist = [o[1:] if o[0]=='-' else '-' + o for o in orderlist]

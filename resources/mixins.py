@@ -18,14 +18,44 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
-from pile.views import UpdateView, CreateView
 
-from .models import Gallery, Model, Q
+from .models import Gallery, Model, Group, Q
+
+class OwnerViewMixin(object):
+    """Doesn't limit the view, but provides user or group access and filtering"""
+    @property
+    def user(self):
+        return self.kwargs.get('username', None)
+
+    @property
+    def team(self):
+        return self.kwargs.get('team', None)
+
+    def get_context_data(self, **kwargs):
+        data = super(OwnerViewMixin, self).get_context_data(**kwargs)
+        data['action'] = getattr(self, 'action', None)
+        if self.user:
+            data['user'] = get_user_model().objects.get(username=self.user)
+            data['parent'] = data['user']
+        elif self.group:
+            data['group'] = Group.objects.get(team__slug=self.team)
+            data['parent'] = data['group']
+        return data
+
+    def get_queryset(self):
+        qs = super(OwnerViewMixin, self).get_queryset()
+        if self.user:
+            qs = qs.filter(user__username=self.user, group__isnull=True)
+        elif self.team:
+            qs = qs.filter(group__team__slug=self.team)
+        return qs
 
 
 class OwnerUpdateMixin(object):
+    """Limit the get and post methods to the user or group owners"""
     def is_allowed(self):
         obj = self.get_object()
         group = self.get_group()

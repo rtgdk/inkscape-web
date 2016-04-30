@@ -27,17 +27,23 @@ def url_tree(regex, *urls):
 
 from person.urls import USER_URLS, TEAM_URLS
 
-PATTERNS = [
-  url(r'^$',                           GalleryList(), name='resources'),
-  url(r'^pick/$',                      GalleryPick(), name='resources_pick'),
-  url(r'^rss/$',                       GalleryFeed(), name='resources_rss'),
-  url(r'^=(?P<category>[^\/]+)/$',     GalleryList(), name='resources'),
-  url(r'^=(?P<category>[^\/]+)/rss/$', GalleryFeed(), name='resources_rss'),
+RESOURCE_PATTERNS = [
+  url(r'^$',                           ResourceList(), name='resources'),
+  url(r'^pick/$',                      ResourcePick(), name='resources_pick'),
+  url(r'^rss/$',                       ResourceFeed(), name='resources_rss'),
+  url(r'^=(?P<category>[^\/]+)/$',     ResourceList(), name='resources'),
+  url(r'^=(?P<category>[^\/]+)/rss/$', ResourceFeed(), name='resources_rss'),
 ]
 
 owner_patterns = [
+  url_tree(r'^/galleries/',
+    url(r'^$',                         GalleryList(), name='galleries'),
+    url(r'(?P<gallery_id>\d+)/$',      GalleryView(), name='gallery'),
+  ),
   url_tree(r'^/gallery/',
-    *(PATTERNS + [url_tree(r'^(?P<galleries>[^\/]+)/', *PATTERNS)])
+    *(RESOURCE_PATTERNS + [
+        url_tree(r'^(?P<galleries>[^\/]+)/', *RESOURCE_PATTERNS)
+    ])
   ),
   # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'), ViewResource(), name='resource'),
@@ -65,13 +71,11 @@ urlpatterns = patterns('',
     url(r'^upload/go/$',   DropResource(),   name='resource.drop'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
-      url(r'^$',           GalleryList(),    name='resources'),
-      url(r'^rss/$',       GalleryFeed(),    name='resources_rss'),
       url(r'^del/$',       DeleteGallery(),  name='gallery.delete'),
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
       url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
-      *PATTERNS
+      *RESOURCE_PATTERNS
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',
@@ -86,7 +90,7 @@ urlpatterns = patterns('',
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
       url(r'^(?P<fn>[^\/]+)/?$', DownloadResource(),  name='download_resource'),
     ),
-    *PATTERNS
+    *RESOURCE_PATTERNS
   ),
 )
 

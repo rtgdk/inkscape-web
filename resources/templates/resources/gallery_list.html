@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% load i18n static pagination_tags %}
+
+{% block title %}{% trans "Galleries" %}{% endblock %} 
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
+{% endblock %}
+
+{% block content %}
+  <h1>Resources</h1>
+  {% autopaginate object_list 20 as galleries %}
+    <div id="gallery">
+      {% for gallery in galleries %}
+        <div class="galleryitem" title="">
+          <a class="link" href="{{ gallery.get_item_url }}"><img src="{{ gallery.icon }}"/></a>
+          <p class="label"><a href="{{ gallery.get_item_url }}">{{ gallery.name|truncatechars:40 }}</a></p>
+        </div>
+      {% empty %}
+	<div class="galleryitem">
+	  <div class="link"><img src="{% static "images/none.svg" %}"/></div>
+	  <p>{% trans "No Galleries Yet" %}</p>
+	</div>
+      {% endfor %}
+    </div>
+  {% paginate %}
+{% endblock %}
+

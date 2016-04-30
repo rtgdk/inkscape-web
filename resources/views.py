@@ -49,6 +49,7 @@ class GalleryMixin(object):
     pk_url_kwarg = 'gallery_id'
     model = Gallery
 
+
 class DeleteGallery(GalleryMixin, OwnerUpdateMixin, DeleteView):
     pass
 
@@ -58,6 +59,12 @@ class CreateGallery(GalleryMixin, OwnerCreateMixin, CreateView):
 class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
     form_class = GalleryForm
     get_group = lambda self: None
+
+class GalleryList(GalleryMixin, OwnerViewMixin, ListView):
+    action = "All Resource Galleries"
+
+class GalleryView(GalleryMixin, OwnerViewMixin, DetailView):
+    pass
 
 class DeleteResource(OwnerUpdateMixin, DeleteView):
     model  = Resource
@@ -284,7 +291,7 @@ class MirrorAdd(CreateView):
     form_class = MirrorAddForm
 
 
-class GalleryList(CategoryListView):
+class ResourceList(CategoryListView):
     rss_view = 'resources_rss'
     model = ResourceFile
     opts = (
@@ -331,7 +338,7 @@ class GalleryList(CategoryListView):
         return None
 
     def get_context_data(self, **kwargs):
-        data = super(GalleryList, self).get_context_data(**kwargs)
+        data = super(ResourceList, self).get_context_data(**kwargs)
 
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
@@ -355,17 +362,17 @@ class GalleryList(CategoryListView):
                 break
         return data
 
-class GalleryPick(GalleryList):
+class ResourcePick(ResourceList):
     def get_template_names(self):
         return ['resources/resourcefile_picker.html']
 
-class GalleryFeed(CategoryFeed, GalleryList):
+class ResourceFeed(CategoryFeed, ResourceList):
     title = "Gallery Feed"
     description = "Gallery Resources RSS Feed"
 
     def extra_filters(self):
         # Limit RSS feeds to the last month
-        extra = super(GalleryFeed, self).extra_filters()
+        extra = super(ResourceFeed, self).extra_filters()
         extra['created__gt'] = now() - timedelta(days=32)
         return extra
 

@@ -1,5 +1,5 @@
 #
-# Copyright 2013, Martin Owens <doctormo@gmail.com>
+# Copyright 2016, Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
@@ -161,10 +161,10 @@ class ResourceManager(Manager):
 
     def subscriptions(self):
         """Returns a queryset of users who get alerts for new resources"""
-        kwargs = {}
+        subs = ResourceFile.subscriptions
         if 'user' in self.core_filters:
-            kwargs['target'] = self.core_filters['user'].pk
-        return ResourceFile.subscriptions.filter(**kwargs)
+            subs.target = self.core_filters['user']
+        return subs.all()
 
     def downloads(self):
         return self.get_queryset().aggregate(Sum('downed')).values()[0]
@@ -604,10 +604,24 @@ class GalleryManager(Manager):
 
 
 class Gallery(Model):
+    GALLERY_STATUSES = (
+      (None, 'No Status'),
+      (' ', 'Casual Wish'),
+      ('1', 'Draft'),
+      ('2', 'Proposal'),
+      ('3', 'Reviewed Proposal'),
+      ('+', 'Under Development'),
+      ('=', 'Complete'),
+      ('-', 'Rejected'),
+    )
     user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='galleries', default=get_user)
     group     = ForeignKey(Group, related_name='galleries', **null)
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
+    desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
+    thumbnail = ForeignKey(Resource, help_text=_('Which resource should be the thumbnail for this gallery'), **null)
+    status    = CharField(max_length=1, db_index=True, choices=GALLERY_STATUSES, **null)
+
     items     = ManyToManyField(Resource, related_name='galleries', blank=True)
 
     objects   = GalleryManager()
@@ -642,6 +656,19 @@ class Gallery(Model):
             })
         return reverse('resources', kwargs={'gallery_id': self.pk})
 
+    def get_item_url(self):
+        """The item url is used for the non-search results"""
+        if self.group:
+            return reverse('gallery', kwargs={
+                'team': self.group.team.slug,
+                'gallery_id': self.pk
+            })
+        return reverse('gallery', kwargs={
+            'username': self.user.username,
+            'gallery_id': self.pk
+        })
+
+
     @property
     def value(self):
         return self.slug
@@ -662,6 +689,8 @@ class Gallery(Model):
               or (user.groups.count() and self.group in user.groups.all()))
 
     def icon(self):
+        if self.thumbnail:
+            return self.thumbnail.icon()
         for item in self.items.all():
             if item.is_visible():
                 return item.icon()

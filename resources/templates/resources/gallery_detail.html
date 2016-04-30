@@ -1,0 +1,25 @@
+{% extends 'person/base.html' %}
+{% load i18n extras sekizai_tags %}
+{% load static pagination_tags %}
+
+{% block title %}{{ object.name }}{% endblock %} 
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
+{% endblock %}
+
+{% block "profile" %}
+  <img id="photo" src="{{ object.icon }}"/>
+{% endblock %}
+
+{% block "bio" %}{{ object.desc }}{% endblock %}
+
+{% block "side" %}
+  <h1>Hello</h1>
+{% endblock %}
+
+{% block "content" %}
+  {% if object.resources.count %}
+    {% include "resources/resource_list.html" with limit=20 %}
+  {% endif %}
+{% endblock %}
+

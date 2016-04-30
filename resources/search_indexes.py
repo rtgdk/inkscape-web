@@ -40,9 +40,9 @@ class ResourceFileIndex(SearchIndex, Indexable):
         return self.get_model().objects.filter(published=True)
 
 
-from .views import GalleryList
+from .views import ResourceList
 from pile.search_base import add_fields
 
 # This adds the extra indexable fields that the category list uses.  
-add_fields(ResourceFileIndex, GalleryList)
+add_fields(ResourceFileIndex, ResourceList)
 

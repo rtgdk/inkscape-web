@@ -12,8 +12,8 @@
     <div id="gallery">
       {% for gallery in galleries %}
         <div class="galleryitem" title="">
-          <a class="link" href="{{ gallery.get_item_url }}"><img src="{{ gallery.icon }}"/></a>
-          <p class="label"><a href="{{ gallery.get_item_url }}">{{ gallery.name|truncatechars:40 }}</a></p>
+          <a class="link" href="{{ gallery.get_absolute_url }}"><img src="{{ gallery.icon }}"/></a>
+          <p class="label"><a href="{{ gallery.get_absolute_url }}">{{ gallery.name|truncatechars:40 }}</a></p>
         </div>
       {% empty %}
 	<div class="galleryitem">

@@ -661,19 +661,6 @@ class Gallery(Model):
             })
         return reverse('resources', kwargs={'gallery_id': self.pk})
 
-    def get_item_url(self):
-        """The item url is used for the non-search results"""
-        if self.group:
-            return reverse('gallery', kwargs={
-                'team': self.group.team.slug,
-                'gallery_id': self.pk
-            })
-        return reverse('gallery', kwargs={
-            'username': self.user.username,
-            'gallery_id': self.pk
-        })
-
-
     @property
     def value(self):
         return self.slug

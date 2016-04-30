@@ -240,7 +240,7 @@ class DownloadResource(ViewResource):
         if item.mirror:
             mirror = ResourceMirror.objects.select_mirror(item.edited)
             if mirror:
-                response = render_to_response('resources/mirror-item.html', {
+                response = render_to_response('resources/resourcemirror_thanks.html', {
                      'mirror': mirror,
                      'item': item,
                      'url': mirror.get_url(item),

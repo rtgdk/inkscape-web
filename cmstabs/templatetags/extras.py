@@ -84,6 +84,11 @@ def add_placeholder(form, text=None):
     form.field.widget.attrs.update({ "placeholder": text })
     return form
 
+@register.filter("autofocus")
+def add_autofocus(form):
+    form.field.widget.attrs.update({ "autofocus": "autofocus" })
+    return form
+
 @register.filter("tabindex")
 def add_tabindex(form, number):
     form.field.widget.attrs.update({ "tabindex": number })

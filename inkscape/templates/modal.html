@@ -35,7 +35,12 @@
               <div class="form-group">
                 {% if field.errors %}{{ field.errors }}{% endif %}
                 {{ field.label_tag }}
-                {{ field|placeholder:field.label }}
+                {% if forloop.first %}
+                    {{ field|placeholder:field.label|autofocus }}
+                {% else %}
+                    {{ field|placeholder:field.label }}
+                {% endif %}
+                
               </div>
             {% endfor %}
           {% endif %}

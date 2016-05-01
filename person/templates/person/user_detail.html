@@ -69,7 +69,7 @@
           <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
         {% endif %}
         {% if object != request.user %}
-          {% if object.i_subscribed %}
+          {% if object.viewer_is_subscribed %}
            <!-- doesn't work! <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}'>
               {% csrf_token %}
               <input type='submit' value='{% trans "Unsubscribe" %}'/>

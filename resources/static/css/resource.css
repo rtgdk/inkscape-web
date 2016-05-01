@@ -13,20 +13,13 @@
   display: block;
 }
 .item .image {
-  background-color: #333;
-  background-image: linear-gradient(to bottom, #2E2A2E 0%, #1E1E1E 35%);
+  background-color: #1a1a1a;
   padding: 20px 35px;
   line-height: 0px;
   text-align:center;
   border-radius: 10px 10px 0 0;
 }
 .item .image img {
-  background-color: white;
-  max-width: 780px;
-  max-height: 100%;
-  margin: 0px;
-  border:none;
-  border-radius: 4px;
 }
 .item .info {
   background-color: #fff;
@@ -64,7 +57,7 @@
 }
 .item div.info h2 input {
   width: 97%;
-  width: calc(100% - 22px);
+  width: calc(100% - 30px);
   font-size: 14pt;
   padding: 3px;
   margin: 5px;
@@ -173,6 +166,19 @@
   max-width: 350px;
   max-height: 150px;
 }
+.edit .image label > img {
+  background-color: transparent;
+  display: inline-block;
+}
+.edit .image label {
+  color: #efefef;
+  border-radius: 5px;
+  display: inline-block;
+  padding: 20px;
+}
+.edit .image label:hover {
+  background-color: #333;
+}
 .edit .text {
   overflow: hidden;
   max-height: 200px;
@@ -190,10 +196,16 @@
 .item .padding {
   padding: 5px;
 }
+.item .padding span {
+  display: inline-block;
+  min-width: 190px;
+  border: 2px dashed #333;
+  padding: 90px 0px 95px;
+  margin-top: 10px;
+}
 #upload {
   padding: 10px;
-  background-color: #333;
-  border-bottom: 5px white solid;
+  background-color: #1a1a1a;
 }
 #upload textarea {
   width: 90%;
@@ -311,6 +323,14 @@ div.tog a.remove:hover {
   border: #eee 1px inset;
   border-radius: 3px;
   color: #eee;
+}
+input.hidden {
+  opacity: 0;
+  width: 0.1px;
+  height: 0.1px;
+  overflow: hidden;
+  position: absolute;
+  z-index: -5;
 }
 
 /* SVG Special handling */

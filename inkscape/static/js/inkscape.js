@@ -53,7 +53,7 @@ function iconInstead(event) {
 }
 
 function onSvgError(event) {
-  if(this.src.slice(-3)=='svg') {
+  if(this.src.slice(-3)=='svg' && !$(this).data('static')) {
     this.src = this.src.slice(0,-3) + "png";
   }
 }

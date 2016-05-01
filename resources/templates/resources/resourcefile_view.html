@@ -44,6 +44,11 @@
       </a>
     </div>
   {% elif form %}
-    <div class="image padding"></div>
+  <div class="image uploader">
+    <label for="id_download" style="display: none;">
+      <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}">
+      <p>{% trans "Choose a file..." %}</p>
+    </label>
+  </div>
   {% endif %}
 

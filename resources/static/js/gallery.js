@@ -22,6 +22,36 @@ var max_size = 3000000; // 3MB file limit on previews
 var debug = true;
 
 $(document).ready(function() {
+  var elem = $('.upload #id_download');
+  elem.addClass('hidden');
+  $('.image.uploader label').show();
+  lbl = $('.image.uploader label p');
+  img = $('.image.uploader label img');
+  img.error(function(e) {
+      target = img.data('static') + 'mime/unknown.svg';
+      if(this.src != target) { this.src = target; }
+      return false;
+  });
+
+  elem.on('change', function() {
+    if (this.files && this.files[0]) {
+      var file = this.files[0];
+      var icon = get_mime_icon(file.type);
+
+      if (icon == 'image' && file.size < max_size) {
+        // File Reader allows us to show a preview image
+        var reader = new FileReader();
+        reader.onload = function (e) {
+            img.attr('src', e.target.result);
+        }
+        reader.readAsDataURL(file);
+      } else {
+        img.attr('src', img.data('static') + 'mime/' + icon + '.svg');
+      }
+      lbl.html(file.name);
+    }
+  });
+
   $('select[data-filter_by]').each(function() {
     var target = $(this);
     var filters = [];

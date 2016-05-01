@@ -326,24 +326,6 @@
 .item .padding {
   padding: 5px;
 }
-#upload {
-  padding: 10px;
-  background-color: #333;
-  border-bottom: 5px white solid;
-}
-#upload textarea {
-  width: 100%;
-  min-height: 350px;
-}
-#upload {
-  color: transparent;
-}
-#upload input {
-  color: white;
-}
-#upload a {
-  display: none;
-}
 .errors {
   background-color: white;
   border: 2px #800 solid;

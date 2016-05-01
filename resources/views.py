@@ -147,7 +147,7 @@ class DropResource(UploadResource):
 
 class PasteIn(UploadResource):
     form_class = ResourcePasteForm
-
+    action = "New PasteBin"
 
 class ViewResource(DetailView):
     model = ResourceFile

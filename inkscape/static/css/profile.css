@@ -34,7 +34,7 @@
   overflow: hidden;
   border-width: 1px 0px 0px;
   border-color: #333;
-  border-style: solid;
+  border-style: dashed;
 }
 
 #profile #bio {
@@ -60,20 +60,13 @@
   color: #DEDEDE;
 }
 #bread .breadcrumbs {
-  background-image: linear-gradient(to top, #1A1A1A 0%, #000 100%);
-  border-top: #333 1px solid;
-  padding: 0px;
-  margin: 0px 2px;
-}
-#bread .breadcrumbs strong {
-  display: none;
+  background-color: #1a1a1a;
+  padding-left: 10px;
 }
 #bread .breadcrumbs a {
-  display: inline-block;
   color: white;
-  border-right: 2px solid #333;
-  padding: 5px 6px;
-  margin-right: -4px;
+  padding: 6px;
+  display: inline-block;
 }
 #bread .breadcrumbs span {
   color: #999;

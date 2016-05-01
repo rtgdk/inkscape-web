@@ -118,10 +118,11 @@ class AutoBreadcrumbMiddleware(object):
             return response
         if 'breadcrumbs' not in response.context_data:
             out = {}
-            for name in ('object', 'parent', 'action', 'view'):
+            for name in ('object', 'parent', 'action', 'view', 'title'):
                 out[name] = response.context_data.get(name, None)
             if not out.get('action', None) and 'view' in out:
-                out['action'] = self._action(out['view'])
+                out['action'] = self._action(out['view'], out['title'])
+            response.context_data['title'] = out['action']
             response.context_data['breadcrumbs'] = self._crumbs(**out)
         return response
 
@@ -140,7 +141,9 @@ class AutoBreadcrumbMiddleware(object):
         if action is not None:
             yield (None, _(action))
 
-    def _action(self, view):
+    def _action(self, view, title=None):
+        if title:
+            return title
         name = getattr(view, 'action_name', None)
         if name:
             return name

@@ -17,17 +17,7 @@
   </div>
  {% endif %}
 
-  <h1 id='item-title'>
-   {% block title %}
-    {% if object %}
-      {% if form %}{% trans "Edit" %} | {% endif %}{{ object.name }}
-    {% elif paste %}
-     {% trans "New Paste" %}
-    {% else %}
-     {% trans "Upload New Resource" %}
-    {% endif %}
-   {% endblock %}
-  </h1>
+  <h1 id='item-title'>{{ action }}</h1>
 
   {% include "resources/resourcefile_view.html" %}
 

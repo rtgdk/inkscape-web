@@ -40,5 +40,16 @@
   padding: 9px;
 }
 #irchat a {
-  color: #6c4576;
+  color: #6a3578;
+}
+
+#irchat .tooltip {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  color: #765683;
+  font-size: smaller;
+}
+
+#irchat .tooltip:hover {
+  color: #6a3578;
 }

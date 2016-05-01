@@ -747,6 +747,10 @@ ol.checklist ul li.done
   background-image: url(../images/bullet-tick.svg);
 }
 
+ul.help {
+  list-style-image: url('../images/icons/help.svg');
+}
+
 a.roundel {
   float: right;
 }
@@ -1031,15 +1035,9 @@ div.diff .del {
   font-weight: 400;
   cursor: pointer;
 }
-li.tooltip {
-  list-style-image: url('../images/icons/help.svg');
-}
+
 div.tooltip {
   display: inline;
-}
-
-.tooltip img.help {
-  vertical-align: middle;
 }
 
 .tooltip strong {
@@ -1047,7 +1045,7 @@ div.tooltip {
   line-height: 30px;
 }
 
-.tooltip span {
+.tooltip > span {
   z-index: 10;
   display: none;
   padding: 14px 20px;
@@ -1059,23 +1057,28 @@ div.tooltip {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.3);
   text-align: left;
   font-size: 10pt;
-} 
-
-.tooltip:hover span {
-  display: inline;
   position: absolute;
   color: white;
   border: 2px solid #333333;
   background: #444444;
 } 
 
+.tooltip:hover > span {
+  display: inline-block;
+} 
+
 .ttarrow {
   z-index: 20;
   position: absolute;
+  width: 14px;
+  height: 26px;
   top: 30px;
   border: 0;
   left: -13px;
+  background-image: url(../images/icons/tooltiparrow.svg);
 }
+
+/* CMS Toolbar */
 
 .cms-toolbar .cms-toolbar-item-inkscape {
   line-height: 46px;

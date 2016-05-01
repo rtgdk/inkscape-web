@@ -18,7 +18,7 @@
               {% if field.help_text %}
                 <div class="tooltip"> 
                   <img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
-                  <span><img class="ttarrow" src="{% static "images/icons/tooltiparrow.svg" %}" />{{ field.help_text|safe }}</span>
+                  <span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
                 </div>
               {% endif %}
             </th>

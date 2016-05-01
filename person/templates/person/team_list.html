@@ -1,9 +1,11 @@
 {% extends 'base.html' %}
-{% load i18n static sekizai_tags %}
+{% load i18n static %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/bio.css" %}"/>
+{% endblock %}
 
 {% block content %}
-
-{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static "css/bio.css" %}"/>{% endaddtoblock %}
 
 <h1>{% block title %}{% trans "Inkscape Community Teams" %}{% endblock %}</h1>
 

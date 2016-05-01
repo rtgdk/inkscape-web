@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block "error-msg" %}
+  <h1>{% block title %}{% trans "Permission Denied" %}{% endblock %}</h1>
   <p>{% trans "Sorry, you're not allowed to see this." %}</p>
   <hr/>
   <p>{% trans "This website has many features for project management and community involvement. Permissions are needed to access certain functions." %}</p>

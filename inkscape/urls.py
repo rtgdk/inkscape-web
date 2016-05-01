@@ -24,7 +24,7 @@ from django.conf.urls.static import static
 from django.conf import settings
 from django.contrib import admin
 
-from .views import SearchView, ContactUs, ContactOk
+from .views import *
 
 from cms import appresolver
 old = appresolver.get_app_patterns
@@ -41,11 +41,11 @@ urlpatterns = patterns('',
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 urlpatterns += i18n_patterns('inkscape.views',
-    url(r'^robots\.txt$',  'robots',       name='robots.txt'),
+    url(r'^robots\.txt$',  Robots.as_view(), name='robots.txt'),
     url(r'^contact/us/$',  ContactUs.as_view(), name='contact'),
     url(r'^contact/ok/$',  ContactOk.as_view(), name='contact.ok'),
-    url(r'^search/$',      SearchView(),   name='search'),
-    url(r'^error/$',       'errors',       name='errors'),
+    url(r'^search/$',      SearchView(), name='search'),
+    url(r'^error/$',       Errors.as_view(), name='errors'),
 
     url(r'^admin/lookups/', include('ajax_select.urls')),
     url(r'^admin/',     include(admin.site.urls)),
@@ -65,6 +65,5 @@ urlpatterns += i18n_patterns('inkscape.views',
 )
 
 for e in ('403','404','500'):
-    locals()['handler'+e] = 'inkscape.views.error' + e
-    urlpatterns += patterns('inkscape.views',
-        url('^error/' + e + '/$', 'error' + e, name='error' + e))
+    locals()['handler'+e] = Error.as_error(e)
+    urlpatterns += patterns('', url('^error/%s/$' % e, Error.as_error(e)))

@@ -1,12 +1,11 @@
 {% extends "base.html" %}
 {% load i18n static %}
 
-{% block body-pageid %}{{ error }}{% endblock %}
+{% block body-pageid %}{{ status }}{% endblock %}
 
 {% block content %}
   <div class="errtext">
-    <img src="{% static "images/" %}{{ error }}.svg" title="{{ error }} {{ title }}"/>
-    <h1>{% block "title" %}{{ title }}{% endblock %}</h1>
+    <img src="{% static "images/" %}{{ status }}.svg" title="{{ status }} {{ title }}"/>
     {% block "error-msg" %}{% endblock %}
   </div>
 {% endblock %}

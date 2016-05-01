@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n %}
+{% load i18n pagination_tags %}
 
 {% block content %}
   <h1>{% block title %}{% trans "Website Errors" %}{% endblock %}</h1>
@@ -11,6 +11,7 @@
       <th scope="col">Status</th>
       <th scope="col">Last</th>
     </tr>
+    {% autopaginate object_list 20 as errors %}
     {% for error in errors %}
       <tr>
         <td>{{ error.count }}</td>
@@ -21,4 +22,5 @@
     {% endfor %}
   </table>
 
+  {% paginate %}
 {% endblock %}

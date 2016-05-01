@@ -2,6 +2,7 @@
 {% load i18n %}
 
 {% block "error-msg" %}
+  <h1>{% block title %}{% trans "Server Error" %}{% endblock %}</h1>
   <p>{% trans "The website is broken in some way. Now we've emailed the people who look after the website to let them know you've had problems, so please don't worry." %}</p>
   <hr/>
   <p>

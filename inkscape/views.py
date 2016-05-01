@@ -1,5 +1,5 @@
 #
-# Copyright 2014, Martin Owens <doctormo@gmail.com>
+# Copyright 2016, Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
@@ -18,18 +18,23 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.utils.translation import ugettext_lazy as _
-from django.shortcuts import get_object_or_404, render_to_response, redirect
-from django.contrib.auth.decorators import login_required
-from django.template import RequestContext
-from django.views.generic import TemplateView, FormView
-from django.core.urlresolvers import reverse_lazy
+__all__ = ('ContactOk', 'ContactUs', 'Errors', 'Error', 'Robots', 'SearchView')
 
-from .forms import FeedbackForm
-from .models import ErrorLog
+from django.utils.translation import ugettext_lazy as _
+from django.views.generic import TemplateView, FormView, ListView
+from django.core.urlresolvers import reverse_lazy
 
 from django.conf import settings
 from django.core.mail import send_mail
+
+from haystack.forms import SearchForm
+from haystack.query import SearchQuerySet, SQ
+from haystack.views import SearchView as BaseView
+
+from cms.utils import get_language_from_request
+
+from .forms import FeedbackForm
+from .models import ErrorLog
 
 class ContactOk(TemplateView):
     template_name = 'feedback.html'
@@ -60,46 +65,34 @@ class ContactUs(FormView):
             return 'Anonymous User <%s>' % email
         return email
         
+class Robots(TemplateView):
+    template_name = 'robots.txt'
+    content_type = 'text/plain'
 
-def robots(request):
-    return render_to_response('robots.txt', {},
-        context_instance=RequestContext(request), content_type='text/plain')
+class Errors(ListView):
+    template_name = 'error/list.html'
+    model = ErrorLog
 
-def errors(request):
-    return render_to_response('error/list.html', {
-      'errors': ErrorLog.objects.all().order_by('-count')
-    }, RequestContext(request))
+class Error(TemplateView):
+    @classmethod
+    def as_error(cls, status):
+        view = cls.as_view(template_name='error/%s.html' % status)
+        def _inner(request):
+            response = view(request, status=int(status))
+            response.render()
+            return response
+        return _inner
 
-def error(request, **c):
-    error = c['error']
-    context = RequestContext(request)
-    try:
-        response = render_to_response('error/%s.html' % error, c, context_instance=context)
-    except:
-        response = render_to_response('error/error.html', c, context_instance=context)
+    def get(self, request, **kw):
+        context = self.get_context_data(**kw)
+        if not settings.DEBUG or kw['status'] != 404:
+            try:
+                path = request.get_full_path()
+                ErrorLog.objects.get_or_create(uri=path, **kw)[0].add()
+            except:
+                pass
+        return self.render_to_response(context, **kw)
 
-    if not settings.DEBUG or error != '404':
-        try:
-            ErrorLog.objects.get_or_create(uri=request.get_full_path(), status=int(error))[0].add()
-        except:
-            pass
-        response.status_code = int(c['error'])
-    return response
-
-def error403(request):
-    return error(request, error='403', title=_('Permission Denied'))
-
-def error404(request):
-    return error(request, error='404', title=_('Page Not Found'))
-
-def error500(request):
-    return error(request, error='500', title=_('Server Error'))
-
-from haystack.forms import SearchForm
-from haystack.query import SearchQuerySet, SQ
-from haystack.views import SearchView as BaseView
-
-from cms.utils import get_language_from_request
 
 class SearchView(BaseView):
     """Restrict the search to the selected language only"""

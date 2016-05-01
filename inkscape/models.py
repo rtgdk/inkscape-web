@@ -28,6 +28,9 @@ class ErrorLog(Model):
     count  = IntegerField(default=0)
     added  = DateTimeField(auto_now=True, db_index=True)
 
+    class Meta:
+        ordering = ('-count',)
+
     def __str__(self):
         return "%s (%d)" % (self.uri, self.status)
 

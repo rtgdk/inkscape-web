@@ -217,11 +217,13 @@ class BaseBreadcrumbCase(BaseAnonCase):
         cont = self.assertGet(url, **kwargs).content
         crumbs = cont.split('breadcrumbs">', 1)[-1].split('</div>')[0]
         try:
-            for term in terms:
+            for x, term in enumerate(terms):
                 if len(term) == 1:
-                    self.assertIn('<span class="crumb">%s<' % term, crumbs)
-                    continue
-                self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
+                    self.assertIn('<em class="crumb">%s<' % term, crumbs)
+                elif x == len(terms) - 1 and len(terms) != 1:
+                    self.assertIn('<em class="crumb">%s<' % term[1], crumbs)
+                else:
+                    self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
         except AssertionError:
             raise AssertionError("Breadcrumb %s missing from %s" % (
                 str(term), crumbs))

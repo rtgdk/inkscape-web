@@ -79,9 +79,13 @@ class Error(TemplateView):
         view = cls.as_view(template_name='error/%s.html' % status)
         def _inner(request):
             response = view(request, status=int(status))
-            response.render()
+            if hasattr(response, 'render'):
+                response.render()
             return response
         return _inner
+
+    def post(self, request, **kw):
+        return self.get(request, **kw)
 
     def get(self, request, **kw):
         context = self.get_context_data(**kw)

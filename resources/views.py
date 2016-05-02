@@ -289,7 +289,7 @@ class ResourceList(CategoryListView):
     rss_view = 'resources_rss'
     model = ResourceFile
     opts = (
-      ('username', 'user__username', False),
+      ('username', 'user__username'),
       ('team',     'galleries__group__team__slug', False),
       ('gallery_id', 'galleries__id', False),
     )
@@ -344,8 +344,6 @@ class ResourceList(CategoryListView):
                 data['galleries'] = Gallery.objects.get(slug=data['galleries'])
             except Gallery.DoesNotExist:
                 data['galleries'] = None
-        if 'username' in data and data['username']:
-            data['username'] = User.objects.get(username=data['username'])
 
         if data['username'] == self.request.user \
           or ('galleries' in data and data.get('team_member', False)):

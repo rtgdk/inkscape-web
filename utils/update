@@ -42,7 +42,11 @@ fi
 
 if [ -e '.bzr' ]; then
     bzr revno > ./data/revision
+    bzr log -r119.. -n0 > ./data/revision.log
 fi
+
+echo "Updating inkscape-docs log"
+bzr log lp:inkscape-docs -n0 > ./data/documentation.log
 
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."

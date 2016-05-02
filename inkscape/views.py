@@ -18,11 +18,16 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-__all__ = ('ContactOk', 'ContactUs', 'Errors', 'Error', 'Robots', 'SearchView')
+__all__ = (
+  'ContactOk', 'ContactUs', 'Errors', 'Error',
+  'Robots', 'SearchView', 'Authors',
+)
+from collections import defaultdict
 
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import TemplateView, FormView, ListView
 from django.core.urlresolvers import reverse_lazy
+from django.contrib.admin.models import LogEntry
 
 from django.conf import settings
 from django.core.mail import send_mail
@@ -33,8 +38,9 @@ from haystack.views import SearchView as BaseView
 
 from cms.utils import get_language_from_request
 
+from .authors import CODERS, TRANSLATORS, DOCUMENTORS
 from .forms import FeedbackForm
-from .models import ErrorLog
+from .models import ErrorLog, Q
 
 class ContactOk(TemplateView):
     template_name = 'feedback.html'
@@ -64,7 +70,7 @@ class ContactUs(FormView):
         if '<' not in email:
             return 'Anonymous User <%s>' % email
         return email
-        
+
 class Robots(TemplateView):
     template_name = 'robots.txt'
     content_type = 'text/plain'
@@ -109,4 +115,42 @@ class SearchView(BaseView):
         language = get_language_from_request(request)
         self.searchqueryset = SearchQuerySet().filter(language=language)
         return BaseView.__call__(self, request)
+
+
+class Authors(TemplateView):
+    """Show a list of authors for the website"""
+    template_name = 'authors.html'
+    content_apps = \
+      Q(content_type__app_label__startswith='djangocms') | \
+      Q(content_type__app_label__startswith='cmsplugin') | \
+      Q(content_type__app_label__in=['cmstabs', 'cms'])
+
+    def cms_authors(self):
+        """Get a list of CMS authors"""
+        result = defaultdict(lambda: dict(count=0, start=3000, end=0))
+
+        authors = LogEntry.objects.filter(self.content_apps)\
+                     .values_list('user__username', 'action_time')
+
+        for author, dt in authors:
+            result[author]['name'] = author
+            result[author]['email'] = None
+            result[author]['count'] += 1
+            if dt.year < result[author]['start']:
+                result[author]['start'] = dt.year
+            if dt.year > result[author]['end']:
+                result[author]['end'] = dt.year
+        return dict(result)
+
+    def get_context_data(self, *args, **kwargs):
+        data = super(Authors, self).get_context_data(*args, **kwargs)
+        data['title'] = _('Author Credits')
+        data['authors'] = [
+            {'name': _('Managed Content'), 'desc': _('Licensed GPLv2 or Later and CC-BY-SA'), 'people': self.cms_authors()},
+            {'name': _('Wensite Programmers'), 'desc': _('Licensed AGPLv3'), 'people': CODERS},
+            {'name': _('Translations'), 'desc': _('Contributed to po files'), 'people': TRANSLATORS},
+            {'name': _('Documentation'), 'desc': _('Contributors to Inkscape-docs team'), 'people': DOCUMENTORS},
+        ]
+        return data
+
 

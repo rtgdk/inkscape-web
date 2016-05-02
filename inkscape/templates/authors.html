@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block content %}
+  <div class="errtext">
+    <img src="{% static "images/authors.svg" %}" title="{% trans "We thank everyone for helping!" %}"/>
+    <h1>{% block "title" %}{% trans "Author Credits" %}{% endblock %}</h1>
+    <p>{% trans "These people have helped us create the website you see here." %}</p>
+    <hr/>
+    {% for section in authors %}
+      <h2>{{ section.name }}</h2>
+      <p>{{ section.desc }}</p>
+      {% if section.people %}
+        <table style="width: 100%;">
+          <tr><th>Name</th><th>Involvement</th><th>Impact</th></tr>
+          {% for key, person in section.people.items %}
+            <tr><td>{{ person.name }}</td><td>{{ person.start }}-{{ person.end}}</td><td>{{ person.count }}</td></tr>
+          {% endfor %}
+        </table>
+      {% else %}
+        <p>This section is not coded for yet.</p>
+      {% endif %}
+      <hr/>
+    {% endfor %}
+  </div>
+{% endblock %}

@@ -46,6 +46,7 @@ urlpatterns += i18n_patterns('inkscape.views',
     url(r'^contact/ok/$',  ContactOk.as_view(), name='contact.ok'),
     url(r'^search/$',      SearchView(), name='search'),
     url(r'^error/$',       Errors.as_view(), name='errors'),
+    url(r'^credits/$',     Authors.as_view(), name='authors'),
 
     url(r'^admin/lookups/', include('ajax_select.urls')),
     url(r'^admin/',     include(admin.site.urls)),

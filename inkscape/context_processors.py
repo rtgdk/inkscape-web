@@ -18,11 +18,13 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-import os
 import sys
 import email
 import django
 import logging
+
+from os.path import isfile, join
+from collections import OrderedDict
 
 from django.conf import settings
 
@@ -35,18 +37,19 @@ def design(request):
       'GOOGLE_ANID': settings.GOOGLE_ANID,
     }
 
+PATH = settings.PROJECT_PATH
 INKSCAPE_VERSION = ''
 WEBSITE_VERSION = ''
 WEBSITE_REVISION = ''
 
-VERSION_FILE = os.path.join(settings.PROJECT_PATH, 'version')
-if os.path.exists(VERSION_FILE):
+VERSION_FILE = join(PATH, 'version')
+if isfile(VERSION_FILE):
     emai_msg = email.message_from_file(open(VERSION_FILE))
     WEBSITE_VERSION = emai_msg["version"]
     INKSCAPE_VERSION = emai_msg["inkscape"]
 
-REVISION_FILE = os.path.join(settings.PROJECT_PATH, 'data', 'revision')
-if os.path.isfile(REVISION_FILE):
+REVISION_FILE = join(PATH, 'data', 'revision')
+if isfile(REVISION_FILE):
     with open(REVISION_FILE, 'r') as fhl:
         WEBSITE_REVISION = fhl.read().strip()
 

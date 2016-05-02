@@ -10,6 +10,8 @@ if [ ! -e 'website' ]; then
 else
     cd website
     bzr pull
+    # data/revision.log relative path
+    bzr log -n0 > ../../translators.log
 fi
 
 cd ../../../

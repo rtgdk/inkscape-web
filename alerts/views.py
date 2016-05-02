@@ -109,12 +109,20 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     action_name = _('Unsubscribe')
     get_success_url = lambda self: reverse('alert.settings')
 
+    def get_context_data(self, **kwargs):
+        data = super(Unsubscribe, self).get_context_data(**kwargs)
+        data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
+        if 'pk' in self.kwargs:
+            data['object'] = data['alert'].get_object(pk=self.kwargs['pk'])
+            data['object_name'] = data['alert'].get_object_name(data['object'])
+        return data
+    
     def get_object(self):
         if 'slug' in self.kwargs:
             alert = AlertType.objects.get(slug=self.kwargs['slug'])
-            kw = dict(user=request.user)
+            kw = dict(user=self.request.user)
             if 'pk' in self.kwargs:
-                kw['target'] = kwargs['pk']
+                kw['target'] = self.kwargs['pk']
             else:
                 kw['target__isnull'] = True
             return alert.subscriptions.get(**kw)

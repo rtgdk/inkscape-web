@@ -1,0 +1,26 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block content %}
+  <h1>
+    {% block title %}
+      {% if object %}
+        {% blocktrans %}Unsubscribe from {{ object }}{% endblocktrans %}
+      {% else %}
+        {% blocktrans with alert.name as alert_name %}Unsubscribe from All {{ alert_name }}{% endblocktrans %}
+      {% endif %}
+    {% endblock %}
+  </h1>
+
+  <div>{% blocktrans %}If you unsubscribe, you will no longer get alerts about {{ object }}.{% endblocktrans %}</div>
+
+  <form method="post" action=".">
+    {% csrf_token %}
+    <div class="form-buttons">
+      <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
+      <input type="submit" class="btn btn-primary" value="{% trans "Unsubscribe" %}"/>
+      <a class="btn btn-default" href="{% url "alert.settings" %}">{% trans "Cancel" %}</a>
+    </div>
+  </form>
+
+{% endblock %}

@@ -35,7 +35,7 @@ class AuthorRecord(OrderedDict):
                     self.add_bzr_block(block)
 
     def add_bzr_block(self, blk):
-        """Turn a colon speerated name/value pair into a dict"""
+        """Turn a colon seperated name/value pair into a dict"""
         dat = dict(l.strip().split(':', 1) for l in blk.split('\n') if ':' in l)
         if not dat or 'Launchpad' in dat['committer']:
             return

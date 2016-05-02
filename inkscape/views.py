@@ -147,7 +147,7 @@ class Authors(TemplateView):
         data['title'] = _('Author Credits')
         data['authors'] = [
             {'name': _('Managed Content'), 'desc': _('Licensed GPLv2 or Later and CC-BY-SA'), 'people': self.cms_authors()},
-            {'name': _('Wensite Programmers'), 'desc': _('Licensed AGPLv3'), 'people': CODERS},
+            {'name': _('Website Programmers'), 'desc': _('Licensed AGPLv3'), 'people': CODERS},
             {'name': _('Translations'), 'desc': _('Contributed to po files'), 'people': TRANSLATORS},
             {'name': _('Documentation'), 'desc': _('Contributors to Inkscape-docs team'), 'people': DOCUMENTORS},
         ]

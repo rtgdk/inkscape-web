@@ -181,6 +181,7 @@
   border-radius: 5px;
   display: inline-block;
   padding: 20px;
+  cursor: pointer;
 }
 .edit .image label:hover {
   background-color: #333;

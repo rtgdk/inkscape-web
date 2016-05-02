@@ -50,8 +50,28 @@
     <div class="desc">
       {{ object.description|urlize|linebreaks }}
       {% if object.read_more %}
+      
+      <script>     
+        $(document).ready(function(){
+          $("#readmore").click(function(e) {
+            e.preventDefault();
+            $.ajax({
+              url: "{% url "resource.readme" object.pk %}",
+              async: false,
+              dataType: "text",
+              success: function(data) {
+                         var descContent = data;
+                         // cut off first three lines of text file, insert paragraphs
+                         descContent = "<p>" + descContent.split("\n").slice(2).join("</p> <p>") + "</p>";
+                         $(".desc").html(descContent);
+                         // TODO: urls could be turned into clickable links
+                       },
+            });
+          });
+        });
+      </script>
         ...
-        <p><a href="{% url "resource.readme" object.pk %}">{% trans "read more" %}</a></p>
+        <p><a id="readmore" href="{% url "resource.readme" object.pk %}">{% trans "read more" %}</a></p>
       {% endif %}
     </div>
 

@@ -24,6 +24,7 @@ Parsing log files for nginx and uwsgi as needed for data processing.
 import re
 import os
 import sys
+import gzip
 import urllib
 
 try:
@@ -50,12 +51,25 @@ def country(value):
     """Returns the country code based on ip address"""
     return str(GEOIP.country_code(value)).lower()
 
+def peek(fhl, size):
+    """Read some bytes in the file then seek back"""
+    pos = fhl.tell()
+    ret = fhl.read(size)
+    fhl.seek(pos)
+    return ret
+
 def matches_in(label, filename, rex, progress=no_bar):
     """Finds a match for a regex and yields group dictionaries"""
     size = int(os.stat(filename)[6])
     count = 0
     done = 0
+
     with open(filename, 'r') as fhl:
+        # GZip magic number for svgz files.
+        if peek(fhl, 2) == '\x1f\x8b':
+            # File handle is replaced with gzip io handle
+            fhl = gzip.GzipFile(fileobj=fhl)
+
         while fhl.tell() < size:
             count += 1
             line = fhl.readline()
@@ -77,7 +91,7 @@ def parse_logs(location, **kwargs):
     return result
 
 
-def parse_file(key, log, result=None, protect=True, **kwargs):
+def parse_file(key, log, result=None, protect=True, retry=False, **kwargs):
     """
       Parse a log file with the given parser (key) and return a dictionary of
       paths, by a dictionary of dates, with a dictionary of metrics that may
@@ -97,15 +111,15 @@ def parse_file(key, log, result=None, protect=True, **kwargs):
         raise IOError("No %s log to process: %s" % (key, log))
 
     inode = os.stat(log)[1]
-    try:
-        LogFile.objects.get(inode=inode)
-    except LogFile.DoesNotExist:
-        for kwargs in matches_in(key, log, logs['rex'], **kwargs):
-            add_result(result, **run(kwargs, *logs.get('ignore', ())))
-        if protect:
-            LogFile.objects.create(inode=inode, filename=os.path.basename(log))
-    else:
+    if not retry and LogFile.objects.filter(inode=inode).count() > 0:
         raise IOError("Log file already processed: %s" % log)
+
+    for kwargs in matches_in(key, log, logs['rex'], **kwargs):
+        add_result(result, **run(kwargs, *logs.get('ignore', ())))
+
+    if protect:
+        LogFile.objects.get_or_create(inode=inode,
+                defaults={'filename': os.path.basename(log)})
 
     return result
 

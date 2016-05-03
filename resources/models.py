@@ -505,7 +505,7 @@ class ResourceFile(Resource):
             text.open()
             text.seek(0)
             # GZip magic number for svgz files.
-            if text.peek(2) == '\x1f\x8b':
+            if text.rad(2) == '\x1f\x8b':
                 text = gzip.GzipFile(fileobj=text)
             if lines is not None:
                 return "".join(next(text.file) for x in xrange(lines))

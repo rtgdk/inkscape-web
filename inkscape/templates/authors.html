@@ -13,7 +13,11 @@
         <table style="width: 100%;">
           <tr><th>Name</th><th>Involvement</th><th>Impact</th></tr>
           {% for key, person in section.people.items %}
-            <tr><td>{{ person.name }}</td><td>{{ person.start }}-{{ person.end}}</td><td>{{ person.count }}</td></tr>
+            <tr>
+              <td>{{ person.name }}</td>
+              <td>{% if person.start == person.end %}{{ person.start }}{% else %}{{ person.start }}-{{ person.end}}{% endif %}</td>
+              <td>{{ person.count }}</td>
+            </tr>
           {% endfor %}
         </table>
       {% else %}

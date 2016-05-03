@@ -39,7 +39,7 @@ if not user_agents:
     # The user_agents module isn't available, so we'll add some cached values
     AGENT_CACHE[-7985492147856592190] = []
     AGENT_CACHE[2307330943812977727] = [('os', ('Windows', '10')), ('browser', ('Chrome', '47'))]
-    AGENT_CACHE[8387961549586277991] = [('os', ('Android', '5.1')), ('browser', ('Chrome', '38M')), ('device', ('Samsung', 'SM-N920C'))]
+    AGENT_CACHE[8387961549586277991] = [('os', ('Android', '5.1')), ('browser', ('Samsung Internet', '3.4')), ('device', ('Samsung', 'SM-N920C'))]
     AGENT_CACHE[8991742294718112177] = [('os', ('Linux', 'Ubuntu')), ('browser', ('Firefox', '43'))]
     AGENT_CACHE[-3331878396053352693] = [('os', ('Linux', 'Ubuntu')), ('browser', ('Firefox', '42'))]
     AGENT_CACHE[2653303025075231619] = [('browser', ('Bot', 'Baiduspider'))]
@@ -285,7 +285,7 @@ class ParsingTests(BaseCase):
         )
         self.assertObjects(LogValue.objects.filter(metric__name='browser'),
             ['name__family', 'name__name'],
-            ('Chrome', '38M'),
+            ('Samsung Internet', u'3.4'),
             ('Bot', 'Apache-HttpClient'),
             ('Bot', 'Baiduspider'),
             ('Bot', 'bingbot'),

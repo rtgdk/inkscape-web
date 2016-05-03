@@ -43,6 +43,8 @@ def process_results(result, progress=None):
             (request, _) = LogRequest.objects.get_or_create(path=path)
         except utils.IntegrityError:
             continue
+        except utils.OperationalError:
+            continue
 
         for d_ate, data in result[path].items():
             (period, _) = LogPeriod.objects.get_or_create(

@@ -41,17 +41,22 @@ class SiteWideStats(DetailView):
     model = LogRequest
 
     def get_object(self):
-        return LogRequest.objects.get(path__isnull=True)
+        try:
+            return LogRequest.objects.get(path__isnull=True)
+        except LogRequest.DoesNotExist:
+            return None
 
     def get_context_data(self, **kwargs):
         data = super(SiteWideStats, self).get_context_data(**kwargs)
-        data['days'] = data['object'].days(today=date(2016, 01, 10))
+        if data['object']:
+            data['days'] = data['object'].days(today=date(2016, 01, 10))
         return data
 
 class RequestStats(DetailView):
+    slug_field = 'path'
     model = LogRequest
 
     def get_object(self):
-        path = self.kwargs['path'].replace('_', '/').strip('/')
-        return LogRequest.objects.get(path=path)
+        self.kwargs['slug'] = self.kwargs['path'].replace('_', '/').strip('/')
+        return super(RequestStats, self).get_object()
 

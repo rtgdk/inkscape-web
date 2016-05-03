@@ -40,6 +40,7 @@ from django.utils.translation import ugettext_lazy as _
 
 class LogFile(Model):
     """Simple inode recorder to check if log file has been done"""
+    filename = CharField(max_length=255, null=True)
     inode = PositiveIntegerField(unique=True, db_index=True)
     touched = DateTimeField(auto_now_add=True)
 

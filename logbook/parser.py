@@ -103,7 +103,7 @@ def parse_file(key, log, result=None, protect=True, **kwargs):
         for kwargs in matches_in(key, log, logs['rex'], **kwargs):
             add_result(result, **run(kwargs, *logs.get('ignore', ())))
         if protect:
-            LogFile.objects.create(inode=inode)
+            LogFile.objects.create(inode=inode, filename=os.path.basename(log))
     else:
         raise IOError("Log file already processed: %s" % log)
 

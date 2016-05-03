@@ -22,6 +22,14 @@ from django.contrib.admin import *
 
 from .models import *
 
+class FileAdmin(ModelAdmin):
+    model = LogFile
+    list_display = ('filename', 'touched', 'inode')
+    readonly_fields = ('filename', 'touched', 'inode')
+
+site.register(LogFile)
+
+
 site.register(LogMetric)
 
 class NameAdmin(ModelAdmin):

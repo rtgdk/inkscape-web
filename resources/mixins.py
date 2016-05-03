@@ -40,7 +40,7 @@ class OwnerViewMixin(object):
         if self.user:
             data['user'] = get_user_model().objects.get(username=self.user)
             data['parent'] = data['user']
-        elif self.group:
+        elif hasattr(self, 'group') and self.group:
             data['group'] = Group.objects.get(team__slug=self.team)
             data['parent'] = data['group']
         return data

@@ -23,10 +23,24 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.forms import PasswordResetForm
 from django.contrib.auth.models import Permission
 
+from djangocms_text_ckeditor.widgets import TextEditorWidget
 from registration.forms import RegistrationForm
 from captcha.fields import ReCaptchaField
 
-from .models import User
+from .models import User, Team
+
+class TeamForm(ModelForm):
+    class Meta:
+        exclude = ()
+        model = Team
+
+    def __init__(self, *args, **kw):
+        super(TeamForm, self).__init__(*args, **kw)
+
+        for field in ('intro', 'desc', 'charter', 'side_bar'):
+            if field in self.fields:
+                self.fields[field].widget = TextEditorWidget()
+
 
 class PasswordForm(PasswordResetForm):
     recaptcha = ReCaptchaField(label=_("Human Test"))

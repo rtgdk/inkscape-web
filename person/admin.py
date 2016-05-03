@@ -37,6 +37,7 @@ class PermissionAdmin(ModelAdmin):
 site.register(Permission, PermissionAdmin)
 
 from .models import *
+from .forms import TeamForm
 
 class ChatRoomInline(TabularInline):
     model = TeamChatRoom
@@ -44,7 +45,7 @@ class ChatRoomInline(TabularInline):
     fields = ('channel', 'language')
 
 class TeamAdmin(AjaxSelectAdmin):
-    form = make_ajax_form(Team, {'admin': 'user'}, show_help_text=True)
+    form = make_ajax_form(Team, {'admin': 'user'}, TeamForm, show_help_text=True)
     list_display = ('name', 'group', 'admin', 'enrole')
     inlines = (ChatRoomInline,)
     readonly_fields = ('watchers', 'requests')

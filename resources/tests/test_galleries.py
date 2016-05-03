@@ -46,8 +46,7 @@ class GalleryUserTests(BaseUserCase):
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
 
-        response = self.assertGet('resources')
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', status=200)
         self.assertEqual(response.context['object_list'].count(), resources.count())
         # make sure we see uploads from different people
         self.assertGreater(len(set([item.user for item in response.context['object_list']])), 1)
@@ -86,9 +85,7 @@ class GalleryUserTests(BaseUserCase):
         for category in categories:
             items = resources.filter(category=category.pk)
 
-            response = self.assertGet('resources', category=category.value)
-            self.assertEqual(response.status_code, 200,
-                             'Could not find page for category %s' % category.value)
+            response = self.assertGet('resources', category=category.value, status=200)
             self.assertEqual(response.context['object_list'].count(),
                              items.count(), 'The number of items in category %s is not correct' % category.value)
             for item in items:
@@ -117,8 +114,7 @@ class GalleryUserTests(BaseUserCase):
         #test normal and reverse order
         for order in orderlist + rev_orderlist:
             ordered = resources.order_by(order)
-            response = self.client.get(reverse('resources') + '?order=' + order)
-            self.assertEqual(response.status_code, 200)
+            response = self.client.get(reverse('resources') + '?order=' + order, status=200)
             #conveniently respects ordering when checking for equality
             self.assertEqual(list(response.context['object_list']), list(ordered))
 
@@ -135,8 +131,7 @@ class GalleryUserTests(BaseUserCase):
         self.assertGreater(resources.count(), 1,
                            "Create another resource for user %s" % self.user)
 
-        response = self.assertGet('resources', username=self.user.username)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', username=self.user.username, status=200)
         for resource in resources:
             self.assertContains(response, resource.name)
         self.assertContains(response, self.user.username)
@@ -150,8 +145,7 @@ class GalleryUserTests(BaseUserCase):
         self.assertGreater(resources.count(), 1,
                            "Create another public resource for user %s" % owner)
 
-        response = self.assertGet('resources', username=owner.username)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', username=owner.username, status=200)
         for resource in resources:
             self.assertContains(response, resource.name)
         self.assertContains(response, owner.username)
@@ -163,7 +157,7 @@ class GalleryUserTests(BaseUserCase):
         containing all items that have been uploaded into its subgalleries
         not being a member of that group. After this, look at a subgallery, to
         see if it contains the right items, too."""
-        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
+        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.groups)\
                                    .exclude(user=self.user)
         self.assertGreater(galleries.count(), 1,
                            "Create a group gallery where %s is not a member, and not the owner" % self.user)
@@ -183,9 +177,7 @@ class GalleryUserTests(BaseUserCase):
         all_this_groups_items = [item for gal in this_group.galleries.all() for item in gal.items.all()]
 
         # First part: fetch global team gallery page, containing all subgalleries and all their resources
-        response = self.assertGet('resources', team=subgallery.group.team.slug)
-
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', team=subgallery.group.team.slug, status=200)
 
         # make sure all resources from all subgalleries are on that page
         self.assertEqual(len(all_this_groups_items), response.context['object_list'].count())
@@ -193,9 +185,8 @@ class GalleryUserTests(BaseUserCase):
             self.assertContains(response, item.name)
 
         # Second part: fetch a team's subgallery and check if it contains the right resources
-        response = self.assertGet('resources', galleries=subgallery.slug, team=subgallery.group.team.slug)
+        response = self.assertGet('resources', galleries=subgallery.slug, team=subgallery.group.team.slug, status=200)
 
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(subgallery.items.count(), response.context['object_list'].count())
         for item in subgallery.items.all():
             self.assertContains(response, item.name)
@@ -215,9 +206,7 @@ class GalleryUserTests(BaseUserCase):
         for category in categories:
             items = resources.filter(category=category.pk)
 
-            response = self.assertGet('resources', username=self.user.username, category=category.value)
-            self.assertEqual(response.status_code, 200,
-                             'Could not find page for category %s' % category.value)
+            response = self.assertGet('resources', username=self.user.username, category=category.value, status=200)
             self.assertEqual(response.context['object_list'].count(),
                              items.count(), 'The number of items in category %s is not correct' % category.value)
             for item in items:
@@ -238,9 +227,7 @@ class GalleryUserTests(BaseUserCase):
         for category in categories:
             items = resources.filter(category=category.pk)
 
-            response = self.assertGet('resources', username=owner.username, category=category.value)
-            self.assertEqual(response.status_code, 200,
-                             'Could not find page for category %s' % category.value)
+            response = self.assertGet('resources', username=owner.username, category=category.value, status=200)
             self.assertEqual(response.context['object_list'].count(),
                              items.count(), 'The number of items in category %s is not correct' % category.value)
             for item in items:
@@ -256,8 +243,7 @@ class GalleryUserTests(BaseUserCase):
                                     .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query")
-        response = self.assertGet('resources', get_param=get_param)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', get_param=get_param, status=200)
 
         self.assertEqual(
             [int(a.pk) for a in response.context['object_list']],
@@ -280,8 +266,7 @@ class GalleryUserTests(BaseUserCase):
                            "Create a public resource which complies to the search query for user %s" % owner)
 
         get_param = urlencode({'q': 'Seven -Four'})
-        response = self.assertGet('resources', username=owner.username, get_param=get_param)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('resources', username=owner.username, get_param=get_param, status=200)
 
         self.assertEqual(
             [int(a.pk) for a in response.context['object_list']],
@@ -312,9 +297,8 @@ class GalleryUserTests(BaseUserCase):
         call_command('rebuild_index', interactive=False, verbosity=0)
 
         get_param = urlencode({'q': 'Seven -Four'})
-        response = self.assertGet('resources', username=owner.username, galleries=gallery.slug, get_param=get_param)
+        response = self.assertGet('resources', username=owner.username, galleries=gallery.slug, get_param=get_param, status=200)
 
-        self.assertEqual(response.status_code, 200)
         self.assertEqual(int(response.context['object_list'][0].pk), item_search.pk)
         self.assertContains(response, ">%s<" % item_search.name, 1)
 
@@ -371,7 +355,7 @@ class GalleryUserTests(BaseUserCase):
         """Make sure that we cannot move items from our own gallery
         into a gallery which isn't ours, and not a gallery for a group we're in"""
         src = self.getObj(self.user.galleries.filter(group=None))
-        to = self.getObj(Gallery.objects.exclude(group__in=self.user.groups.all()).exclude(user=self.user))
+        to = self.getObj(Gallery.objects.exclude(group__in=self.groups).exclude(user=self.user))
         resource = self.getObj(ResourceFile, user=self.user)
 
         # add a resource which belongs to us to the gallery
@@ -384,8 +368,7 @@ class GalleryUserTests(BaseUserCase):
         """Make sure that we can move items into a group gallery
         if we are a member (not owner) of the group"""
         src = self.getObj(self.user.galleries.all(), group=None)
-        to = self.getObj(Gallery, exclude=dict(user=self.user),
-                         group__in=self.user.groups.all())
+        to = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
         resource = self.getObj(ResourceFile, user=self.user)
 
         # add a resource which belongs to us to the team gallery
@@ -399,8 +382,7 @@ class GalleryUserTests(BaseUserCase):
         Make sure that we can move our own items out of a group gallery if we
         are a member (not owner) of the group, but not other people's items.
         """
-        src = self.getObj(Gallery, exclude=dict(user=self.user),
-                          group__in=self.user.groups.all())
+        src = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
         to = self.getObj(self.user.galleries, group=None)
         resource = self.getObj(ResourceFile, user=self.user)
 
@@ -424,15 +406,13 @@ class GalleryUserTests(BaseUserCase):
         # We can only check if moving it to another gallery belonging to the same group works,
         # and later that moving it to a gallery of another group doesn't
         # We really need a real 'delete' for this, despite the 'move' being funky...
-        src = self.getObj(Gallery, exclude=dict(user=self.user),
-                          group__in=self.user.groups.all())
-        to = self.getObj(Gallery, exclude=dict(user=self.user),
-                         group_id=src.group.pk)
+        src = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
+        to = self.getObj(Gallery, not_user=self.user, group_id=src.group.pk)
 
         # add a resource which does *not* belong to us, but to someone
         # totally unrelated (e.g. a member that left the group),
         # to the source gallery,
-        unrelated_user = self.getObj(User, exclude=dict(groups=src.group))
+        unrelated_user = self.getObj(User, not_groups=src.group)
         resource = self.getObj(unrelated_user.resources.all())
 
         src.items.add(resource)
@@ -443,7 +423,7 @@ class GalleryUserTests(BaseUserCase):
         # second half: try to move that stranger's resource to another gallery
         # belonging to another group
         src.items.add(resource)
-        to = self.getObj(Gallery, exclude=dict(group_id=src.group.pk))
+        to = self.getObj(Gallery, not_group_id=src.group.pk)
 
         # try to move a stranger's resource from a gallery belonging to a group I am in
         # to a gallery of a group I am not in
@@ -452,9 +432,8 @@ class GalleryUserTests(BaseUserCase):
     def test_move_item_to_gallery_not_item_owner(self):
         """Make sure that we cannot move items around that don't belong to us
         (from stranger's gallery to our own)"""
-        src = self.getObj(Gallery.objects.exclude(group__in=self.user.groups.all()).exclude(user=self.user))
-        to = self.getObj(Gallery, exclude=dict(user=self.user),
-                         group__in=self.user.groups.all())
+        src = self.getObj(Gallery.objects.exclude(group__in=self.groups).exclude(user=self.user))
+        to = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
 
         # add a resource which belongs to someone else to that person's gallery
         resource = self.getObj(ResourceFile, user=src.user)
@@ -466,8 +445,7 @@ class GalleryUserTests(BaseUserCase):
     def test_move_item_from_non_existent_gallery(self):
         """ensure we get a 404 if we try to move an item out of a gallery
         which does not exist"""
-        to = self.getObj(Gallery, user=self.user,
-                exclude=dict(group__in=self.user.groups.all()))
+        to = self.getObj(Gallery, user=self.user, not_group__in=self.groups)
         resource = self.getObj(ResourceFile, user=self.user)
 
         # try to move the resource from nonexistant gallery to my gallery
@@ -492,7 +470,7 @@ class GalleryUserTests(BaseUserCase):
         """Make sure that we cannot copy items into a gallery which isn't ours,
         and not a gallery for a group we're in"""
         src = self.getObj(self.user.galleries.all())
-        to = self.getObj(Gallery.objects.exclude(user=self.user).exclude(group__in=self.user.groups.all()))
+        to = self.getObj(Gallery.objects.exclude(user=self.user).exclude(group__in=self.groups))
 
         # add a resource which belongs to us to a gallery
         resource = self.getObj(self.user.resources.all())
@@ -503,14 +481,14 @@ class GalleryUserTests(BaseUserCase):
     def test_copy_item_to_group_gallery_member(self):
         """Make sure that we can copy own items into a group gallery
         if we are a member (not owner) of the group"""
-        to = self.getObj(Gallery.objects.exclude(user=self.user).filter(group__in=self.user.groups.all()))
+        to = self.getObj(Gallery.objects.exclude(user=self.user).filter(group__in=self.groups))
         resource = self.getObj(self.user.resources.all())
         self.assertCopyResource(resource, to, 200, 1, 1)
 
     def test_copy_item_to_gallery_not_item_owner(self):
         """Make sure we cannot copy items that do not belong to us"""
         to = self.getObj(self.user.galleries.all())
-        resource = self.getObj(ResourceFile, exclude=dict(user=self.user))
+        resource = self.getObj(ResourceFile, not_user=self.user)
         self.assertCopyResource(resource, to, 403, 1, 0, get=403)
 
     # Gallery Edit tests
@@ -522,53 +500,43 @@ class GalleryUserTests(BaseUserCase):
         oldname = gallery.name
 
         # check GET
-        response = self.assertGet('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('gallery.edit', gallery_id=gallery.pk, status=200)
         self.assertIsInstance(response.context['form'], GalleryForm)
         self.assertContains(response, gallery.name)
 
         # check POST
-        response = self.assertPost('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 200)
+        response = self.assertPost('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""}, status=200)
         self.assertContains(response, "New Name")
         self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
         self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
 
     def test_edit_group_gallery_member_fail(self):
         """Make sure that people who do not own a team gallery, but who are members of that gallery's team, cannot change the name/team for that gallery"""
-        not_owned_galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
+        not_owned_galleries = Gallery.objects.filter(group__in=self.groups)\
                                            .exclude(user=self.user)
 
         self.assertGreater(not_owned_galleries.count(), 0)
         not_owned_gallery = not_owned_galleries[0]
         oldname = not_owned_gallery.name
 
-        # check GET
-        response = self.assertGet('gallery.edit', gallery_id=not_owned_gallery.pk)
-        self.assertEqual(response.status_code, 403)
-
-        # check POST
-        response = self.assertPost('gallery.edit', gallery_id=not_owned_gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 403)
+        self.assertBoth('gallery.edit', gallery_id=not_owned_gallery.pk, data={"name": "New Name", "group": ""}, status=403)
         self.assertEqual(Gallery.objects.get(pk=not_owned_gallery.pk).name, oldname)
 
     def test_edit_group_gallery_owner(self):
         """Make sure that group owners can change the name/team of their group
         gallery"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all()).filter(user=self.user)
+        galleries = Gallery.objects.filter(group__in=self.groups).filter(user=self.user)
         self.assertGreater(galleries.count(), 0)
         gallery = galleries[0]
         oldname = gallery.name
 
         # check GET
-        response = self.assertGet('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('gallery.edit', gallery_id=gallery.pk, status=200)
         self.assertIsInstance(response.context['form'], GalleryForm)
         self.assertContains(response, gallery.name)
 
         # check POST
-        response = self.assertPost('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 200)
+        response = self.assertPost('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""}, status=200)
         self.assertContains(response, "New Name")
         self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, "New Name")
         self.assertEqual(Gallery.objects.filter(name=oldname).count(), 0)
@@ -576,19 +544,13 @@ class GalleryUserTests(BaseUserCase):
     def test_edit_unrelated_gallery(self):
         """Make sure that everyone unrelated to a
         gallery cannot edit it"""
-        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.user.groups.all())\
+        galleries = Gallery.objects.exclude(group=None).exclude(group__in=self.groups)\
                                                        .exclude(user=self.user)
         self.assertGreater(galleries.count(), 0)
         gallery = galleries[0]
         oldname = gallery.name
 
-        # check GET
-        response = self.assertGet('gallery.edit', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 403)
-
-        # check POST
-        response = self.assertPost('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""})
-        self.assertEqual(response.status_code, 403)
+        self.assertBoth('gallery.edit', gallery_id=gallery.pk, data={"name": "New Name", "group": ""}, status=403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk).name, oldname)
 
     # Gallery deletion tests
@@ -600,54 +562,31 @@ class GalleryUserTests(BaseUserCase):
         gallery = galleries[0]
 
         # check GET
-        response = self.assertGet('gallery.delete', gallery_id=gallery.pk)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('gallery.delete', gallery_id=gallery.pk, status=200)
         self.assertContains(response, gallery.name)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
 
         # check POST
-        response = self.assertPost('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertPost('gallery.delete', gallery_id=gallery.id, status=200)
         with self.assertRaises(Gallery.DoesNotExist):
             Gallery.objects.get(pk=gallery.pk)
 
     def test_gallery_deletion_group_gallery(self):
         """Make sure galleries can be deleted by group member"""
-        galleries = Gallery.objects.filter(group__in=self.user.groups.all())\
-                                                      .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0,
-            "Create a gallery for a group in which %s is a member, not the owner" % self.user)
-        gallery = galleries[0]
+        gallery = self.getObj(Gallery, group__in=self.groups, not_user=self.user)
 
-        # check GET
-        response = self.assertGet('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertGet('gallery.delete', gallery_id=gallery.id, status=200)
         self.assertContains(response, gallery.name)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
 
-        # check POST
-        response = self.assertPost('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 200)
+        response = self.assertPost('gallery.delete', gallery_id=gallery.id, status=200)
         with self.assertRaises(Gallery.DoesNotExist):
             Gallery.objects.get(pk=gallery.pk)
 
     def test_gallery_deletion_group_gallery_non_member(self):
         """Make sure galleries can't be deleted by someone unrelated to the gallery"""
-        galleries = Gallery.objects.exclude(group__in=self.user.groups.all())\
-                                                      .exclude(user=self.user)
-        self.assertGreater(galleries.count(), 0,
-            "Create a group gallery where user %s is neither a group member nor the owner" % self.user)
-        gallery = galleries[0]
-
-        # check GET
-        response = self.assertGet('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
-
-        # check POST
-        response = self.assertPost('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
+        gallery = self.getObj(Gallery, not_group__in=self.groups, not_user=self.user)
+        self.assertBoth('gallery.delete', gallery_id=gallery.id, status=403)
 
     # Gallery RSS tests
     def test_gallery_rss_feed(self):
@@ -726,30 +665,16 @@ class GalleryAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     def test_view_all_resources_by_user(self):
         """Look at all uploads from someone, and see only public items"""
-        resources = ResourceFile.objects.filter(user=3, published=True)
-        self.assertGreater(resources.count(), 0,
-                           "Create another resource for user with id 3")
-
-        response = self.assertGet('resources', username=User.objects.get(pk=3).username)
-        self.assertEqual(response.status_code, 200)
+        user = User.objects.get(pk=3)
+        resources = user.resources.filter(published=True)
+        response = self.assertGet('resources', username=user.username, status=200)
         self.assertContains(response, resources[0].name)
-        self.assertContains(response, User.objects.get(pk=3).username)
+        self.assertContains(response, user.username)
         self.assertEqual(response.context['object_list'].count(), resources.count())
 
     def test_gallery_deletion_anon(self):
         """Make sure galleries can't be deleted AnonymousUser"""
-        galleries = Gallery.objects.all()
-        self.assertGreater(galleries.count(), 0,
-                           "Create a gallery")
-        gallery = galleries[0]
-
-        # check GET
-        response = self.assertGet('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
-        self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
-
-        # check POST
-        response = self.assertPost('gallery.delete', gallery_id=gallery.id)
-        self.assertEqual(response.status_code, 403)
+        gallery = self.getObj(Gallery)
+        (_, post) = self.assertBoth('gallery.delete', gallery_id=gallery.id, status=403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
 

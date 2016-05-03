@@ -78,8 +78,10 @@ class BaseCase(TestCase):
 
         qs      - a QuerySet or Model class
         count   - number of objects to get (default: 1)
-        exclude - exclude filter to run (default: None)
-        **kw    - include filter to run (default: None)
+        **kw    - filter to run (default: None)
+
+        Filters are combination of positive fields=value in kwargs
+        and not_field=value for exclusion in the same dictionary.
         """
         count = kw.pop('count', 1)
 
@@ -87,10 +89,11 @@ class BaseCase(TestCase):
         if isinstance(qs, (types.TypeType, types.ClassType)):
             qs = qs.objects.all()
 
-        if 'exclude' in kw:
-            qs = qs.exclude(**kw.pop('exclude'))
-        if kw:
-            qs = qs.filter(**kw)
+        for (field, value) in kw.items(): 
+            if field[:4] != 'not_':
+                qs = qs.filter(**{field: value})
+            else:
+                qs = qs.exclude(**{field[4:]: value})
 
         # Assert we have enough objects to return
         self.assertGreater(qs.count(), count - 1)
@@ -99,7 +102,7 @@ class BaseCase(TestCase):
         return qs[0] if count == 1 else qs[:count]
 
     def assertGet(self, url_name, *arg, **kw):
-        "Make a generic GET request with the best options"
+        """Make a generic GET request with the best options"""
         data = kw.pop('data', {})
         method = kw.pop('method', self.client.get)
         follow = kw.pop('follow', True)
@@ -119,7 +122,7 @@ class BaseCase(TestCase):
         return response
 
     def assertPost(self, *arg, **kw):
-        "Make a generic POST request with the best options"
+        """Make a generic POST request with the best options"""
         errs = kw.pop('form_errors', None)
         kw['method'] = self.client.post
         response = self.assertGet(*arg, **kw)
@@ -135,6 +138,18 @@ class BaseCase(TestCase):
                     msg += "%s: %s\n" % (field, ','.join(form.errors[field]))
                 self.assertFalse(bool(form.errors), msg)
         return response
+
+    def assertBoth(self, *args, **kw):
+        """
+        Make a GET and POST request and expect the same status.
+        
+        Teturns (get, post) response tuple
+        """
+        post_kw = kw.copy()
+        for key in ('form_errors', 'data'):
+            kw.pop(key, None)
+        return (self.assertGet(*args, **kw),
+                self.assertPost(*args, **post_kw))
 
     def set_session_cookies(self):
         """Set session data regardless of being authenticated"""
@@ -199,6 +214,7 @@ class BaseUserCase(BaseCase):
         super(BaseUserCase, self).setUp()
         self.user = authenticate(username='tester', password='123456')
         self.client.login(username='tester', password='123456')
+        self.groups = self.user.groups.all()
 
 class BaseAnonCase(BaseCase):
     def setUp(self):

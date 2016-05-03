@@ -26,7 +26,7 @@ __all__ = ('ResourceTests', 'ResourceUserTests', 'ResourceAnonTests')
 
 import os
 
-from .base import BaseCase, BaseUserCase, BaseAnonCase
+from .base import SOURCE, BaseCase, BaseUserCase, BaseAnonCase
 
 from django.core.urlresolvers import reverse
 
@@ -242,6 +242,32 @@ class ResourceUserTests(BaseUserCase):
         # check POST
         response = self.assertPost('resource.upload', data=self.data, status=200)
         self.assertEqual(ResourceFile.objects.count(), num + 1)
+
+    def test_submit_long_filename(self):
+        """Submit an item with an extra large filename"""
+        for x in range(92, 97):
+            data = self.data
+            name = 'x' * x + '.svg'
+            data['download'] = self.open('file5.svg', name=name)
+            data['thumbnail'] = self.open('preview5.png', name=name)
+            res = self.assertPost('resource.upload', data=data, status=200)
+
+            out = res.context_data['object'].download.name
+            self.assertLess(len(out), 101)
+            self.assertEqual(out[:-12], 'resources/file/' + ('x' * 73))
+
+            # XXX this doesn't work because of the thumnail saving bug
+            #out = res.context_data['object'].thumbnail.name
+            #self.assertLess(len(out), 101)
+            #self.assertEqual(out[:-12], 'resources/file/' + ('x' * 73))
+
+        name = 'x' * 97 + '.svg'
+        data['download'] = self.open('file5.svg', name=name)
+        data['thumbnail'] = self.open('preview5.png', name=name)
+        self.assertPost('resource.upload', data=data, form_errors={
+            'download': "Ensure this filename has at most 100 characters (it has 101).",
+            'thumbnail': "Ensure this filename has at most 100 characters (it has 101)."
+        })
 
     def test_submit_gallery_item(self):
         """Test if I can upload a file into my own gallery when a gallery is selected"""

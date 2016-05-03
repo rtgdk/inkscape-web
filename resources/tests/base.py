@@ -39,6 +39,7 @@ from django.test.utils import override_settings
 from django.contrib.auth import authenticate
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
+from django.core.files.base import File
 
 from user_sessions.backends.db import SessionStore
 from user_sessions.utils.tests import Client
@@ -58,15 +59,18 @@ TEST_INDEX = {
 
 DIR = dirname(__file__)
 MEDIA = settings.MEDIA_ROOT.rstrip('/') + '_test'
+SOURCE = os.path.join(DIR, '..', 'fixtures', 'media', 'test')
 
 @override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX, MEDIA_ROOT=MEDIA)
 class BaseCase(TestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests'
                ]
 
-    def open(self, filename, *args):
+    def open(self, filename, *args, **kw):
         "Opens a file relative to this test script"
-        return open(join(DIR, filename), *args)
+        if not '/' in filename:
+            filename = join(SOURCE, filename)
+        return File(open(join(DIR, filename), *args), **kw)
 
     def getObj(self, qs, **kw):
         """
@@ -162,17 +166,16 @@ class BaseCase(TestCase):
         media = os.path.join(MEDIA, 'test')
         if not os.path.isdir(media):
             os.makedirs(media)
-        source = os.path.join(DIR, '..', 'fixtures', 'media', 'test')
-        for fname in os.listdir(source):
+        for fname in os.listdir(SOURCE):
             target = os.path.join(media, fname)
             if not os.path.isfile(target):
-                shutil.copy(os.path.join(source, fname), target)
+                shutil.copy(os.path.join(SOURCE, fname), target)
 
         haystack.connections.reload('default')
         call_command('rebuild_index', interactive=False, verbosity=0)
 
-        self.download = self.open(os.path.join(source, 'file5.svg'))
-        self.thumbnail = self.open(os.path.join(source, 'preview5.png'))
+        self.download = self.open('file5.svg')
+        self.thumbnail = self.open('preview5.png')
         self.data = {
           'download': self.download,
           'thumbnail': self.thumbnail,

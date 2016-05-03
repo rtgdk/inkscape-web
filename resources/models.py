@@ -750,7 +750,7 @@ class Quota(Model):
 from cms.models import CMSPlugin
 
 DISPLAYS = (
-  ('list', _("Gallery List")),
+  ('icons', _("Gallery Icons")),
   ('rows', _("Gallery Rows")),
 )
 
@@ -761,7 +761,7 @@ class GalleryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resources/resource_%s.html" % (self.display or 'list')
+        return "resources/resource_%s.html" % (self.display or 'icons')
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items per page'))
@@ -770,5 +770,5 @@ class CategoryPlugin(CMSPlugin):
 
     @property
     def render_template(self):
-        return "resources/resource_%s.html" % (self.display or 'list')
+        return "resources/resource_%s.html" % (self.display or 'icons')
 

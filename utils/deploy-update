@@ -69,6 +69,7 @@ if [ -d $TARGET ]; then
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
     rsync -rtuv $TEST data/ $TARGET/data
     bzr revno > $TARGET/data/revision
+    bzr log -r119.. -n0 > $TARGET/data/revision.log
   fi
 fi
 

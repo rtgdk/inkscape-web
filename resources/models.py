@@ -413,13 +413,15 @@ class ResourceFile(Resource):
 
     def save(self, *args, **kwargs):
         if self.download and not self.download._committed:
+            # There is a download file and it's changed
+
             if self.pk:
+                # Save the old download file in a revision
                 ResourceRevision.from_resource(self)
-            # We might be able to detect that the download has changed here.
+
+            # It's a raster image file, so regenerate the thumbnail
             if self.mime().is_raster():
                 self.thumbnail.save(self.download.name, self.download, save=False)
-            elif self.thumbnail:
-                self.thumbnail = None
 
             self.verified = False
             self.edited = now()

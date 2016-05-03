@@ -62,9 +62,9 @@ class Command(NoArgsCommand):
             return sys.stderr.write("\nStatic directory doesn't exist or is "
                 "empty. Have you run collectstatic yet?\n\n")
 
-        elif 'fastly.net' not in settings.STATIC_URL:
+        elif not settings.STATIC_URL or '://' not in settings.STATIC_URL:
             return sys.stderr.write("Fastly not being used for this website."
-                "(set STATIC_URL)\n")
+                " (set STATIC_URL)\n")
 
         last_clear = 0
         last_file = os.path.join(root, '.fastly_cleared')

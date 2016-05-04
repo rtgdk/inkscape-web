@@ -1,15 +1,15 @@
 {% load i18n static svg %}
 
- <div class="item{% if form %} edit{% endif %}">
- {% if not form and object.is_video %}
-   <div class="image video">
+{% if object.is_video %}
+  <div class="image video">
     {% if object.video.type == "youtube" %}
       <iframe src="https://www.youtube.com/embed/{{ object.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
     {% elif object.video.type == "vimeo" %}
       <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
     {% endif %}
   </div>
- {% elif object.is_file and object.is_available %}
+{% elif object.is_file %}
+  {% if object.is_available %}
     {% if object.mime.is_image %}
       {% if object.embed %}
         <div class="image svg">
@@ -33,22 +33,19 @@
         <a href="{% url "download_resource" object.id object.filename %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
       </div>
     {% endif %}
-  {% elif object %}
-    <div class="image link">
-      <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
-      {% if object.thumbnail %}
-        <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
-      {% else %}
-        <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
-      {% endif %}
-      </a>
+  {% else %}
+    <div class="image missing" title="{% trans "Image file missing" %}">
+      <img src="{% static "images/missing.svg" %}" alt="{% trans "Item file missing" %}"/>
     </div>
-  {% elif form %}
-  <div class="image uploader">
-    <label for="id_download" style="display: none;">
-      <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}">
-      <p>{% trans "Choose a file..." %}</p>
-    </label>
-  </div>
   {% endif %}
-
+{% elif object %}
+  <div class="image link">
+    <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
+    {% if object.thumbnail %}
+      <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
+    {% else %}
+      <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
+    {% endif %}
+    </a>
+  </div>
+{% endif %}

@@ -11,15 +11,32 @@
 {% endblock %}
 
 {% block content %}
+  {% if form and form.non_field_errors %}
+    <div class="errors">
+      {{ form.non_field_errors }}
+    </div>
+  {% endif %}
 
- {% if form and form.non_field_errors %}
-  <div class="errors">
-    {{ form.non_field_errors }}
+  <div class="item{% if form %} edit{% endif %}">
+    {% if form %}
+      <div class="image uploader">
+        <label for="id_download" style="display: none;">
+          {% if object.mime.is_image %}
+            <img src="{{ object.download.url }}"/>
+            <p>{% trans "Replace image" %} {{ object.filename }}</p>
+          {% elif object %}
+          <img src="{{ object.icon_only }}"/>
+            <p>{% trans "Replace file" %} {{ object.filename }}</p>
+          {% else %}
+            <img src="{% static "images/upload.svg" %}"/>
+            <p>{% trans "Choose a file..." %}</p>
+          {% endif %}
+        </label>
+      </div>
+    {% else %}
+      {% include "resources/resourcefile_view.html" %}
+    {% endif %}
+
+    {% block "description" %}{% endblock %}
   </div>
- {% endif %}
-
-  {% include "resources/resourcefile_view.html" %}
-
-  {% block "description" %}{% endblock %}
- </div>
 {% endblock %}

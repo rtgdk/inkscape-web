@@ -23,18 +23,17 @@ Urls for logbook
 
 from django.conf.urls import patterns, url, include
 
-from .views import SiteWideStats, RequestStats, MetricList, MetricDetails
+from .views import RequestStats, MetricList, MetricDetails
 
 def url_tree(regex, *urls):
     """Convience function for url trees"""
     return url(regex, include(patterns('', *urls)))
 
 urlpatterns = patterns('',
-  url(r'^$',                       SiteWideStats.as_view(), name="sitewide"),
-  url(r'^m/$',                     MetricList.as_view(), name="metrics"),
-  url(r'^m/(?P<slug>\w+)/$',       MetricDetails.as_view(), name="metric"),
+  url(r'^$',                     MetricList.as_view(), name="metrics"),
+  url(r'^m/(?P<slug>\w+)/$',     MetricDetails.as_view(), name="metric"),
   url_tree(r'^(?P<path>[^/]+)/',
-    url('^$',                      RequestStats.as_view(), name="request"),
+    url('^$',                    RequestStats.as_view(), name="request"),
   ),
 )
 

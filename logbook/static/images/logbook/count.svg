@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   id="svg2"
+   viewBox="0 0 190 190"
+   version="1.0"
+   inkscape:version="0.91+devel r"
+   sodipodi:docname="count_.svg"
+   width="190"
+   height="190">
+  <defs
+     id="defs66" />
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1855"
+     inkscape:window-height="1056"
+     id="namedview64"
+     showgrid="false"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0"
+     inkscape:zoom="2"
+     inkscape:cx="-25.669423"
+     inkscape:cy="163.76666"
+     inkscape:window-x="65"
+     inkscape:window-y="24"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg2" />
+  <metadata
+     id="metadata61">
+    <rdf:RDF>
+      <cc:Work>
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <cc:license
+           rdf:resource="http://creativecommons.org/publicdomain/zero/1.0/" />
+        <dc:publisher>
+          <cc:Agent
+             rdf:about="http://openclipart.org/">
+            <dc:title>Openclipart</dc:title>
+          </cc:Agent>
+        </dc:publisher>
+        <dc:title />
+        <dc:date>2008-03-15T22:35:33</dc:date>
+        <dc:description>Masonic Square and Compasses</dc:description>
+        <dc:source>https://openclipart.org/detail/15800/square-and-compasses-by-coder7</dc:source>
+        <dc:creator>
+          <cc:Agent>
+            <dc:title>coder7</dc:title>
+          </cc:Agent>
+        </dc:creator>
+        <dc:subject>
+          <rdf:Bag>
+            <rdf:li>line art</rdf:li>
+            <rdf:li>masonic</rdf:li>
+            <rdf:li>outline</rdf:li>
+          </rdf:Bag>
+        </dc:subject>
+      </cc:Work>
+      <cc:License
+         rdf:about="http://creativecommons.org/publicdomain/zero/1.0/">
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Reproduction" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#Distribution" />
+        <cc:permits
+           rdf:resource="http://creativecommons.org/ns#DerivativeWorks" />
+      </cc:License>
+    </rdf:RDF>
+  </metadata>
+  <rect
+     ry="18.5"
+     y="11.222157"
+     x="18.222157"
+     height="146.39655"
+     width="131.77304"
+     id="rect4318"
+     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate" />
+  <rect
+     style="color:#000000;clip-rule:nonzero;display:inline;overflow:visible;visibility:visible;opacity:1;isolation:auto;mix-blend-mode:normal;color-interpolation:sRGB;color-interpolation-filters:linearRGB;solid-color:#000000;solid-opacity:1;fill:#ffffff;fill-opacity:1;fill-rule:nonzero;stroke:#808080;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1;marker:none;paint-order:normal;color-rendering:auto;image-rendering:auto;shape-rendering:auto;text-rendering:auto;enable-background:accumulate"
+     id="rect4316"
+     width="131.77304"
+     height="146.39655"
+     x="38.722157"
+     y="31.222157"
+     ry="18.5" />
+  <g
+     style="fill:#ffffff;stroke:#808080;stroke-width:7.81583472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+     id="g13718"
+     transform="matrix(0.3825117,0,0,0.38516521,29.55397,10.007184)">
+    <path
+       inkscape:connector-curvature="0"
+       d="m 264.17636,115.32003 -34.40762,3.32858 8.71471,94.54217 c 30.90048,15.44537 19.25,91.6333 28.87045,137.44788 14.57795,-2.58866 9.53672,16.41166 23.765,56.93044 z"
+       style="fill:#ffffff;stroke:#808080;stroke-width:7.81583472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path4101"
+       inkscape:transform-center-x="-5.3972081"
+       inkscape:transform-center-y="54.263013" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 239.64,108.42 29.89,17.25 -47.55,82.36 c -34.57,1.27 -55.91,75.36 -83.86,113.04 -12.17,-8.38 -15.55,10.98 -45.47,41.94 z"
+       style="fill:#ffffff;stroke:#808080;stroke-width:7.81583472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="rect3129" />
+    <path
+       inkscape:connector-curvature="0"
+       transform="matrix(0.89472,0,0,0.89472,127.04,43.196)"
+       d="m 167.35,87.106 a 30.865,30.865 0 1 1 -61.73,0 30.865,30.865 0 1 1 61.73,0 z"
+       style="fill:#ffffff;stroke:#808080;stroke-width:8.73550912;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path7010" />
+    <path
+       inkscape:connector-curvature="0"
+       d="m 264.36905,121.1314 a 15.21014,15.21014 0 1 1 -30.42028,0 15.21014,15.21014 0 1 1 30.42028,0 z"
+       style="fill:#ffffff;stroke:#808080;stroke-width:7.81583472;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       id="path7012" />
+  </g>
+</svg>

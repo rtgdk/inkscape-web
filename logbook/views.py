@@ -36,6 +36,15 @@ class MetricDetails(DetailView):
     model = LogMetric
     slug_field = 'name'
 
+class RequestStats(DetailView):
+    slug_field = 'path'
+    model = LogRequest
+
+    def get_object(self):
+        self.kwargs['slug'] = self.kwargs['path'].replace('_', '/').strip('/')
+        return super(RequestStats, self).get_object()
+
+"""
 class SiteWideStats(DetailView):
     action_name = _('Site Wide')
     model = LogRequest
@@ -51,12 +60,4 @@ class SiteWideStats(DetailView):
         if data['object']:
             data['days'] = data['object'].days(today=date(2016, 01, 10))
         return data
-
-class RequestStats(DetailView):
-    slug_field = 'path'
-    model = LogRequest
-
-    def get_object(self):
-        self.kwargs['slug'] = self.kwargs['path'].replace('_', '/').strip('/')
-        return super(RequestStats, self).get_object()
-
+"""

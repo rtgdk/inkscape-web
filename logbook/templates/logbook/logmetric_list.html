@@ -1,15 +1,23 @@
 {% extends 'base.html' %}
-
-{% load i18n %}
+{% load i18n static %}
 
 {% block content %}
+  <h1>{% trans "Website Logs" %}</h1>
 
-  <h1>LogBook Metrics</h1>
-
-  <ul>
+  <div id="gallery">
     {% for object in object_list %}
-      <li><a href="{% url "logbook:metric" object.name %}">{{ object }}</a></li>
+      <div class="galleryitem">
+        <div><a class="link" href="{% url "logbook:metric" object.name %}">
+          {% if object.icon %}
+	    <img src="{% static object.get_icon %}"/>
+	  {% else %}
+	    <img src="{% static "images/logbook/metric.svg" %}"/>
+	  {% endif %}
+        </a></div> 
+        <p class="label"><a href="{% url "logbook:metric" object.name %}">
+          {{ object }}
+        </a></p>
+      </div>
     {% endfor %}
-  </ul>
-
+  </div>
 {% endblock %}

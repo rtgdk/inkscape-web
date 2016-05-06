@@ -1,10 +1,53 @@
 {% extends 'base.html' %}
+{% load i18n static %}
 
-{% load i18n %}
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "nvd3/nv.d3.min.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/logbook.css" %}"/>
+{% endblock %}
+
+{% block "js" %}{{ block.super }}
+  <script type="text/javascript" src="{% static "nvd3/d3.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "nvd3/nv.d3.min.js" %}"></script>
+  <script type="text/javascript" src="{% static "js/logbook.js" %}"></script>
+{% endblock %}
 
 {% block content %}
+  <div class="item">
+    <div class="chart">
+      <svg id="stack" style="height:500px; width: 700px; margin: 0px auto; background-color: white;"></svg>
+    </div>
+    <div class="info">
+      <div class="title">
+        <!--
+        <div class="tog" id="detailview"><a title="Page views">&nbsp;</a><p>0</p></div>
+        <div class="tog" id="view"><a href="/en/gallery/item/7411/view/" title="Full size view">&nbsp;</a><p>2</p></div>
+        <div class="tog" id="download"><a href="/en/gallery/item/7411/P2172172.JPG" title="Download">&nbsp;</a><p>1</p></div>
+        <div class="tog" id="fav"><a title="Favorites" class="disabled">&nbsp;</a><p>0</p></div>
+        -->
+        <h2 class="truncate">{{ object.label }}</h2>
+        <div class="by">&nbsp;{{ object.desc }}</div>
+      </div>
 
-  <h1>Metric: {{ object }}</h1>
+      <div class="desc"><p>Wav</p></div>
+
+      <div class="side">
+        <!--
+        <h2 class="truncate">Artwork</h2>
+        <dl>
+          <dt>Area</dt><dd> 4032x3024</dd>
+          <dt>Size</dt><dd>2.3&nbsp;MB</dd>
+          <dt>Created</dt><dd><time datetime="2016-05-04T01:50:44+0000" title="2016-05-04 01:50:44+0000">15&nbsp;hours, 13&nbsp;minutes ago</time></dd>
+          <dt>Type</dt><dd title="image/jpeg">image/jpeg</dd>
+        </dl>
+        -->
+      </div>
+    </div>   
+
+    <!--<div id="item-footer">
+      <p>Footer goes here</p>
+    </div>-->
+  </div>
 
   {% for family, names in object.families %}
     <h2><a href="https://duckduckgo.com/?q={{ family }}" target="_new">{{ family }}</a></h2>

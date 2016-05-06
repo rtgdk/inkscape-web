@@ -124,6 +124,7 @@ class LogRequest(Model):
 
 class MetricManager(Manager):
     CACHE = {}
+
     def clear_metrics(self):
         """Remove all cached metrics"""
         self.CACHE = {}
@@ -141,8 +142,10 @@ class MetricManager(Manager):
 
 class LogMetric(Model):
     name = SlugField(max_length=32, unique=True)
-    unit = CharField(max_length=8, blank=True, null=True)
     label = CharField(max_length=32)
+
+    unit = CharField(max_length=8, blank=True, null=True)
+    icon = CharField(max_length=22, blank=True, null=True)
     has_family = BooleanField(default=False)
 
     is_range = property(lambda self: bool(self.unit))
@@ -155,6 +158,9 @@ class LogMetric(Model):
 
     def __str__(self):
         return self.label.encode('utf-8')
+
+    def get_icon(self):
+        return "images/logbook/" + self.icon
 
     def families(self):
         for family in set(self.values.values_list('name__family', flat=True)):

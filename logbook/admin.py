@@ -27,15 +27,19 @@ class FileAdmin(ModelAdmin):
     list_display = ('filename', 'touched', 'inode')
     readonly_fields = ('filename', 'touched', 'inode')
 
-site.register(LogFile)
+site.register(LogFile, FileAdmin)
 
+class MetricAdmin(ModelAdmin):
+    model = LogMetric
+    list_display = ('label', 'name', 'has_family', 'unit')
+    readonly_fields = ('name',)
 
-site.register(LogMetric)
+site.register(LogMetric, MetricAdmin)
 
 class NameAdmin(ModelAdmin):
     model = LogName
     list_display = ('re_family', 're_name', 'family', 'name')
-    list_filter = ('re_family', 'family')
+    list_filter = ('values__metric',)
     readonly_fields = ('family', 'name')
     search_fields = ['name', 're_name']
 

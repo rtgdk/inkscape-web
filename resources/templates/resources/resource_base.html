@@ -18,7 +18,7 @@
   {% endif %}
 
   <div class="item{% if form %} edit{% endif %}">
-    {% if form %}
+    {% if form and not form.media_type %}
       <div class="image uploader">
         <label for="id_download" style="display: none;">
           {% if object.mime.is_image %}
@@ -33,7 +33,7 @@
           {% endif %}
         </label>
       </div>
-    {% else %}
+    {% elif not form %}
       {% include "resources/resourcefile_view.html" %}
     {% endif %}
 

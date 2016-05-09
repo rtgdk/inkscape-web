@@ -31,9 +31,11 @@ def url_tree(regex, *urls):
 
 urlpatterns = patterns('',
   url(r'^$',                     MetricList.as_view(), name="metrics"),
-  url(r'^m/(?P<slug>\w+)/$',     MetricDetails.as_view(), name="metric"),
-  url_tree(r'^(?P<path>[^/]+)/',
+  url_tree(r'^_(?P<path>[^/]+)/',
     url('^$',                    RequestStats.as_view(), name="request"),
+  ),
+  url_tree(r'^(?P<slug>\w+)/',
+    url(r'^$',                   MetricDetails.as_view(), name="metric"),
   ),
 )
 

@@ -131,3 +131,13 @@ class BaseCase(TestCase):
         qs = cls.objects if hasattr(cls, 'objects') else cls
         self.assertValuesLists(exp, qs.values_list(*fields), sort=False)
 
+    def assertJsonRequest(self, name, *args, **equals):
+        if name[0] == '/':
+            url = name
+        else:
+            url = reverse(name, kwargs=kwargs)
+        response = self.client.get(url, get)
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content), equals)
+        return response.content
+

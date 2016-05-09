@@ -381,3 +381,39 @@ class ParsingTests(BaseCase):
         })
 
 
+class DataReportTests(BaseCase):
+    def setUp(self):
+        process_results(parse_logs(self.get_log('reportable')))
+        self.metric = LogMetric.objects.get(name='browser')
+
+    def assertJsonRequest(self, name, get=None, kwargs=None, **equals):
+        if name[0] == '/':
+            url = name
+        else:
+            url = reverse(name, kwargs=kwargs)
+        response = self.client.get(url, get)
+        self.assertEqual(response.status_code, 200)
+        self.assertJSONEqual(str(response.content), equals)
+        return response.content
+
+
+    def test_00_raw_data(self):
+        (family, names) = zip(*self.metric.families())
+        (names, counts) = zip(*[name[0] for name in names])
+        self.assertEqual(family, ('Chrome', 'Firefox'))
+        self.assertEqual(names, ('47', '43'))
+        self.assertEqual(counts, (208, 65))
+
+    def test_01_data_table(self):
+        self.assertJsonRequest('logbook:metric.json', )
+
+    def test_02_pie_data(self):
+        pass
+
+    def test_03_line_data(self):
+        pass
+
+
+
+
+

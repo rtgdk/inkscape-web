@@ -1,0 +1,190 @@
+/* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright 2013, Martin Owens <doctormo@gmail.com> */
+#gallery {
+  margin-top: 12px;
+}
+.item {
+  padding: 10px 20px 0px;
+  margin-top: 10px;
+  margin-left:-20px;
+  margin-right:-20px;
+  color:#333;
+}
+.item form {
+  display: block;
+}
+.item .chart {
+  background-color: #1a1a1a;
+  padding: 20px 35px;
+  line-height: 0px;
+  text-align:center;
+  border-radius: 10px 10px 0 0;
+}
+.item .chart img {
+  background-color: white;
+  max-width: 780px;
+  max-height: 100%;
+  margin: 0px;
+  border:none;
+  border-radius: 4px;
+}
+.item .info {
+  background-color: #fff;
+  border: 1px #ddd solid;
+}
+.item .desc {
+  width: 100%;
+  padding: 6px 20px;
+  min-height: 200px;
+}
+.item .side {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 10px;
+}
+.item .side h2 {
+  background-color: #eee;
+}
+.item form .side h2 {
+  background-color: #fff;
+  border-width: 0px;
+}
+.item div.desc,
+.item div.side {
+  display: table-cell;
+}
+.item .title {
+  background-color: #eee;
+  border-width: 1px #ddd solid;
+  padding: 16px 20px 10px;
+}
+.item h2 {
+  font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
+  font-size: 17pt;
+  color:#333333;
+  border: 0px;
+  margin: 0px;
+}
+.item div.by {
+  font-size: 70%;
+  padding-left: 4px;
+  white-space: nowrap;
+}
+
+.item .side .link {
+  display: block;
+  position: relative;
+  top: -44px;
+  left: 170px;
+  height: 0px;
+}
+
+.item .side h2 {
+  font-size:18px !important;
+  font-weight: bold;
+  padding: 6px 6px 4px;
+  width:205px;
+  white-space:wrap;
+  line-height:22px;
+  border: 1px #ddd solid;
+}
+.item .side h2.error {
+  color: #800;
+}
+.item .side dl{
+  font-size:15px;
+  line-height:17px;
+  width:100%;
+  overflow:hidden;
+  padding:8px 12px;
+  margin:0px 0px 7px 0px;
+}
+.item .side dd{
+  float:left;
+  margin:0px;
+}
+.item .side dt{
+  padding:0px;
+  clear:left;
+  float:left;
+  margin-right:8px;
+  color:#888;
+}
+
+.empty a.link > img {
+  opacity: 0.5;
+}
+.unpublished {
+  border: 2px solid #e58 !important;
+  background-color: #fee;
+  padding: 2px;
+}
+.unpublished p a {
+  background-color: transparent !important;
+}
+.voted {
+  border: 2px solid #ffd42a;
+  padding: 2px;
+}
+.errors {
+  background-color: white;
+  border: 2px #800 solid;
+  padding: 4px;
+  color: #800;
+}
+#item-title {
+  display: none;
+}
+#item-footer {
+  background-color: #f8f8f8;
+  border: 1px #ddd solid;
+  border-top: 0px;
+  border-radius: 0px 0px 8px 8px;
+  padding: 4px 10px;
+  min-height: 26px;
+}
+.info .tog {
+  background-color: white;
+  float: right;
+  display: inline-block;
+  border: 1px #ddd solid;
+  border-radius: 8px;
+  margin-left: 8px;
+}
+.info .tog a { 
+  border-right: 1px #ddd solid;
+  width: 32px;
+  height: 32px;
+  display: inline-block;
+  vertical-align: middle;
+  border-radius: 8px 0px 0px 8px;
+  background-repeat: no-repeat;
+  background-position: 0px -32px;
+}
+.info .single a { 
+  border-radius: 8px !important;
+}
+.info .tog a:hover {
+  text-decoration: none;
+  background-position: 0px 0px;
+}
+.info .tog a.disabled {
+  background-position: 0px -32px;
+  opacity: 0.5;
+  cursor: default;
+}
+.info .tog p {
+  margin: 0px;
+  padding: 4px;
+  display: inline-block;
+  vertical-align: middle;
+  margin-right: 3px;
+  font-family: verdana, sans-serif;
+  min-width: 32px;
+  text-align: center;
+}
+.info .single a {
+  border-radius: 8px !important;
+}
+

@@ -26,6 +26,8 @@ import os
 
 from datetime import date
 
+from django.core.urlresolvers import reverse
+
 from logbook.asserting import TestCase, BaseCase, override_settings
 from logbook.models import LogName, LogMetric, LogRequest, LogValue, LogPeriod
 from logbook.analysis import process_results

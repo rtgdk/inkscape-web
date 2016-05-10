@@ -22,11 +22,11 @@
 Test Resource Items and Lists
 """
 
-__all__ = ('ResourceTests', 'ResourceUserTests', 'ResourceAnonTests')
+__all__ = ('ResourceTests', 'ResourceAnonTests')
 
 import os
 
-from .base import SOURCE, BaseCase, BaseUserCase, BaseAnonCase
+from .base import BaseCase
 
 from django.core.urlresolvers import reverse
 
@@ -89,7 +89,9 @@ class ResourceTests(BaseCase):
         self.assertEquals(unknown.icon(), '/static/mime/unknown.svg')
 
 
-class ResourceViewTests(BaseUserCase):
+class ResourceViewTests(BaseCase):
+    credentials = dict(username='tester', password='123456')
+
     def test_view_my_public_item_detail(self):
         """Testing item detail view and template for public own items,
         and make sure the view counter is correctly incremented"""
@@ -275,7 +277,9 @@ class ResourceViewTests(BaseUserCase):
         self.assertEqual(resource.downed, num_dl)
         
 
-class UploadViewTests(BaseUserCase):
+class UploadViewTests(BaseCase):
+    credentials = dict(username='tester', password='123456')
+
     def test_submit_item(self):
         """Tests views and templates for uploading a new resource file"""
         # This part could be repeated for different inputs/files to check for errors and correct saving, subtests? 
@@ -554,7 +558,9 @@ class UploadViewTests(BaseUserCase):
         self.assertEqual(resource.revisions.count(), 1)
 
 
-class ResourceVoteTests(BaseUserCase):
+class ResourceVoteTests(BaseCase):
+    credentials = dict(username='tester', password='123456')
+
     def test_like_item_not_being_owner(self):
         """Like a gallery item which belongs to someone else"""
         resources = ResourceFile.objects.exclude(user=self.user).filter(liked=0)
@@ -604,7 +610,7 @@ class ResourceVoteTests(BaseUserCase):
         self.assertEqual(ResourceFile.objects.get(pk=resource.pk).liked, num_likes)
 
 
-class ResourceAnonTests(BaseAnonCase):
+class ResourceAnonTests(BaseCase):
     """Tests for AnonymousUser"""
     
     def test_view_public_item_detail_anon(self):

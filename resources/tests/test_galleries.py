@@ -26,7 +26,7 @@ import os
 
 from urllib import urlencode
 
-from .base import BaseCase, BaseUserCase
+from .base import BaseCase
 
 from django.utils.timezone import now
 from django.core.urlresolvers import reverse
@@ -38,8 +38,10 @@ from resources.forms import GalleryForm
 
 from person.models import User
 
-class GalleryUserTests(BaseUserCase):
+class GalleryUserTests(BaseCase):
     """Gallery viewing and sorting tests"""
+    credentials = dict(username='tester', password='123456')
+
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
         resources = ResourceFile.objects.filter(published=True).order_by('-liked')

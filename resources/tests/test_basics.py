@@ -25,7 +25,7 @@ from django.core.urlresolvers import reverse
 
 from resources.models import License, Category, Resource, Tag, Gallery
 
-from .base import BaseCase, BaseAnonCase, BaseBreadcrumbCase
+from .base import BaseCase, BaseBreadcrumbCase
 
 class Breadcrumbs(BaseBreadcrumbCase):
     def test_resource_breadcrumbs(self):

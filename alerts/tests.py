@@ -18,13 +18,13 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from resources.tests.base import BaseCase, BaseUserCase, BaseAnonCase
+from autotest.base import ExtraTestCase
 from alerts.models import Message, AlertType, UserAlertManager
 from alerts.alert import MessageAlert
 
 from person.models import User
 
-class BasicTests(BaseCase):
+class BasicTests(ExtraTestCase):
     fixtures = ['test-auth', 'test-alerttypes']
 
     def test_registration(self):
@@ -52,8 +52,9 @@ class BasicTests(BaseCase):
         self.assertEqual(user.alerts.count(), 1)
 
 
-class AlertUserTests(BaseUserCase):
+class AlertUserTests(ExtraTestCase):
     fixtures = ['test-auth', 'test-alerttypes', 'test-messages']
+    credentials = dict(username='tester', password='123456')
     alert_type = 'alerts.test_message_alert'
 
     def test_00_fixture_messages(self):
@@ -137,7 +138,7 @@ class AlertUserTests(BaseUserCase):
         pass
 
 
-class MessageOnlyTests(BaseUserCase):
+class MessageOnlyTests(ExtraTestCase):
     def test_sent_list(self):
         pass
 

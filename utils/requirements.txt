@@ -45,7 +45,7 @@ django-split-json-widget==0.2
 django-sendfile==0.3.6
 django-pile==0.7.6
 django-contrib-comments==1.6.2
-django-autotest-command==1.4
+django-autotest-command==1.5
 django-markdown-deux==1.0.5
 #djangocms-rosetta==1.0
 -e git://github.com/doctormo/django-cms-rosetta.git#egg=cmsrosetta

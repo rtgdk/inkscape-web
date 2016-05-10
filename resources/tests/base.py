@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Maren Hachmann <marenhachmann@yahoo.com>
+# Copyright 2016, Maren Hachmann <marenhachmann@yahoo.com>
 #                 Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom
@@ -26,169 +26,20 @@ Base TestCase for Resource and Gallery Tests.
 # pylint: disable=invalid-name
 __unittest = True
 
-import os
-import types
-import shutil
-import haystack
-
-from os.path import dirname, join, abspath
-from datetime import date
-
-from django.test import TestCase
-from django.test.utils import override_settings
-from django.contrib.auth import authenticate
-from django.core.urlresolvers import reverse
-from django.core.management import call_command
-from django.core.files.base import File
-
-from user_sessions.backends.db import SessionStore
-from user_sessions.utils.tests import Client
-
-from django.http import HttpRequest
-from django.conf import settings
+from autotest.base import HaystackMixin, ExtraTestCase
 
 from resources.models import ResourceFile
 from inkscape.middleware import AutoBreadcrumbMiddleware
 
-TEST_INDEX = {
-  'default': {
-    'ENGINE': 'haystack.backends.whoosh_backend.WhooshEngine',
-    'STORAGE': 'ram',
-  },
-}
-
-DIR = dirname(__file__)
-MEDIA = settings.MEDIA_ROOT.rstrip('/') + '_test'
-SOURCE = os.path.join(DIR, '..', 'fixtures', 'media', 'test')
-
-@override_settings(HAYSTACK_CONNECTIONS=TEST_INDEX, MEDIA_ROOT=MEDIA)
-class BaseCase(TestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests'
-               ]
-
-    def open(self, filename, *args, **kw):
-        "Opens a file relative to this test script"
-        if not '/' in filename:
-            filename = join(SOURCE, filename)
-        return File(open(join(DIR, filename), *args), **kw)
-
-    def getObj(self, qs, **kw):
-        """
-        Get an object from django, assert it exists, return it.
-
-        qs      - a QuerySet or Model class
-        count   - number of objects to get (default: 1)
-        **kw    - filter to run (default: None)
-
-        Filters are combination of positive fields=value in kwargs
-        and not_field=value for exclusion in the same dictionary.
-        """
-        count = kw.pop('count', 1)
-
-        # Is the queryset a class? It's probably a model class
-        if isinstance(qs, (types.TypeType, types.ClassType)):
-            qs = qs.objects.all()
-
-        for (field, value) in kw.items(): 
-            if field[:4] != 'not_':
-                qs = qs.filter(**{field: value})
-            else:
-                qs = qs.exclude(**{field[4:]: value})
-
-        # Assert we have enough objects to return
-        self.assertGreater(qs.count(), count - 1)
-
-        # Return either one object or a list of objects limited to count
-        return qs[0] if count == 1 else qs[:count]
-
-    def assertGet(self, url_name, *arg, **kw):
-        """Make a generic GET request with the best options"""
-        data = kw.pop('data', {})
-        method = kw.pop('method', self.client.get)
-        follow = kw.pop('follow', True)
-        status = kw.pop('status', None)
-        get_param = kw.pop('get_param', None)
-
-        if url_name[0] == '/':
-            url = url_name
-        else:
-            url = reverse(url_name, kwargs=kw, args=arg)
-        if get_param:
-            url += '?' + get_param
-
-        response = method(url, data, follow=follow)
-        if status:
-            self.assertEqual(response.status_code, status)
-        return response
-
-    def assertPost(self, *arg, **kw):
-        """Make a generic POST request with the best options"""
-        errs = kw.pop('form_errors', None)
-        kw['method'] = self.client.post
-        response = self.assertGet(*arg, **kw)
-
-        if errs:
-            for (field, msg) in errs.items():
-                self.assertFormError(response, 'form', field, msg)
-        elif response.context and 'form' in response.context:
-            form = response.context['form']
-            if 'status' in kw and kw['status'] == 200 and form:
-                msg = ''
-                for field in form.errors:
-                    msg += "%s: %s\n" % (field, ','.join(form.errors[field]))
-                self.assertFalse(bool(form.errors), msg)
-        return response
-
-    def assertBoth(self, *args, **kw):
-        """
-        Make a GET and POST request and expect the same status.
-        
-        Teturns (get, post) response tuple
-        """
-        post_kw = kw.copy()
-        for key in ('form_errors', 'data'):
-            kw.pop(key, None)
-        return (self.assertGet(*args, **kw),
-                self.assertPost(*args, **post_kw))
-
-    def set_session_cookies(self):
-        """Set session data regardless of being authenticated"""
-
-        # Save new session in database and add cookie referencing it
-        request = HttpRequest()
-        request.session = SessionStore('Python/2.7', '127.0.0.1')
-
-        # Save the session values.
-        request.session.save()
-
-        # Set the cookie to represent the session.
-        session_cookie = settings.SESSION_COOKIE_NAME
-        self.client.cookies[session_cookie] = request.session.session_key
-        cookie_data = {
-            'max-age': None,
-            'path': '/',
-            'domain': settings.SESSION_COOKIE_DOMAIN,
-            'secure': settings.SESSION_COOKIE_SECURE or None,
-            'expires': None,
-        }
-        self.client.cookies[session_cookie].update(cookie_data)
+class BaseCase(HaystackMixin, ExtraTestCase):
+    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
 
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"
-        super(TestCase, self).setUp()
-        self.client = Client()
-
-        media = os.path.join(MEDIA, 'test')
-        if not os.path.isdir(media):
-            os.makedirs(media)
-        for fname in os.listdir(SOURCE):
-            target = os.path.join(media, fname)
-            if not os.path.isfile(target):
-                shutil.copy(os.path.join(SOURCE, fname), target)
-
-        haystack.connections.reload('default')
-        call_command('rebuild_index', interactive=False, verbosity=0)
-
+        super(BaseCase, self).setUp()
+        self.groups = None
+        if self.user:
+            self.groups = self.user.groups.all()
         self.download = self.open('file5.svg')
         self.thumbnail = self.open('preview5.png')
         self.data = {
@@ -204,22 +55,9 @@ class BaseCase(TestCase):
         }
 
     def tearDown(self):
-        call_command('clear_index', interactive=False, verbosity=0)
-        super(TestCase, self).tearDown()
+        super(BaseCase, self).tearDown()
         self.download.close()
         self.thumbnail.close()
-
-class BaseUserCase(BaseCase):
-    def setUp(self):
-        super(BaseUserCase, self).setUp()
-        self.user = authenticate(username='tester', password='123456')
-        self.client.login(username='tester', password='123456')
-        self.groups = self.user.groups.all()
-
-class BaseAnonCase(BaseCase):
-    def setUp(self):
-        super(BaseAnonCase, self).setUp()
-        self.set_session_cookies()
 
     def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
         rec = ResourceFile.objects.filter(**kw)
@@ -231,7 +69,7 @@ class BaseAnonCase(BaseCase):
                 (resource.download, resource.signature))
 
 
-class BaseBreadcrumbCase(BaseAnonCase):
+class BaseBreadcrumbCase(BaseCase):
     def assertBreadcrumbRequest(self, url, *terms, **kwargs):
         cont = self.assertGet(url, **kwargs).content
         crumbs = cont.split('breadcrumbs">', 1)[-1].split('</div>')[0]

@@ -290,8 +290,9 @@ class ResourceList(CategoryListView):
     model = ResourceFile
     opts = (
       ('username', 'user__username'),
-      ('team',     'galleries__group__team__slug', False),
+      ('team', 'galleries__group__team__slug', False),
       ('gallery_id', 'galleries__id', False),
+      ('tags', 'tags__name', False),
     )
     cats = (
       #('media_type', _("Media Type")),
@@ -333,6 +334,9 @@ class ResourceList(CategoryListView):
 
     def get_context_data(self, **kwargs):
         data = super(ResourceList, self).get_context_data(**kwargs)
+
+        if 'category' in data:
+            data['tag_categories'] = data['category'].tags.all()
 
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item

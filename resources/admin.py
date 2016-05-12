@@ -56,6 +56,7 @@ site.register(ResourceFile, ResourceFileAdmin)
 site.register(Resource, ResourceAdmin)
 site.register(ResourceMirror)
 site.register(Vote)
+site.register(TagCategory)
 site.register(Tag)
 
 class QuotaAdmin(ModelAdmin):

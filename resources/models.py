@@ -51,7 +51,8 @@ from cms.utils.permissions import get_current_user as get_user
 null = dict(null=True, blank=True)
 
 __all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'ResourceMirror',
-           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin', 'Tag')
+           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin',
+           'Tag', 'TagCategory')
 
 DOMAINS = {
   'inkscape.org': 'Inkscape Website',
@@ -129,8 +130,19 @@ class Category(Model):
 
 class Tag(Model):
     name     = CharField(max_length=16)
-    parent   = ForeignKey('self', related_name='children', **null)
+    category = ForeignKey('TagCategory', related_name='tags', **null)
     
+    def __unicode__(self):
+        return self.name
+
+
+class TagCategory(Model):
+    """Used to classify tag searches and tag clouds."""
+    name = CharField(max_length=48)
+
+    categories = ManyToManyField(Category, related_name='tags',
+            help_text=_("Only show with these categories"))
+
     def __unicode__(self):
         return self.name
 
@@ -403,6 +415,9 @@ class ResourceFile(Resource):
     verified   = BooleanField(default=False)
     mirror     = BooleanField(default=False)
     embed      = BooleanField(default=False)
+
+    checked_by = ForeignKey(settings.AUTH_USER_MODEL, related_name='resource_checks', **null)
+    checked_sig = FileField(_('Counter Signature'), **upto('sigs'))
 
     objects   = ResourceManager()
 

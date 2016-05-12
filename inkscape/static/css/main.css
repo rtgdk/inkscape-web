@@ -607,7 +607,6 @@ hr {
   height: 1px;
   width: 100%;
 }
-
 #sidecategory ul {
   list-style: none;
   padding: 0;
@@ -724,6 +723,25 @@ hr {
   border-radius: 11px;
   padding-left: 8px;
   margin-bottom: 12px;
+}
+
+#sidecategory .tags a {
+  display: inline-block;
+  padding: 1px 5px;
+  border: 1px #eee solid;
+  background-color: #444;
+  border-radius: 3px;
+  color: white;
+}
+#sidecategory .tags a:hover {
+  border: 1px #eee solid;
+  background-color: #999;
+  text-decoration: none
+}
+#sidecategory .tags a.selected {
+  background-color: #eee;
+  color: #444;
+  cursor: default;
 }
 
 ol.checklist > li.done {

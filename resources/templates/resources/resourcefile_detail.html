@@ -1,5 +1,5 @@
 {% extends 'resources/resource_base.html' %}
-{% load i18n static pile %}
+{% load i18n static inkscape %}
 
 {% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
@@ -123,7 +123,9 @@
   {% endif %}
 
   {% with object as comment_subject %}
-     {% include "comments/comment_area.html" %}
+    {% with object.get_absolute_url as next %}
+      {% include "comments/comment_area.html" %}
+    {% endwith %}
   {% endwith %}
   
 {% endblock %}

@@ -1,17 +1,16 @@
 {% extends "base.html" %}
-
-{% load sekizai_tags %}
-{% load i18n static pagination_tags pile %}
+{% load i18n static inkscape pagination_tags %}
 
 {% block title %}{% trans "Messages" %}{% endblock %} 
 
+{% block "css" %}{{ super.block }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/alert.css" %}"/>
+{% endblock %}
+{% block "js" %}{{ super.block }}
+  <script type="text/javascript" src="{% static "js/alert.js" %}"></script>
+{% endblock %}
+
 {% block content %}
-  {% addtoblock "css" %}
-    <link rel="stylesheet" type="text/css" href="{% static "css/alert.css" %}"/>
-  {% endaddtoblock %}
-  {% addtoblock "js" %}
-    <script type="text/javascript" src="{% static "js/alert.js" %}"></script>
-  {% endaddtoblock %}
 
 
   <h1>{% if new %}{% trans "Your New Messages" %}{% else %}{% trans "Your Messages" %}{% endif %}</h1>

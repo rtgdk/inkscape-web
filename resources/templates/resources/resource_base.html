@@ -22,10 +22,10 @@
       <div class="image uploader">
         <label for="id_download" style="display: none;">
           {% if object.mime.is_image %}
-            <img src="{{ object.download.url }}"/>
+            <img src="{{ object.download.url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace image" %} {{ object.filename }}</p>
           {% elif object %}
-          <img src="{{ object.icon_only }}"/>
+            <img src="{{ object.icon_only }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace file" %} {{ object.filename }}</p>
           {% else %}
             <img src="{% static "images/upload.svg" %}"/>

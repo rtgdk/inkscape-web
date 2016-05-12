@@ -28,9 +28,11 @@ $(document).ready(function() {
   lbl = $('.image.uploader label p');
   img = $('.image.uploader label img');
   img.error(function(e) {
-      target = img.data('static') + 'mime/unknown.svg';
-      if(this.src != target) { this.src = target; }
-      return false;
+      if(img.data('static')) {
+          target = img.data('static') + 'mime/unknown.svg';
+          if(this.src != target) { this.src = target; }
+          return false;
+      }
   });
 
   elem.on('change', function() {

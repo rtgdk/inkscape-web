@@ -1,5 +1,4 @@
-{% load i18n static comments pile %}
-
+{% load i18n static comments %}
 
 <div class="moderation {% if object.target.moderation.is_deleted %} hidden {% elif object.target.moderation.is_approved %} approved {% endif %}">
     

@@ -181,7 +181,10 @@ class Flag(Model):
             except AttributeError:
                 pass
         if len(ret) > 1:
-            raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
+            if hasattr(klass, 'owner_field'):
+                return getattr(klass, 'owner_field')
+            else:
+                raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
         return ret and ret[0].name or None
 
     def save(self, *args, **kwargs):

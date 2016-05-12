@@ -1,0 +1,86 @@
+/* Resources only */
+
+.resourcepic,
+.resourcedesc,
+.resourceinfo {
+  display: table-cell;
+}
+
+.resourcepic {
+  width: 250px;
+  border-right: 1px solid #ddd;
+  text-align: center;
+  vertical-align: middle;
+}
+
+.resourcepic .aligner {
+  display: inline;
+  vertical-align: middle;
+  text-align: center;
+  margin: auto;
+  height: 100%;
+  width: 100%;
+}
+
+.resourcepic img {
+  max-width: 230px;
+  max-height: 200px;
+  display: inline-block;
+  margin: auto;
+  vertical-align: middle;
+}
+.resourcepic iframe {
+  width: 230px;
+  margin: auto;
+  display: block;
+}
+
+.resourcepic .button {
+  width: 60%;
+  text-align: center;
+  display:block;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  margin-left: auto;
+  margin-right: auto;
+  vertical-align: bottom;
+  padding: 6px;
+}
+
+.resourcedesc {
+  padding: 6px 20px;
+  min-height: 200px;
+  width: 340px;
+  vertical-align: top;
+}
+
+.resourceinfo {
+  border-left: 1px #ddd solid;
+  text-align: center;
+  vertical-align: top;
+  overflow:hidden;
+  padding: 6px 10px;
+  width: 250px;
+}
+
+.resourceinfo dl {
+  font-size: 15px;
+  line-height: 17px;
+  width: 100%;
+  overflow: hidden;
+  padding: 8px 12px;
+  margin: 0px 0px 7px 0px;
+}
+
+.resourceinfo dd {
+  float: left;
+  margin: 0px;
+}
+
+.resourceinfo dt {
+  padding:0px;
+  clear:left;
+  float:left;
+  margin-right:8px;
+  color:#888;
+}

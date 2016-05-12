@@ -405,6 +405,7 @@ OWNS = (
 class ResourceFile(Resource):
     """This is a resource with an uploaded file"""
     is_file = True
+    owner_field = 'user'
 
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
 

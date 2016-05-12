@@ -25,7 +25,9 @@
   </div>
     
   <div class="body">
-    {% include "resources/resourcefile_info.html" %}
+    {% with object.target as object %}
+      {% include "resources/resourcefile_info.html" %}
+    {% endwith %}
   </div>
   
   {% if not object.target.moderation.is_deleted %}

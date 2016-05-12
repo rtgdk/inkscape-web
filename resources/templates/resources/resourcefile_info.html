@@ -1,76 +1,83 @@
-{% load i18n static %}
+{% load i18n static inkscape %}
+
+{% load sekizai_tags %}
+{% addtoblock "css" %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/resource_info.css" %}"/>
+{% endaddtoblock %}
 
 <!-- picture   -->
     <div class="resourcepic">
       <div class="aligner">
-        {% if object.target.is_video %}
-            {% if object.target.video.type == "youtube" %}
-              <iframe src="https://www.youtube.com/embed/{{ object.target.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
-            {% elif object.target.video.type == "vimeo" %}
-              <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.target.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
+        {% if object.is_video %}
+            {% if object.video.type == "youtube" %}
+              <iframe src="https://www.youtube.com/embed/{{ object.video.id }}" frameborder="0" allowfullscreen id="videoPlayer"></iframe>
+            {% elif object.video.type == "vimeo" %}
+              <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             {% endif %}
-        {% elif object.target.is_file %}
-          {% if object.target.mime.is_image %}
-              <a href="{{ object.target.get_absolute_url }}"><img src="{{ object.target.download.url }}" alt="{% trans "Image" %}"></a>
-          {% elif object.target.mime.is_text %}
-            <a href="{{ object.target.get_absolute_url }}"><img src="{% static "mime/text.svg" %}" title="{{ object.target.media_type }}"/></a>
+        {% elif object.is_file %}
+          {% if object.mime.is_image %}
+              <a href="{{ object.get_absolute_url }}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}"></a>
+          {% elif object.mime.is_text %}
+            <a href="{{ object.get_absolute_url }}"><img src="{% static "mime/text.svg" %}" title="{{ object.media_type }}"/></a>
           {% else %}
-              <a href="{% url "view_resource" object.target.id %}"><img src="{{ object.target.icon }}" alt="{% trans "File Icon" %}"></a>
+              <a href="{% url "view_resource" object.id %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
-        {% elif object.target %}
-            <a href="{{ object.target.link }}" title="{% trans "External Link" %}: {{ object.target }}">
-            {% if object.target.thumbnail %}
-              <img src="{{ object.target.icon }}" alt="{% trans "Item Image" %}"/>
+        {% elif object %}
+            <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
+            {% if object.thumbnail %}
+              <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
             {% else %}
               <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
             {% endif %}
             </a>
         {% endif %}
-        <a class="button" href="{{ object.target.get_absolute_url }}">{% trans "View" %}</a>
+        <a class="button" href="{{ object.get_absolute_url }}">{% trans "View" %}</a>
       </div>
     </div>
       
 <!--description / link -->
     <div class="resourcedesc">
-      {{ object.target.desc|truncatewords:60|urlize|linebreaks }}
-      {% if object.target.link and not object.target.is_video %}
-        <p>{% trans "Link" %}: <a href="{{ object.target.link }}">{{ object.target.link }}</a></p>
+      {{ object.desc|truncatewords:60|urlize|linebreaks }}
+      {% if object.link and not object.is_video %}
+        <p>{% trans "Link" %}: <a href="{{ object.link }}">{{ object.link }}</a></p>
       {% endif %}
     </div>
 
 <!-- information -->
     <div class="resourceinfo">
-      {% if not object.target.is_file %}
-        <a class="link" href="{{ object.target.link }}"><img src="{% static "images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
+      {% if not object.is_file %}
+        <a class="link" href="{{ object.link }}"><img src="{% static "images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
       {% endif %}
       <dl>
         <dt>{% trans "Category" %}</dt>
         <dd>
-          {% if object.target.category %}
-            {{ object.target.category }}
+          {% if object.category %}
+            {{ object.category }}
           {% else %}
             {% trans "Unpublished"%}
           {% endif %}
         </dd>
-        {% if object.target.is_file %}    
-          {% if object.target.mime.is_image %}
-            <dt>{% trans "Area" %}</dt><dd> {{ object.target.media_x }}x{{ object.target.media_y }}</dd>
-          {% elif object.target.mime.is_text %}
-            <dt>{% trans "Lines" %}</dt><dd> {{ object.target.media_x }}</dd>
-            <dt>{% trans "Words" %}</dt><dd> {{ object.target.media_y }}</dd>
+        {% if object.is_file %}    
+          {% if object.mime.is_image %}
+            <dt>{% trans "Area" %}</dt><dd> {{ object.media_x }}x{{ object.media_y }}</dd>
+          {% elif object.mime.is_text %}
+            <dt>{% trans "Lines" %}</dt><dd> {{ object.media_x }}</dd>
+            <dt>{% trans "Words" %}</dt><dd> {{ object.media_y }}</dd>
           {% endif %}
-          <dt>{% trans "Size" %}</dt><dd>{{ object.target.download.size|filesizeformat }}</dd>
+          {% if object.is_available %}
+            <dt>{% trans "Size" %}</dt><dd>{{ object.download.size|filesizeformat }}</dd>
+          {% endif %}
         {% else %}
-          <dt>{% trans "Linked From" %}</dt><dd>{{ object.target.link_from }}</dd>
+          <dt>{% trans "Linked From" %}</dt><dd>{{ object.link_from }}</dd>
         {% endif %}
-        <dt>{% trans "Created" %}</dt><dd>{{ object.target.created|timetag }}</dd>
-        <dt>{% trans "Type" %}</dt><dd>{{ object.target.media_type }}</dd>
-        {% if object.target.license %}
-          <dt>{% trans "Licence" %}</dt><dd>{{ object.target.license.code }}</dd>
+        <dt>{% trans "Created" %}</dt><dd>{{ object.created|timetag }}</dd>
+        <dt>{% trans "Type" %}</dt><dd>{{ object.media_type }}</dd>
+        {% if object.license %}
+          <dt>{% trans "Licence" %}</dt><dd>{{ object.license.code }}</dd>
         {% endif %}
-        <dt>{% trans "Favorited" %}</dt><dd>{{ object.target.votes.count }}</dd>
-        <dt>{% trans "Downloaded" %}</dt><dd> {{ object.target.downed }}</dd>
-        <dt>{% trans "Viewed" %}</dt><dd> {{ object.target.viewed }}</dd>      
-        <dt>{% trans "Comments" %}</dt><dd> {% get_comment_count for object.target as comment_count %}{{comment_count}}</dd>
+        <dt>{% trans "Favorited" %}</dt><dd>{{ object.votes.count }}</dd>
+        <dt>{% trans "Downloaded" %}</dt><dd> {{ object.downed }}</dd>
+        <dt>{% trans "Viewed" %}</dt><dd> {{ object.viewed }}</dd>      
+        <!--dt>{% trans "Comments" %}</dt><dd> { get_comment_count for object as comment_count %}{{comment_count}}</dd-->
       </dl>
     </div>

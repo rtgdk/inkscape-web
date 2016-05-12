@@ -1,4 +1,6 @@
 {% extends 'base.html' %}
-{% load sekizai_tags static %}
+{% load static %}
 
-{% block contentclasses %}{% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static "css/moderation.css" %}" media="all" />{% endaddtoblock %}{% endblock %}
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/moderation.css" %}" media="all" />
+{% endblock %}

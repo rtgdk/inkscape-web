@@ -40,7 +40,7 @@ class GalleryForm(ModelForm):
 class CMSCategoryPlugin(CMSPluginBase):
     model = CategoryPlugin
     name  = _('InkSpace Category')
-    cache = settings.DEBUG
+    cache = settings.ENABLE_CACHING
 
     def render(self, context, instance, placeholder):
         items = instance.source.items.filter(published=True)

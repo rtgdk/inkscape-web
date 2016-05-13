@@ -59,7 +59,7 @@ class CMSShieldPlugin(CMSPluginBase):
     inlines = [TabInline]
     model   = ShieldPlugin
     name    = _('Front Shield')
-    cache   = not settings.DEBUG
+    cache   = settings.ENABLE_CACHING
 
     render_template = "cms/plugins/shield.html"
 

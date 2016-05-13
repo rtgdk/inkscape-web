@@ -17,34 +17,30 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
-
 """
 Tests for the cmsplugin_news app
 """
 
-from django.utils import timezone
 from datetime import timedelta
 
-from django.test import TestCase
-
-from cmsplugin_news.models import News
-
+from django.utils import timezone
 from django.contrib.auth import get_user_model
-from . import settings as news_settings
 
-class NewsTest(TestCase):
-    urls = 'cmsplugin_news.urls'
 
+from autotest.base import ExtraTestCase
+
+from .settings import USE_LINK_ON_EMPTY_CONTENT_ONLY, LINK_AS_ABSOLUTE_URL
+from .models import News
+
+class NewsTest(ExtraTestCase):
     def setUp(self):
+        super(NewsTest, self).setUp()
         self.today = timezone.now()
         self.yesterday = self.today - timedelta(days=1)
         self.tomorrow = self.today + timedelta(days=1)
         self.user = get_user_model()(username='testuser')
         self.user.save()
         News.published.select_language('en')
-
-    def tearDown(self):
-        pass
 
     def test_unpublished(self):
         """
@@ -134,8 +130,8 @@ class NewsTest(TestCase):
         USE_LINK_ON_EMPTY_CONTENT_ONLY as well as LINK_AS_ABSOLUTE_URL are
         enabled use this link as absolute url for the item.
         """
-        news_settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
-        news_settings.LINK_AS_ABSOLUTE_URL = True
+        USE_LINK_ON_EMPTY_CONTENT_ONLY = True
+        LINK_AS_ABSOLUTE_URL = True
         item = News.objects.create(
             title='Future published News',
             slug='future-published-news',
@@ -151,8 +147,8 @@ class NewsTest(TestCase):
         Same as above, but this time the news item actually has a content
         and should therefor not use the provided link.
         """
-        news_settings.USE_LINK_ON_EMPTY_CONTENT_ONLY = True
-        news_settings.LINK_AS_ABSOLUTE_URL = True
+        USE_LINK_ON_EMPTY_CONTENT_ONLY = True
+        LINK_AS_ABSOLUTE_URL = True
         item = News.objects.create(
             title='Future published News',
             slug='future-published-news',

@@ -61,11 +61,11 @@ class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
     get_group = lambda self: None
 
 class GalleryList(GalleryMixin, OwnerViewMixin, ListView):
-    action = "All Resource Galleries"
+    title = _("All Resource Galleries")
 
 class DeleteResource(OwnerUpdateMixin, DeleteView):
     model  = Resource
-    action = "Delete Resource"
+    title = _("Delete Resource")
 
     def get_success_url(self):
         # Called before object is deleted
@@ -76,7 +76,7 @@ class DeleteResource(OwnerUpdateMixin, DeleteView):
 
 class EditResource(OwnerUpdateMixin, UpdateView):
     model = ResourceFile
-    action = "Edit Resource"
+    title = _("Edit Resource")
 
     def get_form_class(self):
         category = getattr(self.object.category, 'id', 0)
@@ -84,7 +84,7 @@ class EditResource(OwnerUpdateMixin, UpdateView):
 
 class PublishResource(OwnerUpdateMixin, DetailView):
     model = ResourceFile
-    action = "Publish Resource"
+    title = _("Publish Resource")
 
     def post(self, request, *args, **kwargs):
         item = self.get_object()
@@ -125,8 +125,8 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
 
 class UploadResource(OwnerCreateMixin, CreateView):
     form_class = ResourceFileForm
-    model      = ResourceFile
-    action     = "Upload New Resource"
+    model = ResourceFile
+    title = _("Upload New Resource")
 
     def form_valid(self, form):
         ret = super(UploadResource, self).form_valid(form)
@@ -147,7 +147,7 @@ class DropResource(UploadResource):
 
 class PasteIn(UploadResource):
     form_class = ResourcePasteForm
-    action = "New PasteBin"
+    title = _("New PasteBin")
 
 class ViewResource(DetailView):
     model = ResourceFile
@@ -358,13 +358,13 @@ class ResourceList(CategoryListView):
             data['upload_drop'] = reverse("resource.drop", kwargs=k)
 
         data['items'] = data['object_list']
-        data['action'] = "InkSpaces"
+        data['title'] = "InkSpaces"
         for name in ('galleries', 'team', 'username'):
             if data.get(name, None) is not None:
                 if isinstance(data[name], Model):
                     data['object'] = data[name]
                     if name == 'galleries':
-                        data['action'] = None
+                        data['title'] = None
                     break
         return data
 
@@ -382,7 +382,7 @@ class ResourcePick(ResourceList):
         return ['resources/resourcefile_picker.html']
 
 class ResourceFeed(CategoryFeed, ResourceList):
-    title = "Gallery Feed"
+    title = _("Gallery Feed")
     description = "Gallery Resources RSS Feed"
 
     def extra_filters(self):

@@ -24,7 +24,7 @@
        {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{% static "images/social/admin.svg" %}" title="{% trans "Inkscape Website Administrator" %}"/></a>
      {% endif %}
      {% if object.is_moderator %}
-       {% if object == request.user %}<a href="{% url "moderation" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
+       {% if object == request.user %}<a href="{% url "moderation:index" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
      {% endif %}
      {% if object.dauser %}
        <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My deviantArt Account" %}"/></a>

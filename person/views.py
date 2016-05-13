@@ -33,7 +33,7 @@ from .mixins import LoginRequiredMixin, NeverCacheMixin, UserMixin, NextUrlMixin
 
 class AgreeToCla(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
     template_name = 'person/cla-agree.html'
-    action_name = _('Contributors License Agreement')
+    title = _('Contributors License Agreement')
     form_class = AgreeToClaForm
 
 class EditProfile(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
@@ -95,11 +95,11 @@ class TeamDetail(DetailView):
     model          = Team
 
 class TeamCharter(TeamDetail):
-    action_name = _("Team Charter")
+    title = _("Team Charter")
     template_name = 'person/team_charter.html'
 
 class ChatWithTeam(NeverCacheMixin, LoginRequiredMixin, TeamDetail):
-    action_name = _("Chat")
+    title = _("Chat")
 
     @property
     def template_name(self):

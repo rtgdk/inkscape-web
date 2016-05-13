@@ -46,7 +46,7 @@ class RequestStats(DetailView):
 
 """
 class SiteWideStats(DetailView):
-    action_name = _('Site Wide')
+    title = _('Site Wide')
     model = LogRequest
 
     def get_object(self):

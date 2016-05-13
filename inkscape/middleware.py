@@ -113,54 +113,64 @@ class AutoBreadcrumbMiddleware(object):
     into most pages. It attempts to navigate object hierachy
     to find the parent 
     """
+    keys = ('object', 'parent', 'title')
+
     def process_template_response(self, request, response):
         if not hasattr(response, 'context_data'):
             return response
-        if 'breadcrumbs' not in response.context_data:
-            out = {}
-            for name in ('object', 'parent', 'action', 'view', 'title'):
-                out[name] = response.context_data.get(name, None)
-            if not out.get('action', None) and 'view' in out:
-                out['action'] = self._action(out['view'], out['title'])
-            response.context_data['title'] = out['action']
-            response.context_data['breadcrumbs'] = self._crumbs(**out)
+        data = response.context_data
+        view = data.get('view', None)
+        out = dict([self.out(data, view, k) for k in self.keys])
+
+        if 'breadcrumbs' not in data:
+            data['breadcrumbs'] = list(self.generate_crumbs(**out))
+
+        if not data.get('title', None) and data.get('breadcrumbs', None):
+            data['title'] = data['breadcrumbs'][-1][-1]
+
         return response
 
-    def _crumbs(self, object=None, parent=None, action=None, **kwargs):
-        yield (reverse('pages-root'), _('Home'))
-        target = object if object is not None else parent
-        if target is not None:
-            for obj in self._ancestors(target):
-                if isinstance(obj, tuple) and len(obj) == 2:
-                    yield obj
-                elif hasattr(obj, 'get_absolute_url'):
-                    yield (obj.get_absolute_url(), self._name(obj))
-                else:
-                    yield (None, self._name(obj))
+    def out(self, data, view, key):
+        if key in data:
+            return key, data[key]
+        if hasattr(view, key):
+            return key, getattr(view, key)
+        if hasattr(view, 'get_'+key):
+            return key, getattr(view, 'get_'+key)()
+        if hasattr(self, 'get_'+key):
+            return key, getattr(self, 'get_'+key)(view)
+        return key, None
 
-        if action is not None:
-            yield (None, _(action))
-
-    def _action(self, view, title=None):
-        if title:
-            return title
-        name = getattr(view, 'action_name', None)
-        if name:
-            return name
-        elif isinstance(view, UpdateView):
+    def get_action(self, view):
+        if isinstance(view, UpdateView):
             return _("Edit")
         elif isinstance(view, CreateView):
             return _("New")
         elif isinstance(view, ListView):
             return _("List")
 
-    def _ancestors(self, obj):
+    def generate_crumbs(self, object=None, parent=None, title=None, **kw):
+        yield (reverse('pages-root'), _('Home'))
+        target = object if object is not None else parent
+        if target is not None:
+            for obj in self.get_ancestors(target):
+                if isinstance(obj, tuple) and len(obj) == 2:
+                    yield obj
+                elif hasattr(obj, 'get_absolute_url'):
+                    yield (obj.get_absolute_url(), self.get_name(obj))
+                else:
+                    yield (None, self.get_name(obj))
+
+        if title is not None:
+            yield (None, title)
+
+    def get_ancestors(self, obj):
         if hasattr(obj, 'parent') and obj.parent:
-            for parent in self._ancestors(obj.parent):
+            for parent in self.get_ancestors(obj.parent):
                 yield parent
         yield obj
 
-    def _name(self, obj):
+    def get_name(self, obj):
         if hasattr(obj, 'breadcrumb_name'):
             return obj.breadcrumb_name()
         elif hasattr(obj, 'name'):

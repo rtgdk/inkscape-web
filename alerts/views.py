@@ -83,7 +83,7 @@ class MarkDeleted(MarkViewed):
 class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
     model = AlertSubscription
     fields = '__all__'
-    action_name = _('Subscribe')
+    title = _('Subscribe')
 
     def get_context_data(self, **kwargs):
         data = super(Subscribe, self).get_context_data(**kwargs)
@@ -106,7 +106,7 @@ class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
 
 class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     model = AlertSubscription
-    action_name = _('Unsubscribe')
+    title = _('Unsubscribe')
     get_success_url = lambda self: reverse('alert.settings')
 
     def get_context_data(self, **kwargs):
@@ -130,6 +130,7 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
 
 
 class SettingsList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
+    title = _('Alert Settings')
     model = AlertSubscription
 
     def get_queryset(self, **kwargs):
@@ -159,7 +160,6 @@ class SettingsList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
               " <a href='%(url)s'>in your profile</a>.") % \
                 {'url': reverse('edit_profile')}, extra_tags='safe')
         data['object'] = self.request.user
-        data['action'] = _('Alert Settings')
         data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
         return data
 

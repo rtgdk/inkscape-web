@@ -63,7 +63,7 @@
                 <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
                 <hr/>
                 {% if request.user.is_moderator %}
-                  <p><a href="{% url "moderation" %}">{% trans "Moderation" %}</a></p>
+                  <p><a href="{% url "moderation:index" %}">{% trans "Moderation" %}</a></p>
                 {% endif %}
                 {% if request.user.is_staff %}
                   <p><a href="/admin/">{% trans "Administration" %}</a></p>

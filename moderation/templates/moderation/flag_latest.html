@@ -1,8 +1,8 @@
-{% extends "comments/base.html" %}
+{% extends "moderation/base.html" %}
 {% load i18n comments pagination_tags %}
 
 {% block content %}
-    <h1>{% block title %}{% trans "Review Latest" %}{% endblock %}</h1>
+  <h1>{{ title }}</h1>
     
     <div class="comments"> 
       <p>{% trans "You can do two things here" %}:</p>
@@ -12,11 +12,11 @@
       </ul>
       <h2>{% trans "These are the comments made by our users within the last 30 days" %} ({{ comment_list|length }}):</h2>
       <div>   
-        {% url "moderate_latest" as next_url %}
-        {% autopaginate comment_list 10 as commentslist %}
-        {% for comment in commentslist %}
+        {% url "moderation:latest" as next_url %}
+        {% autopaginate object_list 10 as comments %}
+        {% for object in comments %}
           {% with forloop.counter0|add:1 as comment_counter %}
-            {% include "moderation/item.html" %}
+            {% include "moderation/flag_item.html" %}
           {% endwith %}
         {% endfor %}
       </div>

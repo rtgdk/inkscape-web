@@ -1,8 +1,6 @@
 {% extends "moderation/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Moderators' Area" %}{% endblock %}
-
 {% block content %}
     <h1>{% trans "Welcome to the Moderators' Area!" %}</h1>
     <div class="warning">{% trans "Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}</div>
@@ -14,7 +12,7 @@
       <span><a href="{{ category.targets.latest_url }}" >{% trans "See Latest Objects" %}</a></span>
 
       {% for object in category.targets.recent %}
-        {% include category.template|default:"moderation/item.html" %}
+        {% include category.template|default:"moderation/flag_item.html" %}
       {% endfor %}
      {% endif %}
    {% endfor %}

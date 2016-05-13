@@ -1,8 +1,8 @@
-{% extends "comments/base.html" %}
+{% extends "moderation/base.html" %}
 {% load i18n comments pagination_tags %}
 
 {% block content %}
-    <h1>{% block title %}{% trans "Review Flagged" %}{% endblock %}</h1>
+  <h1>{{ title }}</h1>
     
     <div class="comments">
     <p>{% trans "You can do two things here" %}:</p>
@@ -12,11 +12,11 @@
       </ul>
       <h2>{% trans "This is a list of all comments reported by our users" %} ({{ comment_list|length }}):</h2>
       <div>
-        {% url "moderate_flagged" as next_url %}
-        {% autopaginate comment_list 10 as commentslist %}
-        {% for comment in commentslist %}
+        {% url "moderation:flagged" as next_url %}
+        {% autopaginate object_list 10 as commentslist %}
+        {% for object in commentslist %}
           {% with forloop.counter0|add:1 as comment_counter %}
-            {% include "comments/moderate_single_comment.html" %}
+            {% include category.template|default:"moderation/flag_item.html" %}
           {% endwith %}
         {% endfor %}
       </div>

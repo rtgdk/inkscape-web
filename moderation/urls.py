@@ -29,16 +29,16 @@ def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
 urlpatterns = patterns('',
-  url(r'^$',                   Moderation(),      name="moderation"),
+  url(r'^$',                   Moderation(),      name="index"),
 
   url_tree(r'^(?P<app>[\w-]+)/(?P<name>[\w-]+)/',
-    url(r'^flagged/$',         ModerateFlagged(), name="moderation.flagged"),
-    url(r'^latest/$',          ModerateLatest(),  name="moderation.latest"),
+    url(r'^flagged/$',         ModerateFlagged(), name="flagged"),
+    url(r'^latest/$',          ModerateLatest(),  name="latest"),
 
     url_tree(r'^(?P<pk>\d+)/',
-      url(r'^$',               FlagObject(),      name='moderation.flag'),
-      url(r'^hide/$',          HideComment(),     name="moderation.hide"),
-      url(r'^approve/$',       ApproveComment(),  name="moderation.approve"),
+      url(r'^$',               FlagObject(),      name='flag'),
+      url(r'^hide/$',          HideComment(),     name="hide"),
+      url(r'^approve/$',       ApproveComment(),  name="approve"),
     )
   )
 )

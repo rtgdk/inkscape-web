@@ -92,11 +92,11 @@ class TargetManager(Manager):
     def flag_url(self):
         obj = getattr(self, 'instance', None)
         if obj:
-            return self.model.get_url('moderation.flag', pk=obj.pk)
-        return self.model.get_url('moderation.flagged')
+            return self.model.get_url('moderation:flag', pk=obj.pk)
+        return self.model.get_url('moderation:flagged')
 
     def latest_url(self):
-        return self.model.get_url('moderation.latest')
+        return self.model.get_url('moderation:latest')
 
     def flag(self, flag=1):
         return self.get_or_create(target=getattr(self, 'instance', None), flag=flag)
@@ -162,10 +162,10 @@ class Flag(Model):
         return [(type(self), ['target', 'flagger', 'flag'])], b
 
     def hide_url(self):
-        return self.get_url('moderation.hide', pk=self.pk)
+        return self.get_url('moderation:hide', pk=self.pk)
 
     def approve_url(self):
-        return self.get_url('moderation.approve', pk=self.pk)
+        return self.get_url('moderation:approve', pk=self.pk)
 
     @property
     def target_user(self):
@@ -237,4 +237,5 @@ for (app_model, label) in MODERATED:
     (local_name, new_cls) = create_flag_model(app_model)
     locals()[local_name] = new_cls
     MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
+    MODERATED_INDEX[app_model] = new_cls
 

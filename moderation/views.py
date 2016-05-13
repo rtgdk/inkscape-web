@@ -21,13 +21,13 @@ from django.utils import timezone
 from datetime import timedelta
 
 from django.utils.translation import ugettext_lazy as _
-
-from pile.views import *
+from django.views.generic import TemplateView, ListView
 
 from .models import *
 from .mixins import *
 
 class FlagObject(UserRequired, FunctionView):
+    title = _("Flag Object")
     template_name = 'moderation/flag.html'
     confirm = _('Flagging Canceled')
     created = _('Moderators have been notified of the issue you have reported.')
@@ -35,8 +35,9 @@ class FlagObject(UserRequired, FunctionView):
     flag = 1
 
 
-class Moderation(ModeratorRequired, View):
-    template_name = 'moderation/index.html'
+class Moderation(ModeratorRequired, TemplateView):
+    title = _("Moderators' Area")
+    template_name = 'moderation/flag_list.html'
 
     def get_context_data(self, **data):
         data = super(Moderation, self).get_context_data(**data)
@@ -44,31 +45,39 @@ class Moderation(ModeratorRequired, View):
         return data
 
 
-class ModerateFlagged(ModeratorRequired, CategoryListView):
-    template_name = 'moderation/flagged.html'
+class ModerateFlagged(ModerateMixin, ModeratorRequired, ListView):
+    title = _("Moderate Flagged Items")
+    template_name = 'moderation/flag_flagged.html'
     
     def get_queryset(self):
         """get all non-hidden, flagged, unapproved comments and reverse
            order them by number of flags"""
-        return self.get_model().moderation.all()
+        return self.flag_class().objects.all()
 
 
-class ModerateLatest(ModeratorRequired, CategoryListView):
-    template_name = 'moderation/latest.html'
+class ModerateLatest(ModerateMixin, ModeratorRequired, ListView):
+    title = _("Moderate Latest Items")
+    template_name = 'moderation/flag_latest.html'
     
     def get_queryset(self):
         """get all comments from the last 30 days, including hidden ones"""
-        return self.get_models().objects.all()
+        try:
+            return self.get_model().objects.latest()[:30]
+        except AssertionError:
+            return self.get_model().objects.order_by('id')[:30]
 
 
 class HideComment(ModeratorRequired, FunctionView):
+    title = _("Hide Comment")
     template_name = 'moderation/flag.html'
     confirm = _('Hiding Canceled')
     created = _('Item has been hidden!')
     warning = _('Item was already hidden.')
     flag = 10
 
+
 class ApproveComment(ModeratorRequired, FunctionView):
+    title = _("Approve Comment")
     template_name = 'moderation/flag.html'
     confirm = _('Approve Canceled')
     created = _('Item has been Approved.')

@@ -23,18 +23,27 @@ Basic mixin classes for moderators
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from django.utils.translation import ugettext_lazy as _
 from django.utils.decorators import method_decorator
+from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect
 
 from pile.views import DetailView
-from .models import ContentType
+from .models import ContentType, MODERATED_INDEX
 
-class FunctionView(DetailView):
-    """Access to moderator objects from urls makes things easier"""
+class ModerateMixin(object):
+    def get_parent(self):
+        return (reverse('moderation:index'), _("Moderation"))
+
     def get_model(self):
         ct = ContentType.objects.get_by_natural_key(self.kwargs['app'], self.kwargs['name'])
         return ct.model_class()
 
+    def flag_class(self):
+        return MODERATED_INDEX[self.kwargs['app'] + '.' + self.kwargs['name']]
+
+class FunctionView(ModerateMixin, DetailView):
+    """Access to moderator objects from urls makes things easier"""
     def get_object(self):
         return get_object_or_404(self.get_model(), pk=self.kwargs['pk'])
 

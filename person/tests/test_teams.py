@@ -20,11 +20,14 @@
 """
 Test team functions
 """
+from autotest.base import ExtraTestCase
 
-from person.tests.base import BaseUserCase
-from person.models import Team, Group
+from ..models import Team, Group
 
-class TeamTests(BaseUserCase):
+class TeamTests(ExtraTestCase):
+    fixtures = ('test-auth',)
+    credentials = dict(username='tester', password='123456')
+
     def test_01_team_details(self):
         response = self.assertGet('team', team='testteam')
         self.assertContains(response, 'This team is our first test team.')

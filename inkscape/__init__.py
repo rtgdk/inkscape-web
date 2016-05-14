@@ -62,6 +62,8 @@ class MyAdminSite(admin.AdminSite):
       'cmsdiff': 'cms',
       'cmsplugin_news': 'cmstabs',
       'redirects': 'sites',
+      'django_comments': 'forums',
+      'contenttypes': 'sites',
     }
     rename = {
       'auth': 'All Users and Teams',

@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% load i18n static %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
+{% endblock %}
+
+{% block supercontent %}
+  {% if object.forum and not object.forum.model_class %}
+    <ul id="messages">
+      <li class="error">{% trans "This forum is broken, it is attached to a defunct content type and needs to be reconfigured by a system's administrator." %}</li>
+    </ul>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  {% if not object.forum.model_class %}
+    <p>{% trans "Comments hidden because of misconfiguration." %}</p>
+  {% else %}
+    {% if object.object_pk %}
+      <div class="comment">
+        <div class="details">
+          <div class="title"><h2>{{ object.subject }}</h2></div>
+        </div>
+        <div class="body">
+          {% with object.object_template as template %}
+          {% with object.object as object %}
+            {% include template %}
+          {% endwith %}
+          {% endwith %}
+        </div>
+        <div class="cfooter">
+          <div class="index">Last Post: {{ object.last_posted }}</div>
+        </div>
+      </div>
+    {% else %}
+      <div class="comment">
+        <div class="details">
+          <div class="title"><h1>{{ title }}</h1></div>
+        </div>
+      </div>
+    {% endif %}
+
+    {% with object.comment_subject as comment_subject %}
+      {% with object.get_absolute_url as next %}
+        {% trans "Post reply:" as comment_label %}
+        {% include "comments/comment_area.html" %}
+      {% endwith %}
+    {% endwith %}
+  {% endif %}
+{% endblock %}

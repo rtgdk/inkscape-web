@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% load i18n static pagination_tags %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
+{% endblock %}
+
+{% block content %}
+
+<h1>{{ title }}</h1>
+
+  {% for group, objects in object_list.groups.items %}
+    <div class="comment">
+      <div class="details">
+        <div class="title"><h2>{{ group }}</h2></div>
+      </div>
+      <table class="forum_list">
+        {% for object in objects %}
+          <tr class="{% cycle 'odd' 'even' %}">
+            <td>
+              <a href="{{ object.get_absolute_url }}">
+                {% if object.icon %}<img src="{{ object.icon.url }}"/>{% endif %}
+              </a>
+            </td>
+            <th><a href="{{ object.get_absolute_url }}"><h1>{{ object.name }}</h1></a></th>
+            <td>{{ object.last_posted }}</td>
+          </tr>
+        {% endfor %}
+      </table>
+    </div>
+  {% empty %}
+    <h2>{% trans "No forums configured" %}</h2>
+  {% endfor %}
+{% endblock %}

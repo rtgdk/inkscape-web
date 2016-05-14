@@ -194,6 +194,7 @@ INSTALLED_APPS = (
     'projects',
     'releases',
     'django_comments',
+    'forums',
     'django_mailman',
     'alerts',
     'logbook',

@@ -92,6 +92,10 @@
   padding-bottom: 5px;
 }
 
+.comment .title input {
+  width: 890px;
+}
+
 /* CSS for comment form */
 
 .comment .cfooter .buttonbar {

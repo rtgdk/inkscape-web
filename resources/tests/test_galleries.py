@@ -24,8 +24,6 @@ Test Resource Items and Lists
 
 import os
 
-from urllib import urlencode
-
 from .base import BaseCase
 
 from django.utils.timezone import now
@@ -239,13 +237,13 @@ class GalleryUserTests(BaseCase):
     # Gallery Search tests
     def test_global_gallery_search(self):
         """Tests the search functionality in galleries"""
-        get_param = urlencode({'q': '+description searchterm2 searchterm1 -Eight'})
+        q = {'q': '+description searchterm2 searchterm1 -Eight'}
 
         resources = ResourceFile.objects.filter(published=True).exclude(desc__contains='Eight')\
                                     .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query")
-        response = self.assertGet('resources', get_param=get_param, status=200)
+        response = self.assertGet('resources', query=q, status=200)
 
         self.assertEqual(
             [int(a.pk) for a in response.context['object_list']],
@@ -267,8 +265,8 @@ class GalleryUserTests(BaseCase):
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query for user %s" % owner)
 
-        get_param = urlencode({'q': 'Seven -Four'})
-        response = self.assertGet('resources', username=owner.username, get_param=get_param, status=200)
+        q = {'q': 'Seven -Four'}
+        response = self.assertGet('resources', username=owner.username, query=q, status=200)
 
         self.assertEqual(
             [int(a.pk) for a in response.context['object_list']],
@@ -298,8 +296,8 @@ class GalleryUserTests(BaseCase):
         # either this, or more fixtures that interfere with already existing tests...
         call_command('rebuild_index', interactive=False, verbosity=0)
 
-        get_param = urlencode({'q': 'Seven -Four'})
-        response = self.assertGet('resources', username=owner.username, galleries=gallery.slug, get_param=get_param, status=200)
+        q = {'q': 'Seven -Four'}
+        response = self.assertGet('resources', username=owner.username, galleries=gallery.slug, query=q, status=200)
 
         self.assertEqual(int(response.context['object_list'][0].pk), item_search.pk)
         self.assertContains(response, ">%s<" % item_search.name, 1)

@@ -1,0 +1,159 @@
+[
+{
+  "fields": {
+    "name": "Test Object One"
+  },
+  "model": "forums.testobject",
+  "pk": 1
+},
+{
+  "fields": {
+    "name": "Test Object Two"
+  },
+  "model": "forums.testobject",
+  "pk": 2
+},
+{
+  "fields": {
+    "name": "Test Object Three"
+  },
+  "model": "forums.testobject",
+  "pk": 3
+},
+{
+  "fields": {
+    "name": "Test Object Four"
+  },
+  "model": "forums.testobject",
+  "pk": 4
+},
+{
+  "fields": {
+    "name": "Section One"
+  },
+  "model": "forums.forumgroup",
+  "pk": 1
+},
+{
+  "fields": {
+    "name": "Section Two"
+  },
+  "model": "forums.forumgroup",
+  "pk": 2
+},
+{
+  "fields": {
+    "sort": 10,
+    "lang": "",
+    "group": 1,
+    "name": "Art",
+    "last_posted": null,
+    "content_type": ["forums", "testobject"],
+    "icon": null,
+    "slug": "art",
+    "desc": "Artists should come here to chat about art."
+  },
+  "model": "forums.forum",
+  "pk": 1
+},
+{
+  "fields": {
+    "sort": 20,
+    "lang": "",
+    "group": 1,
+    "name": "General Discussion",
+    "last_posted": null,
+    "content_type": null,
+    "icon": null,
+    "slug": "general",
+    "desc": "Where we talk about things randomly"
+  },
+  "model": "forums.forum",
+  "pk": 2
+},
+{
+  "fields": {
+    "sort": 40,
+    "lang": "",
+    "group": 2,
+    "name": "Talk about Trees",
+    "last_posted": null,
+    "content_type": null,
+    "icon": null,
+    "slug": "code",
+    "desc": ""
+  },
+  "model": "forums.forum",
+  "pk": 3
+},
+{
+  "fields": {
+    "sort": 10,
+    "lang": "de",
+    "group": 1,
+    "name": "German Forum",
+    "last_posted": null,
+    "content_type": null,
+    "icon": null,
+    "slug": "de",
+    "desc": ""
+  },
+  "model": "forums.forum",
+  "pk": 4
+},
+{
+  "fields": {
+    "last_posted": "2010-01-01T10:10:10Z",
+    "object_pk": 2,
+    "slug": "topic_one",
+    "forum": 1,
+    "subject": "Topic One"
+  },
+  "model": "forums.forumtopic",
+  "pk": 1
+},
+{
+  "fields": {
+    "last_posted": "2010-01-05T10:10:10Z",
+    "object_pk": 1,
+    "slug": "topic_two",
+    "forum": 1,
+    "subject": "Topic Two"
+  },
+  "model": "forums.forumtopic",
+  "pk": 2
+},
+{
+  "fields": {
+    "last_posted": "2010-01-04T10:10:10Z",
+    "object_pk": 3,
+    "slug": "topic_three",
+    "forum": 1,
+    "subject": "Topic Three"
+  },
+  "model": "forums.forumtopic",
+  "pk": 3
+},
+{
+  "fields": {
+    "last_posted": "2010-01-03T10:10:10Z",
+    "object_pk": null,
+    "slug": "topic_four",
+    "forum": 2,
+    "subject": "Topic Four"
+  },
+  "model": "forums.forumtopic",
+  "pk": 4
+},
+{
+  "fields": {
+    "last_posted": "2010-01-11T10:10:10Z",
+    "object_pk": null,
+    "slug": "topic_five",
+    "forum": 3,
+    "subject": "Topic Five"
+  },
+  "model": "forums.forumtopic",
+  "pk": 5
+}
+]

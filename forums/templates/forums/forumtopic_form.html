@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% load i18n static extras inkscape %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
+{% endblock %}
+
+{% block content %}
+  <h1>{{ title }}</h1>
+
+  <form method="post">
+    {% csrf_token %}
+    <div class="comment">
+      {% if form.non_field_errors %}
+        {{ form.non_field_errors }}
+      {% endif %}
+      {% for error, msg in form.errors.items %}
+        <div class="details">
+          <div class="title">{{ msg }}</div>
+        </div>
+      {% endfor %}
+      <div class="details">
+	<div class="title">{{ form.subject|placeholder:form.subject.label|tabindex:1 }}</div>
+      </div>
+      <div class="body">
+	{{ form.comment|tabindex:2 }}
+	{{ form.honeypot }}
+	{{ form.content_type }}
+	{{ form.object_pk }}
+	{{ form.timestamp }}
+	{{ form.security_hash }}
+      </div>
+      <div class="cfooter">
+	<div class="buttonbar">
+	  <div id="cochint">{% blocktrans %}Please read Inkscape's <a tabindex="10" href="/community/coc">Code of Conduct</a> before posting.{% endblocktrans %}</div>
+	  <input tabindex="3" class="unique start end" type="submit" value="{% trans "Submit new Topic" %}" id="id_submit" />
+	</div>
+      </div>
+    </div>   
+  </form>
+{% endblock %}

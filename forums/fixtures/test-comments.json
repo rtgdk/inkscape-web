@@ -1,0 +1,92 @@
+[
+{
+  "fields": {
+    "comment": "BarBzr",
+    "user_url": "",
+    "submit_date": "2010-01-01T10:10:10Z",
+    "ip_address": "127.0.0.1",
+    "object_pk": "4",
+    "site": 1,
+    "is_removed": false,
+    "user": null,
+    "content_type": ["forums", "forumtopic"],
+    "is_public": true,
+    "user_name": "User One",
+    "user_email": "test@localhost"
+  },
+  "model": "django_comments.comment",
+  "pk": 1
+},
+{
+  "fields": {
+    "comment": "Buz",
+    "user_url": "",
+    "submit_date": "2011-03-01T10:10:10Z",
+    "ip_address": "127.0.0.1",
+    "object_pk": "4",
+    "site": 1,
+    "is_removed": false,
+    "user": null,
+    "content_type": ["forums", "forumtopic"],
+    "is_public": true,
+    "user_name": "User Two",
+    "user_email": "test@localhost"
+  },
+  "model": "django_comments.comment",
+  "pk": 2
+},
+{
+  "fields": {
+    "comment": "Dope",
+    "user_url": "",
+    "submit_date": "2011-02-01T10:10:10Z",
+    "ip_address": "127.0.0.1",
+    "object_pk": "5",
+    "site": 1,
+    "is_removed": false,
+    "user": null,
+    "content_type": ["forums", "forumtopic"],
+    "is_public": true,
+    "user_name": "User Three",
+    "user_email": "test@localhost"
+  },
+  "model": "django_comments.comment",
+  "pk": 3
+},
+{
+  "fields": {
+    "comment": "Huh Simpre Denti",
+    "user_url": "",
+    "submit_date": "2010-01-01T10:10:10Z",
+    "ip_address": "127.0.0.1",
+    "object_pk": "1",
+    "site": 1,
+    "is_removed": false,
+    "user": null,
+    "content_type": ["forums", "testobject"],
+    "is_public": true,
+    "user_name": "User One",
+    "user_email": "test@localhost"
+  },
+  "model": "django_comments.comment",
+  "pk": 4
+},
+{
+  "fields": {
+    "comment": "Who Don IT",
+    "user_url": "",
+    "submit_date": "2011-03-01T10:10:10Z",
+    "ip_address": "127.0.0.1",
+    "object_pk": "2",
+    "site": 1,
+    "is_removed": false,
+    "user": null,
+    "content_type": ["forums", "testobject"],
+    "is_public": true,
+    "user_name": "User One",
+    "user_email": "test@localhost"
+  },
+  "model": "django_comments.comment",
+  "pk": 5
+}
+]

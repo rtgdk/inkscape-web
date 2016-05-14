@@ -1,0 +1,9 @@
+[
+{
+  "fields": {
+    "model": "testobject",
+    "app_label": "forums"
+  },
+  "model": "contenttypes.contenttype"
+}
+]

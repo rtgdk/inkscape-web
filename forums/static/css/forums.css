@@ -1,0 +1,84 @@
+
+div.title h1,
+div.title h2 {
+  margin: 0px;
+  padding: 4px 8px;
+}
+
+table {
+  width: 100%;
+}
+
+table td {
+  width: 0px;
+  white-space: nowrap;
+}
+
+.forum_list th {
+  width: 100%;
+  padding: 4px 16px;
+}
+
+.topic_list th {
+  width: 100%;
+  padding: 4px;
+}
+
+table a:hover {
+  text-decoration: none !important;
+}
+table a {
+  display: block;
+  width: 100%;
+}
+
+.forum_list td img {
+  width: 64px;
+  height: 64px;
+}
+
+table td:last-child {
+  padding: 6px;
+  font-size: 10pt;
+}
+
+table tr:hover td,
+table tr:hover th {
+  background-color: #eee;
+}
+
+table tr.even {
+  background-color: #f8f8f8;
+}
+
+.cfooter {
+  padding: 4px 8px;
+}
+
+.comment h1, .comment h2 {
+  border: 0px;
+}
+
+.new_topic {
+  display: block;
+  height: 30px;
+  border-right: 1px solid #ddd;
+  margin-right: 10px;
+  padding: 4px 8px 4px 3px;
+}
+.new_topic a {
+  color: #333;
+}
+.new_topic:hover {
+  background-color: #666;
+}
+.new_topic:hover a {
+  color: #eee;
+}
+.new_topic a:hover {
+  text-decoration: none;
+}
+.new_topic a img {
+  vertical-align: middle;
+  padding-right: 4px;
+}

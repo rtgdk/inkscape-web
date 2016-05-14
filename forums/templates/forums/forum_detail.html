@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load i18n static pagination_tags %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
+{% endblock %}
+
+{% block supercontent %}
+  {% if object and not object.model_class %}
+    <ul id="messages">
+      <li class="error">{% trans "This forum is broken, it is attached to a defunct content type and needs to be reconfigured by a system's administrator." %}</li>
+    </ul>
+  {% endif %}
+  {{ block.super }}
+{% endblock %}
+
+{% block content %}
+  {% autopaginate object.topics.all 20 as items %}
+  <div class="comment">
+    <div class="details">
+      <div class="title"><h2>{{ object.name }}</h2></div>
+      {% if not object.content_type %}
+        <div class="index new_topic"><a href="{% url "forums:create" object.slug %}"><img src="{% static "images/new_topic.svg" %}"> New Topic</a></div>
+      {% endif %}
+    </div>
+    <table class="topic_list">
+      {% for topic in items %}
+        <tr class="{% cycle 'odd' 'even' %}">
+          <th><a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a></th>
+          <td>{{ topic.last_posted }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <th>{% trans "No topics yet" %}</th>
+          <td>&nbsp;</td>
+        </tr>
+      {% endfor %}
+    </table>
+    <div class="cfooter">
+      {% paginate %}
+    </div>
+  </div>
+{% endblock %}

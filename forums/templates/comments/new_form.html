@@ -1,12 +1,14 @@
 {% load i18n comments extras %}
 
 {% get_comment_form for comment_subject as form %}
+{% trans "Leave a comment:" as label %}
+{% trans "Submit Comment" as button %}
 
 <form action="{% comment_form_target %}" method="POST" class="block">
   {% csrf_token %}
   <div class="comment">
     <div class="details">
-      <div class="title">{% trans "Leave a comment:" %}</div>
+      <div class="title">{{ comment_label|default:label }}</div>
     </div>
     <div class="body">
       {{ form.comment|tabindex:8 }}
@@ -20,7 +22,7 @@
     <div class="cfooter">
       <div class="buttonbar">
         <div id="cochint">{% blocktrans %}Please read Inkscape's <a tabindex="10" href="/community/coc">Code of Conduct</a> before posting.{% endblocktrans %}</div>
-        <input tabindex="9" class="unique start end" type="submit" value="{% trans "Submit Comment" %}" id="id_submit" />
+        <input tabindex="9" class="unique start end" type="submit" value="{{ comment_button|default:button }}" id="id_submit" />
       </div>
     </div>
   </div>   

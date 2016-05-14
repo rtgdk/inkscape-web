@@ -87,7 +87,7 @@ class BaseBreadcrumbCase(BaseCase):
 
     def assertBreadcrumbs(self, obj, *terms, **kwargs):
         """Test breadcrumbs in both generation and template request"""
-        crumbs = list(AutoBreadcrumbMiddleware()._crumbs(object=obj, **kwargs))
+        crumbs = list(AutoBreadcrumbMiddleware().generate_crumbs(object=obj, **kwargs))
         (links1, names1) = zip(*crumbs)
         (links2, names2) = zip(*terms)
         # The i18n gets in the way of testing the names

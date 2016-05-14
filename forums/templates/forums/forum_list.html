@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static pagination_tags %}
+{% load i18n static pagination_tags inkscape %}
 
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
@@ -24,7 +24,7 @@
               </a>
             </td>
             <th><a href="{{ object.get_absolute_url }}"><h1>{{ object.name }}</h1></a></th>
-            <td>{{ object.last_posted }}</td>
+            <td>{{ object.last_posted|timetag }}</td>
           </tr>
         {% endfor %}
       </table>

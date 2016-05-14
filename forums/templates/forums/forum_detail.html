@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static pagination_tags %}
+{% load i18n static pagination_tags inkscape %}
 
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
@@ -28,7 +28,7 @@
       {% for topic in items %}
         <tr class="{% cycle 'odd' 'even' %}">
           <th><a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a></th>
-          <td>{{ topic.last_posted }}</td>
+          <td>{{ topic.last_posted|timetag }}</td>
         </tr>
       {% empty %}
         <tr>

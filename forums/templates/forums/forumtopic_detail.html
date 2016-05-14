@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static %}
+{% load i18n static inkscape %}
 
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}"/>
@@ -32,7 +32,7 @@
           {% endwith %}
         </div>
         <div class="cfooter">
-          <div class="index">Last Post: {{ object.last_posted }}</div>
+          <div class="index">Last Post: {{ object.last_posted|timetag }}</div>
         </div>
       </div>
     {% else %}

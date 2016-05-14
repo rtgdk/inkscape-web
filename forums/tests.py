@@ -138,7 +138,9 @@ class ObjectForumTests(BaseCase):
           object_pk=obj.pk,
           site_id=1,
         )
-        self.assertEqual(self.forum.topics.count(), 6)
+        forum = self.getObj(Forum, pk=self.forum.pk)
+        self.assertEqual(forum.topics.count(), 6)
+        self.assertEqual(forum.last_posted, com.submit_date)
 
 
 class CleanTopicTests(BaseCase):

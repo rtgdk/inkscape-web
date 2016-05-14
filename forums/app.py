@@ -66,9 +66,16 @@ class ForumsConfig(AppConfig):
             except ForumTopic.MultipleObjectsReturned:
                 continue
 
-            for obj in (forum, topic):
-                if not obj.last_posted or obj.last_posted < instance.submit_date:
-                    obj.last_posted = instance.submit_date
-                    obj.save(update_fields=['last_posted'])
+            self.update_times(forum, topic, instance.submit_date)
+
+        co = instance.content_object
+        if isinstance(instance.content_object, ForumTopic):
+            self.update_times(co.forum, co, instance.submit_date)
+
+    def update_times(self, forum, topic, submit_date):
+        for obj in (forum, topic):
+            if not obj.last_posted or obj.last_posted < submit_date:
+                obj.last_posted = submit_date
+                obj.save(update_fields=['last_posted'])
             
 

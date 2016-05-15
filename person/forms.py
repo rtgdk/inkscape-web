@@ -37,7 +37,7 @@ class TeamForm(ModelForm):
     def __init__(self, *args, **kw):
         super(TeamForm, self).__init__(*args, **kw)
 
-        for field in ('intro', 'desc', 'charter', 'side_bar'):
+        for field in ('desc', 'charter', 'side_bar'):
             if field in self.fields:
                 self.fields[field].widget = TextEditorWidget()
 

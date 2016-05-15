@@ -126,7 +126,7 @@ class AutoBreadcrumbMiddleware(object):
             data['breadcrumbs'] = list(self.generate_crumbs(**out))
 
         if not data.get('title', None) and data.get('breadcrumbs', None):
-            data['title'] = data['breadcrumbs'][-1][-1]
+            data['title'] = list(data['breadcrumbs'])[-1][-1]
 
         return response
 

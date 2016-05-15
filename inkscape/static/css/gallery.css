@@ -117,14 +117,14 @@
   border: 2px solid #ffd42a;
   padding: 2px;
 }
-.galleryitem .tags {
+.galleryitem .minitabs {
   width: 147px;
   visibility: hidden;
   position: absolute;
   text-align: right;
   margin-top: 2px;
 }
-.galleryitem:hover .tags {
+.galleryitem:hover .minitabs {
   visibility: visible;
 }
 .galleryitem p.blank {
@@ -138,13 +138,13 @@
   padding: 2px 0px;
   background-color: #EEF;
 }
-.galleryitem .tags img {
+.galleryitem .minitabs img {
   position: relative;
   right: -4px;
   float: left;
 }
-.galleryitem .tags > img:last-child,
-.galleryitem .tags > a:last-child img {
+.galleryitem .minitabs > img:last-child,
+.galleryitem .minitabs > a:last-child img {
   float: right;
   left: -4px;
 }

@@ -725,23 +725,32 @@ hr {
   margin-bottom: 12px;
 }
 
-#sidecategory .tags a {
-  display: inline-block;
-  padding: 1px 5px;
-  border: 1px #eee solid;
+#item-footer .tag, #sidecategory .tag {
   background-color: #444;
+  border: #eee 1px inset;
   border-radius: 3px;
   color: white;
+  padding: 1px 5px;
 }
-#sidecategory .tags a:hover {
-  border: 1px #eee solid;
-  background-color: #999;
-  text-decoration: none
+
+#item-footer .tag {
+  float: left;
+  margin: 0px 2px;
 }
-#sidecategory .tags a.selected {
+
+#sidecategory .tag {
+  display: inline-block;
+}
+
+#sidecategory .tag.selected {
   background-color: #eee;
   color: #444;
   cursor: default;
+}
+
+#sidecategory .tag:hover, #item-footer .tag:hover {
+  background-color: #999;
+  text-decoration: none;
 }
 
 ol.checklist > li.done {

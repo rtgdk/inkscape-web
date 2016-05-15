@@ -29,9 +29,9 @@
 
     {% for tag_category in tag_categories %}
       <h2>{{ tag_category.name }}</h2>
-      <div class="tags">
+      <div>
         {% for tag in tag_category.tags.all %}
-        <a{% if tags == tag.name %} class="selected"{% endif %} href="?tags={{ tag }}">{{ tag }}</a>
+        <a class="tag {% if tags == tag.name %} selected{% endif %}" href="?tags={{ tag }}">{{ tag }}</a>
         {% endfor %}
       </div>
     {% endfor %}

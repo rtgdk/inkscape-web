@@ -110,7 +110,7 @@
     {% if object.user == request.user %}
       <div id="item-footer">
         {% for tag in object.tags.all %}
-          <span class="tag">{{ tag.name }}</span>
+          <a class="tag" title="{% blocktrans %}Show all items tagged '{{ tag }}'{% endblocktrans %}" href="{% url "resources" %}?tags={{ tag }}">{{ tag }}</a>
         {% endfor %}
         <form action="{% url "edit_resource" object.id %}">
           <button id="editSide" class="start" type="submit">{% trans "Edit" %}</button>

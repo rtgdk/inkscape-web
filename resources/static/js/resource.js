@@ -25,13 +25,13 @@ $(document).ready(function() {
     $.ajax({
       url: url,
       async: false,
-     dataType: "text",
+      dataType: "text",
       success: function(data) {
-	 var descContent = data;
-	 // cut off first three lines of text file, insert paragraphs
-	 descContent = "<p>" + descContent.split("\n").slice(2).join("</p> <p>") + "</p>";
-	 $(".desc").html(descContent);
-	 // TODO: urls could be turned into clickable links
+        var descContent = data;
+        // cut off first three lines of text file, insert paragraphs
+        descContent = "<p>" + descContent.split("\n").slice(2).join("</p> <p>") + "</p>";
+        $(".desc").html(descContent);
+        // TODO: urls could be turned into clickable links
        },
     });
   });

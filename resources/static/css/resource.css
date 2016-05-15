@@ -322,15 +322,7 @@ div.tog a.remove {
 div.tog a.remove:hover {
   background-position: -32px 0px;
 }
-#item-footer .tag {
-  float: left;
-  padding: 1px 5px;
-  background-color: #444;
-  margin: 0px 2px;
-  border: #eee 1px inset;
-  border-radius: 3px;
-  color: #eee;
-}
+
 input.hidden {
   opacity: 0;
   width: 0.1px;

@@ -37,15 +37,20 @@ class ReleaseView(DetailView):
 
     def get_object(self):
         if 'version' not in self.kwargs:
-            return self.get_queryset().latest()
+            try:
+                qs = self.get_queryset()
+                return qs.filter(release_date__isnull=False).latest()
+            except Release.DoesNotExist:
+                return None
         return super(ReleaseView, self).get_object()
 
     def get_context_data(self, **kwargs):
         data = super(ReleaseView, self).get_context_data(**kwargs)
-        tabs = list(data['object'].tabs)
-        if tabs:
-            data['platform'] = self.kwargs.get('platform', None)
-        data['parent'] = data['object'].parent or data['object']
+        if data['object']:
+            tabs = list(data['object'].tabs)
+            if tabs:
+                data['platform'] = self.kwargs.get('platform', None)
+            data['parent'] = data['object'].parent or data['object']
         data['releases'] = Release.objects.filter(
                 parent__isnull=True, release_date__isnull=False)
         data['development'] = Release.objects.filter(release_date__isnull=True)

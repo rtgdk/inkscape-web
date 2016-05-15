@@ -26,7 +26,7 @@ import os
 from django.db.models import *
 from django.conf import settings
 
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import get_language, ugettext_lazy as _
 from django.utils.timezone import now
 from django.utils.text import slugify
 
@@ -37,6 +37,9 @@ from django.core.validators import MaxLengthValidator
 
 from pile.models import null
 from pile.fields import ResizedImageField
+
+DEFAULT_LANG = settings.LANGUAGE_CODE.split('-')[0]
+OTHER_LANGS = list(i for i in settings.LANGUAGES if i[0].split('-')[0] != DEFAULT_LANG)
 
 def upload_to(name, w=960, h=300):
     return dict(null=True, blank=True, upload_to='release/'+name,\
@@ -79,6 +82,16 @@ class Release(Model):
             result += release.platform.ancestors()
         return sorted(list(set(result)), key=lambda i: -i.order)
 
+    def get_notes(self):
+        """Returns a translated release notes"""
+        lang = get_language()
+        if not lang or lang == DEFAULT_LANG:
+            return self.release_notes
+        try:
+            return self.translations.get(language=lang).translated_notes
+        except ReleaseTranslation.DoesNotExist:
+            return self.release_notes
+
     @property
     def revisions(self):
         return Release.objects.filter(Q(parent_id=self.pk) | Q(id=self.pk))
@@ -101,6 +114,14 @@ class Release(Model):
             platform.filtered = [child
                 for child in platforms
                     if child in children]
+
+
+class ReleaseTranslation(Model):
+    """A translation of a Release"""
+    release = ForeignKey(Release, related_name='translations')
+    language = CharField(_("Language"), max_length=8, choices=OTHER_LANGS, db_index=True,
+                         help_text=_("Which language is this translated into."))
+    translated_notes = TextField(_('Release notes'))
 
 
 class Platform(Model):

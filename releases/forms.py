@@ -1,10 +1,13 @@
 
 import sys
 
-from django.forms import ModelForm
+from django.forms import ModelForm, BaseInlineFormSet, inlineformset_factory
 from ajax_select import make_ajax_field
 
-from .models import Release, Platform
+# This dependance is fairly harsh, replace is possible.
+from djangocms_text_ckeditor.widgets import TextEditorWidget
+
+from .models import Release, Platform, ReleaseTranslation
 
 class QuerySetMixin(object):
     """Allow querysets in forms to be redefined easily"""
@@ -22,12 +25,30 @@ class ReleaseForm(QuerySetMixin, ModelForm):
     manager = make_ajax_field(Release, 'manager', 'user')
     reviewer = make_ajax_field(Release, 'reviewer', 'user')
 
+    def __init__(self, *args, **kwargs):
+        super(ReleaseForm, self).__init__(*args, **kwargs)
+        if 'release_notes' in self.fields:
+            self.fields['release_notes'].widget = TextEditorWidget()
+
     def parent_queryset(self, qs):
         qs = qs.filter(parent__isnull=True)
         if self.instance.pk:
             qs = qs.exclude(id=self.instance.pk)
         return qs
 
+
+class TranslationForm(ModelForm):
+    class Meta:
+        fields = ('language', 'translated_notes')
+
+    def __init__(self, *args, **kwargs):
+        super(TranslationForm, self).__init__(*args, **kwargs)
+        if 'translated_notes' in self.fields:
+            self.fields['translated_notes'].widget = TextEditorWidget()
+
+TranslationInlineFormSet = inlineformset_factory(
+    Release, ReleaseTranslation, form=TranslationForm, extra=1,
+)
 
 class PlatformForm(QuerySetMixin, ModelForm):
     manager = make_ajax_field(Platform, 'manager', 'user')

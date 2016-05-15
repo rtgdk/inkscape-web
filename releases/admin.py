@@ -21,16 +21,23 @@
 from django.contrib.admin import *
 from ajax_select.admin import AjaxSelectAdmin
 
-from .forms import ReleaseForm, PlatformForm
+from .forms import ReleaseForm, PlatformForm, TranslationInlineFormSet
 from .models import *
 
 class PlatformInline(StackedInline):
     model = ReleasePlatform
     extra = 1
 
+class TranslationsInline(StackedInline):
+    model = ReleaseTranslation
+    extra = 1
+
+    def get_formset(self, request, obj=None, **kwargs):
+        return TranslationInlineFormSet
+
 class ReleaseAdmin(AjaxSelectAdmin):
     form = ReleaseForm
-    inlines = (PlatformInline,)
+    inlines = (PlatformInline, TranslationsInline)
     list_display = ('version', 'parent', 'release_date', 'manager')
 
 class PlatformAdmin(AjaxSelectAdmin):

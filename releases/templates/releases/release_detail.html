@@ -1,14 +1,14 @@
 {% extends 'base.html' %}
-{% load static sekizai_tags i18n %}
+{% load static i18n %}
 
 {% block title %}Download {{ object }}{% endblock %}
 
-{% block supercontent %}
-
-{% addtoblock "css" %}
+{% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
   <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
-{% endaddtoblock %}
+{% endblock %}
+
+{% block supercontent %}
 
 <div id="shield" class="download">
   <div id="banners"
@@ -78,8 +78,12 @@
 </div>
 
   <div id="left-column" class="notes">
-    <h2>Release Notes</h2>
-    <p>{{ object.release_notes|safe|default:"No Release Notes" }}</p>
+    {% if object %}
+      <h2>Release Notes</h2>
+      <p>{{ object.get_notes|safe|default:"No Release Notes" }}</p>
+    {% else %}
+      <h1>No Public Release Yet</h1>
+    {% endif %}
   </div>
 
   <div id="right-sidebar" class="releases">

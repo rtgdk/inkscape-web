@@ -100,6 +100,14 @@ th[scope="col"] { text-align: center; }
   text-overflow: ellipsis;
 }
 
+.clearfix:after {
+   content: " "; /* Older browsers don't support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
 /* styles for cms picture plugin */
 span.align-right img {
   display: block;

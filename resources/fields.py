@@ -39,12 +39,15 @@ class SelectTags(SelectMultiple):
     SCRIPT = """
     <script>
       var existingTags = new Bloodhound({
-        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        datumTokenizer: Bloodhound.tokenizers.whitespace('name'),
         queryTokenizer: Bloodhound.tokenizers.whitespace,
         prefetch: {
-            url: '/json/tags.json',
-          }
-        });
+                    url: '/json/tags.json',
+                    transform: function(response){
+                                 return response.items;
+                                }
+        }
+      });
        
       existingTags.initialize();
 

@@ -35,23 +35,36 @@ class FilterSelect(Select):
             html += ' data-filter="%s"' % str(self.filters[int(value)])
         return '<option value="%s"%s>%s</option>' % (value, html, label)
 
-
-
 class SelectTags(SelectMultiple):
     SCRIPT = """
     <script>
+      var existingTags = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+            url: '/json/tags.json',
+          }
+        });
+       
+      existingTags.initialize();
+
       $('#id_%(id)s').tagsinput({
         maxTags: 12,
         maxChars: 16,
         trimValue: true,
+        typeaheadjs: {
+          name: 'existingTags',
+          display: 'name',
+          source: existingTags.ttAdapter()
+        }
       });
     </script>"""
 
     class Media:
         css = {
-            'all': ('css/bootstrap-tagsinput.css',)
+            'all': ('css/bootstrap-tagsinput.css', 'css/bootstrap-tagsinput-typeahead.css',)
         }
-        js = ('js/bootstrap-tagsinput.js',)
+        js = ('js/bootstrap-tagsinput.js', 'js/typeahead.js')
 
     def render(self, name, value, **kwargs):
         html = super(SelectTags, self).render(name, value, **kwargs)

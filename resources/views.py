@@ -26,7 +26,7 @@ import sys
 import os
 
 from datetime import timedelta
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
@@ -134,6 +134,12 @@ class UploadResource(OwnerCreateMixin, CreateView):
             self.gallery.items.add(form.instance)
         return ret
 
+class TagsJson(View):
+    def get(self, request):
+        # We could leverage category to style
+        # categorized tags differently in the suggestions list
+        context = list(Tag.objects.values('name', 'category')) or [None]
+        return JsonResponse(context, safe=False)
 
 class DropResource(UploadResource):
     content_type  = 'text/plain'

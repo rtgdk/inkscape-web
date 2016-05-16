@@ -55,6 +55,7 @@ TEAM_URLS.url_patterns.extend(owner_patterns)
 
 urlpatterns = patterns('',
   url(r'^paste/(?P<pk>\d+)/$',            ViewResource(),   name='pasted_item'),
+  url(r'^json/tags.json$',                TagsJson(),       name='tags.json'),
 
   url_tree('^mirror/',
     url(r'^$',                            MirrorIndex(),    name='mirror'),

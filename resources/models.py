@@ -40,7 +40,7 @@ from person.models import Team
 from model_utils.managers import InheritanceManager
 
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify, inherited_method
 from .slugify import set_slug
 
 from uuid import uuid4
@@ -374,11 +374,9 @@ class Resource(Model):
         except Exception:
             return 'unknown'
 
+    @inherited_method('ResourceFile', 'resourcefile')
     def icon(self):
-        """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
-        if self.thumbnail and os.path.exists(self.thumbnail.path):
-            return self.thumbnail.url
-        return self.mime().icon()
+        raise ValueError("I don't think so!")
 
     @property
     def download(self):
@@ -502,10 +500,13 @@ class ResourceFile(Resource):
             if os.path.exists(self.download.path) \
               and self.download.size < settings.MAX_PREVIEW_SIZE:
                 return self.download.url
-        return Resource.icon(self)
+        return self.icon_only()
 
     def icon_only(self):
-        return Resource.icon(self)
+        """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
+        if self.thumbnail and os.path.exists(self.thumbnail.path):
+            return self.thumbnail.url
+        return self.mime().icon()
 
     def as_lines(self):
         """Returns the contents as text"""

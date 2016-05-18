@@ -1,6 +1,5 @@
       <div class="breadcrumbs">
-{% ifequal ancestors|length 1 %}
-  {% if breadcrumbs %}
+{% if breadcrumbs %}
     {% for crumb in breadcrumbs %}
       {% if not crumb.0 or forloop.last %}
         <em class="crumb">{{ crumb.1 }}</em>
@@ -9,10 +8,9 @@
       {% endif %}
       {% if not forloop.last %}<span>&raquo;</span>{% endif %}
     {% endfor %}
-  {% endif %}
 {% else %}
   {% for ance in ancestors %}
     {% if not forloop.last %} <a href="{{ ance.get_absolute_url }}">{{ ance.get_menu_title }}</a> <span>&raquo;</span> {% else %}<em>{{ ance.get_menu_title }}</em>{% endif %}
   {% endfor %}
-{% endifequal %}
+{% endif %}
       </div>

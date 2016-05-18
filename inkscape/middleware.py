@@ -1,5 +1,5 @@
 #
-# Copyright 2015, Martin Owens <doctormo@gmail.com>
+# Copyright 2016, Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
@@ -18,7 +18,9 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.core.cache import DEFAULT_CACHE_ALIAS, caches
+from inspect import isclass
+
+from django.core.cache import caches
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
 
@@ -30,7 +32,25 @@ from django.views.generic import UpdateView, CreateView, ListView
 
 import logging
 
-class TrackCacheMiddleware(object):
+class BaseMiddleware(object):
+    def get(self, data, key, default=None):
+        """Returns a data key from the context_data, the view, a get
+        method on the view or a get method on the middleware in that order.
+        
+        Returns default (None) if all fail."""
+        if key in data:
+            return data[key]
+        view = data.get('view', None)
+        if hasattr(view, key):
+            return getattr(view, key)
+        if hasattr(view, 'get_'+key):
+            return getattr(view, 'get_'+key)()
+        if hasattr(self, 'get_'+key):
+            return getattr(self, 'get_'+key)(data)
+        return default
+
+
+class TrackCacheMiddleware(BaseMiddleware):
     """
     When we have objects using generic class based views, we're going
     to track the objects in use and record the caching ids related to them
@@ -52,6 +72,11 @@ class TrackCacheMiddleware(object):
             ))
 
     @classmethod
+    def invalidate_all(cls):
+        """Invalidate the ENTIRE cache (normally used for debugging)"""
+        cls.cache.clear()
+
+    @classmethod
     def get_caches(cls, datum):
         key = cls.get_key(datum)
         return cls.cache.get(key) or set() if key else set()
@@ -62,6 +87,8 @@ class TrackCacheMiddleware(object):
         # Should be replaced with a django-way of generating the key
         if isinstance(datum, Model):
             return "meta:%s-%s" % (type(datum).__name__, str(datum.pk))
+        elif isclass(datum) and issubclass(datum, Model):
+            return "meta:%s" % datum.__name__
         elif isinstance(datum, (list, tuple)):
             if len(datum) > 0 and isinstance(datum[0], Model):
                 return "meta:%s" % type(datum[0]).__name__
@@ -92,8 +119,12 @@ class TrackCacheMiddleware(object):
         if not cache_key:
             return response
 
+        data = response.context_data
+        for obj in self.get(data, 'cache_tracks', []):
+            self.track_cache(obj, cache_key)
+
         for key in ('object', 'object_list'):
-            self.track_cache(response.context_data.get(key, None), cache_key)
+            self.track_cache(data.get(key, None), cache_key)
         return response
 
 
@@ -103,77 +134,70 @@ def object_deleted(sender, instance, *args, **kw):
 
 @receiver(signals.post_save)
 def object_saved(sender, instance, *args, **kw):
+    """Invalidate page caches for an object if not 'updating_fields'"""
+    if kw.get('update_fields'):
+        return
     TrackCacheMiddleware.invalidate(instance)
 
 
-
-class AutoBreadcrumbMiddleware(object):
+class AutoBreadcrumbMiddleware(BaseMiddleware):
     """
     This middleware controls and inserts some breadcrumbs
     into most pages. It attempts to navigate object hierachy
     to find the parent 
     """
-    keys = ('object', 'parent', 'title')
+    keys = ('breadcrumbs', 'title')
 
     def process_template_response(self, request, response):
         if not hasattr(response, 'context_data'):
             return response
         data = response.context_data
-        view = data.get('view', None)
-        out = dict([self.out(data, view, k) for k in self.keys])
-
-        if 'breadcrumbs' not in data:
-            data['breadcrumbs'] = list(self.generate_crumbs(**out))
-
-        if not data.get('title', None) and data.get('breadcrumbs', None):
-            data['title'] = list(data['breadcrumbs'])[-1][-1]
-
+        for key in self.keys:
+            response.context_data[key] = self.get(data, key)
         return response
 
-    def out(self, data, view, key):
-        if key in data:
-            return key, data[key]
-        if hasattr(view, key):
-            return key, getattr(view, key)
-        if hasattr(view, 'get_'+key):
-            return key, getattr(view, 'get_'+key)()
-        if hasattr(self, 'get_'+key):
-            return key, getattr(self, 'get_'+key)(view)
-        return key, None
+    def get_title(self, data):
+        """If no title specified in context, use last breadcrumb"""
+        if data.get('breadcrumbs', False):
+            return list(data['breadcrumbs'])[-1][-1]
+        return None
 
-    def get_action(self, view):
-        if isinstance(view, UpdateView):
-            return _("Edit")
-        elif isinstance(view, CreateView):
-            return _("New")
-        elif isinstance(view, ListView):
-            return _("List")
+    def get_breadcrumbs(self, data):
+        """Return breadcrumbs only called if no breadcrumbs in context"""
+        obj = self.get(data, 'object')
+        parent = self.get(data, 'parent')
+        title = self.get(data, 'title')
+        result = [(reverse('pages-root'), _('Home'))]
+        target = obj if obj is not None else parent
 
-    def generate_crumbs(self, object=None, parent=None, title=None, **kw):
-        yield (reverse('pages-root'), _('Home'))
-        target = object if object is not None else parent
-        if target is not None:
-            for obj in self.get_ancestors(target):
-                if isinstance(obj, tuple) and len(obj) == 2:
-                    yield obj
-                elif hasattr(obj, 'get_absolute_url'):
-                    yield (obj.get_absolute_url(), self.get_name(obj))
-                else:
-                    yield (None, self.get_name(obj))
+        for obj in self.get_ancestors(target):
+            if isinstance(obj, tuple) and len(obj) == 2:
+                result.append(obj)
+            elif obj is not None:
+                result.append(self.object_link(obj))
 
         if title is not None:
-            yield (None, title)
+            result.append((None, title))
+
+        return result
 
     def get_ancestors(self, obj):
-        if hasattr(obj, 'parent') and obj.parent:
-            for parent in self.get_ancestors(obj.parent):
-                yield parent
+        parent = getattr(obj, 'parent', None)
+        if parent is not None:
+            for ans in self.get_ancestors(parent):
+                yield ans
         yield obj
 
-    def get_name(self, obj):
+    def object_link(self, obj):
+        """Get name from object model"""
+        url = None
         if hasattr(obj, 'breadcrumb_name'):
-            return obj.breadcrumb_name()
+            name = obj.breadcrumb_name()
         elif hasattr(obj, 'name'):
-            return obj.name
-        return unicode(obj)
+            name = obj.name
+        else:
+            name = unicode(obj)
+        if hasattr(obj, 'get_absolute_url'):
+            url = obj.get_absolute_url()
+        return (url, name)
 

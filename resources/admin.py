@@ -57,7 +57,13 @@ site.register(Resource, ResourceAdmin)
 site.register(ResourceMirror)
 site.register(Vote)
 site.register(TagCategory)
-site.register(Tag)
+
+class TagAdmin(ModelAdmin):
+    list_display = ('name', 'category')
+    list_filter = ('category',)
+    search_fields = ('name',)
+
+site.register(Tag, TagAdmin)
 
 class QuotaAdmin(ModelAdmin):
     list_display = ('name', 'quota_size')

@@ -22,6 +22,7 @@ Record and control releases.
 """
 
 import os
+from collections import defaultdict
 
 from django.db.models import *
 from django.conf import settings
@@ -32,37 +33,49 @@ from django.utils.text import slugify
 
 from django.contrib.contenttypes.models import ContentType
 
+from django.core.cache import caches
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 
-from pile.models import null
 from pile.fields import ResizedImageField
 
+null = dict(null=True, blank=True)
 DEFAULT_LANG = settings.LANGUAGE_CODE.split('-')[0]
 OTHER_LANGS = list(i for i in settings.LANGUAGES if i[0].split('-')[0] != DEFAULT_LANG)
+
+CACHE = caches['default']
 
 def upload_to(name, w=960, h=300):
     return dict(null=True, blank=True, upload_to='release/'+name,\
                   max_height=h, max_width=w)
 
+
+class ReleaseQuerySet(QuerySet):
+    def for_parent(self, parent):
+        pk = parent.parent_id if parent.parent_id else parent.pk
+        return self.filter(Q(parent__isnull=True) | Q(parent_id=pk))
+
+
 class Release(Model):
     """A release of inkscape"""
-    version       = CharField(_('Version'), max_length=8, unique=True)
-    codename      = CharField(_('Codename'), max_length=32, **null)
+    version       = CharField(_('Version'), max_length=8, db_index=True, unique=True)
+    codename      = CharField(_('Codename'), max_length=32, db_index=True, **null)
 
     release_notes = TextField(_('Release notes'), **null)
-    release_date  = DateField(_('Release date'), **null)
+    release_date  = DateField(_('Release date'), db_index=True, **null)
 
     edited        = DateTimeField(_('Last edited'), auto_now=True)
     created       = DateTimeField(_('Date created'), auto_now_add=True,
                                                      db_index=True)
-    background    = ResizedImageField(**upload_to('background', 960, 300))
+    background    = ResizedImageField(**upload_to('background', 960, 360))
 
     manager       = ForeignKey(settings.AUTH_USER_MODEL, related_name='manages_releases',
                                     verbose_name=_("Release Manager"), **null)
     reviewer      = ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews_releases',
                                     verbose_name=_("Release Reviewer"), **null)
     parent        = ForeignKey('self', related_name='children', **null)
+
+    objects = ReleaseQuerySet.as_manager()
 
     class Meta:
         ordering = '-release_date',
@@ -74,13 +87,7 @@ class Release(Model):
         return "Inkscape %s (%s)" % (self.version, self.codename)
 
     def get_absolute_url(self):
-        return reverse('release', kwargs={'version': self.version})
-
-    def all_platforms(self):
-        result = []
-        for release in self.platforms.all():
-            result += release.platform.ancestors()
-        return sorted(list(set(result)), key=lambda i: -i.order)
+        return reverse('releases:release', kwargs={'version': self.version})
 
     def get_notes(self):
         """Returns a translated release notes"""
@@ -100,21 +107,6 @@ class Release(Model):
     def latest(self):
         return self.revisions.order_by('-release_date')[0]
 
-    @property
-    def tabs(self):
-        platforms = self.all_platforms()
-        roots = []
-        for platform in platforms:
-            if not platform.parent:
-                yield platform
-            children = platform.children.all()
-            releases = list(platform.releases.filter(release=self))
-            if len(releases) > 0:
-                platform.release = releases[0]
-            platform.filtered = [child
-                for child in platforms
-                    if child in children]
-
 
 class ReleaseTranslation(Model):
     """A translation of a Release"""
@@ -133,9 +125,11 @@ class Platform(Model):
     codename   = CharField(max_length=255, **null)
     order      = PositiveIntegerField(default=0)
 
-    matcher    = CharField(max_length=128,
-                     help_text=_("Autopick this platform if UserAgent "
-                                 "matches this regular expression"), **null)
+    match_family = CharField(max_length=32, db_index=True,
+            help_text=_('User agent os match, whole string.'), **null)
+    match_version = CharField(max_length=32, db_index=True,
+            help_text=_('User agent os version partial match, e.g. |10|11| will match both version 10 and version 11, must have pipes at start and end of string.'), **null)
+    match_bits = PositiveIntegerField(db_index=True, choices=((32, '32bit'), (64, '64bit')), **null)
 
     icon       = ResizedImageField(**upload_to('icons', 32, 32))
     image      = ResizedImageField(**upload_to('icons', 256, 256))
@@ -151,7 +145,7 @@ class Platform(Model):
         ordering = '-order', 'codename'
 
     def save(self, **kwargs):
-        codename = str(self)
+        codename = "/".join([slugify(anc.name) for anc in self.ancestors()][::-1])
         if self.codename != codename:
             self.codename = codename
             if self.pk:
@@ -185,18 +179,83 @@ class Platform(Model):
         return _from
 
     def __str__(self):
-        return (" : ").join([anc.name for anc in self.ancestors()][::-1])
+        return self.codename.replace('/', ' : ').replace('_', ' ').title()
+
+
+class PlatformQuerySet(QuerySet):
+    def __init__(self, *args, **kw):
+        super(PlatformQuerySet, self).__init__(*args, **kw)
+        self.query.select_related = True
+
+    def for_os(self, family, version, bits):
+        """Returns all ReleasePlatforms that match the given user_agent os"""
+        qs = self.filter(platform__match_family=family)
+        # Set version to a single point precision
+        version = '|' + str(version) + '|'
+        qs = qs.filter(Q(platform__match_version__contains=version) |
+                       Q(platform__match_version__isnull=True) |
+                       Q(platform__match_version=''))
+        qs = qs.filter(Q(platform__match_bits=bits) |
+                       Q(platform__match_bits__isnull=True))
+        return qs.order_by('platform__match_family', 'platform__match_version')
+
+    def for_level(self, parent=''):
+        """Returns a list of Platforms which are in this release"""
+        # This conditional is required because codename at the zeroth
+        # level is '' but the first level is 'windows', they have the
+        # same number of forward slashes.
+        level = parent.count('/') + 2 if parent else 1
+
+        items = defaultdict(list)
+        for release in self:
+            codename = release.platform.codename
+            if codename.startswith(parent):
+                items['/'.join(codename.rsplit('/')[:level])].append(release)
+
+        # Get all platforms at this level
+        platforms = list(Platform.objects.filter(codename__in=items.keys()))
+
+        # Add link to a release (download) if it's the only one so downloads
+        # can be direct for users.
+        for platform in platforms:
+            if len(items[platform.codename]) == 1:
+                platform.release = items[platform.codename][0]
+        return platforms
 
 
 class ReleasePlatform(Model):
-    release    = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')
-    platform   = ForeignKey(Platform, verbose_name=_("Release Platform"), related_name='releases')
-    download   = URLField(_('Download Link'), **null)
-    more_info  = URLField(_('More Info Link'), **null)
-    howto      = URLField(_('Instructions Link'), **null)
+    release = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')
+    platform = ForeignKey(Platform, verbose_name=_("Release Platform"), related_name='releases')
+    download = URLField(_('Download Link'), **null)
+    howto = URLField(_('Instructions Link'), **null)
+    info = TextField(_('Release Platform Information'), **null)
 
-    created    = DateTimeField(_("Date created"), auto_now_add=True, db_index=True)
+    created = DateTimeField(_("Date created"), auto_now_add=True, db_index=True)
+
+    objects = PlatformQuerySet.as_manager()
 
     def __str__(self):
         return "%s - %s" % (self.release, self.platform)
+
+    def get_absolute_url(self):
+        return reverse('releases:platform', kwargs={
+            'version': self.release.version,
+            'platform': self.platform.codename,
+        })
+
+    def get_download_url(self):
+        """Returns a download link with a thank you"""
+        return reverse('releases:download', kwargs={
+            'version': self.release.version,
+            'platform': self.platform.codename,
+        })
+
+    @property
+    def parent(self):
+        if self.platform.parent_id:
+            return ReleasePlatform(release=self.release, platform=self.platform.parent)
+        return self.release
+
+    def breadcrumb_name(self):
+        return self.platform.name
 

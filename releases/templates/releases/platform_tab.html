@@ -1,0 +1,25 @@
+{% load i18n static %}
+
+{% if platform.release %}
+  <li class="download">
+    <a href="{{ platform.release.get_download_url }}">
+      <strong>{{ platform.desc }}</strong>
+      {% if platform.icon %}
+        <img src="{{ platform.icon.url }}"/>
+      {% else %}
+        <img src="{% static "images/download.svg" %}"/>
+      {% endif %}
+      {{ platform.name }}
+    </a>
+  </li>
+{% else %}
+  <li>
+    <a href="{% url "releases:platform" release.version platform.codename %}">
+      <strong>{{ platform.name }}</strong>
+      {% if platform.icon %}
+        <img src="{{ platform.icon.url }}"/>
+      {% endif %}
+      {{ platform.desc }}
+    </a>
+  </li>
+{% endif %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% load static i18n menu_tags %}
+
+{% block title %}Download for {{ object.name }}{% endblock %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
+  <meta http-equiv="Refresh" content="2; url={{ object.download }}"/>
+{% endblock %}
+
+{% block content %}
+  <div>
+    {% if object.platform.image %}
+      <img src="{{ object.platform.image.url }}" title="{{ object.platform }}" style="float: left;"/>
+    {% endif %}
+    <h1>{{ title }}</h1>
+    <p>{% trans "Thank you for downloading Inkscape." %}
+
+    <p>{% trans "Your download should start in 2 seconds, if not, please" %} <a href="{{ object.download }}">{% trans "click here" %}</a> {% trans "to start." %}</p>
+  </div>
+
+  <hr/>
+
+  <h1>{% trans "Support Inkscape" %}</h1>
+
+  <p>{% trans "Inkscape needs your help. Every user who can contribute to inkscape's development is investing in the future of the project. Donations allow us to do so much within the project to continue providing you with new releases of Inkscape with better features and bug fixes." %}
+
+  <form method="post" action="https://www.paypal.com/cgi-bin/webscr" target="_blank">
+    <input value="_s-xclick" name="cmd" type="hidden">
+    <input value="VRQMKRX9TCDSW" name="hosted_button_id" type="hidden">
+    <input name="submit" alt="Donate to Inkscape Now" src="{% static "images/donate-now.png" %}" type="image">
+    <img class="pygzexfbnpvrmtelraot kooclofgteyzqkpfkenv" src="https://www.paypal.com/en_US/i/scr/pixel.gif" height="1" width="1">
+  </form>
+
+  {% if object.howto %}
+  <hr/>
+  <h1>{% trans "Installation Instructions" %}</h1>
+
+  <p>{% trans "This release has further instructions for installation. It is highly recommended that you read the instructions to make sure your installation will work and work well on your computer." %}</p>
+
+  <a href="{{ object.howto }}">Instructions Page</a>
+
+  {% endif %}
+
+  {% if object.info %}
+    <hr/>
+    {{ object.info|safe }}
+  {% endif %}
+
+{% endblock %}

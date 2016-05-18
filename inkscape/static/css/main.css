@@ -1291,6 +1291,21 @@ div.pagination a:hover {
   display: table !important;
 }
 
-
-
+#bread .breadcrumbs {
+  background-color: #1a1a1a;
+  padding-left: 10px;
+}
+#bread .breadcrumbs a {
+  color: white;
+  padding: 6px;
+  display: inline-block;
+}
+#bread .breadcrumbs span {
+  color: #999;
+  padding: 5px 6px;
+}
+#bread .breadcrumbs a:hover {
+  text-decoration: none;
+  background-color: #222;
+}
 

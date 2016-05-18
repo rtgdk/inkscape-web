@@ -1,0 +1,34 @@
+{% extends 'base.html' %}
+{% load static i18n menu_tags %}
+
+{% block title %}Download for {{ object.name }}{% endblock %}
+
+{% block "css" %}{{ block.super }}
+  <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
+{% endblock %}
+
+{% block supercontent %}
+  <div id="bread">
+    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+  </div>
+<div id="shield" class="download">
+  <div id="banners"
+    {% if object.release.background %}
+      style="background-image:url({{ object.release.background.url }})"
+    {% endif %}>
+  </div>
+  <ul class="tabs fixed">
+    {% for platform in platforms %}
+      {% include "releases/platform_tab.html" %}
+    {% endfor %}
+  </ul>
+</div>
+<div id="left-column">
+  &nbsp;
+  {% if object.info %}
+    {{ object.info|safe }}
+  {% endif %}
+</div>
+
+{% endblock %}

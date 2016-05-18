@@ -17,62 +17,10 @@
     {% elif parent.background %}
       style="background-image:url({{ parent.background.url }})"
     {% endif %}>
-    {% for tab in object.tabs %}
-      <div {% if platform == tab.uuid %}class="current"{% endif %}>
-          <div>
-              <ul>
-                {% for child in tab.filtered %}
-                  <li class="child">
-                      {% if child.icon %}
-                          <img src="{{ child.icon.url }}">
-                      {% else %}
-                          <img src="{% static "images/releases/icon.png" %}">
-                      {% endif %}
-                      {{ child.name }}
-                      <ul>
-                        {% for subchild in child.filtered %}
-                        <li class="platform" tabindex="{{ forloop.counter0 }}">
-                          <p>{{ subchild.name }}</p>
-                          <div>
-                            {% if subchild.image %}
-                            <img src="{{ subchild.image.url }}" title="{{ child }}"/>
-                            {% elif child.image %}
-                              <img src="{{ child.image.url }}" title="{{ child }}"/>
-                            {% endif %}
-                            <p>
-                              {% if subchild.release.download %}
-                                <a href="{{ subchild.release.download }}">Download</a>
-                              {% else %}
-                                <span>No Download Available</span>
-                              {% endif %}
-                              {% if subchild.release.more_info %}
-                                <a href="{{ subchild.release.more_info }}">More Info</a>
-                              {% endif %}
-                              {% if subchild.release.howto %}
-                                <a href="{{ subchild.release.howto }}">Detailed Instructions</a>
-                              {% endif %}
-                            </p>
-                          </div>
-                        </li>
-                        {% endfor %}
-                      </ul>
-                  </li>
-                {% endfor %}
-              </ul>
-          </div>
-      </div>
-    {% endfor %}
   </div>
-  <ul class="tabs">
-    {% for tab in object.tabs %}
-      <li {% if platform == tab.uuid %}class="current"{% endif %} data-matcher="{{ tab.matcher }}">
-        <a href="#{{ tab.uuid }}"><strong>{{ tab.tab_name }}</strong>
-          {% if tab.tab_cat.icon %}
-            <img src="{{ tab.tab_cat.icon.url }}"/>
-          {% endif %}
-          {{ tab.tab_text }}
-        </a>
-      </li>
+  <ul class="tabs fixed">
+    {% for platform in platforms %}
+      {% include "releases/platform_tab.html" %}
     {% endfor %}
   </ul>
 </div>
@@ -110,23 +58,33 @@
           {% endif %}
         </li>
         <li>
-          <a href="{% url "platforms" %}">
+          <a href="{% url "releases:platforms" %}">
             <label>Platform Managers...</label>
           </a>
         </li>
       </ul>
-    {% if parent.revisions.count > 1 %}
-      <h2>{% trans "Other Revisions" %}</h2>
-      {% include "releases/release_sidelist.html" with objs=parent.revisions obj=object %}
-    {% endif %}
-    {% if releases.count > 1 %}
-      <h2>{% trans "Versions" %}</h2>
-      {% include "releases/release_sidelist.html" with objs=releases obj=parent latest=True %}
-    {% endif %}
-    {% if development.count > 0 %}
-      <h2>{% trans "In Development" %}</h2>
-      {% include "releases/release_sidelist.html" with objs=development obj=object latest=True %}
-    {% endif %}
+      {% for name, items, latest in releases %}
+       {% if items %}
+	<h2>{{ name }}</h2>
+	<ul>
+	  {% for release in items %}
+	    {% if release == object %}
+	      <li class="subtle active"><a>
+            {% elif latest and object.parent_id == release.pk %}
+	      <li class="subtle active"><a>
+	    {% else %}
+	      <li class="subtle"><a href="{{ release.get_absolute_url }}{% if latest %}?latest=1{% endif %}">
+	    {% endif %}
+	    <label>{{ release.codename|default:release.version }}</label>
+	    {% if release.release_date %}
+	      <span>{{ release.release_date.year }}</span>
+	    {% endif %}
+	      </a>
+	    </li>
+	  {% endfor %}
+	</ul>
+       {% endif %}
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

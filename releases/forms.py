@@ -37,6 +37,16 @@ class ReleaseForm(QuerySetMixin, ModelForm):
         return qs
 
 
+class ReleasePlatformForm(ModelForm):
+    class Meta:
+        exclude = ()
+
+    def __init__(self, *args, **kwargs):
+        super(ReleasePlatformForm, self).__init__(*args, **kwargs)
+        if 'info' in self.fields:
+            self.fields['info'].widget = TextEditorWidget()
+
+
 class TranslationForm(ModelForm):
     class Meta:
         fields = ('language', 'translated_notes')

@@ -25,11 +25,15 @@ def url_tree(regex, *urls):
     return url(regex, include(patterns('', *urls)))
 
 urlpatterns = patterns('',
-  url(r'^platforms/',              PlatformList(), name="platforms"),
-  url(r'^$',                       ReleaseView(), name="releases"),
+  url(r'^$', DownloadRedirect(), name="download"),
+  url(r'^platforms/', PlatformList(), name="platforms"),
+
   url_tree(r'^(?P<version>[\w\+\.-]+)/',
-    url('^$',                      ReleaseView(), name="release"),
-    url('^(?P<platform>[^\/]+)/$', ReleaseView(), name="platform"),
+    url('^$', ReleaseView(), name="release"),
+
+    # We don't use url_tree here because .+ competes with /dl/
+    url('^(?P<platform>.+)/dl/$', ReleasePlatformView(), name="download"),
+    url('^(?P<platform>.+)/$', PlatformView(), name="platform"),
   ),
 )
 

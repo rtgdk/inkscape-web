@@ -121,12 +121,6 @@ function furnishTabs() {
     $(this).children("a:first-child").mouseover(selectBannerSoon);
     $(this).children("a:first-child").mouseout(cancelBanner);
     $(this).children("a:first-child").click(selectBannerNow);
-    if($(this).data('matcher')) {
-      var re = new RegExp($(this).data('matcher'), "i");
-      if(navigator.userAgent.match(re)) {
-        selectBanner($(this));
-      }
-    }
   });
   currentTab = $("#shield > .tabs li.current");
 }

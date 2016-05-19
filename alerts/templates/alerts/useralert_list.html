@@ -3,10 +3,10 @@
 
 {% block title %}{% trans "Messages" %}{% endblock %} 
 
-{% block "css" %}{{ super.block }}
+{% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/alert.css" %}"/>
 {% endblock %}
-{% block "js" %}{{ super.block }}
+{% block "js" %}{{ block.super }}
   <script type="text/javascript" src="{% static "js/alert.js" %}"></script>
 {% endblock %}
 

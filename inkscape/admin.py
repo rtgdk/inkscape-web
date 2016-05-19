@@ -29,7 +29,7 @@ class ContentTypeAdmin(ModelAdmin):
     search_fields = ('model',)
 
     def is_defunct(self, obj):
-        if obj.model_class():
+        if not obj.model_class():
             return mark_safe("<strong style='display: block; width: 100%; padding: 6px; color: white; background-color: red;'>DEFUNCT</strong>")
         return "OK"
 

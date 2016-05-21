@@ -55,7 +55,6 @@ from collections import defaultdict
 class MyAdminSite(admin.AdminSite):
     merge = {
       'person': 'auth',
-      'django_mailman': 'auth',
       'user_sessions': 'auth',
       'registration': 'auth',
       'social_auth': 'auth',

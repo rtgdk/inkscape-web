@@ -205,7 +205,8 @@ class Team(Model):
     charter  = TextField(_('Charter'), validators=[MaxLengthValidator(30240)], **null)
     side_bar = TextField(_('Side Bar'), validators=[MaxLengthValidator(10240)], **null)
 
-    mailman  = ForeignKey('django_mailman.List', **null)
+    mailman  = CharField(_('Email List'), max_length=32, null=True, blank=True,
+        help_text='The name of the pre-configured mailing list for this team')
     enrole   = CharField(_('Enrollment'), max_length=1, default='O', choices=ENROLES)
 
     @property
@@ -245,27 +246,29 @@ class Team(Model):
         return self.name
 
 def subscribe_to_list(action, team, user):
-    if action == 'pre_remove':
-        team.mailman.unsubscribe(user.email)
-    elif action == 'post_add':
-        team.mailman.subscribe(user.email, user.first_name, user.last_name)
+    pass # Re-enable when we are using mailman3
+#    if action == 'pre_remove':
+#        team.mailman.unsubscribe(user.email)
+#    elif action == 'post_add':
+#        team.mailman.subscribe(user.email, user.first_name, user.last_name)
 
 def update_mailinglist(model, pk_set, instance, action, **kwargs):
     """Subscribe member to mailing list if needed"""
-    if not hasattr(instance, 'team'):
-        return
-    team = instance.team
-    team.mailman_users = []
-    if not pk_set or not pk_set | {None}:
-        return
-    for user in model.objects.filter(pk__in=pk_set):
-        if user.email and team.mailman:
-            try:
-                subscribe_to_list(action, team, user)
-            except Exception:
-                team.mailman_users.append(user.pk)
-            finally:
-                team.mailman_users.append(user)
+    pass
+#    if not hasattr(instance, 'team'):
+#        return
+#    team = instance.team
+#    team.mailman_users = []
+#    if not pk_set or not pk_set | {None}:
+#        return
+#    for user in model.objects.filter(pk__in=pk_set):
+#        if user.email and team.mailman:
+#            try:
+#                subscribe_to_list(action, team, user)
+#            except Exception:
+#                team.mailman_users.append(user.pk)
+#            finally:
+#                team.mailman_users.append(user)
 
 def exclusive_subscription(model, pk_set, instance, action, reverse=False, **kwargs):
     if action == 'post_add' and reverse:

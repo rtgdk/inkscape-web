@@ -11,7 +11,6 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('django_mailman', '__first__'),
         ('person', '0002_rename_team_table'),
     ]
 
@@ -98,7 +97,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='team',
             name='mailman',
-            field=models.ForeignKey(blank=True, to='django_mailman.List', null=True),
+            field=models.ForeignKey(blank=True, to=settings.AUTH_USER_MODEL, null=True),
             preserve_default=True,
         ),
         migrations.AddField(

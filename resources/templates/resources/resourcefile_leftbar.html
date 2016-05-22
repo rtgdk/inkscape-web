@@ -28,7 +28,7 @@
     {% endif %}
 
     {% for tag_category in tag_categories %}
-      <h2>{{ tag_category.name }}</h2>
+      {% if tag_category.tags.count > 0 %}<h2>{{ tag_category.name }}</h2>{% endif %}
       <div>
         {% for tag in tag_category.tags.all %}
         <a class="tag {% if tags == tag.name %} selected{% endif %}" href="?tags={{ tag }}">{{ tag }}</a>

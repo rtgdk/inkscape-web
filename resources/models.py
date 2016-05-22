@@ -129,8 +129,21 @@ class Category(Model):
 
 
 class Tag(Model):
-    name     = CharField(max_length=16)
+    name     = CharField(max_length=16, unique=True)
     category = ForeignKey('TagCategory', related_name='tags', **null)
+    
+    def save(self, **kwargs):
+        self.name = self.name.lower()
+        # should now check if same tag already exists!
+        # currently tries to create a new one with same name,
+        # which (according to docs) leads to a db error.
+        # Or handle via form cleaning?
+        
+        # migrating will also not work with auto migration!!!
+        # (we already have linux and Linux, windows and Windows tags)
+        # need migration to force everything to lowercase, too.
+        ret = super(Tag, self).save(**kwargs)
+        return ret
     
     def __unicode__(self):
         return self.name

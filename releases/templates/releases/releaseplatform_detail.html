@@ -17,19 +17,19 @@
     <h1>{{ title }}</h1>
     <p>{% trans "Thank you for downloading Inkscape." %}
 
-    <p>{% trans "Your download should start in 2 seconds, if not, please" %} <a href="{{ object.download }}">{% trans "click here" %}</a> {% trans "to start." %}</p>
+    <p>{% blocktrans %}Your download should start in 2 seconds, if not, please <a href="{{ object.download }}">click here</a> to start.{% endblocktrans %}</p>
   </div>
 
   <hr/>
 
   <h1>{% trans "Support Inkscape" %}</h1>
 
-  <p>{% trans "Inkscape needs your help. Every user who can contribute to inkscape's development is investing in the future of the project. Donations allow us to do so much within the project to continue providing you with new releases of Inkscape with better features and bug fixes." %}
+  <p>{% blocktrans with "/support-us/donate/" as donation_url %}Inkscape needs your help. Every user who can contribute to Inkscape's development is investing in the future of the project. <a href="{{ donation_url }}">Donations</a> allow us to do so much within the project to continue providing you with new releases of Inkscape with better features and bug fixes.{% endblocktrans %}
 
   <form method="post" action="https://www.paypal.com/cgi-bin/webscr" target="_blank">
     <input value="_s-xclick" name="cmd" type="hidden">
     <input value="VRQMKRX9TCDSW" name="hosted_button_id" type="hidden">
-    <input name="submit" alt="Donate to Inkscape Now" src="{% static "images/donate-now.png" %}" type="image">
+    <input name="submit" alt="Donate to Inkscape Now (Paypal)" src="{% static "images/donate-now.png" %}" type="image">
     <img class="pygzexfbnpvrmtelraot kooclofgteyzqkpfkenv" src="https://www.paypal.com/en_US/i/scr/pixel.gif" height="1" width="1">
   </form>
 
@@ -39,7 +39,7 @@
 
   <p>{% trans "This release has further instructions for installation. It is highly recommended that you read the instructions to make sure your installation will work and work well on your computer." %}</p>
 
-  <a href="{{ object.howto }}">Instructions Page</a>
+  <a href="{{ object.howto }}">{% trans "Instructions Page" %}</a>
 
   {% endif %}
 

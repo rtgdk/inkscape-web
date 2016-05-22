@@ -21,7 +21,7 @@
     <div class="details">
       <div class="title"><h2>{{ object.name }}</h2></div>
       {% if not object.content_type %}
-        <div class="index new_topic"><a href="{% url "forums:create" object.slug %}"><img src="{% static "images/new_topic.svg" %}"> New Topic</a></div>
+        <div class="index new_topic"><a href="{% url "forums:create" object.slug %}"><img src="{% static "images/new_topic.svg" %}"> {% trans "New Topic" %}</a></div>
       {% endif %}
     </div>
     <table class="topic_list">

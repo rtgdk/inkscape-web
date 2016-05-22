@@ -1,6 +1,6 @@
 /*
  * bootstrap-tagsinput v0.8.0
- * 
+ * modified with an option to only allow lowercase tags
  */
 
 (function ($) {
@@ -33,7 +33,8 @@
     },
     trimValue: false,
     allowDuplicates: false,
-    triggerChange: true
+    triggerChange: true,
+    lowerCase: true
   };
 
   /**
@@ -83,6 +84,11 @@
         item = $.trim(item);
       }
 
+      // To lowercase
+      if (typeof item === "string" && self.options.lowerCase) {
+        item = item.toLowerCase();
+      }
+      
       // Throw an error when trying to add an object while the itemValue option was not set
       if (typeof item === "object" && !self.objectItems)
         throw("Can't add objects when itemValue option is not set");

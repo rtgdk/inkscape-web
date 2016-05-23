@@ -14,7 +14,7 @@
   <div id="profile" style="background-color: #1c1c1c; color: white;">
     <img id="photo" src="{{ object.icon }}"/>
     <h1 id="name">{{ object.name }}</h1>
-    <p id="bio">{{ object.desc }}</p>
+    <p id="bio">{% if object.desc %}{{ object.desc }}{% endif %}</p>
   </div>
 
   <div class="wrapper">

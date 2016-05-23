@@ -132,6 +132,9 @@ class Tag(Model):
     name     = CharField(max_length=16, unique=True)
     category = ForeignKey('TagCategory', related_name='tags', **null)
     
+    class Meta:
+        ordering = 'name',
+    
     def save(self, **kwargs):
         self.name = self.name.lower()
         # should now check if same tag already exists!

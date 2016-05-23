@@ -76,7 +76,7 @@ class SelectTags(SelectMultiple):
         return mark_safe(html + (self.SCRIPT % {'id':name, 'ajax': url}))
 
     def render_option(self, selected_choices, option_value, label):
-        """Only suply selecte tags so tagsinput won't add them all"""
+        """Only supply selected tags so tagsinput won't add them all"""
         # This isn't as efficient as it could be because it
         # still loops /every/ tag possible. Replace with selected_choices
         if force_text(option_value) in selected_choices:
@@ -98,7 +98,7 @@ class TagsChoiceField(ModelMultipleChoiceField):
                 yield tag
                 continue
             try:
-                tag = tag.replace('_', ' ').replace('-', ' ').title()
+                tag = tag.lower()
                 yield Tag.objects.get_or_create(name=tag)[0].pk
             except Exception as error:
                 if "value too long" in str(error):

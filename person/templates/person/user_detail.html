@@ -61,14 +61,16 @@
 {% endblock %}
 
 {% block "side" %}
-      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Uploads" %}</h1>
+      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Galleries" %}</h1>
       <ul>
         <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
+        <hr/>
+        {% for gallery in object.galleries.all %}
+        <li><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></li>
+        {% endfor %}
         <li><a href="{% url "resources" username=object.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
-        {% if object.gpg_key %}
-          <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
-        {% endif %}
         {% if object != request.user %}
+          <hr/>
           {% if object.viewer_is_subscribed %}
            <!-- doesn't work! <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}'>
               {% csrf_token %}
@@ -80,8 +82,6 @@
           {% else %}
             <li><a href="{% url "alert.subscribe" "resources.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
           {% endif %}
-        {% else %}
-          <li><a href="{% url "resource.upload" %}">{% trans "New Upload" %}</a></li>
         {% endif %}
       </ul>
 
@@ -101,6 +101,9 @@
 
       <h2>{% trans "Information" %}</h2>
       <ul>
+        {% if object.gpg_key %}
+          <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
+        {% endif %}
         {% if object.last_seen %}
           <li><a><label>{% trans "Last Seen" %}</label>
             <span title="{{ object.last_seen|ago }} ({{ object.last_seen|date:"Y-m-d" }})">{{ object.last_seen|ago:1 }}</span></a></li>

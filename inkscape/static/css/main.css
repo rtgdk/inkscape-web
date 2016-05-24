@@ -630,6 +630,10 @@ hr {
   font-size: 10.5pt;
 }
 
+#sidecategory ul > hr {
+  margin: 0px;
+}
+
 #sidecategory ul a:focus {
   outline: none;
 }

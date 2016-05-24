@@ -148,6 +148,11 @@ class TagCategory(Model):
 
 
 class ResourceManager(Manager):
+    def get_queryset(self):
+        qs = super(ResourceManager, self).get_queryset()
+        qs.query.select_related = True
+        return qs
+
     def breadcrumb_name(self):
         return _("InkSpaces")
 
@@ -198,7 +203,9 @@ class ResourceManager(Manager):
 
     def disk_usage(self):
         # This could be done better by storing the file sizes
-        return sum(f.resourcefile.download.size for f in self.get_queryset().filter(resourcefile__isnull=False) if f.resourcefile.download and os.path.exists(f.resourcefile.download.path))
+        return sum(resource.download.size
+            for resource in ResourceFile.objects.filter(pk__in=self.get_queryset())
+            if resource.download and os.path.exists(resource.download.path))
 
     def latest(self):
         user = get_user()

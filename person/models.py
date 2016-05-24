@@ -122,7 +122,7 @@ class User(AbstractUser):
     def visited_by(self, by_user):
         if by_user != self:
             self.visits += 1
-            self.save()
+            self.save(update_fields=['visits'])
 
     @property
     def teams(self):

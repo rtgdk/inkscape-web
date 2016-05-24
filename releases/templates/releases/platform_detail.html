@@ -12,6 +12,10 @@
   <div id="bread">
     {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
   </div>
+  {% if not object %}
+    <h1>Platform is Misconfigured for release.</h1>
+  {% else %}
+
 <div id="shield" class="download">
   <div id="banners"
     {% if object.release.background %}
@@ -31,4 +35,5 @@
   {% endif %}
 </div>
 
+  {% endif %}
 {% endblock %}

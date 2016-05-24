@@ -142,6 +142,8 @@ class PlatformView(DetailView):
             data['object'] = data['release'].platforms.get(platform__codename=obj.codename)
         except ReleasePlatform.DoesNotExist:
             data['object'] = ReleasePlatform(release=data['release'], platform=data['platform'])
+        except ReleasePlatform.MultipleObjectsReturned:
+            data['object'] = None
 
         return data
 

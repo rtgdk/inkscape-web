@@ -45,8 +45,8 @@
 
 #profile #photo {
   margin: 5px 30px 5px 5px;
-  width: 128px;
-  height: 128px;
+  max-width: 128px;
+  max-height: 128px;
   border-radius: 10px;
   float: left;
 }

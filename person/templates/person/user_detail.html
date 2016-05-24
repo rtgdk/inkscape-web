@@ -72,12 +72,6 @@
         {% if object != request.user %}
           <hr/>
           {% if object.viewer_is_subscribed %}
-           <!-- doesn't work! <form style="display: inline;" method='post' action='{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}'>
-              {% csrf_token %}
-              <input type='submit' value='{% trans "Unsubscribe" %}'/>
-            </form> -->
-
-            <!-- also doesn't work - leads to subscription form -->
             <li><a href="{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}">{% trans "Unsubscribe from Gallery" %}</a></li>
           {% else %}
             <li><a href="{% url "alert.subscribe" "resources.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>

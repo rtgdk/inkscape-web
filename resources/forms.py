@@ -37,7 +37,7 @@ from .fields import FilterSelect, TagsChoiceField
 from cms.utils.permissions import get_current_user as get_user
 
 
-__all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceFileForm',
+__all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
            'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
 
 class GalleryForm(ModelForm):
@@ -183,11 +183,11 @@ class ResourceBaseForm(ModelForm):
             yield field
 
 
-class ResourceFileForm(ResourceBaseForm):
+class ResourceForm(ResourceBaseForm):
     published = BooleanField(label=_('Publicly Visible'), required=False)
 
     class Meta:
-        model = ResourceFile
+        model = Resource
         fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner',
                   'thumbnail', 'signature', 'published', 'mirror', 'download']
         required = ['name', 'category', 'license', 'owner']
@@ -202,7 +202,7 @@ class ResourcePasteForm(ResourceBaseForm):
         # These are shown items values, for default values see save()
         i = dict(
             download='', desc='-', license=1, media_type='text/plain',
-            name=_("Pasted Text #%d") % ResourceFile.objects.all().count(),
+            name=_("Pasted Text #%d") % Resource.objects.all().count(),
         )
         i.update(kwargs.pop('initial', {}))
         kwargs['initial'] = i
@@ -239,7 +239,7 @@ class ResourcePasteForm(ResourceBaseForm):
         return obj
 
     class Meta:
-        model = ResourceFile
+        model = Resource
         fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link', 'download']
         required = ['name', 'license']
 
@@ -247,7 +247,7 @@ class ResourcePasteForm(ResourceBaseForm):
 class ResourceEditPasteForm(ResourceBaseForm):
     media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     class Meta:
-        model = ResourceFile
+        model = Resource
         fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link']
         required = ['name', 'license']
 
@@ -257,7 +257,7 @@ FORMS = {1: ResourceEditPasteForm}
 
 class ResourceAddForm(ResourceBaseForm):
     class Meta:
-        model = ResourceFile
+        model = Resource
         fields = ['download', 'name']
 
     def clean_name(self):

@@ -205,16 +205,3 @@ def gpg_verify(user, sig, data):
     gpg.import_keys(str(user.gpg_key))
     return bool(gpg.verify_file(sig, data.path))
 
-
-def inherited_method(target_cls, attr_name):
-    """This turns a method on an obj into a protected method that can
-    only be used to call a sub-model instance. It'll redirect if needed.
-    """
-    def _outer(fn):
-        def _inner(self, *args, **kw):
-            if type(self).__name__ != target_cls:
-                child = getattr(self, attr_name)
-                return getattr(child, fn.__name__)(*args, **kw)
-            return fn(*args, **kw)
-        return _inner
-    return _outer

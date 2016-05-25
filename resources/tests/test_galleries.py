@@ -30,7 +30,7 @@ from django.utils.timezone import now
 from django.core.urlresolvers import reverse
 from django.core.management import call_command
 
-from resources.models import Resource, ResourceFile, Gallery, Category
+from resources.models import Resource, Resource, Gallery, Category
 from resources.views import ResourceList
 from resources.forms import GalleryForm
 
@@ -42,7 +42,7 @@ class GalleryUserTests(BaseCase):
 
     def test_view_global_gallery(self):
         """Look at the gallery containing every public resource from everyone"""
-        resources = ResourceFile.objects.filter(published=True).order_by('-liked')
+        resources = Resource.objects.filter(published=True).order_by('-liked')
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
 
@@ -74,7 +74,7 @@ class GalleryUserTests(BaseCase):
     def test_narrow_global_gallery(self):
         """make sure we can choose to see only the resources
         we want to see in the global gallery"""
-        resources = ResourceFile.objects.filter(published=True)
+        resources = Resource.objects.filter(published=True)
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
 
@@ -94,7 +94,7 @@ class GalleryUserTests(BaseCase):
 
     def test_sort_global_gallery(self):
         "test if ordering for global galleries works as expected"
-        resources = ResourceFile.objects.filter(published=True)
+        resources = Resource.objects.filter(published=True)
         self.assertGreater(resources.count(), 3,
                            "Create a few public resources for the global gallery")
 
@@ -127,7 +127,7 @@ class GalleryUserTests(BaseCase):
 
     def test_view_user_gallery_owner(self):
         """Look at all my own uploads"""
-        resources = ResourceFile.objects.filter(user=self.user)
+        resources = Resource.objects.filter(user=self.user)
         self.assertGreater(resources.count(), 1,
                            "Create another resource for user %s" % self.user)
 
@@ -141,7 +141,7 @@ class GalleryUserTests(BaseCase):
     def test_view_user_gallery_not_owner(self):
         """Look at all uploads by another user"""
         owner = User.objects.get(pk=2)
-        resources = ResourceFile.objects.filter(user=owner, published=True)
+        resources = Resource.objects.filter(user=owner, published=True)
         self.assertGreater(resources.count(), 1,
                            "Create another public resource for user %s" % owner)
 
@@ -168,7 +168,7 @@ class GalleryUserTests(BaseCase):
 
         #add resources to both subgalleries
         resource_owner = subgallery.group.user_set.all()[0]
-        resources = ResourceFile.objects.filter(user=resource_owner, published=True)
+        resources = Resource.objects.filter(user=resource_owner, published=True)
         self.assertGreater(resources.count(), 2,
                            "Add a public resource for user %s" % resource_owner)
         subgallery.items.add(resources[0], resources[1])
@@ -194,7 +194,7 @@ class GalleryUserTests(BaseCase):
     def test_narrow_user_gallery_owner(self):
         """make sure we can choose to see only the resources
         we want to see in our own gallery"""
-        resources = ResourceFile.objects.filter(user=self.user, category__filterable=True)
+        resources = Resource.objects.filter(user=self.user, category__filterable=True)
         self.assertGreater(resources.count(), 2,
                            "Create a few resources for user %s" % self.user)
 
@@ -216,7 +216,7 @@ class GalleryUserTests(BaseCase):
     def test_narrow_user_gallery_not_owner(self):
         """make sure we choose a category in a stranger's gallery"""
         owner = User.objects.get(pk=2)
-        resources = ResourceFile.objects.filter(user=owner, published=True)
+        resources = Resource.objects.filter(user=owner, published=True)
         self.assertGreater(resources.count(), 2,
                            "Create a few resources for user %s" % owner)
 
@@ -239,7 +239,7 @@ class GalleryUserTests(BaseCase):
         """Tests the search functionality in galleries"""
         q = {'q': '+description searchterm2 searchterm1 -Eight'}
 
-        resources = ResourceFile.objects.filter(published=True).exclude(desc__contains='Eight')\
+        resources = Resource.objects.filter(published=True).exclude(desc__contains='Eight')\
                                     .filter(desc__contains='description').order_by('-liked')
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query")
@@ -260,7 +260,7 @@ class GalleryUserTests(BaseCase):
     def test_user_gallery_search(self):
         """Test that we can search for a user's items in that user's global gallery"""
         owner = User.objects.get(pk=2)
-        resources = ResourceFile.objects.filter(user=owner, published=True).exclude(name__contains="Four")\
+        resources = Resource.objects.filter(user=owner, published=True).exclude(name__contains="Four")\
                                     .filter(name__contains="Seven").order_by('-liked')
         self.assertGreater(resources.count(), 0,
                            "Create a public resource which complies to the search query for user %s" % owner)
@@ -289,8 +289,8 @@ class GalleryUserTests(BaseCase):
         gallery = galleries[0]
 
         # add resources which belongs to user 2 to the gallery
-        item_search = ResourceFile.objects.get(pk=7)
-        item_exclude = ResourceFile.objects.get(pk=4)
+        item_search = Resource.objects.get(pk=7)
+        item_exclude = Resource.objects.get(pk=4)
         gallery.items.add(item_search, item_exclude)
 
         # either this, or more fixtures that interfere with already existing tests...
@@ -330,7 +330,7 @@ class GalleryUserTests(BaseCase):
 
     def assertInGallery(self, resource, gallery, is_in=True):
         """Test a gallery contains the given item (or does not contain)"""
-        if isinstance(resource, ResourceFile):
+        if isinstance(resource, Resource):
             resource = resource.resource_ptr
         if is_in:
             self.assertIn(resource, gallery.items.all())
@@ -343,7 +343,7 @@ class GalleryUserTests(BaseCase):
         """Make sure an item can be moved from one gallery to another by its
         owner, make sure template works correctly"""
         (src, to) = self.getObj(self.user.galleries.all(), count=2)
-        resource = self.getObj(ResourceFile, user=self.user)
+        resource = self.getObj(Resource, user=self.user)
 
         # add a resource which belongs to us to the gallery
         src.items.add(resource)
@@ -356,7 +356,7 @@ class GalleryUserTests(BaseCase):
         into a gallery which isn't ours, and not a gallery for a group we're in"""
         src = self.getObj(self.user.galleries.filter(group=None))
         to = self.getObj(Gallery.objects.exclude(group__in=self.groups).exclude(user=self.user))
-        resource = self.getObj(ResourceFile, user=self.user)
+        resource = self.getObj(Resource, user=self.user)
 
         # add a resource which belongs to us to the gallery
         src.items.add(resource)
@@ -369,7 +369,7 @@ class GalleryUserTests(BaseCase):
         if we are a member (not owner) of the group"""
         src = self.getObj(self.user.galleries.all(), group=None)
         to = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
-        resource = self.getObj(ResourceFile, user=self.user)
+        resource = self.getObj(Resource, user=self.user)
 
         # add a resource which belongs to us to the team gallery
         src.items.add(resource)
@@ -384,7 +384,7 @@ class GalleryUserTests(BaseCase):
         """
         src = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
         to = self.getObj(self.user.galleries, group=None)
-        resource = self.getObj(ResourceFile, user=self.user)
+        resource = self.getObj(Resource, user=self.user)
 
         # add a resource which belongs to us to the gallery
         src.items.add(resource)
@@ -393,7 +393,7 @@ class GalleryUserTests(BaseCase):
         self.assertMoveResource(resource, src, to, 200, 0, 1)
 
         # add a resource which does *not* belong to us to the group gallery
-        resource = self.getObj(ResourceFile, user=src.user)
+        resource = self.getObj(Resource, user=src.user)
         src.items.add(resource)
 
         # try to move that resource to a gallery that is mine
@@ -436,7 +436,7 @@ class GalleryUserTests(BaseCase):
         to = self.getObj(Gallery, not_user=self.user, group__in=self.groups)
 
         # add a resource which belongs to someone else to that person's gallery
-        resource = self.getObj(ResourceFile, user=src.user)
+        resource = self.getObj(Resource, user=src.user)
         src.items.add(resource)
 
         # move that resource to another gallery
@@ -446,7 +446,7 @@ class GalleryUserTests(BaseCase):
         """ensure we get a 404 if we try to move an item out of a gallery
         which does not exist"""
         to = self.getObj(Gallery, user=self.user, not_group__in=self.groups)
-        resource = self.getObj(ResourceFile, user=self.user)
+        resource = self.getObj(Resource, user=self.user)
 
         # try to move the resource from nonexistant gallery to my gallery
         self.assertMoveResource(resource, 0, to, 404, 0, 0, get=404)
@@ -488,7 +488,7 @@ class GalleryUserTests(BaseCase):
     def test_copy_item_to_gallery_not_item_owner(self):
         """Make sure we cannot copy items that do not belong to us"""
         to = self.getObj(self.user.galleries.all())
-        resource = self.getObj(ResourceFile, not_user=self.user)
+        resource = self.getObj(Resource, not_user=self.user)
         self.assertCopyResource(resource, to, 403, 1, 0, get=403)
 
     # Gallery Edit tests
@@ -593,11 +593,11 @@ class GalleryUserTests(BaseCase):
         """Make sure that the main gallery has the correct rss feed, also for
         categories, ordering, subgalleries"""
         # RSS Feed only shows things in the last month
-        ResourceFile.objects.all().update(created=now())
+        Resource.objects.all().update(created=now())
 
         categories = Category.objects.filter(filterable=True)
         galleries = Gallery.objects.filter()
-        resources = ResourceFile.objects.filter(published=1)
+        resources = Resource.objects.filter(published=1)
 
         self.assertGreater(resources.count(), 3, "Create some published resources!")
         response = self.assertGet('resources_rss')
@@ -609,7 +609,7 @@ class GalleryUserTests(BaseCase):
 
         # select a category
         cat = resources.filter(category__in=categories)[0].category
-        cat_resources = ResourceFile.objects.filter(published=True, category=cat)
+        cat_resources = Resource.objects.filter(published=True, category=cat)
         response = self.assertGet('resources_rss', category=cat.value)
         self.assertEqual(response['Content-Type'][:19], 'application/rss+xml')
         self.assertContains(response, "</item>", cat_resources.count())
@@ -618,7 +618,7 @@ class GalleryUserTests(BaseCase):
             self.assertContains(response, resource.get_absolute_url())
 
         # select a username, which is used for all the rest of test
-        resources = ResourceFile.objects.exclude(user=self.user) # prevent hassle with unpublished items visible to owner
+        resources = Resource.objects.exclude(user=self.user) # prevent hassle with unpublished items visible to owner
         u = resources[0].user
         user_resources = resources.filter(user=u)
         response = self.assertGet('resources_rss', username=u.username)

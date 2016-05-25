@@ -21,6 +21,10 @@
 Models for resource system, provides license, categories and resource downloads.
 """
 
+__all__ = ('License', 'Category', 'Resource', 'ResourceMirror',
+           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin',
+           'Tag', 'TagCategory')
+
 import gzip
 import sys
 import os
@@ -37,10 +41,8 @@ from django.contrib.auth import get_user_model
 from django.conf import settings
 from person.models import Team
 
-from model_utils.managers import InheritanceManager
-
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify, inherited_method
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
 from .slugify import set_slug
 
 from uuid import uuid4
@@ -50,9 +52,11 @@ from cms.utils.permissions import get_current_user as get_user
 
 null = dict(null=True, blank=True)
 
-__all__ = ('License', 'Category', 'Resource', 'ResourceFile', 'ResourceMirror',
-           'Gallery', 'Vote', 'Quota', 'GalleryPlugin', 'CategoryPlugin',
-           'Tag', 'TagCategory')
+OWNS = (
+  (None, _('No permission')),
+  (True, _('I own the work')),
+  (False, _('I have permission')),
+)
 
 DOMAINS = {
   'inkscape.org': 'Inkscape Website',
@@ -178,7 +182,7 @@ class ResourceManager(Manager):
 
     def subscriptions(self):
         """Returns a queryset of users who get alerts for new resources"""
-        subs = ResourceFile.subscriptions
+        subs = Resource.subscriptions
         if 'user' in self.core_filters:
             subs.target = self.core_filters['user']
         return subs.all()
@@ -204,7 +208,7 @@ class ResourceManager(Manager):
     def disk_usage(self):
         # This could be done better by storing the file sizes
         return sum(resource.download.size
-            for resource in ResourceFile.objects.filter(pk__in=self.get_queryset())
+            for resource in Resource.objects.filter(pk__in=self.get_queryset())
             if resource.download and os.path.exists(resource.download.path))
 
     def latest(self):
@@ -228,12 +232,15 @@ class GroupGalleryManager(ResourceManager):
 Group.resources = property(lambda self: GroupGalleryManager(self))
 
 
-class InheritedResourceManager(InheritanceManager, ResourceManager):
-    pass
-
-
 class Resource(Model):
-    is_file   = False
+    """This is a resource with an uploaded file"""
+    owner_field = 'user'
+
+    ENDORSE_NONE = 0
+    ENDORSE_HASH = 1
+    ENDORSE_SIGN = 5
+    ENDORSE_AUTH = 10
+
     user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
@@ -257,7 +264,21 @@ class Resource(Model):
     media_x    = IntegerField(**null)
     media_y    = IntegerField(**null)
 
-    objects   = InheritedResourceManager()
+    # ======== ITEMS FROM RESOURCEFILE =========== #
+    download   = FileField(_('Consumable File'), **upto('file', blank=True))
+
+    license    = ForeignKey(License, **null)
+    owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
+
+    signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
+    verified   = BooleanField(default=False)
+    mirror     = BooleanField(default=False)
+    embed      = BooleanField(default=False)
+
+    checked_by = ForeignKey(settings.AUTH_USER_MODEL, related_name='resource_checks', **null)
+    checked_sig = FileField(_('Counter Signature'), **upto('sigs'))
+
+    objects   = ResourceManager()
 
     class Meta:
         get_latest_by = 'created'
@@ -292,147 +313,6 @@ class Resource(Model):
         return len(self.desc) > 1000 or '[[...]]' in self.desc
 
     def save(self, **kwargs):
-        signal = False
-        if not self.created and self.published:
-            self.created = now()
-            signal = True
-
-        set_slug(self)
-        ret = super(Resource, self).save(**kwargs)
-
-        if signal:
-            from .alert import post_publish
-            post_publish.send(sender=Resource, instance=self)
-
-        return ret
-
-    def find_media_type(self):
-        # We don't know how to find it for links yet.
-        return None
-
-    def find_media_coords(self):
-        return (None, None)
-
-    def get_absolute_url(self):
-        if self.category_id and self.category_id == 1:
-            return reverse('pasted_item', args=[str(self.pk)])
-        if self.slug:
-            return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
-        return reverse('resource', kwargs={'pk': self.pk})
-
-    @property
-    def years(self):
-        if self.created and self.created.year != self.edited.year:
-            return "%d-%d" % (self.created.year, self.edited.year)
-        return str(self.edited.year)
-
-    # for counting detail views
-    def set_viewed(self, session):
-        if session.session_key is not None:
-            # We check for session key because it might not exist if this
-            # was called from the first view or cookies are blocked.
-            (view, is_new) = self.views.get_or_create(session=session.session_key)
-            return is_new
-        return None
-
-    def is_visible(self):
-        return get_user().pk == self.user_id or self.published
-
-    def voted(self):
-        return self.votes.for_user(get_user()).first()
-
-    @property
-    def is_new(self):
-        return not self.category
-
-    @property
-    def is_video(self):
-        return bool(self.video)
-
-    @property
-    def video(self):
-        return video_embed(self.link)
-
-    @property
-    def next(self):
-        """Get the next item in the gallery which needs information"""
-        try:
-            return self.gallery.items.new().exclude(pk=self.id)[0]
-        except IndexError:
-            return None
-
-    @property
-    def gallery(self):
-        try:
-            return self.galleries.all()[0]
-        except IndexError:
-            return None
-
-    @cached
-    def mime(self):
-        """Returns an encapsulated media_type as a MimeType object"""
-        return MimeType( self.media_type or 'application/unknown' )
-
-    def link_from(self):
-        """Returns the domain name or useful name if known for link"""
-        try:
-            domain = '.'.join(self.link.split("/")[2].split('.')[-2:])
-            return DOMAINS.get(domain, domain)
-        except Exception:
-            return 'unknown'
-
-    @inherited_method('ResourceFile', 'resourcefile')
-    def icon(self):
-        raise ValueError("I don't think so!")
-
-    @property
-    def download(self):
-        class NotLocalDownload(object):
-            def __init__(self, link):
-                self.link = link
-            @property
-            def url(self):
-                return self.link
-            @property
-            def path(self):
-                return '/'.join(self.link.split('/')[3:])
-        if self.link:
-            return NotLocalDownload(self.link)
-        return None
-
-OWNS = (
-  (None, _('No permission')),
-  (True, _('I own the work')),
-  (False, _('I have permission')),
-)
-
-
-class ResourceFile(Resource):
-    """This is a resource with an uploaded file"""
-    is_file = True
-    owner_field = 'user'
-
-    download   = FileField(_('Consumable File'), **upto('file', blank=False))
-
-    license    = ForeignKey(License, **null)
-    owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
-
-    signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
-    verified   = BooleanField(default=False)
-    mirror     = BooleanField(default=False)
-    embed      = BooleanField(default=False)
-
-    checked_by = ForeignKey(settings.AUTH_USER_MODEL, related_name='resource_checks', **null)
-    checked_sig = FileField(_('Counter Signature'), **upto('sigs'))
-
-    objects   = ResourceManager()
-
-    ENDORSE_NONE = 0
-    ENDORSE_HASH = 1
-    ENDORSE_SIGN = 5
-    ENDORSE_AUTH = 10
-
-    def save(self, *args, **kwargs):
         if self.download and not self.download._committed:
             # There is a download file and it's changed
 
@@ -453,7 +333,19 @@ class ResourceFile(Resource):
         elif self.signature and not self.signature._committed:
             self.verified = False
 
-        Resource.save(self, *args, **kwargs)
+        signal = False
+        if not self.created and self.published:
+            self.created = now()
+            signal = True
+
+        set_slug(self)
+        ret = super(Resource, self).save(**kwargs)
+
+        if signal:
+            from .alert import post_publish
+            post_publish.send(sender=Resource, instance=self)
+
+        return ret
 
     def filename(self):
         return os.path.basename(self.download.name)
@@ -478,12 +370,6 @@ class ResourceFile(Resource):
                 return self.ENDORSE_AUTH
             return self.ENDORSE_SIGN
         return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
-
-    def is_visible(self):
-        return Resource.is_visible(self) and self.is_available()
-
-    def is_available(self):
-        return os.path.exists(self.download.path)
 
     def find_media_type(self):
         """Returns the media type of the downloadable file"""
@@ -536,10 +422,81 @@ class ResourceFile(Resource):
             return text.read().decode('utf-8')
         return "Not text!"
 
+    def get_absolute_url(self):
+        if self.category_id and self.category_id == 1:
+            return reverse('pasted_item', args=[str(self.pk)])
+        if self.slug:
+            return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
+        return reverse('resource', kwargs={'pk': self.pk})
+
+    @property
+    def years(self):
+        if self.created and self.created.year != self.edited.year:
+            return "%d-%d" % (self.created.year, self.edited.year)
+        return str(self.edited.year)
+
+    # for counting detail views
+    def set_viewed(self, session):
+        if session.session_key is not None:
+            # We check for session key because it might not exist if this
+            # was called from the first view or cookies are blocked.
+            (view, is_new) = self.views.get_or_create(session=session.session_key)
+            return is_new
+        return None
+
+    def is_visible(self):
+        return get_user().pk == self.user_id or self.published and self.is_available()
+
+    def is_available(self):
+        return not self.download or os.path.exists(self.download.path)
+
+    def voted(self):
+        return self.votes.for_user(get_user()).first()
+
+    @property
+    def is_new(self):
+        return not self.category
+
+    @property
+    def is_video(self):
+        return bool(self.video)
+
+    @property
+    def video(self):
+        return video_embed(self.link)
+
+    @property
+    def next(self):
+        """Get the next item in the gallery which needs information"""
+        try:
+            return self.gallery.items.new().exclude(pk=self.id)[0]
+        except IndexError:
+            return None
+
+    @property
+    def gallery(self):
+        try:
+            return self.galleries.all()[0]
+        except IndexError:
+            return None
+
+    @cached
+    def mime(self):
+        """Returns an encapsulated media_type as a MimeType object"""
+        return MimeType( self.media_type or 'application/unknown' )
+
+    def link_from(self):
+        """Returns the domain name or useful name if known for link"""
+        try:
+            domain = '.'.join(self.link.split("/")[2].split('.')[-2:])
+            return DOMAINS.get(domain, domain)
+        except Exception:
+            return 'unknown'
+
 
 class ResourceRevision(Model):
     """When a resource gets edited and the file is changed, the old file ends up here."""
-    resource   = ForeignKey(ResourceFile, related_name='revisions')
+    resource   = ForeignKey(Resource, related_name='revisions')
     download   = FileField(_('Consumable File'), **upto('file', blank=False))
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
     created    = DateTimeField(auto_now=True)
@@ -555,7 +512,7 @@ class ResourceRevision(Model):
 
     @classmethod
     def from_resource(cls, resource):
-        kw = ResourceFile.objects.filter(pk=resource.pk).values('download', 'signature')[0]
+        kw = Resource.objects.filter(pk=resource.pk).values('download', 'signature')[0]
         if kw['download'] != resource.download.name:
             kw['resource'] = resource
             obj = cls(**kw)
@@ -607,7 +564,7 @@ class ResourceMirror(Model):
     @staticmethod
     def resources():
         """List of all mirrored resources"""
-        return ResourceFile.objects.filter(mirror=True)      
+        return Resource.objects.filter(mirror=True)      
 
     def do_sync(self):
         self.sync_time = now()

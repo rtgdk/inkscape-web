@@ -7,143 +7,7 @@
     "signature": null,
     "owner": true,
     "mirror": false,
-    "download": "test/file1.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 1
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 1,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file2.txt"
-  },
-  "model": "resources.resourcefile",
-  "pk": 2
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 2,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file3.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 3
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 2,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file4.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 4
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 2,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file5.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 5
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 3,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file2.txt"
-  },
-  "model": "resources.resourcefile",
-  "pk": 6
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 3,
-    "tags": [],
-    "signature": "test/good.md5",
-    "owner": true,
-    "mirror": false,
-    "download": "test/preview5.png"
-  },
-  "model": "resources.resourcefile",
-  "pk": 7
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 4,
-    "tags": [],
-    "signature": "test/bad.sig",
-    "owner": true,
-    "mirror": false,
-    "download": "test/file2.txt"
-  },
-  "model": "resources.resourcefile",
-  "pk": 8
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 1,
-    "tags": [],
-    "signature": "test/good.sig",
-    "owner": false,
-    "mirror": false,
-    "download": "test/file1.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 9
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 1,
-    "tags": [],
-    "signature": null,
-    "owner": true,
-    "mirror": false,
-    "download": "test/file1.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 10
-},
-{
-  "fields": {
-    "verified": false,
-    "license": 1,
-    "tags": [],
-    "signature": "test/good.sig",
-    "owner": false,
-    "mirror": false,
-    "download": "test/file1.svg"
-  },
-  "model": "resources.resourcefile",
-  "pk": 11
-},
-{
-  "fields": {
+    "download": "test/file1.svg",
     "category": 1,
     "user": 3,
     "name": "Resource One",
@@ -168,6 +32,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file2.txt",
     "category": 2,
     "user": 3,
     "name": "Resource Two",
@@ -192,6 +63,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file3.svg",
     "category": 4,
     "user": 1,
     "name": "Resource Three",
@@ -216,6 +94,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file4.svg",
     "category": 4,
     "user": 2,
     "name": "Resource Four",
@@ -239,6 +124,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 2,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file5.svg",
     "category": 4,
     "user": 2,
     "name": "Unpublished Test",
@@ -262,6 +154,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 3,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file2.txt",
     "category": 2,
     "user": 1,
     "name": "Resource Six",
@@ -286,6 +185,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 3,
+    "tags": [],
+    "signature": "test/good.md5",
+    "owner": true,
+    "mirror": false,
+    "download": "test/preview5.png",
     "category": 3,
     "user": 2,
     "name": "Resource Seven",
@@ -310,6 +216,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 4,
+    "tags": [],
+    "signature": "test/bad.sig",
+    "owner": true,
+    "mirror": false,
+    "download": "test/file2.txt",
     "category": 5,
     "user": 3,
     "name": "Item Eight",
@@ -334,6 +247,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "test/good.sig",
+    "owner": false,
+    "mirror": false,
+    "download": "test/file1.svg",
     "category": 5,
     "user": 2,
     "name": "Resource Nine",
@@ -358,6 +278,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": null,
+    "owner": true,
+    "mirror": false,
+    "download": "test/file1.svg",
     "category": 4,
     "user": 3,
     "name": "Resource Ten",
@@ -382,6 +309,13 @@
 },
 {
   "fields": {
+    "verified": false,
+    "license": 1,
+    "tags": [],
+    "signature": "test/good.sig",
+    "owner": false,
+    "mirror": false,
+    "download": "test/file1.svg",
     "category": 3,
     "user": 3,
     "name": "Resource Eleven",

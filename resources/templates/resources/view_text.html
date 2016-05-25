@@ -7,7 +7,7 @@
  <h1 id='object-title'>{{ object }}</h1>
 
  <div class="object{% if form %} edit{% endif %}">
-   {% if object.is_file and object.mime.is_text %}
+   {% if object.download and object.mime.is_text %}
      <div class="text" title="{{ object.media_type }}">{{ object.as_lines }}</div>
    {% endif %}
  </div>

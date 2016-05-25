@@ -31,7 +31,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from django.utils.timezone import now
 from django.conf import settings
 
-from resources.models import Category, License, Gallery, ResourceFile
+from resources.models import Category, License, Gallery, Resource
 from person.models import User, Group
 
 from feedparser import parse
@@ -44,7 +44,7 @@ def get_sig(filename, content):
     return InMemoryUploadedFile(buf, "text", filename, None, buf.tell(), None)
 
 class Command(BaseCommand):
-    help = 'Converts any sourceforge backups to ResourceFile'
+    help = 'Converts any sourceforge backups to Resource'
 
     def parse_sf_file(self, summary, published_parsed, media_hash, **kwargs):
         if summary.endswith('.asc'):
@@ -80,7 +80,7 @@ class Command(BaseCommand):
         vals = {'license': self.gpl, 'mirror': True, 'created': dt_create, 'owner': False,
                 'published': True, 'category': self.category, 'thumbnail': self.thumbnail,
                 'user': self.user, 'edited': now(), 'signature': sig, 'name': name}
-        (item, created) = ResourceFile.objects.get_or_create(
+        (item, created) = Resource.objects.get_or_create(
                 download=target, defaults=vals)
         gallery.items.add(item)
 

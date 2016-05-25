@@ -75,15 +75,15 @@ class DeleteResource(OwnerUpdateMixin, DeleteView):
         return reverse('my_profile')
 
 class EditResource(OwnerUpdateMixin, UpdateView):
-    model = ResourceFile
+    model = Resource
     title = _("Edit Resource")
 
     def get_form_class(self):
         category = getattr(self.object.category, 'id', 0)
-        return FORMS.get(category, ResourceFileForm)
+        return FORMS.get(category, ResourceForm)
 
 class PublishResource(OwnerUpdateMixin, DetailView):
-    model = ResourceFile
+    model = Resource
     title = _("Publish Resource")
 
     def post(self, request, *args, **kwargs):
@@ -94,7 +94,7 @@ class PublishResource(OwnerUpdateMixin, DetailView):
 
 
 class MoveResource(OwnerUpdateMixin, UpdateView):
-    template_name = 'resources/resourcefile_move.html'
+    template_name = 'resources/resource_move.html'
     form_class = GalleryMoveForm
     model = Resource
     
@@ -124,8 +124,8 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
 
 
 class UploadResource(OwnerCreateMixin, CreateView):
-    form_class = ResourceFileForm
-    model = ResourceFile
+    form_class = ResourceForm
+    model = Resource
     title = _("Upload New Resource")
 
     def form_valid(self, form):
@@ -150,17 +150,17 @@ class PasteIn(UploadResource):
     title = _("New PasteBin")
 
 class ViewResource(DetailView):
-    model = ResourceFile
+    model = Resource
     
     def get_queryset(self):
-        qs = ResourceFile.objects.for_user(self.request.user)
+        qs = Resource.objects.for_user(self.request.user)
         if 'username' in self.kwargs:
             return qs.filter(user__username=self.kwargs['username'])
         return qs
 
     def get_template_names(self, *args, **kw):
         if self.request.GET.get('modal', False):
-            return 'resources/resourcefile_modal.html'
+            return 'resources/resource_modal.html'
         return super(ViewResource, self).get_template_names(*args, **kw)
 
     def get(self, request, *args, **kwargs):
@@ -273,7 +273,7 @@ class MirrorResource(MirrorView):
     def get(self, request, *args, **kw):
         mirror = self.get_object()
         path = os.path.join('resources', 'file', self.kwargs['filename'])
-        url = get_object_or_404(ResourceFile, download=path).download.path
+        url = get_object_or_404(Resource, download=path).download.path
         if not settings.DEBUG:
             # use nginx context-disposition on live
             return redirect(url.replace('/media/', '/dl/'))
@@ -287,7 +287,7 @@ class MirrorAdd(CreateView):
 
 class ResourceList(CategoryListView):
     rss_view = 'resources_rss'
-    model = ResourceFile
+    model = Resource
     opts = (
       ('username', 'user__username'),
       ('team', 'galleries__group__team__slug', False),
@@ -379,7 +379,7 @@ class GalleryView(ResourceList):
 
 class ResourcePick(ResourceList):
     def get_template_names(self):
-        return ['resources/resourcefile_picker.html']
+        return ['resources/resource_picker.html']
 
 class ResourceFeed(CategoryFeed, ResourceList):
     title = _("Gallery Feed")

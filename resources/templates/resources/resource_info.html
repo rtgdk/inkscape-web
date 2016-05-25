@@ -14,7 +14,7 @@
             {% elif object.video.type == "vimeo" %}
               <iframe id="videoPlayer" src="https://player.vimeo.com/video/{{ object.video.id }}" webkitallowfullscreen mozallowfullscreen allowfullscreen></iframe>
             {% endif %}
-        {% elif object.is_file %}
+        {% elif object.download %}
           {% if object.mime.is_image %}
               <a href="{{ object.get_absolute_url }}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}"></a>
           {% elif object.mime.is_text %}
@@ -22,7 +22,7 @@
           {% else %}
               <a href="{% url "view_resource" object.id %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
-        {% elif object %}
+        {% else %}
             <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
             {% if object.thumbnail %}
               <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
@@ -45,7 +45,7 @@
 
 <!-- information -->
     <div class="resourceinfo">
-      {% if not object.is_file %}
+      {% if not object.download %}
         <a class="link" href="{{ object.link }}"><img src="{% static "images/link_to.svg" %}" alt={% trans "Link" %} title={% trans "Follow Link (external site)" %}/></a>
       {% endif %}
       <dl>
@@ -57,7 +57,7 @@
             {% trans "Unpublished"%}
           {% endif %}
         </dd>
-        {% if object.is_file %}    
+        {% if object.download %}    
           {% if object.mime.is_image %}
             <dt>{% trans "Area" %}</dt><dd> {{ object.media_x }}x{{ object.media_y }}</dd>
           {% elif object.mime.is_text %}

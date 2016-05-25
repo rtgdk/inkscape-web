@@ -28,7 +28,7 @@ __unittest = True
 
 from autotest.base import HaystackMixin, ExtraTestCase
 
-from resources.models import ResourceFile
+from resources.models import Resource
 from inkscape.middleware import AutoBreadcrumbMiddleware
 
 class BaseCase(HaystackMixin, ExtraTestCase):
@@ -59,8 +59,8 @@ class BaseCase(HaystackMixin, ExtraTestCase):
         self.download.close()
         self.thumbnail.close()
 
-    def assertEndorsement(self, endorse=ResourceFile.ENDORSE_NONE, **kw):
-        rec = ResourceFile.objects.filter(**kw)
+    def assertEndorsement(self, endorse=Resource.ENDORSE_NONE, **kw):
+        rec = Resource.objects.filter(**kw)
         self.assertGreater(rec.count(), 0, "No resources with: %s" % str(kw))
 
         for resource in rec:

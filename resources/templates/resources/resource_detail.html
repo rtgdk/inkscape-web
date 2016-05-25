@@ -58,11 +58,11 @@
     <div class="side">
       <h2 class="truncate">{% if object.category %}{{ object.category }}{% else %}{% trans "Unpublished"%}{% endif %}</h2>
     
-      {% if not object.is_file %}
+      {% if not object.download %}
         <a class="link" href="{{ object.link }}"><img src="{% static "images/link_to.svg" %}" alt="{% trans "Link"%}" title="{% trans "Follow Link (external site)" %}"/></a>
       {% endif %}
       <dl>
-        {% if object.is_file %}    
+        {% if object.download %}    
           {% if object.mime.is_image %}
             <dt>{% trans "Area" %}</dt><dd> {{ object.media_x }}x{{ object.media_y }}</dd>
           {% elif object.mime.is_text %}
@@ -105,7 +105,7 @@
     </div>
   </div>   
 
-  {% if object.is_file %}
+  {% if object.download %}
     <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
     {% if object.user == request.user %}
       <div id="item-footer">

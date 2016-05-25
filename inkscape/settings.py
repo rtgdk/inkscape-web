@@ -204,7 +204,7 @@ SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
     ('person.user', _('Website User')),
-    ('resources.resourcefile', _('Gallery Resource')),
+    ('resources.resource', _('Gallery Resource')),
     ('django_comments.comment', _('User Comment')),
 )
 
@@ -330,7 +330,7 @@ SENDFILE_URL = MEDIA_URL
 
 AJAX_LOOKUP_CHANNELS = {
   'user'    : {'model':'person.User', 'search_field':'username'},
-  'resource': {'model':'resources.ResourceFile', 'search_field':'name'},
+  'resource': {'model':'resources.Resource', 'search_field':'name'},
   'tags'    : ('resources.lookups', 'TagLookup'),
 }
 

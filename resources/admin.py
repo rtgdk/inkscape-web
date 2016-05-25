@@ -36,23 +36,17 @@ class CategoryAdmin(ModelAdmin):
 site.register(License, CategoryAdmin)
 site.register(Category, CategoryAdmin)
 
-class ResourceFileForm(ModelForm):
-    user  = make_ajax_field(ResourceFile, 'user', 'user', \
+class ResourceForm(ModelForm):
+    user  = make_ajax_field(Resource, 'user', 'user', \
         help_text=_('Select Resource\'s Owner'))
-
-class ResourceFileAdmin(ModelAdmin):
-    list_display = ('name', 'user', 'gallery')
-    list_filter = ('published', 'category')
-    search_fields = ('name', 'user__username', 'galleries__name')
-    readonly_fields = ('slug','liked','viewed','downed','fullview')
-    form = ResourceFileForm
 
 class ResourceAdmin(ModelAdmin):
     list_display = ('name', 'user', 'gallery')
     list_filter = ('published', 'category')
     search_fields = ('name', 'user__username', 'galleries__name')
+    readonly_fields = ('slug','liked','viewed','downed','fullview')
+    form = ResourceForm
 
-site.register(ResourceFile, ResourceFileAdmin)
 site.register(Resource, ResourceAdmin)
 site.register(ResourceMirror)
 site.register(Vote)

@@ -19,9 +19,9 @@
 #
 
 from haystack.indexes import *
-from .models import ResourceFile
+from .models import Resource
 
-class ResourceFileIndex(SearchIndex, Indexable):
+class ResourceIndex(SearchIndex, Indexable):
     text      = CharField(document=True, use_template=True)
 
     edited    = DateTimeField(model_attr='edited', null=True)
@@ -29,7 +29,7 @@ class ResourceFileIndex(SearchIndex, Indexable):
     published = BooleanField(model_attr='published')
 
     def get_model(self):
-        return ResourceFile
+        return Resource
 
     def get_updated_field(self):
         return 'edited'
@@ -44,5 +44,5 @@ from .views import ResourceList
 from pile.search_base import add_fields
 
 # This adds the extra indexable fields that the category list uses.  
-add_fields(ResourceFileIndex, ResourceList)
+add_fields(ResourceIndex, ResourceList)
 

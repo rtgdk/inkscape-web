@@ -48,7 +48,11 @@ class DownloadRedirect(RedirectView):
         return url
 
     def get_url(self, family, version, bits=None):
-        release = Release.objects.filter(release_date__isnull=False).latest()
+        # A selected release MUST have a release date AND must either
+        # have no parent at all, or the parent MUST also have a release date
+        qs = Release.objects.filter(release_date__isnull=False)
+        qs = qs.filter(Q(parent__isnull=True) | Q(parent__release_date__isnull=False))
+        release = qs.latest()
         platforms = list(release.platforms.for_os(family, version, bits))
 
         if len(platforms) == 1:

@@ -25,7 +25,7 @@ from django.views.generic.base import RedirectView
 from django.views.generic import ListView, DetailView
 from django.conf import settings
 
-from .models import Platform, Release, ReleasePlatform, CACHE
+from .models import Platform, Release, ReleasePlatform, CACHE, Q
 
 class DownloadRedirect(RedirectView):
     """Attempts to redirect the user to the right page for their os"""

@@ -6,7 +6,9 @@
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
   <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
-  <meta http-equiv="Refresh" content="2; url={{ object.download }}"/>
+  {% if object.download %}
+    <meta http-equiv="Refresh" content="2; url={{ object.download }}"/>
+  {% endif %}
 {% endblock %}
 
 {% block content %}
@@ -14,10 +16,14 @@
     {% if object.platform.image %}
       <img src="{{ object.platform.image.url }}" title="{{ object.platform }}" style="float: left;"/>
     {% endif %}
-    <h1>{{ title }}</h1>
-    <p>{% trans "Thank you for downloading Inkscape." %}
-
-    <p>{% blocktrans %}Your download should start in 2 seconds, if not, please <a href="{{ object.download }}">click here</a> to start.{% endblocktrans %}</p>
+    {% if object.download %}
+      <h1>{{ title }}</h1>
+      <p>{% trans "Thank you for downloading Inkscape." %}
+      <p>{% blocktrans %}Your download should start in 2 seconds, if not, please <a href="{{ object.download }}">click here</a> to start.{% endblocktrans %}</p>
+    {% else %}
+      <h1>{% trans "Download Failed" %}</h1>
+      <p><strong>{% trans "WARNING!" %}</strong> {% trans "The download for this isn't working or isn't set up right." %}</p>
+    {% endif %}
   </div>
 
   <hr/>

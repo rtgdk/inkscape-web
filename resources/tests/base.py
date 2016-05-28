@@ -26,12 +26,12 @@ Base TestCase for Resource and Gallery Tests.
 # pylint: disable=invalid-name
 __unittest = True
 
-from autotest.base import HaystackMixin, ExtraTestCase
+from autotest.base import HaystackTestCase
 
 from resources.models import Resource
 from inkscape.middleware import AutoBreadcrumbMiddleware
 
-class BaseCase(HaystackMixin, ExtraTestCase):
+class BaseCase(HaystackTestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
 
     def setUp(self):
@@ -87,7 +87,8 @@ class BaseBreadcrumbCase(BaseCase):
 
     def assertBreadcrumbs(self, obj, *terms, **kwargs):
         """Test breadcrumbs in both generation and template request"""
-        crumbs = list(AutoBreadcrumbMiddleware().generate_crumbs(object=obj, **kwargs))
+        kwargs['object'] = obj
+        crumbs = list(AutoBreadcrumbMiddleware().get_breadcrumbs(kwargs))
         (links1, names1) = zip(*crumbs)
         (links2, names2) = zip(*terms)
         # The i18n gets in the way of testing the names

@@ -25,27 +25,9 @@ import sys
 
 import code, traceback, signal
 
-def debug(sig, frame):
-    """Interrupt running process, and provide a python prompt for
-    interactive debugging."""
-    d={'_frame':frame}         # Allow access to frame object.
-    d.update(frame.f_globals)  # Unless shadowed by global
-    d.update(frame.f_locals)
-
-    i = code.InteractiveConsole(d)
-    message  = "Signal received : entering python shell.\nTraceback:\n"
-    message += ''.join(traceback.format_stack(frame))
-    i.interact(message)
-
-def listen():
-    sys.stderr.write("LISTENING FOR DEBUG\n")
-    signal.signal(signal.SIGUSR1, debug)  # Register handler
-
 if __name__ == "__main__":
     sys.path.insert(0, os.path.abspath(os.path.join(sys.path[0], '..')))
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "inkscape.settings")
-
-    listen()
 
     from django.core.management import execute_from_command_line
     execute_from_command_line(sys.argv)

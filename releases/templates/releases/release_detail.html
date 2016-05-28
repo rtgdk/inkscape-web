@@ -39,24 +39,13 @@
       <h1>{{ object }}</h1>
       <h2>{% trans "Responsible People" %}</h2>
       <ul>
-        <li>
-          {% if object.manager %}
-            <label>{% trans "Manager" %}:
-              <a href="{{ object.manager.get_absolute_url }}">{{ object.manager }}</a>
-            </label>
-          {% else %}
-            <label>{% trans "No Manager" %}</label>
+        {% for label, help_text, person in object.responsible_people %}
+          {% if person %}
+            <li><label title="{{ help_text }}">{{ label }}:
+              <a href="{{ person.get_absolute_url }}">{{ person }}</a>
+            </label></li>
           {% endif %}
-        </li>
-        <li>
-          {% if object.reviewer %}
-            <label>{% trans "Reviewer" %}:
-              <a href="{{ object.reviewer.get_absolute_url }}">{{ object.reviewer }}</a>
-            </label>
-          {% else %}
-            <label>{% trans "No Reviewer" %}</label>
-          {% endif %}
-        </li>
+        {% endfor %}
         <li>
           <a href="{% url "releases:platforms" %}">
             <label>Platform Managers...</label>

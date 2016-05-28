@@ -16,42 +16,6 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Ballot',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=128)),
-                ('desc', models.TextField(blank=True, null=True, verbose_name='Full Description', validators=[django.core.validators.MaxLengthValidator(10240)])),
-                ('team', models.ForeignKey(related_name='ballots', to='person.Team')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='BallotItem',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=128)),
-                ('ballot', models.ForeignKey(related_name='items', to='person.Ballot')),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
-            name='BallotVotes',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('order', models.IntegerField(default=0)),
-                ('ballot', models.ForeignKey(related_name='votes', to='person.Ballot')),
-                ('item', models.ForeignKey(related_name='votes', to='person.BallotItem')),
-                ('user', models.ForeignKey(related_name='ballot_votes', to=settings.AUTH_USER_MODEL)),
-            ],
-            options={
-            },
-            bases=(models.Model,),
-        ),
-        migrations.CreateModel(
             name='Friendship',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
@@ -61,10 +25,6 @@ class Migration(migrations.Migration):
             options={
             },
             bases=(models.Model,),
-        ),
-        migrations.AlterUniqueTogether(
-            name='ballotvotes',
-            unique_together=set([('user', 'item', 'order')]),
         ),
         migrations.AlterModelOptions(
             name='userdetails',

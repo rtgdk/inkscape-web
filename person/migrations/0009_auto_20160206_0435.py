@@ -11,42 +11,9 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='ballot',
-            name='team',
-        ),
-        migrations.RemoveField(
-            model_name='ballotitem',
-            name='ballot',
-        ),
-        migrations.AlterUniqueTogether(
-            name='ballotvotes',
-            unique_together=set([]),
-        ),
-        migrations.RemoveField(
-            model_name='ballotvotes',
-            name='ballot',
-        ),
-        migrations.RemoveField(
-            model_name='ballotvotes',
-            name='item',
-        ),
-        migrations.RemoveField(
-            model_name='ballotvotes',
-            name='user',
-        ),
         migrations.AlterField(
             model_name='team',
             name='icon',
             field=models.ImageField(default=b'https://inkscape.global.ssl.fastly.net/static/images/team.svg', upload_to=b'teams', verbose_name='Display Icon'),
-        ),
-        migrations.DeleteModel(
-            name='Ballot',
-        ),
-        migrations.DeleteModel(
-            name='BallotItem',
-        ),
-        migrations.DeleteModel(
-            name='BallotVotes',
         ),
     ]

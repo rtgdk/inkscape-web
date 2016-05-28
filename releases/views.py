@@ -101,7 +101,7 @@ class ReleaseView(DetailView):
     def get_context_data(self, **kwargs):
         data = super(ReleaseView, self).get_context_data(**kwargs)
         data['releases'] = [
-            (_('Other Revisions'), [], 0),
+            (_('Revisions'), [], 0),
             (_('Versions'), [], 1),
             (_('In Development'), [], 1),
         ]

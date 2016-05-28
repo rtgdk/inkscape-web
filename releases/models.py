@@ -42,6 +42,7 @@ from pile.fields import ResizedImageField
 null = dict(null=True, blank=True)
 DEFAULT_LANG = settings.LANGUAGE_CODE.split('-')[0]
 OTHER_LANGS = list(i for i in settings.LANGUAGES if i[0].split('-')[0] != DEFAULT_LANG)
+User = settings.AUTH_USER_MODEL
 
 CACHE = caches['default']
 
@@ -51,6 +52,10 @@ def upload_to(name, w=960, h=300):
 
 
 class ReleaseQuerySet(QuerySet):
+    def __init__(self, *args, **kw):
+        super(ReleaseQuerySet, self).__init__(*args, **kw)
+        self.query.select_related = True
+
     def for_parent(self, parent):
         pk = parent.parent_id if parent.parent_id else parent.pk
         return self.filter(Q(parent__isnull=True) | Q(parent_id=pk))
@@ -58,22 +63,27 @@ class ReleaseQuerySet(QuerySet):
 
 class Release(Model):
     """A release of inkscape"""
-    version       = CharField(_('Version'), max_length=8, db_index=True, unique=True)
-    codename      = CharField(_('Codename'), max_length=32, db_index=True, **null)
+    parent = ForeignKey('self', related_name='children', **null)
+    version = CharField(_('Version'), max_length=8, db_index=True, unique=True)
+    codename = CharField(_('Codename'), max_length=32, db_index=True, **null)
 
     release_notes = TextField(_('Release notes'), **null)
-    release_date  = DateField(_('Release date'), db_index=True, **null)
+    release_date = DateField(_('Release date'), db_index=True, **null)
 
-    edited        = DateTimeField(_('Last edited'), auto_now=True)
-    created       = DateTimeField(_('Date created'), auto_now_add=True,
+    edited = DateTimeField(_('Last edited'), auto_now=True)
+    created = DateTimeField(_('Date created'), auto_now_add=True,
                                                      db_index=True)
-    background    = ResizedImageField(**upload_to('background', 960, 360))
+    background = ResizedImageField(**upload_to('background', 960, 360))
 
-    manager       = ForeignKey(settings.AUTH_USER_MODEL, related_name='manages_releases',
-                                    verbose_name=_("Release Manager"), **null)
-    reviewer      = ForeignKey(settings.AUTH_USER_MODEL, related_name='reviews_releases',
-                                    verbose_name=_("Release Reviewer"), **null)
-    parent        = ForeignKey('self', related_name='children', **null)
+    manager = ForeignKey(User, related_name='releases',
+        help_text=_("Looks after the release schedule and release meetings."), **null)
+    reviewer = ForeignKey(User, related_name='rev_releases',
+        help_text=_("Reviewers help to make sure the release is working."), **null)
+    bug_manager = ForeignKey(User, related_name='bug_releases',
+        help_text=_("Manages critical bugs and decides what needs fixing."), **null)
+    translation_manager = ForeignKey(User, related_name='tr_releases',
+        help_text=_("Translation managers look after all translations for the release."),
+        **null)
 
     objects = ReleaseQuerySet.as_manager()
 
@@ -88,6 +98,11 @@ class Release(Model):
 
     def get_absolute_url(self):
         return reverse('releases:release', kwargs={'version': self.version})
+
+    def is_prerelease(self):
+        """Returns True if this child release happened before parent release"""
+        (par, dat) = (self.parent, self.release_date)
+        return par and dat and (not par.release_date or par.release_date > dat)
 
     def get_notes(self):
         """Returns a translated release notes"""
@@ -107,6 +122,13 @@ class Release(Model):
     def latest(self):
         return self.revisions.order_by('-release_date')[0]
 
+    def responsible_people(self):
+        """Quick list of all responsible people with labels"""
+        for key in ('manager', 'reviewer', 'translation_manager', 'bug_manager'):
+            yield (getattr(Release, key).field.verbose_name,
+                   getattr(Release, key).field.help_text,
+                   getattr(self, key))
+
 
 class ReleaseTranslation(Model):
     """A translation of a Release"""
@@ -121,7 +143,7 @@ class Platform(Model):
     name       = CharField(_('Name'), max_length=64)
     desc       = CharField(_('Description'), max_length=255)
     parent     = ForeignKey('self', related_name='children', verbose_name=_("Parent Platform"), **null)
-    manager    = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_("Platform Manager"), **null) 
+    manager    = ForeignKey(User, verbose_name=_("Platform Manager"), **null) 
     codename   = CharField(max_length=255, **null)
     order      = PositiveIntegerField(default=0)
 

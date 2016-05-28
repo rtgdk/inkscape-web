@@ -330,8 +330,6 @@ class GalleryUserTests(BaseCase):
 
     def assertInGallery(self, resource, gallery, is_in=True):
         """Test a gallery contains the given item (or does not contain)"""
-        if isinstance(resource, Resource):
-            resource = resource.resource_ptr
         if is_in:
             self.assertIn(resource, gallery.items.all())
         else:

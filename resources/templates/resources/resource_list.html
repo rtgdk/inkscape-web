@@ -16,7 +16,11 @@
     <div class="wrapper">
       <div id="left-column">
         {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+
+        {% if category and category.desc %}<div id="category_desc">{{ category.desc|safe }}</div>{% endif %}
+        
         {% include "resources/resource_icons.html" with limit=20 %}
+
       </div>
       <div id="right-sidebar">
         {% include "resources/resource_leftbar.html" %}

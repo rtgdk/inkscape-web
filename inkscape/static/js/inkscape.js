@@ -29,9 +29,24 @@ $(document).ready(function() {
   $("[src$='.svg']").error(onSvgError);
   $(".image.only img").error(iconInstead);
   $(".dotdotdot").click(paginator_expand);
+  $(".ellipses-button").click(ellipses);
+  $(".ellipses-button").show();
   close_elements();
   adjustBar();
 });
+
+function ellipses(event) {
+  var target = $(this).parent();
+  if(target.hasClass('ellipses-hidden')) {
+    target.removeClass('ellipses-hidden');
+    target.addClass('ellipses-shown');
+    $(this).hide();
+  } else if(target.hasClass('ellipses-shown')) {
+    target.removeClass('ellipses-shown');
+    target.addClass('ellipses-hidden');
+    $(this).show();
+  }
+}
 
 function paginator_expand(event) {
   // On clicking ... in a paginator, this js will expand it

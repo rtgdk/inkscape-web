@@ -1313,3 +1313,11 @@ div.pagination a:hover {
   background-color: #222;
 }
 
+ul.ellipses-hidden li.hide {
+  display: none !important;
+}
+/* button is hidden and then shown by js */
+.ellipses-button {
+  cursor: pointer;
+  display: none;
+}

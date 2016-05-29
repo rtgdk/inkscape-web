@@ -55,14 +55,15 @@
       {% for name, items, latest in releases %}
        {% if items %}
 	<h2>{{ name }}</h2>
-	<ul>
+	<ul class="ellipses-hidden">
 	  {% for release in items %}
 	    {% if release == object %}
 	      <li class="subtle active"><a>
             {% elif latest and object.parent_id == release.pk %}
 	      <li class="subtle active"><a>
 	    {% else %}
-	      <li class="subtle"><a href="{{ release.get_absolute_url }}{% if latest %}?latest=1{% endif %}">
+              <li class="subtle{% if release.hide %} hide{% endif %}">
+                <a href="{{ release.get_absolute_url }}{% if latest %}?latest=1{% endif %}">
 	    {% endif %}
 	    <label>{{ release.codename|default:release.version }}</label>
 	    {% if release.release_date %}
@@ -71,6 +72,9 @@
 	      </a>
 	    </li>
 	  {% endfor %}
+          {% if not latest and has_pre_releases %}
+            <li class="ellipses-button">{% trans "Show more..." %}</li>
+          {% endif %}
 	</ul>
        {% endif %}
       {% endfor %}

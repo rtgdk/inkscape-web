@@ -100,25 +100,65 @@ class ReleaseView(DetailView):
 
     def get_context_data(self, **kwargs):
         data = super(ReleaseView, self).get_context_data(**kwargs)
+        selected = self.object
+        (REVS, VERS, DEVEL) = range(3)
+        (NAME, LIST, LATEST) = range(3)
         data['releases'] = [
             (_('Revisions'), [], 0),
             (_('Versions'), [], 1),
             (_('In Development'), [], 1),
         ]
         for rel in list(Release.objects.for_parent(self.object)):
+            # The parent id is none, so this must be a top level release
+            # Like 0.91 or 0.48 etc. pre-releases and point releases will
+            # have a parent_id of their master release.
             if rel.parent_id is None:
                 if rel.release_date:
-                    data['releases'][1][1].append(rel)
+                    # This is a released 'master release' (Versions)
+                    data['releases'][VERS][LIST].append(rel)
                 else:
-                    data['releases'][2][1].append(rel)
-                if rel.pk == self.object.parent_id or rel.pk == self.object.pk:
-                    data['releases'][0][1].append(rel)
+                    # This is an unreleased master release (in development)
+                    data['releases'][DEVEL][LIST].append(rel)
+                # This is the selected release or the parent of it (revisions)
+                if rel.pk == selected.parent_id or rel.pk == selected.pk:
+                    data['releases'][REVS][LIST].append(rel)
             else:
-                data['releases'][0][1].append(rel)
-        if len(data['releases'][0][1]) == 1:
-            data['releases'][0][1].pop()
+                # This is a point or pre-release add to 'revisions'
+                data['releases'][REVS][LIST].append(rel)
+
+        if len(data['releases'][REVS][LIST]) == 1:
+            # Empty the revisions list if it's just one item
+            data['releases'][REVS][LIST].pop()
+
+        # Hide pre-release revisions if the master release is 'released'
+        # We first record where in the ordered list the master release is
+        # and flag if it's been reeleased. Items that happen /after/ that
+        # are pre-releases.
+        is_released = False
+
+        # When we find the spot in the list, we then want to have already
+        # worked out if the selected item happened 'before' it. That way
+        # selecting a pre-release will show up and won't be hidden.
+        is_before = False
+
+        for item in data['releases'][REVS][LIST]:
+            if is_released:
+                # If the parent is released and the selected is before
+                # tell the html to hide this item (we can use js to enable)
+                item.hide = True
+                data['has_pre_releases'] = True
+
+            if item.pk == selected.pk and not is_released:
+                # The selected item happens /before/ the parent/master
+                # (or is the parent/master) and thus we can hide pre releases.
+                is_before = True
+
+            if item.parent_id is None and item.release_date and is_before:
+                # This item is the parent/master, all items below are pre.
+                is_released = True
+
         if self.request.GET.get('latest', False):
-            data['object'] = self.object.latest
+            data['object'] = selected.latest
 
         data['platforms'] = self.object.platforms.for_level('')
         return data

@@ -30,7 +30,7 @@
     {% for tag_category in tag_categories %}
       {% if tag_category.tags.count > 0 %}<h2>{{ tag_category.name }}</h2>{% endif %}
       <div>
-        <a class="tag {% if not tags %} selected{% endif %}" href="{{ clear_url }}">{% trans "All" %}</a>
+        <a class="tag {% if not tags %} selected{% endif %}" href="{{ tag_clear_url }}">{% trans "All" %}</a>
         {% for tag in tag_category.tags.all %}
         <a class="tag {% if tags == tag.name %} selected{% endif %}" href="?tags={{ tag }}">{{ tag }}</a>
         {% endfor %}

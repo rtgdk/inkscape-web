@@ -20,10 +20,21 @@ def unique_lc_tags(apps, schema_editor):
            (tag.name == tag.name.lower() and Tag.objects.filter(name=tag.name).count() > 1 and \
              Tag.objects.filter(name__iexact=tag.name).count() == Tag.objects.filter(name=tag.name).count())):
             
-            old_tag_pks = [tag.pk for tag in Tag.objects.filter(name__iexact=tag.name)]
+            old_tags = Tag.objects.filter(name__iexact=tag.name)
+            
+            old_tag_pks = [tag.pk for tag in old_tags]
+            
+            # keep old tag categories (at least one of them)
+            old_tag_categories = set([tag.category for tag in old_tags])
+            if len(old_tag_categories) > 0:
+               old_tag_category = old_tag_categories.pop()
+            else:
+               old_tag_category = None
+            print "old tag category: %s" % old_tag_category
+            
             tags2delete += old_tag_pks
             print "\nold_tag_pks: ", old_tag_pks
-            new_tag = Tag.objects.create(name=tag.name.lower())
+            new_tag = Tag.objects.create(name=tag.name.lower(), category=old_tag_category)
             print "\nnew_tag: ", new_tag.name
 
             # For all the ManyToMany Fields that point to the Tag model
@@ -67,8 +78,9 @@ def unique_lc_tags(apps, schema_editor):
                             print "updating connection pk: %s, tag pk: %s, resource pk: %s" % (connection.pk, getattr(connection, tag_field_name).pk, connection_rel_obj_pk)
                             # no variable variable names...
                             to_new_tag = {tag_field_name: new_tag.pk}
-                            # XXX Method not available... :-/
-                            connection.update(**to_new_tag)
+                            # Inefficient, but easy workaround for 
+                            # not being able to update the object directly
+                            through_model.objects.filter(pk=connection.pk).update(**to_new_tag)
                             objects_tagged_w_current_tag.append(connection_rel_obj_pk)
                         else:
                             # the resource already has that tag

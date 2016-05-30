@@ -28,13 +28,17 @@
     {% endif %}
 
     {% for tag_category in tag_categories %}
-      {% if tag_category.tags.count > 0 %}<h2>{{ tag_category.name }}</h2>{% endif %}
-      <div>
-        <a class="tag {% if not tags %} selected{% endif %}" href="{{ tag_clear_url }}">{% trans "All" %}</a>
-        {% for tag in tag_category.tags.all %}
-        <a class="tag {% if tags == tag.name %} selected{% endif %}" href="?tags={{ tag }}">{{ tag }}</a>
-        {% endfor %}
-      </div>
+      {% if tag_category.tags.count > 0 %}<h2>{{ tag_category.name }}</h2>
+        <div>
+          {% for tag in tag_category.tags.all %}
+            {% if tags == tag.name %}
+              <a class="tag selected" title="{% trans "Clear Tag" %}" href="{{ tag_clear_url }}">{{ tag }} <img src="{% static "images/clear-search.svg" %}"/></a>
+            {% else %}
+              <a class="tag" href="?tags={{ tag }}">{{ tag }}</a>
+            {% endif %}
+          {% endfor %}
+        </div>
+      {% endif %}
     {% endfor %}
 
     {% for category in categories %}

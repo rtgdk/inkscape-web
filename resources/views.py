@@ -374,8 +374,7 @@ class ResourceList(CategoryListView):
                         data['title'] = None
                     break
         return data
-      
-      
+
     def get_tag_clear_url(self):
         return self.get_url(exclude='tags')
 

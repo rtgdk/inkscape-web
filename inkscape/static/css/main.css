@@ -743,6 +743,11 @@ hr {
   border-radius: 3px;
   color: white;
   padding: 1px 5px;
+  margin: 2px 0;
+}
+
+#sidecategory .tag > img {
+  vertical-align: text-top;
 }
 
 #item-footer .tag {
@@ -757,7 +762,6 @@ hr {
 #sidecategory .tag.selected {
   background-color: #eee;
   color: #444;
-  cursor: default;
 }
 
 #sidecategory .tag:hover, #item-footer .tag:hover {

@@ -1,9 +1,7 @@
-
 #irchat {
   font-family: Ubuntu;
   text-align: center;
   background-color: rgb(210, 163, 240);
-  height: 530px;
   border: 0px solid #6c4576;
   border-width: 0px 4px;
 }
@@ -22,9 +20,9 @@
 }
 #irchat h2 {
   border: 0px;
+  line-height: 1.5;
 }
 #irchat .chat-middle {
-  height: 365px;
   text-align: left;
   margin: 30px 40px 30px 120px;
   line-height: 2;

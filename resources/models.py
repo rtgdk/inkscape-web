@@ -102,8 +102,9 @@ class License(Model):
 
 
 class Category(Model):
-    name     = CharField(max_length=64)
-    desc     = TextField(validators=[MaxLengthValidator(1024)], **null)
+    name = CharField(max_length=64)
+    desc = TextField(validators=[MaxLengthValidator(1024)], **null)
+    icon = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
 
     selectable = BooleanField(default=True,
         help_text=_("This category can be selected by all users when uploading."))

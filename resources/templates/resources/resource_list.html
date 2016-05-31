@@ -1,10 +1,11 @@
 {% extends 'base.html' %}
 {% load i18n static menu_tags %}
 
-{% block title %}{% trans "InkSpace" %}{% endblock %}
+{% block title %}{% if category %}{{ category.name }} - {% endif %}{% trans "InkSpace" %}{% endblock %}
 
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
+  <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}" >
 {% endblock %}
 
 {% block "js" %}{{ block.super }}
@@ -12,19 +13,29 @@
 {% endblock %}
 
 {% block supercontent %}
-  <div id="content"{% block contentclasses %}{% endblock %}>
-    <div class="wrapper">
-      <div id="left-column">
-        {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
 
-        {% if category and category.desc %}<div id="category_desc">{{ category.desc|safe }}</div>{% endif %}
-        
-        {% include "resources/resource_icons.html" with limit=20 %}
-
-      </div>
-      <div id="right-sidebar">
-        {% include "resources/resource_leftbar.html" %}
-      </div>
+  {% if category.desc %}
+    <div id="bread">
+      {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+    </div>
+    <div id="profile" style="background-color: #1c1c1c; color: white;">
+      {% if category.icon %}<img id="photo" src="{{ category.icon.url }}"/>{% endif %}
+      <h1 id="name">{{ category.name }}</h1>
+      <p id="bio">{{ category.desc|safe }}</p>
+    </div>
+  {% else %}
+    <div id="content"{% block contentclasses %}{% endblock %}>
+  {% endif %} 
+    
+  <div class="wrapper">
+    <div id="left-column">
+      {% if not category %}{% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}{% endif %}
+      {% include "resources/resource_icons.html" with limit=20 %}
+    </div>
+    <div id="right-sidebar">
+      {% include "resources/resource_leftbar.html" %}
     </div>
   </div>
+  {% if not category %}</div>{% endif %}  
+  
 {% endblock %}

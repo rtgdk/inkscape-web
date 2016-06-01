@@ -1073,7 +1073,12 @@ div.tooltip {
 
 .tooltip strong {
   font-size: 11pt;
-  line-height: 30px;
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+.tooltip strong:first-child {
+  margin-top: 0;
 }
 
 .tooltip > span {

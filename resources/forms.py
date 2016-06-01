@@ -163,7 +163,7 @@ class ResourceBaseForm(ModelForm):
         # Don't check the size of existing uploads or not-saved items
         if self.instance and self.instance.download != download:
             space = self.user.quota() - self.user.resources.disk_usage()
-            if download.size > space:
+            if download and download.size > space:
                 raise ValidationError("Not enough space to upload this file.")
         return download
 

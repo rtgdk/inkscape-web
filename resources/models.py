@@ -102,9 +102,9 @@ class License(Model):
 
 
 class Category(Model):
-    name = CharField(max_length=64)
-    desc = TextField(validators=[MaxLengthValidator(1024)], **null)
-    icon = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
+    name   = CharField(max_length=64)
+    desc   = TextField(validators=[MaxLengthValidator(1024)], **null)
+    symbol = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
 
     selectable = BooleanField(default=True,
         help_text=_("This category can be selected by all users when uploading."))
@@ -128,6 +128,12 @@ class Category(Model):
     @property
     def value(self):
         return slugify(self.name)
+      
+    @property
+    def icon(self):
+        if self.symbol:
+            return self.symbol.url 
+        return None
 
     def get_absolute_url(self):
         return reverse('resources', kwargs={'category': self.value})

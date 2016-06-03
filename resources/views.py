@@ -314,6 +314,11 @@ class ResourceList(CategoryListView):
       ('-edited', _('Last Updated')),
     )
 
+    def get_template_names(self):
+        if self.get_value('category'):
+            return ['resources/resourcegallery_specific.html']
+        return ['resources/resourcegallery_general.html']
+
     def extra_filters(self):
         if self.get_value('username') != self.request.user.username:
             return dict(published=True)
@@ -349,6 +354,7 @@ class ResourceList(CategoryListView):
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
+        
         if 'galleries' in data and data['galleries']:
             # our options are not yet returning the correct item
             try:
@@ -366,7 +372,7 @@ class ResourceList(CategoryListView):
 
         data['items'] = data['object_list']
         data['title'] = "InkSpaces"
-        for name in ('galleries', 'team', 'username'):
+        for name in ('galleries', 'team', 'username', 'category'):
             if data.get(name, None) is not None:
                 if isinstance(data[name], Model):
                     data['object'] = data[name]
@@ -385,7 +391,7 @@ class GalleryView(ResourceList):
     cats = ()
 
     def get_template_names(self):
-        return ['resources/gallery_detail.html']
+        return ['resources/resourcegallery_specific.html']
 
 class ResourcePick(ResourceList):
     def get_template_names(self):

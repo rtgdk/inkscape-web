@@ -61,7 +61,7 @@ function initialise_anchors(){
         levels_stack.push(header_level);
     } else{
         toc += '</li>';
-        while(levels_stack.length > 0 && header_level < levels_stack[levels_stack.length - 1]){
+        while(levels_stack.length > 1 && header_level < levels_stack[levels_stack.length - 1]){
             toc += '</' + list + '></li>';
             levels_stack.pop();
         }

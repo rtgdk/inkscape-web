@@ -473,8 +473,10 @@ div.toc ol, #toc.right ol {
 }
 .header .nav > ul > li:last-child a {
   color: #ff7e28;
+}
+.header .nav > ul > li:last-child > a {
   border-right: 0 none;
-  border-radius: 0 10px 0 0;
+  border-top-right-radius: 0 10px 0 0;
 }
 body > .footer {
   clear: both;

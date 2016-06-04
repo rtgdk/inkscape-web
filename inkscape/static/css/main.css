@@ -71,14 +71,20 @@ h2 {
   color: #000000;
   font-size: 140%;
   font-weight: normal;
-  margin: 4ex 0 0.5ex;
+  margin: 1.5ex 0 0.5ex;
   border-bottom: 1px solid #ddd;
+}
+.wrapper h2 {
+  margin-top: 4ex;
 }
 h3 {
   color: #000000;
   font-size: 115%;
   font-weight: normal;
-  margin: 2.5ex 0 0.5ex;
+  margin: 1.5ex 0 0.5ex;
+}
+.wrapper h3 {
+  margin-top: 2.5ex;
 }
 h4 {
   font-weight: bold;

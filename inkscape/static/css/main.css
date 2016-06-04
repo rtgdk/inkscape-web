@@ -71,16 +71,15 @@ h2 {
   color: #000000;
   font-size: 140%;
   font-weight: normal;
-  margin: 1.5ex 0 0.5ex;
+  margin: 4ex 0 0.5ex;
   border-bottom: 1px solid #ddd;
 }
 h3 {
   color: #000000;
   font-size: 115%;
   font-weight: normal;
-  margin: 1.5ex 0 0.5ex;
+  margin: 2.5ex 0 0.5ex;
 }
-
 h4 {
   font-weight: bold;
   font-size: 100%;

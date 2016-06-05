@@ -4,6 +4,7 @@
 {% block content %}
 
 <h1>{{ title }}</h1>
+<p>{% trans "This lists all platforms for the selected release. It shows each of the downloads that have been made available without listing the un-filled slots of all platforms. For examine if Windows 32bit is shown but Windows 64bit is not, then we have a build for 32bit but not for 64." %}</p>
   <table class="alternating" style="width: 100%;">
   {% for rp in object.platforms.all %}
     <tr class="{% cycle "odd" "even" %}">

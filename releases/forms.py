@@ -24,6 +24,8 @@ class QuerySetMixin(object):
 class ReleaseForm(QuerySetMixin, ModelForm):
     manager = make_ajax_field(Release, 'manager', 'user')
     reviewer = make_ajax_field(Release, 'reviewer', 'user')
+    bug_manager = make_ajax_field(Release, 'bug_manager', 'user')
+    translation_manager = make_ajax_field(Release, 'translation_manager', 'user')
 
     def __init__(self, *args, **kwargs):
         super(ReleaseForm, self).__init__(*args, **kwargs)

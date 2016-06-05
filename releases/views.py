@@ -165,8 +165,11 @@ class ReleaseView(DetailView):
 
 
 
-class PlatformList(ListView):
-    queryset = Platform.objects.filter(parent__isnull=True)
+class PlatformList(ReleaseView):
+    template_name = 'releases/platform_list.html'
+
+    def get_title(self):
+        return _('All Platforms for %s') % unicode(self.object)
 
 
 class PlatformView(DetailView):

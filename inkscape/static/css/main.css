@@ -57,6 +57,9 @@ pre {
   margin: 0.5ex 0;
   overflow: auto;
 }
+p {
+  margin: 0.8em 0;
+}
 
 h1, #google-groups-logo {
   font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
@@ -74,8 +77,8 @@ h2 {
   margin: 1.5ex 0 0.5ex;
   border-bottom: 1px solid #ddd;
 }
-.wrapper h2 {
-  margin-top: 4ex;
+.page h2 {
+  margin-top: 3ex;
 }
 h3 {
   color: #000000;
@@ -83,13 +86,16 @@ h3 {
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
 }
-.wrapper h3 {
+.page h3 {
   margin-top: 2.5ex;
 }
 h4 {
   font-weight: bold;
   font-size: 100%;
   margin: 1.5ex 0 0.5ex;
+}
+.page h4 {
+  margin-top: 2ex;
 }
 
 video {

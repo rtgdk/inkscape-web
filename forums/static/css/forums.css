@@ -1,4 +1,15 @@
 
+.unchanged .unread {
+  display: none;
+}
+.changed .read {
+  display: none;
+}
+
+.forum_list .changed h1 {
+  font-weight: bold;
+}
+
 div.title h1,
 div.title h2 {
   margin: 0px;
@@ -45,6 +56,9 @@ table td:last-child {
 table tr:hover td,
 table tr:hover th {
   background-color: #eee;
+}
+table tr.unchanged a {
+  color: #e3935d;
 }
 
 table tr.even {

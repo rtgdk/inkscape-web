@@ -6,6 +6,10 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
 {% endblock %}
 
+{% block "js" %}{{ block.super }}
+  <script type="text/javascript" src="{% static "js/has_changed.js" %}"></script>
+{% endblock %}
+
 {% block supercontent %}
   {% if object and not object.model_class %}
     <ul id="messages">
@@ -17,7 +21,7 @@
 
 {% block content %}
   {% autopaginate object.topics.all 20 as items %}
-  <div class="comment">
+  <div class="comment changes" data-pk="forum-{{ object.pk }}">
     <div class="details">
       <div class="title"><h2>{{ object.name }}</h2></div>
       {% if not object.content_type %}
@@ -27,7 +31,7 @@
     <table class="topic_list">
       {% for topic in items %}
         {% ifchanged topic.is_sticky %}{% if not topic.sticky %}<tr class="sticky-bar"><td colspan="2"></tr>{% endif %}{% endifchanged %}
-        <tr class="{% cycle 'odd' 'even' %}">
+        <tr class="{% cycle 'odd' 'even' %} unchanged" data-changed="{{ topic.last_posted.isoformat }}" data-pk="topic-{{ topic.pk }}">
           <th><a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a></th>
           <td>{{ topic.last_posted|timetag }}</td>
         </tr>

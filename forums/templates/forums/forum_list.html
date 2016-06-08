@@ -6,9 +6,12 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
 {% endblock %}
 
-{% block content %}
+{% block "js" %}{{ block.super }}
+  <script type="text/javascript" src="{% static "js/has_changed.js" %}"></script>
+{% endblock %}
 
-<h1>{{ title }}</h1>
+{% block content %}
+  <h1 class="changes" data-pk="forums">{{ title }}</h1>
 
   {% for group, objects in object_list.groups.items %}
     <div class="comment">
@@ -17,10 +20,11 @@
       </div>
       <table class="forum_list">
         {% for object in objects %}
-          <tr class="{% cycle 'odd' 'even' %}">
+        <tr class="unchanged {% cycle 'odd' 'even' %}" data-changed="{{ object.last_posted.isoformat }}" data-pk="forum-{{ object.pk }}">
             <td>
               <a href="{{ object.get_absolute_url }}">
-                {% if object.icon %}<img src="{{ object.icon.url }}"/>{% endif %}
+                <img src="{% url_or_static object.icon "images/forums/forum-read.png" %}" class="read"/>
+                <img src="{% url_or_static object.icon "images/forums/forum-unread.png" %}" class="unread"/>
               </a>
             </td>
             <th><a href="{{ object.get_absolute_url }}"><h1>{{ object.name }}</h1></a></th>

@@ -6,6 +6,10 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/forums.css" %}"/>
 {% endblock %}
 
+{% block "js" %}{{ block.super }}
+  <script type="text/javascript" src="{% static "js/has_changed.js" %}"></script>
+{% endblock %}
+
 {% block supercontent %}
   {% if object.forum and not object.forum.model_class %}
     <ul id="messages">
@@ -19,8 +23,8 @@
   {% if not object.forum.model_class %}
     <p>{% trans "Comments hidden because of misconfiguration." %}</p>
   {% else %}
-    {% if object.object_pk %}
-      <div class="comment">
+    <div class="comment changes" data-pk="topic-{{ object.pk }}">
+      {% if object.object_pk %}
         <div class="details">
           <div class="title"><h2>{{ object.subject }}</h2></div>
         </div>
@@ -34,14 +38,12 @@
         <div class="cfooter">
           <div class="index">Last Post: {{ object.last_posted|timetag }}</div>
         </div>
-      </div>
-    {% else %}
-      <div class="comment">
+      {% else %}
         <div class="details">
           <div class="title"><h1>{{ title }}</h1></div>
         </div>
-      </div>
-    {% endif %}
+      {% endif %}
+    </div>
 
     {% with object.comment_subject as comment_subject %}
       {% with object.get_absolute_url as next %}

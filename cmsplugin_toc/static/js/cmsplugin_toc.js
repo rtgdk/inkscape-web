@@ -26,8 +26,8 @@ $(document).ready(function() {
 });
 
 $.fn.slugify = function() {
-    var text = $(this).text();
-    return text.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+  var text = $(this).text();
+  return text.replace(/[^\w\d\s'\-]+/g,'').replace(/[\s'\-]+/g,'-').replace(/^-+/,'').replace(/-+$/,'').toLowerCase();
 }
 
 /*Link to anchors- H1 removed because normali is on top*/

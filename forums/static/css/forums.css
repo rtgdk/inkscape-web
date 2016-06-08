@@ -51,6 +51,11 @@ table tr.even {
   background-color: #f8f8f8;
 }
 
+table tr.sticky-bar td {
+  border-top: 1px solid #ddd;
+  padding: 0px;
+}
+
 .cfooter {
   padding: 4px 8px;
 }

@@ -95,6 +95,12 @@ class CleanForumTests(BaseCase):
         self.assertEqual(post.context_data['object'].forum.slug, self.forum)
         self.assertEqual(post.context_data['object'].subject, 'Fish')
 
+    def test_sticky_post(self):
+        """A topic which is sticky"""
+        get = self.assertGet('forums:detail', slug='general', status=200)
+        topics = get.context_data['object'].topics.values_list('slug', flat=True)
+        self.assertEqual(tuple(topics[:3]), (u'sticky_two', u'sticky_three', u'sticky_one'))
+
 
 class ObjectForumTests(BaseCase):
     """Tests for object forum details"""
@@ -157,7 +163,6 @@ class CleanTopicTests(BaseCase):
         get = self.assertGet('forums:topic',
                 forum='general', slug='topic_four', status=200)
         self.assertContains(get, 'comments/post/')
-
 
 
 class ObjectTopicTests(BaseCase):

@@ -119,12 +119,13 @@ class ForumTopic(Model):
     slug = SlugField(max_length=128, unique=True)
 
     last_posted = DateTimeField(_('Last Posted'), db_index=True, null=True, blank=True)
+    sticky = IntegerField(_('If set, this post will be this sticky'), default=0)
 
     objects = SelectRelatedQuerySet.as_manager()
 
     class Meta:
         get_latest_by = 'last_posted'
-        ordering = ('-last_posted',)
+        ordering = ('-sticky', '-last_posted',)
 
     def __str__(self):
         return self.subject
@@ -157,6 +158,10 @@ class ForumTopic(Model):
         if self.object_pk:
             return self.object
         return self
+
+    @property
+    def is_sticky(self):
+        return bool(self.sticky)
 
     def get_absolute_url(self):
         return reverse('forums:topic', kwargs={'forum':self.forum.slug, 'slug':self.slug})

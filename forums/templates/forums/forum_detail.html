@@ -26,6 +26,7 @@
     </div>
     <table class="topic_list">
       {% for topic in items %}
+        {% ifchanged topic.is_sticky %}{% if not topic.sticky %}<tr class="sticky-bar"><td colspan="2"></tr>{% endif %}{% endifchanged %}
         <tr class="{% cycle 'odd' 'even' %}">
           <th><a href="{{ topic.get_absolute_url }}">{{ topic.subject }}</a></th>
           <td>{{ topic.last_posted|timetag }}</td>
@@ -37,8 +38,10 @@
         </tr>
       {% endfor %}
     </table>
-    <div class="cfooter">
-      {% paginate %}
-    </div>
+    {% if page_obj.has_next or page_obj.has_previous %}
+      <div class="cfooter">
+        {% paginate %}
+      </div>
+    {% endif %}
   </div>
 {% endblock %}

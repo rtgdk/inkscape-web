@@ -7,9 +7,7 @@
 
 {% block supercontent %}
   <div class="modal-dialog">
-    <form class="modal-content" method="POST" action="{% block "dialog-action" %}{% endblock %}">
-      {% csrf_token %}
-      {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+    <div class="modal-content">
       <div class="modal-header">
         {% block "dialog-title" %}<h4 class="modal-title">{% block "title" %}Dialog Title{% endblock %}</h4>{% endblock %}
         {% block "dialog-subtitle" %}{% endblock %}
@@ -28,26 +26,31 @@
           </ul>
         {% endif %}
         {% block "dialog-body" %}{% endblock %}
-        {% block "dialog-form" %}
-          {% if form %}
-            {% csrf_token %}
-            {% for field in form %}
-              <div class="form-group">
-                {% if field.errors %}{{ field.errors }}{% endif %}
-                {{ field.label_tag }}
-                {% if forloop.first %}
+        {% if form %}
+          {% block "dialog-form" %}
+            <form method="POST" action="{% block "dialog-action" %}{% endblock %}">
+              {% csrf_token %}
+              {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
+              {% for field in form %}
+                <div class="form-group">
+                  {% if field.errors %}{{ field.errors }}{% endif %}
+                  {{ field.label_tag }}
+                  {% if forloop.first %}
                     {{ field|placeholder:field.label|autofocus }}
-                {% else %}
+                  {% else %}
                     {{ field|placeholder:field.label }}
-                {% endif %}
-                
-              </div>
-            {% endfor %}
-          {% endif %}
-        {% endblock %}
+                  {% endif %}
+                </div>
+              {% endfor %}
+                <div class="modal-footer">{% block "dialog-buttons" %}{% endblock %}
+                </div>
+            </form>
+          {% endblock %}
+        {% else %}
+          <div class="modal-footer">{% block "simple-buttons" %}{% endblock %}
+          </div>
+        {% endif %}
+        </div>
       </div>
-      <div class="modal-footer">{% block "dialog-buttons" %}{% endblock %}
-      </div>
-    </form>
   </div>
 {% endblock %}

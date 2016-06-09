@@ -27,7 +27,7 @@
 
   <div id="left-column" class="notes">
     {% if object %}
-      <h2>Release Notes</h2>
+      <h1>Release Notes</h1>
       <p>{{ object.get_notes|safe|default:"No Release Notes" }}</p>
     {% else %}
       <h1>No Public Release Yet</h1>

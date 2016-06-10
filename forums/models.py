@@ -119,7 +119,11 @@ class ForumTopic(Model):
     slug = SlugField(max_length=128, unique=True)
 
     last_posted = DateTimeField(_('Last Posted'), db_index=True, null=True, blank=True)
-    sticky = IntegerField(_('If set, this post will be this sticky'), default=0)
+    sticky = IntegerField(_('Sticky Priority'), default=0,
+        help_text=_('If set, will stick this post to the top of the topics '
+          'list. Higher numbers appear nearer the top. Same numbers will '
+          'apear together, sorted by date.'))
+    locked = BooleanField(default=False, help_text=_('Topic is locked by moderator.'))
 
     objects = SelectRelatedQuerySet.as_manager()
 

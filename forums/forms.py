@@ -25,9 +25,39 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 
 from django.forms import *
-from django_comments.forms import CommentForm
+from django_comments.forms import CommentForm, ContentType, ErrorDict
 
 from .models import Forum, ForumTopic
+
+class AddCommentForm(CommentForm):
+    """This CommentForm replaces the django_comments one, what it provides is
+       comment thread locking which is global no matter where the comment is.
+    """
+    def is_locked(self, **kw):
+        """Return true if this configured comment form is locked"""
+        pk = kw.get('object_pk', self.initial['object_pk'])
+        if isinstance(self.target_object, ForumTopic):
+            topics = ForumTopic.objects.filter(pk=pk)
+        else:
+            ct = ContentType.objects.get_for_model(self.target_object)
+            topics = ForumTopic.objects.filter(object_pk=pk, forum__content_type_id=ct.pk)
+        return any(topics.values_list('locked', flat=True))
+
+    def clean_object_pk(self):
+        """Check to see if this object is locked"""
+        if self.is_locked(object_pk=self.cleaned_data["object_pk"]):
+            raise ValidationError("This comment thread is locked.")
+        return self.cleaned_data['object_pk']
+
+    def security_errors(self):
+        """Return just those errors associated with security"""
+        errors = ErrorDict()
+        for f in ["honeypot", "timestamp", "security_hash", "object_pk"]:
+            if f in self.errors:
+                errors[f] = self.errors[f]
+        return errors
+
+
 
 class NewTopicForm(CommentForm):
     subject = CharField()

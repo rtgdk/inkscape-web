@@ -200,6 +200,7 @@ INSTALLED_APPS = (
     'markdown_deux',
 )
 
+COMMENTS_APP = 'forums'
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (

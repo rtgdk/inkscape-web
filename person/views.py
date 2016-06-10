@@ -20,7 +20,7 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
-from django.views.generic import UpdateView, DetailView, ListView, RedirectView
+from django.views.generic import UpdateView, DetailView, ListView, RedirectView, TemplateView
 from django.views.generic.detail import SingleObjectMixin
 from django.utils.translation import ugettext_lazy as _
 from django.shortcuts import get_object_or_404
@@ -56,6 +56,9 @@ class UserGPGKey(UserDetail):
 
 class MyProfile(UserMixin, UserDetail):
     pass
+  
+class Welcome(TemplateView):
+    template_name = 'registration/welcome.html'
 
 # ====== FRIENDSHIP VIEWS =========== #
 

@@ -61,6 +61,20 @@ class ReleaseQuerySet(QuerySet):
         return self.filter(Q(parent__isnull=True) | Q(parent_id=pk))
 
 
+class ReleaseStatus(Model):
+    """For non-released (finalised) Releases, what stage are we at"""
+    STYLES = (
+      ('blue', _('Blue')),
+    )
+    name = CharField(max_length=32)
+    desc = CharField(_('Description'), max_length=128)
+    style = CharField(max_length=32, choices=STYLES, **null)
+    icon = ResizedImageField(**upload_to('icons', 32, 32))
+
+    def __str__(self):
+        return self.name
+
+
 class Release(Model):
     """A release of inkscape"""
     parent = ForeignKey('self', related_name='children', **null)
@@ -69,6 +83,7 @@ class Release(Model):
 
     release_notes = TextField(_('Release notes'), **null)
     release_date = DateField(_('Release date'), db_index=True, **null)
+    status = ForeignKey(ReleaseStatus, **null)
 
     edited = DateTimeField(_('Last edited'), auto_now=True)
     created = DateTimeField(_('Date created'), auto_now_add=True,

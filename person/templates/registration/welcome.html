@@ -1,0 +1,24 @@
+{% extends "modal.html" %}
+{% load i18n %}
+
+{% block "title" %}{% block "page-title" %}{% trans "Welcome to the Inkscape Website!" %}{% endblock %}{% endblock %}
+
+{% block "dialog-body" %}
+  <h3>{% trans "Hi there, and welcome," %}</h3>
+
+  <p>{% trans "the Inkscape website is a great place for you to showcase your artwork made with Inkscape, and to share your ideas and knowledge with other users." %}</p>
+  <p><strong>{% trans "But first, please read the following to learn how this website community works, and how we handle your private data." %}</strong></p>
+
+  {% url 'edit_profile' as edit_profile_url %}
+  <p>{% blocktrans %}In order to fully participate in the Inkscape website community, you will need to enter a valid email address in your <a href="{{ edit_profile_url }}" target="_blank">user profile settings</a>. There you can also control in which cases an email should be sent to you, and add some info to introduce yourself to other users. Some of the website functionality (e.g. discussions, mailing lists) will not be available to you without an email address.{% endblocktrans %}</p>
+
+  {% with "/about/privacy/" as privacy_url and "/community/coc/" as coc_url %}
+  <p>{% blocktrans %}By your continued usage of the website, you acknowledge <a href="{{ privacy_url }} target="_blank">the Inkscape website's Privacy Policy</a> and agree to respect <a href="{{ coc_url }}" target="_blank">the Inkscape Community's Code of Conduct</a>.{% endblocktrans %}
+  {% endwith %}</p>
+
+  <p>{% trans "This website and it's services are provided 'as is', and you should not expect the services to continue to work or serve any particular need. Your files should never be assumed to be safe here and you should back everything up" %}</p>
+{% endblock %}
+
+{% block "simple-buttons" %}
+  <a class="btn btn-primary" href="/">{% trans "Home" %}</a><a class="btn btn-primary" href="{% url 'resources' %}">{% trans "Visit Gallery" %}</a><a class="btn btn-primary" href="{% url 'my_profile' %}">{% trans "Go to Profile" %}</a>
+{% endblock %}

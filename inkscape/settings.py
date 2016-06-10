@@ -200,6 +200,7 @@ INSTALLED_APPS = (
     'markdown_deux',
 )
 
+COMMENTS_APP = 'forums'
 SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
@@ -290,6 +291,7 @@ AUTHENTICATION_BACKENDS = (
 ACCOUNT_ACTIVATION_DAYS = 7
 
 SOCIAL_AUTH_DEFAULT_USERNAME = 'new_sa_user'
+SOCIAL_AUTH_NEW_USER_REDIRECT_URL = '/user/welcome/'
 LOGIN_URL = '/user/login/'
 LOGIN_ERROR_URL = '/user/login/'
 LOGIN_REDIRECT_URL = '/user/'

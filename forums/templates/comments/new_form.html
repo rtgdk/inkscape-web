@@ -4,6 +4,13 @@
 {% trans "Leave a comment:" as label %}
 {% trans "Submit Comment" as button %}
 
+{% if form.is_locked %}
+  <div class="comment locked">
+    <div class="details">
+      <div class="title">This comment thread is locked!</div>
+    </div>
+  </div>
+{% else %}
 <form action="{% comment_form_target %}" method="POST" class="block">
   {% csrf_token %}
   <div class="comment">
@@ -27,3 +34,5 @@
     </div>
   </div>   
 </form>
+{% endif %}
+

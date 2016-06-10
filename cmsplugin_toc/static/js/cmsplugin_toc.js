@@ -26,8 +26,8 @@ $(document).ready(function() {
 });
 
 $.fn.slugify = function() {
-    var text = $(this).text();
-    return text.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9\-]/g,'').toLowerCase();
+  var text = $(this).text();
+  return text.replace(/[^\w\d\s'\-]+/g,'').replace(/[\s'\-]+/g,'-').replace(/^-+/,'').replace(/-+$/,'').toLowerCase();
 }
 
 /*Link to anchors- H1 removed because normali is on top*/
@@ -39,7 +39,7 @@ function initialise_anchors(){
   $('.wrapper h2,.wrapper h3,.wrapper h4,.wrapper h5,.wrapper h6').each(function(i, heading){
     if($(heading).closest('#toc').length > 0) { return; }
 
-    var header_level = parseInt($(heading).prop("tagName").replace("H",""));
+    var heading_level = parseInt($(heading).prop("tagName").replace("H",""));
 
     var anchor;
     if(typeof $(heading).attr('name') !== 'undefined'){
@@ -56,12 +56,12 @@ function initialise_anchors(){
     // Re-anchor to just before the header so the goto link includes the header
     $('<span id="' + anchor + '"></span>').insertBefore($(heading));
 
-    if(levels_stack.length == 0 || header_level > levels_stack[levels_stack.length - 1]){
+    if(levels_stack.length == 0 || heading_level > levels_stack[levels_stack.length - 1]){
         toc += '<' + list + '>';
-        levels_stack.push(header_level);
+        levels_stack.push(heading_level);
     } else{
         toc += '</li>';
-        while(levels_stack.length > 0 && header_level < levels_stack[levels_stack.length - 1]){
+        while(levels_stack.length > 1 && heading_level < levels_stack[levels_stack.length - 1]){
             toc += '</' + list + '></li>';
             levels_stack.pop();
         }

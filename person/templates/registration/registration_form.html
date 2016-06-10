@@ -11,10 +11,14 @@
   {% endif %}
 {% endblock %}
 
-{% block "dialog-subtitle" %}
-<p>{% trans "Welcome! In order to register you must have a valid email address." %}</p>
+{% block "dialog-body" %}
+  <p>{% trans "Welcome!" %}</p>
+  <p>{% trans "In order to register for an account you must provide a valid email address." %}</p>
   <p>{% trans "The Inkscape website has the ability to notify you via email when things happen, like a new Inkscape release or a personal message from another user. If you would like to control when an email should be sent to you, please go to your User Settings." %}</p> 
   <p>{% trans "This website and it's services are provided 'as is', and you should not expect the services to continue to work or serve any particular need. Your files should never be assumed to be safe here and you should back everything up." %}</p>
+  {% with "https://inkscape.org/about/privacy/" as privacy_url and "https://inkscape.org/community/coc/" as coc_url %}
+  <p>{% blocktrans %}By registering, you acknowledge the Inkscape website's <a href="{{privacy_url}}">Privacy Policy</a> and agree to respect the Inkscape <a href="{{coc_url}}">Community's Code of Conduct</a>.{% endblocktrans %}
+  {% endwith %}
 {% endblock %}
 
 {% block "dialog-buttons" %}

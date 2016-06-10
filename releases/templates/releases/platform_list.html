@@ -1,14 +1,26 @@
 {% extends 'base.html' %}
 {% load static i18n %}
 
-{% block title %}All Release Platforms{% endblock %}
-
 {% block content %}
 
-  <h1>Platform Managers</h1>
-  <p>{% trans "Platforms can be managed by certain people who take responsibility for that platform. They act as the contact and mediator between the distribution repository or the compiler of the binary downloads. This does not mean they guarantee the packages will work, but they may be able to help if a package is broken." %}</p>
-  {% with object_list as platforms %}
-    {% include "releases/platform_sublist.html" %}
-  {% endwith %}
+<h1>{{ title }}</h1>
+<p>{% trans "This lists all platforms for the selected release. It shows each of the downloads that have been made available without listing the un-filled slots of all platforms. For examine if Windows 32bit is shown but Windows 64bit is not, then we have a build for 32bit but not for 64." %}</p>
+  <table class="alternating" style="width: 100%;">
+  {% for rp in object.platforms.all %}
+    <tr class="{% cycle "odd" "even" %}">
+      <td>{{ rp.platform }}</td>
+      <td>{{ rp.created }}</td>
+      <td>
+        {% if rp.download %}
+          <a href="{{ rp.download }}">Download</a>
+          {% if rp.howto %} | {% endif %}
+        {% endif %}
+        {% if rp.howto %}
+          <a href="{{ rp.download }}">HowTo</a>
+        {% endif %}
+      </td>
+    </tr>
+  {% endfor %}
+  </table>
 
 {% endblock %}

@@ -24,6 +24,7 @@ import time
 
 from datetime import datetime
 
+import django_comments
 from django.utils import translation
 from django.utils.timezone import utc
 from django.core.urlresolvers import reverse
@@ -95,6 +96,12 @@ class CleanForumTests(BaseCase):
         self.assertEqual(post.context_data['object'].forum.slug, self.forum)
         self.assertEqual(post.context_data['object'].subject, 'Fish')
 
+    def test_sticky_post(self):
+        """A topic which is sticky"""
+        get = self.assertGet('forums:detail', slug='general', status=200)
+        topics = get.context_data['object'].topics.values_list('slug', flat=True)
+        self.assertEqual(tuple(topics[:3]), (u'sticky_two', u'sticky_three', u'sticky_one'))
+
 
 class ObjectForumTests(BaseCase):
     """Tests for object forum details"""
@@ -145,19 +152,53 @@ class ObjectForumTests(BaseCase):
 
 class CleanTopicTests(BaseCase):
     """Topic tests without an object"""
+    topic = dict(forum='general', slug='topic_four')
+    override_settings = dict(DEBUG=True)
+
+    def assertPostComment(self, obj, comment, status=200, **kw):
+        kw['form'] = django_comments.get_form()(obj)
+        data = kw.setdefault('data', {})
+        data['comment'] = comment
+        post = self.assertPost('comments-post-comment', **kw)
+        if post.status_code == 400 and status != 400:
+            text = post.content
+            x = text.find("<td>", text.find('Why'))
+            y = text.find("</td>", x)
+            msg = text[x+4:y]
+        else:
+            msg = "Expected status %d, found %d" % (status, post.status_code)
+        self.assertEqual(status, post.status_code, msg)
+        return post
+
     def test_all_comments(self):
         """List all comments on this topic"""
-        get = self.assertGet('forums:topic',
-                forum='general', slug='topic_four', status=200)
+        get = self.assertGet('forums:topic', status=200, **self.topic)
         self.assertContains(get, 'BarBzr')
         self.assertContains(get, 'Buz')
 
     def test_can_comment(self):
         """A new comment can be added"""
-        get = self.assertGet('forums:topic',
-                forum='general', slug='topic_four', status=200)
+        get = self.assertGet('forums:topic', status=200, **self.topic)
         self.assertContains(get, 'comments/post/')
+        obj = get.context_data['object']
 
+        post = self.assertPostComment(obj, "Plums are the best")
+
+        get = self.assertGet('forums:topic', status=200, **self.topic)
+        self.assertContains(get, 'Plums are the best')
+
+    def test_locked_post(self):
+        """A topic can be locked and no new comments are allowed"""
+        obj = self.getObj(ForumTopic, slug=self.topic['slug'])
+        obj.locked = True
+        obj.save()
+        
+        get = self.assertGet('forums:topic', status=200, **self.topic)
+        self.assertNotContains(get, 'comments/post/')
+
+        post = self.assertPostComment(obj, "Apples are Oranges from Wales", status=400)
+        get = self.assertGet(obj.get_absolute_url(), status=200)
+        self.assertNotContains(get, 'Apples are Oranges')
 
 
 class ObjectTopicTests(BaseCase):

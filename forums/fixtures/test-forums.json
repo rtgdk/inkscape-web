@@ -155,5 +155,41 @@
   },
   "model": "forums.forumtopic",
   "pk": 5
+},
+{
+  "fields": {
+    "last_posted": "2010-01-03T10:10:10Z",
+    "object_pk": null,
+    "slug": "sticky_one",
+    "forum": 2,
+    "sticky": 1,
+    "subject": "Sticky One"
+  },
+  "model": "forums.forumtopic",
+  "pk": 6
+},
+{
+  "fields": {
+    "last_posted": "2010-01-03T10:10:10Z",
+    "object_pk": null,
+    "slug": "sticky_two",
+    "forum": 2,
+    "sticky": 2,
+    "subject": "Sticky Two"
+  },
+  "model": "forums.forumtopic",
+  "pk": 7
+},
+{
+  "fields": {
+    "last_posted": "2012-01-03T10:10:10Z",
+    "object_pk": null,
+    "slug": "sticky_three",
+    "forum": 2,
+    "sticky": 1,
+    "subject": "Sticky Three"
+  },
+  "model": "forums.forumtopic",
+  "pk": 8
 }
 ]

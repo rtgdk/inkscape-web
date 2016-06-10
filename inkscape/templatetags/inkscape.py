@@ -58,6 +58,44 @@ def add_filter(value, arg=1):
     """Add a number to another, default is incriment by 1"""
     return int(value) + arg
 
+from django.templatetags.static import StaticNode
+from django import template
+
+class UrlStaticNode(StaticNode):
+    def __init__(self, field=None, **kw):
+        self.field = field
+        super(UrlStaticNode, self).__init__(**kw)
+
+    def url(self, context):
+        field = self.field.resolve(context)
+        if field:
+	    return field.url
+        return super(UrlStaticNode, self).url(context)
+
+    @classmethod
+    def handle_token(cls, parser, token):
+	bits = token.split_contents()
+
+        if len(bits) < 3:
+            raise template.TemplateSyntaxError(
+                "'%s' takes at least two arguments (file field and path to file)" % bits[0])
+
+        field = parser.compile_filter(bits[1])
+        path = parser.compile_filter(bits[2])
+
+        if len(bits) >= 3 and bits[-2] == 'as':
+            varname = bits[-1]
+        else:
+            varname = None
+
+        return cls(field=field, varname=varname, path=path)
+ 
+
+@register.tag("url_or_static")
+def static_url(parser, token):
+    return UrlStaticNode.handle_token(parser, token)
+
+
 @register.filter("timetag", is_safe=True)
 def timetag_filter(value, arg=None):
     """Formats a date as a time since if less than 1 day old or as a date otherwise

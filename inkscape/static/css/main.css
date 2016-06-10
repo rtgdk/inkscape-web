@@ -57,6 +57,9 @@ pre {
   margin: 0.5ex 0;
   overflow: auto;
 }
+p {
+  margin: 0.8em 0;
+}
 
 h1, #google-groups-logo {
   font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
@@ -74,17 +77,25 @@ h2 {
   margin: 1.5ex 0 0.5ex;
   border-bottom: 1px solid #ddd;
 }
+.page h2 {
+  margin-top: 3ex;
+}
 h3 {
   color: #000000;
   font-size: 115%;
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
 }
-
+.page h3 {
+  margin-top: 2.5ex;
+}
 h4 {
   font-weight: bold;
   font-size: 100%;
   margin: 1.5ex 0 0.5ex;
+}
+.page h4 {
+  margin-top: 2ex;
 }
 
 video {
@@ -481,8 +492,10 @@ div.toc ol, #toc.right ol {
 }
 .header .nav > ul > li:last-child a {
   color: #ff7e28;
+}
+.header .nav > ul > li:last-child > a {
   border-right: 0 none;
-  border-radius: 0 10px 0 0;
+  border-top-right-radius: 0 10px 0 0;
 }
 body > .footer {
   clear: both;
@@ -1085,7 +1098,12 @@ div.tooltip {
 
 .tooltip strong {
   font-size: 11pt;
-  line-height: 30px;
+  display: inline-block;
+  margin-top: 8px;
+  margin-bottom: 6px;
+}
+.tooltip strong:first-child {
+  margin-top: 0;
 }
 
 .tooltip > span {

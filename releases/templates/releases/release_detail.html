@@ -27,7 +27,7 @@
 
   <div id="left-column" class="notes">
     {% if object %}
-      <h2>Release Notes</h2>
+      <h1>Release Notes</h1>
       <p>{{ object.get_notes|safe|default:"No Release Notes" }}</p>
     {% else %}
       <h1>No Public Release Yet</h1>
@@ -37,6 +37,7 @@
   <div id="right-sidebar" class="releases">
     <div id="sidecategory">
       <h1>{{ object }}</h1>
+      <a href="{% url "releases:platforms" object.version %}" class="btn btn-default">{% trans "All Platforms" %}</a>
       <h2>{% trans "Responsible People" %}</h2>
       <ul>
         {% for label, help_text, person in object.responsible_people %}
@@ -46,11 +47,6 @@
             </label></li>
           {% endif %}
         {% endfor %}
-        <li>
-          <a href="{% url "releases:platforms" %}">
-            <label>Platform Managers...</label>
-          </a>
-        </li>
       </ul>
       {% for name, items, latest in releases %}
        {% if items %}

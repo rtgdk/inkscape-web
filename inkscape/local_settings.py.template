@@ -22,6 +22,8 @@ DATABASES = {
     },
 }
 
+ENABLE_CACHING = False
+
 if ENABLE_CACHING:
     CACHES = {
         'default': {

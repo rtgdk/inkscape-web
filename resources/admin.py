@@ -37,8 +37,10 @@ site.register(License, CategoryAdmin)
 site.register(Category, CategoryAdmin)
 
 class ResourceForm(ModelForm):
-    user  = make_ajax_field(Resource, 'user', 'user', \
+    user = make_ajax_field(Resource, 'user', 'user', \
         help_text=_('Select Resource\'s Owner'))
+    checked_by = make_ajax_field(Resource, 'checked_by', 'user', \
+        help_text=_('Resource has been checked by this user'))
 
 class ResourceAdmin(ModelAdmin):
     list_display = ('name', 'user', 'gallery')

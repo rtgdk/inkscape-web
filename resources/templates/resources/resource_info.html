@@ -22,14 +22,12 @@
           {% else %}
               <a href="{% url "view_resource" object.id %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
+        {% elif object.link %}
+          <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
+            <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
+          </a>
         {% else %}
-            <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
-            {% if object.thumbnail %}
-              <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
-            {% else %}
-              <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
-            {% endif %}
-            </a>
+          <img src="{{ object.icon }}" alt="{% trans "No file or broken upload" %}"/>
         {% endif %}
         <a class="button" href="{{ object.get_absolute_url }}">{% trans "View" %}</a>
       </div>

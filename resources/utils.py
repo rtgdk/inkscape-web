@@ -170,7 +170,10 @@ class MimeType(object):
             static = os.path.join(MIME_DIR, subdir, ft_icon+'.svg')
             if finders.find(static):
                 return storage.staticfiles_storage.url(static)
-        return storage.staticfiles_storage.url('mime/unknown.svg')
+        return self.static("unknown")
+
+    def static(self, name):
+        return storage.staticfiles_storage.url('mime/%s.svg' % name)
 
     def banner(self):
         return self.icon('banner')

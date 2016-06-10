@@ -390,7 +390,7 @@ class Resource(Model):
 
     def icon(self):
         if not self.thumbnail and self.mime().is_image():
-            if os.path.exists(self.download.path) \
+            if self.download and os.path.exists(self.download.path) \
               and self.download.size < settings.MAX_PREVIEW_SIZE:
                 return self.download.url
         return self.icon_only()
@@ -399,6 +399,11 @@ class Resource(Model):
         """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
         if self.thumbnail and os.path.exists(self.thumbnail.path):
             return self.thumbnail.url
+        elif not self.download:
+            icon = "broken"
+            if self.link:
+                icon = "video" if self.is_video else "link"
+            return self.mime().static(icon)
         return self.mime().icon()
 
     def as_lines(self):

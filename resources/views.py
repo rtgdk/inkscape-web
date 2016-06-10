@@ -216,6 +216,10 @@ class DownloadResource(ViewResource):
     def get(self, request, *args, **kwargs):
         fn = kwargs.get('fn', None)
         item = self.get_object()
+        if not item.download:
+            messages.warning(request, _('There is no file to download in this resource.'))
+            return redirect(item.get_absolute_url())
+
         # The view 'download' allows one to view an image in full screen glory
         # which is technically a download, but we count it as a view and try
         # and let the browser deal with showing the file.

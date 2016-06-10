@@ -38,14 +38,14 @@
       <img src="{% static "images/missing.svg" %}" alt="{% trans "Item file missing" %}"/>
     </div>
   {% endif %}
-{% elif object %}
+{% elif object.link %}
   <div class="image link">
     <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
-    {% if object.thumbnail %}
-      <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
-    {% else %}
-      <img src="{% static "images/link.svg" %}" alt="{% trans "Item Link" %}"/>
-    {% endif %}
+      <img src="{{ object.icon }}" alt="{% trans "Link" %}"/>
     </a>
+  </div>
+{% else %}
+  <div class="image">
+    <img src="{{ object.icon }}" alt="{% trans "No file or broken upload" %}"/>
   </div>
 {% endif %}

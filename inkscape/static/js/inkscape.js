@@ -32,6 +32,7 @@ $(document).ready(function() {
   $(".ellipses-button").click(ellipses);
   $(".ellipses-button").show();
   $(".modal-dialog .tab").click(modalfieldsets);
+  $(".modal-dialog .fields").hide();
   $(".modal-dialog .tab:first-child").click();
   close_elements();
   adjustBar();

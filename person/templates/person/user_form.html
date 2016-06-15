@@ -1,43 +1,10 @@
 {% extends 'modal.html' %}
 {% load i18n static %}
 
-{% block "fu" %}
-    {% for label, fieldset in form.fieldsets %}
-      <h2>{{ label }}</h2>
-
-      <table class="block">
-        {% for field in fieldset %}
-          <tr>
-            <th scope="row">{{ field.label }}:
-              {% if field.help_text %}
-                <div class="tooltip"> 
-                  <img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
-                  <span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
-                </div>
-              {% endif %}
-            </th>
-            <td>{{ field }}</td>
-          </tr>
-          {% if field.errors %}
-            <tr>
-              <td colspan="2" class='error'>{{ field.errors|striptags }}</td>
-            </tr>
-          {% endif %}
-        {% endfor %}
-      </table>
-    {% endfor %}
-{% endblock %}
-
 {% block "form-buttons" %}
   <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+  <a href="{% url "alert.settings" %}" class="btn btn-default">{% trans "Edit Message Settings" %}</a>
   <a href="{{ request.GET.next|default:request.user.get_absolute_url }}" class="btn btn-default">{% trans "Cancel" %}</a>
-  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+  <button type="submit" class="btn btn-primary">{% trans "Save All" %}</button>
 {% endblock %}
 
-{% block "nope" %}
-
-<h2>{% trans "Preferences" %}</h2>
-
-<a href="{% url "alert.settings" %}">{% trans "Edit Message Settings" %}</a>
-
-{% endblock %}

@@ -1188,6 +1188,15 @@ div.tooltip {
   background-color: #fff;
   border-color: #ccc;
 }
+.btn-primary:hover,
+.btn-primary:focus,
+.btn-primary:active,
+.btn-primary.active,
+.open > .dropdown-toggle.btn-primary {
+  color: #fff;
+  background-color: #0060b0;
+  border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.5);
+}
 .btn-default:hover,
 .btn-default:focus,
 .btn-default:active,
@@ -1197,9 +1206,9 @@ div.tooltip {
   background-color: #e6e6e6;
   border-color: #adadad;
 }
-.btn-default:active,
-.btn-default.active,
-.open > .dropdown-toggle.btn-default {
+.btn:active,
+.btn.active,
+.open > .dropdown-toggle.btn {
   background-image: none;
 }
 .headingAnchors{

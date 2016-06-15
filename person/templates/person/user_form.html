@@ -1,13 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'modal.html' %}
 {% load i18n static %}
 
-{% block content %}
-  <h1>{% block title %}{% trans "Edit Profile" %}{% endblock %}</h1>
-
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.non_field_errors }}
-
+{% block "fu" %}
     {% for label, fieldset in form.fieldsets %}
       <h2>{{ label }}</h2>
 
@@ -32,10 +26,15 @@
         {% endfor %}
       </table>
     {% endfor %}
+{% endblock %}
 
-    <input type="hidden" name="next" value="{{ request.GET.next }}"/>
-    <input type="submit" value="{% trans "Save" %}"/>
-  </form>
+{% block "form-buttons" %}
+  <input type="hidden" name="next" value="{{ request.GET.next }}"/>
+  <a href="{{ request.GET.next|default:request.user.get_absolute_url }}" class="btn btn-default">{% trans "Cancel" %}</a>
+  <button type="submit" class="btn btn-primary">{% trans "Save" %}</button>
+{% endblock %}
+
+{% block "nope" %}
 
 <h2>{% trans "Preferences" %}</h2>
 

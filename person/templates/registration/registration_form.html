@@ -19,9 +19,10 @@
   {% with "https://inkscape.org/about/privacy/" as privacy_url and "https://inkscape.org/community/coc/" as coc_url %}
   <p>{% blocktrans %}By registering, you acknowledge the Inkscape website's <a href="{{privacy_url}}">Privacy Policy</a> and agree to respect the Inkscape <a href="{{coc_url}}">Community's Code of Conduct</a>.{% endblocktrans %}
   {% endwith %}
+  <div class="form-group"><hr/></div>
 {% endblock %}
 
-{% block "dialog-buttons" %}
+{% block "form-buttons" %}
   {% if request.user.is_authenticated %}
     <a class ="btn btn-primary" href="{% url "my_profile" %}">{% trans "My User Profile" %}</a>
   {% else %}

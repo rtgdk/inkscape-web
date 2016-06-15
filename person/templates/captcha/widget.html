@@ -2,8 +2,10 @@
 {% get_current_language as LANGUAGE_CODE %}
 
 <script type="text/javascript">
-    var DjangoRecaptchaOptions = {"lang": "{{LANGUAGE_CODE}}",
-                                  "theme" : 'white'};
+    var DjangoRecaptchaOptions = {
+      "lang": "{{LANGUAGE_CODE}}",
+      "theme" : 'clean'
+    };
     if (typeof RecaptchaOptions !== 'object') {
         RecaptchaOptions = DjangoRecaptchaOptions;
     } else {

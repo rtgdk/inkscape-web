@@ -37,6 +37,7 @@ class AgreeToCla(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
     form_class = AgreeToClaForm
 
 class EditProfile(NeverCacheMixin, NextUrlMixin, UserMixin, UpdateView):
+    title = _('Edit Profile')
     form_class = UserForm
 
 class UserDetail(DetailView):

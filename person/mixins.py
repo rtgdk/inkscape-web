@@ -25,7 +25,12 @@ Person app mixins
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import never_cache
-from user_sessions.views import LoginRequiredMixin
+from django.contrib.auth.decorators import login_required
+
+class LoginRequiredMixin(object):
+    @method_decorator(login_required)
+    def dispatch(self, request, *args, **kw):
+        return super(LoginRequiredMixin, self).dispatch(request, *args, **kw)
 
 class UserMixin(LoginRequiredMixin):
     """

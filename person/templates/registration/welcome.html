@@ -19,6 +19,6 @@
   <p>{% trans "This website and it's services are provided 'as is', and you should not expect the services to continue to work or serve any particular need. Your files should never be assumed to be safe here and you should back everything up" %}</p>
 {% endblock %}
 
-{% block "simple-buttons" %}
+{% block "dialog-buttons" %}
   <a class="btn btn-primary" href="/">{% trans "Home" %}</a><a class="btn btn-primary" href="{% url 'resources' %}">{% trans "Visit Gallery" %}</a><a class="btn btn-primary" href="{% url 'my_profile' %}">{% trans "Go to Profile" %}</a>
 {% endblock %}

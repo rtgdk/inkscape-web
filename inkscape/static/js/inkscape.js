@@ -31,9 +31,26 @@ $(document).ready(function() {
   $(".dotdotdot").click(paginator_expand);
   $(".ellipses-button").click(ellipses);
   $(".ellipses-button").show();
+  $(".modal-dialog .tab").click(modalfieldsets);
+  $(".modal-dialog .tab:first-child").click();
   close_elements();
   adjustBar();
 });
+
+function modalfieldsets(event) {
+  var target = $(this);
+  var previous = $('.tab.selected', target.parent);
+  if(target && target != previous) {
+    if(previous) {
+      previous.removeClass('selected');
+      var fields = $('#' + previous.attr('for'));
+      fields.hide();
+    }
+    target.addClass('selected');
+    var fields = $('#' + target.attr('for'));
+    fields.show();
+  }
+}
 
 function ellipses(event) {
   var target = $(this).parent();

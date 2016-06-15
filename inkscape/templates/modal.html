@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% load i18n static extras %}
+{% load i18n static %}
 
 {% block "css" %}{{ block.super }}
   <link rel="stylesheet" type="text/css" href="{% static "css/modal.css" %}"/>
@@ -9,7 +9,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        {% block "dialog-title" %}<h4 class="modal-title">{% block "title" %}Dialog Title{% endblock %}</h4>{% endblock %}
+        {% block "dialog-title" %}<h4 class="modal-title">{% block "title" %}{{ title|default:"Dialog Title" }}{% endblock %}</h4>{% endblock %}
         {% block "dialog-subtitle" %}{% endblock %}
         {% if form.non_field_errors %}
           {{ form.non_field_errors }}
@@ -28,26 +28,40 @@
         {% block "dialog-body" %}{% endblock %}
         {% if form %}
           {% block "dialog-form" %}
-            <form method="POST" action="{% block "dialog-action" %}{% endblock %}">
+            <form method="POST" action="{% block "dialog-action" %}{% endblock %}"
+                 {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
+
               {% csrf_token %}
-              {% if next %}<input type="hidden" name="next" value="{{ next }}" />{% endif %}
-              {% for field in form %}
-                <div class="form-group">
-                  {% if field.errors %}{{ field.errors }}{% endif %}
-                  {{ field.label_tag }}
-                  {% if forloop.first %}
-                    {{ field|placeholder:field.label|autofocus }}
-                  {% else %}
-                    {{ field|placeholder:field.label }}
-                  {% endif %}
+              {% if next or request.GET.next %}
+                <input type="hidden" name="next" value="{{ next|default:request.GET.next }}" />
+              {% endif %}
+
+              {% if form.fieldsets %}
+                <div class="tabs">
+                  {% for label, fieldset in form.fieldsets %}
+                    <label class="tab" for="tab{{ forloop.counter }}">{{ label }}</label>
+                  {% endfor %}
                 </div>
-              {% endfor %}
-                <div class="modal-footer">{% block "dialog-buttons" %}{% endblock %}
-                </div>
+                {% for label, fieldset in form.fieldsets %}
+                  <div class="fields" id="tab{{ forloop.counter }}">
+                    {% include "modal-fields.html" %}
+                  </div>
+                {% endfor %}
+              {% else %}
+                {% with form as fieldset %}
+                  {% include "modal-fields.html" %}
+                {% endwith %}
+              {% endif %}
+
+              <div class="modal-footer">
+                {% block "form-buttons" %}
+                  <button type="submit" class="btn btn-primary">Go</button>
+                {% endblock %}
+              </div>
             </form>
           {% endblock %}
         {% else %}
-          <div class="modal-footer">{% block "simple-buttons" %}{% endblock %}
+          <div class="modal-footer">{% block "dialog-buttons" %}{% endblock %}
           </div>
         {% endif %}
         </div>

@@ -43,9 +43,11 @@ from .forms import FeedbackForm
 from .models import ErrorLog, Q
 
 class ContactOk(TemplateView):
+    title = _('Contact Inkscape')
     template_name = 'feedback.html'
 
 class ContactUs(FormView):
+    title = _('Contact Inkscape Website Administrators')
     template_name = 'feedback.html'
     form_class = FeedbackForm
     success_url = reverse_lazy('contact.ok')

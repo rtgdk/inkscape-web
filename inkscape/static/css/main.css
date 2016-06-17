@@ -70,32 +70,47 @@ h1 {
   font-weight: normal;
   margin: 0.5ex 0 0.5ex;
 }
+h2, h3, h4, h5, h6 {
+  color: black;
+  margin: 1.5ex 0 0.5ex;
+}
 h2 {
-  color: #000000;
-  font-size: 140%;
+  font-size: 1.4em;
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
   border-bottom: 1px solid #ddd;
 }
 .page h2 {
+  font-size: 1.5em;
   margin-top: 3ex;
 }
 h3 {
-  color: #000000;
-  font-size: 115%;
+  font-size: 1.15em;
   font-weight: normal;
   margin: 1.5ex 0 0.5ex;
 }
 .page h3 {
+  font-size: 1.25em;
   margin-top: 2.5ex;
 }
 h4 {
   font-weight: bold;
-  font-size: 100%;
+  font-size: 1em;
   margin: 1.5ex 0 0.5ex;
 }
 .page h4 {
+  font-size: 1.1em;
+  font-weight: normal;
   margin-top: 2ex;
+}
+.page h5 {
+  font-size: 1em;
+  font-weight: normal;
+  font-style: italic;
+}
+.page h6 {
+  color: #555;
+  font-size: .85em;
 }
 
 video {
@@ -103,7 +118,6 @@ video {
 }
 
 th[scope="row"] { text-align: right; }
-
 th[scope="col"] { text-align: center; }
 
 .truncate, .truncate * {

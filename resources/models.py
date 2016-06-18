@@ -245,8 +245,8 @@ class Resource(Model):
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
     desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
-    category  = ForeignKey(Category, related_name='items', **null)
-    tags      = ManyToManyField(Tag, related_name='resources', blank=True)
+    category  = ForeignKey(Category, verbose_name=_("Category"), related_name='items', **null)
+    tags      = ManyToManyField(Tag, verbose_name=_("Tags"), related_name='resources', blank=True)
 
     created   = DateTimeField(**null) 
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
@@ -267,7 +267,7 @@ class Resource(Model):
     # ======== ITEMS FROM RESOURCEFILE =========== #
     download   = FileField(_('Consumable File'), **upto('file', blank=True))
 
-    license    = ForeignKey(License, **null)
+    license    = ForeignKey(License, verbose_name=_("License"), **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
 
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))

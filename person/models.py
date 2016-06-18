@@ -38,7 +38,7 @@ null = dict(null=True, blank=True)
 
 @python_2_unicode_compatible
 class User(AbstractUser):
-    bio   = TextField(validators=[MaxLengthValidator(4096)], **null)
+    bio   = TextField(_('Bio'), validators=[MaxLengthValidator(4096)], **null)
     photo = ResizedImageField(_('Photograph (square)'), null=True, blank=True,
               upload_to='photos', max_width=190, max_height=190)
     language = CharField(_('Default Language'), max_length=8, choices=settings.LANGUAGES, **null)

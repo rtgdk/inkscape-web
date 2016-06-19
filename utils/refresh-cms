@@ -22,6 +22,15 @@
 
 set -e
 
+DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"/..
+
+if [ ! -d "$DIR/pythonenv" ]; then
+  echo "VirtualEnv not found, trying to set one up..."
+  echo "Failed! I didn't write this part yet!"
+fi
+
+cd $DIR
+
 SOURCE="content"
 FIX="./data/fixtures"
 mkdir -p $FIX
@@ -30,12 +39,12 @@ echo "Downloading media from https://${1}inkscape.org..."
 ADDR="https://${1}inkscape.org/media/"
 
 wget -q ${ADDR}${SOURCE}.json.gz -O /tmp/cont.json.gz --no-check-certificate
-gunzip -c /tmp/cont.json.gz | ./utils/migrate-backup - > $FIX/live_content.json
+gunzip -c /tmp/cont.json.gz | $DIR/pythonenv/bin/python $DIR/utils/migrate-backup - > $FIX/live_content.json
 
 echo "Downloading live fixtures..."
 
 #wget -q ${ADDR}auth.json.gz -O /tmp/auth.json.gz --no-check-certificate
-#gunzip -c /tmp/auth.json.gz | ./utils/migrate-backup - > $FIX/live_auth.json
+#gunzip -c /tmp/auth.json.gz | $DIR/pythonenv/bin/python $DIR/utils/utils/migrate-backup - > $FIX/live_auth.json
 
 echo "Loading new cms data..."
 

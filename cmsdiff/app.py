@@ -91,6 +91,14 @@ def cleanup_history(self, page, publish=False):
     if HISTORY_LIMIT and publish:
         page.revisions.order_by('-pk')[HISTORY_LIMIT+1:].delete()
 
+def get_diff(self):
+    if not hasattr(self, '_diff'):
+        from .utils import RevisionDiff
+        previous = self.previous
+        pk = previous.pk if previous else 0
+        self._diff = RevisionDiff(pk, self.pk)
+    return self._diff
+
 class CmsDiffConfig(AppConfig):
     name = 'cmsdiff'
 
@@ -113,6 +121,7 @@ class CmsDiffConfig(AppConfig):
         Revision.previous = property(get_previous_revision)
         Version.has_previous = has_previous
         Revision.has_previous = has_previous
+        Revision.diff = get_diff
 
         # Connect the revision creation signal to deal with drafts
         post_revision_commit.connect(new_revision, dispatch_uid='cmsdiff')

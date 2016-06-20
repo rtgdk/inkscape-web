@@ -7,4 +7,5 @@ from .views import *
 
 urlpatterns = patterns('',
    url(r'^diff/$', DiffView.as_view(), name='cms.diff'),
+   url(r'^diff/(?P<pk>\d+)/$', DiffRedirect.as_view(), name='cms.diff')
 )

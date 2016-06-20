@@ -21,9 +21,21 @@
 Views for the cmsdiff functionality.
 """
 
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
+from django.core.urlresolvers import reverse
 
+from reversion.models import Revision
 from .utils import RevisionDiff
+
+class DiffRedirect(RedirectView):
+    permanent = True
+
+    def get_redirect_url(self, *args, **kw):
+        revision_to = Revision.objects.get(pk=self.kwargs['pk'])
+        revision_from = revision_to.previous
+        pk = revision_from.pk if revision_from else 0
+        args = '?revision_from=%d&revision_to=%d' % (pk, revision_to.pk)
+        return reverse('cms.diff') + args
 
 
 class DiffView(TemplateView):

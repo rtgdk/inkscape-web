@@ -132,7 +132,7 @@ class AlertType(Model):
             for (key, value) in kwargs.items():
                 alert.add_value(key, value)
             # Do this after saving objects and values so email can use them.
-            alert.send_email(**kwargs)
+            alert.send_email(context_data=kwargs)
             alert.send_irc_msg()
             return alert
         return None
@@ -309,7 +309,9 @@ class UserAlert(Model):
     def send_email(self, **kwargs):
         """Send alert email is user's own language"""
         with translation.override(self.user.language or 'en'):
-            return self.alert.send_email(self.user.email, self.data, **kwargs)
+            data = self.data.copy()
+            data.update(kwargs.pop('context_data', {}))
+            return self.alert.send_email(self.user.email, data, **kwargs)
 
 
 class UserAlertObject(Model):

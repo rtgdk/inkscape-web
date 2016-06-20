@@ -8,8 +8,8 @@
 {% trans "Published by" %}: {{ revision.user }}
 {% trans "Language" %}: {{ language }}
 
-{% trans "Overview of changes" %}:
+{% trans "Overview of changes" %}: {{ revision.comment }}
 
-{{ revision.comment }}
+{{ revision.diff.stub_text }}
 
 {% blocktrans with link=revision.diff.get_absolute_url%}You can find the full diff at {{ site }}{{ link }}.{% endblocktrans %}

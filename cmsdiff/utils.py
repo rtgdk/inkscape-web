@@ -37,12 +37,6 @@ else:
 def clean_text(text):
     return strip_tags(force_text(text)).replace("\n\n\n", "\n\n").strip()
 
-def stub_html(stub):
-    """Returns a html of the stub text"""
-    return stub.replace('<span>', '').replace('</span>', '\n\n')\
-        .replace('<del style="background:#ffe6e6;">', '-->').replace('</del>', '<--')\
-        .replace('<ins style="background:#e6ffe6;">', '++>').replace('</ins>', '<++')
-
 def get_vid(version):
     """Returns a version id unique to this item"""
     return "%s-%s" % (version.content_type_id, version.object_id)
@@ -70,10 +64,16 @@ def version_dict(version):
 
 class RevisionDiff(object):
     def __init__(self, from_id, to_id):
-        self.from_revision = Revision.objects.get(pk=from_id)
-        self.to_revision = Revision.objects.get(pk=to_id)
+        if from_id == 0:
+            self.from_revision = None
+            self.from_versions = {}
+            self.default = {}
+        else:
+            self.from_revision = Revision.objects.get(pk=from_id)
+            self.from_versions = versions_dict(self.from_revision)
+            self.default = None
 
-        self.from_versions = versions_dict(self.from_revision)
+        self.to_revision = Revision.objects.get(pk=to_id)
         self.to_versions = versions_dict(self.to_revision)
 
         # Store changes to non-body fields
@@ -97,7 +97,7 @@ class RevisionDiff(object):
 
     def init(self):
         for (version_id, fields) in self.to_versions.items():
-            previous = self.from_versions.pop(version_id, None)
+            previous = self.from_versions.pop(version_id, self.default)
             if previous is None:
                 continue
             if 'language' in fields and 'id' in fields:
@@ -106,18 +106,18 @@ class RevisionDiff(object):
                 self.pages[fields['language']] = fields
             self.from_versions[version_id] = previous
 
-    def __iter__(self):
+    def __iter__(self, diffs=False):
         """When looping for all body changes"""
         for (version_id, fields) in self.to_versions.items():
-            previous = self.from_versions.pop(version_id, None)
+            previous = self.from_versions.pop(version_id, self.default)
             if previous is None:
                 continue
 
-            for field, a, b in self.get_changes(fields, previous):
-                yield field, a, b
+            for out in self.get_changes(fields, previous, diffs=diffs):
+                yield out
 
 
-    def get_changes(self, fields, previous):
+    def get_changes(self, fields, previous, diffs=False):
         # Loop over every key in fields and previous without duplication.
         for key in set(list(fields) + list(previous)):
             a = clean_text(previous.get(key, ''))
@@ -129,13 +129,16 @@ class RevisionDiff(object):
 
             # Is this item a regular field.
             if '\n' not in a and '\n' not in b:
-                if key not in ('changed_date', 'creation_date',
-                        'numchild', 'depth', 'path', 'publisher_public'):
+                if key not in ('changed_date', 'creation_date', 'numchild',
+                  'depth', 'path', 'publisher_public') and not diffs:
                     yield (key, a, b)
                 continue
 
             diff = differ.diff_main(a, b)
             differ.diff_cleanupSemantic(diff)
+            if diffs:
+                yield diff
+                continue
 
             ptr = fields.get('cmsplugin_ptr', None)
             plugin = self.plugins.get(ptr, {})
@@ -145,6 +148,20 @@ class RevisionDiff(object):
                 yield ('%s (%s)' % (page['title'], plugin['language']), None, None)
 
             yield (key, differ.diff_prettyHtml(diff).replace('&para;',''), None)
+
+    @property
+    def stub_text(self):
+        """Returns a html of the stub text"""
+        return mark_safe(
+          self.stub.replace('<span>', '').replace('</span>', '\n\n')\
+            .replace('<del style="background:#ffe6e6;">', '-->').replace('</del>', '<--')\
+            .replace('<ins style="background:#e6ffe6;">', '++>').replace('</ins>', '<++'))
+
+    @property
+    def stub(self):
+        diffs = list(self.__iter__(diffs=True))
+        diffs = [o for d in diffs for o in d]
+        return differ.diff_prettyHtml(get_segment(diffs)).replace('&para;','')
 
 
 def get_segment(diffs):

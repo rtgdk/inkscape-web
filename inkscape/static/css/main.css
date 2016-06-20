@@ -126,6 +126,14 @@ th[scope="col"] { text-align: center; }
   text-overflow: ellipsis;
 }
 
+.clearfix:after {
+   content: " "; /* Older browsers don't support empty content */
+   visibility: hidden;
+   display: block;
+   height: 0;
+   clear: both;
+}
+
 /* styles for cms picture plugin */
 span.align-right img {
   display: block;
@@ -592,7 +600,7 @@ hr {
   padding: 0 0 20px 20px;
 }
 #right-sidebar .search input {
-  width: 200px;
+  width: 180px;
   padding: 3px;
 } 
 #right-sidebar .search a {
@@ -763,6 +771,11 @@ hr {
   border-radius: 3px;
   color: white;
   padding: 1px 5px;
+  margin: 2px 0;
+}
+
+#sidecategory .tag > img {
+  vertical-align: text-top;
 }
 
 #item-footer .tag {
@@ -777,7 +790,6 @@ hr {
 #sidecategory .tag.selected {
   background-color: #eee;
   color: #444;
-  cursor: default;
 }
 
 #sidecategory .tag:hover, #item-footer .tag:hover {

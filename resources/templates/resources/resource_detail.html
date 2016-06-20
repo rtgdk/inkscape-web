@@ -108,7 +108,7 @@
   {% if object.download %}
     <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
     {% if object.user == request.user %}
-      <div id="item-footer">
+      <div id="item-footer" class="clearfix">
         {% for tag in object.tags.all %}
           <a class="tag" title="{% blocktrans %}Show all items tagged '{{ tag }}'{% endblocktrans %}" href="{% url "resources" %}?tags={{ tag }}">{{ tag }}</a>
         {% endfor %}

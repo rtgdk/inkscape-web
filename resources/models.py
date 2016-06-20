@@ -102,8 +102,9 @@ class License(Model):
 
 
 class Category(Model):
-    name     = CharField(max_length=64)
-    desc     = TextField(validators=[MaxLengthValidator(1024)], **null)
+    name   = CharField(max_length=64)
+    desc   = TextField(validators=[MaxLengthValidator(1024)], **null)
+    symbol = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
 
     selectable = BooleanField(default=True,
         help_text=_("This category can be selected by all users when uploading."))
@@ -127,14 +128,29 @@ class Category(Model):
     @property
     def value(self):
         return slugify(self.name)
+      
+    @property
+    def icon(self):
+        if self.symbol:
+            return self.symbol.url 
+        return None
 
     def get_absolute_url(self):
         return reverse('resources', kwargs={'category': self.value})
 
 
 class Tag(Model):
-    name     = CharField(max_length=16)
+    name     = CharField(max_length=16, unique=True)
     category = ForeignKey('TagCategory', related_name='tags', **null)
+    
+    class Meta:
+        ordering = 'name',
+    
+    def save(self, **kwargs):
+        self.name = self.name.lower()
+        # we could check here if tag already exists
+        ret = super(Tag, self).save(**kwargs)
+        return ret
     
     def __unicode__(self):
         return self.name

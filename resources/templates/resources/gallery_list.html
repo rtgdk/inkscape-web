@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-  <h1>Resources</h1>
+  <h1>{% trans "Resources" %}</h1>
   {% autopaginate object_list 20 as galleries %}
     <div id="gallery">
       {% for gallery in galleries %}

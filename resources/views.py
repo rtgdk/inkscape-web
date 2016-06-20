@@ -26,7 +26,7 @@ import sys
 import os
 
 from datetime import timedelta
-from django.http import Http404
+from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
@@ -134,6 +134,12 @@ class UploadResource(OwnerCreateMixin, CreateView):
             self.gallery.items.add(form.instance)
         return ret
 
+class TagsJson(View):
+    def get(self, request):
+        # We could leverage category to style
+        # categorized tags differently in the suggestions list
+        context = {"tags" : [{"name": tag.name, "cat" : str(tag.category)} for tag in Tag.objects.all()]}
+        return JsonResponse(context, safe=False, content_type='application/json; charset=utf-8')
 
 class DropResource(UploadResource):
     content_type  = 'text/plain'
@@ -312,6 +318,11 @@ class ResourceList(CategoryListView):
       ('-edited', _('Last Updated')),
     )
 
+    def get_template_names(self):
+        if self.get_value('category'):
+            return ['resources/resourcegallery_specific.html']
+        return ['resources/resourcegallery_general.html']
+
     def extra_filters(self):
         if self.get_value('username') != self.request.user.username:
             return dict(published=True)
@@ -341,11 +352,13 @@ class ResourceList(CategoryListView):
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()
+            data['tag_clear_url'] = self.get_tag_clear_url()
 
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
+        
         if 'galleries' in data and data['galleries']:
             # our options are not yet returning the correct item
             try:
@@ -363,7 +376,7 @@ class ResourceList(CategoryListView):
 
         data['items'] = data['object_list']
         data['title'] = "InkSpaces"
-        for name in ('galleries', 'team', 'username'):
+        for name in ('galleries', 'team', 'username', 'category'):
             if data.get(name, None) is not None:
                 if isinstance(data[name], Model):
                     data['object'] = data[name]
@@ -372,6 +385,9 @@ class ResourceList(CategoryListView):
                     break
         return data
 
+    def get_tag_clear_url(self):
+        return self.get_url(exclude='tags')
+
 class GalleryView(ResourceList):
     """Allow for a special version of the resource display for galleries"""
     opts = ResourceList.opts + \
@@ -379,7 +395,7 @@ class GalleryView(ResourceList):
     cats = ()
 
     def get_template_names(self):
-        return ['resources/gallery_detail.html']
+        return ['resources/resourcegallery_specific.html']
 
 class ResourcePick(ResourceList):
     def get_template_names(self):

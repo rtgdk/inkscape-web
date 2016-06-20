@@ -35,23 +35,40 @@ class FilterSelect(Select):
             html += ' data-filter="%s"' % str(self.filters[int(value)])
         return '<option value="%s"%s>%s</option>' % (value, html, label)
 
-
-
 class SelectTags(SelectMultiple):
     SCRIPT = """
     <script>
+      var existingTags = new Bloodhound({
+        datumTokenizer: Bloodhound.tokenizers.obj.whitespace('name'),
+        queryTokenizer: Bloodhound.tokenizers.whitespace,
+        prefetch: {
+                    url: '/json/tags.json',
+                    transform: function(response){
+                                 return response.tags;
+                                },
+                    ttl: 60*1000 /* 1 minute */
+        }
+      });
+       
+      existingTags.initialize();
+
       $('#id_%(id)s').tagsinput({
         maxTags: 12,
         maxChars: 16,
         trimValue: true,
+        typeaheadjs: {
+          name: 'existingTags',
+          display: 'name',
+          source: existingTags.ttAdapter()
+        }
       });
     </script>"""
 
     class Media:
         css = {
-            'all': ('css/bootstrap-tagsinput.css',)
+            'all': ('css/bootstrap-tagsinput.css', 'css/bootstrap-tagsinput-typeahead.css',)
         }
-        js = ('js/bootstrap-tagsinput.js',)
+        js = ('js/bootstrap-tagsinput.js', 'js/typeahead.js')
 
     def render(self, name, value, **kwargs):
         html = super(SelectTags, self).render(name, value, **kwargs)
@@ -59,7 +76,7 @@ class SelectTags(SelectMultiple):
         return mark_safe(html + (self.SCRIPT % {'id':name, 'ajax': url}))
 
     def render_option(self, selected_choices, option_value, label):
-        """Only suply selecte tags so tagsinput won't add them all"""
+        """Only supply selected tags so tagsinput won't add them all"""
         # This isn't as efficient as it could be because it
         # still loops /every/ tag possible. Replace with selected_choices
         if force_text(option_value) in selected_choices:
@@ -81,7 +98,7 @@ class TagsChoiceField(ModelMultipleChoiceField):
                 yield tag
                 continue
             try:
-                tag = tag.replace('_', ' ').replace('-', ' ').title()
+                tag = tag.lower()
                 yield Tag.objects.get_or_create(name=tag)[0].pk
             except Exception as error:
                 if "value too long" in str(error):

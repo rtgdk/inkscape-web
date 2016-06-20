@@ -1,0 +1,10 @@
+{% extends 'resources/resourcegallery_base.html' %}
+
+{% block supercontent %}
+  <div id="content"{% block contentclasses %}{% endblock %}>
+    <div class="wrapper">
+      {% include "breadcrumbs.html" %}
+      {% include 'resources/resourcegallery_contents.html' %}
+    </div>
+  </div> 
+{% endblock %}

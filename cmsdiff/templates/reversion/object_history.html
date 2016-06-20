@@ -9,39 +9,56 @@
     
         <div class="module">
             {% if action_list %}
+              <form method="get" action="{% url 'cms.diff' %}">
                 <table id="change-history" class="table table-striped table-bordered">
                     <thead>
                         <tr>
-                            <th scope="col">{% trans 'Date/time' %}</th>
-                            <th scope="col">{% trans 'User' %}</th>
-                            <th scope="col">{% trans 'Comment' %}</th>
-                            <th scope="col">{% trans 'Revert' %}</th>
+                          <th scope="col" title="{% trans 'From revision' %}">⭰</th>
+                          <th scope="col" title="{% trans 'To revision' %}">⭲</th>
+                          <th scope="col">{% trans 'Comment' %}</th>
+                          <th scope="col">{% trans 'User' %}</th>
+                          <th scope="col">{% trans 'Date/time' %}</th>
+                          <th scope="col">{% trans 'Revert' %}</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for action in action_list %}
+                        {% for action in action_list reversed %}
                             <tr>
-                                <th scope="row">
-
-{% if action.revision.has_previous %}
-<a href="{% url "cms.diff" action.revision.pk %}">{{action.revision.date_created}}</a></th>
-{% else %}
-{{ action.revision.date_created }}
-{% endif %}
+                              <td>
+                                {% if not forloop.first %}
+                                  <input type="radio" name="revision_from" value="{{ action.revision.pk }}"/>
+                                {% else %}
+                                  -
+                                {% endif %}
+                              </td>
+                              <td>
+                                {% if not forloop.last %}
+                                  <input type="radio" name="revision_to" value="{{ action.revision.pk }}"/>
+                                {% else %}
+                                  -
+                                {% endif %}
+                              </td>
+                              <td scope="row"><em>{{action.revision.comment|linebreaksbr|default:""}}</em></td>
                                 <td>
                                     {% if action.revision.user %}
                                         {{action.revision.user.get_username}}
                                         {% if action.revision.user.get_full_name %} ({{action.revision.user.get_full_name}}){% endif %}
                                     {% endif %}
                                 </td>
-                                <td>{{action.revision.comment|linebreaksbr|default:""}}</td>
+                                <td>{{ action.revision.date_created }}</td>
                                 <td>
                                   <a href="{{action.url}}" target="_top">{% trans "Revert" %}</a>
                                 </td>
                             </tr>
                         {% endfor %}
                     </tbody>
+                    <tfoot>
+                      <tr class="submit-row">
+                        <td colspan="6"><button type='submit' >{% trans 'View Diff' %}</button></td>
+                      </tr>
+                    </tfoot>
                 </table>
+              </form>
             {% else %}
                 <p>{% trans "This object doesn't have a change history. It probably wasn't added via this admin site." %}</p>
             {% endif %}

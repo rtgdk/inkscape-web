@@ -31,8 +31,6 @@ from django.views.generic import ListView, DeleteView, CreateView, \
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 
-from pile.views import CategoryListView
-
 from .mixins import NeverCacheMixin, UserRequiredMixin, OwnerRequiredMixin
 from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
@@ -47,21 +45,23 @@ class AlertsJson(NeverCacheMixin, UserRequiredMixin, View):
         return JsonResponse(context)
 
 
-class AlertList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
+class AlertList(NeverCacheMixin, UserRequiredMixin, ListView):
     model = UserAlert
-    opts = (
-      ('alerttype', 'alert__slug'),
-      ('new', 'viewed__isnull'),
-    )
+    title = _('Your Messages')
 
     def get_queryset(self, **kwargs):
-        queryset = super(AlertList, self).get_queryset(**kwargs)
-        return queryset.filter(user=self.request.user)
+        qs = super(AlertList, self).get_queryset(**kwargs)
+        if 'alerttype' in self.kwargs:
+            qs = qs.filter(alert__slug=self.kwargs['alerttype'])
+        if 'new' in self.request.GET:
+            qs = qs.filter(viewed__isnull=True)
+        return qs.filter(user=self.request.user)
 
     def get_context_data(self, **data):
         data = super(AlertList, self).get_context_data(**data)
-        if data['alerttype'] and isinstance(data['alerttype'], (tuple, list)):
-            data['alerttype'] = data['alerttype'][0]
+        data['parent'] = self.request.user
+        # Disable alert vew
+        data['alerts'] = True
         return data
 
 
@@ -82,15 +82,18 @@ class MarkDeleted(MarkViewed):
 
 class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
     model = AlertSubscription
-    fields = '__all__'
-    title = _('Subscribe')
+    fields = [] # Everything is in url or context
 
     def get_context_data(self, **kwargs):
         data = super(Subscribe, self).get_context_data(**kwargs)
         data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
         if 'pk' in self.kwargs:
-            data['object'] = data['alert'].get_object(pk=self.kwargs['pk'])
-            data['object_name'] = data['alert'].get_object_name(data['object'])
+            subscription = data['alert'].get_object(pk=self.kwargs['pk'])
+            data['object_name'] = data['alert'].get_object_name(subscription)
+            data['title'] = _('Subscribe to %(object_name)s') % data
+        else:
+            data['alert_name'] = data['alert'].name
+            data['title'] = _('Subscribe to All %(alert_name)s') % data
         return data
 
     def post(self, request, **kwargs):
@@ -98,7 +101,7 @@ class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
         data = self.get_context_data(**kwargs)
         kw = dict(user=request.user, target=self.kwargs.get('pk', None))
         (self.object, a, b) = data['alert'].subscriptions.get_or_create(**kw)
-        b and messages.warning(request, _("Deleted %d previous subscription(s) (superseded)") % deleted)
+        b and messages.warning(request, _("Deleted %d previous subscription(s) (superseded)") % b)
         a and messages.info(request, _('Subscription created!'))
         not a and messages.warning(request, _('Already subscribed to this!'))
         return redirect('alert.settings')
@@ -106,15 +109,19 @@ class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
 
 class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     model = AlertSubscription
-    title = _('Unsubscribe')
     get_success_url = lambda self: reverse('alert.settings')
 
     def get_context_data(self, **kwargs):
         data = super(Unsubscribe, self).get_context_data(**kwargs)
         data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
+        data['delete'] = True
         if 'pk' in self.kwargs:
-            data['object'] = data['alert'].get_object(pk=self.kwargs['pk'])
-            data['object_name'] = data['alert'].get_object_name(data['object'])
+            subscription = data['alert'].get_object(pk=self.kwargs['pk'])
+            data['object_name'] = data['alert'].get_object_name(subscription)
+            data['title'] = _('Unsubscribe from %(object_name)s') % data
+        else:
+            data['alert_name'] = data['alert'].name
+            data['title'] = _('Unsubscribe from all %(alert_name)s') % data
         return data
     
     def get_object(self):
@@ -129,8 +136,8 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
         return super(Unsubscribe, self).get_object()
 
 
-class SettingsList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
-    title = _('Alert Settings')
+class SettingsList(NeverCacheMixin, UserRequiredMixin, ListView):
+    title = _('Your Alert Settings')
     model = AlertSubscription
 
     def get_queryset(self, **kwargs):
@@ -161,6 +168,7 @@ class SettingsList(NeverCacheMixin, UserRequiredMixin, CategoryListView):
                 {'url': reverse('edit_profile')}, extra_tags='safe')
         data['object'] = self.request.user
         data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
+        data['view'] = self
         return data
 
 

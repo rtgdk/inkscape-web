@@ -16,22 +16,15 @@
         {% endif %}
       </div>
       <div class="modal-body">
-        {% if messages %}
-          <ul id="messages">
-            {% for message in messages %}
-              <li{% if message.tags %} class="{{ message.tags }}"{% endif %} title="{{ message.tags }}">
-                {% if 'safe' in message.tags %}{{ message|safe }}{% else %}{{ message }}{% endif %}
-              </li>
-            {% endfor %}
-          </ul>
-        {% endif %}
         {% block "dialog-body" %}{% endblock %}
-        {% if form %}
+        {% if form or formset or delete %}
           {% block "dialog-form" %}
             <form method="POST" action="{% block "dialog-action" %}{% endblock %}"
                  {% if form.is_multipart %}enctype="multipart/form-data"{% endif %}>
-
               {% csrf_token %}
+
+              <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
+
               {% if next or request.GET.next %}
                 <input type="hidden" name="next" value="{{ next|default:request.GET.next }}" />
               {% endif %}

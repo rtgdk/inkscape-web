@@ -2,7 +2,7 @@
 
   {% for field in fieldset %}
     {% if field.help_text %}
-      <div class="tooltip"> 
+      <div class="tooltip floating-tip"> 
 	<img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
 	<span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
       </div>

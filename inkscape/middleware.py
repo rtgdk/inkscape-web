@@ -33,7 +33,7 @@ from django.views.generic import UpdateView, CreateView, ListView
 import logging
 
 class BaseMiddleware(object):
-    def get(self, data, key, default=None):
+    def get(self, data, key, default=None, then=None):
         """Returns a data key from the context_data, the view, a get
         method on the view or a get method on the middleware in that order.
         
@@ -45,8 +45,8 @@ class BaseMiddleware(object):
             return getattr(view, key)
         if hasattr(view, 'get_'+key):
             return getattr(view, 'get_'+key)()
-        if hasattr(self, 'get_'+key):
-            return getattr(self, 'get_'+key)(data)
+        if hasattr(then, 'get_'+key):
+            return getattr(then, 'get_'+key)(data)
         return default
 
 
@@ -139,6 +139,11 @@ def object_saved(sender, instance, *args, **kw):
         return
     TrackCacheMiddleware.invalidate(instance)
 
+def generate_list(f):
+    # Generates a list from a generator
+    def _inner(*args, **kw):
+        return list(f(*args, **kw))
+    return _inner
 
 class AutoBreadcrumbMiddleware(BaseMiddleware):
     """
@@ -153,7 +158,7 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
             return response
         data = response.context_data
         for key in self.keys:
-            response.context_data[key] = self.get(data, key)
+            response.context_data[key] = self.get(data, key, then=self)
         return response
 
     def get_title(self, data):
@@ -162,24 +167,29 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
             return list(data['breadcrumbs'])[-1][-1]
         return None
 
+    @generate_list
     def get_breadcrumbs(self, data):
         """Return breadcrumbs only called if no breadcrumbs in context"""
         obj = self.get(data, 'object')
+        page = self.get(data, 'current_page')
+        if not obj and page:
+            # django-cms pages already have Home
+            obj = page
+        else:
+            yield (reverse('pages-root'), _('Home'))
+
         parent = self.get(data, 'parent')
         title = self.get(data, 'title')
-        result = [(reverse('pages-root'), _('Home'))]
         target = obj if obj is not None else parent
 
         for obj in self.get_ancestors(target):
             if isinstance(obj, tuple) and len(obj) == 2:
-                result.append(obj)
+                yield obj
             elif obj is not None:
-                result.append(self.object_link(obj))
+                yield self.object_link(obj)
 
         if title is not None:
-            result.append((None, title))
-
-        return result
+            yield (None, title)
 
     def get_ancestors(self, obj):
         parent = getattr(obj, 'parent', None)

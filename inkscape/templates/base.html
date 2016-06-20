@@ -99,7 +99,9 @@
     {% block "precontent" %}{% endblock %}
     <div id="content"{% block contentclasses %}{% endblock %}>
       <div class="wrapper">
-        {% block "breadcrumbs" %}{% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}{% endblock %}
+        {% block "breadcrumbs" %}
+	  {% include "breadcrumbs.html" %}
+        {% endblock %}
         {% block content %}{% endblock %}
       </div>
     </div>

@@ -27,31 +27,31 @@ from person.urls import USER_URLS
 
 USER_URLS.url_patterns.extend([
   # Example message system
-  url(r'^/message/$',                CreateMessage(),name="message.new"),
+  url(r'^/message/$',                CreateMessage.as_view(),name="message.new"),
 ])
 
 urlpatterns = patterns('',
-  url(r'^settings/$',                SettingsList(), name='alert.settings'),
+  url(r'^settings/$',                SettingsList.as_view(), name='alert.settings'),
 
   url_tree(r'^(?P<pk>\d+)/',
-    url(r'^view/',                   MarkViewed(),   name="alert.view"),
-    url(r'^delete/',                 MarkDeleted(),  name='alert.delete'),
+    url(r'^view/',                   MarkViewed.as_view(), name="alert.view"),
+    url(r'^delete/',                 MarkDeleted.as_view(), name='alert.delete'),
   ),
 
-  url(r'^$',                         AlertList(),    name="alerts"),
-  url(r'^json/$',                    AlertsJson(),   name="alerts.json"),
-  url(r'^sent/$',                    SentMessages(), name="message.sent"),
+  url(r'^$',                         AlertList.as_view(), name="alerts"),
+  url(r'^json/$',                    AlertsJson.as_view(), name="alerts.json"),
+  url(r'^sent/$',                    SentMessages.as_view(), name="message.sent"),
   url_tree(r'^(?P<slug>[^\/]+)/',
-    url(r'^$',                       AlertList(),    name="alert.category"),
+    url(r'^$',                       AlertList.as_view(), name="alert.category"),
     url_tree(r'^subscribe/',
-      url(r'^$',                     Subscribe(),    name='alert.subscribe'),
-      url(r'^(?P<pk>\d+)/$',         Subscribe(),    name='alert.subscribe'),
+      url(r'^$',                     Subscribe.as_view(), name='alert.subscribe'),
+      url(r'^(?P<pk>\d+)/$',         Subscribe.as_view(), name='alert.subscribe'),
     ),
     url_tree(r'^unsubscribe/',
-      url(r'^$',                     Unsubscribe(),  name='alert.unsubscribe'),
-      url(r'^(?P<pk>\d+)/$',         Unsubscribe(),  name='alert.unsubscribe'),
+      url(r'^$',                     Unsubscribe.as_view(), name='alert.unsubscribe'),
+      url(r'^(?P<pk>\d+)/$',         Unsubscribe.as_view(), name='alert.unsubscribe'),
     ),
   ),
-  url(r'^unsubscribe/(?P<pk>\d+)/$', Unsubscribe(),  name='alert.unsubscribe'),
+  url(r'^unsubscribe/(?P<pk>\d+)/$', Unsubscribe.as_view(), name='alert.unsubscribe'),
 )
 

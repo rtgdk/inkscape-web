@@ -132,7 +132,7 @@ class AlertType(Model):
             for (key, value) in kwargs.items():
                 alert.add_value(key, value)
             # Do this after saving objects and values so email can use them.
-            alert.send_email()
+            alert.send_email(**kwargs)
             alert.send_irc_msg()
             return alert
         return None
@@ -225,6 +225,12 @@ class UserAlertManager(Manager):
     def new(self):
         return self.get_queryset().filter(viewed__isnull=True)
 
+    @property
+    def parent(self):
+        if 'user__exact' in self.core_filters:
+            return self.core_filters['user__exact']
+        return None
+
     def types(self):
         counts = defaultdict(int)
         # We'd use count and distinct to do this login in the db, but flakey
@@ -272,7 +278,7 @@ class UserAlert(Model):
         return UserAlertSetting.objects.get(user=self.user, alert=self.alert)
 
     def __str__(self):
-        return self.subject.strip() or "No Subject"
+        return "<UserAlert %s>" % str(self.created)
 
     def get_absolute_url(self):
         return reverse('alerts')
@@ -348,12 +354,11 @@ class SubscriptionQuerySet(QuerySet):
         return (obj, created, deleted)
 
     def is_subscribed(self, target=None, directly=False):
-        # XXX This is broken now
         if target is None:
-            return False #self.filter(target__isnull=True).count()
+            return bool(self.filter(target__isnull=True).count())
         if directly:
-            return False #self.filter(target_id=target.pk).count()
-        return False #self.filter(Q(target=target.pk) | Q(target__isnull=True)).count()
+            return bool(self.filter(target=target.pk).count())
+        return bool(self.filter(Q(target=target.pk) | Q(target__isnull=True)).count())
 
 class AlertSubscriptionManager(Manager):
     _queryset_class = SubscriptionQuerySet

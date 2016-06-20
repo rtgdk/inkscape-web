@@ -3,21 +3,6 @@
 
 {% block title %}{% trans "Revision Diff" %}{% endblock %}
 
-{% block userlinks %}
-  <div class="submit-row">
-    {% if object.revision.has_next %}
-      <form target="{% url "cms.diff" object.revision.next.pk %}" method="get">
-        <input type="submit" value="{% trans "Next Revision" %} &gt;">
-      </form>
-    {% endif %}
-    {% if object.revision.has_previous %}
-      <form target="{% url "cms.diff" object.revision.previous.pk %}" method="get">
-        <input type="submit" value="&lt; {% trans "Previous Revision" %}">
-      </form>
-    {% endif %}
-  </div>
-{% endblock %}
-
 {% block welcome-msg %}{% endblock %}
 {% block branding %}<h1 id="site-name">Page Difference</h1>{% endblock %}
 
@@ -25,17 +10,30 @@
 
   <h1>{% trans "Revision Differences" %}</h1>
 
-  <table>
-    <tr><th scope="row">{% trans "Changes By:" %}</th> <td>{{ object.user }}</td></tr>
-    {% if object.revision %}
-      <tr><th scope="row">{% trans "Changed:" %}</th>    <td>{{ object.date_created|timetag }}</td></tr>
-      <tr><th scope="row">{% trans "Date:" %}</th>       <td>{{ object.date_created|date }}</td></tr>
-    {% endif %}
-    <tr><th scope="row">{% trans "Comment:" %}</th>    <td>{{ object.comment|linebreaks }}</td></tr>
-  </table>
+  <table class="diff">
+    <tr><th scope="row">{% trans "Changes By:" %}</th> <td colspan="2">{{ diff.user }}</td></tr>
+    <tr><th scope="row">{% trans "Comment:" %}</th> <td colspan="2">{{ diff.comment|linebreaks }}</td></tr>
 
-  <div class="diff">
-    {{ object.content|safe }}
-  </div>
+    {% for key, a, b in diff %}
+      {% if not a and not b %}
+        <tr><td colspan="3"><h2>{{ key }}</h2></td></tr>
+      {% elif not b %}
+        <tr>
+          <th>{{ key }}</th>
+          <td colspan="2"><div class='system-message'>{{ a|safe }}</div></td>
+        </tr>
+      {% else %}
+        <tr class="del">
+          <th scope='row' rowspan='2'>{{ key }}</th>
+          <td>-</td>
+          <td>{{ a }}</td>
+        </tr>
+        <tr class="ins">
+          <td>+</td>
+          <td>{{ b }}</td>
+        </tr>
+      {% endif %}
+    {% endfor %}
+  </table>
 
 {% endblock %}

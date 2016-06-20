@@ -1,0 +1,10 @@
+  <div class="breadcrumbs">
+    {% for url, label in breadcrumbs %}
+      {% if not url or forloop.last %}
+        <em class="crumb">{{ label }}</em>
+      {% else %}
+        <a href="{{ url }}" class="crumb">{{ label }}</a>
+      {% endif %}
+      {% if not forloop.last %}<span>&raquo;</span>{% endif %}
+    {% endfor %}
+  </div>

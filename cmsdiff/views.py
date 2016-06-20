@@ -21,21 +21,21 @@
 Views for the cmsdiff functionality.
 """
 
-from django.contrib.auth.decorators import login_required
-from django.views.generic import DetailView, RedirectView
-from django.template import RequestContext
+from django.views.generic import TemplateView
 
-from .models import Revision, RevisionDiff
+from .utils import RevisionDiff
 
-class ViewDiff(DetailView):
-    model = RevisionDiff
+
+class DiffView(TemplateView):
     template_name = "cmsdiff/revision_diff.html"
 
-    def get_object(self):
-        diff = super(ViewDiff, self).get_object()
-        # Attempt to re-attach deleted revision
-        if not diff.revision and diff.revisions.count() > 0:
-            diff = diff.revisions.all()[0].diff
-        return diff
+    def get_context_data(self, **kw):
+        data = super(DiffView, self).get_context_data(**kw)
+        ids = sorted([
+          int(self.request.GET['revision_from']),
+          int(self.request.GET['revision_to']),
+        ])
+        data['diff'] = RevisionDiff(*ids)
+        return data
 
 

@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load i18n static menu_tags %}
+{% load i18n static %}
 
 {% block title %}{{ object.name }} - InkSpaces{% endblock %} 
 {% block "css" %}{{ block.super }}
@@ -9,7 +9,7 @@
 
 {% block supercontent %}
   <div id="bread">
-    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+    {% include "breadcrumbs.html" %}
   </div>
   <div id="profile" style="background-color: #1c1c1c; color: white;">
     <img id="photo" src="{{ object.icon }}"/>

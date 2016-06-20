@@ -33,7 +33,7 @@ class SubscribeToolbar(CMSToolbar):
         subs = self.request.user.alert_subscriptions.filter(alert=alert)
         page = self.request.current_page._wrapped
         if not subs.is_subscribed():
-            if page and subs.is_subscribed(page):
+            if page and subs.is_subscribed(page, True):
                 menu.add_link_item(_('Unsubscribe from this page'), url=alert.unsubscribe_url(page))
             elif page:
                 menu.add_link_item(_('Subscribe to this page'), url=alert.subscribe_url(page))

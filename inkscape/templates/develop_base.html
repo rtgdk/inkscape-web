@@ -19,7 +19,7 @@
 
 {% block supercontent %}
   <div id="content"{% block contentclasses %}{% endblock %}>
-    {% show_breadcrumb 0 "menu/breadcrumb.html" 0 %}
+    {% include "breadcrumbs.html" %}
     {% block content %}{% endblock %}
   </div>
 {% endblock %}

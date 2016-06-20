@@ -1,8 +1,6 @@
-{% extends "base.html" %}
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block content %}
-  <h1>
     {% block title %}
       {% if object %}
         {% blocktrans %}Subscribe to {{ object }}{% endblocktrans %}
@@ -10,21 +8,19 @@
         {% blocktrans with alert.name as alert_name %}Subscribe to All {{ alert_name }}{% endblocktrans %}
       {% endif %}
     {% endblock %}
-  </h1>
 
-  {% if alert.default_email %}
+{% block "dialog-body" %}
   {% url "alertsettings" as alertsettings_url %}
+  {% if alert.default_email %}
     <div>{% blocktrans %}You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
+  {% else %}
+    <div>{% blocktrans %}You will <strong>NOT</strong> receive an email alert by when you subscribe, but these can be switched on in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
   {% endif %}
-  <div>{{ alert.desc }}</div>
 
-  <form method="post" action=".">
-    {% csrf_token %}
-    <div class="form-buttons">
-      <input type="hidden" name="msie11bug" value="http://stackoverflow.com/questions/20149751/ie11-only-submit-bug">
-      <input type="submit" class="btn btn-primary" value="{% trans "Subscribe Me" %}"/>
-      <a class="btn btn-default" href="{% url "alert.settings" %}">{% trans "Cancel" %}</a>
-    </div>
-  </form>
-
+  <p>{{ alert.desc|safe }}</p>
+{% endblock %}
+ 
+{% block "form-buttons"  %}
+  <a class="btn btn-default" href="{% url "alert.settings" %}">{% trans "Cancel" %}</a>
+  <input type="submit" class="btn btn-primary" value="{% trans "Subscribe Me" %}"/>
 {% endblock %}

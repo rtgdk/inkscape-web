@@ -1,17 +1,13 @@
-{% extends "base.html" %}
-{% load i18n pagination_tags %}
+{% extends "modal.html" %}
+{% load i18n static pagination_tags %}
 
-{% block title %}{% trans "Alert Settings" %}{% endblock %} 
-
-{% block content %}
-
-  <h1>{% trans "Your Alert Settings" %}</h1>
-
-  <form class="settingsform" method="POST" action=".">
+{% block "dialog-body" %}
+  <form class="settingsform" method="POST" action="." style="max-width: unset; width: 100%;">
   {% csrf_token %}
 
-  <table class="alternating">
+  <table class="alternating" style="width: 100%;">
     <tr>
+     <th>&nbsp;</th>
      <th>&nbsp;</th>
      <th scope="col">{% trans "Alert Type" %}</th>
      <th scope="col">{% trans "Hide Any Alerts" %}</th>
@@ -20,26 +16,41 @@
 
   {% for object in settings %}
     <tr class="{% cycle "odd" "even" %}">
-      {% if not object.pk %}
-        <td title="{% trans "Currently set to default values for this type of alert." %}">&#9733;</td>
-      {% else %}
-        <td>&nbsp;</td>
-      {% endif %}
-      <td class="left-aligned" title="{{ object.alert.desc }}">{{ object.alert.name }}</td>
+      <td>
+        {% if not object.pk %}
+          <div class="tooltip"> 
+            &#9733;
+            <span>
+              <span class="ttarrow"></span>
+              {% trans "Currently set to default values for this type of alert." %}
+            </span>
+          </div>
+        {% endif %}
+      </td>
+      <td>
+        <div class="tooltip"> 
+          <img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
+          <span><span class="ttarrow"></span>{{ object.alert.desc }}</span>
+        </div>
+      </td>
+      <td class="left-aligned">
+        {{ object.alert.name }}
+      </td>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_hide" value="1" {% if object.hide %}CHECKED{% endif%}/>
       <td><input type="checkbox" name="setting_{{ object.alert.pk }}_email" value="1" {% if object.email %}CHECKED{% endif%}/>
     </tr>
   {% endfor %}
   </table>
 
-  <input type="submit" value="{% trans "Save Settings" %}"/>
-
+    <div class="modal-footer">
+      <input type="submit" class="btn btn-primary" value="{% trans "Save Settings" %}"/>
+    </div>
   </form>
 
   <h2>{% trans "Subscriptions" %}</h2>
   {% autopaginate object_list 15 as items %}
   
-  <table class="alternating" style="min-width: 60%;">
+  <table class="alternating" style="width: 100%;">
     <tr>
      <th scope="col">{% trans "Alert" %}</th>
      <th scope="col">{% trans "For" %}</th>

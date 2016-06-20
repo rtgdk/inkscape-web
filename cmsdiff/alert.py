@@ -38,7 +38,7 @@ class PagePublishedAlert(BaseAlert):
 
     subject       = "{% trans 'Published:' %} {{ instance }}"
     email_subject = "{% trans 'Published:' %} {{ instance }}"
-    object_name   = "{{ instance }}'s {% trans 'Website Page Published' %}"
+    object_name   = "when the '{{ object }}' page is published"
     default_email = False
     signal        = post_revision
 

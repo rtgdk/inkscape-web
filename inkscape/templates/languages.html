@@ -2,9 +2,9 @@
 {% load i18n %}
 <li id="tab_languages" class="dropdown">
   {% for language in languages %}
-    {% ifequal current_language language.0 %}
+    {% if current_language == language.0 %}
     <p>{{ language.1 }}</p>
-    {% endifequal %}  
+    {% endif %}
   {% endfor %}
   <div>
     {% for language in languages %}

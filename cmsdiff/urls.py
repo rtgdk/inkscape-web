@@ -1,10 +1,10 @@
 """
 Provides views for the cms diff functionality.
 """
-
 from django.conf.urls import patterns, url
-from .views import ViewDiff
+
+from .views import *
 
 urlpatterns = patterns('',
-   url(r'^diff/(?P<pk>\d+)/$', ViewDiff.as_view(), name='cms.diff'),
+   url(r'^diff/$', DiffView.as_view(), name='cms.diff'),
 )

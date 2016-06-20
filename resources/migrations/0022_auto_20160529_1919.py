@@ -88,11 +88,5 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.RunPython(unique_lc_tags),
-        
-        migrations.AlterField(
-            model_name='tag',
-            name='name',
-            field=models.CharField(max_length=16, unique=True),
-        ),
     ]
         

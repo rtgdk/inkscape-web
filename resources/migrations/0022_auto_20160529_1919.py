@@ -80,6 +80,9 @@ def unique_lc_tags(apps, schema_editor):
         if tag.pk in tags2delete:
             tag.delete()
 
+def backwards(apps, schema_editor):
+    pass
+
 class Migration(migrations.Migration):
 
     dependencies = [
@@ -87,6 +90,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RunPython(unique_lc_tags),
+        migrations.RunPython(unique_lc_tags, backwards),
     ]
         

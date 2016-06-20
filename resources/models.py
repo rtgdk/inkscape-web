@@ -455,7 +455,9 @@ class Resource(Model):
         if self.created and self.edited \
           and self.created.year != self.edited.year:
             return "%d-%d" % (self.created.year, self.edited.year)
-        return str(self.edited.year)
+        if self.edited:
+            return str(self.edited.year)
+        return str(self.created.year)
 
     # for counting detail views
     def set_viewed(self, session):

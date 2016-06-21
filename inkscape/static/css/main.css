@@ -587,6 +587,9 @@ body > .footer .nav ul {
   width: 680px;
   padding: 0 20px 0 0;
 }
+#left-column > h2:first-child {
+  margin-top: 12px;
+}
 hr {
   margin: 30px 0;
   color: #d2d2d2;
@@ -612,15 +615,15 @@ hr {
 #right-sidebar .search a img {
   width: 15px;
 }
-#right-sidebar th{
-  font-size:14px;
-  font-weight:normal;
-  text-align:right;
-  padding-left:4px;
+#right-sidebar th {
+  font-size: 14px;
+  font-weight: normal;
+  text-align: right;
+  padding-left: 4px;
 }
-#right-sidebar td{
-  font-size:14px;
-  font-weight:bold;
+#right-sidebar td {
+  font-size: 14px;
+  font-weight: bold;
 }
 #right-sidebar ul {
   padding-left: 20px;

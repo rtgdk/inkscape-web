@@ -18,6 +18,7 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import logging
 from inspect import isclass
 
 from django.core.cache import caches
@@ -67,9 +68,13 @@ class TrackCacheMiddleware(BaseMiddleware):
     def invalidate(cls, obj):
         """We invalidate all caches as needed based on the object's identity"""
         if isinstance(obj, Model):
-            cls.cache.delete_many(list(
-                cls.get_caches(obj) & cls.get_caches(type(obj))
-            ))
+            keys = list(cls.get_caches(obj) | cls.get_caches(type(obj)))
+            cls.cache.delete_many(keys)
+        elif isclass(obj) and issubclass(obj, Model):
+            keys = list(cls.get_caches(obj))
+            cls.cache.delete_many(keys)
+        else:
+            logging.warning("!ERR DEL cache, '%s' is not a model." % str(obj))
 
     @classmethod
     def invalidate_all(cls):
@@ -124,7 +129,9 @@ class TrackCacheMiddleware(BaseMiddleware):
             self.track_cache(obj, cache_key)
 
         for key in ('object', 'object_list'):
-            self.track_cache(data.get(key, None), cache_key)
+            target = data.get(key, None)
+            if target is not None:
+                self.track_cache(target, cache_key)
         return response
 
 

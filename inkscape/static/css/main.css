@@ -587,7 +587,7 @@ body > .footer .nav ul {
   width: 680px;
   padding: 0 20px 0 0;
 }
-#left-column > h2:first-child {
+.page #left-column > h2:first-child {
   margin-top: 12px;
 }
 hr {

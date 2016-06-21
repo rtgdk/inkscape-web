@@ -27,7 +27,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from django.conf import settings
 from django.dispatch import receiver
-from django.db.models import signals, Model, QuerySet
+from django.db.models import signals, Model, Manager, QuerySet
 from django.utils.cache import get_cache_key
 from django.views.generic import UpdateView, CreateView, ListView
 
@@ -184,6 +184,11 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
             obj = page
         else:
             yield (reverse('pages-root'), _('Home'))
+
+        if obj is None:
+            lst = self.get(data, 'object_list')
+            if isinstance(lst, (Manager, QuerySet)):
+                obj = lst
 
         parent = self.get(data, 'parent')
         title = self.get(data, 'title')

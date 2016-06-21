@@ -181,6 +181,14 @@ class TeamChatRoom(Model):
         return 'IRC: %s' % self.channel
 
 
+class TeamQuerySet(QuerySet):
+    def breadcrumb_name(self):
+        return _('Inkscape Community Teams')
+
+    def get_absolute_url(self):
+        return reverse('teams')
+
+
 class Team(Model):
     ENROLES = (
       ('O', _('Open')),
@@ -191,23 +199,25 @@ class Team(Model):
     )
     ICON = os.path.join(settings.STATIC_URL, 'images', 'team.svg')
 
-    admin    = ForeignKey(User, related_name='admin_teams', **null)
-    group    = AutoOneToOneField(Group, related_name='team')
+    admin = ForeignKey(User, related_name='admin_teams', **null)
+    group = AutoOneToOneField(Group, related_name='team')
     watchers = ManyToManyField(User, related_name='watches', blank=True)
     requests = ManyToManyField(User, related_name='team_requests', blank=True)
 
-    name     = CharField(_('Team Name'), max_length=32)
-    slug     = SlugField(_('Team URL Slug'), max_length=32)
-    icon     = ImageField(_('Display Icon'), upload_to='teams', default=ICON)
+    name = CharField(_('Team Name'), max_length=32)
+    slug = SlugField(_('Team URL Slug'), max_length=32)
+    icon = ImageField(_('Display Icon'), upload_to='teams', default=ICON)
 
-    intro    = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
-    desc     = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
-    charter  = TextField(_('Charter'), validators=[MaxLengthValidator(30240)], **null)
+    intro = TextField(_('Introduction'), validators=[MaxLengthValidator(1024)], **null)
+    desc = TextField(_('Full Description'), validators=[MaxLengthValidator(10240)], **null)
+    charter = TextField(_('Charter'), validators=[MaxLengthValidator(30240)], **null)
     side_bar = TextField(_('Side Bar'), validators=[MaxLengthValidator(10240)], **null)
 
-    mailman  = CharField(_('Email List'), max_length=32, null=True, blank=True,
+    mailman = CharField(_('Email List'), max_length=32, null=True, blank=True,
         help_text='The name of the pre-configured mailing list for this team')
-    enrole   = CharField(_('Enrollment'), max_length=1, default='O', choices=ENROLES)
+    enrole = CharField(_('Enrollment'), max_length=1, default='O', choices=ENROLES)
+
+    objects = TeamQuerySet.as_manager()
 
     @property
     def channels(self):
@@ -220,7 +230,7 @@ class Team(Model):
 
     @property
     def parent(self):
-        return (reverse('teams'), _('Teams'))
+        return type(self).objects.all()
 
     @property
     def team(self):

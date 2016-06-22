@@ -34,6 +34,7 @@ class MessageAlert(CreatedAlert):
 
     subject       = "{{ instance.subject }}"
     email_subject = "Message from User: {{ instance.subject }}"
+    object_name   = "User's personal messages: {{ object }}"
 
     private       = True
     default_hide  = False
@@ -48,6 +49,7 @@ class MessageAlert(CreatedAlert):
 
 class TestMessageAlert(MessageAlert):
     """Used in tests to get different results"""
+    object_name   = "Each message themselves for testing"
     alert_user = 'sender'
     test_only = True
     related_name = 'test_alerts'

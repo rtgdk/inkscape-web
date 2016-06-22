@@ -86,7 +86,7 @@ class AlertUserTests(ExtraTestCase):
 
     def test_subscribe_item(self):
         response = self.assertGet('alert.subscribe', slug=self.alert_type, pk=1)
-        self.assertContains(response, "Subscribe to Message from Testing Staff to Testing User")
+        self.assertContains(response, "Subscribe to Each message themselves for testing")
 
         response = self.assertPost('alert.subscribe', slug=self.alert_type, pk=1)
         self.assertContains(response, "Subscription created")

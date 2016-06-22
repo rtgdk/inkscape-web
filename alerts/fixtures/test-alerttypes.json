@@ -1,13 +1,13 @@
 [
 {
   "fields": {
-    "category": "U",
+    "category": "S",
     "group": null,
-    "created": "2016-01-28T19:05:43Z",
+    "created": "2016-06-20T21:31:01.252Z",
     "enabled": true,
     "private": false,
     "default_email": false,
-    "slug": "cmsdiff.page_published_alert",
+    "slug": "resources.resource_alert",
     "default_hide": false
   },
   "model": "alerts.alerttype",
@@ -17,11 +17,25 @@
   "fields": {
     "category": "U",
     "group": null,
-    "created": "2016-01-28T19:05:43Z",
+    "created": "2016-06-20T21:31:01.261Z",
     "enabled": true,
     "private": true,
     "default_email": true,
     "slug": "alerts.message_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype",
+  "pk": 2
+},
+{
+  "fields": {
+    "category": "S",
+    "group": null,
+    "created": "2016-06-20T21:59:50.820Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "cmsdiff.page_published_alert",
     "default_hide": false
   },
   "model": "alerts.alerttype",
@@ -31,21 +45,7 @@
   "fields": {
     "category": "U",
     "group": null,
-    "created": "2016-01-31T18:06:53Z",
-    "enabled": true,
-    "private": false,
-    "default_email": false,
-    "slug": "resources.resource_alert",
-    "default_hide": false
-  },
-  "model": "alerts.alerttype",
-  "pk": 4
-},
-{
-  "fields": {
-    "category": "U",
-    "group": null,
-    "created": "2016-02-04T02:33:49Z",
+    "created": "2016-06-22T14:30:41.965Z",
     "enabled": true,
     "private": true,
     "default_email": true,
@@ -53,6 +53,6 @@
     "default_hide": false
   },
   "model": "alerts.alerttype",
-  "pk": 5
+  "pk": 4
 }
 ]

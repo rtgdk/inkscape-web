@@ -33,6 +33,16 @@ from django.views.generic import UpdateView, CreateView, ListView
 
 import logging
 
+#
+# Models which are surpressed do not invalidate their caches when they
+# are being updated using 'updated_fields' but will for full saves.
+#
+SURPRESSED_MODELS = ['User']
+#
+# Ignored models never invalidate caches.
+#
+IGNORED_MODELS = ['Session']
+
 class BaseMiddleware(object):
     def get(self, data, key, default=None, then=None):
         """Returns a data key from the context_data, the view, a get
@@ -67,12 +77,15 @@ class TrackCacheMiddleware(BaseMiddleware):
     @classmethod
     def invalidate(cls, obj):
         """We invalidate all caches as needed based on the object's identity"""
+        #keys = list(cls.get_keys(obj))
         if isinstance(obj, Model):
-            keys = list(cls.get_caches(obj) | cls.get_caches(type(obj)))
-            cls.cache.delete_many(keys)
+            caches = list(cls.get_caches(obj) | cls.get_caches(type(obj)))
+            #print "Invalidating Keys: %s > %s" % (str(keys), str(caches))
+            cls.cache.delete_many(caches)
         elif isclass(obj) and issubclass(obj, Model):
-            keys = list(cls.get_caches(obj))
-            cls.cache.delete_many(keys)
+            caches = list(cls.get_caches(obj))
+            #print "Invalidating Keys: %s > %s" % (str(keys), str(caches))
+            cls.cache.delete_many(caches)
         else:
             logging.warning("!ERR DEL cache, '%s' is not a model." % str(obj))
 
@@ -82,32 +95,34 @@ class TrackCacheMiddleware(BaseMiddleware):
         cls.cache.clear()
 
     @classmethod
-    def get_caches(cls, datum):
-        key = cls.get_key(datum)
-        return cls.cache.get(key) or set() if key else set()
+    def get_caches(cls, obj):
+        caches = set()
+        for key in cls.get_keys(obj):
+            cache = cls.cache.get(key)
+            if cache is not None:
+                caches |= cache
+        return caches
 
     @classmethod
-    def get_key(cls, datum):
+    def get_keys(cls, obj):
         """Returns a unique key for this object"""
-        # Should be replaced with a django-way of generating the key
-        if isinstance(datum, Model):
-            return "meta:%s-%s" % (type(datum).__name__, str(datum.pk))
-        elif isclass(datum) and issubclass(datum, Model):
-            return "meta:%s" % datum.__name__
-        elif isinstance(datum, (list, tuple)):
-            if len(datum) > 0 and isinstance(datum[0], Model):
-                return "meta:%s" % type(datum[0]).__name__
-        elif isinstance(datum, QuerySet):
-            return "meta:%s" % datum.model.__name__
-        return None
+        if isinstance(obj, Model):
+            yield "meta:%s-%s" % (type(obj).__name__, str(obj.pk))
+        elif isclass(obj) and issubclass(obj, Model):
+            yield "meta:%s" % obj.__name__
+        elif isinstance(obj, (list, tuple)):
+            if len(obj) > 0 and isinstance(obj[0], Model):
+                yield "meta:%s" % type(obj[0]).__name__
+        elif isinstance(obj, QuerySet):
+            yield "meta:%s" % obj.model.__name__
 
-    def track_cache(self, datum, cache_key):
-        key = self.get_key(datum)
-        if key is not None:
+    def track_cache(self, obj, cache_key):
+        for key in self.get_keys(obj):
             caches = self.cache.get(key)
             if not caches:
                 caches = set()
             caches.add(cache_key)
+            #print "TRACKING: %s > %s" % (key, cache_key)
             # Keep a record of urls causing caches for longer
             self.cache.set(key, caches, int(self.cache_timeout * 1.5))
 
@@ -142,7 +157,10 @@ def object_deleted(sender, instance, *args, **kw):
 @receiver(signals.post_save)
 def object_saved(sender, instance, *args, **kw):
     """Invalidate page caches for an object if not 'updating_fields'"""
-    if kw.get('update_fields'):
+    model = type(instance).__name__
+    if kw.get('update_fields') and model in SURPRESSED_MODELS:
+        return
+    if model in IGNORED_MODELS:
         return
     TrackCacheMiddleware.invalidate(instance)
 

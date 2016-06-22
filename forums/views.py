@@ -25,17 +25,18 @@ from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import *
 
+from django_comments.models import Comment
 from .forms import NewTopicForm
 from .mixins import UserRequired
-from .models import *
+from .models import Q, ForumGroup, Forum, ForumTopic
 
 class ForumList(UserRequired, ListView):
     """A list of all available forums"""
-    title = _("Website Forums")
+    cache_tracks = [ForumGroup, ForumTopic, Comment]
 
     def get_queryset(self):
         language = translation.get_language()
-        return Forum.objects.filter(Q(lang=language)|Q(lang=''))
+        return Forum.objects.filter(Q(lang=language) | Q(lang=''))
 
 class ForumDetail(UserRequired, DetailView):
     """A list of all topics in a forum"""

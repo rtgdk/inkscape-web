@@ -66,6 +66,14 @@ class ForumGroup(Model):
         return reverse('forums:list')
 
 
+class ForumQuerySet(SelectRelatedQuerySet):
+    def breadcrumb_name(self):
+        return _('Website Forums')
+
+    def get_absolute_url(self):
+        return reverse('teams')
+
+
 @python_2_unicode_compatible
 class Forum(Model):
     group = ForeignKey(ForumGroup, related_name='forums')
@@ -86,7 +94,7 @@ class Forum(Model):
 
     last_posted = DateTimeField(_('Last Posted'), db_index=True, null=True, blank=True)
 
-    objects = SelectRelatedQuerySet.as_manager()
+    objects = ForumQuerySet.as_manager()
 
     class Meta:
         get_latest_by = 'last_posted'
@@ -155,7 +163,6 @@ class ForumTopic(Model):
             except TemplateDoesNotExist:
                 pass
         return 'forums/forumtopic_header.html'
-
 
     @property
     def comment_subject(self):

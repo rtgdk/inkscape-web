@@ -50,11 +50,10 @@ GLOBAL_WARN = set()
 
 class Command(django.core.management.commands.loaddata.Command):
 
-    def load_images_for_signal(self, sender, **kwargs):
+    def load_images_for_signal(self, sender, instance, **kwargs):
         not_found = set()
         is_found  = set()
 
-        instance = kwargs['instance']
         for field in sender._meta.fields:
             if not isinstance(field, FileField):
                 continue
@@ -98,8 +97,9 @@ class Command(django.core.management.commands.loaddata.Command):
         """Return the full paths to all possible fixture directories."""
         app_module_paths = []
         for app in apps.get_app_configs():
+
             app_module_paths.append(upath(app.path))
 
-        app_fixtures = [join(dirname(path), 'fixtures') for path in app_module_paths]
+        app_fixtures = [join(path, 'fixtures') for path in app_module_paths]
 
         return app_fixtures + list(settings.FIXTURE_DIRS)

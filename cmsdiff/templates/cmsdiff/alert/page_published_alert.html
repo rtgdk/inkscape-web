@@ -6,6 +6,10 @@
    <div class="status">{{ language }} </div>
    <div class="status">{{ revision.user }}</div>
    <div class="index">
-   <a href="{% url 'cms.diff' revision.pk %}">{% trans "See Full Diff" %}</a>
+     {% if revision %}
+       <a href="{% url 'cms.diff' revision.pk %}">{% trans "See Full Diff" %}</a>
+     {% else %}
+       No Diff Available
+     {% endif %}
    </div>
 </div>

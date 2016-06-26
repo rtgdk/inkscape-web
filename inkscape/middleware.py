@@ -34,10 +34,10 @@ from django.views.generic import UpdateView, CreateView, ListView
 import logging
 
 #
-# Models which are surpressed do not invalidate their caches when they
+# Models which are suppressed do not invalidate their caches when they
 # are being updated using 'updated_fields' but will for full saves.
 #
-SURPRESSED_MODELS = ['User']
+SUPPRESSED_MODELS = ['User']
 #
 # Ignored models never invalidate caches.
 #
@@ -158,7 +158,7 @@ def object_deleted(sender, instance, *args, **kw):
 def object_saved(sender, instance, *args, **kw):
     """Invalidate page caches for an object if not 'updating_fields'"""
     model = type(instance).__name__
-    if kw.get('update_fields') and model in SURPRESSED_MODELS:
+    if kw.get('update_fields') and model in SUPPRESSED_MODELS:
         return
     if model in IGNORED_MODELS:
         return

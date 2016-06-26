@@ -1,5 +1,5 @@
 {% extends 'resources/resource_base.html' %}
-{% load i18n extras staticfiles %}
+{% load i18n extras static %}
 
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
@@ -10,6 +10,12 @@
     <div id="upload">{{ form.download|placeholder:_("Paste your text here") }}</div>
     {% if form.download.errors %}
       <div class="errors">{{ form.download.errors }}</div>
+    {% endif %}
+    {% if form.thumbnail %}
+      <div id="thumbnail">{{ form.thumbnail }}</div>
+    {% endif %}
+    {% if form.thumbnail.errors %}
+      <div class="errors">{{ form.thumbnail.errors }}</div>
     {% endif %}
   </div>
   {% endif %}
@@ -27,8 +33,10 @@
     </div>
     <div class="side">
       {% for field in form.auto %}
-        <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
-        {{ field }}
+        <div id="{{ field.name }}_set">
+          <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+          {{ field }}
+        </div>
       {% endfor %}
     </div>
   </div>

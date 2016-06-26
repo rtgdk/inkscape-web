@@ -12,7 +12,7 @@
     {% include "breadcrumbs.html" %}
   </div>
   <div id="profile" style="background-color: #1c1c1c; color: white;">
-    {% if object.icon %}<img id="photo" src="{{ object.icon }}"/>{% endif %}
+    <img id="photo" src="{{ object.thumbnail_url }}"/>
     <h1 id="name">{{ object.name }}</h1>
     <p id="bio">{% if object.desc %}{{ object.desc }}{% endif %}</p>
   </div>

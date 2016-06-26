@@ -9,7 +9,7 @@
     {% if item.is_visible %}
     <table class="bioitem">
       <tr>
-        <td class="img" rowspan="2"><a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.icon }}" title="{{ item.name }}"/></a></td>
+        <td class="img" rowspan="2"><a class="link" href="{{ item.get_absolute_url }}"><img src="{{ item.thumbnail_url }}" title="{{ item.name }}"/></a></td>
         <td><p title="{{ item.name }}"><a href="{{ item.get_absolute_url }}">{{ item.name }}</a></p></td>
       </tr>
       <tr>

@@ -12,7 +12,7 @@
     <div id="gallery">
       {% for gallery in galleries %}
         <div class="galleryitem" title="">
-          <a class="link" href="{{ gallery.get_absolute_url }}"><img src="{{ gallery.icon }}"/></a>
+          <a class="link" href="{{ gallery.get_absolute_url }}"><img src="{{ gallery.thumbnail_url }}"/></a>
           <p class="label"><a href="{{ gallery.get_absolute_url }}">{{ gallery.name|truncatechars:40 }}</a></p>
         </div>
       {% empty %}

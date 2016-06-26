@@ -4,7 +4,7 @@
   <div class="galleryitem{% if not item.published %} unpublished{% endif %}" 
     title="{{ item.summary_string }}">
     <a class="link" href="{{ item.get_absolute_url }}">
-      <img src="{{ item.icon }}"/>
+      <img src="{{ item.thumbnail_url }}"/>
     </a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="minitabs">

@@ -323,7 +323,7 @@ div.tog a.remove:hover {
   background-position: -32px 0px;
 }
 
-input.hidden {
+.hidden {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;

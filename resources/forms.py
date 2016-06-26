@@ -185,7 +185,7 @@ class ResourceBaseForm(ModelForm):
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc', 'tags', 'download']:
+            if field.name in ['name', 'desc', 'tags', 'download', 'thumbnail']:
                 continue
             yield field
 

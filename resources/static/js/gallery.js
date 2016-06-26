@@ -21,15 +21,18 @@
 var max_size = 3000000; // 3MB file limit on previews
 var debug = true;
 
+String.prototype.toProperCase = function () {
+  return this.replace(/\w\S*/g, function(txt){return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();});
+};
+
 $(document).ready(function() {
-  var elem = $('.upload #id_download');
-  elem.addClass('hidden');
-  $('.image.uploader label').show();
-  lbl = $('.image.uploader label p');
-  img = $('.image.uploader label img');
-  img.error(function(e) {
-      if(img.data('static')) {
-          target = img.data('static') + 'mime/unknown.svg';
+  var elem = $('.upload input');
+  $('#upload, #thumbnail').addClass('hidden');
+
+  $('.uploader label').show();
+  $('.uploader label img').error(function(e) {
+      if($(this).data('static')) {
+          target = $(this).data('static') + 'mime/unknown.svg';
           if(this.src != target) { this.src = target; }
           return false;
       }
@@ -37,6 +40,7 @@ $(document).ready(function() {
 
   elem.on('change', function() {
     if (this.files && this.files[0]) {
+      var label = $('label[for="'+$(this).attr('id')+'"]');
       var file = this.files[0];
       var icon = get_mime_icon(file.type);
 
@@ -44,13 +48,20 @@ $(document).ready(function() {
         // File Reader allows us to show a preview image
         var reader = new FileReader();
         reader.onload = function (e) {
-            img.attr('src', e.target.result);
+            $('img', label).attr('src', e.target.result);
         }
         reader.readAsDataURL(file);
       } else {
-        img.attr('src', img.data('static') + 'mime/' + icon + '.svg');
+        $('img', label).attr('src', img.data('static') + 'mime/' + icon + '.svg');
       }
-      lbl.html(file.name);
+      $('p', label).html(file.name);
+      
+      if($('#id_name').val() == '') {
+          // No name set yet, use filename
+          var name = file.name.replace(/[-_]/g, ' ');
+          name = name.substr(0, name.lastIndexOf('.'));
+          $('#id_name').val(name.toProperCase());
+      }
     }
   });
 

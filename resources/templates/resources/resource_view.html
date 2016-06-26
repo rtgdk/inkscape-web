@@ -17,7 +17,7 @@
         </div>
       {% else %}
         <div class="image only">
-          <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.icon_only }}"></a>
+          <a href="{% url "view_resource" object.id %}"><img src="{{ object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.thumbnail_url }}"></a>
         </div>
       {% endif %}
     {% elif object.mime.is_text %}
@@ -30,7 +30,7 @@
       {% endif %}
     {% else %}
       <div class="image file">
-        <a href="{% url "download_resource" object.id object.filename %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
+        <a href="{% url "download_resource" object.id object.filename %}"><img src="{{ object.thumbnail_url }}" alt="{% trans "File Icon" %}"></a>
       </div>
     {% endif %}
   {% else %}
@@ -41,11 +41,11 @@
 {% elif object.link %}
   <div class="image link">
     <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
-      <img src="{{ object.icon }}" alt="{% trans "Link" %}"/>
+      <img src="{{ object.thumbnail_url }}" alt="{% trans "Link" %}"/>
     </a>
   </div>
 {% else %}
   <div class="image">
-    <img src="{{ object.icon }}" alt="{% trans "No file or broken upload" %}"/>
+    <img src="{{ object.icon_url }}" alt="{% trans "No file or broken upload" %}"/>
   </div>
 {% endif %}

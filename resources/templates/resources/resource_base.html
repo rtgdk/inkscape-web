@@ -22,14 +22,23 @@
       <div class="image uploader">
         <label for="id_download" style="display: none;">
           {% if object.mime.is_image %}
-            <img src="{{ object.download.url }}" data-static="{% static "" %}"/>
+            <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace image" %} {{ object.filename }}</p>
           {% elif object %}
-            <img src="{{ object.icon_only }}" data-static="{% static "" %}"/>
+            <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace file" %} {{ object.filename }}</p>
           {% else %}
-            <img src="{% static "images/upload.svg" %}"/>
+            <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
             <p>{% trans "Choose a file..." %}</p>
+          {% endif %}
+        </label>
+        <label for="id_thumbnail" style="display: none;">
+          {% if object.thumbnail %}
+            <img src="{{ object.thumbnail.url }}" alt="{% trans "Click to change" %}">
+            <p>{% trans "Replace thumbnail:" %} {{ object.thumbnail.name }}</p>
+          {% else %}
+            <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
+            <p>{% trans "Choose thumbnail" %}</p>
           {% endif %}
         </label>
       </div>

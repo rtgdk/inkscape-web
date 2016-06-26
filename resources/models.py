@@ -404,18 +404,19 @@ class Resource(Model):
                 self.media_type = 'application/octet-stream'
         return (None, None)
 
-    def icon(self):
+    def thumbnail_url(self):
+        """Returns a 150px thumbnail either from the thumbnail,
+           the image itself or the mimetype icon"""
         if not self.thumbnail and self.mime().is_image():
             if self.download and os.path.exists(self.download.path) \
               and self.download.size < settings.MAX_PREVIEW_SIZE:
                 return self.download.url
-        return self.icon_only()
-
-    def icon_only(self):
-        """Returns a 150px icon either from the thumbnail, the image itself or the mimetype"""
         if self.thumbnail and os.path.exists(self.thumbnail.path):
             return self.thumbnail.url
-        elif not self.download:
+        return self.icon_only()
+
+    def icon_url(self):
+        if not self.download:
             icon = "broken"
             if self.link:
                 icon = "video" if self.is_video else "link"
@@ -687,7 +688,7 @@ class Gallery(Model):
             self.user == user or user.is_superuser \
               or (user.groups.count() and self.group in user.groups.all()))
 
-    def icon(self):
+    def thumbnail_url(self):
         if self.thumbnail:
             return self.thumbnail.icon()
         for item in self.items.all():

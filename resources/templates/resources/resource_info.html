@@ -20,14 +20,14 @@
           {% elif object.mime.is_text %}
             <a href="{{ object.get_absolute_url }}"><img src="{% static "mime/text.svg" %}" title="{{ object.media_type }}"/></a>
           {% else %}
-              <a href="{% url "view_resource" object.id %}"><img src="{{ object.icon }}" alt="{% trans "File Icon" %}"></a>
+              <a href="{% url "view_resource" object.id %}"><img src="{{ object.thumbnail_url }}" alt="{% trans "File Icon" %}"></a>
           {% endif %}
         {% elif object.link %}
           <a href="{{ object.link }}" title="{% trans "External Link" %}: {{ object }}">
-            <img src="{{ object.icon }}" alt="{% trans "Item Image" %}"/>
+            <img src="{{ object.thumbnail_url }}" alt="{% trans "Item Image" %}"/>
           </a>
         {% else %}
-          <img src="{{ object.icon }}" alt="{% trans "No file or broken upload" %}"/>
+          <img src="{{ object.icon_url }}" alt="{% trans "No file or broken upload" %}"/>
         {% endif %}
         <a class="button" href="{{ object.get_absolute_url }}">{% trans "View" %}</a>
       </div>

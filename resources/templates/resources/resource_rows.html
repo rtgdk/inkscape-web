@@ -1,4 +1,8 @@
-{% load i18n pagination_tags %}
+{% load i18n static pagination_tags %}
+
+{% block "css" %}
+  <link rel="stylesheet" type="text/css" href="{% static "css/bio.css" %}"/>
+{% endblock %}
 
 <div id='errors'></div>
 

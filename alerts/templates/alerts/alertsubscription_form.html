@@ -10,7 +10,7 @@
     {% endblock %}
 
 {% block "dialog-body" %}
-  {% url "alertsettings" as alertsettings_url %}
+  {% url "alert.settings" as alertsettings_url %}
   {% if alert.default_email %}
     <div>{% blocktrans %}You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
   {% else %}

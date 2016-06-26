@@ -4,16 +4,18 @@
 {% blocktrans %}you are subscribed to website changes at {{ site }}.{% endblocktrans %}
 {% blocktrans with web_page=instance %}The page '{{ web_page }}' was changed:{% endblocktrans %}
 
-{% trans "Link" %}: {{ site }}{{ instance.get_absolute_url }}
-{% trans "Published by" %}: {{ revision.user }}
-{% trans "Language" %}: {{ language }}
+{% trans "Link:" %} {{ site }}{{ instance.get_absolute_url }}
+{% trans "Published by:" %} {{ revision.user }}
+{% trans "Language:" %} {{ language }}
+{% trans "Summary:" %} {{ revision.comment }}
 
-{% trans "Overview of changes" %}: {{ revision.comment }}
+
+{% trans "Overview of changes" %}:
 
 {{ revision.diff.stub_text }}
 
 {% if revision %}
-    {% blocktrans with link=revision.diff.get_absolute_url%}You can find the full diff at {{ site }}{{% url "cms.diff" revision.pk %}{% endblocktrans %}
+    {% blocktrans with %}You can find the full diff at {{ site }}{{% url "cms.diff" revision.pk %}{% endblocktrans %}
 {% else %}
-  Mo full diff available (possible error)
+    {% trans "No full diff available (possible error)." %}
 {% endif %}

@@ -19,11 +19,20 @@
   border-radius: 8px 8px 0 0;
 }
 
+.comment.locked {
+  border-radius: 8px;
+}
+
 .comment .details {
   background-color: #eee;
   border-bottom: 1px solid #ddd;
   text-align: left;
   border-radius: 8px 8px 0 0;
+}
+
+.comment.locked .details {
+  border-bottom: none;
+  border-radius: 8px;
 }
 .comment .details div,
 .comment .cfooter div {

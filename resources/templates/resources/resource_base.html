@@ -23,10 +23,10 @@
         <label for="id_download" style="display: none;">
           {% if object.mime.is_image %}
             <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace image" %} {{ object.filename }}</p>
+            <p>{% trans "Replace image:" %} {{ object.filename }}</p>
           {% elif object %}
             <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace file" %} {{ object.filename }}</p>
+            <p>{% trans "Replace file:" %} {{ object.filename }}</p>
           {% else %}
             <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
             <p>{% trans "Choose a file..." %}</p>
@@ -38,7 +38,7 @@
             <p>{% trans "Replace thumbnail:" %} {{ object.thumbnail.name }}</p>
           {% else %}
             <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
-            <p>{% trans "Choose thumbnail" %}</p>
+            <p>{% trans "Choose thumbnail..." %}</p>
           {% endif %}
         </label>
       </div>

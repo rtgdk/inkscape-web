@@ -130,7 +130,7 @@ class ForumTopic(Model):
     sticky = IntegerField(_('Sticky Priority'), default=0,
         help_text=_('If set, will stick this post to the top of the topics '
           'list. Higher numbers appear nearer the top. Same numbers will '
-          'apear together, sorted by date.'))
+          'appear together, sorted by date.'))
     locked = BooleanField(default=False, help_text=_('Topic is locked by moderator.'))
 
     objects = SelectRelatedQuerySet.as_manager()

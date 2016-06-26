@@ -2,11 +2,7 @@
 
   <h2>
     <a href="{{ rss_url }}"><img src="{% static "images/rss.png" %}" title="{% trans "RSS Feed" %}"></a>
-    {% blocktrans count counter=object_list.count %}
-    Found {{ counter }} Item
-    {% plural %}
-    Found {{ counter }} Items
-    {% endblocktrans %}
+    {% blocktrans count counter=object_list.count %}Found {{ counter }} Item{% plural %}Found {{ counter }} Items{% endblocktrans %}
   </h2>
   
   {% if object_list or query %}

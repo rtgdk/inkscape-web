@@ -510,7 +510,7 @@ div.toc ol, #toc.right ol {
 }
 .header .nav > ul > li:last-child > a {
   border-right: 0 none;
-  border-top-right-radius: 0 10px 0 0;
+  border-top-right-radius: 10px;
 }
 body > .footer {
   clear: both;

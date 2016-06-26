@@ -14,7 +14,7 @@
   {% if alert.default_email %}
     <div>{% blocktrans %}You will receive an email alert by default when you subscribe, but these can be switched off in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
   {% else %}
-    <div>{% blocktrans %}You will <strong>NOT</strong> receive an email alert by when you subscribe, but these can be switched on in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
+    <div>{% blocktrans %}You will <strong>NOT</strong> receive an email alert when you subscribe, but these can be switched on in your <a href="{{ alertsettings_url }}">subscription settings</a>.{% endblocktrans %}</div>
   {% endif %}
 
   <p>{{ alert.desc|safe }}</p>

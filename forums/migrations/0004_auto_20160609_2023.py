@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='forumtopic',
             name='sticky',
-            field=models.IntegerField(default=0, help_text='If set, will stick this post to the top of the topics list. Higher numbers appear nearer the top. Same numbers will apear together, sorted by date.', verbose_name='Sticky Priority'),
+            field=models.IntegerField(default=0, help_text='If set, will stick this post to the top of the topics list. Higher numbers appear nearer the top. Same numbers will appear together, sorted by date.', verbose_name='Sticky Priority'),
         ),
     ]

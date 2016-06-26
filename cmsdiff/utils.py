@@ -151,11 +151,10 @@ class RevisionDiff(object):
 
     @property
     def stub_text(self):
-        """Returns a html of the stub text"""
-        return mark_safe(
-          self.stub.replace('<span>', '').replace('</span>', '\n\n')\
-            .replace('<del style="background:#ffe6e6;">', '-->').replace('</del>', '<--')\
-            .replace('<ins style="background:#e6ffe6;">', '++>').replace('</ins>', '<++'))
+        """Returns a html of the stub text""" 
+        return mark_safe(self.stub.replace('<span>', '\n\n').replace('</span>', '')\
+                      .replace('<del style="background:#ffe6e6;">', '<--').replace('</del>', '-->')\
+                      .replace('<ins style="background:#e6ffe6;">', '<++').replace('</ins>', '++>'))
 
     @property
     def stub(self):

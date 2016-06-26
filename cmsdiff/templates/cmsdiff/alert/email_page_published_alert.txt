@@ -15,7 +15,8 @@
 {{ revision.diff.stub_text }}
 
 {% if revision %}
-    {% blocktrans with %}You can find the full diff at {{ site }}{{% url "cms.diff" revision.pk %}{% endblocktrans %}
+    {% url "cms.diff" revision.pk as the_url %}
+    {% blocktrans %}You can find the full diff at {{ site }}{{ the_url }}{% endblocktrans %}
 {% else %}
     {% trans "No full diff available (possible error)." %}
 {% endif %}

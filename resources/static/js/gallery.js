@@ -52,7 +52,7 @@ $(document).ready(function() {
         }
         reader.readAsDataURL(file);
       } else {
-        $('img', label).attr('src', img.data('static') + 'mime/' + icon + '.svg');
+        $('img', label).attr('src', $('img', label).data('static') + 'mime/' + icon + '.svg');
       }
       $('p', label).html(file.name);
       

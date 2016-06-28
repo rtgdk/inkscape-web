@@ -26,6 +26,9 @@ String.prototype.toProperCase = function () {
 };
 
 $(document).ready(function() {
+  if($('#upload textarea').length > 0) {
+    return;
+  }
   var elem = $('.upload input');
   $('#upload, #thumbnail').addClass('hidden');
 

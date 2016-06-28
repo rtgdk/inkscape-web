@@ -352,7 +352,6 @@ class ResourceList(CategoryListView):
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()
-            data['tag_clear_url'] = self.get_tag_clear_url()
 
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
@@ -374,6 +373,9 @@ class ResourceList(CategoryListView):
             data['upload_url'] = reverse("resource.upload", kwargs=k)
             data['upload_drop'] = reverse("resource.drop", kwargs=k)
 
+        if 'tags' in data:
+            data['tag_clear_url'] = self.get_url(exclude='tags')
+
         data['items'] = data['object_list']
         data['title'] = "InkSpaces"
         for name in ('galleries', 'team', 'username', 'category'):
@@ -385,8 +387,6 @@ class ResourceList(CategoryListView):
                     break
         return data
 
-    def get_tag_clear_url(self):
-        return self.get_url(exclude='tags')
 
 class GalleryView(ResourceList):
     """Allow for a special version of the resource display for galleries"""

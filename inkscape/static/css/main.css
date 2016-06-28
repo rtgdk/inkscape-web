@@ -1386,3 +1386,20 @@ ul.ellipses-hidden li.hide {
   cursor: pointer;
   display: none;
 }
+/* Tag Cloud */
+.cloud > span > a {
+  color: #444;
+}
+.cloud > span > a:hover {
+  text-decoration: none;
+}
+.cloud span {
+  padding: 4px 6px;
+}
+.cloud span.size0 { font-size: 90%; }
+.cloud span.size1 { font-size: 100%; }
+.cloud span.size2 { font-size: 120%; }
+.cloud span.size3 { font-size: 140%; }
+.cloud span.size4 { font-size: 160%; }
+.cloud span.size5 { font-size: 180%; }
+.cloud span.size6 { font-size: 200%; }

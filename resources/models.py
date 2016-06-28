@@ -139,10 +139,24 @@ class Category(Model):
         return reverse('resources', kwargs={'category': self.value})
 
 
+class TagQuerySet(QuerySet):
+    def as_cloud(self, link, size=10):
+        result = []
+        qs = self.annotate(count=Count(link)).values_list('name', 'count')
+        tags = dict(qs.order_by('-count')[0:size])
+        maximum = float(max(tags.values()))
+        for name in sorted(tags):
+            result.append((name, int(tags[name] / maximum * 6)))
+        return result
+        
+
+
 class Tag(Model):
     name     = CharField(max_length=16, unique=True)
     category = ForeignKey('TagCategory', related_name='tags', **null)
-    
+
+    objects  = TagQuerySet.as_manager()
+
     class Meta:
         ordering = 'name',
     
@@ -166,15 +180,16 @@ class TagCategory(Model):
     def __unicode__(self):
         return self.name
 
+class ResourceQuerySet(QuerySet):
+    def breadcrumb_name(self):
+        return _("InkSpaces")
+
 
 class ResourceManager(Manager):
     def get_queryset(self):
-        qs = super(ResourceManager, self).get_queryset()
+        qs = ResourceQuerySet(self.model, using=self._db)
         qs.query.select_related = True
         return qs
-
-    def breadcrumb_name(self):
-        return _("InkSpaces")
 
     @property
     def parent(self):
@@ -413,7 +428,7 @@ class Resource(Model):
                 return self.download.url
         if self.thumbnail and os.path.exists(self.thumbnail.path):
             return self.thumbnail.url
-        return self.icon_only()
+        return self.icon_url()
 
     def icon_url(self):
         if not self.download:
@@ -649,6 +664,10 @@ class Gallery(Model):
     def __str__(self):
         return unicode(self).encode('utf8')
 
+    def tag_cloud(self):
+        """Returns a cloud collection"""
+        return Tag.objects.filter(resources__galleries__id=self.pk).as_cloud('resources')
+
     def save(self, *args, **kwargs):
         set_slug(self)
         super(Gallery, self).save(*args, **kwargs)
@@ -693,7 +712,7 @@ class Gallery(Model):
             return self.thumbnail.icon()
         for item in self.items.all():
             if item.is_visible():
-                return item.icon()
+                return item.icon_url()
         return os.path.join(settings.STATIC_URL, 'images', 'folder.svg')
 
     def __len__(self):

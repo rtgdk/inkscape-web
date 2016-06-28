@@ -40,6 +40,25 @@
           {% endfor %}
         </div>
       {% endif %}
+    {% empty %}
+      {% with object.tag_cloud as cloud %}
+        {% if cloud %}
+          <h2>Tag Cloud</h2>
+          <div class="cloud">
+            {% for tag, size in cloud %}
+              {% if tags == tag %}
+              <span class="selected size{{ size }}">
+                <a title="{% trans "Clear Tag" %}" href="{{ tag_clear_url }}">{{ tag }}
+                  <img src="{% static "images/clear-search.svg" %}"/>
+                </a>
+              </span>
+              {% else %}
+                <span class="size{{ size }}"><a href="?tags={{ tag }}">{{ tag }}</a></span>
+              {% endif %}
+            {% endfor %}
+          </div>
+        {% endif %}
+      {% endwith %}
     {% endfor %}
 
     {% for category in categories %}

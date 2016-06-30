@@ -1233,7 +1233,10 @@ div.tooltip {
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
   background-color: #0060b0;
-  border-color: rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.2) rgba(0, 0, 0, 0.5);
+  border-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.6);
+}
+.btn-primary::-moz-focus-inner {
+  border: 0;
 }
 .btn-default:hover,
 .btn-default:focus,
@@ -1361,21 +1364,12 @@ div.pagination a:hover {
 }
 
 #bread .breadcrumbs {
+  color: #999;
   background-color: #1a1a1a;
-  padding-left: 10px;
+  padding: 5px 16px;
 }
 #bread .breadcrumbs a {
   color: white;
-  padding: 6px;
-  display: inline-block;
-}
-#bread .breadcrumbs span {
-  color: #999;
-  padding: 5px 6px;
-}
-#bread .breadcrumbs a:hover {
-  text-decoration: none;
-  background-color: #222;
 }
 
 ul.ellipses-hidden li.hide {

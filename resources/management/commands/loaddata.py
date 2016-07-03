@@ -22,7 +22,7 @@
 
 """
 Overloads django's loaddata command so it will install media fixtures
-These are colelctions of files ready to be used with database entries
+These are collections of files ready to be used with database entries
 for example FileField and ImageField.
 """
 

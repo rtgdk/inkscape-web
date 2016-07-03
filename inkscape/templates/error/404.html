@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block "error-msg" %}
-  <h1>{% block "title" %}{% trans "Page Not Found" %}{% endblock %}</h1>
+  <h1>{% block title %}{% trans "Page Not Found" %}{% endblock %}</h1>
   {% blocktrans trimmed %}
     <p>Couldn't find what you were looking for.</p>
     <p>If you don't know why you got here, maybe you'd like to <a href="/search/">search</a> to see if you can find what you were looking for.</p>

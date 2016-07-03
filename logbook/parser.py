@@ -216,7 +216,7 @@ def get_agent(agent):
 
 
 def parse_agent(agent_string):
-    """Get the agent string parsed into it's useful parts"""
+    """Get the agent string parsed into its useful parts"""
     agent = user_agents.parse(agent_string)
     # Not sure why user_agents doesn't parse windows
     if agent.os.family.startswith('Windows') and ' ' in agent.os.family:

@@ -11,17 +11,17 @@
       <p>{{ section.desc }}</p>
       {% if section.people %}
         <table style="width: 100%;">
-          <tr><th>Name</th><th>Involvement</th><th>Impact</th></tr>
+          <tr><th>{% trans "Name" %}</th><th>{% trans "Involvement" %}</th><th>{% trans "Impact" %}</th></tr>
           {% for key, person in section.people.items %}
             <tr>
               <td>{{ person.name }}</td>
-              <td>{% if person.start == person.end %}{{ person.start }}{% else %}{{ person.start }}-{{ person.end}}{% endif %}</td>
+              <td>{% if person.start == person.end %}{{ person.start }}{% else %}{{ person.start }}–{{ person.end }}{% endif %}</td>
               <td>{{ person.count }}</td>
             </tr>
           {% endfor %}
         </table>
       {% else %}
-        <p>This section is not coded for yet.</p>
+        <p>{% trans "This section is not coded yet." %}</p>
       {% endif %}
     {% endfor %}
   </div>

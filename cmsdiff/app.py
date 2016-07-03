@@ -105,8 +105,8 @@ class CmsDiffConfig(AppConfig):
     def ready(self):
         from cms.models import Page
 
-        # We setup a property on any revision to get it's page. This is needed to link
-        # the revision back to it's progenitor object and thus to other revisons
+        # We setup a property on any revision to get its page. This is needed to link
+        # the revision back to its progenitor object and thus to other revisions
         try:
             page_type = ContentType.objects.get_for_model(Page)
         except RuntimeError:

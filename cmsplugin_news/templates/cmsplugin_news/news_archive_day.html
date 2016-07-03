@@ -1,10 +1,8 @@
 {% extends "cmsplugin_news/base.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "News for" %} {{ day }}{% endblock %}
-
 {% block "newscontent" %}
-  <h1>{% trans "News for" %} {{ day }}</h1>
+  <h1>{% block title %}{% trans "News for" %} {{ day }}{% endblock %}</h1>
 
   {% for object in object_list %}
     {% include "cmsplugin_news/list_item.html" %}

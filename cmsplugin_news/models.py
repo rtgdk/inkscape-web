@@ -88,7 +88,7 @@ class News(Model):
            'only applies for items with an empty "content" field.'))
 
     # The translation functionality could be brought into a more generic format
-    # By making a meta class which doesn't have it's own table but contains
+    # By making a meta class which doesn't have its own table but contains
     # these two fields and specifying 1. a list of translated fields which
     # __getattr always passes UP to the translated version and 2. a list of
     # base fields which __getattr always passes DOWN to the root.

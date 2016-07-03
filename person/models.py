@@ -92,7 +92,7 @@ class User(AbstractUser):
     def photo_preview(self):
         if self.photo:
             return '<img src="%s" style="max-width: 200px; max-height: 250px;"/>' % self.photo.url
-        # Return an embeded svg, it's easier than dealing with static files.
+        # Return an embedded svg, it's easier than dealing with static files.
         return """
         <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="200" height="250">
            <path style="stroke:#6c6c6c;stroke-width:.5px;fill:#ece8e6;"

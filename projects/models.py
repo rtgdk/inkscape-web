@@ -204,7 +204,7 @@ class Criteria(Model):
 
 
 class ProjectUpdate(Model):
-    """A project should always have at least one update with it's primary description"""
+    """A project should always have at least one update with its primary description"""
 
     project  = ForeignKey(Project, related_name='updates')
     describe = TextField(_("Description"), validators=[MaxLengthValidator(12288)])

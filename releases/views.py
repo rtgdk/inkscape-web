@@ -132,7 +132,7 @@ class ReleaseView(DetailView):
 
         # Hide pre-release revisions if the master release is 'released'
         # We first record where in the ordered list the master release is
-        # and flag if it's been reeleased. Items that happen /after/ that
+        # and flag if it's been released. Items that happen /after/ that
         # are pre-releases.
         is_released = False
 

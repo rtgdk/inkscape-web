@@ -38,8 +38,8 @@ LANGUAGES = (
     ('cs', 'Czech'),
     ('ru', 'Russian'),
     ('ja', 'Japanese'),
-    ('zh', 'Chinese'),
-    ('zh-hant', 'Simplified Chinese'),
+    ('zh', 'Simplified Chinese'),
+    ('zh-hant', 'Traditional Chinese'),
     ('ko', 'Korean'),
 )
 
@@ -56,6 +56,7 @@ STATIC_URL = '/static/'
 EXTRA_APPS = []
 
 SESSION_COOKIE_AGE = 1209600 # Two weeks
+SESSION_CLIENT = 'person.tests'
 ENABLE_CACHING = False
 ENABLE_DEBUG_TOOLBAR = False
 ENABLE_DESIGN_TOOLBAR = False
@@ -86,9 +87,6 @@ IRCBOT_PID = os.path.join(PROJECT_PATH, 'data', 'ircbot.pid')
 STATICFILES_DIRS = []
 LOCALE_PATHS = (
   os.path.join(PROJECT_PATH, 'data', 'locale', 'website'),
-)
-ROSETTA_EXTRA_PATHS = (
-  os.path.join(PROJECT_PATH, 'data', 'locale', 'inkscape'),
 )
 
 TEMPLATES = [{

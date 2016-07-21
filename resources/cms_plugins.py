@@ -46,7 +46,7 @@ class CMSCategoryPlugin(CMSPluginBase):
         items = instance.source.items.filter(published=True)
         context.update({
             'placeholder': placeholder,
-            'items'      : items.order_by('-edited'),
+            'object_list': items.order_by('-edited'),
             'limit'      : instance.limit,
         })
         return context

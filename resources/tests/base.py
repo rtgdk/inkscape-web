@@ -29,7 +29,6 @@ __unittest = True
 from autotest.base import HaystackTestCase
 
 from resources.models import Resource
-from inkscape.middleware import AutoBreadcrumbMiddleware
 
 class BaseCase(HaystackTestCase):
     fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
@@ -68,32 +67,4 @@ class BaseCase(HaystackTestCase):
                 "Endorsement doesn't match for file: %s and sig %s" %
                 (resource.download, resource.signature))
 
-
-class BaseBreadcrumbCase(BaseCase):
-    def assertBreadcrumbRequest(self, url, *terms, **kwargs):
-        cont = self.assertGet(url, **kwargs).content
-        crumbs = cont.split('breadcrumbs">', 1)[-1].split('</div>')[0]
-        try:
-            for x, term in enumerate(terms):
-                if len(term) == 1:
-                    self.assertIn('<em class="crumb">%s<' % term, crumbs)
-                elif x == len(terms) - 1 and len(terms) != 1:
-                    self.assertIn('<em class="crumb">%s<' % term[1], crumbs)
-                else:
-                    self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
-        except AssertionError:
-            raise AssertionError("Breadcrumb %s missing from %s" % (
-                str(term), crumbs))
-
-    def assertBreadcrumbs(self, obj, *terms, **kwargs):
-        """Test breadcrumbs in both generation and template request"""
-        kwargs['object'] = obj
-        crumbs = list(AutoBreadcrumbMiddleware().get_breadcrumbs(kwargs))
-        (links1, names1) = zip(*crumbs)
-        (links2, names2) = zip(*terms)
-        # The i18n gets in the way of testing the names
-        #self.assertTupleEqual(names1, names2)
-        self.assertTupleEqual(links1, links2)
-        if hasattr(obj, 'get_absolute_url'):
-            self.assertBreadcrumbRequest(obj.get_absolute_url(), *terms)
 

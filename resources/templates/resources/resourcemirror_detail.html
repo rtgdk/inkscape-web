@@ -14,7 +14,7 @@
 {% endblock %}
 
 {% block "downloads" %}
-  {% with object.resources as items %}{{ block.super }}{% endwith %}
+  {% with object.resources as object_list %}{{ block.super }}{% endwith %}
 {% endblock %}
 
 {% block "footer" %}

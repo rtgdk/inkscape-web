@@ -56,22 +56,26 @@ class SelectRelatedQuerySet(QuerySet):
 
 @python_2_unicode_compatible
 class ForumGroup(Model):
-    breadcrumb_name = lambda self: _('Website Forums')
     name = CharField(max_length=128, unique=True)
+
+    breadcrumb_name = lambda self: self.forums.all().breadcrumb_name()
+    get_absolute_url = lambda self: self.forums.all().get_absolute_url()
+    parent = property(lambda self: self.forums.all().parent)
 
     def __str__(self):
         return self.name
 
+class ForumQuerySet(SelectRelatedQuerySet):
+    @property
+    def parent(self):
+        page = reverse('pages-details-by-slug', kwargs={'slug': 'community'})
+        return (page, _('Community'))
+
+    def breadcrumb_name(self):
+        return _('Forums')
+
     def get_absolute_url(self):
         return reverse('forums:list')
-
-
-class ForumQuerySet(SelectRelatedQuerySet):
-    def breadcrumb_name(self):
-        return _('Website Forums')
-
-    def get_absolute_url(self):
-        return reverse('teams')
 
 
 @python_2_unicode_compatible

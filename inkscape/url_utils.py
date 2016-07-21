@@ -24,12 +24,16 @@ These are important url debugging and iter tools (introspective)
 import types
 import logging
 
-import inkscape.urls
+logger = logging.getLogger('main')
+logger.setLevel(logging.INFO)
 
+from django.core.urlresolvers import reverse
+from django.utils.text import slugify
 from django.views.generic import (
     ListView, DetailView, CreateView, UpdateView, DeleteView
 )
 
+import inkscape.urls
 
 class Url(object):
     is_module = False
@@ -61,14 +65,29 @@ class Url(object):
         return None
 
     @property
+    def slug(self):
+        name = self.name
+        if name is None:
+            return slugify(self.pattern)
+        if self.kwargs:
+            name += '?' + '+'.join(self.kwargs)
+        return name
+
+    @property
+    def kwargs(self):
+        """Gathers all kwargs from this and every parent regex"""
+        kw = self.parent.kwargs if self.parent else {}
+        kw.update(self.entry.regex.groupindex)
+        return kw
+
+    @property
     def full_pattern(self):
         pattern = self.pattern.lstrip('^').rstrip('$')
         if self.parent:
             if pattern and self.parent.pattern.endswith('$'):
-                logging.warning("Possible broken url, parent url ends "
+                logger.warning("Possible broken url, parent url ends "
                         "string matching: " + unicode(self.parent))
-            if '__debug__' not in self.parent.pattern:
-                pattern = self.parent.full_pattern + pattern
+            pattern = self.parent.full_pattern + pattern
         if pattern == 'None/':
             return '/'
         return pattern
@@ -79,6 +98,15 @@ class Url(object):
             return self.entry.namespace
         if self.parent is not None:
             return self.parent.namespace
+        return None
+
+    def test_url(self, *args, **kw):
+        """Atttempt to generate a test url based on these kwargs"""
+        if self.name:
+            return reverse(self.name, args=args, kwargs=kw)
+        if not self.kwargs:
+            # Construct the pattern without any
+            return '/' + self.full_pattern.lstrip('^').rstrip('$')
         return None
 
 
@@ -113,7 +141,7 @@ class UrlView(Url):
 
     def __unicode__(self):
         tag = super(UrlView, self).__unicode__()
-        return "%s > %s %s.%s" % (tag, self.url_type, self.app, self.model.__name__)
+        return "%s > %s %s.%s" % (tag, self.url_type_name, self.app, self.model.__name__)
 
     URL_UNKNOWN_TYPE = 0
     URL_LIST_TYPE = 1
@@ -134,7 +162,11 @@ class UrlView(Url):
 
     @property
     def url_type(self):
-        return self.VIEW_NAMES[self.get_url_type(self.module)]
+        return self.get_url_type(self.module)
+
+    @property
+    def url_type_name(self):
+        return self.VIEW_NAMES[self.url_type]
 
     @property
     def app(self):
@@ -159,9 +191,10 @@ class WebsiteUrls(object):
             key = (item.name, item.full_pattern)
             if not item.is_module:
                 if key is not None and key in dupes:
-                    raise KeyError("URL Name is already used '%s' -> '%s'" % key\
-                           + "a) " + unicode(dupes[key])\
-                           + "b) " + unicode(item) + '\n')
+                    logger.error(
+                       "URL Name is already used '%s' -> '%s'" % key\
+                       + "\n  a) " + unicode(dupes[key])\
+                       + "\n  b) " + unicode(item) + '\n')
                 dupes[key] = item
             yield item
 

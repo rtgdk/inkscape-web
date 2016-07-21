@@ -21,7 +21,6 @@
 from django.utils import timezone
 
 from django.db.models import *
-from django.db.models.query import QuerySet
 from django.utils.translation import ugettext_lazy as _
 from django.core.urlresolvers import reverse, NoReverseMatch
 from django.conf import settings

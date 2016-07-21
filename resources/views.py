@@ -50,33 +50,28 @@ class GalleryMixin(object):
     model = Gallery
 
 
-class DeleteGallery(GalleryMixin, OwnerUpdateMixin, DeleteView):
-    pass
+class DeleteGallery(GalleryMixin, OwnerDeleteMixin, DeleteView):
+    title = _("Delete Gallery")
 
 class CreateGallery(GalleryMixin, OwnerCreateMixin, CreateView):
     form_class = GalleryForm
+    title = _("Create Gallery")
 
 class EditGallery(GalleryMixin, OwnerUpdateMixin, UpdateView):
+    title = _("Edit Gallery")
     form_class = GalleryForm
     get_group = lambda self: None
 
 class GalleryList(GalleryMixin, OwnerViewMixin, ListView):
-    title = _("All Resource Galleries")
+    pass
 
-class DeleteResource(OwnerUpdateMixin, DeleteView):
-    model  = Resource
-    title = _("Delete Resource")
-
-    def get_success_url(self):
-        # Called before object is deleted
-        obj = self.get_object().parent
-        if hasattr(obj, 'get_absolute_url'):
-            return obj.get_absolute_url()
-        return reverse('my_profile')
+class DeleteResource(OwnerDeleteMixin, DeleteView):
+    model = Resource
+    title = _("Delete")
 
 class EditResource(OwnerUpdateMixin, UpdateView):
     model = Resource
-    title = _("Edit Resource")
+    title = _("Edit")
 
     def get_form_class(self):
         category = getattr(self.object.category, 'id', 0)
@@ -84,7 +79,7 @@ class EditResource(OwnerUpdateMixin, UpdateView):
 
 class PublishResource(OwnerUpdateMixin, DetailView):
     model = Resource
-    title = _("Publish Resource")
+    title = _("Publish")
 
     def post(self, request, *args, **kwargs):
         item = self.get_object()
@@ -100,7 +95,9 @@ class MoveResource(OwnerUpdateMixin, UpdateView):
     
     def get_object(self):
         self.source = None
+        self.title = _('Copy to Gallery')
         if 'source' in self.kwargs:
+            self.title = _('Move to Gallery')
             self.source = get_object_or_404(Gallery, pk=self.kwargs['source'])
         return super(MoveResource, self).get_object()
 
@@ -134,13 +131,6 @@ class UploadResource(OwnerCreateMixin, CreateView):
             self.gallery.items.add(form.instance)
         return ret
 
-class TagsJson(View):
-    def get(self, request):
-        # We could leverage category to style
-        # categorized tags differently in the suggestions list
-        context = {"tags" : [{"name": tag.name, "cat" : str(tag.category)} for tag in Tag.objects.all()]}
-        return JsonResponse(context, safe=False, content_type='application/json; charset=utf-8')
-
 class DropResource(UploadResource):
     content_type  = 'text/plain'
     template_name = 'resources/ajax/add.txt'
@@ -151,9 +141,18 @@ class DropResource(UploadResource):
         context = self.get_context_data(item=form.instance)
         return self.render_to_response(context)
 
+
 class PasteIn(UploadResource):
     form_class = ResourcePasteForm
     title = _("New PasteBin")
+
+    def get_context_data(self, **kw):
+        data = super(PasteIn, self).get_context_data(**kw)
+        data['object'] = Category.objects.get(pk=1)
+        data['object'].parent = self.request.user.resources.all()
+	data['object_list'] = None
+	return data
+
 
 class ViewResource(DetailView):
     model = Resource
@@ -178,6 +177,14 @@ class ViewResource(DetailView):
                 request.session['test'] = 'True'
                 self.object.set_viewed(request.session)
         return ret
+
+
+class TagsJson(View):
+    def get(self, request):
+        # We could leverage category to style
+        # categorized tags differently in the suggestions list
+        context = {"tags" : [{"name": tag.name, "cat" : str(tag.category)} for tag in Tag.objects.all()]}
+        return JsonResponse(context, safe=False, content_type='application/json; charset=utf-8')
 
 
 @login_required
@@ -294,6 +301,12 @@ class MirrorAdd(CreateView):
     model = ResourceMirror
     form_class = MirrorAddForm
 
+    def get_context_data(self, **kw):
+        data = super(MirrorAdd, self).get_context_data(**kw)
+        data['object_list'] = ResourceMirror.objects.all()
+        data['title'] = _("Create")
+        return data
+
 
 class ResourceList(CategoryListView):
     rss_view = 'resources_rss'
@@ -350,20 +363,31 @@ class ResourceList(CategoryListView):
     def get_context_data(self, **kwargs):
         data = super(ResourceList, self).get_context_data(**kwargs)
 
-        if 'category' in data:
-            data['tag_categories'] = data['category'].tags.all()
-
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
             data['team'] = Group.objects.get(team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
+            data['object_list'].instance = data['team']
+        elif data['username']:
+            data['object_list'].instance = data['username']
         
         if 'galleries' in data and data['galleries']:
             # our options are not yet returning the correct item
             try:
                 data['galleries'] = Gallery.objects.get(slug=data['galleries'])
+                data['object'] = data['galleries']
             except Gallery.DoesNotExist:
                 data['galleries'] = None
+
+        if 'category' in data:
+            data['tag_categories'] = data['category'].tags.all()
+            if 'object' in data:
+                # Set parent manually, since categories don't naturally have parents.
+                data['category'].parent = data['object']
+            data['object'] = data['category']
+
+        if 'tags' in data:
+            data['tag_clear_url'] = self.get_url(exclude='tags')
 
         if data['username'] == self.request.user \
           or ('galleries' in data and data.get('team_member', False)):
@@ -373,18 +397,6 @@ class ResourceList(CategoryListView):
             data['upload_url'] = reverse("resource.upload", kwargs=k)
             data['upload_drop'] = reverse("resource.drop", kwargs=k)
 
-        if 'tags' in data:
-            data['tag_clear_url'] = self.get_url(exclude='tags')
-
-        data['items'] = data['object_list']
-        data['title'] = "InkSpaces"
-        for name in ('galleries', 'team', 'username', 'category'):
-            if data.get(name, None) is not None:
-                if isinstance(data[name], Model):
-                    data['object'] = data[name]
-                    if name == 'galleries':
-                        data['title'] = None
-                    break
         return data
 
 
@@ -392,10 +404,11 @@ class GalleryView(ResourceList):
     """Allow for a special version of the resource display for galleries"""
     opts = ResourceList.opts + \
        (('galleries', 'galleries__slug', False),)
-    cats = ()
+    cats = (('category', _("Media Category"), 'get_categories'),)
 
     def get_template_names(self):
         return ['resources/resourcegallery_specific.html']
+
 
 class ResourcePick(ResourceList):
     def get_template_names(self):

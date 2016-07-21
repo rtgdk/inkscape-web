@@ -1,0 +1,1423 @@
+{
+  "agree_to_cla": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Contributors License Agreement"
+      ]
+    ]
+  }, 
+  "alert.category?slug": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/alerts.message_alert/", 
+        "Personal Message"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "alerts.message_alert"
+    }
+  }, 
+  "alert.settings": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Your Alert Settings"
+      ]
+    ]
+  }, 
+  "alert.subscribe?pk+slug": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/alerts.message_alert/", 
+        "Personal Message"
+      ], 
+      [
+        null, 
+        "Subscribe to User's personal messages: Message from Testing Staff"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "1", 
+      "slug": "alerts.message_alert"
+    }
+  }, 
+  "alert.subscribe?slug": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/alerts.message_alert/", 
+        "Personal Message"
+      ], 
+      [
+        null, 
+        "Subscribe to All"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "alerts.message_alert"
+    }
+  }, 
+  "alert.unsubscribe?pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/cmsdiff.page_published_alert/", 
+        "Website Page Published"
+      ], 
+      [
+        null, 
+        "Unsubscribe from All"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "1"
+    }
+  }, 
+  "alert.unsubscribe?pk+slug": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/alerts.message_alert/", 
+        "Personal Message"
+      ], 
+      [
+        null, 
+        "Unsubscribe from User's personal messages: Message from Testing Admin"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "2", 
+      "slug": "alerts.message_alert"
+    }
+  }, 
+  "alert.unsubscribe?slug": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/", 
+        "Alerts"
+      ], 
+      [
+        "/en/alerts/alerts.message_alert/", 
+        "Personal Message"
+      ], 
+      [
+        null, 
+        "Unsubscribe from All"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "alerts.message_alert"
+    }
+  }, 
+  "alerts": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Alerts"
+      ]
+    ]
+  }, 
+  "authors": {
+    "breadcrumbs": [
+      [
+        null, 
+        "Author Credits"
+      ]
+    ]
+  }, 
+  "contact": {
+    "breadcrumbs": [
+      [
+        null, 
+        "Contact Inkscape Website Administrators"
+      ]
+    ]
+  }, 
+  "contact.ok": {
+    "breadcrumbs": [
+      [
+        null, 
+        "Contact Inkscape"
+      ]
+    ]
+  }, 
+  "delete_resource?pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        "/en/~admin/%E2%98%85user-resource", 
+        "User Resource"
+      ], 
+      [
+        null, 
+        "Delete"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "1"
+    }
+  }, 
+  "edit_profile": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Edit User Profile"
+      ]
+    ]
+  }, 
+  "edit_resource?pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        "/en/~admin/%E2%98%85user-resource", 
+        "User Resource"
+      ], 
+      [
+        null, 
+        "Edit"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "1"
+    }
+  }, 
+  "error403": {
+    "breadcrumbs": [], 
+    "empty": true, 
+    "status": 403
+  }, 
+  "error404": {
+    "breadcrumbs": [], 
+    "empty": true, 
+    "status": 404
+  }, 
+  "error500": {
+    "breadcrumbs": [], 
+    "empty": true, 
+    "status": 500
+  }, 
+  "errors": {
+    "breadcrumbs": [
+      [
+        null, 
+        "All Website Errors"
+      ]
+    ]
+  }, 
+  "forums:create?slug": {
+    "breadcrumbs": [
+      [
+        "/en/community/", 
+        "Community"
+      ], 
+      [
+        "/en/forums/", 
+        "Forums"
+      ], 
+      [
+        "/en/forums/hacking/", 
+        "Hacking Forum"
+      ], 
+      [
+        null, 
+        "Create a new Forum Topic"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "hacking"
+    }
+  }, 
+  "forums:detail?slug": {
+    "breadcrumbs": [
+      [
+        "/en/community/", 
+        "Community"
+      ], 
+      [
+        "/en/forums/", 
+        "Forums"
+      ], 
+      [
+        "/en/forums/hacking/", 
+        "Hacking Forum"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "hacking"
+    }
+  }, 
+  "forums:list": {
+    "breadcrumbs": [
+      [
+        "/en/community/", 
+        "Community"
+      ], 
+      [
+        "/en/forums/", 
+        "Forums"
+      ]
+    ]
+  }, 
+  "forums:topic?slug+forum": {
+    "breadcrumbs": [
+      [
+        "/en/community/", 
+        "Community"
+      ], 
+      [
+        "/en/forums/", 
+        "Forums"
+      ], 
+      [
+        "/en/forums/hacking/", 
+        "Hacking Forum"
+      ], 
+      [
+        "/en/forums/hacking/should-legal/", 
+        "Should this be Legal?"
+      ]
+    ], 
+    "kwargs": {
+      "forum": "hacking", 
+      "slug": "should-legal"
+    }
+  }, 
+  "galleries?team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/galleries/", 
+        "Galleries"
+      ]
+    ], 
+    "kwargs": {
+      "team": "testteam"
+    }
+  }, 
+  "galleries?username": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ]
+    ], 
+    "kwargs": {
+      "username": "admin"
+    }
+  }, 
+  "gallery.delete?gallery_id": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        null, 
+        "Delete Gallery"
+      ]
+    ], 
+    "kwargs": {
+      "gallery_id": "1"
+    }
+  }, 
+  "gallery.edit?gallery_id": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/~admin", 
+          "Testing Admin"
+        ], 
+        [
+          "/en/~admin/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/~admin/galleries/user-gallery/", 
+          "User Gallery"
+        ], 
+        [
+          null, 
+          "Edit Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "gallery_id": "1"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/*testteam", 
+          "Test Team"
+        ], 
+        [
+          "/en/*testteam/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/*testteam/galleries/team-gallery/", 
+          "Team Gallery"
+        ], 
+        [
+          null, 
+          "Edit Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "gallery_id": "2"
+      }
+    }
+  ], 
+  "message.new?username": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Send New Message"
+      ]
+    ], 
+    "kwargs": {
+      "username": "admin"
+    }
+  }, 
+  "message.sent": {
+    "breadcrumbs": [
+      [
+        "/en/alerts/sent/", 
+        "Messages"
+      ]
+    ]
+  }, 
+  "mirror": {
+    "breadcrumbs": [
+      [
+        "/en/mirror/", 
+        "Download Mirrors"
+      ]
+    ]
+  }, 
+  "mirror.add": {
+    "breadcrumbs": [
+      [
+        "/en/mirror/", 
+        "Download Mirrors"
+      ], 
+      [
+        null, 
+        "Create"
+      ]
+    ]
+  }, 
+  "mirror?slug": {
+    "breadcrumbs": [
+      [
+        "/en/mirror/", 
+        "Download Mirrors"
+      ], 
+      [
+        "/en/mirror/alice/", 
+        "Test Mirror"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "alice"
+    }
+  }, 
+  "my_profile": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ]
+    ]
+  }, 
+  "new_gallery": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        null, 
+        "Create Gallery"
+      ]
+    ]
+  }, 
+  "news:archive_day?month+day+year": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ], 
+      [
+        "/en/news/2016/", 
+        "2016"
+      ], 
+      [
+        "/en/news/2016/07/", 
+        "July"
+      ], 
+      [
+        "/en/news/2016/07/07/", 
+        "7th"
+      ]
+    ], 
+    "kwargs": {
+      "day": "07", 
+      "month": "07", 
+      "year": "2016"
+    }
+  }, 
+  "news:archive_index": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ]
+    ]
+  }, 
+  "news:archive_month?month+year": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ], 
+      [
+        "/en/news/2016/", 
+        "2016"
+      ], 
+      [
+        "/en/news/2016/07/", 
+        "July"
+      ]
+    ], 
+    "kwargs": {
+      "month": "07", 
+      "year": "2016"
+    }
+  }, 
+  "news:archive_year?year": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ], 
+      [
+        "/en/news/2016/", 
+        "2016"
+      ]
+    ], 
+    "kwargs": {
+      "year": "2016"
+    }
+  }, 
+  "news:detail?slug+month+day+year": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ], 
+      [
+        "/en/news/2016/", 
+        "2016"
+      ], 
+      [
+        "/en/news/2016/07/", 
+        "July"
+      ], 
+      [
+        "/en/news/2016/07/07/", 
+        "7th"
+      ], 
+      [
+        "/en/news/2016/07/07/test-news/", 
+        "Test News"
+      ]
+    ], 
+    "kwargs": {
+      "day": "07", 
+      "month": "07", 
+      "slug": "test-news", 
+      "year": "2016"
+    }
+  }, 
+  "news:item?pk": {
+    "breadcrumbs": [
+      [
+        "/en/news/", 
+        "News"
+      ], 
+      [
+        null, 
+        "Unpublished"
+      ], 
+      [
+        "/en/news/unpublished/2/", 
+        "Unpublished News"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "2"
+    }
+  }, 
+  "pages-details-by-slug?slug": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/page/", 
+          "Page One"
+        ]
+      ], 
+      "kwargs": {
+        "slug": "page"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/page/", 
+          "Page One"
+        ], 
+        [
+          "/en/page/two/", 
+          "Page Two"
+        ]
+      ], 
+      "kwargs": {
+        "slug": "page/two"
+      }
+    }
+  ], 
+  "pages-root": {
+    "breadcrumbs": [], 
+    "empty": true
+  }, 
+  "pastebin": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/resources/", 
+        "Resources"
+      ], 
+      [
+        "/en/~admin/resources/=pastebin/", 
+        "PasteBin"
+      ], 
+      [
+        null, 
+        "New PasteBin"
+      ]
+    ]
+  }, 
+  "pasted_item?pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/resources/", 
+        "Resources"
+      ], 
+      [
+        "/en/~admin/resources/=pastebin/", 
+        "PasteBin"
+      ], 
+      [
+        "/en/paste/3/", 
+        "Pasted Resource"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "3"
+    }
+  }, 
+  "releases:download": {
+    "breadcrumbs": [
+      [
+        "/en/release/", 
+        "Releases"
+      ], 
+      [
+        "/en/release/1.0/", 
+        "Inkscape 1.0 (fairy)"
+      ]
+    ]
+  }, 
+  "releases:download?platform+version": {
+    "breadcrumbs": [
+      [
+        "/en/release/", 
+        "Releases"
+      ], 
+      [
+        "/en/release/1.0/", 
+        "Inkscape 1.0 (fairy)"
+      ], 
+      [
+        "/en/release/1.0/root-platform/", 
+        "Root Platform"
+      ], 
+      [
+        "/en/release/1.0/root-platform/second-platform/", 
+        "Second Platform"
+      ], 
+      [
+        null, 
+        "Download Started"
+      ]
+    ], 
+    "kwargs": {
+      "platform": "root-platform/second-platform", 
+      "version": "1.0"
+    }
+  }, 
+  "releases:platform?platform+version": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/release/", 
+          "Releases"
+        ], 
+        [
+          "/en/release/1.0/", 
+          "Inkscape 1.0 (fairy)"
+        ], 
+        [
+          "/en/release/1.0/root-platform/", 
+          "Root Platform"
+        ]
+      ], 
+      "kwargs": {
+        "platform": "root-platform", 
+        "version": "1.0"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/release/", 
+          "Releases"
+        ], 
+        [
+          "/en/release/1.0/", 
+          "Inkscape 1.0 (fairy)"
+        ], 
+        [
+          "/en/release/1.0/root-platform/", 
+          "Root Platform"
+        ], 
+        [
+          "/en/release/1.0/root-platform/second-platform/", 
+          "Second Platform"
+        ]
+      ], 
+      "kwargs": {
+        "platform": "root-platform/second-platform", 
+        "version": "1.0"
+      }
+    }
+  ], 
+  "releases:platforms?version": {
+    "breadcrumbs": [
+      [
+        "/en/release/", 
+        "Releases"
+      ], 
+      [
+        "/en/release/1.0/", 
+        "Inkscape 1.0 (fairy)"
+      ], 
+      [
+        null, 
+        "All Platforms for Inkscape 1.0 (fairy)"
+      ]
+    ], 
+    "kwargs": {
+      "version": "1.0"
+    }
+  }, 
+  "resource.copy?pk": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/~admin", 
+          "Testing Admin"
+        ], 
+        [
+          "/en/~admin/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/~admin/galleries/user-gallery/", 
+          "User Gallery"
+        ], 
+        [
+          "/en/~admin/%E2%98%85user-resource", 
+          "User Resource"
+        ], 
+        [
+          null, 
+          "Copy to Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "pk": "1"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/*testteam", 
+          "Test Team"
+        ], 
+        [
+          "/en/*testteam/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/*testteam/galleries/team-gallery/", 
+          "Team Gallery"
+        ], 
+        [
+          "/en/~admin/%E2%98%85team-resource", 
+          "Team Resource"
+        ], 
+        [
+          null, 
+          "Copy to Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "pk": "2"
+      }
+    }
+  ], 
+  "resource.move?pk+source": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/~admin", 
+          "Testing Admin"
+        ], 
+        [
+          "/en/~admin/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/~admin/galleries/user-gallery/", 
+          "User Gallery"
+        ], 
+        [
+          "/en/~admin/%E2%98%85user-resource", 
+          "User Resource"
+        ], 
+        [
+          null, 
+          "Move to Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "pk": "1", 
+        "source": "1"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/*testteam", 
+          "Test Team"
+        ], 
+        [
+          "/en/*testteam/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/*testteam/galleries/team-gallery/", 
+          "Team Gallery"
+        ], 
+        [
+          "/en/~admin/%E2%98%85team-resource", 
+          "Team Resource"
+        ], 
+        [
+          null, 
+          "Move to Gallery"
+        ]
+      ], 
+      "kwargs": {
+        "pk": "2", 
+        "source": "2"
+      }
+    }
+  ], 
+  "resource.upload": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/resources/", 
+        "Resources"
+      ], 
+      [
+        null, 
+        "Upload New Resource"
+      ]
+    ]
+  }, 
+  "resource.upload?gallery_id": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        null, 
+        "Upload New Resource"
+      ]
+    ], 
+    "kwargs": {
+      "gallery_id": "1"
+    }
+  }, 
+  "resource?pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        "/en/~admin/%E2%98%85user-resource", 
+        "User Resource"
+      ]
+    ], 
+    "kwargs": {
+      "pk": "1"
+    }
+  }, 
+  "resource?slug+team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/*testteam/galleries/team-gallery/", 
+        "Team Gallery"
+      ], 
+      [
+        "/en/~admin/%E2%98%85team-resource", 
+        "Team Resource"
+      ]
+    ], 
+    "kwargs": {
+      "slug": "team-resource", 
+      "team": "testteam"
+    }
+  }, 
+  "resource?username+slug": [
+    {
+      "breadcrumbs": [
+        [
+          "/en/~admin", 
+          "Testing Admin"
+        ], 
+        [
+          "/en/~admin/galleries/", 
+          "Galleries"
+        ], 
+        [
+          "/en/~admin/galleries/user-gallery/", 
+          "User Gallery"
+        ], 
+        [
+          "/en/~admin/%E2%98%85user-resource", 
+          "User Resource"
+        ]
+      ], 
+      "kwargs": {
+        "slug": "user-resource", 
+        "username": "admin"
+      }
+    }, 
+    {
+      "breadcrumbs": [
+        [
+          "/en/~admin", 
+          "Testing Admin"
+        ], 
+        [
+          "/en/~admin/resources/", 
+          "Resources"
+        ], 
+        [
+          "/en/~admin/%E2%98%85no-gallery-resource", 
+          "No Gallery Resource"
+        ]
+      ], 
+      "kwargs": {
+        "slug": "no-gallery-resource", 
+        "username": "admin"
+      }
+    }
+  ], 
+  "resources": {
+    "breadcrumbs": [
+      [
+        "/en/gallery/", 
+        "Resources"
+      ]
+    ]
+  }, 
+  "resources?category": {
+    "breadcrumbs": [
+      [
+        "/en/gallery/", 
+        "Resources"
+      ], 
+      [
+        "/en/gallery/=resource-category/", 
+        "Resource Category"
+      ]
+    ], 
+    "kwargs": {
+      "category": "resource-category"
+    }
+  }, 
+  "resources?category+galleries+team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/*testteam/galleries/team-gallery/", 
+        "Team Gallery"
+      ], 
+      [
+        "/en/gallery/=second-category/", 
+        "Second Category"
+      ]
+    ], 
+    "kwargs": {
+      "category": "second-category", 
+      "galleries": "team-gallery", 
+      "team": "testteam"
+    }
+  }, 
+  "resources?category+team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/resources/", 
+        "Resources"
+      ], 
+      [
+        "/en/gallery/=second-category/", 
+        "Second Category"
+      ]
+    ], 
+    "kwargs": {
+      "category": "second-category", 
+      "team": "testteam"
+    }
+  }, 
+  "resources?galleries+team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/*testteam/galleries/team-gallery/", 
+        "Team Gallery"
+      ]
+    ], 
+    "kwargs": {
+      "galleries": "team-gallery", 
+      "team": "testteam"
+    }
+  }, 
+  "resources?team": {
+    "breadcrumbs": [
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        "/en/*testteam/resources/", 
+        "Resources"
+      ]
+    ], 
+    "kwargs": {
+      "team": "testteam"
+    }
+  }, 
+  "resources?username": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/resources/", 
+        "Resources"
+      ]
+    ], 
+    "kwargs": {
+      "username": "admin"
+    }
+  }, 
+  "resources?username+category": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/resources/", 
+        "Resources"
+      ], 
+      [
+        "/en/gallery/=resource-category/", 
+        "Resource Category"
+      ]
+    ], 
+    "kwargs": {
+      "category": "resource-category", 
+      "username": "admin"
+    }
+  }, 
+  "resources?username+category+galleries": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ], 
+      [
+        "/en/gallery/=resource-category/", 
+        "Resource Category"
+      ]
+    ], 
+    "kwargs": {
+      "category": "resource-category", 
+      "galleries": "user-gallery", 
+      "username": "admin"
+    }
+  }, 
+  "resources?username+galleries": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/~admin/galleries/", 
+        "Galleries"
+      ], 
+      [
+        "/en/~admin/galleries/user-gallery/", 
+        "User Gallery"
+      ]
+    ], 
+    "kwargs": {
+      "galleries": "user-gallery", 
+      "username": "admin"
+    }
+  }, 
+  "skip": [
+    "auth_login", 
+    "auth_register", 
+    "registration_complete", 
+    "registration_disallowed", 
+    "registration_activate?activation_key", 
+    "registration_activation_complete", 
+    "news:rss", 
+    "moderation:*", 
+    "logbook:*", 
+    "add_popup?*", 
+    "robots.txt", 
+    "admin:*", 
+    "add_popup", 
+    "ajax_lookup", 
+    "search", 
+    "social:begin?backend", 
+    "social:complete?backend", 
+    "social:disconnect?backend", 
+    "social:disconnect_individual?association_id+backend", 
+    "ajax_lookup?channel", 
+    "resources_rss?*", 
+    "download_resource?*", 
+    "cms.diff?*", 
+    "tags.json", 
+    "resource.like?*", 
+    "comments-post-comment", 
+    "resource.drop", 
+    "alerts.json", 
+    "alert.delete?pk", 
+    "cms_wizard_create", 
+    "comments-approve", 
+    "comments-approve-done", 
+    "comments-comment-done", 
+    "comments-delete", 
+    "comments-delete-done", 
+    "comments-flag", 
+    "comments-flag-done", 
+    "comments-url-redirect", 
+    "resource.readme?pk", 
+    "resources_pick?*", 
+    "alert.view?pk", 
+    "team.approve?username+team", 
+    "team.disapprove?username+team", 
+    "team.remove?username+team", 
+    "team.unwatch?team", 
+    "team.watch?team", 
+    "team.join?team", 
+    "team.leave?team", 
+    "projects:*", 
+    "my_projects?username", 
+    "doc", 
+    "releases:release?version", 
+    "user_friend?username", 
+    "user_gpgkey?username", 
+    "user_unfriend?username", 
+    "mirror.item?slug+filename", 
+    "resource.drop?gallery_id", 
+    "view_resource?pk", 
+    "password_reset", 
+    "password_reset_complete", 
+    "password_reset_confirm?uidb64+token", 
+    "password_reset_done", 
+    "publish_resource?pk"
+  ], 
+  "team.charter?team": {
+    "breadcrumbs": [
+      [
+        "/en/teams/", 
+        "Inkscape Community Teams"
+      ], 
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        null, 
+        "Team Charter"
+      ]
+    ], 
+    "kwargs": {
+      "team": "testteam"
+    }
+  }, 
+  "team.chat?team": {
+    "breadcrumbs": [
+      [
+        "/en/teams/", 
+        "Inkscape Community Teams"
+      ], 
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ], 
+      [
+        null, 
+        "Chat"
+      ]
+    ], 
+    "kwargs": {
+      "team": "testteam"
+    }
+  }, 
+  "team?team": {
+    "breadcrumbs": [
+      [
+        "/en/teams/", 
+        "Inkscape Community Teams"
+      ], 
+      [
+        "/en/*testteam", 
+        "Test Team"
+      ]
+    ], 
+    "kwargs": {
+      "team": "testteam"
+    }
+  }, 
+  "teams": {
+    "breadcrumbs": [
+      [
+        "/en/teams/", 
+        "Inkscape Community Teams"
+      ]
+    ]
+  }, 
+  "view_profile?username": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ]
+    ], 
+    "kwargs": {
+      "username": "admin"
+    }
+  }, 
+  "welcome": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        null, 
+        "Welcome"
+      ]
+    ]
+  }
+}

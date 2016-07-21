@@ -103,6 +103,12 @@ class TargetManager(Manager):
 
 
 class FlagManager(Manager):
+    def get_absolute_url(self):
+        return self.model.get_url('moderation:latest')
+    
+    def breadcrumb_name(self):
+        return self.model.__name__
+
     def get_or_create(self, *args, **kwargs):
         if self.model is Flag:
             return get_flag_cls(**kwargs).objects.get_or_create(*args, **kwargs)
@@ -158,7 +164,7 @@ class Flag(Model):
 
     def _get_unique_checks(self, exclude=False):
         """Because of the cross-model relationship, we must add unique checks"""
-        (a,b) = Flag._get_unique_checks(self, exclude=exclude)
+        (a,b) = super(Flag, self)._get_unique_checks(exclude=exclude)
         return [(type(self), ['target', 'flagger', 'flag'])], b
 
     def hide_url(self):

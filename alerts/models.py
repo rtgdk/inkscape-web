@@ -143,6 +143,12 @@ class AlertType(Model):
     def unsubscribe_url(self, obj=None):
         return self._url('unsubscribe', pk=(obj and obj.pk), slug=self.slug)
 
+    def get_absolute_url(self):
+        return self._url('category', slug=self.slug)
+
+    def breadcrumb_parent(self):
+        return (reverse('alerts'), _('Alerts'))
+
     def _url(self, view, **kwargs):
         kwargs = dict((a,b) for (a,b) in kwargs.items() if b is not None)
         return reverse('alert.'+view, kwargs=kwargs)
@@ -395,6 +401,13 @@ class AlertSubscription(Model):
 
 # -------- Start Example App -------- #
 
+class MessageQuerySet(QuerySet):
+    def breadcrumb_name(self):
+        return _("Messages")
+
+    def get_absolute_url(self):
+        return reverse("message.sent")
+
 class Message(Model):
     """
      User messages are a simple alert example system allowing users to send messages between each other.
@@ -405,6 +418,8 @@ class Message(Model):
     subject   = CharField(max_length=128)
     body      = TextField(_("Message Body"), validators=[MaxLengthValidator(8192)], **null)
     created   = DateTimeField(default=now)
+
+    objects = MessageQuerySet.as_manager()
 
     def get_root(self, children=None):
         """Returns the root message for the thread"""
@@ -417,5 +432,5 @@ class Message(Model):
         return self
 
     def __str__(self):
-        return "Message from %s to %s @ %s" % (unicode(self.sender), unicode(self.recipient), str(self.created))
+        return "Message from %s" % unicode(self.sender)
 

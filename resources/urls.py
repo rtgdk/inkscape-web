@@ -38,14 +38,11 @@ def resource_search(rl=ResourceList, rf=ResourceFeed, rp=ResourcePick):
     ]
 
 owner_patterns = [
-  url(r'^/galleries/$', GalleryList(), name='galleries'),
-  url_tree(r'^/gallery/',
-    *(resource_search() + [
-      url_tree(r'^(?P<galleries>[^\/]+)/',
-        *resource_search(rl=GalleryView)
-      )
-    ])
+  url_tree(r'^/galleries/',
+    url(r'^$', GalleryList(), name='galleries'),
+    url_tree(r'^(?P<galleries>[^\/]+)/', *resource_search(rl=GalleryView)),
   ),
+  url_tree(r'^/resources/', *resource_search()),
   # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'), ViewResource(), name='resource'),
 ]
@@ -73,11 +70,11 @@ urlpatterns = patterns('',
     url(r'^upload/go/$',   DropResource(),   name='resource.drop'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
+      # We should move these to galleries/
       url(r'^del/$',       DeleteGallery(),  name='gallery.delete'),
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
       url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
-      *resource_search()
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',

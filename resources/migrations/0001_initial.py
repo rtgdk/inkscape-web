@@ -27,9 +27,6 @@ class Migration(migrations.Migration):
                 ('desc', models.TextField(blank=True, null=True, validators=[django.core.validators.MaxLengthValidator(1024)])),
                 ('visible', models.BooleanField(default=True)),
             ],
-            options={
-                'db_table': 'resource_category',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -42,7 +39,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
-                'db_table': 'resource_categoryplugin',
             },
             bases=('cms.cmsplugin',),
         ),
@@ -53,9 +49,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=64)),
                 ('group', models.ForeignKey(related_name='galleries', blank=True, to='auth.Group', null=True)),
             ],
-            options={
-                'db_table': 'resource_gallery',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -68,7 +61,6 @@ class Migration(migrations.Migration):
             ],
             options={
                 'abstract': False,
-                'db_table': 'resource_galleryplugin',
             },
             bases=('cms.cmsplugin',),
         ),
@@ -100,9 +92,6 @@ class Migration(migrations.Migration):
                 ('size', models.IntegerField(default=1024, verbose_name='Quota Size (KiB)')),
                 ('group', models.ForeignKey(related_name='quotas', null=True, blank=True, to='auth.Group', unique=True)),
             ],
-            options={
-                'db_table': 'resource_quota',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -122,9 +111,6 @@ class Migration(migrations.Migration):
                 ('media_x', models.IntegerField(null=True, blank=True)),
                 ('media_y', models.IntegerField(null=True, blank=True)),
             ],
-            options={
-                'db_table': 'resource_resource',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -138,9 +124,6 @@ class Migration(migrations.Migration):
                 ('mirror', models.BooleanField(default=False)),
                 ('license', models.ForeignKey(blank=True, to='resources.License', null=True)),
             ],
-            options={
-                'db_table': 'resource_resourcefile',
-            },
             bases=('resources.resource',),
         ),
         migrations.CreateModel(
@@ -158,9 +141,6 @@ class Migration(migrations.Migration):
                 ('chk_return', models.IntegerField(null=True, verbose_name='Check Returned HTTP Code', blank=True)),
                 ('manager', models.ForeignKey(default=cms.utils.permissions.get_current_user, to=settings.AUTH_USER_MODEL)),
             ],
-            options={
-                'db_table': 'resource_resourcemirror',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -170,9 +150,6 @@ class Migration(migrations.Migration):
                 ('name', models.CharField(max_length=16)),
                 ('parent', models.ForeignKey(blank=True, to='resources.Tag', null=True)),
             ],
-            options={
-                'db_table': 'resource_tag',
-            },
             bases=(models.Model,),
         ),
         migrations.CreateModel(
@@ -183,9 +160,6 @@ class Migration(migrations.Migration):
                 ('voter', models.ForeignKey(related_name='favorites', to=settings.AUTH_USER_MODEL)),
                 ('vote', models.BooleanField(default=True)),
             ],
-            options={
-                'db_table': 'resource_vote',
-            },
             bases=(models.Model,),
         ),
         migrations.AddField(
@@ -197,7 +171,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='resource',
             name='tags',
-            field=models.ManyToManyField(related_name='resources', null=True, to='resources.Tag', blank=True, db_table='resource_resource_tags'),
+            field=models.ManyToManyField(related_name='resources', null=True, to='resources.Tag', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(
@@ -209,7 +183,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='gallery',
             name='items',
-            field=models.ManyToManyField(related_name='galleries', null=True, to='resources.Resource', blank=True, db_table=b'resource_gallery_items'),
+            field=models.ManyToManyField(related_name='galleries', null=True, to='resources.Resource', blank=True),
             preserve_default=True,
         ),
         migrations.AddField(

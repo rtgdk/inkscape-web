@@ -158,7 +158,7 @@
     
     {% if object.resources.latest %}
       {% with 4 as limit %}
-        {% with object.resources.latest as items %}
+        {% with object.resources.latest as object_list %}
           {% include "resources/resource_icons.html" %}
         {% endwith %}
       {% endwith %}
@@ -181,7 +181,7 @@
     <h2>{% trans "Favorite Artworks" %}</h2>
     {% if object.favorites.items.count > 0 %}
       {% with 4 as limit %}
-        {% with object.favorites.items as items %}
+        {% with object.favorites.items as object_list %}
           {% include "resources/resource_icons.html" %}
         {% endwith %}
       {% endwith %}

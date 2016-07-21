@@ -51,16 +51,6 @@ def upload_to(name, w=960, h=300):
                   max_height=h, max_width=w)
 
 
-class ReleaseQuerySet(QuerySet):
-    def __init__(self, *args, **kw):
-        super(ReleaseQuerySet, self).__init__(*args, **kw)
-        self.query.select_related = True
-
-    def for_parent(self, parent):
-        pk = parent.parent_id if parent.parent_id else parent.pk
-        return self.filter(Q(parent__isnull=True) | Q(parent_id=pk))
-
-
 class ReleaseStatus(Model):
     """For non-released (finalised) Releases, what stage are we at"""
     STYLES = (
@@ -73,6 +63,23 @@ class ReleaseStatus(Model):
 
     def __str__(self):
         return self.name
+
+
+class ReleaseQuerySet(QuerySet):
+    def __init__(self, *args, **kw):
+        super(ReleaseQuerySet, self).__init__(*args, **kw)
+        self.query.select_related = True
+
+    def for_parent(self, parent):
+        pk = parent.parent_id if parent.parent_id else parent.pk
+        return self.filter(Q(parent__isnull=True) | Q(parent_id=pk))
+
+    def breadcrumb_name(self):
+        return _("Releases")
+
+    def get_absolute_url(self):
+        return reverse('releases:download')
+
 
 
 class Release(Model):
@@ -113,6 +120,9 @@ class Release(Model):
 
     def get_absolute_url(self):
         return reverse('releases:release', kwargs={'version': self.version})
+
+    def breadcrumb_parent(self):
+        return self.parent if self.parent else Release.objects.all()
 
     def is_prerelease(self):
         """Returns True if this child release happened before parent release"""

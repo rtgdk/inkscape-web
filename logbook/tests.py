@@ -290,12 +290,12 @@ class ParsingTests(BaseCase):
             ('Samsung Internet', u'3.4'),
             ('Bot', 'Apache-HttpClient'),
             ('Bot', 'Baiduspider'),
-            ('Bot', 'bingbot'),
             ('Bot', 'Googlebot'),
             ('Bot', 'Googlebot-Image'),
             ('Bot', 'Python Requests'),
             ('Bot', 'Sogou web spider'),
             ('Bot', 'ZEEFscraper'),
+            ('Bot', 'bingbot'),
         )
 
     def test_long_log(self):

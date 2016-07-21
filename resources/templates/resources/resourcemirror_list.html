@@ -43,7 +43,7 @@
     <hr/>
   {% endblock %}
 
-  {% with object_list.model.resources as items %}
+  {% with object_list.model.resources as resources %}
     {% block "downloads" %}
       <h2>{% trans "All Inkscape Downloads" %}</h2>
 
@@ -55,7 +55,7 @@
           <th>{% trans "Signature" %}</th>
           <th>{% trans "ReadMe" %}</th>
         </tr>
-        {% for item in items %}
+        {% for item in resources %}
           <tr>
             {% if object %}
               <td><a href="{% url "mirror.item" object.uuid item.filename %}">{{ item }}</a></td>

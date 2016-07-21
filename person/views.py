@@ -58,8 +58,9 @@ class UserGPGKey(UserDetail):
 class MyProfile(UserMixin, UserDetail):
     pass
   
-class Welcome(TemplateView):
+class Welcome(UserMixin, TemplateView):
     template_name = 'registration/welcome.html'
+    title = _('Welcome')
 
 # ====== FRIENDSHIP VIEWS =========== #
 
@@ -121,6 +122,7 @@ class ChatWithTeam(NeverCacheMixin, LoginRequiredMixin, TeamDetail):
 
     def get_context_data(self, **kwargs):
         data = super(ChatWithTeam, self).get_context_data(**kwargs)
+        data['object'] = self.get_object()
         data['page'] = int(self.request.GET.get('page', 1))
         data['chat_page'] = "chat/page-%s.svg" % data['page']
         return data

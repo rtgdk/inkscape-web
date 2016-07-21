@@ -24,7 +24,7 @@
       {% else %}
         {% if item.published %}
           <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
-          {% if item.license %}
+          {% if item.license and item.license.banner %}
             <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
           {% endif %}
         {% endif %}

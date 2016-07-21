@@ -24,12 +24,12 @@ from inspect import isclass
 from django.core.cache import caches
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
+from django.utils.encoding import smart_text
 
 from django.conf import settings
 from django.dispatch import receiver
 from django.db.models import signals, Model, Manager, QuerySet
 from django.utils.cache import get_cache_key
-from django.views.generic import UpdateView, CreateView, ListView
 
 import logging
 
@@ -195,6 +195,8 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
     @generate_list
     def get_breadcrumbs(self, data):
         """Return breadcrumbs only called if no breadcrumbs in context"""
+        title = self.get(data, 'title')
+        parent = self.get(data, 'parent')
         obj = self.get(data, 'object')
         page = self.get(data, 'current_page')
         if not obj and page:
@@ -203,26 +205,35 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
         else:
             yield (reverse('pages-root'), _('Home'))
 
-        if obj is None:
-            lst = self.get(data, 'object_list')
-            if isinstance(lst, (Manager, QuerySet)):
+        root = self.get(data, 'breadcrumb_root')
+        if root:
+            if isinstance(root, list):
+                for item in root:
+                    yield self.object_link(item)
+            else:
+                yield self.object_link(root)
+
+        lst = self.get(data, 'object_list')
+        if isinstance(lst, (Manager, QuerySet)):
+            if obj is None:
                 obj = lst
+            elif parent is None:
+                parent = lst
 
-        parent = self.get(data, 'parent')
-        title = self.get(data, 'title')
-        target = obj if obj is not None else parent
-
-        for obj in self.get_ancestors(target):
-            if isinstance(obj, tuple) and len(obj) == 2:
-                yield obj
-            elif obj is not None:
-                yield self.object_link(obj)
+        for obj in self.get_ancestors(obj, parent):
+            link = self.object_link(obj)
+            if link is not None:
+                yield link
 
         if title is not None:
             yield (None, title)
 
-    def get_ancestors(self, obj):
-        parent = getattr(obj, 'parent', None)
+    def get_ancestors(self, obj, parent=None):
+        if hasattr(obj, 'breadcrumb_parent'):
+            parent = obj.breadcrumb_parent()
+        else:
+            parent = getattr(obj, 'parent', parent)
+
         if parent is not None:
             for ans in self.get_ancestors(parent):
                 yield ans
@@ -231,13 +242,17 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
     def object_link(self, obj):
         """Get name from object model"""
         url = None
+        if obj is None or (isinstance(obj, tuple) and len(obj) == 2):
+            return obj
         if hasattr(obj, 'breadcrumb_name'):
             name = obj.breadcrumb_name()
         elif hasattr(obj, 'name'):
             name = obj.name
         else:
-            name = unicode(obj)
+            name = smart_text(obj, errors='ignore')
         if hasattr(obj, 'get_absolute_url'):
             url = obj.get_absolute_url()
+        if name is not None and name.startswith('['):
+            return None
         return (url, name)
 

@@ -79,6 +79,7 @@ class Robots(TemplateView):
 
 class Errors(ListView):
     template_name = 'error/list.html'
+    title = _('All Website Errors')
     model = ErrorLog
 
 class Error(TemplateView):

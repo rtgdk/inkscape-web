@@ -52,7 +52,7 @@ urlpatterns += i18n_patterns('inkscape.views',
     url(r'^admin/',     include(admin.site.urls)),
     #url(r'^tr/',        include('cmsrosetta.urls')),
     url(r'^doc/',       include('docs.urls')),
-    url(r'^projects/',  include('projects.urls')),
+    url(r'^projects/',  include('projects.urls', namespace='projects')),
     url(r'^forums/',    include('forums.urls', namespace='forums')),
     url(r'^releases?/', include('releases.urls', namespace='releases')),
     url(r'^alerts/',    include('alerts.urls')),
@@ -69,3 +69,4 @@ urlpatterns += i18n_patterns('inkscape.views',
 for e in ('403','404','500'):
     locals()['handler'+e] = Error.as_error(e)
     urlpatterns += patterns('', url('^error/%s/$' % e, Error.as_error(e)))
+

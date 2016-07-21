@@ -136,7 +136,12 @@ class Category(Model):
         return None
 
     def get_absolute_url(self):
-        return reverse('resources', kwargs={'category': self.value})
+        kw = {'category': self.value}
+        if hasattr(self, 'parent'):
+            user = getattr(self.parent, "parent", None)
+            if isinstance(user, get_user_model()):
+                kw['username'] = user.username
+        return reverse('resources', kwargs=kw)
 
 
 class TagQuerySet(QuerySet):
@@ -144,11 +149,11 @@ class TagQuerySet(QuerySet):
         result = []
         qs = self.annotate(count=Count(link)).values_list('name', 'count')
         tags = dict(qs.order_by('-count')[0:size])
-        maximum = float(max(tags.values()))
-        for name in sorted(tags):
-            result.append((name, int(tags[name] / maximum * 6)))
+        if tags:
+            maximum = float(max(tags.values()))
+            for name in sorted(tags):
+                result.append((name, int(tags[name] / maximum * 6)))
         return result
-        
 
 
 class Tag(Model):
@@ -180,25 +185,14 @@ class TagCategory(Model):
     def __unicode__(self):
         return self.name
 
+
 class ResourceQuerySet(QuerySet):
     def breadcrumb_name(self):
-        return _("InkSpaces")
-
-
-class ResourceManager(Manager):
-    def get_queryset(self):
-        qs = ResourceQuerySet(self.model, using=self._db)
-        qs.query.select_related = True
-        return qs
+        return _("Resources")
 
     @property
     def parent(self):
-        if 'user__exact' in self.core_filters: 
-            return self.core_filters['user__exact']
-        try:
-            return self.get_queryset().latest('published').user
-        except Resource.DoesNotExist:
-            return None
+        return self._hints.get('instance', getattr(self, 'instance', None))
 
     def get_absolute_url(self):
         obj = self.parent
@@ -207,6 +201,13 @@ class ResourceManager(Manager):
         elif isinstance(obj, Group):
             return reverse('resources', kwargs={'team': obj.team.slug})
         return reverse('resources')
+
+
+class ResourceManager(Manager):
+    def get_queryset(self):
+        qs = ResourceQuerySet(self.model, using=self._db)
+        qs.query.select_related = True
+        return qs
 
     def for_user(self, user):
         return self.get_queryset().filter(Q(user=user.id) | Q(published=True))
@@ -247,7 +248,7 @@ class ResourceManager(Manager):
         return self.for_user(user).exclude(category=Category.objects.get(pk=1)).order_by('-created')[:4]
 
 
-class GroupGalleryManager(ResourceManager):
+class GroupGalleryManager(Manager):
     def __init__(self, instance):
         super(GroupGalleryManager, self).__init__()
         self.instance = instance
@@ -326,10 +327,14 @@ class Resource(Model):
       
     @property
     def parent(self):
+        if self.is_pasted:
+            cat = self.category
+            cat.parent = self.user.resources.all()
+            return cat
         galleries = self.galleries.all()
         if galleries:
             return galleries[0]
-        return self.user.resources
+        return self.user.resources.all()
 
     def description(self):
         if not self.desc:
@@ -459,8 +464,13 @@ class Resource(Model):
             return text.read().decode('utf-8')
         return "Not text!"
 
+    @property
+    def is_pasted(self):
+        # Using pk is 1 is NOT idea, XXX find a better way.
+        return self.category_id and self.category_id == 1
+
     def get_absolute_url(self):
-        if self.category_id and self.category_id == 1:
+        if self.is_pasted:
             return reverse('pasted_item', args=[str(self.pk)])
         if self.slug:
             return reverse('resource', kwargs={'username': self.user.username, 'slug': self.slug})
@@ -560,22 +570,28 @@ class ResourceRevision(Model):
             return obj
 
 
-class MirrorManager(Manager):
+class MirrorQuerySet(QuerySet):
     def select_mirror(self, update=None):
         """Selects the next best mirror randomly from the mirror pool"""
-        query = self.get_queryset().filter(chk_return=200)
+        qs = self.filter(chk_return=200)
         if update:
-            query = query.filter(sync_time__gte=update)
+            qs = qs.filter(sync_time__gte=update)
         # Attempt to weight the mirrors (needs CS review)
         import random
-        total = sum(mirror.capacity for mirror in query)
+        total = sum(mirror.capacity for mirror in qs)
         compare = random.uniform(0, total)
         upto = 0
-        for mirror in query:
+        for mirror in qs:
             if upto + mirror.capacity > compare:
                 return mirror
             upto += mirror.capacity
         return None
+
+    def breadcrumb_name(self):
+        return _("Download Mirrors")
+
+    def get_absolute_url(self):
+        return reverse('mirror')
 
 
 class ResourceMirror(Model):
@@ -592,7 +608,7 @@ class ResourceMirror(Model):
     chk_time   = DateTimeField(_("Check Time Date"), **null)
     chk_return = IntegerField(_("Check Returned HTTP Code"), **null)
 
-    objects = MirrorManager()
+    objects = MirrorQuerySet.as_manager()
 
     @property
     def host(self):
@@ -605,6 +621,10 @@ class ResourceMirror(Model):
     def resources():
         """List of all mirrored resources"""
         return Resource.objects.filter(mirror=True)      
+
+    @property
+    def parent(self):
+        return ResourceMirror.objects.all()
 
     def do_sync(self):
         self.sync_time = now()
@@ -626,9 +646,24 @@ class ResourceMirror(Model):
                 (self.name.encode('utf8'), self.host.encode('utf8'))
 
 
-class GalleryManager(Manager):
+class GalleryQuerySet(QuerySet):
     def for_user(self, user):
         return self.get_queryset().filter(Q(user=user.id) | Q(items__published=True)).distinct()
+
+    def get_absolute_url(self):
+        obj = self.parent
+        if isinstance(obj, get_user_model()):
+            return reverse('galleries', kwargs={'username': obj.username})
+        elif isinstance(obj, Group):
+            return reverse('galleries', kwargs={'team': obj.team.slug})
+        return None
+
+    def breadcrumb_name(self):
+        return _("Galleries")
+
+    @property
+    def parent(self):
+        return self._hints.get('instance', getattr(self, 'instance', None))
 
 
 class Gallery(Model):
@@ -652,7 +687,7 @@ class Gallery(Model):
 
     items     = ManyToManyField(Resource, related_name='galleries', blank=True)
 
-    objects   = GalleryManager()
+    objects   = GalleryQuerySet.as_manager()
 
     def __unicode__(self):
         if self.group:
@@ -694,9 +729,7 @@ class Gallery(Model):
 
     @property
     def parent(self):
-        if self.group:
-            return self.group.resources
-        return self.user.resources
+        return (self.group or self.user).galleries.all()
 
     def is_visible(self):
         return self.items.for_user(get_user()).count() or self.is_editable()

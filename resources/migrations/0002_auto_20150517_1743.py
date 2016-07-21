@@ -18,9 +18,6 @@ class Migration(migrations.Migration):
                 ('session', models.CharField(max_length=40)),
                 ('resource', models.ForeignKey(related_name='views', to='resources.Resource')),
             ],
-            options={
-                'db_table': 'resource_views',
-            },
             bases=(models.Model,),
         ),
         migrations.AddField(

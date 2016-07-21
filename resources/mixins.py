@@ -21,6 +21,7 @@
 from django.contrib.auth import get_user_model
 from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
+from django.core.urlresolvers import reverse
 
 from .models import Gallery, Model, Group, Q
 
@@ -36,13 +37,12 @@ class OwnerViewMixin(object):
 
     def get_context_data(self, **kwargs):
         data = super(OwnerViewMixin, self).get_context_data(**kwargs)
-        data['action'] = getattr(self, 'action', None)
         if self.user:
             data['user'] = get_user_model().objects.get(username=self.user)
-            data['parent'] = data['user']
-        elif hasattr(self, 'group') and self.group:
+            data['object_list'].instance = data['user']
+        elif hasattr(self, 'team') and self.team:
             data['group'] = Group.objects.get(team__slug=self.team)
-            data['parent'] = data['group']
+            data['object_list'].instance = data['group']
         return data
 
     def get_queryset(self):
@@ -83,9 +83,7 @@ class OwnerUpdateMixin(object):
     def get_context_data(self, **kwargs):
         data = super(OwnerUpdateMixin, self).get_context_data(**kwargs)
         data.update({
-          'parent':  self.parent,
           'gallery': getattr(self, 'gallery', None),
-          'action':  getattr(self, 'action', None),
           'cancel':  self.get_next_url(),
         })
         return data
@@ -95,10 +93,6 @@ class OwnerUpdateMixin(object):
             default = default.get_absolute_url()
         return self.request.GET.get('next', \
                self.request.META.get('HTTP_REFERER', default or '/'))
-
-    @property
-    def parent(self):
-        return getattr(self, 'gallery', self.request.user)
 
     def get_success_url(self):
         try:
@@ -111,3 +105,18 @@ class OwnerCreateMixin(OwnerUpdateMixin):
     def is_allowed(self):
         return self.request.user.is_authenticated()
 
+    def get_context_data(self, **kwargs):
+        data = super(OwnerCreateMixin, self).get_context_data(**kwargs)
+        if hasattr(self, 'model') and not 'object_list' in data:
+	    data['object_list'] = self.model.objects.all()
+	    data['object_list'].instance = self.request.user
+        if 'gallery' in data and 'object' not in data:
+            data['object'] = data['gallery']
+        return data
+
+
+class OwnerDeleteMixin(OwnerUpdateMixin):
+    def get_success_url(self):
+        # Called before object is deleted or edited
+        obj = self.get_object().parent
+        return getattr(obj, 'get_absolute_url', reverse('my_profile'))

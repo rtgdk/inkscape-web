@@ -22,6 +22,12 @@
 Provide news mixins
 """
 
+from datetime import date
+
+from django.utils.translation import ugettext_lazy as _
+from django.core.urlresolvers import reverse
+
+from django.utils import dateformat
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page, never_cache
 
@@ -43,6 +49,25 @@ class PublishedNewsMixin(object):
     def get_queryset(self):
         return News.published.with_language(self.get_language(),
             is_staff=self.request.user.has_perm('cmsplugin_news.change_news'))
+
+    def get_breadcrumb_root(self):
+        result = []
+        result.append((reverse('news:archive_index'), _('News')))
+        if 'year' in self.kwargs:
+            kw = {'year': self.kwargs['year']}
+            result.append((reverse('news:archive_year', kwargs=kw), kw['year']))
+            if 'month' in self.kwargs:
+                kw['month'] = self.kwargs['month']
+                dt = date(int(kw['year']), int(kw['month']), int(self.kwargs.get('day', 1)))
+                title = dt.strftime('%B')
+                result.append((reverse('news:archive_month', kwargs=kw), title))
+                if 'day' in self.kwargs:
+                    kw['day'] = self.kwargs['day']
+                    title = dateformat.format(dt, 'jS')
+                    result.append((reverse('news:archive_day', kwargs=kw), title))
+        elif 'pk' in self.kwargs:
+            result.append((None, _('Unpublished')))
+        return result
 
 
 class NeverCacheMixin(object):

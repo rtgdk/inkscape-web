@@ -217,6 +217,7 @@ class Team(Model):
         help_text='The name of the pre-configured mailing list for this team')
     enrole = CharField(_('Enrollment'), max_length=1, default='O', choices=ENROLES)
 
+    localized_fields = ('name', 'intro', 'desc',  'charter', 'side_bar')
     objects = TeamQuerySet.as_manager()
 
     @property
@@ -254,6 +255,7 @@ class Team(Model):
 
     def __unicode__(self):
         return self.name
+
 
 def subscribe_to_list(action, team, user):
     pass # Re-enable when we are using mailman3

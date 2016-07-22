@@ -20,6 +20,7 @@ user_agents==1.0.1
 python-openid==2.2.4
 easy-thumbnails==2.0.1
 diff-match-patch==20110725.1
+html5lib<0.99999999
 
 # Django libraries
 Django==1.8.7

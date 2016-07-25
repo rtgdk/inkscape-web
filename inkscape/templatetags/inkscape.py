@@ -24,6 +24,7 @@ from django.utils.safestring import mark_safe
 from django.template.defaultfilters import date, timesince
 from django.templatetags.tz import localtime
 from django.utils import timezone
+from django.db.models import Model
 
 from datetime import timedelta, datetime
 
@@ -57,6 +58,22 @@ def add_placeholder(form, text=None):
 def add_filter(value, arg=1):
     """Add a number to another, default is incriment by 1"""
     return int(value) + arg
+
+
+@register.simple_tag(takes_context=True)
+def track_object(context, obj):
+    """This object, when changed, should invalidate this request"""
+    if not isinstance(obj, Model):
+        raise ValueError("track_object requires a model object, "
+                "%s object provided instead." % type(obj).__name__)
+
+    request = context['request']
+    if not hasattr(request, 'tracked_objects'):
+        request.tracked_objects = []
+
+    request.tracked_objects.append(obj)
+    return mark_safe("<!--Cache Tracked-->")
+
 
 from django.templatetags.static import StaticNode
 from django import template

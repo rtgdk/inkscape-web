@@ -108,6 +108,7 @@ class TrackCacheMiddleware(BaseMiddleware):
         """Returns a unique key for this object"""
         if isinstance(obj, Model):
             yield "meta:%s-%s" % (type(obj).__name__, str(obj.pk))
+
         elif isclass(obj) and issubclass(obj, Model):
             yield "meta:%s" % obj.__name__
         elif isinstance(obj, (list, tuple)):
@@ -116,19 +117,36 @@ class TrackCacheMiddleware(BaseMiddleware):
         elif isinstance(obj, QuerySet):
             yield "meta:%s" % obj.model.__name__
 
-    def track_cache(self, obj, cache_key):
-        for key in self.get_keys(obj):
-            caches = self.cache.get(key)
+    @classmethod
+    def track_cache(cls, obj, cache_key):
+        """Associate this cache_key (url pointer) with this model object"""
+        for key in cls.get_keys(obj):
+            caches = cls.cache.get(key)
             if not caches:
                 caches = set()
             caches.add(cache_key)
-            #print "TRACKING: %s > %s" % (key, cache_key)
             # Keep a record of urls causing caches for longer
-            self.cache.set(key, caches, int(self.cache_timeout * 1.5))
+            cls.cache.set(key, caches, int(cls.cache_timeout * 1.5))
 
     def process_response(self, request, response):
         """
-        We process the response, looking for the cached key
+        We process the response, looking for the cached key (url pointer)
+
+        This cache_key is then saved against each of the associated
+        objects that are found in this request.
+        
+        1. These objects can be the object or object_list context data
+           variables found in many class based views in django. 
+        2. They can be the 'cache_tracks' array found in the context_data
+           or a property (or property method) of the class based view.
+        3. An array of tracked_objects can be populated using the inkscape
+           templatetag 'track_object' which is placed into templates that
+           express an object and thus where that object should be tracked.
+
+        {% load inkscape %}
+        {% for obj in object_list %}
+          {% track_object obj %}
+        {% endfor %}
         """
         if not getattr(request, '_cache_update_cache', False) \
               or not request.method in ('GET', 'HEAD') \
@@ -141,6 +159,9 @@ class TrackCacheMiddleware(BaseMiddleware):
 
         data = response.context_data
         for obj in self.get(data, 'cache_tracks', []):
+            self.track_cache(obj, cache_key)
+
+        for obj in getattr(request, 'tracked_objects', []):
             self.track_cache(obj, cache_key)
 
         for key in ('object', 'object_list'):

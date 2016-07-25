@@ -1,6 +1,8 @@
-{% load i18n static %}
+{% load i18n static inkscape %}
 
 {% if item.is_visible %}
+  {% track_object item %}
+
   <div class="galleryitem{% if not item.published %} unpublished{% endif %}" 
     title="{{ item.summary_string }}">
     <a class="link" href="{{ item.get_absolute_url }}">

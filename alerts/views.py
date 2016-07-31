@@ -52,7 +52,7 @@ class AlertList(NeverCacheMixin, OwnerRequiredMixin, ListView):
         qs = self.request.user.alerts.all().visible
         self.breadcrumb_root = self.request.user
         if 'slug' in self.kwargs:
-            self.parent = AlertType.objects.get(slug=self.kwargs['slug'])
+            self.parent = get_object_or_404(AlertType, slug=self.kwargs['slug'])
             qs = qs.filter(alert__slug=self.kwargs['slug'])
             self.title = None
         else:

@@ -305,6 +305,11 @@ class UserAlert(Model):
         if not hasattr(self, '_data'):
             ret = defaultdict(list, alert=self, site=settings.SITE_ROOT)
             for item in list(self.objs.all()) + list(self.values.all()):
+                try:
+                    target = item.target
+                except AttributeError:
+                    target = None
+
                 if item.name[0] == '@':
                     ret[item.name[1:]+'_list'].append(item.target)
                 else:

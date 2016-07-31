@@ -745,7 +745,7 @@ class Gallery(Model):
 
     def thumbnail_url(self):
         if self.thumbnail:
-            return self.thumbnail.icon()
+            return self.thumbnail.icon_url()
         for item in self.items.all():
             if item.is_visible():
                 return item.icon_url()

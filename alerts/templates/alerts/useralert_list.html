@@ -23,8 +23,8 @@
   </h1>
 
   <h2 id="empty" style="display: none;">{% trans "No messages or alerts to view" %}</h2>
-<div id="items">
 
+<div id="items">
   {% autopaginate object_list 15 as items %}
 
   {% for object in items %}
@@ -64,10 +64,9 @@
 
     {% endwith %}
   {% endfor %}
+</div>
 
   {% paginate %}
-
-</div>
 
 {% endblock %}
 

@@ -22,6 +22,7 @@ function update_screen() {
   if($('#items').children().length == 0) {
     $('#empty').show();
     $('.runner').remove();
+    $('.pagination').remove();
   }
 }
 

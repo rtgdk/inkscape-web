@@ -54,9 +54,8 @@ class AlertList(NeverCacheMixin, OwnerRequiredMixin, ListView):
         if 'slug' in self.kwargs:
             self.parent = get_object_or_404(AlertType, slug=self.kwargs['slug'])
             qs = qs.filter(alert__slug=self.kwargs['slug'])
-            self.title = None
         else:
-            self.title = _('Alerts')
+            self.parent = (reverse('alerts'), _('Alerts'))
 
         if 'new' in self.request.GET:
             self.title = _("New")

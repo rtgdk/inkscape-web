@@ -19,7 +19,7 @@
 #
 
 from django.db.models import *
-
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 
 class ErrorLog(Model):
@@ -37,4 +37,30 @@ class ErrorLog(Model):
     def add(self):
         self.count += 1
         self.save()
+
+# We could add this to middleware.py, but it's getting a bit full
+# and this file is empty enough that it won't bother anyone.
+class UserOnErrorMiddleware(object):
+    """Add a link to the user in errors (if possible)"""
+    cookie_key = getattr(settings, 'SESSION_COOKIE_NAME', None)
+
+    def process_exception(self, request, exception):
+        http = ['http', 'https'][request.META.get('HTTPS', 'off') == 'on']
+        server = http + '://' + request.META.get('HTTP_HOST', 'localhost')
+
+        # The database might have disapeared, so we can attempt
+        # a link to the user, but otherwise the query contains the
+        # session id, which is the pk for the admin.
+        if self.cookie_key is not None:
+            pk = request.COOKIES.get(self.cookie_key, None)
+            if pk is not None:
+                url = server + '/admin/user_sessions/session/%(pk)s/'
+                request.META['SESSION_URL'] = url % {'pk': pk}
+        # But try and put a direct link in anyway (if possible)
+        try:
+            if request.user.is_authenticated():
+                url = request.user.get_absolute_url()
+                request.META['USER_URL'] = server + url
+        except:
+            request.META['USER_URL'] = 'Error getting user'
 

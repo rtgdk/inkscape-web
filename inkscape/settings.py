@@ -115,6 +115,7 @@ TEMPLATES = [{
 
 MIDDLEWARE_CLASSES = (
     'inkscape.middleware.AutoBreadcrumbMiddleware',
+    'inkscape.models.UserOnErrorMiddleware',
     'user_sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',

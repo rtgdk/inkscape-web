@@ -2,7 +2,7 @@
 {% if not alerts %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="tab_messages" class="dropdown">
-  <p><a id="alerts" style="line-height: 2px;">&nbsp;</a></p>
+  <p><a id="alerts" href="{% url "alerts" %}">&nbsp;</a></p>
   <div style="width: 150px;">
     <p>
       <a id='new_messages' href="{% url "alerts" %}">{% trans "Inbox" %}

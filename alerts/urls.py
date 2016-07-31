@@ -32,6 +32,8 @@ USER_URLS.url_patterns.extend([
 
 urlpatterns = patterns('',
   url(r'^settings/$',                SettingsList.as_view(), name='alert.settings'),
+  url(r'^view/',                     MarkAllViewed.as_view(), name="alert.view"),
+  url(r'^delete/',                   MarkAllDeleted.as_view(), name='alert.delete'),
 
   url_tree(r'^(?P<pk>\d+)/',
     url(r'^view/',                   MarkViewed.as_view(), name="alert.view"),

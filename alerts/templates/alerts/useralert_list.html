@@ -9,7 +9,21 @@
 {% endblock %}
 
 {% block content %}
-  <h1>{{ title }}</h1>
+  <h1>{{ title }}
+    {% if object_list.count > 0 %}
+      <form class="runner" action="{% url "alert.delete" %}">
+        <button id="{{ object.pk }}" title="{% trans "Delete all alerts" %}">X</button>
+      </form>
+    {% endif %}
+    {% if object_list.new.count > 0 %}
+      <form class="runner" action="{% url "alert.view" %}">
+        <button id="{{ object.pk }}" title="{% trans "Mark all as read" %}">&#10004;</button>
+      </form>
+    {% endif %}
+  </h1>
+
+  <h2 id="empty" style="display: none;">{% trans "No messages or alerts to view" %}</h2>
+<div id="items">
 
   {% autopaginate object_list 15 as items %}
 
@@ -30,15 +44,12 @@
       {% endif %}
     </div>
     <div class="index">
-      {% if not object.viewed and not data.instance_deleted %}
-        <form class="runner" action="{% url "alert.view" object.pk %}">
-          <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">&#10004;</button>
-        </form>
-      {% else %}
-        <form class="runner" action="{% url "alert.delete" object.pk %}">
-          <button id="{{ object.pk }}" title="{% trans "Delete Alert" %}">X</button>
-        </form>
-      {% endif %}
+      <form class="runner read" {% if object.viewed %}style="display: none;"{% endif %} action="{% url "alert.view" object.pk %}">
+        <button id="{{ object.pk }}" title="{% trans "Mark as Read" %}">&#10004;</button>
+      </form>
+      <form class="runner" action="{% url "alert.delete" object.pk %}">
+        <button id="{{ object.pk }}" title="{% trans "Delete Alert" %}">X</button>
+      </form>
     </div>
     <div class="index">{{ object.created|timetag }}</div>
   </div>
@@ -52,11 +63,11 @@
 </div>
 
     {% endwith %}
-  {% empty %}
-    <h2>{% trans "No messages or alerts to view" %}</h2>
   {% endfor %}
 
   {% paginate %}
-  
+
+</div>
+
 {% endblock %}
 

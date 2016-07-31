@@ -212,6 +212,20 @@ class UserAlertQuerySet(QuerySet):
                 'alert': item.alert.pk,
             } for item in self ]
 
+    @property
+    def new(self):
+        return self.filter(viewed__isnull=True)
+
+    @property
+    def visible(self):
+        return self.filter(deleted__isnull=True)
+
+    def view_all(self):
+        return self.new.update(viewed=now())
+
+    def delete_all(self):
+        return self.visible.update(deleted=now())
+
 
 class UserAlertManager(Manager):
     _queryset_class = UserAlertQuerySet
@@ -226,10 +240,7 @@ class UserAlertManager(Manager):
         if getattr(self, 'alert_type', None) is not None:
             queryset = queryset.filter(alert=self.alert_type)
 
-        return queryset.filter(deleted__isnull=True).order_by('-created')
-
-    def new(self):
-        return self.get_queryset().filter(viewed__isnull=True)
+        return queryset.order_by('-created')
 
     @property
     def parent(self):
@@ -240,7 +251,7 @@ class UserAlertManager(Manager):
     def types(self):
         counts = defaultdict(int)
         # We'd use count and distinct to do this login in the db, but flakey
-        for (slug, count) in self.new().values('alert')\
+        for (slug, count) in self.get_queryset().new.values('alert')\
           .annotate(count=Count('alert')).values_list('alert__slug', 'count')\
           .order_by('alert__created'):
             counts[slug] += count

@@ -28,6 +28,7 @@ h2 {
   background-color: #eee;
   border-bottom: 1px solid #ddd;
   text-align: left;
+  min-height: 27px;
 }
 .comment .details div,
 .comment .footer div {
@@ -175,6 +176,23 @@ h2 {
 .comment textarea {
   width: 95%;
   min-height: 64px;
+}
+
+.comment .details button {
+  max-height: 22px;
+  margin: 0px;
+  padding: 6px 1px;
+  line-height: 0px;
+  font-size: 12px;
+}
+
+h1 form {
+  display: inline-block;
+  float: right;
+}
+
+.index form.runner {
+  display: inline-block;
 }
 
 /* Bug Types */

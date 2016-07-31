@@ -18,16 +18,30 @@
 // along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 //
 
+function update_screen() {
+  if($('#items').children().length == 0) {
+    $('#empty').show();
+    $('.runner').remove();
+  }
+}
+
 $(document).ready(function() {
+  update_screen();
   $('.runner').submit(function() {
-    jQuery.ajax({
-      url: $(this).attr("action"),
-      type: 'get',
-      success: function(data) {
-        $('#alert_'+data).remove();
-      },
+    $.getJSON($(this).attr("action"), function(data) {
+      if(data['view'] != undefined) {
+        $.each(data['view'], function (key, item) {
+          $('#alert_'+item+" form.read").remove();
+        });
+      }
+      if(data['delete'] != undefined) {
+        $.each(data['delete'], function (key, item) {
+          $('#alert_'+item).remove();
+        });
+      }
+      update_screen();
     });
+    $(this).remove();
     return false;
   });
 });
-

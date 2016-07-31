@@ -25,6 +25,7 @@ from django.conf import settings
 
 from django.utils.decorators import method_decorator
 from django.views.decorators.cache import cache_page, never_cache
+from django.views.generic.detail import SingleObjectMixin
 
 class NeverCacheMixin(object):
     @method_decorator(never_cache)
@@ -46,5 +47,11 @@ class OwnerRequiredMixin(UserRequiredMixin):
     user_field = 'user'
 
     def is_authorised(self, user):
-        return getattr(self.get_object(), self.user_field) == user
+        if isinstance(self, SingleObjectMixin):
+            return getattr(self.get_object(), self.user_field) == user
+
+        # For lists of items
+        qs = self.get_queryset()
+        kw = {self.user_field: user}
+        return qs.exclude(**kw).count() == 0
         

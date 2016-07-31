@@ -18,6 +18,7 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
+import json
 
 from django.http import Http404, HttpResponse, HttpResponseRedirect, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
@@ -45,11 +46,10 @@ class AlertsJson(NeverCacheMixin, UserRequiredMixin, View):
         return JsonResponse(context)
 
 
-class AlertList(NeverCacheMixin, UserRequiredMixin, ListView):
-    model = UserAlert
-
+class AlertList(NeverCacheMixin, OwnerRequiredMixin, ListView):
+    """Shows a list of user alerts, user only sees their own"""
     def get_queryset(self, **kwargs):
-        qs = super(AlertList, self).get_queryset(**kwargs)
+        qs = self.request.user.alerts.all().visible
         self.breadcrumb_root = self.request.user
         if 'slug' in self.kwargs:
             self.parent = AlertType.objects.get(slug=self.kwargs['slug'])
@@ -61,7 +61,7 @@ class AlertList(NeverCacheMixin, UserRequiredMixin, ListView):
         if 'new' in self.request.GET:
             self.title = _("New")
             qs = qs.filter(viewed__isnull=True)
-        return qs.filter(user=self.request.user)
+        return qs.order_by('viewed', '-created')
 
     def get_context_data(self, **data):
         data = super(AlertList, self).get_context_data(**data)
@@ -79,11 +79,26 @@ class MarkViewed(NeverCacheMixin, OwnerRequiredMixin, View, SingleObjectMixin):
     def get(self, request, *args, **kwargs):
         obj = self.get_object()
         getattr(obj, self.function)()
-        return HttpResponse(obj.pk)
+        return HttpResponse(json.dumps({self.function: [obj.pk]}))
+
+
+class MarkAllViewed(AlertList):
+    function = 'view'
+
+    def get(self, request, *args, **kwargs):
+        objs = self.get_queryset()
+        # This list() MUST happen before the function otherwise delete
+        # will return an empty list and fail to update the html.
+        pks = list(objs.values_list('pk', flat=True))
+
+        getattr(objs, self.function + '_all')()
+        return HttpResponse(json.dumps({self.function: list(pks)}))
  
 
 class MarkDeleted(MarkViewed):
-    model = UserAlert
+    function = 'delete'
+
+class MarkAllDeleted(MarkAllViewed):
     function = 'delete'
 
 

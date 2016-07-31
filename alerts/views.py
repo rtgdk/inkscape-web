@@ -38,10 +38,10 @@ from .models import UserAlert, Message, \
 
 class AlertsJson(NeverCacheMixin, UserRequiredMixin, View):
     def get(self, request):
-        alerts = request.user.alerts
+        alerts = request.user.alerts.all()
         context = {
            'types': tuple(AlertType.objects.values()) or None,
-           'new': tuple(alerts.new().values()) or None,
+           'new': tuple(alerts.new.values()) or None,
         }
         return JsonResponse(context)
 

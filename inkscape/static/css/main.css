@@ -381,13 +381,16 @@ div.toc ol, #toc.right ol {
   font-size: 0px;
 }
 #tab_messages > p > a,
-#tab_resources > p > a{
+#tab_resources > p > a {
   display: block;
   width: 16px;
-  height: 12px;
-  background: url(../images/message.svg) 0 50% no-repeat;
+  height: 14px;
+  margin: 0px;
   text-decoration: none;
-  margin: 2px 0px;
+  line-height: 2px;
+}
+#tab_messages > p > a {
+  background: url(../images/message.svg) 0 50% no-repeat;
 }
 #tab_resources > p > a {
   background: url(../images/resource.svg) 0 50% no-repeat;

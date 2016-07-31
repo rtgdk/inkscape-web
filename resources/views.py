@@ -25,7 +25,9 @@ Views for resource system, adding items, entering new categories for widgets etc
 import sys
 import os
 
+from sendfile import sendfile
 from datetime import timedelta
+
 from django.http import Http404, JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
@@ -221,7 +223,6 @@ def down_readme(request, pk):
       context_instance=RequestContext(request),
       content_type="text/plain")
 
-from sendfile import sendfile
 
 class DownloadResource(ViewResource):
     template_name = 'resources/view_text.html'

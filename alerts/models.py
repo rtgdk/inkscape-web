@@ -311,9 +311,9 @@ class UserAlert(Model):
                     target = None
 
                 if item.name[0] == '@':
-                    ret[item.name[1:]+'_list'].append(item.target)
+                    ret[item.name[1:]+'_list'].append(target)
                 else:
-                    ret[item.name] = item.target
+                    ret[item.name] = target
             self._data = ret
         return self._data
 

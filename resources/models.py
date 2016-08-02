@@ -483,7 +483,7 @@ class Resource(Model):
             return "%d-%d" % (self.created.year, self.edited.year)
         if self.edited:
             return str(self.edited.year)
-        if self.created:
+        if self.created is None:
             self.created = now()
             self.save()
         return str(self.created.year)

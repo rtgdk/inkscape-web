@@ -19,7 +19,7 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Test breadcrumbs and other core inkscape functions.
+Test breadcrumbs, caching keys and other core inkscape website functions.
 """
 
 import os
@@ -32,14 +32,14 @@ from autotest.base import MultipleFailureTestCase
 from inkscape.middleware import AutoBreadcrumbMiddleware
 from inkscape.url_utils import WebsiteUrls, UrlView
 
-class BaseBreadcrumbTest(MultipleFailureTestCase):
+class WebsiteUrlTest(MultipleFailureTestCase):
     """Tests every page on the website"""
     credentials = {'username': 'admin', 'password': '123456'}
     fixtures = ['url_objects']
 
     @classmethod
     def setUpClass(cls):
-        super(BaseBreadcrumbTest, cls).setUpClass()
+        super(WebsiteUrlTest, cls).setUpClass()
         cls.url_bin = {}
         cls.url_file = os.path.join(cls.fixture_dir, 'url-bin.json')
         if os.path.isfile(cls.url_file):
@@ -48,10 +48,24 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
 
     @classmethod
     def tearDownClass(cls):
-        super(BaseBreadcrumbTest, cls).tearDownClass()
+        super(WebsiteUrlTest, cls).tearDownClass()
         if os.path.isdir(os.path.dirname(cls.url_file)):
             with open(cls.url_file, 'w') as fhl:
                 fhl.write(json.dumps(cls.url_bin, indent=2, sort_keys=True))
+
+    def assertBreadcrumbs(self, response, *terms):
+        """Test the display of breadcrumbs"""
+        crumbs = response.content.split('breadcrumbs">', 1)[-1].split('</div>')[0]
+        try:
+            for x, term in enumerate(terms):
+                if len(term) == 1:
+                    self.assertIn('<em class="crumb">%s<' % term, crumbs)
+                elif x == len(terms) - 1 and len(terms) != 1:
+                    self.assertIn('<em class="crumb">%s<' % term[1], crumbs)
+                else:
+                    self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
+        except AssertionError:
+            raise AssertionError("Breadcrumb %s missing from %s" % (unicode(term), crumbs))
 
     def assertBreadcrumbRequest(self, url, breadcrumbs, **kw):
         """Test a url for the right breadcrumbs"""
@@ -79,6 +93,17 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
 
         self.assertListEqual(zip(*tester), zip(*result))
 
+    def assertCacheKeyResponse(self, response, cache_keys, **kw):
+        keys = list(getattr(response, 'cache_keys', []))
+        try:
+            self.assertListEqual(cache_keys, keys)
+        except Exception as err:
+            if False and not cache_keys:
+                if raw_input("\n\nAre the keys %s correct? [Y/N]: " % ", ".join(keys)) == 'Y':
+                    cache_keys += keys
+                    return
+            raise
+
     def assertContext(self, response, url):
         """Test context for the right objects"""
         if url.is_view:
@@ -88,20 +113,6 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
                 self.assertIn('object_list', response.context_data)
             elif url.url_type in (UrlView.URL_CREATE_TYPE, UrlView.URL_UPDATE_TYPE):
                 self.assertIn('form', response.context_data)
-
-    def assertBreadcrumbs(self, response, *terms):
-        """Test the display of breadcrumbs"""
-        crumbs = response.content.split('breadcrumbs">', 1)[-1].split('</div>')[0]
-        try:
-            for x, term in enumerate(terms):
-                if len(term) == 1:
-                    self.assertIn('<em class="crumb">%s<' % term, crumbs)
-                elif x == len(terms) - 1 and len(terms) != 1:
-                    self.assertIn('<em class="crumb">%s<' % term[1], crumbs)
-                else:
-                    self.assertIn('href="%s" class="crumb">%s<' % term, crumbs)
-        except AssertionError:
-            raise AssertionError("Breadcrumb %s missing from %s" % (unicode(term), crumbs))
 
     def test_all_urls(self):
         """Test every URL on the website
@@ -127,11 +138,6 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
                   or unicode(url.namespace) + ":*" in skips):
                 continue
 
-            if url.slug == 'auth_logout':
-                # XXX Force skipping this auth url for now, it's
-                # destructive to the logged on user. needs replacement.
-                continue
-
             if not url.is_module:
                 used_urls.add(url.slug)
                 data = self.url_bin.setdefault(url.slug, {})
@@ -151,6 +157,19 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
         except Exception as err:
             yield "extra_urls_in_bin", err
 
+    def test_invalidate_cache(self):
+        """Test that caches can be invalidated on signals"""
+        # Test edit invalidates this item's views
+                              # + this model's generic
+        # Test delete invalidates this item's views
+                              # + this model's generic
+        # Test create invalidates any simple create: views
+                              # + this model's generic
+        # Test create invalidates any queryset's with exact matche filters (one filter)
+        # Test create invalidates any queryset's with exact matche filters (two filters)
+        # Test create does not invalidate other create's (no matching fields)
+        # Test create does not invalidate other create's (one matching field)
+        pass
 
     def _test_url(self, url, datum):
         args = datum.get('args', [])
@@ -184,6 +203,11 @@ class BaseBreadcrumbTest(MultipleFailureTestCase):
 
             if datum.setdefault('breadcrumbs', []) is not None:
                 self.assertBreadcrumbResponse(response, **datum)
+
+            print url_str
+            if datum.setdefault('cache_keys', []) is not None:
+                self.assertCacheKeyResponse(response, **datum)
+
             self.assertContext(response, url)
         except KeyError as err:
             raise

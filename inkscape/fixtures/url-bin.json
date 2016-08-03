@@ -9,7 +9,8 @@
         null, 
         "Contributors License Agreement"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "alert.category?slug": {
     "breadcrumbs": [
@@ -26,10 +27,12 @@
         "Personal Message"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
     }
   }, 
+  "alert.delete": {}, 
   "alert.settings": {
     "breadcrumbs": [
       [
@@ -40,7 +43,8 @@
         null, 
         "Your Alert Settings"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "alert.subscribe?pk+slug": {
     "breadcrumbs": [
@@ -61,6 +65,7 @@
         "Subscribe to User's personal messages: Message from Testing Staff"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "1", 
       "slug": "alerts.message_alert"
@@ -85,6 +90,7 @@
         "Subscribe to All"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
     }
@@ -108,6 +114,7 @@
         "Unsubscribe from All"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "1"
     }
@@ -131,6 +138,7 @@
         "Unsubscribe from User's personal messages: Message from Testing Admin"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "2", 
       "slug": "alerts.message_alert"
@@ -155,10 +163,12 @@
         "Unsubscribe from All"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
     }
   }, 
+  "alert.view": {}, 
   "alerts": {
     "breadcrumbs": [
       [
@@ -169,7 +179,8 @@
         null, 
         "Alerts"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "authors": {
     "breadcrumbs": [
@@ -177,7 +188,8 @@
         null, 
         "Author Credits"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "contact": {
     "breadcrumbs": [
@@ -185,7 +197,8 @@
         null, 
         "Contact Inkscape Website Administrators"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "contact.ok": {
     "breadcrumbs": [
@@ -193,7 +206,8 @@
         null, 
         "Contact Inkscape"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "delete_resource?pk": {
     "breadcrumbs": [
@@ -218,6 +232,7 @@
         "Delete"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "1"
     }
@@ -232,7 +247,8 @@
         null, 
         "Edit User Profile"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "edit_resource?pk": {
     "breadcrumbs": [
@@ -257,22 +273,26 @@
         "Edit"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "1"
     }
   }, 
   "error403": {
     "breadcrumbs": [], 
+    "cache_keys": [], 
     "empty": true, 
     "status": 403
   }, 
   "error404": {
     "breadcrumbs": [], 
+    "cache_keys": [], 
     "empty": true, 
     "status": 404
   }, 
   "error500": {
     "breadcrumbs": [], 
+    "cache_keys": [], 
     "empty": true, 
     "status": 500
   }, 
@@ -282,6 +302,9 @@
         null, 
         "All Website Errors"
       ]
+    ], 
+    "cache_keys": [
+      "create:ErrorLog"
     ]
   }, 
   "forums:create?slug": {
@@ -303,6 +326,7 @@
         "Create a new Forum Topic"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "hacking"
     }
@@ -322,6 +346,9 @@
         "Hacking Forum"
       ]
     ], 
+    "cache_keys": [
+      "cache:Forum-1"
+    ], 
     "kwargs": {
       "slug": "hacking"
     }
@@ -336,6 +363,10 @@
         "/en/forums/", 
         "Forums"
       ]
+    ], 
+    "cache_keys": [
+      "cache:Forum-1", 
+      "create:Forum"
     ]
   }, 
   "forums:topic?slug+forum": {
@@ -357,6 +388,9 @@
         "Should this be Legal?"
       ]
     ], 
+    "cache_keys": [
+      "cache:ForumTopic-1"
+    ], 
     "kwargs": {
       "forum": "hacking", 
       "slug": "should-legal"
@@ -373,6 +407,7 @@
         "Galleries"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
     }
@@ -388,6 +423,7 @@
         "Galleries"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "username": "admin"
     }
@@ -411,6 +447,7 @@
         "Delete Gallery"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "gallery_id": "1"
     }
@@ -435,6 +472,7 @@
           "Edit Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "gallery_id": "1"
       }
@@ -458,6 +496,7 @@
           "Edit Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "gallery_id": "2"
       }
@@ -470,10 +509,15 @@
         "Testing Admin"
       ], 
       [
+        "/en/alerts/sent/", 
+        "Messages"
+      ], 
+      [
         null, 
         "Send New Message"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "username": "admin"
     }
@@ -481,10 +525,15 @@
   "message.sent": {
     "breadcrumbs": [
       [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
         "/en/alerts/sent/", 
         "Messages"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "mirror": {
     "breadcrumbs": [
@@ -492,7 +541,8 @@
         "/en/mirror/", 
         "Download Mirrors"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "mirror.add": {
     "breadcrumbs": [
@@ -504,7 +554,8 @@
         null, 
         "Create"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "mirror?slug": {
     "breadcrumbs": [
@@ -517,6 +568,7 @@
         "Test Mirror"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "alice"
     }
@@ -527,7 +579,8 @@
         "/en/~admin", 
         "Testing Admin"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "new_gallery": {
     "breadcrumbs": [
@@ -543,7 +596,8 @@
         null, 
         "Create Gallery"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "news:archive_day?month+day+year": {
     "breadcrumbs": [
@@ -564,6 +618,9 @@
         "7th"
       ]
     ], 
+    "cache_keys": [
+      "cache:News"
+    ], 
     "kwargs": {
       "day": "07", 
       "month": "07", 
@@ -576,6 +633,9 @@
         "/en/news/", 
         "News"
       ]
+    ], 
+    "cache_keys": [
+      "cache:News"
     ]
   }, 
   "news:archive_month?month+year": {
@@ -593,6 +653,9 @@
         "July"
       ]
     ], 
+    "cache_keys": [
+      "cache:News"
+    ], 
     "kwargs": {
       "month": "07", 
       "year": "2016"
@@ -608,6 +671,9 @@
         "/en/news/2016/", 
         "2016"
       ]
+    ], 
+    "cache_keys": [
+      "cache:News"
     ], 
     "kwargs": {
       "year": "2016"
@@ -636,6 +702,9 @@
         "Test News"
       ]
     ], 
+    "cache_keys": [
+      "cache:News-1"
+    ], 
     "kwargs": {
       "day": "07", 
       "month": "07", 
@@ -658,6 +727,9 @@
         "Unpublished News"
       ]
     ], 
+    "cache_keys": [
+      "cache:News-2"
+    ], 
     "kwargs": {
       "pk": "2"
     }
@@ -670,6 +742,7 @@
           "Page One"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "slug": "page"
       }
@@ -685,6 +758,7 @@
           "Page Two"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "slug": "page/two"
       }
@@ -692,6 +766,7 @@
   ], 
   "pages-root": {
     "breadcrumbs": [], 
+    "cache_keys": [], 
     "empty": true
   }, 
   "pastebin": {
@@ -712,7 +787,8 @@
         null, 
         "New PasteBin"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "pasted_item?pk": {
     "breadcrumbs": [
@@ -733,6 +809,7 @@
         "Pasted Resource"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "3"
     }
@@ -747,6 +824,9 @@
         "/en/release/1.0/", 
         "Inkscape 1.0 (fairy)"
       ]
+    ], 
+    "cache_keys": [
+      "cache:Release-1"
     ]
   }, 
   "releases:download?platform+version": {
@@ -772,6 +852,9 @@
         "Download Started"
       ]
     ], 
+    "cache_keys": [
+      "cache:ReleasePlatform-1"
+    ], 
     "kwargs": {
       "platform": "root-platform/second-platform", 
       "version": "1.0"
@@ -792,6 +875,11 @@
           "/en/release/1.0/root-platform/", 
           "Root Platform"
         ]
+      ], 
+      "cache_keys": [
+        "cache:ReleasePlatform-2", 
+        "cache:Platform-1", 
+        "cache:Release-1"
       ], 
       "kwargs": {
         "platform": "root-platform", 
@@ -817,6 +905,11 @@
           "Second Platform"
         ]
       ], 
+      "cache_keys": [
+        "cache:Platform-2", 
+        "cache:ReleasePlatform-1", 
+        "cache:Release-1"
+      ], 
       "kwargs": {
         "platform": "root-platform/second-platform", 
         "version": "1.0"
@@ -837,6 +930,11 @@
         null, 
         "All Platforms for Inkscape 1.0 (fairy)"
       ]
+    ], 
+    "cache_keys": [
+      "cache:Platform", 
+      "cache:Release-1", 
+      "cache:Release"
     ], 
     "kwargs": {
       "version": "1.0"
@@ -866,6 +964,7 @@
           "Copy to Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "pk": "1"
       }
@@ -893,6 +992,7 @@
           "Copy to Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "pk": "2"
       }
@@ -922,6 +1022,7 @@
           "Move to Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "pk": "1", 
         "source": "1"
@@ -950,6 +1051,7 @@
           "Move to Gallery"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "pk": "2", 
         "source": "2"
@@ -970,7 +1072,8 @@
         null, 
         "Upload New Resource"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "resource.upload?gallery_id": {
     "breadcrumbs": [
@@ -991,6 +1094,7 @@
         "Upload New Resource"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "gallery_id": "1"
     }
@@ -1014,6 +1118,7 @@
         "User Resource"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "pk": "1"
     }
@@ -1037,6 +1142,7 @@
         "Team Resource"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "slug": "team-resource", 
       "team": "testteam"
@@ -1062,6 +1168,7 @@
           "User Resource"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "slug": "user-resource", 
         "username": "admin"
@@ -1082,6 +1189,7 @@
           "No Gallery Resource"
         ]
       ], 
+      "cache_keys": [], 
       "kwargs": {
         "slug": "no-gallery-resource", 
         "username": "admin"
@@ -1094,7 +1202,8 @@
         "/en/gallery/", 
         "Resources"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }, 
   "resources?category": {
     "breadcrumbs": [
@@ -1107,6 +1216,7 @@
         "Resource Category"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "category": "resource-category"
     }
@@ -1130,6 +1240,7 @@
         "Second Category"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "category": "second-category", 
       "galleries": "team-gallery", 
@@ -1151,6 +1262,7 @@
         "Second Category"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "category": "second-category", 
       "team": "testteam"
@@ -1171,6 +1283,7 @@
         "Team Gallery"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "galleries": "team-gallery", 
       "team": "testteam"
@@ -1187,6 +1300,7 @@
         "Resources"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
     }
@@ -1202,6 +1316,7 @@
         "Resources"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "username": "admin"
     }
@@ -1221,6 +1336,7 @@
         "Resource Category"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "category": "resource-category", 
       "username": "admin"
@@ -1245,6 +1361,7 @@
         "Resource Category"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "category": "resource-category", 
       "galleries": "user-gallery", 
@@ -1266,6 +1383,7 @@
         "User Gallery"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "galleries": "user-gallery", 
       "username": "admin"
@@ -1273,6 +1391,7 @@
   }, 
   "skip": [
     "auth_login", 
+    "auth_logout", 
     "auth_register", 
     "registration_complete", 
     "registration_disallowed", 
@@ -1351,6 +1470,7 @@
         "Team Charter"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
     }
@@ -1370,6 +1490,7 @@
         "Chat"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
     }
@@ -1385,6 +1506,7 @@
         "Test Team"
       ]
     ], 
+    "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
     }
@@ -1395,6 +1517,9 @@
         "/en/teams/", 
         "Inkscape Community Teams"
       ]
+    ], 
+    "cache_keys": [
+      "cache:Team"
     ]
   }, 
   "view_profile?username": {
@@ -1403,6 +1528,12 @@
         "/en/~admin", 
         "Testing Admin"
       ]
+    ], 
+    "cache_keys": [
+      "cache:Resource-4", 
+      "cache:Resource-2", 
+      "cache:Resource-1", 
+      "cache:User-1"
     ], 
     "kwargs": {
       "username": "admin"
@@ -1418,6 +1549,7 @@
         null, 
         "Welcome"
       ]
-    ]
+    ], 
+    "cache_keys": []
   }
 }

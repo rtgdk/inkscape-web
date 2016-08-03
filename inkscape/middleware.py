@@ -33,32 +33,18 @@ from django.utils.cache import get_cache_key
 
 import logging
 
+from .utils import BaseMiddleware, QuerySetWrapper, generate_list
+
 #
 # Models which are suppressed do not invalidate their caches when they
 # are being updated using 'updated_fields' but will for full saves.
 #
+# XXX We might not need this any more if user pages only invalidate themselves
 SUPPRESSED_MODELS = ['User']
 #
 # Ignored models never invalidate caches.
 #
 IGNORED_MODELS = ['Session']
-
-class BaseMiddleware(object):
-    def get(self, data, key, default=None, then=None):
-        """Returns a data key from the context_data, the view, a get
-        method on the view or a get method on the middleware in that order.
-        
-        Returns default (None) if all fail."""
-        if key in data:
-            return data[key]
-        view = data.get('view', None)
-        if hasattr(view, key):
-            return getattr(view, key)
-        if hasattr(view, 'get_'+key):
-            return getattr(view, 'get_'+key)()
-        if hasattr(then, 'get_'+key):
-            return getattr(then, 'get_'+key)(data)
-        return default
 
 
 class TrackCacheMiddleware(BaseMiddleware):
@@ -75,19 +61,23 @@ class TrackCacheMiddleware(BaseMiddleware):
     cache = caches[settings.CACHE_MIDDLEWARE_ALIAS]
 
     @classmethod
-    def invalidate(cls, obj):
-        """We invalidate all caches as needed based on the object's identity"""
-        #keys = list(cls.get_keys(obj))
+    def invalidate(cls, obj, created=False):
+        """We invalidate all caches as needed based on the object's identity,
+        
+        obj     - The django db Model object who's related views should be invalidated
+        created - Was this object just created (default False for edit and del)
+
+        """
+        caches = set()
         if isinstance(obj, Model):
-            caches = list(cls.get_caches(obj) | cls.get_caches(type(obj)))
-            #print "Invalidating Keys: %s > %s" % (str(keys), str(caches))
-            cls.cache.delete_many(caches)
+            caches = cls.get_caches(obj, created)
+            caches |= cls.get_caches(type(obj))
         elif isclass(obj) and issubclass(obj, Model):
-            caches = list(cls.get_caches(obj))
-            #print "Invalidating Keys: %s > %s" % (str(keys), str(caches))
-            cls.cache.delete_many(caches)
+            caches = cls.get_caches(obj)
         else:
             logging.warning("!ERR DEL cache, '%s' is not a model." % str(obj))
+        #print "Invalidating Keys: %s > %s" % (str(keys), str(caches))
+        cls.cache.delete_many(list(caches))
 
     @classmethod
     def invalidate_all(cls):
@@ -95,38 +85,97 @@ class TrackCacheMiddleware(BaseMiddleware):
         cls.cache.clear()
 
     @classmethod
-    def get_caches(cls, obj):
+    def get_caches(cls, obj, created=False):
         caches = set()
-        for key in cls.get_keys(obj):
+        for key in cls.get_keys(obj, created):
             cache = cls.cache.get(key)
             if cache is not None:
                 caches |= cache
         return caches
 
     @classmethod
-    def get_keys(cls, obj):
-        """Returns a unique key for this object"""
+    def get_keys(cls, obj, created=False):
+        """Returns a unique key for this object.
+
+        obj - Model, object, QuerySet, tuple or list targeting objects
+        created - is only used with cls.invalidate()
+        """
+        if hasattr(obj, '_wrapped'):
+            # Unpack SimpleLazyObjects
+            obj = obj._wrapped
+
         if isinstance(obj, Model):
-            yield "meta:%s-%s" % (type(obj).__name__, str(obj.pk))
+            name = type(obj).__name__
+            if created:
+                yield "cache:create:%s" % name
+
+                # Look up created keys in use and apply fields from this obj
+                for fields in cls.track_fields(type(obj)):
+                    # We recompile the key we used below when doing the QuerySet
+                    add = ":".join(["%s-%s" % (a, unicode(getattr(obj, a))) for a in fields])
+                    yield "cache:create:%s+%s" % (name, add)
+
+            else:
+                yield "cache:%s-%s" % (type(obj).__name__, str(obj.pk))
 
         elif isclass(obj) and issubclass(obj, Model):
-            yield "meta:%s" % obj.__name__
-        elif isinstance(obj, (list, tuple)):
-            if len(obj) > 0 and isinstance(obj[0], Model):
-                yield "meta:%s" % type(obj[0]).__name__
+            yield "cache:%s" % obj.__name__
+
         elif isinstance(obj, QuerySet):
-            yield "meta:%s" % obj.model.__name__
+            fields = sorted(obj.get_basic_filter())
+            add = ":".join(["%s-%s" % (a, unicode(b)) for (a, b) in fields])
+            yield "cache:create:%s%s%s" % (obj.model.__name__, "+"[:bool(add)], add)
+
+            if fields:
+                cls.track_fields(obj.model, fields)
+
+        elif isinstance(obj, (list, tuple)):
+            # Add each item, up to a maximium of 20, best to use QuerySets
+            for child in obj[:20]:
+                for key in cls.get_keys(child):
+                    yield key
+
+    @classmethod
+    def track_fields(cls, model, fields=None):
+        """Track which fields have been used in this object's create scheme"""
+        key = 'cache:fields:' + model.__name__
+        caches = cls.cache.get(key) or set()
+        if fields is not None:
+            fields = tuple([name for name, value in fields])
+            caches.add(fields)
+            cls.cache.set(key, caches, int(cls.cache_timeout * 1.5))
+        return caches
 
     @classmethod
     def track_cache(cls, obj, cache_key):
         """Associate this cache_key (url pointer) with this model object"""
         for key in cls.get_keys(obj):
+            yield key
             caches = cls.cache.get(key)
             if not caches:
                 caches = set()
             caches.add(cache_key)
             # Keep a record of urls causing caches for longer
             cls.cache.set(key, caches, int(cls.cache_timeout * 1.5))
+
+    def process_template_response(self, request, response):
+        if not request.method in ('GET', 'HEAD') \
+              or not hasattr(response, 'context_data'):
+            return response
+
+        response.cache_tracks = []
+        for key, value in response.context_data.items():
+            if isinstance(value, Model):
+                # Track this one item being used in the context data
+                response.cache_tracks.append(key)
+            elif isinstance(value, QuerySet):
+                # Track any items that are loaded by wrapping the queryset
+                # and then making a callback as each object is loaded.
+                value = value._clone(klass=QuerySetWrapper, method=response.cache_tracks.append)
+                response.cache_tracks.append(key)
+                response.context_data[key] = value
+
+        return response
 
     def process_response(self, request, response):
         """
@@ -148,48 +197,43 @@ class TrackCacheMiddleware(BaseMiddleware):
           {% track_object obj %}
         {% endfor %}
         """
-        if not getattr(request, '_cache_update_cache', False) \
-              or not request.method in ('GET', 'HEAD') \
-              or not hasattr(response, 'context_data'):
+        tracks = getattr(response, 'cache_tracks', [])
+        if not getattr(request, '_cache_update_cache', False) or not tracks:
             return response
 
         cache_key = get_cache_key(request, self.key_prefix, 'GET', cache=self.cache)
         if not cache_key:
             return response
 
-        data = response.context_data
-        for obj in self.get(data, 'cache_tracks', []):
-            self.track_cache(obj, cache_key)
+        response.cache_keys = set()
+        response.cache_key = cache_key
 
-        for obj in getattr(request, 'tracked_objects', []):
-            self.track_cache(obj, cache_key)
+        for key in tracks:
+            if isinstance(key, (str, unicode)):
+                obj = response.context_data[key]
+            else:
+                obj = key
+                key = type(obj).__name__
+            print " + Adding object: %s -> %s" % (str(key), str(list(self.get_keys(obj))))
+            response.cache_keys |= set(self.track_cache(obj, cache_key))
 
-        for key in ('object', 'object_list'):
-            target = data.get(key, None)
-            if target is not None:
-                self.track_cache(target, cache_key)
         return response
 
 
 @receiver(signals.post_delete)
-def object_deleted(sender, instance, *args, **kw):
+def object_deleted(sender, instance, **kw):
     TrackCacheMiddleware.invalidate(instance)
 
 @receiver(signals.post_save)
-def object_saved(sender, instance, *args, **kw):
+def object_saved(sender, instance, created=False, **kw):
     """Invalidate page caches for an object if not 'updating_fields'"""
     model = type(instance).__name__
     if kw.get('update_fields') and model in SUPPRESSED_MODELS:
         return
     if model in IGNORED_MODELS:
         return
-    TrackCacheMiddleware.invalidate(instance)
+    TrackCacheMiddleware.invalidate(instance, created)
 
-def generate_list(f):
-    # Generates a list from a generator
-    def _inner(*args, **kw):
-        return list(f(*args, **kw))
-    return _inner
 
 class AutoBreadcrumbMiddleware(BaseMiddleware):
     """
@@ -276,4 +320,5 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
         if name is not None and name.startswith('['):
             return None
         return (url, name)
+
 

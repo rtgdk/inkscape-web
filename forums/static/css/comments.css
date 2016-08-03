@@ -170,5 +170,15 @@
 }
 
 .comment #id_honeypot {
-    display: none;
+  display: none;
+}
+
+.comment .body.input {
+  border: 2px inset rgba(180, 180, 180, 0.5);
+  margin: 1px;
+}
+
+.comment .body.input textarea {
+  background-color: white;
+  border: 0px none;
 }

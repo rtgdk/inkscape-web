@@ -1,4 +1,4 @@
-{% load i18n comments extras %}
+{% load i18n static comments extras %}
 
 {% get_comment_form for comment_subject as form %}
 {% trans "Leave a comment:" as label %}
@@ -15,9 +15,12 @@
   {% csrf_token %}
   <div class="comment">
     <div class="details">
-      <div class="title">{{ comment_label|default:label }}</div>
+      <div class="title">
+        <img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/>
+        <div>{{ comment_label|default:label }}</div>
+      </div>
     </div>
-    <div class="body">
+    <div class="body input">
       {{ form.comment|tabindex:8 }}
       {{ form.honeypot }}
       {{ form.content_type }}

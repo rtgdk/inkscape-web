@@ -18,7 +18,7 @@
 
     <form method="get" action=".">
       {% if query %}
-        <h3>{% trans "Search Results for" %} '{{ query }}'</h3>
+        <h3>{% blocktrans %}Search Results for ‘{{ query }}’{% endblocktrans %}</h3>
 
         <div id="results">
             {% for result in page.object_list %}

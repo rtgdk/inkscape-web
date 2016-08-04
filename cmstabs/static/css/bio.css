@@ -47,7 +47,7 @@ table.bioitem td {
 }
 table.bioitem td.img {
   background-color: #334;
-  width: 0px;
+  width: 1px;
   padding: 0px;
 }
 table.bioitem p {

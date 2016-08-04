@@ -8,7 +8,7 @@
 
 {% autopaginate object_list limit as resources %}
 
-<div class="photos"/>
+<div class="photos">
   {% for item in resources %}
     {% if item.is_visible %}
     <table class="bioitem">

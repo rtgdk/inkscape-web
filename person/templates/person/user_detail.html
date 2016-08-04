@@ -17,7 +17,7 @@
        {% if object.from_friends.i_added %}
          <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
        {% else %}
-         <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user." %}"/></a>
+         <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user" %}"/></a>
        {% endif %}
      {% endif %}
      {% if object.is_staff %}
@@ -27,7 +27,7 @@
        {% if object == request.user %}<a href="{% url "moderation:index" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
      {% endif %}
      {% if object.dauser %}
-       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My deviantArt Account" %}"/></a>
+       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My DeviantArt Account" %}"/></a>
      {% endif %}
      {% if object.ocuser %}
        <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{% static "images/social/openclipart.svg" %}" title="{% trans "My Openclipart Profile" %}"/></a>

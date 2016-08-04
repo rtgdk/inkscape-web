@@ -6,7 +6,7 @@
    <div class="status">{% trans "from" %} <a href="{{ instance.sender.get_absolute_url }}" title="{% trans "Visit profile" %}">{{ instance.sender }}</a></div>
    <div class="index">
      {% if instance %}
-       <a href="{% url "message.new" instance.sender.username %}?reply_to={{ instance.pk }}">{% trans "Reply" %}</a>
+       <a href="{% url "message.reply" instance.sender.username instance.pk %}">{% trans "Reply" %}</a>
      {% endif %}
    </div>
 </div>

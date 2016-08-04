@@ -1,48 +1,20 @@
-{% extends "base.html" %}
-
+{% extends "modal.html" %}
 {% load i18n %}
 
-{% block title %}{% trans "Write Message" %} | {{ user.name }}{% endblock %} 
-
-{% block content %}
-
-{% if reply_to %}
-  <h1>{% trans "Reply To Message" %}</h1>
-{% else %}
-  <h1>{% trans "New Message" %}</h1>
-{% endif %}
-
-<form method="post" action=".">
- {% csrf_token %}
- <table class="">
+{% block "dialog-body" %}
   {% if reply_to %}
-   <tr>
-    <th scope="row">{% trans "Reply To:" %}</th>
-    <td>
-      <input type="hidden" name="reply_to" value="{{ reply_to.pk }}"/>
-      {{ reply_to.body }}
-    </td>
-   </tr>
+    <form>
+    {{ reply_to.body }}
+    <hr/>
+    </form>
   {% endif %}
-  <tr>
-    <th scope="row">{{ form.recipient.label_tag }}</th>
-    <td>
-      <input type="hidden" name="recipient" value="{{ form.recipient.value }}"/>
-      {{ recipient }}
-    </td>
-  </tr>
-  <tr>
-    <th scope="row">{{ form.subject.label_tag }}</th>
-    <td>{{ form.subject }}</td>
-  </tr>
-  <tr>
-    <th scope="row">{{ form.body.label_tag }}</th>
-    <td>{{ form.body }}</td>
-  </tr>
-  <tr>
-    <td colspan="2" style="text-align: right;"><input type="submit" value="{% trans "Send" %}"/></td>
-  </tr>
- </table>
-</form>
+{% endblock %}
 
+{% block "form-buttons" %}
+  <a href="{% url "alerts" %}" class="btn btn-default">{% trans "Cancel" %}</a>
+  {% if reply_to %}
+    <button type="submit" class="btn btn-primary">{% trans "Send Reply" %}</button>
+  {% else %}
+    <button type="submit" class="btn btn-primary">{% trans "Send Message" %}</button>
+  {% endif %}
 {% endblock %}

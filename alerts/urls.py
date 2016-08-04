@@ -27,7 +27,8 @@ from person.urls import USER_URLS
 
 USER_URLS.url_patterns.extend([
   # Example message system
-  url(r'^/message/$',                CreateMessage.as_view(),name="message.new"),
+  url(r'^/message/$',             CreateMessage.as_view(), name="message.new"),
+  url(r'^/message/(?P<pk>\d+)/$', CreateMessage.as_view(), name="message.reply"),
 ])
 
 urlpatterns = patterns('',

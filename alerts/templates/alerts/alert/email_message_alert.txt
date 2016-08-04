@@ -8,7 +8,7 @@
 {{ instance.body }}
 
 
-{% trans "Reply" %}: {{ site }}{% url "message.new" instance.sender.username %}?reply_to={{ instance.pk }}
+{% trans "Reply" %}: {{ site }}{% url "message.reply" instance.sender.username instance.pk %}
 {% blocktrans %}Visit {{ sender }}'s profile{% endblocktrans %}: {{ site }}{{ instance.sender.get_absolute_url }}
 {% trans "All my messages" %}: {{ site }}{% url 'alerts' %}
 {% endwith %}

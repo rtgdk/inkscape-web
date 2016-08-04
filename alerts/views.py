@@ -32,6 +32,7 @@ from django.views.generic import ListView, DeleteView, CreateView, \
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 
+from .forms import MessageForm
 from .mixins import NeverCacheMixin, UserRequiredMixin, OwnerRequiredMixin
 from .models import UserAlert, Message, \
     UserAlertSetting, AlertType, AlertSubscription
@@ -210,13 +211,11 @@ class SentMessages(NeverCacheMixin, UserRequiredMixin, ListView):
 
 class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
     model = Message
-    title = _("Send New Message")
-    fields = ('subject','body','recipient','reply_to')
+    form_class = MessageForm
 
     def form_valid(self, form):
         obj = form.save(commit=False)
         obj.sender = self.request.user
-        obj.reply_to = self.get_reply_to()
         obj.save()
         return HttpResponseRedirect(self.get_success_url())
 
@@ -224,11 +223,9 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
         return reverse('my_profile')
 
     def get_reply_to(self):
-        msg = self.gost('reply_to', None)
-        if msg:
+        if 'pk' in self.kwargs:
             # If we ever want to restrict who can reply, do it here first.
-            msg = get_object_or_404(self.model, pk=msg, recipient=self.request.user)
-        return msg
+            return get_object_or_404(self.model, pk=self.kwargs['pk'], recipient=self.request.user)
 
     def get_initial(self):
         """Add reply to subject initial data"""
@@ -236,8 +233,10 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
         self.recipient = get_object_or_404(get_user_model(), username=self.kwargs.get('username',''))
         rto = self.get_reply_to()
         if rto:
-            initial['subject'] = (rto.reply_to and "Re: " or "") + rto.subject
-            self.recipient = rto.sender
+            initial['subject'] = rto.subject
+            if not rto.reply_to:
+                initial['subject'] = "Re: " + initial['subject']
+        initial['reply_to'] = self.kwargs.get('pk')
         initial['recipient'] = self.recipient.pk
         return initial
 
@@ -247,5 +246,10 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
         data['reply_to'] = self.get_reply_to()
         data['recipient'] = self.recipient
         data['object'] = self.recipient
+
+        data['title'] = _("Send New Message")
+        if data['reply_to']:
+            data['title'] = _("Send Reply Message")
+
         return data
 

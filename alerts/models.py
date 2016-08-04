@@ -67,7 +67,7 @@ class AlertType(Model):
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 
     created  = DateTimeField(_("Created Date"), auto_now_add=now)
-    
+
     category = CharField(_("Category"), max_length=1, choices=CATEGORIES, default='?')
     enabled  = BooleanField(default=False)
     private  = BooleanField(default=False)
@@ -214,7 +214,7 @@ class UserAlertQuerySet(QuerySet):
 
     @property
     def new(self):
-        return self.filter(viewed__isnull=True)
+        return self.filter(viewed__isnull=True, deleted__isnull=True)
 
     @property
     def visible(self):
@@ -257,9 +257,6 @@ class UserAlertManager(Manager):
             counts[slug] += count
         for slug in counts.keys():
             yield (slug, SIGNALS[slug], counts[slug])
-
-    def mark_viewed(self):
-        return self.get_queryset().filter(viewed__isnull=True).update(viewed=now())
 
 
 class UserAlert(Model):

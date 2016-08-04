@@ -44,7 +44,7 @@ class MessageAlert(CreatedAlert):
         """Marks the message we're replying to as viewed"""
         if super(MessageAlert, self).call(sender, instance=instance, **kwargs):
             if instance.reply_to:
-                instance.reply_to.alerts.mark_viewed()
+                instance.reply_to.alerts.all().view_all()
 
 
 class TestMessageAlert(MessageAlert):

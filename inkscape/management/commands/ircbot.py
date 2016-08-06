@@ -43,6 +43,7 @@ from person.models import User
 from alerts.models import Message, UserAlert
 from resources.models import Category
 
+from inkscape.models import HeartBeat
 
 def url(item):
     """Returns the full URL"""
@@ -52,7 +53,13 @@ def url(item):
 
 
 class BotCommand(object):
-    """A bot command decorator class"""
+    """A bot command decorator class
+    
+    @BotCommand(directed=True) - A command where webbot needs to be directly asked
+
+    @BotCommand(directed=False) - A piece of text from anybody any any time
+
+    """
     LANGS = [l[0] for l in settings.LANGUAGES]
 
     def __init__(self, directed=True):
@@ -85,7 +92,8 @@ class BotCommand(object):
                 else:
                     return "A database error, hmmm."
             except Exception:
-                context.connection.privmsg(context.target, "There was an error")
+                if context:
+                    context.connection.privmsg(context.target, "There was an error")
                 raise
 
         _inner.__doc__ = func.__doc__
@@ -109,22 +117,49 @@ class Command(BaseCommand):
             pid.write(str(os.getpid()))
         atexit.register(lambda: os.unlink(settings.IRCBOT_PID))
 
+        HeartBeat.objects.filter(name="ircbot").delete()
+        self.beat = HeartBeat.objects.create(name="ircbot")
+
         self.last_alert = now()
         signal.signal(signal.SIGUSR1, self.recieve_alert)
         self.client = BotClient()
         self.register_all(type(self).__dict__)
         self.client.start()
 
-        # Keep ircbot main thread running
-        print "Server Started!"
+        self.log_status("Server Started!", 0)
+        drum = 60 # wait for a minute between beats
+
         while True:
             try:
-                time.sleep(2)
+                time.sleep(drum)
+                self.beat.save()
                 assert(self.client.connections[0].socket.connected)
             except KeyboardInterrupt:
-                self.on_exit(None, '')
+                self.on_exit(None, 'Keyboard Interrupt')
+                for x, conn in enumerate(self.client.connections):
+                    if conn.socket.connected:
+                        conn.socket.disconnect()
+                self.log_status("Keyboard Interrupt", 1)
+                drum = 0.1
             except AssertionError:
-                break
+                threads = [t for t in threading.enumerate() if t.name != 'MainThread' and t.isAlive()]
+                print ""
+                for t in threads:
+                    # This is for error tracking when treading is messed up
+                    self.log_status("Thread Locked: %s (Alive:%s, Daemon:%s)" % (t.name, t.isAlive(), t.isDaemon()), -10)
+
+                if not threads:
+                    self.log_status("Socket Disconnected", -1)
+                    break
+                else:
+                    drum = 0.1
+
+    def log_status(self, msg, status=-1):
+        print msg
+        if self.beat.status == 0:
+            self.beat.error = msg
+            self.beat.status = status
+            self.beat.save()
 
     def register_all(self, d):
         for name, func in d.items():
@@ -136,12 +171,10 @@ class Command(BaseCommand):
     @BotCommand(False)
     def on_exit(self, context):
         """The trouble with having an open mind, of course, is that people will insist on coming along and trying to put things in it."""
-        print "Bot is going to sleep!"
+        if context and context.ident:
+            self.log_status("Told to quit by: " + context.ident.nick, 2)
         try:
             self.client.quit()
-            # Make sure we quit, no reconnection for us.
-            sys.exit(0)
-            #self.client.connections[0].socket.disconnect()
         except Exception as error:
             print "Error quitting: %s" % str(error)
 
@@ -149,14 +182,18 @@ class Command(BaseCommand):
     def on_hello(self, context):
         """Hello"""
         return _("Hello there %(nick)s") % {'nick': context.ident.nick}
-        #context.connection.privmsg('#inkscape-web', "Hello there!" + \
-        #  ', ident:' + context.ident + \
-        #  ', nick:' + context.ident.nick + \
-        #  ', username:' + context.ident.username + \
-        #  ', host:' + context.ident.host + \
-        #  ', msgtype:' + context.msgtype + \
-        #  ', target:' + context.target
-        #  )
+
+    @BotCommand()
+    def on_dump(self, context):
+        """DumpInfo"""
+        context.connection.privmsg(context.ident.nick, "Info: " + \
+          ', ident:' + context.ident + \
+          ', nick:' + context.ident.nick + \
+          ', username:' + context.ident.username + \
+          ', host:' + context.ident.host + \
+          ', msgtype:' + context.msgtype + \
+          ', target:' + context.target
+          )
 
     @BotCommand()
     def on_whois(self, context, nick):
@@ -165,7 +202,8 @@ class Command(BaseCommand):
         if users.count() > 0:
             return context.nick + ': ' + '\n'.join([u"%s - %s" %
               (str(profile), url(profile)) for profile in users])
-            return context.nick + ': ' + _(u'No user with irc nickname "%(nick)s" on the website.') % {'nick': nick}
+
+        return context.nick + ': ' + _(u'No user with irc nickname "%(nick)s" on the website.') % {'nick': nick}
 
     @BotCommand()
     def on_tell(self, context, nick, body):
@@ -189,11 +227,17 @@ class Command(BaseCommand):
     @BotCommand()
     def on_art(self, context):
         """Get Latest Art"""
-        cat = Category.objects.filter(name='Artwork')
-        if cat.count() < 1:
-            return
-        item = cat[0].items.filter(published=True).latest('created')
-        return u"%s by %s: %s" % (unicode(item), unicode(item.user), url(item))
+        try:
+            artworks = Category.objects.get(name='Artwork')
+        except Category.DoesNotExist:
+            return "No Artworks Category on website"
+
+        try:
+            art = artworks.items.filter(published=True).latest('created')
+        except Resource.DoesNotExist:
+            return "No Artworks uploaded yet"
+
+        return u"%s by %s: %s" % (unicode(art), unicode(art.user), url(art))
 
     def recieve_alert(self, signum, frame):
         """

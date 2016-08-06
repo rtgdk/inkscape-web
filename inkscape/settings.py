@@ -136,7 +136,7 @@ MIDDLEWARE_CLASSES = (
 
 # ===== CACHING ===== #
 
-if ENABLE_CACHING:
+if ENABLE_CACHING or IS_TEST:
     # Caching Middleware caches whole pages, can cause issues
     MIDDLEWARE_CLASSES = \
       ('inkscape.middleware.TrackCacheMiddleware',) + \

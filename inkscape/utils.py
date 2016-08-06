@@ -24,12 +24,21 @@ Some generic utilities for improving caching and other core features
 from django.db.models.lookups import Exact
 from django.db.models.expressions import Col
 
+from django.template.context import Context
+
 def generate_list(f):
-    # Generates a list from a generator
+    """Decorator to return a list from a generator"""
     def _inner(*args, **kw):
         return list(f(*args, **kw))
     return _inner
 
+def context_items(context):
+    """Unpack a django context, equiv of dict.items()"""
+    if not isinstance(context, Context):
+        context = [context]
+    for d in context:
+        for (key, value) in d.items():
+            yield (key, value)
 
 class QuerySetWrapper(object):
     """
@@ -52,7 +61,8 @@ class QuerySetWrapper(object):
     """
     def iterator(self):
         for obj in super(QuerySetWrapper, self).iterator():
-            self.method(obj, **getattr(self, 'kwargs', {}))
+            if self.method is not None:
+                self.method(obj, **getattr(self, 'kwargs', {}))
             yield obj
 
     def _clone(self, klass=None, setup=False, **kwargs):

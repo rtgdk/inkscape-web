@@ -486,13 +486,17 @@ div.toc ol, #toc.right ol {
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
   border-top: 1px solid #141414;
 }
+.header .nav li ul li ul {
+  top: 0px;
+  left: 155px;
+}
 .header .nav li ul a {
   font-size: 13px;
 }
-.header .nav li:hover ul {
+.header .nav ul > li:hover > ul {
   display: block;
 }
-.header .nav li li {
+.header .nav > ul > li ul li {
   float: none;
   margin: 0;
   padding: 0;

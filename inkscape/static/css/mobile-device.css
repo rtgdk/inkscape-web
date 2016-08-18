@@ -87,14 +87,15 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 
 .header .nav {
-  margin: 0 8px;
   height: auto;
 }
 #menu {
-  margin: 0 20px;
+  margin: 0 20px -4px;
 }
 #menu > li > a {
   padding: 10px 15px;
+  border-bottom: 1px solid #333;
+  border-top: 1px solid #5a5a5a;
   font-size: 13px;
 }
 #menu > li:last-child > a {
@@ -104,15 +105,19 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   top: 0;
 }
 #menu > li:hover > ul {
-	display: none;
+  display: none;
+}
+#menu > li.activated > ul {
+  display: block;
 }
 #menu > li > ul > li:first-child > a {
-  padding: 9px 10px;
+  padding: 11px 10px;
   font-size: 15px;
   font-weight: bold;
 }
 @media screen and (max-device-width: 459px) {
   .header .nav {
+    margin: 0 0 8px 8px;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -133,12 +138,11 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   #menu > li.ancestor > a,
   #menu > li:hover > a,
   #menu > li > a:focus {
-     background-image: linear-gradient(to right, #333333, #4d4d4d);
+    background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
   #menu > li > a {
-    border: 0;
-    border-bottom: 1px solid #333;
-    border-top: 1px solid #5a5a5a;
+    border-left: 0;
+    border-right: 0;
   }
   #menu > li:first-child > a {
     border-radius: 10px 10px 0 0;
@@ -146,7 +150,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   #menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  #menu > li:hover > a {
+  #menu > li.activated > a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
   }
@@ -302,5 +306,5 @@ table.bioitem p.bio {
   max-width: 100%;
 }
 div.donationpicparagraph img {
-	margin: 12px 0 12px 12px;
+  margin: 12px 0 12px 12px;
 }

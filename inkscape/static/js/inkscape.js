@@ -230,11 +230,11 @@ function menu(){
             var parentLink = $(this).children("a").clone();
             $(this).children("ul").prepend($("<li>").addClass('children').append(parentLink));
             $(this).children("a").click(function(){
-                $(this).parent().children("ul").toggle();
+                $(this).parent().toggleClass('activated');
                 return false;
             });
             $(this).mouseleave(function(){
-                $(this).children("ul").hide();
+                $(this).removeClass('activated');
             });
         });
     } else {

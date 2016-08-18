@@ -8,9 +8,9 @@
     <link rel="shortcut icon" href="{% static "images/inkscape-logo.png" %}"/>
 
     {% block "css" %}
-      <link rel="stylesheet"    type="text/css" href="{% static "css/main.css" %}"/>
-      <link rel="stylesheet"    type="text/css" href="{% static "css/text.css" %}"/>
-      <link rel="stylesheet"    type="text/css" href="{% static "css/gallery.css" %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static "css/main.css" %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static "css/text.css" %}"/>
+      <link rel="stylesheet" type="text/css" href="{% static "css/gallery.css" %}"/>
     {% endblock %}
 
     <link rel="alternate"   type="application/rss+xml" title="{% trans "News Feed" %}" href="{% url "news:rss" %}"/>
@@ -23,9 +23,13 @@
       <script type="text/javascript" src="{% static "js/inkscape.js" %}"></script>
     {% endblock %}
 
-    <!--Sekizai blocks are depricated, when django-cms stops using them, remove-->
+    <!-- Sekizai blocks are deprecated, when django-cms stops using them, remove -->
     {% load sekizai_tags %}{% render_block "css" %}{% render_block "js" %}
+
     {% if form %}{{ form.media }}{% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile-device.css" %}"
+      media="only screen and (max-device-width: 959px)"/>
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />

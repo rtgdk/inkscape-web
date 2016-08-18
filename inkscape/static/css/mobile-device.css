@@ -1,0 +1,310 @@
+/* Global */
+body {
+  width: 100%;
+}
+
+div.cms .cms-toolbar,
+div.cms .cms-toolbar-trigger {
+  position: absolute;
+  top: -5px;
+}
+div.cms .cms-toolbar {
+  min-width: 500px;
+  min-height: 135px;
+}
+div.cms .cms-toolbar:not([style$="margin-top: 0px;"]) {
+  display: none;
+}
+div.cms .cms-toolbar .cms-toolbar-right {
+  top: 82px;
+  left: 0;
+  z-index: 1;
+  padding: 0 0 0 15px;
+}
+div.cms .cms-toolbar .cms-toolbar-item-navigation {
+  clear: left;
+  margin: -5px 0 0 -10px;
+}
+
+#logo {
+  margin: 20px 0 0 8px;
+}
+#tabs {
+  position: absolute;
+  top: 0;
+  right: 8px;
+}
+#topsearch {
+  right: 8px;
+}
+@media screen and (max-device-width: 599px) {
+  #cleartop {
+    height: 140px;
+  }
+  #logo {
+    margin-top: 28px;
+  }
+  #topsearch {
+    top: 100px;
+  }
+}
+@media screen and (max-device-width: 459px) {
+  #cleartop {
+    height: 180px;
+    text-align: center;
+  }
+  #logo {
+    display: inline-block;
+    float: none;
+    margin: 0;
+    padding-top: 44px;
+    white-space: nowrap;
+    text-align: left;
+  }
+  #header-right {
+    margin-top: -114px;
+  }
+  #tabs {
+    display: inline-block;
+    position: static;
+    float: none;
+  }
+  #tabs > li.dropdown > div {
+    text-align: left;
+  }
+  #tabs > #tab_languages > div {
+    margin-left: 0 !important;
+    border-radius: 0 5px 5px 5px;
+  }
+  #tabs > #tab_languages > div > p:first-child > a:hover,
+  #tabs > #tab_languages > div > p:first-child > a.selected {
+    border-radius: 0 5px 0 0;
+  }
+  #topsearch {
+    top: 132px;
+    left: 8px;
+  }
+}
+
+.header .nav {
+  height: auto;
+}
+#menu {
+  margin: 0 20px -4px;
+}
+#menu > li > a {
+  padding: 10px 15px;
+  border-bottom: 1px solid #333;
+  border-top: 1px solid #5a5a5a;
+  font-size: 13px;
+}
+#menu > li:last-child > a {
+  border-radius: 0;
+}
+#menu > li > ul {
+  top: 0;
+}
+#menu > li:hover > ul {
+  display: none;
+}
+#menu > li.activated > ul {
+  display: block;
+}
+#menu > li > ul > li:first-child > a {
+  padding: 11px 10px;
+  font-size: 15px;
+  font-weight: bold;
+}
+@media screen and (max-device-width: 459px) {
+  .header .nav {
+    margin: 0 0 8px 8px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    text-align: left;
+  }
+  #menu {
+    margin: 0;
+    border: 0;
+    border-radius: 10px;
+    background-color: #4d4d4d;
+    background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
+  }
+  #menu > li {
+    float: none;
+    text-align: center;
+  }
+  #menu > li.selected > a,
+  #menu > li.ancestor > a,
+  #menu > li:hover > a,
+  #menu > li > a:focus {
+    background-image: linear-gradient(to right, #333333, #4d4d4d);
+  }
+  #menu > li > a {
+    border-left: 0;
+    border-right: 0;
+  }
+  #menu > li:first-child > a {
+    border-radius: 10px 10px 0 0;
+  }
+  #menu > li:last-child > a {
+    border-radius: 0 0 10px 10px;
+  }
+  #menu > li.activated > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
+  #menu > li > ul {
+    left: 100%;
+    border: 0;
+  }
+}
+
+#final-footer > span {
+  display: block;
+  padding: 0;
+}
+#final-footer > a {
+  white-space: nowrap;
+}
+
+
+/* Homepage */
+#banners {
+  position: relative;
+}
+#banners > div {
+  top: 0;
+  left: 0;
+  right: 0;
+}
+#banners > div > div {
+  width: auto;
+}
+
+#shield .tabs {
+  height: auto;
+}
+#shield .tabs > li > a,
+#shield .tabs > li > div {
+  position: relative;
+  padding: 10px;
+}
+#shield .tabs strong {
+  margin: 0 0 8px;
+  font-size: 16px;
+}
+#shield .tabs li > a > img {
+  position: absolute;
+  top: 6px;
+  right: 4px;
+  z-index: 1;
+  float: none;
+  margin: 0;
+  width: 24px;
+  height: 24px;
+}
+@media screen and (min-device-width: 600px) {
+  #shield .tabs > li > a,
+  #shield .tabs > li > div {
+    padding: 14px;
+  }
+}
+@media screen and (max-device-width: 459px) {
+  #shield .tabs > li {
+    display: block;
+    width: auto;
+  }
+  #shield .tabs > li:first-child {
+    border-radius: 5px 5px 0 0;
+  }
+  #shield .tabs > li:last-child {
+    border-radius: 0 0 5px 5px;
+  }
+}
+
+#columns {
+  padding-right: 8px;
+  background: transparent;
+}
+#columns > .column,
+#columns > .column:last-child {
+  display: block;
+  margin-bottom: 32px;
+  padding: 0;
+  width: auto;
+  border-right: 0;
+}
+
+
+/* Various contents */
+#content {
+  margin-bottom: 0;
+  padding: 20px 12px;
+  background: transparent;
+}
+#content > div.wrapper {
+  margin: -20px -12px;
+  padding: 20px 12px;
+}
+
+#left-column,
+#right-sidebar {
+  float: none;
+  padding: 0;
+  width: auto;
+}
+#left-column > h2:first-child,
+#right-sidebar > h2:first-child {
+  margin-top: 3.5ex !important;
+}
+
+table.bioitem p.bio {
+  min-height: 104px;
+}
+.bioitem a.link {
+  min-width: 120px;
+  min-height: 120px;
+  line-height: 117px;
+}
+.bioitem a.link img {
+  max-width: 120px;
+  max-height: 120px;
+}
+
+#profile {
+  border-radius: 0;
+}
+#profile ~ #left-column,
+#profile ~ #right-sidebar {
+  padding: 0 20px;
+}
+
+.item .image {
+  padding: 20px;
+}
+.item .image img {
+  max-width: 100%;
+}
+@media screen and (max-device-width: 599px) {
+  .item h2 {
+    clear: right;
+    padding-top: 12px;
+  }
+  .item div.desc,
+  .item div.side,
+  .item .side h2 {
+    display: block;
+    width: auto;
+  }
+  .item .side {
+    border-left: 0;
+  }
+}
+
+.page img {
+  max-width: 100%;
+}
+div.donationpicparagraph img {
+  margin: 12px 0 12px 12px;
+}

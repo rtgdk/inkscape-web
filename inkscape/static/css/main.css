@@ -412,7 +412,7 @@ div.toc ol, #toc.right ol {
   height: 110px;
 }
 #header-right {
-  position:relative !important;
+  position: relative;
 }
 /* navigation */
 .header .nav {
@@ -431,7 +431,8 @@ div.toc ol, #toc.right ol {
   padding: 0;
   border-left: 1px solid #333333;
 }
-.header .nav :link, .header .nav :link:hover, .header .nav :link:active, .header .nav :visited, .header .nav :visited:hover, .header .nav :visited:active {
+.header .nav :link, .header .nav :link:hover, .header .nav :link:active,
+.header .nav :visited, .header .nav :visited:hover, .header .nav :visited:active {
   color: white;
   text-decoration: none;
 }

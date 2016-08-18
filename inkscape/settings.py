@@ -26,6 +26,7 @@ TIME_ZONE = 'UTC'
 LANGUAGE_CODE = 'en'
 
 LANGUAGES = (
+    ('ar', 'Arabic'),
     ('en', 'English'),
     ('de', 'German'),
     ('da', 'Danish'),

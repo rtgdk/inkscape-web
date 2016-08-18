@@ -1,0 +1,42 @@
+[
+{
+  "fields": {
+    "status": 500,
+    "count": 12,
+    "added": "2016-08-05T17:52:56.198Z",
+    "uri": "fruit-loop"
+  },
+  "model": "inkscape.errorlog",
+  "pk": 1
+},
+{
+  "fields": {
+    "status": 404,
+    "count": 202,
+    "added": "2016-02-05T17:53:10.037Z",
+    "uri": "returned-item"
+  },
+  "model": "inkscape.errorlog",
+  "pk": 2
+},
+{
+  "fields": {
+    "status": 404,
+    "count": 11,
+    "added": "2012-08-01T17:52:56.198Z",
+    "uri": "corn-flakes"
+  },
+  "model": "inkscape.errorlog",
+  "pk": 3
+},
+{
+  "fields": {
+    "status": 500,
+    "count": 16,
+    "added": "2016-07-05T17:52:56.198Z",
+    "uri": "breakfast"
+  },
+  "model": "inkscape.errorlog",
+  "pk": 4
+}
+]

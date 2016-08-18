@@ -10,7 +10,8 @@
         "Contributors License Agreement"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "agree_to_cla"
   }, 
   "alert.category?slug": {
     "breadcrumbs": [
@@ -30,9 +31,9 @@
     "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
-    }
+    }, 
+    "url": "alert.category?slug"
   }, 
-  "alert.delete": {}, 
   "alert.settings": {
     "breadcrumbs": [
       [
@@ -44,7 +45,8 @@
         "Your Alert Settings"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "alert.settings"
   }, 
   "alert.subscribe?pk+slug": {
     "breadcrumbs": [
@@ -69,7 +71,8 @@
     "kwargs": {
       "pk": "1", 
       "slug": "alerts.message_alert"
-    }
+    }, 
+    "url": "alert.subscribe?pk+slug"
   }, 
   "alert.subscribe?slug": {
     "breadcrumbs": [
@@ -93,7 +96,8 @@
     "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
-    }
+    }, 
+    "url": "alert.subscribe?slug"
   }, 
   "alert.unsubscribe?pk": {
     "breadcrumbs": [
@@ -117,7 +121,8 @@
     "cache_keys": [], 
     "kwargs": {
       "pk": "1"
-    }
+    }, 
+    "url": "alert.unsubscribe?pk"
   }, 
   "alert.unsubscribe?pk+slug": {
     "breadcrumbs": [
@@ -142,7 +147,8 @@
     "kwargs": {
       "pk": "2", 
       "slug": "alerts.message_alert"
-    }
+    }, 
+    "url": "alert.unsubscribe?pk+slug"
   }, 
   "alert.unsubscribe?slug": {
     "breadcrumbs": [
@@ -166,9 +172,9 @@
     "cache_keys": [], 
     "kwargs": {
       "slug": "alerts.message_alert"
-    }
+    }, 
+    "url": "alert.unsubscribe?slug"
   }, 
-  "alert.view": {}, 
   "alerts": {
     "breadcrumbs": [
       [
@@ -176,11 +182,12 @@
         "Testing Admin"
       ], 
       [
-        null, 
+        "/en/alerts/", 
         "Alerts"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "alerts"
   }, 
   "authors": {
     "breadcrumbs": [
@@ -189,7 +196,8 @@
         "Author Credits"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "authors"
   }, 
   "contact": {
     "breadcrumbs": [
@@ -198,7 +206,8 @@
         "Contact Inkscape Website Administrators"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": null, 
+    "url": "contact"
   }, 
   "contact.ok": {
     "breadcrumbs": [
@@ -207,7 +216,8 @@
         "Contact Inkscape"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": null, 
+    "url": "contact.ok"
   }, 
   "delete_resource?pk": {
     "breadcrumbs": [
@@ -235,7 +245,8 @@
     "cache_keys": [], 
     "kwargs": {
       "pk": "1"
-    }
+    }, 
+    "url": "delete_resource?pk"
   }, 
   "edit_profile": {
     "breadcrumbs": [
@@ -248,7 +259,8 @@
         "Edit User Profile"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "edit_profile"
   }, 
   "edit_resource?pk": {
     "breadcrumbs": [
@@ -276,25 +288,29 @@
     "cache_keys": [], 
     "kwargs": {
       "pk": "1"
-    }
+    }, 
+    "url": "edit_resource?pk"
   }, 
   "error403": {
     "breadcrumbs": [], 
     "cache_keys": [], 
     "empty": true, 
-    "status": 403
+    "status": 403, 
+    "url": "error403"
   }, 
   "error404": {
     "breadcrumbs": [], 
     "cache_keys": [], 
     "empty": true, 
-    "status": 404
+    "status": 404, 
+    "url": "error404"
   }, 
   "error500": {
     "breadcrumbs": [], 
     "cache_keys": [], 
     "empty": true, 
-    "status": 500
+    "status": 500, 
+    "url": "error500"
   }, 
   "errors": {
     "breadcrumbs": [
@@ -304,8 +320,9 @@
       ]
     ], 
     "cache_keys": [
-      "create:ErrorLog"
-    ]
+      "cache:create:ErrorLog"
+    ], 
+    "url": "errors"
   }, 
   "forums:create?slug": {
     "breadcrumbs": [
@@ -329,7 +346,8 @@
     "cache_keys": [], 
     "kwargs": {
       "slug": "hacking"
-    }
+    }, 
+    "url": "forums:create?slug"
   }, 
   "forums:detail?slug": {
     "breadcrumbs": [
@@ -351,7 +369,8 @@
     ], 
     "kwargs": {
       "slug": "hacking"
-    }
+    }, 
+    "url": "forums:detail?slug"
   }, 
   "forums:list": {
     "breadcrumbs": [
@@ -366,8 +385,9 @@
     ], 
     "cache_keys": [
       "cache:Forum-1", 
-      "create:Forum"
-    ]
+      "cache:create:Forum"
+    ], 
+    "url": "forums:list"
   }, 
   "forums:topic?slug+forum": {
     "breadcrumbs": [
@@ -394,7 +414,8 @@
     "kwargs": {
       "forum": "hacking", 
       "slug": "should-legal"
-    }
+    }, 
+    "url": "forums:topic?slug+forum"
   }, 
   "galleries?team": {
     "breadcrumbs": [
@@ -410,7 +431,8 @@
     "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
-    }
+    }, 
+    "url": "galleries?team"
   }, 
   "galleries?username": {
     "breadcrumbs": [
@@ -426,7 +448,8 @@
     "cache_keys": [], 
     "kwargs": {
       "username": "admin"
-    }
+    }, 
+    "url": "galleries?username"
   }, 
   "gallery.delete?gallery_id": {
     "breadcrumbs": [
@@ -450,7 +473,8 @@
     "cache_keys": [], 
     "kwargs": {
       "gallery_id": "1"
-    }
+    }, 
+    "url": "gallery.delete?gallery_id"
   }, 
   "gallery.edit?gallery_id": [
     {
@@ -475,7 +499,8 @@
       "cache_keys": [], 
       "kwargs": {
         "gallery_id": "1"
-      }
+      }, 
+      "url": "gallery.edit?gallery_id"
     }, 
     {
       "breadcrumbs": [
@@ -499,7 +524,8 @@
       "cache_keys": [], 
       "kwargs": {
         "gallery_id": "2"
-      }
+      }, 
+      "url": "gallery.edit?gallery_id"
     }
   ], 
   "message.new?username": {
@@ -522,6 +548,27 @@
       "username": "admin"
     }
   }, 
+  "message.reply?username+pk": {
+    "breadcrumbs": [
+      [
+        "/en/~admin", 
+        "Testing Admin"
+      ], 
+      [
+        "/en/alerts/sent/", 
+        "Messages"
+      ], 
+      [
+        null, 
+        "Send Reply Message"
+      ]
+    ], 
+    "cache_keys": [], 
+    "kwargs": {
+      "pk": "2", 
+      "username": "admin"
+    }
+  }, 
   "message.sent": {
     "breadcrumbs": [
       [
@@ -531,6 +578,10 @@
       [
         "/en/alerts/sent/", 
         "Messages"
+      ], 
+      [
+        null, 
+        "Inbox"
       ]
     ], 
     "cache_keys": []
@@ -542,7 +593,8 @@
         "Download Mirrors"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "mirror"
   }, 
   "mirror.add": {
     "breadcrumbs": [
@@ -555,7 +607,8 @@
         "Create"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "mirror.add"
   }, 
   "mirror?slug": {
     "breadcrumbs": [
@@ -571,7 +624,8 @@
     "cache_keys": [], 
     "kwargs": {
       "slug": "alice"
-    }
+    }, 
+    "url": "mirror?slug"
   }, 
   "my_profile": {
     "breadcrumbs": [
@@ -580,7 +634,8 @@
         "Testing Admin"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "my_profile"
   }, 
   "new_gallery": {
     "breadcrumbs": [
@@ -597,7 +652,8 @@
         "Create Gallery"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "new_gallery"
   }, 
   "news:archive_day?month+day+year": {
     "breadcrumbs": [
@@ -619,13 +675,15 @@
       ]
     ], 
     "cache_keys": [
-      "cache:News"
+      "cache:News-1", 
+      "cache:create:News"
     ], 
     "kwargs": {
       "day": "07", 
       "month": "07", 
       "year": "2016"
-    }
+    }, 
+    "url": "news:archive_day?month+day+year"
   }, 
   "news:archive_index": {
     "breadcrumbs": [
@@ -635,8 +693,11 @@
       ]
     ], 
     "cache_keys": [
-      "cache:News"
-    ]
+      "cache:News-2", 
+      "cache:News-1", 
+      "cache:create:News"
+    ], 
+    "url": "news:archive_index"
   }, 
   "news:archive_month?month+year": {
     "breadcrumbs": [
@@ -654,12 +715,15 @@
       ]
     ], 
     "cache_keys": [
-      "cache:News"
+      "cache:News-2", 
+      "cache:News-1", 
+      "cache:create:News"
     ], 
     "kwargs": {
       "month": "07", 
       "year": "2016"
-    }
+    }, 
+    "url": "news:archive_month?month+year"
   }, 
   "news:archive_year?year": {
     "breadcrumbs": [
@@ -673,11 +737,14 @@
       ]
     ], 
     "cache_keys": [
-      "cache:News"
+      "cache:News-2", 
+      "cache:News-1", 
+      "cache:create:News"
     ], 
     "kwargs": {
       "year": "2016"
-    }
+    }, 
+    "url": "news:archive_year?year"
   }, 
   "news:detail?slug+month+day+year": {
     "breadcrumbs": [
@@ -710,7 +777,8 @@
       "month": "07", 
       "slug": "test-news", 
       "year": "2016"
-    }
+    }, 
+    "url": "news:detail?slug+month+day+year"
   }, 
   "news:item?pk": {
     "breadcrumbs": [
@@ -732,7 +800,8 @@
     ], 
     "kwargs": {
       "pk": "2"
-    }
+    }, 
+    "url": "news:item?pk"
   }, 
   "pages-details-by-slug?slug": [
     {
@@ -745,7 +814,8 @@
       "cache_keys": [], 
       "kwargs": {
         "slug": "page"
-      }
+      }, 
+      "url": "pages-details-by-slug?slug"
     }, 
     {
       "breadcrumbs": [
@@ -761,13 +831,15 @@
       "cache_keys": [], 
       "kwargs": {
         "slug": "page/two"
-      }
+      }, 
+      "url": "pages-details-by-slug?slug"
     }
   ], 
   "pages-root": {
     "breadcrumbs": [], 
     "cache_keys": [], 
-    "empty": true
+    "empty": true, 
+    "url": "pages-root"
   }, 
   "pastebin": {
     "breadcrumbs": [
@@ -788,7 +860,8 @@
         "New PasteBin"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "pastebin"
   }, 
   "pasted_item?pk": {
     "breadcrumbs": [
@@ -812,7 +885,8 @@
     "cache_keys": [], 
     "kwargs": {
       "pk": "3"
-    }
+    }, 
+    "url": "pasted_item?pk"
   }, 
   "releases:download": {
     "breadcrumbs": [
@@ -827,7 +901,8 @@
     ], 
     "cache_keys": [
       "cache:Release-1"
-    ]
+    ], 
+    "url": "releases:download"
   }, 
   "releases:download?platform+version": {
     "breadcrumbs": [
@@ -858,7 +933,8 @@
     "kwargs": {
       "platform": "root-platform/second-platform", 
       "version": "1.0"
-    }
+    }, 
+    "url": "releases:download?platform+version"
   }, 
   "releases:platform?platform+version": [
     {
@@ -884,7 +960,8 @@
       "kwargs": {
         "platform": "root-platform", 
         "version": "1.0"
-      }
+      }, 
+      "url": "releases:platform?platform+version"
     }, 
     {
       "breadcrumbs": [
@@ -913,7 +990,8 @@
       "kwargs": {
         "platform": "root-platform/second-platform", 
         "version": "1.0"
-      }
+      }, 
+      "url": "releases:platform?platform+version"
     }
   ], 
   "releases:platforms?version": {
@@ -932,13 +1010,12 @@
       ]
     ], 
     "cache_keys": [
-      "cache:Platform", 
-      "cache:Release-1", 
-      "cache:Release"
+      "cache:Release-1"
     ], 
     "kwargs": {
       "version": "1.0"
-    }
+    }, 
+    "url": "releases:platforms?version"
   }, 
   "resource.copy?pk": [
     {
@@ -967,7 +1044,8 @@
       "cache_keys": [], 
       "kwargs": {
         "pk": "1"
-      }
+      }, 
+      "url": "resource.copy?pk"
     }, 
     {
       "breadcrumbs": [
@@ -995,7 +1073,8 @@
       "cache_keys": [], 
       "kwargs": {
         "pk": "2"
-      }
+      }, 
+      "url": "resource.copy?pk"
     }
   ], 
   "resource.move?pk+source": [
@@ -1026,7 +1105,8 @@
       "kwargs": {
         "pk": "1", 
         "source": "1"
-      }
+      }, 
+      "url": "resource.move?pk+source"
     }, 
     {
       "breadcrumbs": [
@@ -1055,7 +1135,8 @@
       "kwargs": {
         "pk": "2", 
         "source": "2"
-      }
+      }, 
+      "url": "resource.move?pk+source"
     }
   ], 
   "resource.upload": {
@@ -1073,7 +1154,8 @@
         "Upload New Resource"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "resource.upload"
   }, 
   "resource.upload?gallery_id": {
     "breadcrumbs": [
@@ -1097,7 +1179,8 @@
     "cache_keys": [], 
     "kwargs": {
       "gallery_id": "1"
-    }
+    }, 
+    "url": "resource.upload?gallery_id"
   }, 
   "resource?pk": {
     "breadcrumbs": [
@@ -1121,7 +1204,8 @@
     "cache_keys": [], 
     "kwargs": {
       "pk": "1"
-    }
+    }, 
+    "url": "resource?pk"
   }, 
   "resource?slug+team": {
     "breadcrumbs": [
@@ -1146,7 +1230,8 @@
     "kwargs": {
       "slug": "team-resource", 
       "team": "testteam"
-    }
+    }, 
+    "url": "resource?slug+team"
   }, 
   "resource?username+slug": [
     {
@@ -1172,7 +1257,8 @@
       "kwargs": {
         "slug": "user-resource", 
         "username": "admin"
-      }
+      }, 
+      "url": "resource?username+slug"
     }, 
     {
       "breadcrumbs": [
@@ -1193,7 +1279,8 @@
       "kwargs": {
         "slug": "no-gallery-resource", 
         "username": "admin"
-      }
+      }, 
+      "url": "resource?username+slug"
     }
   ], 
   "resources": {
@@ -1203,7 +1290,8 @@
         "Resources"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "resources"
   }, 
   "resources?category": {
     "breadcrumbs": [
@@ -1219,7 +1307,8 @@
     "cache_keys": [], 
     "kwargs": {
       "category": "resource-category"
-    }
+    }, 
+    "url": "resources?category"
   }, 
   "resources?category+galleries+team": {
     "breadcrumbs": [
@@ -1245,7 +1334,8 @@
       "category": "second-category", 
       "galleries": "team-gallery", 
       "team": "testteam"
-    }
+    }, 
+    "url": "resources?category+galleries+team"
   }, 
   "resources?category+team": {
     "breadcrumbs": [
@@ -1266,7 +1356,8 @@
     "kwargs": {
       "category": "second-category", 
       "team": "testteam"
-    }
+    }, 
+    "url": "resources?category+team"
   }, 
   "resources?galleries+team": {
     "breadcrumbs": [
@@ -1287,7 +1378,8 @@
     "kwargs": {
       "galleries": "team-gallery", 
       "team": "testteam"
-    }
+    }, 
+    "url": "resources?galleries+team"
   }, 
   "resources?team": {
     "breadcrumbs": [
@@ -1303,7 +1395,8 @@
     "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
-    }
+    }, 
+    "url": "resources?team"
   }, 
   "resources?username": {
     "breadcrumbs": [
@@ -1319,7 +1412,8 @@
     "cache_keys": [], 
     "kwargs": {
       "username": "admin"
-    }
+    }, 
+    "url": "resources?username"
   }, 
   "resources?username+category": {
     "breadcrumbs": [
@@ -1340,7 +1434,8 @@
     "kwargs": {
       "category": "resource-category", 
       "username": "admin"
-    }
+    }, 
+    "url": "resources?username+category"
   }, 
   "resources?username+category+galleries": {
     "breadcrumbs": [
@@ -1366,7 +1461,8 @@
       "category": "resource-category", 
       "galleries": "user-gallery", 
       "username": "admin"
-    }
+    }, 
+    "url": "resources?username+category+galleries"
   }, 
   "resources?username+galleries": {
     "breadcrumbs": [
@@ -1387,7 +1483,8 @@
     "kwargs": {
       "galleries": "user-gallery", 
       "username": "admin"
-    }
+    }, 
+    "url": "resources?username+galleries"
   }, 
   "skip": [
     "auth_login", 
@@ -1419,7 +1516,10 @@
     "comments-post-comment", 
     "resource.drop", 
     "alerts.json", 
+    "alert.view?pk", 
     "alert.delete?pk", 
+    "alert.view", 
+    "alert.delete", 
     "cms_wizard_create", 
     "comments-approve", 
     "comments-approve-done", 
@@ -1431,7 +1531,6 @@
     "comments-url-redirect", 
     "resource.readme?pk", 
     "resources_pick?*", 
-    "alert.view?pk", 
     "team.approve?username+team", 
     "team.disapprove?username+team", 
     "team.remove?username+team", 
@@ -1473,7 +1572,8 @@
     "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
-    }
+    }, 
+    "url": "team.charter?team"
   }, 
   "team.chat?team": {
     "breadcrumbs": [
@@ -1493,7 +1593,8 @@
     "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
-    }
+    }, 
+    "url": "team.chat?team"
   }, 
   "team?team": {
     "breadcrumbs": [
@@ -1509,7 +1610,8 @@
     "cache_keys": [], 
     "kwargs": {
       "team": "testteam"
-    }
+    }, 
+    "url": "team?team"
   }, 
   "teams": {
     "breadcrumbs": [
@@ -1520,7 +1622,8 @@
     ], 
     "cache_keys": [
       "cache:Team"
-    ]
+    ], 
+    "url": "teams"
   }, 
   "view_profile?username": {
     "breadcrumbs": [
@@ -1537,7 +1640,8 @@
     ], 
     "kwargs": {
       "username": "admin"
-    }
+    }, 
+    "url": "view_profile?username"
   }, 
   "welcome": {
     "breadcrumbs": [
@@ -1550,6 +1654,7 @@
         "Welcome"
       ]
     ], 
-    "cache_keys": []
+    "cache_keys": [], 
+    "url": "welcome"
   }
 }

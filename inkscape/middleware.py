@@ -17,6 +17,9 @@
 # You should have received a copy of the GNU Affero General Public License
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
+"""
+Core middleware for the inkscape website.
+"""
 
 import logging
 from inspect import isclass
@@ -33,7 +36,7 @@ from django.utils.cache import get_cache_key
 
 import logging
 
-from .utils import BaseMiddleware, QuerySetWrapper, generate_list
+from .utils import BaseMiddleware, QuerySetWrapper, generate_list, context_items
 
 #
 # Models which are suppressed do not invalidate their caches when they
@@ -63,7 +66,7 @@ class TrackCacheMiddleware(BaseMiddleware):
     @classmethod
     def invalidate(cls, obj, created=False):
         """We invalidate all caches as needed based on the object's identity,
-        
+
         obj     - The django db Model object who's related views should be invalidated
         created - Was this object just created (default False for edit and del)
 
@@ -94,6 +97,12 @@ class TrackCacheMiddleware(BaseMiddleware):
         return caches
 
     @classmethod
+    def get_create_key(cls, model, fields):
+        # Detect related name here XXX
+        add = "&".join(["%s=%s" % (a, unicode(b)) for (a, b) in fields])
+        return "cache:create:%s%s%s" % (model.__name__, "?"[:bool(add)], add)
+
+    @classmethod
     def get_keys(cls, obj, created=False):
         """Returns a unique key for this object.
 
@@ -110,11 +119,10 @@ class TrackCacheMiddleware(BaseMiddleware):
                 yield "cache:create:%s" % name
 
                 # Look up created keys in use and apply fields from this obj
-                for fields in cls.track_fields(type(obj)):
+                for keys in cls.track_fields(type(obj)):
                     # We recompile the key we used below when doing the QuerySet
-                    add = ":".join(["%s-%s" % (a, unicode(getattr(obj, a))) for a in fields])
-                    yield "cache:create:%s+%s" % (name, add)
-
+                    fields = [(key, getattr(obj, key)) for key in keys]
+                    yield cls.get_create_key(type(obj), fields)
             else:
                 yield "cache:%s-%s" % (type(obj).__name__, str(obj.pk))
 
@@ -122,9 +130,11 @@ class TrackCacheMiddleware(BaseMiddleware):
             yield "cache:%s" % obj.__name__
 
         elif isinstance(obj, QuerySet):
+            if not hasattr(obj, 'get_basic_filter'):
+                obj = obj._clone(klass=QuerySetWrapper, method=None)
+
             fields = sorted(obj.get_basic_filter())
-            add = ":".join(["%s-%s" % (a, unicode(b)) for (a, b) in fields])
-            yield "cache:create:%s%s%s" % (obj.model.__name__, "+"[:bool(add)], add)
+            yield cls.get_create_key(obj.model, fields)
 
             if fields:
                 cls.track_fields(obj.model, fields)
@@ -163,8 +173,9 @@ class TrackCacheMiddleware(BaseMiddleware):
               or not hasattr(response, 'context_data'):
             return response
 
+        response.cache_keys = set()
         response.cache_tracks = []
-        for key, value in response.context_data.items():
+        for key, value in context_items(response.context_data):
             if isinstance(value, Model):
                 # Track this one item being used in the context data
                 response.cache_tracks.append(key)
@@ -198,14 +209,13 @@ class TrackCacheMiddleware(BaseMiddleware):
         {% endfor %}
         """
         tracks = getattr(response, 'cache_tracks', [])
-        if not getattr(request, '_cache_update_cache', False) or not tracks:
+        if not getattr(request, '_cache_update_cache', False):
             return response
 
         cache_key = get_cache_key(request, self.key_prefix, 'GET', cache=self.cache)
-        if not cache_key:
+        if cache_key is None:
             return response
 
-        response.cache_keys = set()
         response.cache_key = cache_key
 
         for key in tracks:
@@ -214,9 +224,7 @@ class TrackCacheMiddleware(BaseMiddleware):
             else:
                 obj = key
                 key = type(obj).__name__
-            print " + Adding object: %s -> %s" % (str(key), str(list(self.get_keys(obj))))
             response.cache_keys |= set(self.track_cache(obj, cache_key))
-
         return response
 
 

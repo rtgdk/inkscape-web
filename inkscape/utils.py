@@ -21,6 +21,8 @@
 Some generic utilities for improving caching and other core features
 """
 
+from django.core.exceptions import FieldDoesNotExist
+
 from django.db.models.lookups import Exact
 from django.db.models.expressions import Col
 
@@ -74,9 +76,32 @@ class QuerySetWrapper(object):
     def get_basic_filter(self):
         """Generator of field/values for all exact matchs in this qs"""
         for child in self.query.where.children:
-            if isinstance(child, Exact):
-                if isinstance(child.lhs, Col) and not isinstance(child.rhs, Col):
-                    yield (child.lhs.target.name, child.rhs)
+            if isinstance(child, Exact) and \
+               isinstance(child.lhs, Col) and not isinstance(child.rhs, Col):
+                ret = self._basic_filter(child.lhs.target, child.rhs, child.lhs.alias)
+                if ret:
+                    yield ret
+
+    def _basic_filter(self, target, value, alias=None):
+        name = None
+        if self.model == target.model:
+            name = target.name
+        elif target.model._meta._forward_fields_map[target.name].unique:
+            # For fields like slug, id and other unqiue fields
+            name = alias.split('_', 1)[-1]
+            try:
+                field = self.model._meta.get_field_by_name(name)
+            except FieldDoesNotExist:
+                return
+
+            qs = target.model.objects.filter(**{target.name: value})
+            if qs.count() == 0:
+                return
+
+            value = qs.values_list('pk', flat=True)[0]
+
+        if name:
+            return (name, value)
 
 
 class BaseMiddleware(object):

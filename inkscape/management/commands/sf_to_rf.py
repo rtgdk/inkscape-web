@@ -18,7 +18,9 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 """
-Returns the id for a single user. This is used to migrate backups for use locally.
+Takes the sourceforge backups and generates gallery resource objects.
+
+It attempts to match source forge users to local website users.
 """
 
 from django.core.management.base import BaseCommand, CommandError

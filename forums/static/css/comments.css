@@ -154,7 +154,8 @@
 
 .comment #id_comment,
 .comment .body #message {
-  width: 99%;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .comment .cfooter {

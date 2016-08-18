@@ -35,7 +35,7 @@
 table.bioitem {
   border-collapse: collapse;
   border: solid #cce 2px;
-  margin: 5px;
+  margin: 0 5px;
   padding: 6px;
   min-width: 162px;
   text-align: center;

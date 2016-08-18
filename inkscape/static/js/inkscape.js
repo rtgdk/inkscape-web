@@ -236,7 +236,7 @@ function menu(){
             a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
             a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
             elementHeight = $(this).height();
-        })
+        });
         i++;
         if( i > 20){
             break;

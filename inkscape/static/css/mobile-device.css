@@ -11,6 +11,9 @@ div.cms .cms-toolbar {
   min-width: 500px;
   min-height: 135px;
 }
+div.cms .cms-toolbar:not([style$="margin-top: 0px;"]) {
+  display: none;
+}
 div.cms .cms-toolbar .cms-toolbar-right {
   top: 82px;
   left: 0;
@@ -83,16 +86,36 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 
 .header .nav {
+  margin: 0 8px;
   height: auto;
 }
 #menu {
+  display: none;
+}
+#mobile-menu {
+  display: inline-block;
   margin: 0 20px;
 }
-#menu ul {
+#mobile-menu ul {
   z-index: 1;
 }
-#menu > li:last-child > a {
+#mobile-menu > li > a {
+  padding: 10px 15px;
+  font-size: 13px;
+}
+#mobile-menu > li:last-child > a {
   border-radius: 0;
+}
+#mobile-menu > li > ul {
+  top: 0;
+}
+#mobile-menu > li:hover > ul {
+	display: none;
+}
+#mobile-menu > li > ul > li:first-child > a {
+  padding: 9px 10px;
+  font-size: 15px;
+  font-weight: bold;
 }
 @media screen and (max-width: 459px) {
   .header .nav {
@@ -101,41 +124,39 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     background: transparent;
     text-align: left;
   }
-  #menu {
-    margin: 0 12px;
+  #mobile-menu {
+    margin: 0;
     border: 0;
     border-radius: 10px;
     background-color: #4d4d4d;
     background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
   }
-  #menu > li {
+  #mobile-menu > li {
     float: none;
     text-align: center;
   }
-  #menu > li.selected > a,
-  #menu > li.ancestor > a,
-  #menu > li:hover > a,
-  #menu > li > a:focus {
+  #mobile-menu > li.selected > a,
+  #mobile-menu > li.ancestor > a,
+  #mobile-menu > li:hover > a,
+  #mobile-menu > li > a:focus {
      background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
-  #menu > li > a {
+  #mobile-menu > li > a {
     border: 0;
     border-bottom: 1px solid #333;
     border-top: 1px solid #5a5a5a;
   }
-  #menu > li:first-child > a {
+  #mobile-menu > li:first-child > a {
     border-radius: 10px 10px 0 0;
   }
-  #menu > li:last-child > a {
+  #mobile-menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  #menu > li:hover > a {
+  #mobile-menu > li:hover > a {
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
   }
-  #menu > li > ul {
-    position: absolute;
-    top: 0;
+  #mobile-menu > li > ul {
     left: 100%;
     border: 0;
   }

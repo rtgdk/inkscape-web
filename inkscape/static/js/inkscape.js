@@ -225,23 +225,37 @@ jQuery.fn.getMaxHeight = function(){
 }
 
 function menu(){
-    var elementHeight=$("#menu").children("li:first-child").height();
-    var containerHeight=$("#menu").height();
-    var i = 0;
-    var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
-    while(containerHeight > elementHeight && i < 100){
-        $("#menu").children("li").each(function(){
-            var a = $(this).children("a:first-child");
-            a.css('font-size',onePixelLess);
-            a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
-            a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
-            elementHeight = $(this).height();
+    $("#mobile-menu > li").each(function(){
+        var parentLink = $(this).children("a").clone();
+        $(this).children("ul").prepend($("<li>").addClass('children').append(parentLink));
+        $(this).children("a").click(function(){
+            $(this).parent().children("ul").toggle();
+            return false;
         });
-        i++;
-        if( i > 20){
-            break;
+        $(this).mouseleave(function(){
+            $(this).children("ul").hide();
+        });
+    });
+
+    if($("#menu").css('display') != 'none'){
+        var elementHeight=$("#menu").children("li:first-child").height();
+        var containerHeight=$("#menu").height();
+        var i = 0;
+        var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
+        while(containerHeight > elementHeight && i < 100){
+            $("#menu").children("li").each(function(){
+                var a = $(this).children("a:first-child");
+                a.css('font-size',onePixelLess);
+                a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
+                a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
+                elementHeight = $(this).height();
+            });
+            i++;
+            if(i > 20){
+                break;
+            }
+            containerHeight = $("#menu").height();
         }
-        containerHeight = $("#menu").height();
     }
 }
 

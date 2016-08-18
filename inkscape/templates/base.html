@@ -26,11 +26,10 @@
     <!-- Sekizai blocks are deprecated, when django-cms stops using them, remove -->
     {% load sekizai_tags %}{% render_block "css" %}{% render_block "js" %}
 
-    <!-- This must be the very last CSS file; how can this be done in the "css" block? -->
-    <link rel="stylesheet" type="text/css" href="{% static "css/mobile-device.css" %}"
-      media="only screen and (max-width: 959px)"/>
-
     {% if form %}{{ form.media }}{% endif %}
+
+    <link rel="stylesheet" type="text/css" href="{% static "css/mobile-device.css" %}"
+      media="only screen and (max-device-width: 959px)"/>
 
     <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />
@@ -91,10 +90,7 @@
       </div>
     </div>
     {% block menu %}
-      <div class="nav">
-         <ul id="menu">{% show_menu 0 100 100 %}</ul>
-         <ul id="mobile-menu">{% show_menu 0 100 100 %}</ul>
-      </div>
+      <div class="nav"><ul id="menu">{% show_menu 0 100 100 %}</ul></div>
     {% endblock %}
     {% if messages %}
       <ul id="messages">{% for message in messages %}<li{% if message.tags %} class="{{ message.tags }}"{% endif %} title="{{ message.tags }}">

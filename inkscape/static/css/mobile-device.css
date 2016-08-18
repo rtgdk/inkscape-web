@@ -1,3 +1,4 @@
+/* Global */
 body {
   width: 100%;
 }
@@ -36,7 +37,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 #topsearch {
   right: 8px;
 }
-@media screen and (max-width: 599px) {
+@media screen and (max-device-width: 599px) {
   #cleartop {
     height: 140px;
   }
@@ -47,7 +48,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     top: 100px;
   }
 }
-@media screen and (max-width: 459px) {
+@media screen and (max-device-width: 459px) {
   #cleartop {
     height: 180px;
     text-align: center;
@@ -90,73 +91,66 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   height: auto;
 }
 #menu {
-  display: none;
-}
-#mobile-menu {
-  display: inline-block;
   margin: 0 20px;
 }
-#mobile-menu ul {
-  z-index: 1;
-}
-#mobile-menu > li > a {
+#menu > li > a {
   padding: 10px 15px;
   font-size: 13px;
 }
-#mobile-menu > li:last-child > a {
+#menu > li:last-child > a {
   border-radius: 0;
 }
-#mobile-menu > li > ul {
+#menu > li > ul {
   top: 0;
 }
-#mobile-menu > li:hover > ul {
+#menu > li:hover > ul {
 	display: none;
 }
-#mobile-menu > li > ul > li:first-child > a {
+#menu > li > ul > li:first-child > a {
   padding: 9px 10px;
   font-size: 15px;
   font-weight: bold;
 }
-@media screen and (max-width: 459px) {
+@media screen and (max-device-width: 459px) {
   .header .nav {
     border: 0;
     border-radius: 0;
     background: transparent;
     text-align: left;
   }
-  #mobile-menu {
+  #menu {
     margin: 0;
     border: 0;
     border-radius: 10px;
     background-color: #4d4d4d;
     background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
   }
-  #mobile-menu > li {
+  #menu > li {
     float: none;
     text-align: center;
   }
-  #mobile-menu > li.selected > a,
-  #mobile-menu > li.ancestor > a,
-  #mobile-menu > li:hover > a,
-  #mobile-menu > li > a:focus {
+  #menu > li.selected > a,
+  #menu > li.ancestor > a,
+  #menu > li:hover > a,
+  #menu > li > a:focus {
      background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
-  #mobile-menu > li > a {
+  #menu > li > a {
     border: 0;
     border-bottom: 1px solid #333;
     border-top: 1px solid #5a5a5a;
   }
-  #mobile-menu > li:first-child > a {
+  #menu > li:first-child > a {
     border-radius: 10px 10px 0 0;
   }
-  #mobile-menu > li:last-child > a {
+  #menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  #mobile-menu > li:hover > a {
-    border-top-right-radius: 0 !important;
-    border-bottom-right-radius: 0 !important;
+  #menu > li:hover > a {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
   }
-  #mobile-menu > li > ul {
+  #menu > li > ul {
     left: 100%;
     border: 0;
   }
@@ -171,6 +165,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 
 
+/* Homepage */
 #banners {
   position: relative;
 }
@@ -205,13 +200,13 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   width: 24px;
   height: 24px;
 }
-@media screen and (min-width: 600px) {
+@media screen and (min-device-width: 600px) {
   #shield .tabs > li > a,
   #shield .tabs > li > div {
     padding: 14px;
   }
 }
-@media screen and (max-width: 459px) {
+@media screen and (max-device-width: 459px) {
   #shield .tabs > li {
     display: block;
     width: auto;
@@ -238,6 +233,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 
 
+/* Various contents */
 #content {
   margin-bottom: 0;
   padding: 20px 12px;
@@ -286,7 +282,7 @@ table.bioitem p.bio {
 .item .image img {
   max-width: 100%;
 }
-@media screen and (max-width: 599px) {
+@media screen and (max-device-width: 599px) {
   .item h2 {
     clear: right;
     padding-top: 12px;

@@ -225,19 +225,19 @@ jQuery.fn.getMaxHeight = function(){
 }
 
 function menu(){
-    $("#mobile-menu > li").each(function(){
-        var parentLink = $(this).children("a").clone();
-        $(this).children("ul").prepend($("<li>").addClass('children').append(parentLink));
-        $(this).children("a").click(function(){
-            $(this).parent().children("ul").toggle();
-            return false;
+    if(screen.width < 960){
+        $("#menu > li").each(function(){
+            var parentLink = $(this).children("a").clone();
+            $(this).children("ul").prepend($("<li>").addClass('children').append(parentLink));
+            $(this).children("a").click(function(){
+                $(this).parent().children("ul").toggle();
+                return false;
+            });
+            $(this).mouseleave(function(){
+                $(this).children("ul").hide();
+            });
         });
-        $(this).mouseleave(function(){
-            $(this).children("ul").hide();
-        });
-    });
-
-    if($("#menu").css('display') != 'none'){
+    } else {
         var elementHeight=$("#menu").children("li:first-child").height();
         var containerHeight=$("#menu").height();
         var i = 0;

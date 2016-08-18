@@ -481,6 +481,7 @@ div.toc ol, #toc.right ol {
   position: absolute;
   top: 52px;
   left: 0;
+  z-index: 1;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
   border-top: 1px solid #141414;
 }
@@ -508,9 +509,6 @@ div.toc ol, #toc.right ol {
 .header .nav > ul > li:last-child > a {
   border-right: 0 none;
   border-top-right-radius: 10px;
-}
-#mobile-menu {
-  display: none;
 }
 body > .footer {
   clear: both;

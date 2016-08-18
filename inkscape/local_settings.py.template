@@ -106,3 +106,5 @@ EMAIL_HOST_USER      = 'noone@gmail.com'
 EMAIL_HOST_PASSWORD  = 'Nothing'
 EMAIL_PORT           = 587
 EMAIL_USE_TLS        = True
+
+IS_TEST = False

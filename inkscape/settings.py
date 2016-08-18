@@ -11,6 +11,8 @@ import os
 
 gettext = lambda s: s
 
+IS_TEST = len(sys.argv) > 1 and sys.argv[1] in ('test', 'autotest')
+
 MAX_PREVIEW_SIZE = 5 * 1024 * 1024
 
 SERVE_STATIC = True

@@ -89,20 +89,25 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   height: auto;
 }
 #menu {
-  margin: 0 20px -3px;
+  margin: 0 12px -3px;
+  border: 0;
 }
 #menu > li > a {
-  padding: 12px 15px;
-  border-top: 1px solid #5a5a5a;
-  border-bottom: 1px solid #333;
+  padding: 10px 15px;
+  border: 0;
   font-size: 13px;
 }
+#menu > li.selected > a,
+#menu > li.ancestor > a {
+  padding: 9px 15px;
+  border: 1px solid #5a5a5a;
+}
 #menu > li:last-child > a {
-  border-right: 1px solid #333;
   border-radius: 0;
 }
 #menu > li > ul {
   top: 0;
+  border: 0;
 }
 #menu > li:hover > ul {
   display: none;
@@ -111,7 +116,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   display: block;
 }
 #menu > li > ul > li:first-child > a {
-  padding: 13px 10px;
+  padding: 10px;
   font-size: 15px;
   font-weight: bold;
 }
@@ -130,7 +135,6 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     display: none;
     float: left;
     margin: 0 0 8px;
-    border: 0;
     border-radius: 10px;
     background-color: #4d4d4d;
     background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
@@ -140,10 +144,12 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     text-align: center;
   }
   #menu > li > a,
-  #menu > li:last-child > a {
+  #menu > li.selected > a,
+  #menu > li.ancestor > a {
     padding: 8px 12px;
-    border-left: 0;
-    border-right: 0;
+    border: 0;
+    border-top: 1px solid #5a5a5a;
+    border-bottom: 1px solid #333;
   }
   #menu > li.selected > a,
   #menu > li.ancestor > a,
@@ -163,7 +169,6 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   }
   #menu > li > ul {
     left: 100%;
-    border: 0;
   }
   #menu > li > ul > li:first-child > a {
     padding: 9px 10px;

@@ -481,7 +481,7 @@ div.toc ol, #toc.right ol {
   background: #333333;
   background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
 }
-.header .nav > ul li.selected > a {
+.header .nav > ul ul li.selected > a {
   background: #333333;
 }
 .header .nav > ul ul a:hover, .header .nav > ul ul a:focus {

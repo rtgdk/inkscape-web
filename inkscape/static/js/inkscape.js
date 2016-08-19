@@ -227,8 +227,9 @@ function menu(){
     $("#menu-toggle").click(function(){ $("#menu").slideToggle(); });
     if(screen.width < 960){
         $("#menu > li").each(function(){
-            var parentLink = $(this).children("a").clone();
-            $(this).children("ul").prepend($("<li>").addClass('children').append(parentLink));
+            var ancestorDuplicate = $("<li>").addClass('children').append($(this).children("a").clone());
+            if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
+            $(this).children("ul").prepend(ancestorDuplicate);
             $(this).children("a").click(function(){
                 $(this).parent().toggleClass('activated');
                 return false;

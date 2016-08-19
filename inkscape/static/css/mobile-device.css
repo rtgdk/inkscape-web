@@ -133,6 +133,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   }
   #menu {
     display: none;
+    position: relative;
     float: left;
     margin: 0 0 8px;
     border-radius: 10px;
@@ -140,6 +141,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
   }
   #menu > li {
+    position: static;
     float: none;
     text-align: center;
   }
@@ -163,12 +165,13 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   #menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  #menu > li.activated > a {
+  /*#menu > li.activated > a {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-  }
+  }*/
   #menu > li > ul {
-    left: 100%;
+    left: 125%;
+    left: calc(100% + 20px);
   }
   #menu > li > ul > li:first-child > a {
     padding: 9px 10px;

@@ -93,11 +93,12 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 #menu > li > a {
   padding: 12px 15px;
-  border-bottom: 1px solid #333;
   border-top: 1px solid #5a5a5a;
+  border-bottom: 1px solid #333;
   font-size: 13px;
 }
 #menu > li:last-child > a {
+  border-right: 1px solid #333;
   border-radius: 0;
 }
 #menu > li > ul {
@@ -138,7 +139,8 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     float: none;
     text-align: center;
   }
-  #menu > li > a {
+  #menu > li > a,
+  #menu > li:last-child > a {
     padding: 8px 12px;
     border-left: 0;
     border-right: 0;
@@ -259,7 +261,8 @@ body > .footer {
 }
 
 #columns {
-  padding-right: 8px;
+  padding-left: 12px;
+  padding-right: 12px;
   background: transparent;
 }
 #columns > .column,
@@ -345,8 +348,11 @@ table.bioitem p.bio {
     padding-left: 0;
     padding-right: 0;
   }
-  .article {
-    border-radius: 0;
+  .article.unpub {
+    margin-left: -8px;
+    margin-right: -8px;
+    padding-left: 8px;
+    padding-right: 8px;
   }
   .article p {
     margin: 5px 0;

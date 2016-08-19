@@ -9,10 +9,10 @@
   margin: 10px 0 20px;
   border-bottom: 1px solid #eee;
   background-color: #fffffa;
-  border-radius: 7px;
   padding: 10px;
 }
 .article.unpub {
+  border-radius: 7px;
   background-color: #eee;
   color: #999;
 }

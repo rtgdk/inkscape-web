@@ -37,7 +37,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 #topsearch {
   right: 8px;
 }
-@media screen and (max-device-width: 599px) {
+@media screen and (max-width: 599px) {
   #cleartop {
     height: 140px;
   }
@@ -48,7 +48,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     top: 100px;
   }
 }
-@media screen and (max-device-width: 459px) {
+@media screen and (max-width: 459px) {
   #cleartop {
     height: 172px;
     text-align: center;
@@ -114,7 +114,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   font-size: 15px;
   font-weight: bold;
 }
-@media screen and (max-device-width: 459px) {
+@media screen and (max-width: 459px) {
   .header .nav {
     margin: 0 8px;
     border: 0;
@@ -193,7 +193,7 @@ body > .footer {
 #banners > div > div {
   width: auto;
 }
-@media screen and (max-device-width: 459px) {
+@media screen and (max-width: 459px) {
   #banners > div > div > p.text {
     hyphens: auto;
   }
@@ -221,7 +221,7 @@ body > .footer {
   width: 24px;
   height: 24px;
 }
-@media screen and (max-device-width: 599px) {
+@media screen and (max-width: 599px) {
   #shield .tabs > li > a,
   #shield .tabs > li > div {
     padding: 10px;
@@ -230,7 +230,7 @@ body > .footer {
     font-size: 14px;
   }
 }
-@media screen and (max-device-width: 459px) {
+@media screen and (max-width: 459px) {
   #shield .tabs:not(.expanded) {
     font-size: 0;
   }
@@ -322,7 +322,7 @@ table.bioitem p.bio {
 .item .image img {
   max-width: 100%;
 }
-@media screen and (max-device-width: 599px) {
+@media screen and (max-width: 599px) {
   .item h2 {
     clear: right;
     padding-top: 12px;
@@ -338,7 +338,7 @@ table.bioitem p.bio {
   }
 }
 
-@media screen and (max-device-width: 599px) {
+@media screen and (max-width: 599px) {
   .article,
   .article h2,
   .article .readmore {

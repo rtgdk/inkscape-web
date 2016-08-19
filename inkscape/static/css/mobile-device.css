@@ -302,6 +302,21 @@ table.bioitem p.bio {
   }
 }
 
+@media screen and (max-device-width: 599px) {
+  .article,
+  .article h2,
+  .article .readmore {
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .article {
+    border-radius: 0;
+  }
+  .article p {
+    margin: 5px 0;
+  }
+}
+
 .page img {
   max-width: 100%;
 }

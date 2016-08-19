@@ -28,10 +28,11 @@
 
     {% if form %}{{ form.media }}{% endif %}
 
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <link rel="stylesheet" type="text/css" href="{% static "css/mobile-device.css" %}"
       media="only screen and (max-device-width: 959px)"/>
 
-    <meta name="Author" content="{% trans "Inkscape Website Developers" %}" />
+    <meta name="author" content="{% trans "Inkscape Website Developers" %}" />
     <meta name="description" content="{% block headerdesc %}{% endblock %}" />
     <meta name="keywords" content="{% trans "inkscape,vector,drawing,graphics,svg,xml,document,poster,linux,open source,foss,floss,free software,libre software,libre,freedom,line,shape,diagram,flowchart,graph,extension,plugin,software,download,platform,windows,win,mac,osx,ubuntu,fedora,debian,help,tutorial,chat,irc,home,homepage,professional,casual,powerful,text,web,www,w3c,standard" %}" />
   </head>

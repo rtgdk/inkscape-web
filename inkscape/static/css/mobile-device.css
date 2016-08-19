@@ -9,10 +9,10 @@ div.cms .cms-toolbar-trigger {
   top: -5px;
 }
 div.cms .cms-toolbar {
-  min-width: 500px;
+  min-width: 600px;
   min-height: 135px;
 }
-div.cms .cms-toolbar:not([style$="margin-top: 0px;"]) {
+div.cms .cms-toolbar:not([style*="margin-top: 0px;"]) {
   display: none;
 }
 div.cms .cms-toolbar .cms-toolbar-right {
@@ -90,10 +90,10 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   height: auto;
 }
 #menu {
-  margin: 0 20px -4px;
+  margin: 0 20px -3px;
 }
 #menu > li > a {
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-bottom: 1px solid #333;
   border-top: 1px solid #5a5a5a;
   font-size: 13px;
@@ -111,7 +111,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   display: block;
 }
 #menu > li > ul > li:first-child > a {
-  padding: 11px 10px;
+  padding: 13px 10px;
   font-size: 15px;
   font-weight: bold;
 }
@@ -134,15 +134,16 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
     float: none;
     text-align: center;
   }
+  #menu > li > a {
+    padding: 8px 12px;
+    border-left: 0;
+    border-right: 0;
+  }
   #menu > li.selected > a,
   #menu > li.ancestor > a,
   #menu > li:hover > a,
   #menu > li > a:focus {
     background-image: linear-gradient(to right, #333333, #4d4d4d);
-  }
-  #menu > li > a {
-    border-left: 0;
-    border-right: 0;
   }
   #menu > li:first-child > a {
     border-radius: 10px 10px 0 0;
@@ -157,6 +158,9 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   #menu > li > ul {
     left: 100%;
     border: 0;
+  }
+  #menu > li > ul > li:first-child > a {
+    padding: 9px 10px;
   }
 }
 
@@ -181,44 +185,67 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 #banners > div > div {
   width: auto;
 }
+@media screen and (max-device-width: 459px) {
+  #banners > div > div > p.text {
+    hyphens: auto;
+  }
+}
 
 #shield .tabs {
-  height: auto;
+  width: calc(100vw - 38px);
 }
 #shield .tabs > li > a,
 #shield .tabs > li > div {
   position: relative;
-  padding: 10px;
+  padding: 14px;
 }
 #shield .tabs strong {
-  margin: 0 0 8px;
+  margin: 0 24px 8px 0;
   font-size: 16px;
+  hyphens: auto;
 }
 #shield .tabs li > a > img {
   position: absolute;
   top: 6px;
   right: 4px;
-  z-index: 1;
   float: none;
   margin: 0;
   width: 24px;
   height: 24px;
 }
-@media screen and (min-device-width: 600px) {
+@media screen and (max-device-width: 599px) {
   #shield .tabs > li > a,
   #shield .tabs > li > div {
-    padding: 14px;
+    padding: 10px;
+  }
+  #shield .tabs strong {
+    font-size: 14px;
   }
 }
 @media screen and (max-device-width: 459px) {
-  #shield .tabs > li {
+  #shield .tabs:not(.expanded) {
+    font-size: 0;
+  }
+  #shield .tabs > li > a,
+  #shield .tabs > li > div {
+    padding: 8px;
+  }
+  #shield .tabs:not(.expanded) li > a > img {
+    position: static;
+    float: right;
+  }
+  #shield .tabs:not(.expanded) strong {
+    margin-right: 0;
+    font-size: 12px;
+  }
+  #shield .tabs.expanded > li {
     display: block;
     width: auto;
   }
-  #shield .tabs > li:first-child {
+  #shield .tabs.expanded > li:first-child {
     border-radius: 5px 5px 0 0;
   }
-  #shield .tabs > li:last-child {
+  #shield .tabs.expanded > li:last-child {
     border-radius: 0 0 5px 5px;
   }
 }

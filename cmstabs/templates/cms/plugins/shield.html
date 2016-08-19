@@ -5,7 +5,7 @@
 <div id="shield">
   <div id="banners">
     {% for tab in tabs %}
-      <div {% if tab == tabs.0 %}class="current"{% endif %} style="background-image: url({{ tab.download.url }});">
+      <div id="{{ tab.uuid }}" {% if tab == tabs.0 %}class="current"{% endif %} style="background-image: url({{ tab.download.url }});">
         <div>
           {% if tab.banner_text %}
             <p class="text">{{ tab.banner_text }}</p>

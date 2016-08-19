@@ -1,155 +1,156 @@
 /* License: AGPLv3 or later (http://www.gnu.org/licenses/), Copyright 2013, Martin Owens <doctormo@gmail.com> */
 
 #shield {
-     margin-bottom: 40px;
+  margin-bottom: 40px;
 }
 
 #banners {
-     display: block;
-     height: 360px;
+  display: block;
+  height: 360px;
 }
 
 #banners > div {
-     background-color: #000000;
-     background-image: url("../images/banner.svg");
-     background-repeat: no-repeat;
-     border-bottom: 1px solid #000000;
-     display: block;
-     height: 320px;
-     margin: 0px;
-     opacity: 0;
-     padding: 20px;
-     position: absolute;
-     transition: opacity 0s ease 0.4s;
+  background-color: #000000;
+  background-image: url("../images/banner.svg");
+  background-repeat: no-repeat;
+  border-bottom: 1px solid #000000;
+  display: block;
+  height: 320px;
+  margin: 0px;
+  opacity: 0;
+  padding: 20px;
+  position: absolute;
+  transition: opacity 0s ease 0.4s;
 }
 
-#banners > div.current {
-     opacity: 1;
-     transition: opacity 0.4s ease 0s;
-     z-index: 1;
+#banners > div.current,
+#banners > div:target {
+  opacity: 1;
+  transition: opacity 0.4s ease 0s;
+  z-index: 1;
 }
 
 #banners > div p {
-     font-size: 18px;
-     line-height: 25px;
+  font-size: 18px;
+  line-height: 25px;
 }
 
 #banners > div > p {
-     bottom: 68px;
-     clear: both;
-     display: block;
-     font-size: 12px;
-     line-height: 0;
-     padding: 3px 0px 2px;
-     position: absolute;
+  bottom: 68px;
+  clear: both;
+  display: block;
+  font-size: 12px;
+  line-height: 0;
+  padding: 3px 0px 2px;
+  position: absolute;
 }
 
 #banners > div > div {
-     height: 250px;
-     margin: 10px 30px 0px;
-     text-align: right;
-     width: 860px;
+  height: 250px;
+  margin: 10px 30px 0px;
+  text-align: right;
+  width: 860px;
 }
 
 #banners > div > div > p.text {
-     background-color: rgba(255, 255, 255, 0.7);
-     border-radius: 6px;
-     font-size: 18px;
-     line-height: 26px;
-     margin-left: auto;
-     max-width: 425px;
-     padding: 10px;
+  background-color: rgba(255, 255, 255, 0.7);
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 26px;
+  margin-left: auto;
+  max-width: 425px;
+  padding: 10px;
 }
 
 #banners a.button {
-     border-color: #666666;
-     display: inline-block;
+  border-color: #666666;
+  display: inline-block;
 }
 
 #banners a.button img {
-     float: right;
-     margin: -4px -2px -4px 8px;
+  float: right;
+  margin: -4px -2px -4px 8px;
 }
 
 #banners > div > div > p.foot {
-     font-size: 80%;
-     margin-top: 5px;
+  font-size: 80%;
+  margin-top: 5px;
 }
 
 #banners > div > div > p.foot > span {
-     background-color: rgba(255, 255, 255, 0.6);
-     border-radius: 10px;
-     color: #444444;
-     padding: 2px 6px;
+  background-color: rgba(255, 255, 255, 0.6);
+  border-radius: 10px;
+  color: #444444;
+  padding: 2px 6px;
 }
 
 #shield .tabs {
-     font-size: 12px;
-     height: 100px;
-     line-height: 16px;
-     list-style: none outside none;
-     margin: -70px 19px -30px;
-     padding-left: 0px;
-     position: relative;
-     z-index: 2;
+  font-size: 12px;
+  line-height: 16px;
+  list-style: none outside none;
+  display: table;
+  table-layout: fixed;
+  word-wrap: break-word;
+  margin: -70px 19px -30px;
+  padding-left: 0px;
+  position: relative;
+  z-index: 2;
 }
 
 #shield .tabs > li {
-     background-color: #4d4d4d;
-     background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
-     border-color: #5a5a5a #333333 #1a1a1a #5a5a5a;
-     border-style: solid;
-     border-width: 1px 1px 0px;
-     display: table-cell;
-     width: 1%;
+  background-color: #4d4d4d;
+  background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
+  border-color: #5a5a5a #333333 #1a1a1a #5a5a5a;
+  border-style: solid;
+  border-width: 1px 1px 0px;
+  display: table-cell;
+  width: 1%;
+  cursor: pointer;
 }
 
 #shield .tabs > li > a,
 #shield .tabs > li > div {
-     color: white;
-     display: block;
-     outline: 0px none;
-     padding: 19px 15px 20px 60px;
-     text-decoration: none;
+  color: white;
+  display: block;
+  overflow: hidden;
+  outline: 0px none;
+  padding: 19px 15px 20px 60px;
+  text-decoration: none;
 }
 
 #shield .tabs:not(.fixed) > li:hover,
 #shield .tabs:not(.fixed) > li:focus,
 #shield .tabs:not(.fixed) > li.current {
-     background-color: #333333;
-     background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
+  background-color: #333333;
+  background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
 }
 #shield .tabs.fixed li:not(.container):hover {
-     background-color: #5b5b5b;
-     background-image: linear-gradient(to bottom, #4d4d4d 0%, #5b5b5b 25%, #1a1a1a 100%);
+  background-color: #5b5b5b;
+  background-image: linear-gradient(to bottom, #4d4d4d 0%, #5b5b5b 25%, #1a1a1a 100%);
 }
 
 #shield .tabs li > a > img {
-     float: left;
-     height: 32px;
-     margin: 0px 0px 16px -45px;
-     width: 32px;
+  float: left;
+  height: 32px;
+  margin: 0px 0px 16px -45px;
+  width: 32px;
 }
 
 #shield .tabs strong {
-     display: block;
-     font-size: 17px;
-     font-weight: normal;
-     margin: 0px 0px 14px -45px;
+  display: block;
+  font-size: 17px;
+  font-weight: normal;
+  margin: 0px 0px 14px -45px;
 }
 
 #shield .tabs li:first-child {
-     border-bottom-left-radius: 5px;
-     border-left-width: 1px;
-     border-top-left-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-left-width: 1px;
+  border-top-left-radius: 5px;
 }
 
 #shield .tabs li:last-child {
-     border-bottom-right-radius: 5px;
-     border-right-width: 1px;
-     border-top-right-radius: 5px;
-}
-
-#columns {
-     margin-top: -70px ! important;
+  border-bottom-right-radius: 5px;
+  border-right-width: 1px;
+  border-top-right-radius: 5px;
 }

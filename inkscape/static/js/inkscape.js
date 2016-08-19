@@ -115,8 +115,8 @@ function getCookie(name) {
     var cookies = document.cookie.split(';');
     for (var i = 0; i < cookies.length; i++) {
       var cookie = jQuery.trim(cookies[i]);
-      // Does this cookie string begin with the name we want?
-      if (cookie.substring(0, name.length + 1) == (name + '=')) {
+      var cookieName = cookie.substring(0, name.length + 1);
+      if (cookieName == (name + '=')) {
         cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
         break;
       }
@@ -138,23 +138,22 @@ function selectBanner(nextTab) {
   onOff(currentTab);
 }
 function selectBannerNow() {
-  selectBanner($(this).parent());
+  if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
+  selectBanner($(this));
+  return false;
 }
 function selectBannerSoon() {
   // We create a timer for the mouse over event,
   // If the mouse leaves before the timeout is done, it's canceled.
-  var nextTab = $(this).parent()
+  var nextTab = $(this);
   this.sb_timer = setTimeout( function () { selectBanner(nextTab) }, 100);
 }
 function cancelBanner() {
   if(this.sb_timer) { clearTimeout(this.sb_timer) }
 }
 function furnishTabs() {
-  $("#shield > .tabs").children("li").each(function(){
-    $(this).children("a:first-child").mouseover(selectBannerSoon);
-    $(this).children("a:first-child").mouseout(cancelBanner);
-    $(this).children("a:first-child").click(selectBannerNow);
-  });
+  $("#shield > .tabs").children("li")
+    .mouseover(selectBannerSoon).mouseout(cancelBanner).click(selectBannerNow);
   currentTab = $("#shield > .tabs li.current");
 }
 

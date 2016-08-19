@@ -906,23 +906,22 @@ a.roundel img {
 }
 
 #columns {
-  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 132px);
-  padding-top: 60px;
+  margin-top: -110px;
+  padding-top: 100px;
   padding-left: 8px;
   min-height: 0;
   background-color: white;
-  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 100px);
+  background-image: linear-gradient(to bottom, #eeeeee 0%, #ffffff 140px);
   line-height: 140%;
 }
 #columns > .column {
   height: 100%;
-  padding: 0 12px;
+  padding: 0 12px 8px;
   width: 260px;
   border-right: 1px solid #b3b3b3;
   display: table-cell;
 }
 #columns > .column:last-child {
-  padding: 0 0 0 12px;
   width: 350px;
   border: 0px solid;
 }

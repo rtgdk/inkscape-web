@@ -224,6 +224,7 @@ jQuery.fn.getMaxHeight = function(){
 }
 
 function menu(){
+    $("#menu-toggle").click(function(){ $("#menu").slideToggle(); });
     if(screen.width < 960){
         $("#menu > li").each(function(){
             var parentLink = $(this).children("a").clone();

@@ -91,7 +91,10 @@
       </div>
     </div>
     {% block menu %}
-      <div class="nav"><ul id="menu">{% show_menu 0 100 100 %}</ul></div>
+      <div class="nav clearfix">
+         <div id="menu-toggle"><div></div><div></div><div></div></div>
+         <ul id="menu">{% show_menu 0 100 100 %}</ul>
+      </div>
     {% endblock %}
     {% if messages %}
       <ul id="messages">{% for message in messages %}<li{% if message.tags %} class="{{ message.tags }}"{% endif %} title="{{ message.tags }}">

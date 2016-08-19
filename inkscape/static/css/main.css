@@ -423,6 +423,24 @@ div.toc ol, #toc.right ol {
   z-index: 5;
   position: relative;
 }
+#menu-toggle {
+  display: none;
+  float: left;
+  margin-top: -40px;
+  padding: 8px;
+  cursor: pointer;
+}
+#menu-toggle[style*="display: none"] {
+  display: block;
+}
+#menu-toggle > div {
+  width: 22px;
+  height: 2px;
+  background-color: #333333;
+}
+#menu-toggle > div + div {
+  margin-top: 4px;
+}
 .header .nav > ul {
   margin: 0 0 0 50px;
   padding: 0;

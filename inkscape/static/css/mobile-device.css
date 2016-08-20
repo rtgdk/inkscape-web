@@ -1,4 +1,4 @@
-/* Global */
+/* Canonical blocks */
 body {
   width: 100%;
 }
@@ -165,10 +165,6 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   #menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  /*#menu > li.activated > a {
-    border-top-right-radius: 0;
-    border-bottom-right-radius: 0;
-  }*/
   #menu > li > ul {
     left: 125%;
     left: calc(100% + 20px);
@@ -284,10 +280,16 @@ body > .footer {
 
 
 /* Various contents */
+ul,
+ol {
+  padding-left: 20px;
+}
+
 #content {
   margin-bottom: 0;
   padding: 20px 12px;
   background: transparent;
+  word-wrap: break-word;
 }
 #content > div.wrapper {
   margin: -20px -12px;
@@ -370,6 +372,40 @@ table.bioitem p.bio {
 .page img {
   max-width: 100%;
 }
+.page > .donationlogo:first-child {
+  position: relative;
+  mix-blend-mode: hard-light;
+}
+.page > .donationlogo:first-child:after {
+  content: " ";
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: linear-gradient(to bottom, gray, transparent 30%);
+}
 div.donationpicparagraph img {
   margin: 12px 0 12px 12px;
+}
+
+#toc {
+  font-size: inherit;
+  line-height: inherit;
+}
+div.toc,
+#toc.right {
+  margin-right: 0;
+}
+#toc.inline h2 {
+  margin-bottom: 1ex;
+}
+@media screen and (max-width: 599px) {
+  #toc.right,
+  #toc.inline {
+    float: none;
+    margin: 1em -8px;
+    padding: 1ex 8px;
+    width: auto;
+  }
 }

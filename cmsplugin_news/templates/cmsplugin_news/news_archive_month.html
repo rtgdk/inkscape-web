@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block "newscontent" %}
-  <h1>{% block title %}{% trans "News for" %} {{ month|date:'F Y' }}{% endblock %}</h1>
+  <h1>{% block title %}{% blocktrans with month|date:'F Y' as month %}News for {{ month }}{% endblocktrans %}{% endblock %}</h1>
 
   {% for object in object_list %}
     {% include "cmsplugin_news/list_item.html" %}

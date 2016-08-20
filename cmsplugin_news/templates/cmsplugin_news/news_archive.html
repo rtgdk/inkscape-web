@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block "newscontent" %}
-  <h1>{% block title %}{% trans "Latest news" %}{% endblock %}</h1>
+  <h1>{% block title %}{% trans "Latest News" %}{% endblock %}</h1>
   {% for object in latest %}
     {% include "cmsplugin_news/list_item.html" %}
   {% endfor %}

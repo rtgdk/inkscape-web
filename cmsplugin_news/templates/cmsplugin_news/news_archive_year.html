@@ -2,7 +2,7 @@
 {% load i18n %}
 
 {% block "newscontent" %}
-  <h1>{% block title %}{% trans "News for" %} {{ year.year }}{% endblock %}</h1>
+  <h1>{% block title %}{% blocktrans with year.year as year %}News for {{ year }}{% endblocktrans %}{% endblock %}</h1>
   <div id="left-column">
     {% for object in object_list %}
       {% include "cmsplugin_news/list_item.html" %}

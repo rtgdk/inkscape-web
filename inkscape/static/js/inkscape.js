@@ -213,7 +213,7 @@ function popUpLink(msg, cancel, ok, next) {
 jQuery.fn.getMaxHeight = function(){
     var ca = this.attr('class');
     var rval = [];
-    if(ca && ca.length && ca.split){
+    if(ca && ca.length && ca.split) {
         ca = jQuery.trim(ca); /* strip leading and trailing spaces */
         ca = ca.replace(/\s+/g,' '); /* remove doube spaces */
         var n = ca.indexOf("maxHeight-"); 
@@ -225,7 +225,7 @@ jQuery.fn.getMaxHeight = function(){
 
 function menu(){
     $("#menu-toggle").click(function(){ $("#menu").slideToggle(); });
-    if(screen.width < 960){
+    if(screen.width < 960) {
         $("#menu > li").each(function(){
             var ancestorDuplicate = $("<li>").addClass('children').append($(this).children("a").clone());
             if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
@@ -239,23 +239,24 @@ function menu(){
             });
         });
     } else {
-        var elementHeight=$("#menu").children("li:first-child").height();
-        var containerHeight=$("#menu").height();
-        var i = 0;
-        var onePixelLess = parseInt( $("#menu").children("li").children("a:first-child").css('font-size'))-1 + "px";
-        while(containerHeight > elementHeight && i < 100){
-            $("#menu").children("li").each(function(){
-                var a = $(this).children("a:first-child");
-                a.css('font-size',onePixelLess);
-                a.css('padding-left',parseInt(a.css('padding-left'))-1 + "px");
-                a.css('padding-right',parseInt(a.css('padding-right'))-1 + "px");
-                elementHeight = $(this).height();
-            });
-            i++;
-            if(i > 20){
-                break;
+        var itemHeight = $("#menu > li").height();
+        var menuHeight = $("#menu").height();
+        var fontSize = parseInt($("#menu > li > a").css('font-size'));
+        var initialPadding = parseInt($("#menu > li > a").css('padding-left'));
+        var paddingSize = initialPadding;
+        var minPadding = paddingSize * 0.7;
+        while(menuHeight > itemHeight && paddingSize > 0) {
+            paddingSize--;
+            if(paddingSize < minPadding && fontSize > 12) {
+                fontSize--;
+                paddingSize = initialPadding;
+                minPadding *= 0.7;
             }
-            containerHeight = $("#menu").height();
+            $("#menu > li > a").css({
+                'font-size': fontSize + "px",
+                'padding-left': paddingSize + "px",
+                'padding-right': paddingSize + "px"});
+            menuHeight = $("#menu").height();
         }
     }
 }

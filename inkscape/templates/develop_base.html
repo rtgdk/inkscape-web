@@ -14,7 +14,10 @@
 {% endblock %}
 
 {% block menu %}
-  <div class="nav"><ul id="menu">{% show_menu_below_id "develop" 0 100 100 %}</ul></div>
+  <div class="nav clearfix">
+    <button id="menu-toggle"><div></div><div></div><div></div></button>
+    <ul id="menu">{% show_menu_below_id "develop" 0 100 100 %}</ul>
+  </div>
 {% endblock %}
 
 {% block supercontent %}

@@ -439,17 +439,13 @@ div.toc ol, #toc.right ol {
 #menu-toggle > div + div {
   margin-top: 5px;
 }
-.header .nav > ul {
+#menu {
+  display: inline-block;
   margin: 0 0 0 50px;
   padding: 0;
   border-left: 1px solid #333333;
 }
-.header .nav :link, .header .nav :link:hover, .header .nav :link:active,
-.header .nav :visited, .header .nav :visited:hover, .header .nav :visited:active {
-  color: white;
-  text-decoration: none;
-}
-.header .nav li {
+#menu li {
   margin: 0;
   padding: 0;
   float: left;
@@ -457,39 +453,40 @@ div.toc ol, #toc.right ol {
   list-style: none;
   text-align: left;
 }
-.header .nav a {
+#menu :link, #menu :link:hover, #menu :link:active,
+#menu :visited, #menu :visited:hover, #menu :visited:active {
+  color: white;
   text-decoration: none;
+}
+#menu a {
   display: block;
+  margin: 0;
   padding: 8px 10px;
   font-size: 14px;
   line-height: 18px;
-  margin: 0;
 }
-.header .nav > ul > li > a {
+#menu > li > a {
   text-transform: uppercase;
   border-right: 1px solid #333333;
   border-left: 1px solid #5a5a5a;
   padding: 17px 23px;
   outline: 0;
 }
-.header .nav > ul > li.selected > a,
-.header .nav > ul > li.ancestor > a,
-.header .nav > ul > li:hover > a,
-.header .nav > ul > li > a:focus {
+#menu > li.selected > a,
+#menu > li.ancestor > a,
+#menu > li:hover > a,
+#menu > li > a:focus {
   background: #333333;
-  background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
+  background-image: linear-gradient(to bottom, #333333, #4d4d4d);
 }
-.header .nav > ul ul li.selected > a {
-  background: #333333;
+#menu > li:last-child a {
+  color: #ff7e28;
 }
-.header .nav > ul ul a:hover, .header .nav > ul ul a:focus {
-  background: #333333;
+#menu > li:last-child > a {
+  border-right: 0;
+  border-top-right-radius: 10px;
 }
-.header .nav > ul ul a {
-  outline: 0;
-}
-.header .nav li ul {
-  background: #4d4d4d;
+#menu li ul {
   display: none;
   margin: 0;
   padding: 0;
@@ -498,33 +495,31 @@ div.toc ol, #toc.right ol {
   top: 52px;
   left: 0;
   z-index: 1;
+  background: #4d4d4d;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
   border-top: 1px solid #141414;
 }
-.header .nav li ul li ul {
-  top: 0px;
-  left: 155px;
-}
-.header .nav li ul a {
-  font-size: 13px;
-}
-.header .nav ul > li:hover > ul {
+#menu li:hover > ul {
   display: block;
 }
-.header .nav > ul > li ul li {
+#menu li li {
   float: none;
   margin: 0;
   padding: 0;
 }
-.header .nav > ul {
-  display: inline-block;
+#menu li li.selected > a,
+#menu li li a:hover,
+#menu li li a:focus {
+  background: #333333;
 }
-.header .nav > ul > li:last-child a {
-  color: #ff7e28;
+#menu li li a {
+  outline: 0;
+  font-size: 13px;
 }
-.header .nav > ul > li:last-child > a {
-  border-right: 0 none;
-  border-top-right-radius: 10px;
+#menu li li ul {
+  top: 0;
+  left: 100%;
+  border-top: 0;
 }
 body > .footer {
   clear: both;

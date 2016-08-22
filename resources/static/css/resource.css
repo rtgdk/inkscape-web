@@ -16,7 +16,7 @@
   background-color: #1a1a1a;
   padding: 20px 35px;
   line-height: 0px;
-  text-align:center;
+  text-align: center;
   border-radius: 10px 10px 0 0;
 }
 .item .image img {
@@ -25,8 +25,38 @@
   max-height: 600px;
   max-height: 80vh;
   margin: 0px;
-  border:none;
+  border: none;
   border-radius: 4px;
+}
+.item .image.only a {
+  cursor: zoom-in;
+}
+.item .image.only.fullscreen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 100;
+  padding: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+.item .image.only.fullscreen.horizontal {
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.item .image.only.fullscreen a {
+  cursor: zoom-out;
+}
+.item .image.only.fullscreen img {
+  max-width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+.item .image.only.fullscreen.horizontal img {
+  max-width: none;
+  max-height: 100%;
 }
 .item .info {
   background-color: #fff;

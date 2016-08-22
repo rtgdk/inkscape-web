@@ -9,7 +9,11 @@
       ({% trans "not published" %})
     {% endif %}
   </div>
-  <p>{{ object.excerpt|safe }}</p>
+  {% if object.excerpt|safe|first == '<' %}
+    {{ object.excerpt|safe }}
+  {% else %}
+    <p>{{ object.excerpt|safe }}</p>
+  {% endif %}
   <a class="readmore" href="{{ object.get_absolute_url }}">{% trans "Read more" %}</a>
 </div>
 

@@ -411,7 +411,7 @@ div.toc ol, #toc.right ol {
 }
 /* navigation */
 .header .nav {
-  background-color: #4d4d4d;
+  background: #4d4d4d;
   background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
   border-radius: 10px 10px 0 0;
   border-bottom: 1px solid #262626;
@@ -428,13 +428,13 @@ div.toc ol, #toc.right ol {
   padding: 8px;
   border: 0;
   border-radius: 5px;
-  background-color: #333333;
+  background: #333333;
   cursor: pointer;
 }
 #menu-toggle > div {
   width: 22px;
   height: 2px;
-  background-color: white;
+  background: white;
 }
 #menu-toggle > div + div {
   margin-top: 5px;
@@ -446,10 +446,10 @@ div.toc ol, #toc.right ol {
   border-left: 1px solid #333333;
 }
 #menu li {
+  position: relative;
+  float: left;
   margin: 0;
   padding: 0;
-  float: left;
-  position: relative;
   list-style: none;
   text-align: left;
 }
@@ -466,11 +466,12 @@ div.toc ol, #toc.right ol {
   line-height: 18px;
 }
 #menu > li > a {
-  text-transform: uppercase;
-  border-right: 1px solid #333333;
-  border-left: 1px solid #5a5a5a;
   padding: 17px 23px;
   outline: 0;
+  border-left: 1px solid #5a5a5a;
+  border-right: 1px solid #333333;
+  text-align: center;
+  text-transform: uppercase;
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a,
@@ -488,24 +489,22 @@ div.toc ol, #toc.right ol {
 }
 #menu li ul {
   display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1;
   margin: 0;
   padding: 0;
   width: 155px;
-  position: absolute;
-  top: 52px;
-  left: 0;
-  z-index: 1;
+  border-top: 1px solid #141414;
   background: #4d4d4d;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
-  border-top: 1px solid #141414;
 }
 #menu li:hover > ul {
   display: block;
 }
 #menu li li {
   float: none;
-  margin: 0;
-  padding: 0;
 }
 #menu li li.selected > a,
 #menu li li a:hover,

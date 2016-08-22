@@ -242,21 +242,30 @@ function menu(){
         var itemHeight = $("#menu > li").height();
         var menuHeight = $("#menu").height();
         var fontSize = parseInt($("#menu > li > a").css('font-size'));
+        var minFontSize = 12;
         var initialPadding = parseInt($("#menu > li > a").css('padding-left'));
         var paddingSize = initialPadding;
-        var minPadding = paddingSize * 0.7;
-        while(menuHeight > itemHeight && paddingSize > 0) {
+        var minPaddingSize = paddingSize * 0.7;
+        while(menuHeight > itemHeight && (paddingSize > minPaddingSize || fontSize > minFontSize)) {
             paddingSize--;
-            if(paddingSize < minPadding && fontSize > 12) {
+            if(paddingSize < minPaddingSize && fontSize > minFontSize) {
                 fontSize--;
                 paddingSize = initialPadding;
-                minPadding *= 0.7;
+                minPaddingSize *= 0.7;
             }
             $("#menu > li > a").css({
                 'font-size': fontSize + "px",
                 'padding-left': paddingSize + "px",
                 'padding-right': paddingSize + "px"});
             menuHeight = $("#menu").height();
+        }
+        if (paddingSize <= minPaddingSize && fontSize <= minFontSize) {
+            $(".header .nav").css('height', 'auto');
+            $("#menu").css({ 'display': 'table', 'table-layout': 'fixed' });
+            $("#menu > li").css({ 'display': 'table-cell', 'float': 'none', 'vertical-align': 'top' });
+            $("#menu > li > a")
+                .css({ 'display': 'table-cell', 'padding': '8px ' + paddingSize + 'px', 'vertical-align': 'middle' })
+                .css('height', $("#menu > li > a").height());
         }
     }
 }

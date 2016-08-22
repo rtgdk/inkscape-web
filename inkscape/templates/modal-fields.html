@@ -1,19 +1,19 @@
 {% load i18n static extras %}
 
-  {% for field in fieldset %}
-    {% if field.help_text %}
-      <div class="tooltip floating-tip"> 
-	<img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
-	<span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
-      </div>
-    {% endif %}
-    <div class="form-group">
-      {% if field.errors %}{{ field.errors }}{% endif %}
-      {{ field.label_tag }}
-      {% if forloop.first %}
-	{{ field|placeholder:field.label|autofocus }}
-      {% else %}
-	{{ field|placeholder:field.label }}
-      {% endif %}
+{% for field in fieldset %}
+  {% if field.help_text %}
+    <div class="tooltip floating-tip"> 
+      <img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
+      <span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
     </div>
-  {% endfor %}
+  {% endif %}
+  <div class="form-group">
+    {% if field.errors %}{{ field.errors }}{% endif %}
+    {{ field.label_tag }}
+    {% if forloop.first %}
+      {{ field|placeholder:field.label|autofocus }}
+    {% else %}
+      {{ field|placeholder:field.label }}
+    {% endif %}
+  </div>
+{% endfor %}

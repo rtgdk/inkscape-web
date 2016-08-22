@@ -26,7 +26,9 @@
 }
 
 #profile {
-  background-image: linear-gradient(to bottom, #1A1A1A 0%, #000 100%);
+  background: #1c1c1c;
+  background-image: linear-gradient(to bottom, #1A1A1A, #000);
+  color: white;
   min-height: 128px;
   border-radius: 0px 0px 15px 15px;
   padding: 2%;

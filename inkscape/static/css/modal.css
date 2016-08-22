@@ -134,7 +134,7 @@
 .modal-footer .float-left {
   float: left;
 }
-.modal-dialog .form-group > input,
+.modal-dialog .form-group > input:not([type="checkbox"]):not([type="radio"]),
 .modal-dialog .form-group > textarea,
 .modal-dialog .form-group > select {
   margin: 0px;
@@ -146,7 +146,6 @@
   line-height: 1.42857143;
   color: #555;
   background-color: #fff;
-  background-image: none;
   border: 1px solid #ccc;
   border-radius: 4px;
   box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
@@ -160,17 +159,13 @@
   background: url(../images/down-arrow.png) 96% no-repeat #fff;
 }
 .modal-dialog .form-group > label {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  padding: 0;
-  margin: -1px;
-  overflow: hidden;
-  clip: rect(0,0,0,0);
-  border: 0;
-  display: inline-block;
-  max-width: 100%;
-  font-weight: 700;
+  display: none;
+}
+.modal-dialog .form-group > input + label {
+  display: inline;
+}
+.modal-dialog .form-group > [for="id_photo"] {
+  display: block;
 }
 .modal-dialog .floating-tip {
   position: relative;

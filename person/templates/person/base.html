@@ -11,7 +11,7 @@
   <div id="bread">
     {% include "breadcrumbs.html" %}
   </div>
-  <div id="profile" style="background-color: #1c1c1c; color: white;">
+  <div id="profile">
     {% block "profile" %}{% endblock %}
     <h1 id="name">{% block "name" %}{{ object.name }}{% endblock %}</h1>
     <p id="bio">{% block "bio" %}{{ object.intro }}{% endblock %}</p>

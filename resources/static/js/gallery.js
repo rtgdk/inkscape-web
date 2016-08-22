@@ -123,7 +123,7 @@ function setupImageFullscreen() {
     container.toggleClass('fullscreen').removeClass('horizontal');
     var isFullscreen = container.hasClass('fullscreen');
     $(document.body).css('overflow', isFullscreen ? 'hidden' : 'auto');
-    if (isFullscreen && $(this).find('img').height() < window.innerHeight) {
+    if(isFullscreen && $(this).find('img').height() < window.innerHeight) {
       container.addClass('horizontal');
     }
     return false;

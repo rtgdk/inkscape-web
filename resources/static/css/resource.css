@@ -41,18 +41,21 @@
   padding: 0;
   overflow-x: hidden;
   overflow-y: auto;
+  border-radius: 0;
 }
 .item .image.only.fullscreen.horizontal {
   overflow-x: auto;
   overflow-y: hidden;
 }
 .item .image.only.fullscreen a {
+  line-height: 100vh;
   cursor: zoom-out;
 }
 .item .image.only.fullscreen img {
   max-width: 100%;
   max-height: none;
   border-radius: 0;
+  vertical-align: middle;
 }
 .item .image.only.fullscreen.horizontal img {
   max-width: none;

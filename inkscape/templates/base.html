@@ -63,9 +63,9 @@
             </li>
           {% else %}
             <li id="tab_user" class="dropdown">
-              <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a>&nbsp;</p>
+              <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a></p>
               <div>
-                <a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a>
+                <p style="text-align: center;"><a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a></p>
                 <hr/>
                 {% if request.user.is_moderator %}
                   <p><a href="{% url "moderation:index" %}">{% trans "Moderation" %}</a></p>
@@ -91,7 +91,7 @@
       </div>
     </div>
     {% block menu %}
-      <div class="nav clearfix">
+      <div class="nav">
         <button id="menu-toggle"><div></div><div></div><div></div></button>
         <ul id="menu">{% show_menu 0 100 100 %}</ul>
       </div>

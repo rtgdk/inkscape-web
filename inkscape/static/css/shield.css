@@ -23,8 +23,7 @@
   transition: opacity 0s ease 0.4s;
 }
 
-#banners > div.current,
-#banners > div:target {
+#banners > div.current {
   opacity: 1;
   transition: opacity 0.4s ease 0s;
   z-index: 1;

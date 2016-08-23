@@ -1,8 +1,8 @@
 {% load i18n static %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="tab_resources" class="dropdown">
-  <p><a id="resources" href="{% url "resources" %}">&nbsp;</a></p>
-  <div style="width: 200px;">
+  <p><a id="resources" href="{% url "resources" %}"></a></p>
+  <div>
     <p><a id='new_upload' href="{% url "resource.upload" %}">{% trans "Upload Art or Resource" %}</a></p>
     <p><a id='new_paste' href="{% url "pastebin" %}">{% trans "New PasteBin" %}</a></p>
     <hr/>

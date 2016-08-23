@@ -52,26 +52,24 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a {
-  padding: 9px 15px;
+  padding: 9px 14px;
   border: 1px solid #5a5a5a;
 }
 #menu > li:last-child > a {
   border-radius: 0;
 }
-#menu > li > ul {
+#menu li ul {
   top: 0;
   border: 0;
 }
-#menu > li:hover > ul {
+#menu li:hover > ul {
   display: none;
 }
-#menu > li.activated > ul {
+#menu > li.activated ul {
   display: block;
 }
-#menu > li > ul > li:first-child > a {
-  padding: 10px;
-  font-size: 15px;
-  font-weight: bold;
+#menu li li.main {
+  display: list-item;
 }
 
 body > .footer {
@@ -319,12 +317,12 @@ div.toc,
   #tabs > li.dropdown > div {
     text-align: left;
   }
-  #tabs > #tab_languages > div {
-    margin-left: 0 !important;
+  #tabs > li.dropdown:first-child > div {
+    left: 0;
+    right: unset;
     border-radius: 0 5px 5px 5px;
   }
-  #tabs > #tab_languages > div > p:first-child > a:hover,
-  #tabs > #tab_languages > div > p:first-child > a.selected {
+  #tabs > #tab_languages > div > p:first-child a {
     border-radius: 0 5px 0 0;
   }
   #topsearch {
@@ -336,7 +334,6 @@ div.toc,
     border: 0;
     border-radius: 0;
     background: transparent;
-    text-align: left;
   }
   #menu-toggle {
     display: block;
@@ -375,16 +372,20 @@ div.toc,
   #menu > li:last-child > a {
     border-radius: 0 0 10px 10px;
   }
-  #menu > li > ul {
+  #menu li ul {
     left: 125%;
     left: calc(100% + 20px);
   }
-  #menu > li > ul > li:first-child > a {
+  #menu li li.main > a {
     padding: 9px 10px;
   }
 
 
   /* Homepage */
+  #shield {
+    margin-top: 8px;
+  }
+
   #banners > div > div > p.text {
     hyphens: auto;
   }

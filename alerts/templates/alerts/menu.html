@@ -2,8 +2,8 @@
 {% if not alerts %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="tab_messages" class="dropdown">
-  <p><a id="alerts" href="{% url "alerts" %}">&nbsp;</a></p>
-  <div style="width: 150px;">
+  <p><a id="alerts" href="{% url "alerts" %}"></a></p>
+  <div>
     <p>
       <a id='new_messages' href="{% url "alerts" %}">{% trans "Inbox" %}
         <span id="alert_bucket" data-url="{% url "alerts.json" %}" 

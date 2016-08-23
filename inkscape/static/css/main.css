@@ -295,101 +295,100 @@ div.toc ol, #toc.right ol {
   display: block;
   text-align: center;
 }
-/* dropdowns on the right */
+/* dropdowns on the top-right */
 #tabs {
   float: right;
   margin: 0;
   padding: 0;
-  list-style: none;
   color: white;
+  list-style: none;
+  white-space: nowrap;
   font-size: 10pt;
+  cursor: default;
+}
+#tabs p {
+  margin: 0;
+}
+#tabs a {
+  display: block;
+  color: white;
+  outline: 0;
+  text-decoration: none;
+}
+#tabs a:hover,
+#tabs a.selected {
+  background: #555;
 }
 #tabs > li {
+  position: relative;
   float: left;
   margin-left: 5px;
 }
-#tabs > li.dropdown:hover > p {
-  border-radius: 0px;
-  padding-bottom: 12px;
+#tabs > li > p,
+#tabs > li > p a {
+  padding: 5px 10px 7px;
+  border-radius: 0 0 5px 5px;
 }
 #tabs > li > p {
-  cursor: pointer;
-  display: block;
-  border-radius: 0 0 5px 5px;
-  background: #333 right 6px center;
-  padding: 5px 10px 7px 10px;
-  margin: 0px;
+  background: #333;
 }
-#tabs > li > p:hover {
-  background-color: #555;
+#tabs > li > p a {
+  margin: -5px -10px -7px;
 }
-#tabs > li > p > a {
-  color: white;
-  outline: 0;
+#tabs > li.dropdown:hover > p,
+#tabs > li.dropdown.focused > p,
+#tabs > li.dropdown:hover > p a,
+#tabs > li.dropdown.focused > p a {
+  border-radius: 0;
+  padding-bottom: 12px;
 }
-#tabs > li > p > a:hover {
-  text-decoration: none;
+#tabs > li.dropdown:hover > p a,
+#tabs > li.dropdown.focused > p a {
+  margin-bottom: -12px;
 }
 #tabs > li.dropdown > div {
-  background-color: #333;
-  border-radius: 5px 0 5px 5px;
   display: none;
   position: absolute;
+  right: 0;
   z-index: 10;
+  border-radius: 5px 0 5px 5px;
+  box-shadow: 0px 7px 7px rgba(17, 17, 17, 0.5);
+  background: #333;
 }
 #tabs > li.dropdown:hover > div,
 #tabs > li.dropdown.focused > div {
   display: block;
-  box-shadow: 0px 7px 7px rgba(17, 17, 17, 0.5);
 }
-#tabs > li.dropdown > div > p {
-  margin: 0px;
-}
-#tabs > li.dropdown > div > hr {
+#tabs > li.dropdown > div hr {
   margin: 5px 20px;
 }
-#tabs > li.dropdown > div > p > a {
-  display: block;
+#tabs > li.dropdown > div > p a {
   padding: 6px 20px;
-  color: white;
-  outline: 0;
 }
-#tabs > li.dropdown > div > p > a:hover,
-#tabs > li.dropdown > div > p > a.selected {
-  text-decoration: none;
-  background-color: #555;
-}
-#tabs > li.dropdown > div > p:last-child > a:hover,
-#tabs > li.dropdown > div > p:last-child > a.selected {
-  border-radius: 0 0 5px 5px;
-}
-#tabs > li.dropdown > div > p:first-child > a:hover,
-#tabs > li.dropdown > div > p:first-child > a.selected {
+#tabs > li > div > p:first-child a {
   border-radius: 5px 0 0 0;
+}
+#tabs > li > div > p:last-child a {
+  border-radius: 0 0 5px 5px;
 }
 /* Login topdrop */
 #tabs img.userphoto {
   width: 64px;
   height: 64px;
-  background-size: 64px;
-  background-repeat: no-repeat;
-  display: block;
-  margin: 9px auto;
-  font-size: 0px;
+  font-size: 0;
 }
-#tab_messages > p > a,
-#tab_resources > p > a {
+#tab_messages > p > a:before,
+#tab_resources > p > a:before {
+  content: " ";
   display: block;
   width: 16px;
   height: 14px;
-  margin: 0px;
   text-decoration: none;
-  line-height: 2px;
 }
-#tab_messages > p > a {
+#tab_messages > p > a:before {
   background: url(../images/message.svg) 0 50% no-repeat;
 }
-#tab_resources > p > a {
+#tab_resources > p > a:before {
   background: url(../images/resource.svg) 0 50% no-repeat;
 }
 #tab_messages > p > a.alert {
@@ -433,9 +432,6 @@ div.toc ol, #toc.right ol {
   background: #333333;
   cursor: pointer;
 }
-#menu-toggle.force-shown {
-  display: block;
-}
 #menu-toggle > div {
   width: 22px;
   height: 2px;
@@ -444,8 +440,11 @@ div.toc ol, #toc.right ol {
 #menu-toggle > div + div {
   margin-top: 5px;
 }
-#menu {
+#menu,
+#menu.shown {
   display: inline-block;
+}
+#menu {
   margin: 0 0 0 50px;
   padding: 0;
   border-left: 1px solid #333333;
@@ -510,6 +509,14 @@ div.toc ol, #toc.right ol {
 }
 #menu li li {
   float: none;
+}
+#menu li li.main {
+  display: none;
+}
+#menu li li.main > a {
+  padding: 10px;
+  font-size: 15px;
+  font-weight: bold;
 }
 #menu li li.selected > a,
 #menu li li a:hover,

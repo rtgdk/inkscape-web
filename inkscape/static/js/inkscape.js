@@ -20,12 +20,9 @@
 
 /* Page loading processes */
 $(document).ready(function() {
-  if($("#menu"))menu();
-  if($('[class|="maxHeight"]')[0])maxHeight();
-  if($("#shield .tabs"))furnishTabs();
-  if($(".inlinepages"))inlinePages();
-  $("#tab_user input").focus(true, focused);
-  $("#tab_user input").focusout(false, focused);
+  setupMenu();
+  furnishShieldTabs();
+  setupInlinePages();
   $("[src$='.svg']").error(onSvgError);
   $(".image.only img").error(iconInstead);
   $(".dotdotdot").click(paginator_expand);
@@ -35,7 +32,6 @@ $(document).ready(function() {
   $(".modal-dialog .fields").hide();
   $(".modal-dialog .tab:first-child").click();
   close_elements();
-  adjustBar();
 });
 
 function modalfieldsets(event) {
@@ -102,13 +98,6 @@ function close_elements() {
   });
 }
 
-function focused(unhide) {
-  var target = $( this ).closest("li");
-  // This delay is needed because unfocus will kill the tab-next process
-  // before the next item can re-focus the list item target.
-  setTimeout( function () { target.toggleClass('focused', unhide.data); }, 100);
-}
-
 function getCookie(name) {
   var cookieValue = null;
   if (document.cookie && document.cookie != '') {
@@ -125,53 +114,35 @@ function getCookie(name) {
   return cookieValue;
 };
 
-/* Front page code for tabs */
-var currentTab = null;
-function onOff(e) {
-  e.toggleClass('current');
-  var b = $("#shield #banners > div").get(e.index());
-  $(b).toggleClass('current', e.hasClass('current'));
-}
 function selectBanner(nextTab) {
-  if(currentTab) onOff(currentTab);
-  currentTab = nextTab;
-  onOff(currentTab);
+  $("#shield .current").removeClass('current');
+  nextTab.addClass('current');
+  $("#shield #banners > div").eq(nextTab.index()).addClass('current');
 }
-function selectBannerNow() {
-  if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
-  selectBanner($(this));
-  return false;
-}
-function selectBannerSoon() {
-  // We create a timer for the mouse over event,
-  // If the mouse leaves before the timeout is done, it's canceled.
-  var nextTab = $(this);
-  this.sb_timer = setTimeout( function () { selectBanner(nextTab) }, 100);
-}
-function cancelBanner() {
-  if(this.sb_timer) { clearTimeout(this.sb_timer) }
-}
-function furnishTabs() {
+function furnishShieldTabs() {
   $("#shield > .tabs").children("li")
-    .mouseover(selectBannerSoon).mouseout(cancelBanner).click(selectBannerNow);
+    .mouseover(function(){
+      var nextTab = $(this);
+      this.sb_timer = setTimeout(function() { selectBanner(nextTab); }, 100);
+    }).mouseout(function(){
+      if(this.sb_timer) clearTimeout(this.sb_timer);
+    }).click(function(){
+      if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
+      selectBanner($(this));
+      return false;
+    });
   currentTab = $("#shield > .tabs li.current");
 }
 
-function inlinePages() {
-  $(".inlinepages > .tabs").children("li").each(function(){
-    $(this).click(selectInlinePage);
+function setupInlinePages() {
+  $(".inlinepages > .tabs > li").click(function(){
+    $(".inlinepages .selected").removeClass('selected');
+    $(this).addClass('selected');
+    $("#" + this.id + "-page").addClass('selected');
   });
-  $(".inlinepages > .tabs > li:first-child").trigger("click");
-}
-function selectInlinePage() {
-  $(".inlinepages .selected").each(function(){
-    $(this).toggleClass('selected', 'false');
-  });
-  $(this).toggleClass('selected', true)
-  $("#"+this.id+"-page").toggleClass('selected', true)
+  $(".inlinepages > .tabs > li:first-child").click();
 }
 
-/* == PopUp implimentation == */
 function popUp(title, msg, href, cancel, ok, next) {
     if(document.getElementById('blanket')) {
       $('#blanket').remove();
@@ -208,99 +179,63 @@ function popUpLink(msg, cancel, ok, next) {
     a.href = '#nowhere'
   });
 }
-/* End popup */
 
-jQuery.fn.getMaxHeight = function(){
-    var ca = this.attr('class');
-    var rval = [];
-    if(ca && ca.length && ca.split) {
-        ca = jQuery.trim(ca); /* strip leading and trailing spaces */
-        ca = ca.replace(/\s+/g,' '); /* remove doube spaces */
-        var n = ca.indexOf("maxHeight-"); 
-        ca.substring(n);
-        rval = ca.split(' ');
-    }
-    return rval[0].replace("maxHeight-","");
-}
-
-function menu(){
-    $("#menu-toggle").click(function(){ $("#menu").slideToggle(); $(this).toggleClass('force-shown'); });
-    if(screen.width < 960) {
-        $("#menu > li").each(function(){
-            var ancestorDuplicate = $("<li>").addClass('children').append($(this).children("a").clone());
-            if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
-            $(this).children("ul").prepend(ancestorDuplicate);
-            $(this).children("a").click(function(){
-                $(this).parent().toggleClass('activated');
-                return false;
-            });
-            $(this).mouseleave(function(){
-                $(this).removeClass('activated');
-            });
-        });
-    } else {
-        var itemHeight = $("#menu > li").height();
-        var menuHeight = $("#menu").height();
-        var fontSize = parseInt($("#menu > li > a").css('font-size'));
-        var minFontSize = 12;
-        var paddingSize = parseInt($("#menu > li > a").css('padding-left'));
-        var minPaddingFactor = 0.8;
-        var minPaddingSize = paddingSize * minPaddingFactor;
-        while(menuHeight > itemHeight && (paddingSize > minPaddingSize || fontSize > minFontSize)) {
-            paddingSize--;
-            if(paddingSize < minPaddingSize && fontSize > minFontSize) {
-                fontSize--;
-                paddingSize = Math.round(paddingSize / minPaddingFactor);
-                minPaddingSize *= minPaddingFactor;
-            }
-            $("#menu > li > a").css({
-                'font-size': fontSize + "px",
-                'padding-left': paddingSize + "px",
-                'padding-right': paddingSize + "px"});
-            menuHeight = $("#menu").height();
-        }
-        if (paddingSize <= minPaddingSize && fontSize <= minFontSize) {
-            $(".header .nav").css('height', 'auto');
-            $("#menu").css({ 'display': 'table', 'table-layout': 'fixed' });
-            $("#menu > li").css({ 'display': 'table-cell', 'float': 'none', 'vertical-align': 'top' });
-            $("#menu > li > a")
-                .css({ 'display': 'table-cell', 'padding': '8px ' + paddingSize + 'px', 'vertical-align': 'middle' })
-                .css('height', $("#menu > li > a").height());
-        }
-    }
-}
-
-function adjustBar() {
-    $("#tabs > li.dropdown").each(function() {
-        var tab_width = parseInt($(this).width());
-        var drop_width = parseInt($(this).children("div").width());
-        $(this).children("div").css('margin-left', (tab_width - drop_width)+"px");
+function setupMenu(){
+  $("#menu-toggle").click(function(){
+    $("#menu").slideToggle(function(){
+      $(this).css('display', '').toggleClass('shown');
     });
-}
+  });
+  $("#menu > li").each(function(){
+    var ancestorDuplicate = $("<li>").addClass('child main').append($(this).children("a").clone());
+    if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
+    $(this).children("ul").prepend(ancestorDuplicate);
+  });
 
-function maxHeight(){
-    $('[class|="maxHeight"]').each(function(){
-        var elementHeight = $(this).height();
-        var containerHeight=$(this).getMaxHeight();
-        var textSize;
-        var i = 0;
-        while(containerHeight < elementHeight && i < 100){
-            textSize =  parseInt($(this).css('font-size'));
-            if(textSize == 5) break;
-           if(i != 0){
-                $(this).css('font-size',textSize-1 + "px");
-            }
-            i++;
-            elementHeight = $(this).height();
-        }
-    })
+  if(screen.width < 960) {
+    $("#menu > li").each(function(){
+      $(this).children("a").click(function(){
+        $(this).parent().toggleClass('activated');
+        return false;
+      });
+      $(this).mouseleave(function(){
+        $(this).removeClass('activated');
+      });
+    });
+  } else {
+    var itemHeight = $("#menu > li").height();
+    var menuHeight = $("#menu").height();
+    var fontSize = parseInt($("#menu > li > a").css('font-size'));
+    var minFontSize = 12;
+    var paddingSize = parseInt($("#menu > li > a").css('padding-left'));
+    var minPaddingFactor = 0.8;
+    var minPaddingSize = paddingSize * minPaddingFactor;
+    while(menuHeight > itemHeight && (paddingSize > minPaddingSize || fontSize > minFontSize)) {
+      paddingSize--;
+      if(paddingSize < minPaddingSize && fontSize > minFontSize) {
+        fontSize--;
+        paddingSize = Math.round(paddingSize / minPaddingFactor);
+        minPaddingSize *= minPaddingFactor;
+      }
+      $("#menu > li > a").css({
+        'font-size': fontSize + "px",
+        'padding-left': paddingSize + "px",
+        'padding-right': paddingSize + "px"});
+      menuHeight = $("#menu").height();
+    }
+    if (paddingSize <= minPaddingSize && fontSize <= minFontSize) {
+      $(".header .nav").css('height', 'auto');
+      $("#menu").css({ 'display': 'table', 'table-layout': 'fixed' });
+      $("#menu > li").css({ 'display': 'table-cell', 'float': 'none', 'vertical-align': 'top' });
+      $("#menu > li > a")
+        .css({ 'display': 'table-cell', 'padding': '8px ' + paddingSize + 'px', 'vertical-align': 'middle' })
+        .css('height', $("#menu > li > a").height());
+    }
+  }
 }
 
 function reply_message(msg_id) {
-    var f = document.getElementById('form-'+msg_id);
-    f.setAttribute('onsubmit','');
-    f.setAttribute('method','post');
-    document.getElementById('body-'+msg_id).setAttribute('style','');
-    return false;
+  $('#form-' + msg_id).removeAttr('onsubmit').attr('method', 'post');
+  $('#body-' + msg_id).removeAttr('style');
+  return false;
 }
-

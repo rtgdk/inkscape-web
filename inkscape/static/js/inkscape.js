@@ -224,7 +224,7 @@ jQuery.fn.getMaxHeight = function(){
 }
 
 function menu(){
-    $("#menu-toggle").click(function(){ $("#menu").slideToggle(); });
+    $("#menu-toggle").click(function(){ $("#menu").slideToggle(); $(this).toggleClass('force-shown'); });
     if(screen.width < 960) {
         $("#menu > li").each(function(){
             var ancestorDuplicate = $("<li>").addClass('children').append($(this).children("a").clone());
@@ -243,15 +243,15 @@ function menu(){
         var menuHeight = $("#menu").height();
         var fontSize = parseInt($("#menu > li > a").css('font-size'));
         var minFontSize = 12;
-        var initialPadding = parseInt($("#menu > li > a").css('padding-left'));
-        var paddingSize = initialPadding;
-        var minPaddingSize = paddingSize * 0.7;
+        var paddingSize = parseInt($("#menu > li > a").css('padding-left'));
+        var minPaddingFactor = 0.8;
+        var minPaddingSize = paddingSize * minPaddingFactor;
         while(menuHeight > itemHeight && (paddingSize > minPaddingSize || fontSize > minFontSize)) {
             paddingSize--;
             if(paddingSize < minPaddingSize && fontSize > minFontSize) {
                 fontSize--;
-                paddingSize = initialPadding;
-                minPaddingSize *= 0.7;
+                paddingSize = Math.round(paddingSize / minPaddingFactor);
+                minPaddingSize *= minPaddingFactor;
             }
             $("#menu > li > a").css({
                 'font-size': fontSize + "px",

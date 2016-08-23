@@ -132,7 +132,7 @@
 #shield .tabs li > a > img {
   float: left;
   height: 32px;
-  margin: 0px 0px 16px -45px;
+  margin-left: -45px;
   width: 32px;
 }
 

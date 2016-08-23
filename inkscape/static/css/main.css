@@ -431,6 +431,9 @@ div.toc ol, #toc.right ol {
   background: #333333;
   cursor: pointer;
 }
+#menu-toggle.force-shown {
+  display: block;
+}
 #menu-toggle > div {
   width: 22px;
   height: 2px;
@@ -460,16 +463,16 @@ div.toc ol, #toc.right ol {
 }
 #menu a {
   display: block;
-  margin: 0;
   padding: 8px 10px;
-  font-size: 14px;
+  outline: 0;
+  font-size: 13px;
   line-height: 18px;
 }
 #menu > li > a {
-  padding: 17px 23px;
-  outline: 0;
+  padding: 17px 28px;
   border-left: 1px solid #5a5a5a;
   border-right: 1px solid #333333;
+  font-size: 15px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -510,10 +513,6 @@ div.toc ol, #toc.right ol {
 #menu li li a:hover,
 #menu li li a:focus {
   background: #333333;
-}
-#menu li li a {
-  outline: 0;
-  font-size: 13px;
 }
 #menu li li ul {
   top: 0;

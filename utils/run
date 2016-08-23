@@ -26,7 +26,7 @@ if [ -f "./data/wsgi.conf" ]; then
 
 else
 
-  ./pythonenv/bin/python inkscape/manage.py runserver
+  ./pythonenv/bin/python inkscape/manage.py runserver $*
 
 fi
 

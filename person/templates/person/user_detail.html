@@ -46,10 +46,10 @@
     {{ object.first_name }} {{ object.last_name }}
     <span id="username">{{ object.username }}</span>
   {% else %}
-    {{ object.username }}
-    <span id="username">{% trans "Anonymous" %}</span>
+    {% trans "Anonymous" %}
+    <span id="username">{{ object.username }}</span>
   {% endif %}
-    {% if object == request.user %}
+  {% if object == request.user %}
     <span id="edit"><a href="{% url "edit_profile" %}">{% trans "Edit" %}</a></span>
   {% endif %}
 {% endblock %}

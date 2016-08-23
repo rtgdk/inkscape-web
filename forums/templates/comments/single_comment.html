@@ -7,10 +7,13 @@
       {% url 'view_profile' comment.user.username as profile_url %}
       <a href="{{profile_url}}"><img class="userphoto" src="{% if comment.user.photo %}{{ comment.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
       <div>
-        {% url 'view_profile' comment.user.username as profile_url %}
-        {% blocktrans trimmed with comment.user as user_name and comment.submit_date|timetag as comment_date %}
-          <a href="{{profile_url}}">{{user_name}}</a> wrote {{comment_date}}:
-        {% endblocktrans %}
+        {% with comment.user|default:comment.user_name as user_name and comment.submit_date|timetag as comment_date and profile_url|default:comment.user_url as comment_url %}
+          {% if comment_url %}
+            {% blocktrans trimmed %}<a href="{{comment_url}}">{{user_name}}</a> wrote {{comment_date}}:{% endblocktrans %}
+          {% else %}
+            {% blocktrans trimmed %}[{{ user_name }}] wrote {{comment_date}}:{% endblocktrans %}
+          {% endif %}
+        {% endwith %}
       </div>
     </div>   
     <div class="index"><a href="{% get_comment_permalink comment %}">#{{ comment_counter }}</a></div>

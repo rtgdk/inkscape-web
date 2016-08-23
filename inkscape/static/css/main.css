@@ -123,7 +123,9 @@ th[scope="col"] { text-align: center; }
   text-overflow: ellipsis;
 }
 
-.clearfix:after {
+.clearfix:after,
+.header .nav:after,
+#content > div.wrapper:after {
    content: " "; /* Older browsers don't support empty content */
    visibility: hidden;
    display: block;

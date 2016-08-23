@@ -6,7 +6,8 @@
 {% block headerdesc %}{% page_attribute meta_description %}{% endblock %}
 
 {% block content %}
-  <div>
+  <div class="page">
+    {% placeholder header_template_content %}
     <div id="left-column">
       {% placeholder normal_template_content %}
     </div>

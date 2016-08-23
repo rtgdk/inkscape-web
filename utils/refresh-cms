@@ -41,8 +41,8 @@ ADDR="https://${1}inkscape.org/media/"
 wget -q ${ADDR}${SOURCE}.json.gz -O /tmp/cont.json.gz --no-check-certificate
 gunzip -c /tmp/cont.json.gz | $DIR/pythonenv/bin/python $DIR/utils/migrate-backup - > $FIX/live_content.json
 
-echo "Downloading live fixtures..."
-
+#echo "Downloading live fixtures..."
+#
 #wget -q ${ADDR}auth.json.gz -O /tmp/auth.json.gz --no-check-certificate
 #gunzip -c /tmp/auth.json.gz | $DIR/pythonenv/bin/python $DIR/utils/utils/migrate-backup - > $FIX/live_auth.json
 

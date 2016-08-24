@@ -445,10 +445,6 @@ div.toc ol, #toc.right ol {
 #menu-toggle > div + div {
   margin-top: 5px;
 }
-#menu,
-#menu.shown {
-  display: inline-block;
-}
 #menu {
   display: table;
   margin: 0;
@@ -477,16 +473,16 @@ div.toc ol, #toc.right ol {
 }
 #menu > li {
   display: table-cell;
-  white-space: nowrap;
   vertical-align: top;
 }
 #menu > li > a {
   padding: 17px;
+  white-space: nowrap;
   border-left: 1px solid #5a5a5a;
   border-right: 1px solid #333333;
   font-size: 14px;
-  text-align: center;
   text-transform: uppercase;
+  text-align: center;
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a,

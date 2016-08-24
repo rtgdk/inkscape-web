@@ -384,6 +384,9 @@ div.toc,
   #menu > li > a:focus {
     background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
+  #menu > li:hover > a {
+    background-image: linear-gradient(to right, #333333, #1a1a1a);
+  }
   #menu li ul {
     position: static;
     width: 100%;

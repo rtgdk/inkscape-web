@@ -417,11 +417,11 @@ div.toc ol, #toc.right ol {
   background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
   border-radius: 10px 10px 0 0;
   border-bottom: 1px solid #262626;
-  height: 52px;
   clear: both;
   text-align: right;
   z-index: 5;
   position: relative;
+  padding-left: 50px;
 }
 #menu-toggle {
   display: none;
@@ -430,8 +430,12 @@ div.toc ol, #toc.right ol {
   padding: 8px;
   border: 0;
   border-radius: 5px;
-  background: #333333;
+  background: #333;
   cursor: pointer;
+}
+#menu-toggle.expanded {
+  border-bottom: 10px solid #333;
+  border-radius: 5px 5px 0 0;
 }
 #menu-toggle > div {
   width: 22px;
@@ -446,13 +450,14 @@ div.toc ol, #toc.right ol {
   display: inline-block;
 }
 #menu {
-  margin: 0 0 0 50px;
+  display: table;
+  margin: 0;
   padding: 0;
+  width: 100%;
   border-left: 1px solid #333333;
 }
 #menu li {
   position: relative;
-  float: left;
   margin: 0;
   padding: 0;
   list-style: none;
@@ -470,11 +475,16 @@ div.toc ol, #toc.right ol {
   font-size: 13px;
   line-height: 18px;
 }
+#menu > li {
+  display: table-cell;
+  white-space: nowrap;
+  vertical-align: top;
+}
 #menu > li > a {
-  padding: 17px 28px;
+  padding: 17px;
   border-left: 1px solid #5a5a5a;
   border-right: 1px solid #333333;
-  font-size: 15px;
+  font-size: 14px;
   text-align: center;
   text-transform: uppercase;
 }
@@ -508,15 +518,11 @@ div.toc ol, #toc.right ol {
 #menu li:hover > ul {
   display: block;
 }
-#menu li li {
-  float: none;
-}
 #menu li li.main {
   display: none;
 }
 #menu li li.main > a {
-  padding: 10px;
-  font-size: 15px;
+  font-size: inherit;
   font-weight: bold;
 }
 #menu li li.selected > a,

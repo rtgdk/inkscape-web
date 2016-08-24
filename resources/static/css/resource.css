@@ -77,9 +77,10 @@
 .item h2 {
   font-family: CallunaRegular,Calluna,"Trebuchet MS",Ubuntu,"Liberation Sans",FreeSans,sans-serif;
   font-size: 17pt;
-  color:#333333;
+  color: #333333;
   border: 0px;
   margin: 0px;
+  line-height: normal;
 }
 .item div.by {
   font-size: 70%;
@@ -96,12 +97,12 @@
 }
 
 .item .side h2 {
-  font-size:18px !important;
+  font-size: 18px;
   font-weight: bold;
   padding: 6px 6px 4px;
-  width:205px;
-  white-space:wrap;
-  line-height:22px;
+  width: 205px;
+  white-space: normal;
+  line-height: 22px;
   border: 1px #ddd solid;
 }
 .item .side h2.error {

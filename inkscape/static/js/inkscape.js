@@ -124,9 +124,11 @@ function furnishShieldTabs() {
     .mouseover(function(){
       var nextTab = $(this);
       this.sb_timer = setTimeout(function() { selectBanner(nextTab); }, 100);
-    }).mouseout(function(){
+    })
+    .mouseout(function(){
       if(this.sb_timer) clearTimeout(this.sb_timer);
-    }).click(function(){
+    })
+    .click(function(){
       if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
       selectBanner($(this));
       return false;
@@ -182,54 +184,37 @@ function popUpLink(msg, cancel, ok, next) {
 
 function setupMenu(){
   $("#menu-toggle").click(function(){
-    $("#menu").slideToggle(function(){
-      $(this).css('display', '').toggleClass('shown');
+    $(this).toggleClass('expanded');
+    $("#menu").toggleClass('shown');
+  });
+  $("#menu > li")
+    .each(function(){
+      var ancestorDuplicate = $("<li>").addClass('child main').append($(this).children("a").clone());
+      if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
+      $(this).children("ul").prepend(ancestorDuplicate);
+    })
+    .click(function(){
+      $(this).toggleClass('activated');
     });
-  });
-  $("#menu > li").each(function(){
-    var ancestorDuplicate = $("<li>").addClass('child main').append($(this).children("a").clone());
-    if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
-    $(this).children("ul").prepend(ancestorDuplicate);
-  });
 
-  if(screen.width < 960) {
-    $("#menu > li").each(function(){
-      $(this).children("a").click(function(){
-        $(this).parent().toggleClass('activated');
-        return false;
-      });
-      $(this).mouseleave(function(){
-        $(this).removeClass('activated');
-      });
-    });
-  } else {
-    var itemHeight = $("#menu > li").height();
-    var menuHeight = $("#menu").height();
-    var fontSize = parseInt($("#menu > li > a").css('font-size'));
-    var minFontSize = 12;
-    var paddingSize = parseInt($("#menu > li > a").css('padding-left'));
-    var minPaddingFactor = 0.8;
-    var minPaddingSize = paddingSize * minPaddingFactor;
-    while(menuHeight > itemHeight && (paddingSize > minPaddingSize || fontSize > minFontSize)) {
-      paddingSize--;
-      if(paddingSize < minPaddingSize && fontSize > minFontSize) {
-        fontSize--;
-        paddingSize = Math.round(paddingSize / minPaddingFactor);
-        minPaddingSize *= minPaddingFactor;
-      }
+  if(screen.width >= 960) {
+    var expectedWidth = $("#menu").parent().width(), currentWidth;
+    var fontSize = 15, minFontSize = 12;
+    var paddingSize = 23, paddingFactor = 0.7;
+    do {
       $("#menu > li > a").css({
         'font-size': fontSize + "px",
         'padding-left': paddingSize + "px",
         'padding-right': paddingSize + "px"});
-      menuHeight = $("#menu").height();
-    }
-    if (paddingSize <= minPaddingSize && fontSize <= minFontSize) {
-      $(".header .nav").css('height', 'auto');
-      $("#menu").css({ 'display': 'table', 'table-layout': 'fixed' });
-      $("#menu > li").css({ 'display': 'table-cell', 'float': 'none', 'vertical-align': 'top' });
+      currentWidth = $("#menu").width();
+      fontSize--;
+      paddingSize *= paddingFactor;
+    } while(currentWidth > expectedWidth && fontSize >= minFontSize);
+    if (currentWidth > expectedWidth) {
+      $("#menu > li").css('white-space', 'normal');
       $("#menu > li > a")
-        .css({ 'display': 'table-cell', 'padding': '8px ' + paddingSize + 'px', 'vertical-align': 'middle' })
-        .css('height', $("#menu > li > a").height());
+        .css({ 'display': 'table-cell', 'padding-top': '8px', 'padding-bottom': '8px', 'vertical-align': 'middle' })
+        .innerHeight($("#menu > li").height());
     }
   }
 }

@@ -25,6 +25,10 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   clear: left;
   margin: -5px 0 0 -10px;
 }
+div.cms .cms-toolbar-trigger {
+  border: 0;
+  outline: 1px solid #ddd;
+}
 
 #logo {
   margin: 20px 0 0 8px;
@@ -34,21 +38,29 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   top: 0;
   right: 8px;
 }
+#tabs > li > p > a {
+  pointer-events: none;
+}
 #topsearch {
   right: 8px;
 }
 
 .header .nav {
-  height: auto;
+  padding: 0;
 }
 #menu {
-  margin: 0 12px -3px;
+  margin: 0 10px;
   border: 0;
+}
+#menu > li {
+  display: list-item;
+  float: left;
 }
 #menu > li > a {
   padding: 10px 15px;
   border: 0;
   font-size: 13px;
+  pointer-events: none;
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a {
@@ -59,14 +71,7 @@ div.cms .cms-toolbar .cms-toolbar-item-navigation {
   border-radius: 0;
 }
 #menu li ul {
-  top: 0;
   border: 0;
-}
-#menu li:hover > ul {
-  display: none;
-}
-#menu > li.activated ul {
-  display: block;
 }
 #menu li li.main {
   display: list-item;
@@ -159,9 +164,9 @@ ol {
   padding: 0;
   width: auto;
 }
-#left-column > h2:first-child,
-#right-sidebar > h2:first-child {
-  margin-top: 3.5ex !important;
+.page #left-column > h2:first-child,
+#right-sidebar {
+  margin-top: 3.5ex;
 }
 
 table.bioitem p.bio {
@@ -251,7 +256,7 @@ div.toc,
 
 
   /* Various contents */
-  .item h2 {
+  .item .title h2 {
     clear: right;
     padding-top: 12px;
   }
@@ -260,6 +265,9 @@ div.toc,
   .item .side h2 {
     display: block;
     width: auto;
+  }
+  .item .desc {
+    min-height: auto;
   }
   .item .side {
     border-left: 0;
@@ -295,6 +303,7 @@ div.toc,
 @media screen and (max-width: 459px) {
   /* Always present */
   #cleartop {
+    position: relative;
     height: 172px;
     text-align: center;
   }
@@ -307,7 +316,10 @@ div.toc,
     text-align: left;
   }
   #header-right {
-    margin-top: -114px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
   }
   #tabs {
     display: inline-block;
@@ -332,8 +344,8 @@ div.toc,
   .header .nav {
     margin: 0 8px;
     border: 0;
-    border-radius: 0;
-    background: transparent;
+    border-radius: 0 10px 10px 10px;
+    background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
   }
   #menu-toggle {
     display: block;
@@ -341,51 +353,51 @@ div.toc,
   #menu {
     display: none;
     position: relative;
-    float: left;
     margin: 0 0 8px;
-    border-radius: 10px;
-    background-color: #4d4d4d;
-    background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
+  }
+  #menu.shown {
+    display: block;
   }
   #menu > li {
-    position: static;
     float: none;
-    text-align: center;
+  }
+  #menu > li > a {
+    padding: 8px 12px;
+    text-align: left;
+  }
+  #menu > li:first-child > a {
+    border-top-right-radius: 10px;
+  }
+  #menu li:last-child:not(.activated) > a,
+  #menu li:last-child > ul {
+    border-radius: 0 0 10px 10px;
   }
   #menu > li > a,
   #menu > li.selected > a,
   #menu > li.ancestor > a {
-    padding: 8px 12px;
     border: 0;
     border-top: 1px solid #5a5a5a;
     border-bottom: 1px solid #333;
   }
   #menu > li.selected > a,
   #menu > li.ancestor > a,
-  #menu > li:hover > a,
   #menu > li > a:focus {
     background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
-  #menu > li:first-child > a {
-    border-radius: 10px 10px 0 0;
-  }
-  #menu > li:last-child > a {
-    border-radius: 0 0 10px 10px;
-  }
   #menu li ul {
-    left: 125%;
-    left: calc(100% + 20px);
+    position: static;
+    width: 100%;
+    box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.7);
   }
-  #menu li li.main > a {
-    padding: 9px 10px;
+  #menu li:hover > ul {
+    display: none;
+  }
+  #menu > li.activated > ul {
+    display: block;
   }
 
 
   /* Homepage */
-  #shield {
-    margin-top: 8px;
-  }
-
   #banners > div > div > p.text {
     hyphens: auto;
   }

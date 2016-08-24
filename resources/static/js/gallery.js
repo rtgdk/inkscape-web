@@ -26,10 +26,14 @@ String.prototype.toProperCase = function () {
 };
 
 $(document).ready(function() {
+  setupUpload();
+  setupImageFullscreen();
+});
+
+function setupUpload() {
   if($('#upload textarea').length > 0) {
     return;
   }
-  var elem = $('.upload input');
   $('#upload, #thumbnail').addClass('hidden');
 
   $('.uploader label').show();
@@ -41,7 +45,7 @@ $(document).ready(function() {
       }
   });
 
-  elem.on('change', function() {
+  $('.upload input').on('change', function() {
     if (this.files && this.files[0]) {
       var label = $('label[for="'+$(this).attr('id')+'"]');
       var file = this.files[0];
@@ -111,7 +115,20 @@ $(document).ready(function() {
       });
     }).change();
   });
-});
+}
+
+function setupImageFullscreen() {
+  $('.item .image.only a').click(function() {
+    var container = $(this).closest('.image');
+    container.toggleClass('fullscreen').removeClass('horizontal');
+    var isFullscreen = container.hasClass('fullscreen');
+    $(document.body).css('overflow', isFullscreen ? 'hidden' : 'auto');
+    if(isFullscreen && $(this).find('img').height() < window.innerHeight) {
+      container.addClass('horizontal');
+    }
+    return false;
+  });
+}
 
 function addEventHandler(obj, evt, handler) {
   if(obj.addEventListener) { // W3C Method

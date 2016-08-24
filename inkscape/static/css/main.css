@@ -378,21 +378,21 @@ div.toc ol, #toc.right ol {
   height: 64px;
   font-size: 0;
 }
-#tab_messages > p > a:before,
-#tab_resources > p > a:before {
+#alerts:before,
+#resources:before {
   content: " ";
   display: block;
   width: 16px;
   height: 14px;
   text-decoration: none;
 }
-#tab_messages > p > a:before {
+#alerts:before {
   background: url(../images/message.svg) 0 50% no-repeat;
 }
-#tab_resources > p > a:before {
+#resources:before {
   background: url(../images/resource.svg) 0 50% no-repeat;
 }
-#tab_messages > p > a.alert {
+#alerts.alert {
   background-position: -16px;
   animation: pulse 0.8s;
   animation-direction: alternate;

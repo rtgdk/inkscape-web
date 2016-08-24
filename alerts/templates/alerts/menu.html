@@ -2,17 +2,17 @@
 {% if not alerts %}
 <!--This needs to be replaced by a simple single ajax request instead-->
 <li id="tab_messages" class="dropdown">
-  <p><a id="alerts" href="{% url "alerts" %}"></a></p>
+  <p><span id="alerts"></span></p>
   <div>
     <p>
-      <a id='new_messages' href="{% url "alerts" %}">{% trans "Inbox" %}
+      <a id="new_messages" href="{% url "alerts" %}">{% trans "Inbox" %}
         <span id="alert_bucket" data-url="{% url "alerts.json" %}" 
         data-sound="{% static "warp.wav" %}" 
         {% comment %}Translators: Leave SOME_NUMBER intact, this is for the number of new messages{% endcomment %}
         data-trans="{% trans "(SOME_NUMBER new)" %}"></span>
       </a>
     </p>
-    <p><a id='sent_messages' href="{% url "message.sent" %}">{% trans "Outbox" %}</a></p>
+    <p><a id="sent_messages" href="{% url "message.sent" %}">{% trans "Outbox" %}</a></p>
     <hr/>
     <p><a href="{% url "alert.settings" %}">{% trans "Message Settings" %}</a></p>
     <script type="text/javascript">
@@ -50,7 +50,7 @@
                 if(!window_focus) {
                   titleTimer = window.setInterval(function() {
                     document.title = document.title == originalTitle
-                              ? "New Message!"  : originalTitle;
+                              ? "{% trans "New Message!" %}" : originalTitle;
                   }, 1200);
                   $(window).on("focus",function() {
                     document.title = originalTitle;

@@ -63,7 +63,7 @@
             </li>
           {% else %}
             <li id="tab_user" class="dropdown">
-              <p><a href="{{ request.user.get_absolute_url }}">{{ request.user.name }}</a></p>
+              <p>{{ request.user.name }}</p>
               <div>
                 <p style="text-align: center;"><a href="{{ request.user.get_absolute_url }}"><img class="userphoto" src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}" alt="{% trans "Profile Photo" %}"/></a></p>
                 <hr/>

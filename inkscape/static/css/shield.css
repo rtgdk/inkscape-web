@@ -16,7 +16,7 @@
   border-bottom: 1px solid #000000;
   display: block;
   height: 320px;
-  margin: 0px;
+  margin: 0;
   opacity: 0;
   padding: 20px;
   position: absolute;
@@ -86,22 +86,22 @@
 #shield .tabs {
   font-size: 12px;
   line-height: 16px;
-  list-style: none outside none;
+  list-style: none;
   display: table;
   table-layout: fixed;
   word-wrap: break-word;
   margin: -70px 19px -30px;
-  padding-left: 0px;
+  padding-left: 0;
   position: relative;
   z-index: 2;
 }
 
 #shield .tabs > li {
   background-color: #4d4d4d;
-  background-image: linear-gradient(to bottom, #4d4d4d 0%, #1a1a1a 100%);
+  background-image: linear-gradient(to bottom, #4d4d4d, #1a1a1a);
   border-color: #5a5a5a #333333 #1a1a1a #5a5a5a;
   border-style: solid;
-  border-width: 1px 1px 0px;
+  border-width: 1px 1px 0;
   display: table-cell;
   width: 1%;
   cursor: pointer;
@@ -112,7 +112,7 @@
   color: white;
   display: block;
   overflow: hidden;
-  outline: 0px none;
+  outline: 0;
   padding: 19px 15px 20px 60px;
   text-decoration: none;
 }
@@ -121,35 +121,31 @@
 #shield .tabs:not(.fixed) > li:focus,
 #shield .tabs:not(.fixed) > li.current {
   background-color: #333333;
-  background-image: linear-gradient(to bottom, #333333 0%, #4d4d4d 100%);
+  background-image: linear-gradient(to bottom, #333333, #4d4d4d);
 }
 #shield .tabs.fixed li:not(.container):hover {
   background-color: #5b5b5b;
-  background-image: linear-gradient(to bottom, #4d4d4d 0%, #5b5b5b 25%, #1a1a1a 100%);
+  background-image: linear-gradient(to bottom, #4d4d4d, #5b5b5b 25%, #1a1a1a);
 }
 
 #shield .tabs li > a > img {
   float: left;
-  height: 32px;
   margin-left: -45px;
   width: 32px;
+  height: 32px;
 }
 
 #shield .tabs strong {
   display: block;
   font-size: 17px;
   font-weight: normal;
-  margin: 0px 0px 14px -45px;
+  margin: 0 0 14px -45px;
 }
 
 #shield .tabs li:first-child {
-  border-bottom-left-radius: 5px;
-  border-left-width: 1px;
-  border-top-left-radius: 5px;
+  border-radius: 5px 0 0 5px;
 }
 
 #shield .tabs li:last-child {
-  border-bottom-right-radius: 5px;
-  border-right-width: 1px;
-  border-top-right-radius: 5px;
+  border-radius: 0 5px 5px 0;
 }

@@ -38,9 +38,6 @@ div.cms .cms-toolbar-trigger {
   top: 0;
   right: 8px;
 }
-#tabs > li > p > a {
-  pointer-events: none;
-}
 #topsearch {
   right: 8px;
 }
@@ -49,6 +46,7 @@ div.cms .cms-toolbar-trigger {
   padding: 0;
 }
 #menu {
+  display: block;
   margin: 0 10px;
   border: 0;
 }

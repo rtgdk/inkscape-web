@@ -450,6 +450,7 @@ div.toc ol, #toc.right ol {
   margin: 0;
   padding: 0;
   width: 100%;
+  width: calc(100% - 1px);
   border-left: 1px solid #333333;
 }
 #menu li {
@@ -486,10 +487,14 @@ div.toc ol, #toc.right ol {
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a,
-#menu > li:hover > a,
 #menu > li > a:focus {
   background: #333333;
-  background-image: linear-gradient(to bottom, #333333, #4d4d4d);
+  background-image: linear-gradient(to bottom, #333, #444, #333);
+}
+#menu > li:hover > a,
+#menu > li.activated > a {
+  background: #333333;
+  background-image: linear-gradient(to bottom, #333, #4d4d4d);
 }
 #menu > li:last-child a {
   color: #ff7e28;
@@ -511,19 +516,18 @@ div.toc ol, #toc.right ol {
   background: #4d4d4d;
   box-shadow: 0 1px 8px rgba(0, 0, 0, 0.7);
 }
-#menu li:hover > ul {
+#menu li:hover:not(.clicked) > ul,
+#menu li.activated > ul {
   display: block;
-}
-#menu li li.main {
-  display: none;
 }
 #menu li li.main > a {
   font-size: inherit;
   font-weight: bold;
 }
 #menu li li.selected > a,
-#menu li li a:hover,
-#menu li li a:focus {
+#menu li li:hover > a,
+#menu li li.activated > a,
+#menu li li > a:focus {
   background: #333333;
 }
 #menu li li ul {

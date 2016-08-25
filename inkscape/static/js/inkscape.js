@@ -121,14 +121,14 @@ function selectBanner(nextTab) {
 }
 function furnishShieldTabs() {
   $("#shield > .tabs").children("li")
-    .mouseover(function(){
+    .mouseover(function() {
       var nextTab = $(this);
       this.sb_timer = setTimeout(function() { selectBanner(nextTab); }, 100);
     })
-    .mouseout(function(){
+    .mouseout(function() {
       if(this.sb_timer) clearTimeout(this.sb_timer);
     })
-    .click(function(){
+    .click(function() {
       if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
       selectBanner($(this));
       return false;
@@ -137,7 +137,7 @@ function furnishShieldTabs() {
 }
 
 function setupInlinePages() {
-  $(".inlinepages > .tabs > li").click(function(){
+  $(".inlinepages > .tabs > li").click(function() {
     $(".inlinepages .selected").removeClass('selected');
     $(this).addClass('selected');
     $("#" + this.id + "-page").addClass('selected');
@@ -157,7 +157,7 @@ function popUp(title, msg, href, cancel, ok, next) {
                  .append( "<form class='buttons' action='"+href+"' method='POST'/>");
       $('#popup .buttons').append("<input type='hidden' name='csrfmiddlewaretoken' value='"+getCookie('csrftoken')+"'/>")
                           .append("<a class='btn btn-cancel'>" + cancel + "</a>");
-      if(next){
+      if(next) {
         $('#popup .buttons').append("<input type='hidden' name='next' value='"+next+"'/>");
       }  
       $('#popup .buttons').append("<button type='submit' class='btn btn-primary' name='confirm' value='true'>" + ok + "</button>");
@@ -182,20 +182,28 @@ function popUpLink(msg, cancel, ok, next) {
   });
 }
 
-function setupMenu(){
-  $("#menu-toggle").click(function(){
+function setupMenu() {
+  $("#menu-toggle").click(function() {
     $(this).toggleClass('expanded');
     $("#menu").toggleClass('shown');
   });
-  $("#menu > li")
-    .each(function(){
+  $("#menu li").has("ul")
+    .each(function() {
       var ancestorDuplicate = $("<li>").addClass('child main').append($(this).children("a").clone());
       if($(this).hasClass('selected')) ancestorDuplicate.addClass('selected');
       $(this).children("ul").prepend(ancestorDuplicate);
     })
-    .click(function(){
-      $(this).toggleClass('activated');
+    .mouseleave(function() {
+      $(this).removeClass('clicked');
+    })
+    .children("a").click(function(event) {
+      event.preventDefault();
+      $("#menu .clicked").removeClass('clicked');
+      $(this).parent().toggleClass('activated').addClass('clicked');
     });
+  $(window).click(function() {
+    $("#menu .activated:not(.clicked)").removeClass('activated');
+  });
 
   if(screen.width >= 960) {
     var expectedWidth = $("#menu").parent().width(), currentWidth;

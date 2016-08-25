@@ -43,11 +43,10 @@ div.cms .cms-toolbar-trigger {
 }
 
 .header .nav {
-  padding: 0;
+  padding: 0 10px;
 }
 #menu {
   display: block;
-  margin: 0 10px;
   border: 0;
 }
 #menu > li {
@@ -58,7 +57,6 @@ div.cms .cms-toolbar-trigger {
   padding: 10px 15px;
   border: 0;
   font-size: 13px;
-  pointer-events: none;
 }
 #menu > li.selected > a,
 #menu > li.ancestor > a {
@@ -67,9 +65,6 @@ div.cms .cms-toolbar-trigger {
 }
 #menu > li:last-child > a {
   border-radius: 0;
-}
-#menu li ul {
-  border: 0;
 }
 #menu li li.main {
   display: list-item;
@@ -341,6 +336,7 @@ div.toc,
 
   .header .nav {
     margin: 0 8px;
+    padding: 0;
     border: 0;
     border-radius: 0 10px 10px 10px;
     background-image: linear-gradient(to right, #4d4d4d, #1a1a1a);
@@ -378,23 +374,22 @@ div.toc,
     border-bottom: 1px solid #333;
   }
   #menu > li.selected > a,
-  #menu > li.ancestor > a,
-  #menu > li > a:focus {
+  #menu > li.ancestor > a {
     background-image: linear-gradient(to right, #333333, #4d4d4d);
   }
-  #menu > li:hover > a {
-    background-image: linear-gradient(to right, #333333, #1a1a1a);
+  #menu > li.activated > a,
+  #menu > li:hover > a,
+  #menu > li > a:focus {
+    background: rgba(0, 0, 0, .5);
   }
   #menu li ul {
     position: static;
     width: 100%;
+    border: 0;
     box-shadow: inset 0 1px 8px rgba(0, 0, 0, 0.7);
   }
-  #menu li:hover > ul {
+  #menu li:hover:not(.clicked):not(.activated) > ul {
     display: none;
-  }
-  #menu > li.activated > ul {
-    display: block;
   }
 
 

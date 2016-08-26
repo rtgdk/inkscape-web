@@ -24,16 +24,16 @@
   <table>
     {% if form.source %}
       <tr>
-        <th>Move from Gallery:</th>
+        <th>{% trans "Move from Gallery:" %}</th>
         <td>{{ form.source }}</td>
       </tr>
       <tr>
-        <th>Move to Gallery:</th>
+        <th>{% trans "Move to Gallery:" %}</th>
         <td>{{ form.target }}</td>
       </tr>
     {% else %}
       <tr>
-        <th>Copy to Gallery:</th>
+        <th>{% trans "Copy to Gallery:" %}</th>
         <td>{{ form.target }}</td>
       </tr>
     {% endif %}

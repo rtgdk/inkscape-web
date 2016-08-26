@@ -28,7 +28,7 @@
       {% csrf_token %}
       
       {% for field in form %}
-        <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
+        <h2 {% if field.errors %}class="error" title="{{ field.errors.as_text }}"{% endif %}>{{ field.label }}{% if field.field.required %} *{% endif %}</h2>
         {{ field }}
       {% endfor %}
       <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>

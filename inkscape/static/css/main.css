@@ -1419,3 +1419,8 @@ ul.ellipses-hidden li.hide {
 .cloud span.size4 { font-size: 160%; }
 .cloud span.size5 { font-size: 180%; }
 .cloud span.size6 { font-size: 200%; }
+
+h2.error:before,
+label.error:before {
+  content: "⚠ ";
+}

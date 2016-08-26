@@ -23,17 +23,17 @@
     <div>{{ form.non_field_errors }}</div>
   
     <div class="label-above left" id="for-title">
-      <label for="id_title"{% if form.title.errors %}class="error" title="{{ form.title.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.title.label }}{% if form.title.field.required %} *{% endif %}</label>
+      <label for="id_title"{% if form.title.errors %}class="error" title="{{ form.title.errors.as_text }}"{% endif %}>{{ form.title.label }}{% if form.title.field.required %} *{% endif %}</label>
       <div class="formfield">{{ form.title|placeholder:_("A concise title for your proposal") }}</div>
     </div>
   
     <div class="label-above right" id="for-project-type">
-      <label for="id_project_type" {% if form.project_type.errors %}class="error" title="{{ form.project_type.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.project_type.label }}{% if form.project_type.field.required %} *{% endif %}</label>
+      <label for="id_project_type" {% if form.project_type.errors %}class="error" title="{{ form.project_type.errors.as_text }}"{% endif %}>{{ form.project_type.label }}{% if form.project_type.field.required %} *{% endif %}</label>
       <div class="formfield">{{ form.project_type }}</div>
     </div>
   
     <div class="label-above">
-      <label for="id_desc" {% if form.desc.errors %}class="error" title="{{ form.desc.errors.as_text }}">&#9888; {% else %}>{% endif %}{{ form.desc.label }}{% if form.desc.field.required %} *{% endif %}</label>
+      <label for="id_desc" {% if form.desc.errors %}class="error" title="{{ form.desc.errors.as_text }}"{% endif %}>{{ form.desc.label }}{% if form.desc.field.required %} *{% endif %}</label>
       <div class="formfield">{{ form.desc|placeholder:_("Describe your proposal for a development project here") }}</div>
     </div>
 

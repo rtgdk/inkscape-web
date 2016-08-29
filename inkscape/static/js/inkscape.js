@@ -211,18 +211,22 @@ function setupMenu() {
     var paddingSize = 23, paddingFactor = 0.7;
     do {
       $("#menu > li > a").css({
-        'font-size': fontSize + "px",
-        'padding-left': paddingSize + "px",
-        'padding-right': paddingSize + "px"});
+        'font-size': fontSize + 'px',
+        'padding-left': Math.round(paddingSize) + 'px',
+        'padding-right': Math.round(paddingSize) + 'px'
+      });
       currentWidth = $("#menu").width();
       fontSize--;
       paddingSize *= paddingFactor;
     } while(currentWidth > expectedWidth && fontSize >= minFontSize);
     if (currentWidth > expectedWidth) {
-      $("#menu > li").css('white-space', 'normal');
-      $("#menu > li > a")
-        .css({ 'display': 'table-cell', 'padding-top': '8px', 'padding-bottom': '8px', 'vertical-align': 'middle' })
-        .innerHeight($("#menu > li").height());
+      $("#menu > li > a").css({
+        'display': 'table-cell',
+        'padding-top': '8px',
+        'padding-bottom': '8px',
+        'white-space': 'normal',
+        'vertical-align': 'middle'
+      }).innerHeight($("#menu > li").height());
     }
   }
 }

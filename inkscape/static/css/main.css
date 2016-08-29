@@ -485,7 +485,7 @@ div.toc ol, #toc.right ol {
   vertical-align: top;
 }
 #menu > li > a {
-  padding: 17px;
+  padding: 17px 8px;
   white-space: nowrap;
   border-left: 1px solid #5a5a5a;
   border-right: 1px solid #333333;

@@ -4,7 +4,7 @@
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
 {% block "css" %}{{ block.super }}
-    <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}" >
+  <link rel="stylesheet" type="text/css" href="{% static "css/profile.css" %}"/>
 {% endblock %}
 
 {% block supercontent %}
@@ -14,7 +14,7 @@
   <div id="profile">
     {% block "profile" %}{% endblock %}
     <h1 id="name">{% block "name" %}{{ object.name }}{% endblock %}</h1>
-    <p id="bio">{% block "bio" %}{{ object.intro }}{% endblock %}</p>
+    <div id="bio">{% block "bio" %}{{ object.intro|linebreaks }}{% endblock %}</div>
   </div>
 
   <div id="right-sidebar">

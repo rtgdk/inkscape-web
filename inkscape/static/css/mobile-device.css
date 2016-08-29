@@ -107,7 +107,6 @@ body > .footer {
 #shield .tabs strong {
   margin: 0 24px 8px 0;
   font-size: 16px;
-  hyphens: auto;
 }
 #shield .tabs li > a > img {
   position: absolute;
@@ -335,7 +334,7 @@ div.toc,
   }
 
   .header .nav {
-    margin: 0 8px;
+    margin: 0 8px 8px;
     padding: 0;
     border: 0;
     border-radius: 0 10px 10px 10px;
@@ -347,7 +346,7 @@ div.toc,
   #menu {
     display: none;
     position: relative;
-    margin: 0 0 8px;
+    margin: 0 0 16px;
   }
   #menu.shown {
     display: block;
@@ -394,10 +393,6 @@ div.toc,
 
 
   /* Homepage */
-  #banners > div > div > p.text {
-    hyphens: auto;
-  }
-
   #shield .tabs:not(.expanded) {
     font-size: 0;
   }

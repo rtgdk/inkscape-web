@@ -7,39 +7,39 @@
   <img id="photo" src="{% if object.photo %}{{ object.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/>
 
   <div class="socialicons">
-     {% if object.moderation and request.user != object %}
-       {% if object.moderation.i_flagged %}
-         <img src="{% static "images/social/flag.svg" %}" title="{% trans "You have flagged this user." %}"/>
-       {% else %}
-         <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{% static "images/social/flag.svg" %}"/></a>
-         <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
-       {% endif %}
-       {% if object.from_friends.i_added %}
-         <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
-       {% else %}
-         <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user" %}"/></a>
-       {% endif %}
-     {% endif %}
-     {% if object.is_staff %}
-       {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{% static "images/social/admin.svg" %}" title="{% trans "Inkscape Website Administrator" %}"/></a>
-     {% endif %}
-     {% if object.is_moderator %}
-       {% if object == request.user %}<a href="{% url "moderation:index" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
-     {% endif %}
-     {% if object.dauser %}
-       <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My DeviantArt Account" %}"/></a>
-     {% endif %}
-     {% if object.ocuser %}
-       <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{% static "images/social/openclipart.svg" %}" title="{% trans "My Openclipart Profile" %}"/></a>
-     {% endif %}
-     {% if object.tbruser %}
-       <a href="http://{{ object.tbruser }}.tumblr.com/"><img src="{% static "images/social/tumblr.svg" %}" title="{% trans "My Tumblr" %}"/></a>
-     {% endif %}
-     {% if request.user.is_authenticated and request.user != object %}
-       <a href="{% url "message.new" object.username %}"><img src="{% static "images/social/message.svg" %}" title="{% trans "Send Message" %}"/></a>
-     {% endif %}
-    </div>
-  {% endblock %}
+    {% if object.moderation and request.user != object %}
+      {% if object.moderation.i_flagged %}
+        <img src="{% static "images/social/flag.svg" %}" title="{% trans "You have flagged this user." %}"/>
+      {% else %}
+        <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{% static "images/social/flag.svg" %}"/></a>
+        <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
+      {% endif %}
+      {% if object.from_friends.i_added %}
+        <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
+      {% else %}
+        <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user" %}"/></a>
+      {% endif %}
+    {% endif %}
+    {% if object.is_staff %}
+      {% if object == request.user %}<a href="/admin/">{% endif %}<img src="{% static "images/social/admin.svg" %}" title="{% trans "Inkscape Website Administrator" %}"/></a>
+    {% endif %}
+    {% if object.is_moderator %}
+      {% if object == request.user %}<a href="{% url "moderation:index" %}">{% endif %}<img src="{% static "images/social/moderation.svg" %}" title="{% trans "Inkscape Community Moderator" %}"/></a>
+    {% endif %}
+    {% if object.dauser %}
+      <a href="http://{{ object.dauser }}.deviantart.com/"><img src="{% static "images/social/deviantart.svg" %}" title="{% trans "My DeviantArt Account" %}"/></a>
+    {% endif %}
+    {% if object.ocuser %}
+      <a href="https://openclipart.org/user-detail/{{ object.ocuser }}"><img src="{% static "images/social/openclipart.svg" %}" title="{% trans "My Openclipart Profile" %}"/></a>
+    {% endif %}
+    {% if object.tbruser %}
+      <a href="http://{{ object.tbruser }}.tumblr.com/"><img src="{% static "images/social/tumblr.svg" %}" title="{% trans "My Tumblr" %}"/></a>
+    {% endif %}
+    {% if request.user.is_authenticated and request.user != object %}
+      <a href="{% url "message.new" object.username %}"><img src="{% static "images/social/message.svg" %}" title="{% trans "Send Message" %}"/></a>
+    {% endif %}
+  </div>
+{% endblock %}
   
 {% block "name" %}
   {% if object.first_name %}
@@ -56,147 +56,143 @@
 
 {% block "bio" %}
   {% block headerdesc %}
-    {% if object.bio %}{{ object.bio }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet." %}{% endif %}
+    {% if object.bio %}{{ object.bio|linebreaks }}{% else %}{{ object }} {% trans "hasn't written anything about themselves yet." %}{% endif %}
   {% endblock %}
 {% endblock %}
 
 {% block "side" %}
-      <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Galleries" %}</h1>
-      <ul>
-        <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
-        <hr/>
-        {% for gallery in object.galleries.all %}
-        <li><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></li>
-        {% endfor %}
-        <li><a href="{% url "resources" username=object.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
-        {% if object != request.user %}
-          <hr/>
-          {% if object.viewer_is_subscribed %}
-            <li><a href="{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}">{% trans "Unsubscribe from Gallery" %}</a></li>
-          {% else %}
-            <li><a href="{% url "alert.subscribe" "resources.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
-          {% endif %}
-        {% endif %}
-      </ul>
-
-      {% if object.teams.all %}
-      <h2>{% trans "Teams" %}</h2>
-      <ul>
-        {% for team in object.teams.all %}
-          <li title="{{ team }} — {{ team.intro }}">
-            <a href="{{ team.get_absolute_url }}">
-              <label>{{ team }}</label>
-              {% if team.admin == object %}<span>&#9733;</span>{% endif %}
-            </a>
-          </li>
-        {% endfor %}
-      </ul>
+  <h2 title="{% trans "Your place to upload Inkscape Art!" %}">{% trans "InkSpace Galleries" %}</h2>
+  <ul>
+    <li><a href="{% url "resources" username=object.username %}">{% trans "All Uploads" %}</a></li>
+    <hr/>
+    {% for gallery in object.galleries.all %}
+      <li><a href="{{ gallery.get_absolute_url }}">{{ gallery.name }}</a></li>
+    {% endfor %}
+    <li><a href="{% url "resources" username=object.username category='pastebin' %}">{% trans "PasteBin" %}</a></li>
+    {% if object != request.user %}
+      <hr/>
+      {% if object.viewer_is_subscribed %}
+        <li><a href="{% url "alert.unsubscribe" "resources.resource_alert" object.pk %}">{% trans "Unsubscribe from Gallery" %}</a></li>
+      {% else %}
+        <li><a href="{% url "alert.subscribe" "resources.resource_alert" object.pk %}">{% trans "Subscribe to Gallery" %}</a></li>
       {% endif %}
+    {% endif %}
+  </ul>
 
-      <h2>{% trans "Information" %}</h2>
-      <ul>
-        {% if object.gpg_key %}
-          <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
-        {% endif %}
-        {% if object.last_seen %}
-          <li><a><label>{% trans "Last Seen" %}</label>
-            <span title="{{ object.last_seen|ago }} ({{ object.last_seen|date:"Y-m-d" }})">{{ object.last_seen|ago:1 }}</span></a></li>
-        {% endif %}
-        <li><a><label>{% trans "Joined" %}</label>
-          <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
-        <li><a><label>{% trans "Profile Visits" %}</label>
-          <span>{{ object.visits|intcomma }}</span></a></li>
+  {% if object.teams.all %}
+    <h2>{% trans "Teams" %}</h2>
+    <ul>
+      {% for team in object.teams.all %}
+        <li title="{{ team }} — {{ team.intro }}">
+          <a href="{{ team.get_absolute_url }}">
+            <label>{{ team }}</label>
+            {% if team.admin == object %}<span>&#9733;</span>{% endif %}
+          </a>
+        </li>
+      {% endfor %}
+    </ul>
+  {% endif %}
 
-        <li><a><label>{% trans "Friends" %}</label>
-          <span>{{ object.friends.mutual.count|intcomma }}</span></a></li>
-        <li><a><label>{% trans "Subscribers" %}</label>
-          <span>{{ object.resources.subscriptions.count|intcomma }}</span></a></li>
-        <li><a><label>{% trans "Gallery Views" %}</label>
-          <span>{{ object.resources.views|intcomma }}</span></a></li>
-        <li><a><label>{% trans "Gallery Stars" %}</label>
-          <span>{{ object.resources.likes|intcomma }}</span></a></li>
-        <li><a><label>{% trans "Downloads" %}</label>
-          <span>{{ object.resources.downloads|intcomma }}</span></a></li>
-        {% if object == request.user or object.is_staff %}
-        <li><a><label>{% trans "Upload Quota" %}</label>
-          <span title="{{ object.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ object.quota|filesizeformat }}">{{ object.resources.disk_usage|percent:object.quota }}</span></a></li>
-        {% endif %}
-      </ul>
+  <h2>{% trans "Information" %}</h2>
+  <ul>
+    {% if object.gpg_key %}
+      <li><a href="{% url "user_gpgkey" object.username %}">{% trans "Public GPG Key" %}</a></li>
+    {% endif %}
+    {% if object.last_seen %}
+      <li><a><label>{% trans "Last Seen" %}</label>
+        <span title="{{ object.last_seen|ago }} ({{ object.last_seen|date:"Y-m-d" }})">{{ object.last_seen|ago:1 }}</span></a></li>
+    {% endif %}
+    <li><a><label>{% trans "Joined" %}</label>
+      <span title="{{ object.date_joined|ago }} ({{ object.date_joined|date:"Y-m-d" }})">{{ object.date_joined|ago:1 }}</span></a></li>
+    <li><a><label>{% trans "Profile Visits" %}</label>
+      <span>{{ object.visits|intcomma }}</span></a></li>
 
-    {% if object == request.user %}
-     <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
-     <ul id="sessions">
-     {% for session in object.sessions %}
-       <li title="{{ session.ip }} / {{ session.last_activity|ago }}">
-         <a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>
-           <label>{{ session.ip|location }}</label>
-           <span>
-             <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
-             <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>
-           </span>
-         </a>
-       </li>
-     {% endfor %}
-     </ul>
-   </div>
+    <li><a><label>{% trans "Friends" %}</label>
+      <span>{{ object.friends.mutual.count|intcomma }}</span></a></li>
+    <li><a><label>{% trans "Subscribers" %}</label>
+      <span>{{ object.resources.subscriptions.count|intcomma }}</span></a></li>
+    <li><a><label>{% trans "Gallery Views" %}</label>
+      <span>{{ object.resources.views|intcomma }}</span></a></li>
+    <li><a><label>{% trans "Gallery Stars" %}</label>
+      <span>{{ object.resources.likes|intcomma }}</span></a></li>
+    <li><a><label>{% trans "Downloads" %}</label>
+      <span>{{ object.resources.downloads|intcomma }}</span></a></li>
+    {% if object == request.user or object.is_staff %}
+      <li><a><label>{% trans "Upload Quota" %}</label>
+        <span title="{{ object.resources.disk_usage|filesizeformat }} {% trans "of" %} {{ object.quota|filesizeformat }}">{{ object.resources.disk_usage|percent:object.quota }}</span></a></li>
+    {% endif %}
+  </ul>
 
-     <h2>{% trans "Use The Paste Bin" %}</h2>
-     <div id="paste">
-      <form method="POST" action="{% url "pastebin" %}">
-        {% csrf_token %}
-        <textarea name="download" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
-        <input type="submit" value="{% trans "Paste!" %}"/>
-      </form>
-     </div>
-   {% else %}
-     </div>
-   {% endif %}
+  {% if object == request.user %}
+    <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
+    <ul id="sessions">
+    {% for session in object.sessions %}
+      <li title="{{ session.ip }} / {{ session.last_activity|ago }}">
+        <a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>
+          <label>{{ session.ip|location }}</label>
+          <span>
+            <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
+            <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+
+    <h2>{% trans "Use The Paste Bin" %}</h2>
+    <div id="paste">
+     <form method="POST" action="{% url "pastebin" %}">
+       {% csrf_token %}
+       <textarea name="download" placeholder="{% trans "Paste Your Bin Here..." %}"></textarea>
+       <input type="submit" value="{% trans "Paste!" %}"/>
+     </form>
+    </div>
+  {% endif %}
 {% endblock %}
 
 {% block "content" %}
-    <h2>{% trans "Recent Uploads" %}</h2>
-    
-    {% if object.resources.latest %}
-      {% with 4 as limit %}
-        {% with object.resources.latest as object_list %}
-          {% include "resources/resource_icons.html" %}
-        {% endwith %}
+  <h2>{% trans "Recent Uploads" %}</h2>
+  
+  {% if object.resources.latest %}
+    {% with 4 as limit %}
+      {% with object.resources.latest as object_list %}
+        {% include "resources/resource_icons.html" %}
       {% endwith %}
+    {% endwith %}
+  {% else %}
+    {% if not object == request.user %}
+      <div class="galleryitem nothing">
+        <p>{% trans "No uploads yet." %}</p>
+      </div>
     {% else %}
-      {% if not object == request.user %}
-        <div class="galleryitem nothing">
-          <p>{% trans "No uploads yet." %}</p>
-        </div>
-      {% else %}
-        {% url "resources" username=object.username as yourinkspacelink %}
-        <div class="galleryitem nothing">
-           <p>{% trans "No uploads yet?" %}</p>
-           <p>{% blocktrans trimmed %}Visit <a href="{{ yourinkspacelink }}">your InkSpace</a> and 
-           create a gallery to start sharing your artwork, tutorials, extensions and everything 
-           else related to Inkscape with other Inkscape users!{% endblocktrans %}</p>
-        </div>
-      {% endif %}
+      {% url "resources" username=object.username as yourinkspacelink %}
+      <div class="galleryitem nothing">
+         <p>{% trans "No uploads yet?" %}</p>
+         <p>{% blocktrans trimmed %}Visit <a href="{{ yourinkspacelink }}">your InkSpace</a> and 
+         create a gallery to start sharing your artwork, tutorials, extensions and everything 
+         else related to Inkscape with other Inkscape users!{% endblocktrans %}</p>
+      </div>
     {% endif %}
+  {% endif %}
 
-    <h2>{% trans "Favorite Artworks" %}</h2>
-    {% if object.favorites.items.count > 0 %}
-      {% with 4 as limit %}
-        {% with object.favorites.items as object_list %}
-          {% include "resources/resource_icons.html" %}
-        {% endwith %}
+  <h2>{% trans "Favorite Artworks" %}</h2>
+  {% if object.favorites.items.count > 0 %}
+    {% with 4 as limit %}
+      {% with object.favorites.items as object_list %}
+        {% include "resources/resource_icons.html" %}
       {% endwith %}
+    {% endwith %}
+  {% else %}
+    {% if not object == request.user %}
+      <div class="galleryitem nothing">
+        <p>{% trans "No favorites yet." %}</p>
+      </div>
     {% else %}
-      {% if not object == request.user %}
-        <div class="galleryitem nothing">
-          <p>{% trans "No favorites yet." %}</p>
-        </div>
-      {% else %}
-        {% url "resources" as gallery_url %}
-        <div class="galleryitem nothing">
-           <p>{% trans "No favorites yet?" %}</p>
-           <p>{% blocktrans %}Visit <a href="{{ gallery_url }}">the gallery</a> to see what other Inkscape users have created!{% endblocktrans %}</p>
-        </div>
-      {% endif %}
+      {% url "resources" as gallery_url %}
+      <div class="galleryitem nothing">
+         <p>{% trans "No favorites yet?" %}</p>
+         <p>{% blocktrans %}Visit <a href="{{ gallery_url }}">the gallery</a> to see what other Inkscape users have created!{% endblocktrans %}</p>
+      </div>
     {% endif %}
-  </div>
+  {% endif %}
 {% endblock %}

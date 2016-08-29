@@ -4,11 +4,15 @@
 {% block title %}{{ object.name }} {% trans "Charter" %}{% endblock %} 
 
 {% block "profile" %}
-  <a href="{{ object.get_absolute_url }}"> <img id="photo" src="{{ object.icon.url }}"/></a>
+  <a href="{{ object.get_absolute_url }}"><img id="photo" src="{{ object.icon.url }}"/></a>
 {% endblock %}
 
 {% block "name" %}{{ object.name }} {% trans "Charter" %}{% endblock %}
-{% block "bio" %}{% trans "Each Inkscape team has responsibilities, rules and specific privileges. These are documented here, so all teams understand how they are supposed to work and what may be required of them." %}{% endblock %}
+{% block "bio" %}
+  <p>
+    {% trans "Each Inkscape team has responsibilities, rules and specific privileges. These are documented here, so all teams understand how they are supposed to work and what may be required of them." %}
+  </p>
+{% endblock %}
 
 {% block "side" %}
   {{ object.side_bar|safe }}

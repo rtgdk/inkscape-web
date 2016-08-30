@@ -62,6 +62,7 @@ p,
 .hyphened {
   hyphens: auto;
 }
+code, kbd, tt,
 .not-hyphened {
   hyphens: none;
 }

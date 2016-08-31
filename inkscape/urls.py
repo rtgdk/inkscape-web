@@ -36,7 +36,7 @@ def get_app_patterns(*args, **kwargs):
 appresolver.get_app_patterns = get_app_patterns
 
 urlpatterns = patterns('',
-  url(r'^', include('social.apps.django_app.urls', namespace='social')),
+  url(r'^social/', include('social.apps.django_app.urls', namespace='social')),
 ) + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)\
   + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

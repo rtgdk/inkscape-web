@@ -1,0 +1,18 @@
+{% if picture.caption %}
+
+  <figure class="plugin_picture{% if picture.float %} align-{{ picture.float }}{% endif %}" style="{{ picture.extra_styling }}">
+    {% if link %}<a href="{{ link }}">{% endif %}
+      <img src="{{ picture.image.url }}" alt="{{ picture.alt }}" title="{{ picture.title }}" {% if picture.width %} width="{{ picture.width }}px"{% endif %}/>
+    {% if link %}</a>{% endif %}
+    <figcaption>{{ picture.caption }}</figcaption>
+  </figure>
+  
+{% else %}
+
+  <span class="plugin_picture{% if picture.float %} align-{{ picture.float }}{% endif %}" style="{{ picture.extra_styling }}">
+    {% if link %}<a href="{{ link }}">{% endif %}
+      <img src="{{ picture.image.url }}" alt="{{ picture.alt }}" title="{{ picture.title }}" {% if picture.width %} width="{{ picture.width }}px"{% endif %}/>
+    {% if link %}</a>{% endif %}
+  </span>
+    
+{% endif %}

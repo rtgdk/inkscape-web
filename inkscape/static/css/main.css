@@ -143,7 +143,7 @@ th[scope="col"] { text-align: center; }
   clear: both;
 }
 
-/* styles for cms picture plugin and inkpicture plugin */
+/* styles for cms picture plugin and picture_plus plugin */
 
 figure.plugin_picture {
   width: -webkit-min-content;

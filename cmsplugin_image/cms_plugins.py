@@ -13,12 +13,17 @@ from django.utils.translation import ugettext_lazy as _
 from cms.plugin_base import CMSPluginBase
 from cms.plugin_pool import plugin_pool
 
-from .models import PicturePlus
+from .models import Image
 
-class PicturePlusPlugin(CMSPluginBase):
-    model = PicturePlus
-    name = _("PicturePlus")
-    render_template = "cms/plugins/picture_plus.html"
+class PicturePlugin(CMSPluginBase):
+    """
+    Compatible replacement for djangocms-picture,
+    
+    we use the same name, template name and icon name.
+    """
+    model = Image
+    name = _("Picture")
+    render_template = "cms/plugins/picture.html"
     text_enabled = True
 
     def render(self, context, instance, placeholder):
@@ -40,6 +45,6 @@ class PicturePlusPlugin(CMSPluginBase):
             return instance.image.url
         else:
             return urlparse.urljoin(
-                settings.STATIC_URL, "cms/img/icons/plugins/picture_plus.png")
+                settings.STATIC_URL, "cms/img/icons/plugins/picture.png")
 
-plugin_pool.register_plugin(PicturePlusPlugin)
+plugin_pool.register_plugin(PicturePlugin)

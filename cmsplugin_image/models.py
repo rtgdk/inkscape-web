@@ -25,7 +25,7 @@ class Image(CMSPlugin):
     """
     A Picture with or without a link, with or without captions, in raster or vector format.
 
-    (replaces CMS-Plugin picture.
+    Replaces CMS-Plugin picture and migrates the table name (see migrations 0003).
     """
 
     LEFT = "left"
@@ -76,9 +76,6 @@ class Image(CMSPlugin):
     extra_styling = CharField(
         _("Extra styles"), max_length=255, blank=True, null=True,
         help_text=_("Additional styles to apply to the figure or img element, e.g. 'margin-top: 0.5em; border: 1px solid grey;'. Be careful to not break the layout!"))
-
-    class Meta:
-        db_table = 'djangocms_picture_picture'
 
     def __str__(self):
         if self.alt:

@@ -12,10 +12,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='image',
-            name='longdesc',
-        ),
         migrations.AddField(
             model_name='image',
             name='caption',
@@ -26,10 +22,10 @@ class Migration(migrations.Migration):
             name='extra_styling',
             field=models.CharField(help_text="Additional styles to apply to the figure or img element, e.g. 'margin-top: 0.5em; border: 1px solid grey;'. Be careful to not break the layout!", max_length=255, null=True, verbose_name='Extra styles', blank=True),
         ),
-        migrations.AddField(
+        migrations.RenameField(
             model_name='image',
-            name='title',
-            field=models.CharField(help_text='When user hovers above picture, this text will appear in a popup.', max_length=255, null=True, verbose_name='Hover text', blank=True),
+            old_name='longdesc',
+            new_name='title',
         ),
         migrations.AlterField(
             model_name='image',

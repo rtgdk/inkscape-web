@@ -34,6 +34,7 @@ from django.core.urlresolvers import reverse
 from django.contrib.auth.models import Group
 
 from cms.models import CMSPlugin
+
 from pile.fields import ResizedImageField
 
 from resources.models import License
@@ -162,4 +163,3 @@ class GroupPhotoPlugin(CMSPlugin):
 
     class Meta:
         db_table = 'person_groupphotoplugin'
-

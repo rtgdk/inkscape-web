@@ -59,7 +59,8 @@ p {
 }
 p,
 #shield .tabs,
-.hyphened {
+.hyphened, 
+figcaption {
   hyphens: auto;
 }
 code, kbd, tt,
@@ -142,20 +143,48 @@ th[scope="col"] { text-align: center; }
   clear: both;
 }
 
-/* styles for cms picture plugin */
-span.align-right img {
+/* styles for cms picture plugin and picture_plus plugin */
+
+figure.plugin_picture {
+  width: -webkit-min-content;
+  width: -moz-min-content;
+  width: min-content;
+  text-align: center;
+  padding: 2px;
+  border: 1px solid #e5e5e5;
+  border-radius: 0 0 7px 7px;
+  background-color: #f2f2f2;
+  margin: 1ex 1.5em;
+  display: inline-block;
+}
+
+figure.plugin_picture img {
+  background-color: #fff;
+}
+
+figure.plugin_picture.align-right, span.plugin_picture.align-right img {
   display: block;
   float: right;
   margin: 1ex 0 1ex 1.5em;
 }
-span.align-left img {
+figure.plugin_picture.align-left, span.plugin_picture.align-left img {
   display: block;
   float: left;
   margin: 1ex 1.5em 1ex 0;
 }
-span.align-center img {
+
+figure.plugin_picture.align-center, span.plugin_picture.align-center img {
   display: block;
   margin: 1ex auto;
+}
+
+.plugin_picture figcaption {
+  font-size: 0.9em;
+  line-height: 120%;
+  padding: 6px 12px;
+  margin: 0;
+  display: inline-block;
+  text-align: left;
 }
 
 /* for IE */

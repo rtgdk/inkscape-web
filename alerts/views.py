@@ -60,7 +60,7 @@ class AlertList(NeverCacheMixin, OwnerRequiredMixin, ListView):
 
         if 'new' in self.request.GET:
             self.title = _("New")
-            qs = qs.filter(viewed__isnull=True)
+            qs = qs.filter(viewed__isnull=True, deleted__isnull=True)
         return qs.order_by('viewed', '-created')
 
     def get_context_data(self, **data):

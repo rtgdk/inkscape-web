@@ -42,6 +42,10 @@
           {% endif %}
         </label>
       </div>
+    {% elif object.is_pasted and form %}  
+      <div class="item">
+        {{ object.as_lines }}
+      </div>
     {% elif not form %}
       {% include "resources/resource_view.html" %}
     {% endif %}

@@ -15,9 +15,9 @@
         <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
       {% endif %}
       {% if object.from_friends.i_added %}
-        <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
+        <a href="{% url "user_unfriend" object.username %}"><img src="{% static "images/social/is_friend.svg" %}" title="{% trans "You have added this user as a friend. Click here to remove." %}"/></a>
       {% else %}
-        <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/friend.svg" %}" title="{% trans "Make friends with this user" %}"/></a>
+        <a href="{% url "user_friend" object.username %}"><img src="{% static "images/social/make_friend.svg" %}" title="{% trans "Make friends with this user" %}"/></a>
       {% endif %}
     {% endif %}
     {% if object.is_staff %}

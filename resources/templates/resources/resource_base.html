@@ -24,7 +24,7 @@
           {% if object.mime.is_image %}
             <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace image:" %} {{ object.filename }}</p>
-          {% elif object %}
+          {% elif object and object.download %}
             <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace file:" %} {{ object.filename }}</p>
           {% else %}

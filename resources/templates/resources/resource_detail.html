@@ -110,7 +110,7 @@
           <a class="tag" title="{% blocktrans %}Show all items tagged '{{ tag }}'{% endblocktrans %}" href="{% url "resources" %}?tags={{ tag }}">{{ tag }}</a>
         {% endfor %}
         
-        {% if object.download %}
+        {% if object.download or object.link %}
         <!--We'd have a copy to clipboard button here, but html5 doesn't have it yet-->
           {% if object.user == request.user %}
         <form action="{% url "edit_resource" object.id %}">

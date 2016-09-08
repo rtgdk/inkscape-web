@@ -155,8 +155,11 @@ class AddMember(NeverCacheMixin, LoginRequiredMixin, SingleObjectMixin, Redirect
             else:
                 messages.info(self.request, _("Team membership sucessfully added."))
         elif team.enrole in 'PT' and actor == user:
-            team.requests.add(user)
-            return messages.info(self.request, _("Membership Request Received."))
+            if actor not in team.members.all():
+                team.requests.add(user)
+                return messages.info(self.request, _("Membership Request Received."))
+            else:
+                return messages.info(self.request, _("You are already a member of this team."))
         else:
             return messages.error(self.request, _("Can't add user to team. (not allowed)"))
         team.requests.remove(user)

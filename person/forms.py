@@ -98,6 +98,15 @@ class UserForm(ModelForm):
             raise ValidationError('Username already taken')
         return username
         
+    def clean_first_name(self):
+        first_name = self.cleaned_data['first_name']
+        first_name = first_name.strip()
+        return first_name
+      
+    def clean_last_name(self):
+        last_name = self.cleaned_data['last_name']
+        last_name = last_name.strip()
+        return last_name
 
     def save(self, **kwargs):
         password = self.cleaned_data.get('password', None)

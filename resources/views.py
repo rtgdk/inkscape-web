@@ -199,10 +199,10 @@ def like_resource(request, pk, like):
         # Some different rules for contest categories
         if item.category.start_contest > now().date():
             messages.warning(request, _('You may not vote until the contest begins.'))
-            return redirect("resource", pk)
+            return redirect(item.get_absolute_url())
         if item.category.end_contest and item.category.end_contest < now().date():
             messages.warning(request, _('You may not vote after the contest ends.'))
-            return redirect("resource", pk)
+            return redirect(item.get_absolute_url())
         votes = item.category.votes.filter(voter=request.user)
         if votes.count() > 0 and '+' in like:
             for vote in votes:
@@ -215,7 +215,7 @@ def like_resource(request, pk, like):
         obj.delete()
     elif is_new == True and item.category.start_contest:
         messages.info(request, _('Thank you for your vote!'))
-    return redirect("resource", pk)
+    return redirect(item.get_absolute_url())
     
 def down_readme(request, pk):
     item = get_object_or_404(Resource, id=pk)

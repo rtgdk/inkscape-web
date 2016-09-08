@@ -61,7 +61,7 @@ class GalleryMoveForm(ModelForm):
         self.source = kwargs.pop('source', None)
         super(GalleryMoveForm, self).__init__(*args, **kwargs)
 
-        # Either resource's owner is the gallery's owner or the gallerie's
+        # Either resource's owner is the gallery's owner or the gallery's
         # group is in the resource owner's list of groups.
         query = (Q(user=self.instance.user) & Q(group__isnull=True)) \
                | Q(group__in=self.instance.user.groups.all())
@@ -160,11 +160,18 @@ class ResourceBaseForm(ModelForm):
 
     def clean_download(self):
         download = self.cleaned_data['download']
+        print download
         # Don't check the size of existing uploads or not-saved items
         if self.instance and self.instance.download != download:
             space = self.user.quota() - self.user.resources.disk_usage()
             if download and download.size > space:
-                raise ValidationError("Not enough space to upload this file.")
+                raise ValidationError(_("Not enough space to upload this file."))
+        if download == None:
+            if 'link' in self._meta.fields:
+                link = self.cleaned_data.get('link')
+                if link == "":
+                    print "muhk"
+                    raise ValidationError(_("You must either provide a valid link or a file."))
         return download
       
     def clean_tags(self):

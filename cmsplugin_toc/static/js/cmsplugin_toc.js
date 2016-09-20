@@ -25,11 +25,6 @@ $(document).ready(function() {
   }
 });
 
-$.fn.slugify = function() {
-  var text = $(this).text();
-  return text.replace(/[^\w\d\s'\-]+/g,'').replace(/[\s'\-]+/g,'-').replace(/^-+/,'').replace(/-+$/,'').toLowerCase();
-}
-
 /*Link to anchors- H1 removed because normali is on top*/
 function initialise_anchors(){
   var levels_stack = [];
@@ -49,7 +44,7 @@ function initialise_anchors(){
         anchor = $(heading).attr('id');
         $(heading).removeAttr('id');
     } else {
-        anchor = $(heading).slugify();
+        anchor = URLify($(heading).text(), 128);
     }
     anchor = anchor.replace('"','');
 

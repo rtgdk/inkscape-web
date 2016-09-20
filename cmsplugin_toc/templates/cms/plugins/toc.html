@@ -1,6 +1,9 @@
 {% load sekizai_tags static %}
 
-{% addtoblock "js" %}<script type="text/javascript" src="{% static "js/cmsplugin_toc.js" %}"></script>{% endaddtoblock %}
+{% addtoblock "js" %}
+<script type="text/javascript" src="{% static "admin/js/urlify.js" %}"></script>
+<script type="text/javascript" src="{% static "js/cmsplugin_toc.js" %}"></script>
+{% endaddtoblock %}
 
 <div id="toc" class="{{ plugin.div_class }}" data-bullets="{{ plugin.bullet }}">
   <h2>{{ plugin.title }}</h2>

@@ -160,7 +160,6 @@ class ResourceBaseForm(ModelForm):
 
     def clean_download(self):
         download = self.cleaned_data['download']
-        print download
         # Don't check the size of existing uploads or not-saved items
         if self.instance and self.instance.download != download:
             space = self.user.quota() - self.user.resources.disk_usage()
@@ -170,7 +169,6 @@ class ResourceBaseForm(ModelForm):
             if 'link' in self._meta.fields:
                 link = self.cleaned_data.get('link')
                 if link == "":
-                    print "muhk"
                     raise ValidationError(_("You must either provide a valid link or a file."))
         return download
       
@@ -209,15 +207,18 @@ class ResourceForm(ResourceBaseForm):
 
 
 class ResourcePasteForm(ResourceBaseForm):
-    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
-    download   = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
-
-    def __init__(self, data=None, *args, **kwargs):
-        # These are shown items values, for default values see save()
-        i = dict(
+    media_type     = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+    download       = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+    initial_values = dict(
             download='', desc='-', license=1, media_type='text/plain',
             name=_("Pasted Text #%d") % Resource.objects.all().count(),
         )
+
+    def __init__(self, data=None, *args, **kwargs):
+        # These are shown items values, for default values see save()
+        
+        i = self.initial_values
+        
         i.update(kwargs.pop('initial', {}))
         kwargs['initial'] = i
 
@@ -258,13 +259,23 @@ class ResourcePasteForm(ResourceBaseForm):
         required = ['name', 'license']
 
 
-class ResourceEditPasteForm(ResourceBaseForm):
-    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
-    class Meta:
-        model = Resource
-        fields = ['name', 'desc', 'tags', 'media_type', 'license', 'link']
-        required = ['name', 'license']
+class ResourceEditPasteForm(ResourcePasteForm):
+    
+    def __init__(self, data=None, *args, **kwargs):
+        # Fill the text field with the text, not the text file name
+        i = dict(download=kwargs['instance'].as_text())
+        
+        i.update(kwargs.pop('initial', {}))
+        kwargs['initial'] = i
+        d = data and dict((key, data.get(key, i[key])) for key in i.keys())
 
+        super(ResourcePasteForm, self).__init__(data, *args, **kwargs)
+    
+    def _clean_fields(self):
+        # doesn't work yet, but should do some cleaning.
+        #for key in self.initial:
+            #self.cleaned_data.setdefault(self.initial_values[key])
+        return super(ResourcePasteForm, self)._clean_fields()
 
 # This allows paste to have a different set of options
 FORMS = {1: ResourceEditPasteForm}

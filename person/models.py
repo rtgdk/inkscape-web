@@ -22,7 +22,8 @@ import os
 
 from django.conf import settings
 from django.db.models import *
-from django.db.models.signals import m2m_changed
+from django.db.models.signals import m2m_changed, post_save
+from django.dispatch import receiver
 
 from django.utils import timezone
 from django.utils.encoding import python_2_unicode_compatible
@@ -134,6 +135,13 @@ class User(AbstractUser):
         if user.is_authenticated():
 	    return bool(self.resources.subscriptions().get(user=user.pk))
         return False
+
+
+@receiver(post_save, sender=User)
+def is_active_check(sender, instance, **kwargs):
+    """Delete every session when active is False"""
+    if not instance.is_active:
+        instance.session_set.all().delete()
 
 
 def group_breadcrumb_name(self):

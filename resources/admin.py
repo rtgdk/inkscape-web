@@ -29,9 +29,12 @@ from .forms import ModelForm
 from .models import *
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'selectable', 'filterable')
+    list_display = ('name', 'selectable', 'filterable', 'item_count')
     list_filter = ('selectable', 'filterable')
     search_fields = ('name',)
+
+    def item_count(self, obj):
+        return obj.items.count()
 
 site.register(License, CategoryAdmin)
 site.register(Category, CategoryAdmin)
@@ -80,6 +83,12 @@ class GalleryForm(ModelForm):
 
 class GalleryAdmin(ModelAdmin):
     readonly_fields = ('items', 'slug')
+    list_display = ('name', 'user', 'group', 'status', 'item_count')
+    list_filter = ('group', 'status')
+    search_fields = ('name', 'user')
     form = GalleryForm
+
+    def item_count(self, obj):
+        return obj.items.count()
 
 site.register(Gallery, GalleryAdmin)

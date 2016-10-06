@@ -51,9 +51,10 @@ class Image(CMSPlugin):
 
     alt = CharField(
         _("Alternate text"), max_length=255, blank=True, null=True,
-        help_text=_("Specifies an alternate text for an image, if the image"
-                    "cannot be displayed.<br />Is also used by search engines"
-                    "to classify the image."))
+        help_text=_("Specifies an alternate text for an image, if the image "
+                    "cannot be displayed (download error, browser for "
+                    "visually impaired people…).<br />It is also used by "
+                    "web tools (e.g. search engines) to classify the image."))
 
     title = CharField(
         _("Hover text"), max_length=255, blank=True, null=True,

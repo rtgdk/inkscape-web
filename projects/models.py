@@ -1,7 +1,7 @@
 #
 # Copyright 2014, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -49,7 +49,7 @@ class ProjectType(Model):
 
 class Project(Model):
     """A project details work that needs to be done"""
-    
+
     DIFFICULTIES = (
       (0, _('Unknown')),
       (1, _('Easy')),
@@ -57,10 +57,10 @@ class Project(Model):
       (3, _('Hard')),
       (4, _('Very hard')),
     )
-    
+
     LOGO   = os.path.join(settings.STATIC_URL, 'images', 'project_logo.png')
     BANNER = os.path.join(settings.STATIC_URL, 'images', 'project_banner.png')
-    
+
     sort   = IntegerField(_('Difficulty'), choices=DIFFICULTIES, default=2)
     title  = CharField(_('Title'), max_length=100)
     pitch  = CharField(_('Short Summary'), max_length=255, **null)
@@ -115,9 +115,9 @@ class Project(Model):
 
     def get_status(self):
       """Returns a (preliminary) status number / string tuple for displaying in templates
-      possible status include: proposed (needs review), application phase (free to take), 
+      possible status include: proposed (needs review), application phase (free to take),
       in progress, finished. The number could be used for CSS classing."""
-      
+
       if self.manager is None:
           return (1, _("Proposed"))
       elif self.started is None:
@@ -144,8 +144,8 @@ class Project(Model):
         #if person is not None:
           #all_people.append(person)
       #return all_people
-      
-      
+
+
 class Worker(Model):
     """Acts as both a statement of assignment and application process"""
     project  = ForeignKey(Project, related_name='workers')
@@ -161,7 +161,7 @@ class Worker(Model):
         p = (str(self.user), str(self.project))
         if not self.assigned:
             return "%s application for %s" % p
-        return "%s working on %s" % p 
+        return "%s working on %s" % p
 
 
 class Deliverable(Model):
@@ -172,7 +172,7 @@ class Deliverable(Model):
 
     targeted = DateField(**null)
     finished = DateField(**null)
-    
+
     class Meta:
         ordering = 'sort',
 
@@ -187,7 +187,7 @@ class Task(Model):
 
     targeted = DateField(**null)
     finished = DateField(**null)
-    
+
     class Meta:
         ordering = 'targeted',
 
@@ -198,7 +198,7 @@ class Task(Model):
 class Criteria(Model):
     content  = CharField(_('Criteria'), max_length=255)
     detail   = TextField(validators=[MaxLengthValidator(4096)], **null)
-    
+
     def __str__(self):
         return self.content
 
@@ -217,12 +217,12 @@ class ProjectUpdate(Model):
 
     def __str__(self):
         return self.describe
-      
+
 class RelatedFile(Model):
     """Allows to add files to Project Update reports"""
-    
+
     for_update = ForeignKey(ProjectUpdate, related_name='related_files')
     updatefile = FileField(_("Related File"), upload_to=os.path.join('project', 'related_files'))
-                           
+
     def __str__(self):
         return self.updatefile.filename

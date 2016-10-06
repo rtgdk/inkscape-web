@@ -117,6 +117,7 @@ TEMPLATES = [{
 }]
 
 MIDDLEWARE_CLASSES = (
+    'inkscape.middleware.CachedRedirects',
     'inkscape.middleware.AutoBreadcrumbMiddleware',
     'inkscape.models.UserOnErrorMiddleware',
     'user_sessions.middleware.SessionMiddleware',

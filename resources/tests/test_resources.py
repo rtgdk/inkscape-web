@@ -630,11 +630,12 @@ class ResourceAnonTests(BaseCase):
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         # we don't have any real views saved in the db, so we start with zero
-        self.assertEqual(response.context['object'].viewed, 1)
+
+        self.assertEqual(response.context['object'].viewed, num_views + 1)
         
         # number of views should only be incremented once per user session
         response = self.assertGet('resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, num_views + 1)
     
     def test_view_public_resource_full_screen_anon(self):
         """Check that an anonymous user can look at a

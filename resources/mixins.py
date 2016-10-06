@@ -19,7 +19,6 @@
 #
 
 from django.contrib.auth import get_user_model
-from django.shortcuts import get_object_or_404
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 
@@ -119,4 +118,7 @@ class OwnerDeleteMixin(OwnerUpdateMixin):
     def get_success_url(self):
         # Called before object is deleted or edited
         obj = self.get_object().parent
-        return getattr(obj, 'get_absolute_url', reverse('my_profile'))
+        return getattr(obj, 'get_absolute_url', self.backup_url)()
+
+    def backup_url(self):
+        return reverse('my_profile')

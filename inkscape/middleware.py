@@ -99,7 +99,8 @@ class TrackCacheMiddleware(BaseMiddleware):
     @classmethod
     def get_create_key(cls, model, fields):
         # Detect related name here XXX
-        add = "&".join(["%s=%s" % (a, unicode(b)) for (a, b) in fields])
+        add = ["%s=%s" % (a, unicode(b)) for (a, b) in fields]
+        add = "&".join(add).replace(' ', '_')
         return "cache:create:%s%s%s" % (model.__name__, "?"[:bool(add)], add)
 
     @classmethod
@@ -329,4 +330,19 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
             return None
         return (url, name)
 
+
+class CachedRedirects(object):
+    """
+    The django/cms system requires A LOT of resources (some 30%) to redirect
+    users to the right language or page.
+
+    We will do a better job here by caching such redirects based on language.
+    """
+    def process_request(self, request):
+        """Return a redirect right away"""
+        pass
+
+    def process_response(self, request, response):
+        """Cache a redirect if possible"""
+        return response
 

@@ -573,11 +573,11 @@ class GalleryUserTests(BaseCase):
         """Make sure galleries can be deleted by group member"""
         gallery = self.getObj(Gallery, group__in=self.groups, not_user=self.user)
 
-        response = self.assertGet('gallery.delete', gallery_id=gallery.id, status=200)
+        response = self.assertGet('gallery.delete', gallery_id=gallery.pk, status=200)
         self.assertContains(response, gallery.name)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
 
-        response = self.assertPost('gallery.delete', gallery_id=gallery.id, status=200)
+        response = self.assertPost('gallery.delete', gallery_id=gallery.pk, status=200)
         with self.assertRaises(Gallery.DoesNotExist):
             Gallery.objects.get(pk=gallery.pk)
 

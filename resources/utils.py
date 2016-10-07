@@ -102,6 +102,10 @@ def upto(d, c='resources', blank=True, lots=False):
     dated = lots and ["%Y","%m"] or []
     return dict(null=blank, blank=blank, upload_to=os.path.join(c, d, *dated))
 
+def static(*parts):
+    name = os.path.join(*parts)
+    return storage.staticfiles_storage.url(name)
+
 def cached(f):
     _cname = '_'+f.__name__
     def _inner(self):
@@ -167,13 +171,13 @@ class MimeType(object):
 
     def icon(self, subdir=""):
         for ft_icon in [self.subtype(), self.type(), self.minor, self.major, 'unknown']:
-            static = os.path.join(MIME_DIR, subdir, ft_icon+'.svg')
-            if finders.find(static):
-                return storage.staticfiles_storage.url(static)
+            filename = os.path.join(MIME_DIR, subdir, ft_icon+'.svg')
+            if finders.find(filename):
+                return static(filename)
         return self.static("unknown")
 
     def static(self, name):
-        return storage.staticfiles_storage.url('mime/%s.svg' % name)
+        return static('mime', name + '.svg')
 
     def banner(self):
         return self.icon('banner')

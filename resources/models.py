@@ -42,7 +42,7 @@ from django.conf import settings
 from person.models import Team
 
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify
+from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify, static
 from .slugify import set_slug
 
 from uuid import uuid4
@@ -114,8 +114,8 @@ class Category(Model):
     acceptable_licenses = ManyToManyField(License, db_table='resource_category_acceptable_licenses')
 
     start_contest = DateField(blank=True, null=True,
-       help_text="If specified, this category will have special voting rules.")
-    end_contest = DateField(**null)
+       help_text="Start of this category's contest.")
+    end_contest = DateField(blank=True, null=True)
 
     def __str__(self):
         return self.name.encode('utf8')
@@ -133,7 +133,10 @@ class Category(Model):
     def icon(self):
         if self.symbol:
             return self.symbol.url 
-        return None
+        return static('images', 'no-category.svg')
+
+    def thumbnail_url(self):
+        return self.icon
 
     def get_absolute_url(self):
         kw = {'category': self.value}
@@ -764,7 +767,7 @@ class Gallery(Model):
         for item in self.items.all():
             if item.is_visible():
                 return item.icon_url()
-        return os.path.join(settings.STATIC_URL, 'images', 'folder.svg')
+        return static('images', 'folder.svg')
 
     def __len__(self):
         return self.items.count()

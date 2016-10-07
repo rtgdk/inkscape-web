@@ -77,7 +77,7 @@ class Tab(Model):
 
     # The backwards linking here is because django can't inline ManyToMany fields
     shield = ForeignKey('ShieldPlugin', related_name='tabs')
-    draft  = ForeignKey('self', **null)
+    draft  = ForeignKey('self', on_delete=SET_NULL, **null)
 
     class Meta:
         ordering = ('order',)
@@ -102,6 +102,7 @@ def fab(obj):
                 not f in obj._meta.parents.values()])
 
 class ShieldPlugin(CMSPlugin):
+    reversion_follow = ('tabs',)
 
     class Meta:
         db_table = 'extra_shieldplugin'

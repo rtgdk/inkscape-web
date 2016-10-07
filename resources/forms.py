@@ -205,19 +205,19 @@ class ResourceForm(ResourceBaseForm):
         required = ['name', 'category', 'license', 'owner']
 
 
-
 class ResourcePasteForm(ResourceBaseForm):
     media_type     = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     download       = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
     initial_values = dict(
             download='', desc='-', license=1, media_type='text/plain',
-            name=_("Pasted Text #%d") % Resource.objects.all().count(),
         )
 
     def __init__(self, data=None, *args, **kwargs):
         # These are shown items values, for default values see save()
         
         i = self.initial_values
+        
+        i['name']=_("Pasted Text #%d") % Resource.objects.all().count()
         
         i.update(kwargs.pop('initial', {}))
         kwargs['initial'] = i

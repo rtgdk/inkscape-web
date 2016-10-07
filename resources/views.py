@@ -346,7 +346,7 @@ class ResourceList(CategoryListView):
         return License.objects.filter(filterable=True)
 
     def get_categories(self):
-        return Category.objects.filter(filterable=True)
+        return Category.objects.all()
 
     def get_galleries(self):
         username = self.get_value('username')
@@ -386,6 +386,12 @@ class ResourceList(CategoryListView):
                 # Set parent manually, since categories don't naturally have parents.
                 data['category'].parent = data['object']
             data['object'] = data['category']
+
+            # Remove media type side bar if category isn't filterable.
+            if not data['category'].filterable:
+                for cat in data['categories']:
+                    if cat is not None and cat.cid == 'category':
+                        cat[:] = [cat.value]
 
         if 'tags' in data:
             data['tag_clear_url'] = self.get_url(exclude='tags')

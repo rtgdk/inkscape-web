@@ -93,10 +93,12 @@
           <ul>
             {% for item in category %}
               {% if item and item.count %}
-                {% if category == item %}
-                  <li class="active"><a>{{ item.name|default:item }}</a></li>
-                {% else %}
-                  <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
+                {% if item.filterable %}
+                  {% if category == item %}
+                    <li class="active"><a><label>{{ item.name|default:item }}</label></a></li>
+                  {% else %}
+                    <li><a href="{{ item.url }}"><label>{{ item.name|default:item }}</label><span>{{ item.count }}</span></a></li>
+                  {% endif %}
                 {% endif %}
               {% endif %}
             {% endfor %}

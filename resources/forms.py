@@ -208,27 +208,20 @@ class ResourceForm(ResourceBaseForm):
 class ResourcePasteForm(ResourceBaseForm):
     media_type     = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
     download       = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
-    initial_values = dict(
-            download='', desc='-', license=1, media_type='text/plain',
-        )
 
     def __init__(self, data=None, *args, **kwargs):
         # These are shown items values, for default values see save()
-        
-        i = self.initial_values
-        
-        i['name']=_("Pasted Text #%d") % Resource.objects.all().count()
-        
-        i.update(kwargs.pop('initial', {}))
-        kwargs['initial'] = i
-
-        d = data and dict((key, data.get(key, i[key])) for key in i.keys())
-
-        super(ResourcePasteForm, self).__init__(d, *args, **kwargs)
+        kwargs['initial'] = dict(
+            download='', desc='-', license=1, media_type='text/plain',
+            name=_("Pasted Text #%d") % Resource.objects.all().count(),
+           **kwargs.pop('initial', {}))
+        new_data = kwargs['initial'].copy()
+        new_data.update(data or {})
+        super(ResourcePasteForm, self).__init__(data, *args, **kwargs)
 
     def _clean_fields(self):
-        for key in self.initial:
-            self.cleaned_data.setdefault(self.initial[key])
+        for key, value in self.initial.items():
+            self.cleaned_data.setdefault(key, value)
         return super(ResourcePasteForm, self)._clean_fields()
 
     def clean_download(self):
@@ -271,11 +264,6 @@ class ResourceEditPasteForm(ResourcePasteForm):
 
         super(ResourcePasteForm, self).__init__(data, *args, **kwargs)
     
-    def _clean_fields(self):
-        # doesn't work yet, but should do some cleaning.
-        #for key in self.initial:
-            #self.cleaned_data.setdefault(self.initial_values[key])
-        return super(ResourcePasteForm, self)._clean_fields()
 
 # This allows paste to have a different set of options
 FORMS = {1: ResourceEditPasteForm}

@@ -73,6 +73,18 @@ def syntaxer(text, mime):
             return text
     return mark_safe(''.join(highlight(text, lexer, formatter)))
 
+def get_range(text):
+    if '-' not in text:
+        text = text + '-' + text
+    return (force_int(x) for x in text.split('-', 1))
+
+SCALES = ' KMGT'
+def force_int(text):
+    text = text.upper().replace('B', '').strip()
+    if text[-1] in ['K', 'M', 'G', 'T']:
+        return int(text[:-1]) * (2 ** (SCALES.index(text[-1]) * 10))
+    return int(text)
+
 def text_count(text):
     num_lines = 0
     num_words = 0

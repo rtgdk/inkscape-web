@@ -105,4 +105,3 @@ class TagsChoiceField(ModelMultipleChoiceField):
                     raise ValidationError("Tag is too long!")
                 raise
 
-

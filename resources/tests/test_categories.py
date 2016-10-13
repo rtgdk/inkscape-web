@@ -33,6 +33,10 @@ from resources.models import Resource, Category
 class CategoryTests(BaseCase):
     credentials = dict(username='tester', password='123456')
 
+    def setUp(self):
+        super(CategoryTests, self).setUp()
+        self.count = Resource.objects.count()
+
     def assertCategory(self, **kw):
         category = self.getObj(Category, **kw)
         response = self.assertGet(category.get_absolute_url(), status=200)
@@ -49,23 +53,66 @@ class CategoryTests(BaseCase):
         self.assertNotContains(res2, "<label>%s</label>" % str(cat2))
         self.assertNotContains(res2, "Media Category")
 
-
-    def test_submit_item_unacceptable_license(self):
-        """Make sure that categories only accept certain licenses"""
-        # Current setting for Screenshots (only 'all rights reserved') might need to be changed.
-        categories = Category.objects.filter(selectable=True)\
-            .exclude(acceptable_licenses=self.data['license'])
-        # The selected category MUST be visible or django forms will consider
-        # the selection to be None (and likely cause errors)
-        self.assertGreater(categories.count(), 0,
-            "Create a visible category where license id %s isn't acceptable" % self.data['license'])
-        self.data['category'] = categories[0].pk
-
-        num = Resource.objects.count()
+    def test_category_unacceptable_license(self):
+        """Make sure that categories only reject licenses"""
+        category = self.getObj(Category, selectable=True, not_acceptable_licenses=self.data['license'])
+        self.data['category'] = category.pk
         
         response = self.assertPost('resource.upload', data=self.data, form_errors={
             'license': 'This is not an acceptable license for this category, '
                        'Acceptable licenses:\n * Public Domain (PD)'})
-        self.assertEqual(Resource.objects.count(), num)
+        self.assertEqual(Resource.objects.count(), self.count)
 
+    def test_category_acceptable_license(self):
+        """Make sure that categories only accept certain licenses"""
+        category = self.getObj(Category, selectable=True, acceptable_licenses=self.data['license'])
+        self.data['category'] = category.pk
+
+        response = self.assertPost('resource.upload', data=self.data)
+        self.assertEqual(Resource.objects.count(), self.count + 1)
+
+    def test_category_acceptable_type(self):
+        category = self.getObj(Category, acceptable_types__isnull=False)
+        self.data['category'] = category.pk
+        self.data['license'] = 9
+        self.data.pop('download')
+        self.data.pop('thumbnail')
+
+        response = self.assertPost('resource.upload', data=self.data, form_errors={
+            'download': 'Links not allowed in this category: Inkscape Package'})
+        self.assertEqual(Resource.objects.count(), self.count)
+
+        self.data['download'] = self.open('preview5.png')
+        self.data.pop('link')
+
+        response = self.assertPost('resource.upload', data=self.data, form_errors={
+            'download': 'Only image/svg+xml files allowed in Inkscape Package category (found image/png)'})
+        self.assertEqual(Resource.objects.count(), self.count)
+
+        self.data['download'] = self.open('file5.svg')
+        response = self.assertPost('resource.upload', data=self.data)
+        self.assertEqual(Resource.objects.count(), self.count + 1)
+
+    def test_category_acceptable_size(self):
+        """Make sure the file size is not too large for the category"""
+        category = self.getObj(Category, acceptable_size__isnull=False)
+
+        self.data['category'] = category.pk
+        self.data['download'] = self.open('large.png')
+        response = self.assertPost('resource.upload', data=self.data, form_errors={
+            '_default': None,
+            'download': 'Upload is too big for Inkscape Extension category (Max size 1KB)'})
+        self.assertEqual(Resource.objects.count(), self.count)
+
+        self.data['download'] = self.open('small.png')
+        response = self.assertPost('resource.upload', data=self.data, form_errors={
+            '_default': None,
+            'download': 'Upload is too small for Inkscape Extension category (Min size 200)'})
+        self.assertEqual(Resource.objects.count(), self.count)
+
+        self.data['license'] = 1
+        self.data['download'] = self.open('medium.png')
+        self.data['thumbnail'] = None
+        response = self.assertPost('resource.upload', data=self.data)
+        self.assertEqual(Resource.objects.count(), self.count + 1)
 

@@ -30,6 +30,7 @@ from django.db.models import Model, Q
 from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .models import *
+from .validators import Range, CsvList
 from .utils import ALL_TEXT_TYPES
 from .fields import FilterSelect, TagsChoiceField
 
@@ -105,10 +106,7 @@ class ResourceBaseForm(ModelForm):
 
         if 'category' in self.fields:
             f = self.fields['category']
-            f.queryset = f.queryset.filter(selectable=True).filter(
-                Q(start_contest__isnull=True) | (
-                Q(start_contest__lt=now().date()) &
-                Q(end_contest__gt=now().date()) ))
+            f.queryset = f.queryset.filter(selectable=True)
 
         if 'license' in self.fields:
             f = self.fields['license']
@@ -133,8 +131,8 @@ class ResourceBaseForm(ModelForm):
     def clean_license(self):
         """Make sure the category accepts this kind of license"""
         ret = self.cleaned_data['license']
-        if 'category' in self._meta.fields:
-            category = self.cleaned_data.get('category', None)
+        category = self.cleaned_data.get('category', None)
+        if category is not None:
             acceptable = list(category.acceptable_licenses.all())
             if category and ret not in acceptable:
                 accept = '\n'.join([" * %s" % str(acc) for acc in acceptable])
@@ -144,12 +142,13 @@ class ResourceBaseForm(ModelForm):
 
     def clean_category(self):
         """Make sure the category voting rules are followed"""
-        ret = self.cleaned_data['category']
-        obj = self.instance
-        if (not obj or obj.category != ret) and ret.start_contest:
-            if obj.votes.all().count() > 0:
-                raise ValidationError(_("You can not assign an item with existing votes to a contest."))
-        return ret
+        category = self.cleaned_data['category']
+        #obj = self.instance
+        #if (not obj or obj.category != ret) and ret.start_contest:
+        #    if obj.votes.all().count() > 0:
+        #        raise ValidationError(_("You can not assign an item with existing votes to a contest."))
+
+        return category
 
     def clean_mirror(self):
         """Update the edited time/date if mirror flag changed"""
@@ -160,16 +159,31 @@ class ResourceBaseForm(ModelForm):
 
     def clean_download(self):
         download = self.cleaned_data['download']
+        category = self.cleaned_data.get('category', None)
+        types = CsvList(getattr(category, 'acceptable_types', None))
+        sizes = Range(getattr(category, 'acceptable_size', None))
+
         # Don't check the size of existing uploads or not-saved items
-        if self.instance and self.instance.download != download:
+        if not self.instance or self.instance.download != download:
             space = self.user.quota() - self.user.resources.disk_usage()
             if download and download.size > space:
                 raise ValidationError(_("Not enough space to upload this file."))
-        if download == None:
-            if 'link' in self._meta.fields:
-                link = self.cleaned_data.get('link')
-                if link == "":
-                    raise ValidationError(_("You must either provide a valid link or a file."))
+            if download and download.size not in sizes:
+                if download.size > sizes:
+                    raise ValidationError(_("Upload is too big for %s category (Max size %s)") % (str(category), sizes.to_max()))
+                raise ValidationError(_("Upload is too small for %s category (Min size %s)") % (str(category), sizes.to_min()))
+
+        if download is None and 'link' in self._meta.fields:
+            link = self.cleaned_data.get('link')
+            if link == "":
+                raise ValidationError(_("You must either provide a valid link or a file."))
+            elif types:
+                raise ValidationError(_('Links not allowed in this category: %s') % str(category))
+
+        if hasattr(download, 'content_type') and download.content_type not in types:
+            err = _("Only %s files allowed in %s category (found %s)") 
+            raise ValidationError(err % (types, str(category), download.content_type))
+
         return download
       
     def clean_tags(self):

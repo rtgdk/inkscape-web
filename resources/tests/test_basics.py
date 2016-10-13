@@ -24,6 +24,7 @@ Other items in the resource app.
 from django.core.urlresolvers import reverse
 
 from resources.models import License, Category, Resource, Tag, Gallery
+from resources.validators import Range, CsvList
 
 from .base import BaseCase
 
@@ -63,4 +64,48 @@ class TagTests(BaseCase):
         self.assertEqual([tag.name for tag in resource.tags.all().order_by('name')], ["landscape", "moon"])
         self.assertIn(resource, Tag.objects.get(name="landscape").resources.all())
         #self.fail("Expose tags to user (form, view, template) and implement cleanup for tag strings so there is more to test")
+
+class FieldTests(BaseCase):
+    def test_range(self):
+        self.assertIn(5, Range(1, 10))
+        self.assertIn(50, Range('0-1k'))
+        self.assertIn('5', Range(5, 500))
+        self.assertIn(5000, Range('1k-10k'))
+
+        self.assertNotIn(5, Range(10, 20))
+        self.assertNotIn(50, Range(5))
+        self.assertNotIn(5000, Range('10k-100mb'))
+
+        self.assertIn('5k', Range('1k', '10k'))
+
+    def test_none_range(self):
+        """None range always passes"""
+        self.assertIn(0, Range(None))
+        self.assertIn(10, Range(None))
+        self.assertIn('100k', Range(None))
+
+    def test_part_range(self):
+        """Less than and more than tests"""
+        my_range = Range('2k-5k')
+        self.assertLess(5, my_range)
+        self.assertLess('1k', my_range)
+        self.assertGreater(6000, my_range)
+        self.assertGreater('6k', my_range)
+
+    def test_not_part_range(self):
+        """Less than and more than negative"""
+        my_range = Range('2k-5k')
+        self.assertFalse('6k' < my_range)
+        self.assertFalse(6000 < my_range)
+        self.assertFalse(3000 < my_range)
+        self.assertFalse('3k' < my_range)
+        self.assertFalse('1k' > my_range)
+        self.assertFalse(1000 > my_range)
+        self.assertFalse(3000 > my_range)
+        self.assertFalse('3k' > my_range)
+
+    def test_csv_in(self):
+        self.assertIn('A', CsvList('A,B,C'))
+        self.assertNotIn('D', CsvList('A,B,C'))
+        self.assertIn('A', CsvList(None))
 

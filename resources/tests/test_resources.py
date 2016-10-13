@@ -346,6 +346,7 @@ class UploadViewTests(BaseCase):
         self.assertContains(post, "foofoo")
         
         response = self.assertPost('pastebin', data=shortdata, form_errors={
+              '_default': None,
               'download': 'Text is too small for the pastebin.',
             })
         self.assertEqual(Resource.objects.count(), num + 1)
@@ -407,8 +408,8 @@ class UploadViewTests(BaseCase):
         self.assertGreater(os.path.getsize(name), quot,
             "Make sure that the file %s is bigger than %d byte" % (name, quot))
 
-        response = self.assertPost('resource.upload', data=self.data)
-        self.assertContains(response, "error") #assert that we get an error message in the html (indicator: css class)
+        response = self.assertPost('resource.upload', data=self.data,
+            form_errors={'download': 'Not enough space to upload this file.'})
 
     def test_publish_item(self):
         """Check that we can publish our own items"""
@@ -462,7 +463,7 @@ class UploadViewTests(BaseCase):
         # Make sure we own the file and that it's NOT a pasted text item
         resource = self.getObj(Resource, user=self.user, not_category=1)
 
-        (get, _) = self.assertBoth('edit_resource', pk=resource.pk, data={})
+        (get, _) = self.assertBoth('edit_resource', pk=resource.pk, data={'owner': True})
         self.assertIsInstance(get.context['form'], ResourceForm)
         self.assertContains(get, resource.name)
       

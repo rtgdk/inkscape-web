@@ -113,9 +113,10 @@ class Category(Model):
 
     acceptable_licenses = ManyToManyField(License, db_table='resource_category_acceptable_licenses')
 
-    start_contest = DateField(blank=True, null=True,
-       help_text="Start of this category's contest.")
-    end_contest = DateField(blank=True, null=True)
+    acceptable_media_x = CharField(max_length=255, blank=True, null=True)
+    acceptable_media_y = CharField(max_length=255, blank=True, null=True)
+    acceptable_types = CharField(max_length=255, blank=True, null=True)
+    acceptable_size = CharField(max_length=255, blank=True, null=True)
 
     def __str__(self):
         return self.name.encode('utf8')
@@ -698,17 +699,23 @@ class Gallery(Model):
       ('=', 'Complete'),
       ('-', 'Rejected'),
     )
-    user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='galleries', default=get_user)
-    group     = ForeignKey(Group, related_name='galleries', **null)
-    name      = CharField(max_length=64)
-    slug      = SlugField(max_length=70)
-    desc      = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
+    user = ForeignKey(settings.AUTH_USER_MODEL, related_name='galleries', default=get_user)
+    group = ForeignKey(Group, related_name='galleries', **null)
+    category = ForeignKey(Category, related_name='galleries', **null)
+
+    name = CharField(max_length=64)
+    slug = SlugField(max_length=70)
+    desc = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
     thumbnail = ForeignKey(Resource, help_text=_('Which resource should be the thumbnail for this gallery'), **null)
-    status    = CharField(max_length=1, db_index=True, choices=GALLERY_STATUSES, **null)
+    status = CharField(max_length=1, db_index=True, choices=GALLERY_STATUSES, **null)
 
-    items     = ManyToManyField(Resource, related_name='galleries', blank=True)
+    items = ManyToManyField(Resource, related_name='galleries', blank=True)
 
-    objects   = GalleryQuerySet.as_manager()
+    contest_submit = DateField(help_text=_('Start a contest in this gallery on this date (UTC).'), **null)
+    contest_voting = DateField(help_text=_('Finish the submissions and start voting (UTC).'), **null)
+    contest_finish = DateField(help_text=_('Finish the contest, voting closed, winner announced (UTC).'), **null)
+
+    objects = GalleryQuerySet.as_manager()
 
     def __unicode__(self):
         if self.group:

@@ -195,26 +195,26 @@ def like_resource(request, pk, like):
     if item.user.pk == request.user.pk:
         raise PermissionDenied()
 
-    if item.category.start_contest:
-        # Some different rules for contest categories
-        if item.category.start_contest > now().date():
-            messages.warning(request, _('You may not vote until the contest begins.'))
-            return redirect(item.get_absolute_url())
-        if item.category.end_contest and item.category.end_contest < now().date():
-            messages.warning(request, _('You may not vote after the contest ends.'))
-            return redirect(item.get_absolute_url())
-        votes = item.category.votes.filter(voter=request.user)
-        if votes.count() > 0 and '+' in like:
-            for vote in votes:
-                vote.delete()
-            if votes.filter(resource_id=item.id).count() == 0:
-                messages.info(request, _('Your previous vote in this contest has been replaced by your vote for this item.'))
+#    if item.category.start_contest:
+#        # Some different rules for contest categories
+#        if item.category.start_contest > now().date():
+#            messages.warning(request, _('You may not vote until the contest begins.'))
+#            return redirect(item.get_absolute_url())
+#        if item.category.end_contest and item.category.end_contest < now().date():
+#            messages.warning(request, _('You may not vote after the contest ends.'))
+#            return redirect(item.get_absolute_url())
+#        votes = item.category.votes.filter(voter=request.user)
+#        if votes.count() > 0 and '+' in like:
+#            for vote in votes:
+#                vote.delete()
+#            if votes.filter(resource_id=item.id).count() == 0:
+#                messages.info(request, _('Your previous vote in this contest has been replaced by your vote for this item.'))
 
     (obj, is_new) = item.votes.get_or_create(voter=request.user)
     if '+' not in like:
         obj.delete()
-    elif is_new == True and item.category.start_contest:
-        messages.info(request, _('Thank you for your vote!'))
+    #elif is_new == True and item.category.start_contest:
+    #    messages.info(request, _('Thank you for your vote!'))
     return redirect(item.get_absolute_url())
     
 def down_readme(request, pk):

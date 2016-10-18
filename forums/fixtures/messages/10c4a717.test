@@ -1,0 +1,33 @@
+MenTaLguY wrote:
+> Incidentally, this brings up another issue -- we need to work out a
+> scheme for securely storing/sharing the login information for various
+> accounts which we create in the name of the organization, so the
+> credentials are available to any of the board members if required
+> (though for sanity's sake each account should probably still have a
+> particular board member being primarily responsible for it,
+> internally).  Any ideas on that front?
+
+I've always wanted a GPG password safe, that could allow for storing and
+sharing credentials between multiple parties in a secure fashion. Is
+there anything like that out there?
+
+Aaron Spike
+
+
+
+---+++---
+Aaron Spike <aaron@ekips.org> (-1) @ 2007-04-19 07:05:41-05:00
+I've always wanted a GPG password safe, that could allow for storing and
+sharing credentials between multiple parties in a secure fashion. Is
+there anything like that out there?
+
+Aaron Spike
+---+++---
+MenTaLguY <mental@rydia.net> (-1) @ None
+Incidentally, this brings up another issue -- we need to work out a
+scheme for securely storing/sharing the login information for various
+accounts which we create in the name of the organization, so the
+credentials are available to any of the board members if required
+(though for sanity's sake each account should probably still have a
+particular board member being primarily responsible for it,
+internally).  Any ideas on that front?

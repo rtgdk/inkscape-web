@@ -20,12 +20,16 @@
 """
 Watches for comments so they can be registered.
 """
+import logging
+from importlib import import_module
 
 from django.apps import AppConfig
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 from django_comments.models import Comment
+from django.conf import settings
+
 
 def post_create(model, fn):
     def _inner(sender, instance, created=False, **kw):
@@ -36,12 +40,33 @@ def post_create(model, fn):
 
 class ForumsConfig(AppConfig):
     name = 'forums'
+    # plugins is a list of all Plugin classes (based on BasePlugin)
+    plugins = []
+    # plugin is a dictionary of initialised plugin objects.
+    plugin = {}
 
     def ready(self):
         from .models import Forum
 
         post_create(Comment, self.new_comment)
         post_create(Forum, self.new_forum)
+
+        for key, conf in getattr(settings, 'FORUM_SYNCS', {}).items():
+            try:
+                module = import_module(conf['ENGINE'])
+                self.plugins.append(module.Plugin)
+                self.plugin[key] = self.plugins[-1](key, conf.copy())
+            except (KeyError, AttributeError) as err:
+                logging.warning("Failed to load plugin %s" % key)
+                logging.warning(" -> Engine error: %s" % str(err))
+            except ImportError as err:
+                logging.warning("Failed to load plugin %s" % (key))
+                logging.warning(" -> " + str(err))
+
+    @property
+    def sync_choices(self):
+        """Returns a list of tuples useful for a choices dropdown"""
+        return [(key, plugin.name) for key, plugin in self.plugin.items()]
 
     def new_forum(self, instance, **kw):
         """Called when a new forum is created"""
@@ -73,9 +98,9 @@ class ForumsConfig(AppConfig):
             self.update_times(co.forum, co, instance.submit_date)
 
     def update_times(self, forum, topic, submit_date):
+        """Updates the topic and forum last modified stamp"""
         for obj in (forum, topic):
             if not obj.last_posted or obj.last_posted < submit_date:
                 obj.last_posted = submit_date
                 obj.save(update_fields=['last_posted'])
-            
 

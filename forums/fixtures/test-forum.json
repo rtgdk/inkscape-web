@@ -1,0 +1,24 @@
+[
+{
+  "fields": {
+    "name": "Section"
+  },
+  "model": "forums.forumgroup",
+  "pk": 1
+},
+{
+  "fields": {
+    "sort": 20,
+    "lang": "",
+    "group": 1,
+    "name": "General Discussion",
+    "last_posted": null,
+    "content_type": null,
+    "icon": null,
+    "slug": "general",
+    "desc": "Where we talk about things randomly"
+  },
+  "model": "forums.forum",
+  "pk": 1
+}
+]

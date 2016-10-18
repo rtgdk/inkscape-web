@@ -1,0 +1,23 @@
+On Fri, 2007-04-20 at 15:47 +1000, njh wrote:
+> How would this work?  We create a file with:
+> inkscape.org domainname password =3D cooT0bohiy4AGhil
+> then encrypt it n times, once for each member?
+
+Actually you can encrypt it once with everyone's key.  I'm not sure
+internally how that works.  But, I know that it does.  Just like you can
+send e-mails to multiple people which all can read.
+
+		--Ted
+
+---+++---
+Ted Gould <ted@gould.cx> (1000) @ 2007-04-19 22:59:59-07:00
+Actually you can encrypt it once with everyone's key.  I'm not sure
+internally how that works.  But, I know that it does.  Just like you can
+send e-mails to multiple people which all can read.
+
+		--Ted
+---+++---
+njh <njh@njhurst.com> (-1) @ 2007-04-20 15:47:00
+How would this work?  We create a file with:
+inkscape.org domainname password =3D cooT0bohiy4AGhil
+then encrypt it n times, once for each member?

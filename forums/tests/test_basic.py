@@ -32,19 +32,23 @@ from django.core.urlresolvers import reverse
 from autotest.base import ExtraTestCase
 
 from django_comments.models import Comment
-from .models import Forum, ForumTopic, Model, CharField, ContentType
+from forums.models import Forum, ForumTopic, ContentType
 
+from django.db.models import Model, CharField
 
 class TestObject(Model):
     """Test object for model"""
     name = CharField(max_length=12)
+
+    class Meta:
+        app_label = 'forums'
 
     def __str__(self):
         return self.name
 
 
 class BaseCase(ExtraTestCase):
-    fixtures = ['test-auth', 'test-contenttype', 'test-comments', 'test-forums']
+    fixtures = ['test-auth', 'test-contenttype', 'test-forums', 'test-comments']
     credentials = dict(username='tester', password='123456')
 
 
@@ -138,7 +142,7 @@ class ObjectForumTests(BaseCase):
         """Commenting on object creates topic"""
         pks = set(self.forum.topics.values_list('object_pk', flat=True))
         obj = self.getObj(TestObject, not_id__in=list(pks))
-        self.assertEqual(self.forum.topics.count(), 5)
+        self.assertEqual(self.forum.topics.count(), 3)
         com = Comment.objects.create(
           submit_date=datetime(2015, 5, 5, 5, 5, 5, tzinfo=utc),
           content_type=self.forum.content_type,
@@ -146,7 +150,7 @@ class ObjectForumTests(BaseCase):
           site_id=1,
         )
         forum = self.getObj(Forum, pk=self.forum.pk)
-        self.assertEqual(forum.topics.count(), 6)
+        self.assertEqual(forum.topics.count(), 4)
         self.assertEqual(forum.last_posted, com.submit_date)
 
 

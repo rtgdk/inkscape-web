@@ -1,0 +1,54 @@
+On Thu, 2007-04-19 at 07:05 -0500, Aaron Spike wrote:
+> MenTaLguY wrote:
+> > Incidentally, this brings up another issue -- we need to work out a
+> > scheme for securely storing/sharing the login information for various
+> > accounts which we create in the name of the organization, so the
+> > credentials are available to any of the board members if required
+> > (though for sanity's sake each account should probably still have a
+> > particular board member being primarily responsible for it,
+> > internally).  Any ideas on that front?
+>=20
+> I've always wanted a GPG password safe, that could allow for storing and
+> sharing credentials between multiple parties in a secure fashion. Is
+> there anything like that out there?
+
+http://oss.codepoet.no/revelation/
+
+I've used revelation, it's not GPG, it's AES, but I think that'll
+probably work for you :)
+
+We could either share a file like this, or perhaps it would be better to
+have a text file that is encrypted with everyone on the board's GPG keys
+and posted to the mailing list.  That way they'd be in "public" but also
+secure.  As board members change the keys used to encrypt it would also.
+
+		--Ted
+
+
+---+++---
+Ted Gould <ted@gould.cx> (1000) @ 2007-04-19 09:26:20-07:00
+http://oss.codepoet.no/revelation/
+
+I've used revelation, it's not GPG, it's AES, but I think that'll
+probably work for you :)
+
+We could either share a file like this, or perhaps it would be better to
+have a text file that is encrypted with everyone on the board's GPG keys
+and posted to the mailing list.  That way they'd be in "public" but also
+secure.  As board members change the keys used to encrypt it would also.
+
+		--Ted
+---+++---
+Aaron Spike <aaron@ekips.org> (-1) @ 2007-04-19 07:05:00
+I've always wanted a GPG password safe, that could allow for storing and
+sharing credentials between multiple parties in a secure fashion. Is
+there anything like that out there?
+---+++---
+MenTaLguY <mental@rydia.net> (-1) @ None
+Incidentally, this brings up another issue -- we need to work out a
+scheme for securely storing/sharing the login information for various
+accounts which we create in the name of the organization, so the
+credentials are available to any of the board members if required
+(though for sanity's sake each account should probably still have a
+particular board member being primarily responsible for it,
+internally).  Any ideas on that front?

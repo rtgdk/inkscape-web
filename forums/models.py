@@ -22,6 +22,8 @@ Forums are a simple extension of django_comments and there really
 shouldn't be much functionality contained within this app.
 """
 
+import json
+
 from collections import OrderedDict
 
 from django.db.models import *
@@ -37,7 +39,10 @@ from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
 from django.utils.text import slugify
+from django_comments.models import Comment
 
+from django.apps import apps
+app = apps.get_app_config('forums')
 
 class SelectRelatedQuerySet(QuerySet):
     """Automatically select related ForeignKeys to queryset"""
@@ -91,10 +96,14 @@ class Forum(Model):
     lang = CharField(max_length=8, null=True, blank=True,
             help_text=_('Set this ONLY if you want this forum restricted to this language'))
 
-    # When fixed content is set, new topics can not be created
-    # instead, commented items are automatically posted as topics.
     content_type = ForeignKey(ContentType, null=True, blank=True,
-            verbose_name=_('Fixed Content From'))
+            verbose_name=_('Fixed Content From'), help_text="When fixed conte"
+            "nt is set, new topics can not be created. Instead, commented ite"
+            "ms are automatically posted as topics.")
+    sync = CharField(max_length=64, null=True, blank=True, choices=app.sync_choices,
+            verbose_name=_('Sync From'), help_text="When sync source is "
+            "set, new topics and messages can not be created. Instead, sync m"
+            "essages are collated into topics and replies by helper scripts")
 
     last_posted = DateTimeField(_('Last Posted'), db_index=True, null=True, blank=True)
 
@@ -122,6 +131,69 @@ class Forum(Model):
             self.slug = slugify(self.name)
         return super(Forum, self).save(**kw)
 
+    @property
+    def sync_config(self):
+        return settings.FORUM_SYNCS.get(self.sync, {})
+
+    def sync_message(self, message):
+        """Add a new message xor forum topic based on an import"""
+        if not message:
+            return
+        objects = CommentLink.objects
+        message_id = message.get_message_id()
+        reply_id = message.get_reply_id()
+
+        links = objects.filter(message_id=message_id)
+        if links.count() == 1:
+            return links.get().comment
+
+        reply_to = objects.filter(message_id=reply_id)
+        if reply_to.count() > 0:
+            topic = reply_to.get().comment.content_object
+            created = None
+        else:
+            topic, created = self.topics.get_or_create(
+              message_id=message_id,
+              defaults={
+                'subject': unicode(message.get_subject()),
+              }
+            )
+
+        if created in (None, True):
+            comment = Comment.objects.create(
+                site_id=1,
+                user=message.get_user(),
+                user_name=unicode(message.get_username()),
+                user_email=message.get_email(),
+                user_url=message.get_userurl(),
+                comment=unicode(message.get_body()),
+                submit_date=message.get_created(),
+                content_object=topic,
+            )
+
+            link = objects.create(
+                comment=comment,
+                message_id=message_id,
+                reply_id=reply_id,
+                subject=message.get_subject(),
+                extra_data=json.dumps(message.get_data()),
+            )
+
+        if created and hasattr(message, 'get_replies'):
+            for reply in message.get_replies():
+                comment = Comment.objects.create(
+                    site_id=1,
+                    user=message.get_user(),
+                    user_name=unicode(message.get_username()),
+                    user_email=message.get_email(),
+                    user_url='',
+                    comment=unicode(reply.get_body()),
+                    submit_date=message.get_created(),
+                    content_object=topic,
+                )
+
+        return comment
+
 
 class ForumTopic(Model):
     """When a forum allows free standing topics (without connection to an object)"""
@@ -129,6 +201,8 @@ class ForumTopic(Model):
     object_pk = PositiveIntegerField(null=True, blank=True)
     subject = CharField(max_length=128)
     slug = SlugField(max_length=128, unique=True)
+
+    message_id = CharField(max_length=255, db_index=True, null=True, blank=True)
 
     last_posted = DateTimeField(_('Last Posted'), db_index=True, null=True, blank=True)
     sticky = IntegerField(_('Sticky Priority'), default=0,
@@ -158,12 +232,21 @@ class ForumTopic(Model):
     @property
     def object_template(self):
         """Returns a custom template if needed for this item."""
+        custom_template = None
         if self.object_pk:
             ct = self.forum.content_type
-            template_name = '%s/%s_comments.html' % (ct.app_label, ct.model)
+            custom_template = '%s/%s_comments.html' % (ct.app_label, ct.model)
+
+        elif self.forum.sync:
+            conf = self.forum.sync_config
+            key = conf.get('ENGINE', self.forum.sync).split('.')[-1]
+            default = 'plugins/%s_comments.html' % key
+            custom_template = conf.get('TEMPLATE', default)
+
+        if custom_template is not None:
             try:
-                get_template(template_name)
-                return template_name
+                get_template(custom_template)
+                return custom_template
             except TemplateDoesNotExist:
                 pass
         return 'forums/forumtopic_header.html'
@@ -188,4 +271,23 @@ class ForumTopic(Model):
                 self.slug = slugify(self.subject) + '_' + get_random_string(length=5)
 
         return super(ForumTopic, self).save(**kw)
+
+
+class CommentLink(Model):
+    """We extend our comment model with links to sync'd or imported comments"""
+    comment = OneToOneField(Comment, related_name='link')
+
+    message_id = CharField(max_length=255, db_index=True, unique=True,
+            help_text="A unique identifier for this message")
+
+    reply_id = CharField(max_length=255, null=True, blank=True, db_index=True,
+            help_text="Either the previous message in the chain, or the parent id")
+
+    subject = CharField(max_length=255, null=True, blank=True, db_index=True,
+            help_text="A matchable subject line for this comment.")
+
+    extra_data = TextField(null=True, blank=True)
+
+    def __str__(self):
+        return "%s: %s" % (self.source_id, self.message_id)
 

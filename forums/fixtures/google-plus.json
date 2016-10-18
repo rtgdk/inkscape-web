@@ -1,0 +1,82 @@
+{
+ "test-group": {
+  "nextPageToken": "AAA", 
+  "items": [
+    {
+      "updated": "2016-04-29T16:12:17.934Z", 
+      "object": {
+        "resharers": {
+          "totalItems": 3, 
+          "selfLink": null
+        }, 
+        "content": "Ice king rocks", 
+        "plusoners": {
+          "totalItems": 37, 
+          "selfLink": null
+        }, 
+        "attachments": [
+          {
+            "displayName": "Example attachment", 
+            "fullImage": {
+              "url": "http://example.com/image.jpeg", 
+              "type": "image/jpeg"
+            }, 
+            "url": "http://example.com/image/url/", 
+            "image": {
+              "url": "http://example.com/thumbnail.jpeg",
+              "type": "image/jpeg", 
+              "width": 506, 
+              "height": 910
+            }, 
+            "content": "And that's a fact!",
+            "objectType": "article"
+          }
+        ], 
+        "replies": {
+          "totalItems": 1, 
+          "selfLink": "r001"
+        }, 
+        "url": "http://example.com/url/", 
+        "actor": {
+          "verification": {
+            "adHocVerified": "UNKNOWN_VERIFICATION_STATUS"
+          }
+        }, 
+        "objectType": "note"
+      }, 
+      "verb": "post", 
+      "id": "001", 
+      "kind": "plus#activity", 
+      "title": "Ice king rocks", 
+      "url": "http://example.com/url/", 
+      "actor": {
+        "url": "http://example.com/person/", 
+        "image": {
+          "url": "http://example.com/person/photo.png"
+        }, 
+        "displayName": "Inkscape", 
+        "id": "108911244660285152681", 
+        "verification": {
+          "adHocVerified": "UNKNOWN_VERIFICATION_STATUS"
+        }
+      }, 
+      "access": {
+        "items": [
+          {
+            "type": "public"
+          }
+        ], 
+        "kind": "plus#acl", 
+        "description": "Public"
+      }, 
+      "etag": "\"001\"", 
+      "provider": {
+        "title": "Google+"
+      }, 
+      "published": "2016-04-29T16:12:17.934Z"
+    }
+  ], 
+  "kind": "plus#activityFeed", 
+  "title": "Google+ List of Activities for Collection PUBLIC"
+}
+}

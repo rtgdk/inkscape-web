@@ -1,0 +1,34 @@
+On Fri, 2007-04-20 at 18:39 +1000, njh wrote:
+> > Actually you can encrypt it once with everyone's key.  I'm not sure
+> > internally how that works.  But, I know that it does.  Just like you ca=
+n
+> > send e-mails to multiple people which all can read.
+>=20
+> I guess it just encrypts the one symmetric cypher with all the asymmetric=
+=20
+> ones.
+
+I'd guess that too, but the explanation that I like better is that it
+sends the file into deep space and then encrypts the coordinates to each
+user.  Then you pick it up on SETI@Home.  Think, that'd reduce the file
+size also!  :)
+
+		--Ted
+
+
+---+++---
+Ted Gould <ted@gould.cx> (1000) @ 2007-04-20 09:29:10-07:00
+I'd guess that too, but the explanation that I like better is that it
+sends the file into deep space and then encrypts the coordinates to each
+user.  Then you pick it up on SETI@Home.  Think, that'd reduce the file
+size also!  :)
+
+		--Ted
+---+++---
+njh <njh@njhurst.com> (-1) @ 2007-04-20 18:39:00
+> Actually you can encrypt it once with everyone's key.  I'm not sure
+> internally how that works.  But, I know that it does.  Just like you can
+> send e-mails to multiple people which all can read.
+
+I guess it just encrypts the one symmetric cypher with all the asymmetric
+ones.

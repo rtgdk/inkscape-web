@@ -31,7 +31,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 
 from .models import *
 from .validators import Range, CsvList
-from .utils import ALL_TEXT_TYPES
+from .utils import FileEx, MimeType, ALL_TEXT_TYPES
 from .fields import FilterSelect, TagsChoiceField
 
 # Thread-safe current user middleware getter.
@@ -40,6 +40,13 @@ from cms.utils.permissions import get_current_user as get_user
 
 __all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
            'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
+
+TOO_SMALL = [
+    "Image is too small for %s category (Minimum %sx%s)",
+    "Text is too small for %s category (Minimum %s Lines, %s Words)"]
+TOO_LARGE = [
+    "Image is too large for %s category (Maximum %sx%s)",
+    "Text is too large for %s category (Maximum %s Lines, %s Words)"]
 
 class GalleryForm(ModelForm):
     class Meta:
@@ -162,16 +169,19 @@ class ResourceBaseForm(ModelForm):
         category = self.cleaned_data.get('category', None)
         types = CsvList(getattr(category, 'acceptable_types', None))
         sizes = Range(getattr(category, 'acceptable_size', None))
+        media_x = Range(getattr(category, 'acceptable_media_x', None))
+        media_y = Range(getattr(category, 'acceptable_media_y', None))
 
         # Don't check the size of existing uploads or not-saved items
         if not self.instance or self.instance.download != download:
             space = self.user.quota() - self.user.resources.disk_usage()
-            if download and download.size > space:
-                raise ValidationError(_("Not enough space to upload this file."))
-            if download and download.size not in sizes:
-                if download.size > sizes:
-                    raise ValidationError(_("Upload is too big for %s category (Max size %s)") % (str(category), sizes.to_max()))
-                raise ValidationError(_("Upload is too small for %s category (Min size %s)") % (str(category), sizes.to_min()))
+            if download:
+                if download.size > space:
+                    raise ValidationError(_("Not enough space to upload this file."))
+                if download.size not in sizes:
+                    if download.size > sizes:
+                        raise ValidationError(_("Upload is too big for %s category (Max size %s)") % (str(category), sizes.to_max()))
+                    raise ValidationError(_("Upload is too small for %s category (Min size %s)") % (str(category), sizes.to_min()))
 
         if download is None and 'link' in self._meta.fields:
             link = self.cleaned_data.get('link')
@@ -180,12 +190,27 @@ class ResourceBaseForm(ModelForm):
             elif types:
                 raise ValidationError(_('Links not allowed in this category: %s') % str(category))
 
-        if hasattr(download, 'content_type') and download.content_type not in types:
-            err = _("Only %s files allowed in %s category (found %s)") 
-            raise ValidationError(err % (types, str(category), download.content_type))
-
+        if hasattr(download, 'content_type'):
+            if download.content_type not in types:
+                err = _("Only %s files allowed in %s category (found %s)") 
+                raise ValidationError(err % (types, str(category), download.content_type))
+            if media_x or media_y:
+                self.clean_media_size(category, download, media_x, media_y)
         return download
-      
+
+    def clean_media_size(self, category, download, media_x, media_y):
+        """Clean the media size and raise error if too small or large"""
+        mime = MimeType(download.content_type)
+        small = TOO_SMALL[mime.is_text()]
+        large = TOO_LARGE[mime.is_text()]
+
+        fh = FileEx(download, mime=mime)
+        (x, y) = fh.media_coords
+        if x > media_x or y > media_y:
+            raise ValidationError(large % (str(category), media_x.to_max(), media_y.to_max()))
+        elif x < media_x or y < media_y:
+            raise ValidationError(small % (str(category), media_x.to_min(), media_y.to_min()))
+
     def clean_tags(self):
         """Make sure all tags are lowercase"""
         ret = self.cleaned_data['tags']

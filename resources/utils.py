@@ -230,28 +230,17 @@ class FileEx(object):
         """Returns the file handle with the right decoder (i.e. gzip)"""
         if self.peek(2) == '\x1f\x8b':
             return gzip.GzipFile(fileobj=self.file_handle)
-        self.fop.seek(0)
-        return self.fop
+        self.file_handle.seek(0)
+        return self.file_handle
 
     def as_text(self, lines=None):
         """Return a file as text"""
         if self.mime.is_text() or self.mime.is_xml():
             # GZip magic number for svgz files.
             if lines is not None:
-                return "".join(self.next_line() for x in xrange(lines))
+                return "".join(line for line in self.content.readlines())
             return self.content.read().decode('utf-8')
         return "Not text!"
-
-    def next_line(self, die=False):
-        """Returns the next line, or returns blank empty string"""
-        if hasattr(self.content, 'readline'):
-            return self.content.readline()
-        try:
-            return next(self.content)
-        except StopIteration:
-            if die:
-                raise
-            return ""
 
     @property
     def media_coords(self):
@@ -269,6 +258,7 @@ class FileEx(object):
 
     def _svg_coords(self):
         def coord(n):
+            # XXX This should calculate the units correctly in future (i.e. mm -> px)
             return int(float(''.join(c for c in n if c in '.0123456789')))
 
         from xml.dom.minidom import parse, Node
@@ -283,7 +273,8 @@ class FileEx(object):
         num_lines = 0
         num_words = 0
         num_chars = 0
-        for line in self.next_line(True):
+        content = self.content
+        for line in content.readlines():
             words = line.split()
             num_lines += 1
             num_words += len(words)

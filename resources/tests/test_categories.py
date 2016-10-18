@@ -116,3 +116,32 @@ class CategoryTests(BaseCase):
         response = self.assertPost('resource.upload', data=self.data)
         self.assertEqual(Resource.objects.count(), self.count + 1)
 
+    def test_category_acceptable_media_xy(self):
+        category = self.getObj(Category, acceptable_media_x__isnull=False)
+
+        self.data['category'] = category.pk
+        self.data['thumbnail'] = None
+        self.data['license'] = 1
+
+        errors = {'svg': [
+          "Image is too small for Inkscape Pallet category (Minimum 20x15)",
+          "Image is too large for Inkscape Pallet category (Maximum 25x20)",
+               ], 'txt': [
+          "Text is too small for Inkscape Pallet category (Minimum 20 Lines, 15 Words)",
+          "Text is too large for Inkscape Pallet category (Maximum 25 Lines, 20 Words)",
+         ]
+        }
+        errors['png'] = errors['svg']
+
+        for ext in ('png', 'svg', 'txt'):
+            self.data['download'] = self.open('large.' + ext)
+            response = self.assertPost('resource.upload', data=self.data, form_errors={'download': errors[ext][1]})
+
+            self.data['download'] = self.open('small.' + ext)
+            response = self.assertPost('resource.upload', data=self.data, form_errors={'download': errors[ext][0]})
+
+            self.data['download'] = self.open('medium.' + ext)
+            response = self.assertPost('resource.upload', data=self.data)
+            self.count += 1
+            self.assertEqual(Resource.objects.count(), self.count)
+

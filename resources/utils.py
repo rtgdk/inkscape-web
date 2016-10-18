@@ -30,8 +30,10 @@ import os
 import mimetypes
 
 from pygments import highlight, lexers, formatters
+
 from django.utils.safestring import mark_safe
 from django.conf import settings
+from django.core.files.images import get_image_dimensions
 from django.contrib.staticfiles import finders, storage
 
 MIME_DIR = 'mime'
@@ -53,13 +55,6 @@ class CodeHtmlFormatter(formatters.HtmlFormatter):
         for i, t in source:
             yield i, "<li><code>%s</code></li>" % t
         yield 0, '</ol>'
-
-from django.core.files.base import File
-def peek(self, t):
-    ret = self.read(t)
-    self.seek(0)
-    return ret
-File.peek = peek
 
 def syntaxer(text, mime):
     """Highlights text files based on their type"""
@@ -84,30 +79,6 @@ def force_int(text):
     if text[-1] in ['K', 'M', 'G', 'T']:
         return int(text[:-1]) * (2 ** (SCALES.index(text[-1]) * 10))
     return int(text)
-
-def text_count(text):
-    num_lines = 0
-    num_words = 0
-    num_chars = 0
-    for line in text.strip().split("\n"):
-        words = line.split()
-        num_lines += 1
-        num_words += len(words)
-        num_chars += len(line)
-    return (num_lines, num_words)
-
-def coord(n):
-    """Removes any units"""
-    return int(float(''.join(c for c in n if c in '.0123456789')))
-
-def svg_coords(svg):
-    from xml.dom.minidom import parseString, Node
-    try:
-        doc = parseString(svg.encode('utf-8')).documentElement
-        return (coord(doc.getAttribute('width')),
-                coord(doc.getAttribute('height')))
-    except:
-        return (-1,-1)
 
 def upto(d, c='resources', blank=True, lots=False):
     """Quick and easy upload to location"""
@@ -175,6 +146,9 @@ class MimeType(object):
         # We test for both because javascript in code and html in document
         return self.type() in ['text', 'code'] or self.major == 'text'
 
+    def is_xml(self):
+        return self.minor.endswith('+xml') or self.minor == 'xml'
+
     def is_image(self):
         return self.major == 'image'
 
@@ -223,4 +197,96 @@ def gpg_verify(user, sig, data):
     gpg = gnupg.GPG(gnupghome=os.path.join(settings.MEDIA_ROOT, 'gnupg'))
     gpg.import_keys(str(user.gpg_key))
     return bool(gpg.verify_file(sig, data.path))
+
+
+class FileEx(object):
+    def __init__(self, file_or_path, mime=None):
+        if mime is None:
+            if os.path.isfile(file_or_path):
+                mime = MimeType(filename=file_or_path)
+            else:
+                raise IOError("No Mime type specified.")
+        self.mime = mime
+        self.fop = file_or_path
+
+    @property
+    def file_handle(self):
+        """Returns the raw file handle, filename -> file handle"""
+        if not hasattr(self.fop, 'read'):
+            if not os.path.isfile(self.fop):
+                raise IOError("File not found %s\n" % str(self.fop))
+            self.fop = open(self.fop, 'rb')
+        if hasattr(self.fop, 'file'):
+            self.fop = self.fop.file
+        return self.fop
+
+    def peek(self, t):
+        ret = self.file_handle.read(t)
+        self.file_handle.seek(0)
+        return ret
+
+    @property
+    def content(self):
+        """Returns the file handle with the right decoder (i.e. gzip)"""
+        if self.peek(2) == '\x1f\x8b':
+            return gzip.GzipFile(fileobj=self.file_handle)
+        self.fop.seek(0)
+        return self.fop
+
+    def as_text(self, lines=None):
+        """Return a file as text"""
+        if self.mime.is_text() or self.mime.is_xml():
+            # GZip magic number for svgz files.
+            if lines is not None:
+                return "".join(self.next_line() for x in xrange(lines))
+            return self.content.read().decode('utf-8')
+        return "Not text!"
+
+    def next_line(self, die=False):
+        """Returns the next line, or returns blank empty string"""
+        if hasattr(self.content, 'readline'):
+            return self.content.readline()
+        try:
+            return next(self.content)
+        except StopIteration:
+            if die:
+                raise
+            return ""
+
+    @property
+    def media_coords(self):
+        """Returns height/width for images, lines/charicters for text"""
+        if self.mime.is_raster():
+            return get_image_dimensions(self.content)
+        if self.mime.is_xml() and self.mime.is_image():
+            return self._svg_coords()
+        if self.mime.is_text():
+            try:
+                return self._text_coords()
+            except UnicodeDecodeError:
+                raise ValueError("Not a text file.")
+        return (None, None)
+
+    def _svg_coords(self):
+        def coord(n):
+            return int(float(''.join(c for c in n if c in '.0123456789')))
+
+        from xml.dom.minidom import parse, Node
+        try:
+            doc = parse(self.content).documentElement
+            return (coord(doc.getAttribute('width')),
+                    coord(doc.getAttribute('height')))
+        except:
+            return (-1,-1)
+
+    def _text_coords(self):
+        num_lines = 0
+        num_words = 0
+        num_chars = 0
+        for line in self.next_line(True):
+            words = line.split()
+            num_lines += 1
+            num_words += len(words)
+            num_chars += len(line)
+        return (num_lines, num_words)
 

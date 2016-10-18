@@ -26,9 +26,10 @@ from xml.dom.minidom import parseString, Node
 from django.template.base import Library
 from django.conf import settings
 
-from resources.utils import coord
-
 register = Library()
+
+def coord(n):
+    return int(float(''.join(c for c in n if c in '.0123456789')))
 
 @register.filter("svg_size")
 def svg_size(text, args):

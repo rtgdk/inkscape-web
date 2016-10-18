@@ -73,10 +73,10 @@ class ResourceTests(BaseCase):
     def test_media_size(self):
         """Make sure file sizes are reported"""
         svg = Resource.objects.get(download__contains='file5.svg')
-        self.assertTupleEqual(svg.find_media_coords(), (67, 83))
+        self.assertTupleEqual(svg.file.media_coords, (24, 24))
 
         svg = Resource.objects.get(download__contains='file4.svg')
-        self.assertTupleEqual(svg.find_media_coords(), (-1, -1))
+        self.assertTupleEqual(svg.file.media_coords, (-1, -1))
 
     def test_mime_type(self):
         """Make sure file types are right"""
@@ -187,7 +187,7 @@ class ResourceViewTests(BaseCase):
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
         
-        response = self.assertGet('view_resource', pk=resource.pk, follow=False)
+        response = self.assertGet('view_resource', pk=resource.pk, follow=False, status=302)
         self.assertEqual(response.url, 'http://testserver' + resource.download.url)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         

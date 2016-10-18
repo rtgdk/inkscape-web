@@ -35,15 +35,14 @@ from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group
 from django.core.urlresolvers import reverse
-from django.core.files.images import get_image_dimensions
 from django.core.validators import MaxLengthValidator
 from django.contrib.auth import get_user_model
 from django.conf import settings
 from person.models import Team
 
 from pile.fields import ResizedImageField
-from .utils import syntaxer, MimeType, upto, cached, text_count, svg_coords, video_embed, gpg_verify, hash_verify, static
 from .slugify import set_slug
+from .utils import *
 
 from uuid import uuid4
 
@@ -375,8 +374,12 @@ class Resource(Model):
             self.verified = False
             self.edited = now()
             delattr(self, '_mime')
-            self.media_type = self.find_media_type()
-            (self.media_x, self.media_y) = self.find_media_coords()
+            try:
+                self.media_type = str(self.file.mime)
+                (self.media_x, self.media_y) = self.file.media_coords
+            except ValueError:
+                 # Text file is corrupt, treat it as a binary
+                 self.media_type = 'application/octet-stream'
 
         # the signature on an existing resource has changed
         elif self.signature and not self.signature._committed:
@@ -405,6 +408,13 @@ class Resource(Model):
     def filename(self):
         return os.path.basename(self.download.name)
 
+    @property
+    def file(self):
+        if not hasattr(self, '_fileEx'):
+            mime = MimeType(filename=self.download.path)
+            self._fileEx = FileEx(self.download.file, mime)
+        return self._fileEx
+
     def signature_type(self):
         return self.signature.name.rsplit('.', 1)[-1]
 
@@ -425,23 +435,6 @@ class Resource(Model):
                 return self.ENDORSE_AUTH
             return self.ENDORSE_SIGN
         return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
-
-    def find_media_type(self):
-        """Returns the media type of the downloadable file"""
-        return str(MimeType(filename=self.download.path))
-
-    def find_media_coords(self):
-        if self.mime().is_raster():
-            return get_image_dimensions(self.download.file)
-        elif self.mime().is_image():
-            return svg_coords(self.as_text())
-        elif self.mime().is_text():
-            try:
-                return text_count(self.as_text())
-            except UnicodeDecodeError:
-                # Text file is corrupt, treat it as a binary
-                self.media_type = 'application/octet-stream'
-        return (None, None)
 
     def thumbnail_url(self):
         """Returns a 150px thumbnail either from the thumbnail,
@@ -471,17 +464,7 @@ class Resource(Model):
         return syntaxer(self.as_text(20), self.mime())
 
     def as_text(self, lines=None):
-        if self.mime().is_text() or 'svg' in str(self.mime()):
-            text = self.download.file
-            text.open()
-            text.seek(0)
-            # GZip magic number for svgz files.
-            if text.peek(2) == '\x1f\x8b':
-                text = gzip.GzipFile(fileobj=text)
-            if lines is not None:
-                return "".join(next(text.file) for x in xrange(lines))
-            return text.read().decode('utf-8')
-        return "Not text!"
+        return self.file.as_text(lines=lines)
 
     @property
     def is_pasted(self):

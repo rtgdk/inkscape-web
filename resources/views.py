@@ -359,6 +359,12 @@ class ResourceList(CategoryListView):
         team = self.get_value('team')
         if team:
             return Group.objects.get(team__slug=team).galleries.all()
+        category = self.get_value('category')
+        if category:
+            from .models import slugify
+            for c in self.get_categories():
+                if slugify(c.name) == category:
+                    return Gallery.objects.filter(category_id=c.pk)
         return None
 
     def get_context_data(self, **kwargs):
@@ -382,10 +388,11 @@ class ResourceList(CategoryListView):
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()
-            if 'object' in data:
-                # Set parent manually, since categories don't naturally have parents.
-                data['category'].parent = data['object']
-            data['object'] = data['category']
+            if 'galleries' not in data or not getattr(data['galleries'], 'category'):
+                if 'object' in data:
+                    # Set parent manually, since categories don't naturally have parents.
+                    data['category'].parent = data['object']
+                data['object'] = data['category']
 
             # Remove media type side bar if category isn't filterable.
             if not data['category'].filterable:

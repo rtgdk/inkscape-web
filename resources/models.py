@@ -740,6 +740,8 @@ class Gallery(Model):
 
     @property
     def parent(self):
+        if self.category:
+            return self.category
         return (self.group or self.user).galleries.all()
 
     def is_visible(self):

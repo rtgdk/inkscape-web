@@ -27,14 +27,16 @@ def url_tree(regex, *urls):
 
 from person.urls import USER_URLS, TEAM_URLS
 
-def resource_search(rl=ResourceList, rf=ResourceFeed, rp=ResourcePick):
+def resource_search(*args, **kw):
     """Generate standard url patterns for resource listing"""
     return [
-      url(r'^$',                           rl(), name='resources'),
-      url(r'^pick/$',                      rp(), name='resources_pick'),
-      url(r'^rss/$',                       rf(), name='resources_rss'),
-      url(r'^=(?P<category>[^\/]+)/$',     rl(), name='resources'),
-      url(r'^=(?P<category>[^\/]+)/rss/$', rf(), name='resources_rss'),
+      url(r'^$',               kw.get('rl', ResourceList)(), name='resources'),
+      url(r'^pick/$',          kw.get('rp', ResourcePick)(), name='resources_pick'),
+      url(r'^rss/$',           kw.get('rf', ResourceFeed)(), name='resources_rss'),
+      url_tree(r'^=(?P<category>[^\/]+)/',
+        url(r'^$',             kw.get('rl', ResourceList)(), name='resources'),
+        url(r'^rss/$',         kw.get('rf', ResourceFeed)(), name='resources_rss'),
+        *args)
     ]
 
 owner_patterns = [
@@ -62,7 +64,7 @@ urlpatterns = patterns('',
       url(r'^file/(?P<filename>[^\/]+)$', MirrorResource(), name="mirror.item"),
     ),
   ),
-
+  
   url_tree(r'^gallery/',
     url(r'^new/$',         CreateGallery(),  name='new_gallery'),
     url(r'^paste/$',       PasteIn(),        name='pastebin'),
@@ -89,7 +91,10 @@ urlpatterns = patterns('',
       url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
       url(r'^(?P<fn>[^\/]+)/?$', DownloadResource(),  name='download_resource'),
     ),
-    *resource_search()
+    *resource_search(
+        url(r'^(?P<galleries>[^\/]+)/',     GalleryView(),  name='resources'),
+        url(r'^(?P<galleries>[^\/]+)/rss/', ResourceFeed(), name='resources_rss'),
+    )
   ),
 )
 

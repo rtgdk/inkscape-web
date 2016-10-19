@@ -3,7 +3,7 @@
 {% autopaginate object_list limit as resources %}
 
   <div id="gallery">
-    {% if upload_url %}
+    {% if upload_url and not object.contest_submit %}
       <div class="galleryitem">
         <div id="drop" class="link">
           <a href="{{ upload_url }}"><img src="{% static "images/add.svg" %}"/></a>

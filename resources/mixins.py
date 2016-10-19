@@ -72,7 +72,10 @@ class OwnerUpdateMixin(object):
         try:
             self.gallery = Gallery.objects.get(
                 Q(pk=kwargs['gallery_id']) & \
-               (Q(user=request.user) | Q(group__in=request.user.groups.all())))
+               ( Q(user=request.user)
+                 | Q(group__in=request.user.groups.all())
+                 | (Q(category__isnull=False) & ~Q(category=0))
+               ))
         except Gallery.DoesNotExist:
             raise PermissionDenied()
         except KeyError:

@@ -1689,8 +1689,6 @@
       1
     ],
     "selectable": true,
-    "start_contest": null,
-    "end_contest": null,
     "desc": "-"
   },
   "model": "resources.category",
@@ -1705,8 +1703,6 @@
       1
     ],
     "selectable": true,
-    "start_contest": null,
-    "end_contest": null,
     "desc": "-"
   },
   "model": "resources.category",
@@ -1721,8 +1717,6 @@
       1
     ],
     "selectable": true,
-    "start_contest": null,
-    "end_contest": null,
     "desc": "-"
   },
   "model": "resources.category",

@@ -105,11 +105,11 @@ class Category(Model):
     desc   = TextField(validators=[MaxLengthValidator(1024)], **null)
     symbol = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
 
-    selectable = BooleanField(default=True,
-        help_text=_("This category can be selected by all users when uploading."))
     filterable = BooleanField(default=True,
         help_text=_("This category can be used as a filter in gallery indexes."))
 
+    restrict_to_groups = ManyToManyField(Group, db_table='resource_category_restrict_to_groups', blank=True)
+    
     acceptable_licenses = ManyToManyField(License, db_table='resource_category_acceptable_licenses')
 
     acceptable_media_x = CharField(max_length=255, blank=True, null=True)
@@ -128,7 +128,7 @@ class Category(Model):
     @property
     def value(self):
         return slugify(self.name)
-      
+    
     @property
     def icon(self):
         if self.symbol:

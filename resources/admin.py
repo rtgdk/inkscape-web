@@ -29,8 +29,8 @@ from .forms import ModelForm
 from .models import *
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'selectable', 'filterable', 'item_count')
-    list_filter = ('selectable', 'filterable')
+    list_display = ('name', 'filterable', 'item_count')
+    list_filter = ('filterable',)
     search_fields = ('name',)
 
     def item_count(self, obj):

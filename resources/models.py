@@ -298,7 +298,7 @@ class Resource(Model):
     downed    = PositiveIntegerField(_('Downloaded'), default=0)
     fullview  = PositiveIntegerField(_('Full Views'), default=0)
 
-    media_type = CharField(_('File Type'), max_length=64, **null)
+    media_type = CharField(_('File Type'), max_length=128, **null)
     media_x    = IntegerField(**null)
     media_y    = IntegerField(**null)
 

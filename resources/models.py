@@ -273,6 +273,7 @@ Group.resources = property(lambda self: GroupGalleryManager(self))
 class Resource(Model):
     """This is a resource with an uploaded file"""
     owner_field = 'user'
+    is_resource = True
 
     ENDORSE_NONE = 0
     ENDORSE_HASH = 1
@@ -704,7 +705,9 @@ class Gallery(Model):
     objects = GalleryQuerySet.as_manager()
 
     def __unicode__(self):
-        if self.group:
+        if self.category:
+            return self.name
+        elif self.group:
             return _(u"%(gallery_name)s (for group %(group_name)s)") \
                   % {'gallery_name': self.name, 'group_name': unicode(self.group)}
         return  _(u"%(gallery_name)s (by %(user_name)s)") \

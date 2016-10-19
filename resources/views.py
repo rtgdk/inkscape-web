@@ -79,6 +79,12 @@ class EditResource(OwnerUpdateMixin, UpdateView):
         category = getattr(self.object.category, 'id', 0)
         return FORMS.get(category, ResourceForm)
 
+    def get_form_kwargs(self):
+        kw = super(EditResource, self).get_form_kwargs()
+        if self.object.gallery:
+            kw['gallery'] = self.object.gallery
+        return kw
+
 class PublishResource(OwnerUpdateMixin, DetailView):
     model = Resource
     title = _("Publish")
@@ -127,11 +133,12 @@ class UploadResource(OwnerCreateMixin, CreateView):
     model = Resource
     title = _("Upload New Resource")
 
-    def form_valid(self, form):
-        ret = super(UploadResource, self).form_valid(form)
+    def get_form_kwargs(self):
+        kw = super(UploadResource, self).get_form_kwargs()
         if hasattr(self, 'gallery'):
-            self.gallery.items.add(form.instance)
-        return ret
+            kw['gallery'] = self.gallery
+        return kw
+
 
 class DropResource(UploadResource):
     content_type  = 'text/plain'

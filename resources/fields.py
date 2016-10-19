@@ -35,6 +35,24 @@ class FilterSelect(Select):
             html += ' data-filter="%s"' % str(self.filters[int(value)])
         return '<option value="%s"%s>%s</option>' % (value, html, label)
 
+
+class DisabledSelect(Select):
+    """If there is only one choice, disable and set to this choice"""
+    def render(self, name, value, attrs=None, choices=()):
+        attrs = attrs or {}
+        attrs['disabled'] = 'disabled'
+        self.name = name
+        return super(DisabledSelect, self).render(name+'_disabled', value, attrs, choices)[:-9]
+
+    def render_option(self, selected_choices, value, label):
+        label = force_text(label)
+        if value:
+            return '<option value="%s" selected="selected">%s</option></select>' % (value, label) + \
+                   '<input type="hidden" name="%s" value="%s">' % (self.name, value)
+        return ''
+
+
+
 class SelectTags(SelectMultiple):
     SCRIPT = """
     <script>

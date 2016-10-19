@@ -1824,8 +1824,7 @@
     "slug": "cmsdiff.page_published_alert",
     "default_hide": false
   },
-  "model": "alerts.alerttype",
-  "pk": 1
+  "model": "alerts.alerttype"
 },
 {
   "fields": {
@@ -1838,8 +1837,7 @@
     "slug": "resources.resource_alert",
     "default_hide": false
   },
-  "model": "alerts.alerttype",
-  "pk": 2
+  "model": "alerts.alerttype"
 },
 {
   "fields": {
@@ -1852,8 +1850,7 @@
     "slug": "alerts.message_alert",
     "default_hide": false
   },
-  "model": "alerts.alerttype",
-  "pk": 3
+  "model": "alerts.alerttype"
 },
 {
   "fields": {
@@ -1866,8 +1863,7 @@
     "slug": "alerts.test_message_alert",
     "default_hide": false
   },
-  "model": "alerts.alerttype",
-  "pk": 4
+  "model": "alerts.alerttype"
 },
 {
   "fields": {

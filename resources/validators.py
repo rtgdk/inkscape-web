@@ -7,7 +7,7 @@ from django.db.models import CharField
 
 class CsvList(list):
     def __init__(self, value):
-        if value is not None:
+        if value: # Is not None or ''
             for item in value.split(','):
                 self.append(item)
 

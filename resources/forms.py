@@ -32,7 +32,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from .models import *
 from .validators import Range, CsvList
 from .utils import FileEx, MimeType, ALL_TEXT_TYPES
-from .fields import FilterSelect, TagsChoiceField
+from .fields import FilterSelect, DisabledSelect, TagsChoiceField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
@@ -91,6 +91,7 @@ class ResourceBaseForm(ModelForm):
     tags = TagsChoiceField(Tag.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
+        self.gallery = kwargs.pop('gallery', None)
         ModelForm.__init__(self, *args, **kwargs)
         if hasattr(self.Meta, 'required'):
             for key in self.Meta.required:
@@ -113,9 +114,13 @@ class ResourceBaseForm(ModelForm):
 
         if 'category' in self.fields:
             f = self.fields['category']
-            f.queryset = f.queryset.filter(Q(selectable=True) & \
-                (Q(groups__isnull=True) | Q(groups__in=self.user.groups.all()))
-            )
+            if self.gallery and self.gallery.category:
+                f.queryset = Category.objects.filter(pk=self.gallery.category.pk)
+                f.widget = DisabledSelect(f.widget.attrs, f.widget.choices)
+            else:
+                f.queryset = f.queryset.filter(Q(selectable=True) & \
+                    (Q(groups__isnull=True) | Q(groups__in=self.user.groups.all()))
+                )
 
         if 'license' in self.fields:
             f = self.fields['license']
@@ -152,11 +157,9 @@ class ResourceBaseForm(ModelForm):
     def clean_category(self):
         """Make sure the category voting rules are followed"""
         category = self.cleaned_data['category']
-        #obj = self.instance
-        #if (not obj or obj.category != ret) and ret.start_contest:
-        #    if obj.votes.all().count() > 0:
-        #        raise ValidationError(_("You can not assign an item with existing votes to a contest."))
-
+        if self.gallery and self.gallery.category:
+            if self.gallery.category != category:
+                raise ValidationError(_("Gallery only allows one category type."))
         return category
 
     def clean_mirror(self):
@@ -226,6 +229,8 @@ class ResourceBaseForm(ModelForm):
             obj.user = self.user
         obj.save(**kwargs)
         obj.tags = self.clean_tags()
+        if self.gallery is not None:
+            self.gallery.items.add(obj)
         return obj
 
     @property
@@ -294,7 +299,6 @@ class ResourcePasteForm(ResourceBaseForm):
 
 
 class ResourceEditPasteForm(ResourcePasteForm):
-    
     def __init__(self, data=None, *args, **kwargs):
         # Fill the text field with the text, not the text file name
         i = dict(download=kwargs['instance'].as_text())

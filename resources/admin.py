@@ -29,12 +29,15 @@ from .forms import ModelForm
 from .models import *
 
 class CategoryAdmin(ModelAdmin):
-    list_display = ('name', 'filterable', 'item_count')
-    list_filter = ('filterable',)
+    list_display = ('name', 'filterable', 'selectable', 'restricted_to_groups', 'item_count')
+    list_filter = ('filterable', 'selectable')
     search_fields = ('name',)
 
     def item_count(self, obj):
         return obj.items.count()
+
+    def restricted_to_groups(self, obj):
+        return ", ".join(obj.groups.values_list('name', flat=True))
 
 site.register(License, CategoryAdmin)
 site.register(Category, CategoryAdmin)

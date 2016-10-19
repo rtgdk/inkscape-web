@@ -113,9 +113,9 @@ class ResourceBaseForm(ModelForm):
 
         if 'category' in self.fields:
             f = self.fields['category']
-            
-            f.queryset = f.queryset.filter((Q(restrict_to_groups__isnull=False) & Q(restrict_to_groups=self.user.groups.all())) | \
-                        (Q(restrict_to_groups__isnull=True)))
+            f.queryset = f.queryset.filter(Q(selectable=True) & \
+                (Q(groups__isnull=True) | Q(groups__in=self.user.groups.all()))
+            )
 
         if 'license' in self.fields:
             f = self.fields['license']

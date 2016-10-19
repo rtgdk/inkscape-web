@@ -104,11 +104,14 @@ class Category(Model):
     name   = CharField(max_length=64)
     desc   = TextField(validators=[MaxLengthValidator(1024)], **null)
     symbol = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
+    groups = ManyToManyField(Group, blank=True,
+        help_text=_("The category is restricted to these groups only."))
+
+    selectable = BooleanField(default=True,
+        help_text=_("This category is not private/hidden from all users."))
 
     filterable = BooleanField(default=True,
         help_text=_("This category can be used as a filter in gallery indexes."))
-
-    restrict_to_groups = ManyToManyField(Group, db_table='resource_category_restrict_to_groups', blank=True)
     
     acceptable_licenses = ManyToManyField(License, db_table='resource_category_acceptable_licenses')
 

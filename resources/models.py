@@ -725,6 +725,11 @@ class Gallery(Model):
         super(Gallery, self).save(*args, **kwargs)
 
     def get_absolute_url(self):
+        if self.category:
+            return reverse('resources', kwargs={
+                'category': slugify(self.category.name),
+                'galleries': self.slug,
+              })
         if self.group:
             try:
               return reverse('resources', kwargs={

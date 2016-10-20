@@ -27,7 +27,7 @@ from inspect import isclass
 from django.core.cache import caches
 from django.core.urlresolvers import reverse
 from django.utils.translation import ugettext_lazy as _
-from django.utils.encoding import smart_text
+from django.utils.encoding import smart_text, smart_unicode
 
 from django.conf import settings
 from django.dispatch import receiver
@@ -323,7 +323,10 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
         elif hasattr(obj, 'name'):
             name = obj.name
         else:
-            name = smart_text(obj, errors='ignore')
+            try:
+                name = smart_unicode(obj, errors='ignore')
+            except UnicodeEncodeError:
+                name = "Name Error"
         if hasattr(obj, 'get_absolute_url'):
             url = obj.get_absolute_url()
         if name is not None and name.startswith('['):

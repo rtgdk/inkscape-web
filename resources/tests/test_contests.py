@@ -60,8 +60,8 @@ class ContestTests(BaseCase):
             2 - Voting Open
             3 - Contest Finished
         """
-        times = [now() + timedelta(days=1)] * 3
-        times += [now() - timedelta(days=1)] * 3
+        times = [(now() + timedelta(days=1)).date()] * 3
+        times += [(now() - timedelta(days=1)).date()] * 3
         self.gallery.contest_submit = times[stage + 2]
         self.gallery.contest_voting = times[stage + 1]
         self.gallery.contest_finish = times[stage + 0]

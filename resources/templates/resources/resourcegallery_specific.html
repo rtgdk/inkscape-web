@@ -14,7 +14,7 @@
   <div id="profile">
     <img id="photo" src="{{ object.thumbnail_url }}"/>
     <h1 id="name">{{ object.name }}</h1>
-    <p id="bio">{% if object.desc %}{{ object.desc }}{% endif %}</p>
+    <p id="bio">{% if object.desc %}{{ object.desc|safe }}{% endif %}</p>
   </div>
 
   <div class="wrapper">

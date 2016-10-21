@@ -28,7 +28,7 @@ import os
 from sendfile import sendfile
 from datetime import timedelta
 
-from django.http import Http404, JsonResponse
+from django.http import JsonResponse
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
@@ -39,6 +39,9 @@ from django.contrib.auth.models import Group
 from django.contrib import messages
 from django.conf import settings
 from django.template import RequestContext
+from django.views.generic.detail import SingleObjectMixin
+from django.views.generic.base import RedirectView
+
 
 from person.models import User
 from pile.views import *
@@ -196,34 +199,54 @@ class TagsJson(View):
         return JsonResponse(context, safe=False, content_type='application/json; charset=utf-8')
 
 
-@login_required
-def like_resource(request, pk, like):
-    item = get_object_or_404(Resource, pk=pk, published=True)
-    if item.user.pk == request.user.pk:
-        raise PermissionDenied()
+class VoteResource(SingleObjectMixin, OwnerCreateMixin, RedirectView):
+    permanent = False
+    queryset = Resource.objects.filter(published=True)
 
-#    if item.category.start_contest:
-#        # Some different rules for contest categories
-#        if item.category.start_contest > now().date():
-#            messages.warning(request, _('You may not vote until the contest begins.'))
-#            return redirect(item.get_absolute_url())
-#        if item.category.end_contest and item.category.end_contest < now().date():
-#            messages.warning(request, _('You may not vote after the contest ends.'))
-#            return redirect(item.get_absolute_url())
-#        votes = item.category.votes.filter(voter=request.user)
-#        if votes.count() > 0 and '+' in like:
-#            for vote in votes:
-#                vote.delete()
-#            if votes.filter(resource_id=item.id).count() == 0:
-#                messages.info(request, _('Your previous vote in this contest has been replaced by your vote for this item.'))
+    def get_redirect_url(self, obj):
+        return self.request.GET.get('next', obj.get_absolute_url())
 
-    (obj, is_new) = item.votes.get_or_create(voter=request.user)
-    if '+' not in like:
-        obj.delete()
-    #elif is_new == True and item.category.start_contest:
-    #    messages.info(request, _('Thank you for your vote!'))
-    return redirect(item.get_absolute_url())
-    
+    def get(self, request, **kw):
+        obj = self.get_object()
+        if obj.user.pk == request.user.pk:
+            raise PermissionDenied()
+        try:
+            self.vote_on(obj, kw['like'] == '+')
+        except NotAllowed as err:
+            messages.error(self.request, err.msg)
+        return super(VoteResource, self).get(request, obj=obj)
+
+    def vote_on(self, item, like=True):
+        gallery = item.gallery
+        if gallery and gallery.contest_submit and like:
+            # Delete existing contest votes.
+            for vote in self.contest_vote(item):
+                resource = vote.resource
+                vote.delete()
+                resource.votes.refresh()
+                messages.info(self.request, _('Your previous vote in this contest has been replaced by your vote for this item.'))
+            else:
+                messages.info(self.request, _('Thank you for your vote!'))
+        if like:
+            item.votes.get_or_create(voter_id=self.request.user.pk)
+        else:
+            item.votes.filter(voter_id=self.request.user.pk).delete()
+        # Update the Resource item's vote count (for easier lookup)
+        item.votes.refresh()
+
+    def contest_vote(self, item):
+        gallery = item.gallery
+        today = now().date()
+        # Some different rules for contest galleries
+        if gallery.contest_submit > today:
+            raise NotAllowed(_('You may not vote until the contest begins.'))
+        elif gallery.contest_voting and gallery.contest_voting > today:
+            raise NotAllowed(_('You may not vote in a contest open for submissions.'))
+        elif gallery.contest_finish and gallery.contest_finish < today:
+            raise NotAllowed(_('You may not vote after the contest ends.'))
+        return item.gallery.votes.filter(voter_id=self.request.user.pk)
+
+
 def down_readme(request, pk):
     item = get_object_or_404(Resource, id=pk)
     return render_to_response('resources/readme.txt', {'item': item},

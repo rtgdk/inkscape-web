@@ -18,11 +18,18 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+from django.conf import settings
+
 from django.contrib.auth import get_user_model
+from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
 
 from .models import Gallery, Model, Group, Q
+
+class NotAllowed(KeyError):
+    def __init__(self, msg):
+        self.msg = msg
 
 class OwnerViewMixin(object):
     """Doesn't limit the view, but provides user or group access and filtering"""
@@ -68,6 +75,8 @@ class OwnerUpdateMixin(object):
     def dispatch(self, request, *args, **kwargs):
         """ Making sure that only authors can update stories """
         if not self.is_allowed():
+            if not request.user.is_authenticated() and request.method == 'GET':
+                return redirect_to_login(request.build_absolute_uri())
             raise PermissionDenied()
         try:
             self.gallery = Gallery.objects.get(

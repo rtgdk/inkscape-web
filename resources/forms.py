@@ -37,6 +37,7 @@ from .fields import FilterSelect, DisabledSelect, TagsChoiceField
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
 
+from inkscape.middleware import TrackCacheMiddleware
 
 __all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
            'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
@@ -80,6 +81,19 @@ class GalleryMoveForm(ModelForm):
             query |= Q(group=self.source.group)
 
         self.fields['target'].queryset = Gallery.objects.filter(query)
+
+    def clean_target(self):
+        target = self.cleaned_data['target']
+        existing = self.instance.gallery
+        if existing and existing.contest_submit:
+            raise ValidationError(_("Entry is in a contest and can not be moved or copied."))
+        if target.contest_submit and self.source is None:
+            raise ValidationError(_("Entry can not be copied into a contest."))
+        elif target.contest_voting and target.contest_voting < now():
+            raise ValidationError(_("Entry can not be moved into a closed contest."))
+        if target.category is not None and self.instance.category != target.category:
+            raise ValidationError(_("Entry needs to be in the %s category to go into this gallery.") % unicode(target.category))
+        return target
 
     def save(self):
         if self.source is not None:
@@ -231,6 +245,7 @@ class ResourceBaseForm(ModelForm):
         obj.tags = self.clean_tags()
         if self.gallery is not None:
             self.gallery.items.add(obj)
+            TrackCacheMiddleware.invalidate(self.gallery)
         return obj
 
     @property

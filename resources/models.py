@@ -124,11 +124,6 @@ class Category(Model):
         return self.name.encode('utf8')
 
     @property
-    def votes(self):
-        """Returns a queryset of Votes for this category"""
-        return Vote.objects.filter(resource__category=self)
-
-    @property
     def value(self):
         return slugify(self.name)
     
@@ -249,7 +244,9 @@ class ResourceManager(Manager):
             for resource in Resource.objects.filter(pk__in=self.get_queryset())
             if resource.download and os.path.exists(resource.download.path))
 
-    def latest(self):
+    def latest(self, column=None):
+        if column:
+            return super(ResourceManager, self).latest(column)
         user = get_user()
         return self.for_user(user).exclude(category=Category.objects.get(pk=1)).order_by('-created')[:4]
 
@@ -510,7 +507,7 @@ class Resource(Model):
         return not self.download or os.path.exists(self.download.path)
 
     def voted(self):
-        return self.votes.for_user(get_user()).first()
+        return self.votes.filter(voter_id=get_user().pk).first()
 
     @property
     def is_new(self):
@@ -693,7 +690,7 @@ class Gallery(Model):
     name = CharField(max_length=64)
     slug = SlugField(max_length=70)
     desc = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
-    thumbnail = ForeignKey(Resource, help_text=_('Which resource should be the thumbnail for this gallery'), **null)
+    thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
     status = CharField(max_length=1, db_index=True, choices=GALLERY_STATUSES, **null)
 
     items = ManyToManyField(Resource, related_name='galleries', blank=True)
@@ -719,6 +716,20 @@ class Gallery(Model):
     def tag_cloud(self):
         """Returns a cloud collection"""
         return Tag.objects.filter(resources__galleries__id=self.pk).as_cloud('resources')
+
+    @property
+    def votes(self):
+        """Returns a queryset of Votes for this category"""
+        return Vote.objects.filter(resource__galleries=self.pk)
+
+    @property
+    def winner(self):
+        """Return the resource with the most votes"""
+        if not self.contest_finish or self.contest_finish > now().date():
+            return None
+        if not hasattr(self, '_winner'):
+            self._winner = self.items.latest('liked')
+        return self._winner
 
     def save(self, *args, **kwargs):
         set_slug(self)
@@ -766,7 +777,7 @@ class Gallery(Model):
 
     def thumbnail_url(self):
         if self.thumbnail:
-            return self.thumbnail.icon_url()
+            return self.thumbnail.url
         for item in self.items.all():
             if item.is_visible():
                 return item.icon_url()
@@ -777,16 +788,16 @@ class Gallery(Model):
 
 
 class VoteManager(Manager):
-    def count(self):
-        return self.get_queryset().count()
-
-    def for_user(self, user):
-        return self.get_queryset().filter(Q(voter=user.id))
-
     def items(self):
         f = dict( ('votes__'+a,b) for (a,b) in self.core_filters.items() )
         return Resource.objects.filter(published=True, **f)
 
+    def refresh(self):
+        if 'resource' in self.core_filters:
+            resource = self.core_filters['resource']
+            resource.liked = self.count()
+            resource.save()
+            return resource
 
 class Vote(Model):
     """Vote for a resource in some way"""
@@ -794,18 +805,6 @@ class Vote(Model):
     voter    = ForeignKey(settings.AUTH_USER_MODEL, related_name='favorites')
 
     objects = VoteManager()
-    
-    def save(self, **kwargs):
-        ret = super(Vote, self).save(**kwargs)
-        self.resource.liked = self.resource.votes.count()
-        self.resource.save()
-        return ret
-
-    def delete(self):
-        ret = super(Vote, self).delete()
-        self.resource.liked = self.resource.votes.count()
-        self.resource.save()
-        return ret
 
 
 class Views(Model):

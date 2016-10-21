@@ -673,6 +673,7 @@ class GalleryAnonTests(BaseCase):
     def test_gallery_deletion_anon(self):
         """Make sure galleries can't be deleted AnonymousUser"""
         gallery = self.getObj(Gallery)
-        (_, post) = self.assertBoth('gallery.delete', gallery_id=gallery.id, status=403)
+        self.assertGet('gallery.delete', gallery_id=gallery.id, follow=False, status=302)
+        self.assertPost('gallery.delete', gallery_id=gallery.id, status=403)
         self.assertEqual(Gallery.objects.get(pk=gallery.pk), gallery)
 

@@ -1,16 +1,36 @@
-{% load i18n static inkscape %}
+{% load i18n static inkscape timers %}
 
 {% if item.is_visible %}
   {% track_object item %}
 
-  <div class="galleryitem{% if not item.published %} unpublished{% endif %}" 
+  <div class="galleryitem{% if not item.published %} unpublished{% endif %}{% if object.contest_finish|totalseconds > 0 and object.winner == item %} winner{% elif object.contest_voting|totalseconds > 0 and item.voted %} voted{% endif %}" 
     title="{{ item.summary_string }}">
     <a class="link" href="{{ item.get_absolute_url }}">
       <img src="{{ item.thumbnail_url }}"/>
     </a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="minitabs">
-      {% if item.user == request.user %}
+      {% if request.user.is_authenticated and object.contest_submit %}
+        {% if object.user == request.user or object.contest_finish|totalseconds > 0 %}
+          {# if object is a gallery, then it's owner can see the contest results #}
+          <span class="blank">{{ item.liked }}</span>
+        {% else %}
+          <span class="blank" title="{% trans "No voting yet." %}">⌛</span>
+        {% endif %}
+        {% if object.user != request.user and object.contest_voting|totalseconds > 0 and object.contest_finish|totalseconds < 0 %}
+          {% if item.voted %}
+          <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path }}" class="blank">★</a>
+          {% else %}
+          <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path }}" class="blank">☆</a>
+          {% endif %}
+        {% else %}
+          {% if item == object.winner %}
+          <span class="blank" title="{% trans "Winner of the Contest" %}">{% trans "Win" %}</span>
+          {% else %}
+            <span class="blank" title="{% trans "Not the Winner" %}">{% trans "Not" %}</span>
+          {% endif %}
+        {% endif %}
+      {% elif item.user == request.user %}
         {% if gallery %}
           <a href="{% url "resource.move" item.pk gallery.pk %}">
             <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Move to Gallery" %}">

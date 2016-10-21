@@ -30,7 +30,7 @@ from .base import BaseCase
 
 from django.core.urlresolvers import reverse
 
-from resources.models import Resource, Resource, Quota, Gallery, Category
+from resources.models import Resource, Quota, Gallery, Category
 from resources.forms import ResourceForm, ResourceEditPasteForm, ResourcePasteForm
 from resources.utils import video_embed
 
@@ -630,7 +630,7 @@ class ResourceAnonTests(BaseCase):
             "Create a published resource with 0 fullscreen views")
         resource = resources[0]
         
-        response = self.assertGet('view_resource', pk=resource.pk, follow=False)
+        response = self.assertGet('view_resource', pk=resource.pk, follow=False, status=302)
         self.assertEqual(response.url, 'http://testserver' + resource.download.url)
         self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
         
@@ -643,7 +643,7 @@ class ResourceAnonTests(BaseCase):
         shouldn't be allowed and shouldn't work"""
         num = Resource.objects.count()
         
-        self.assertGet('resource.upload', status=403)
+        self.assertGet('resource.upload', follow=False, status=302)
         self.assertPost('resource.upload', data=self.data, status=403)
         self.assertEqual(Resource.objects.count(), num)
 
@@ -651,7 +651,7 @@ class ResourceAnonTests(BaseCase):
         """Drag and drop file (ajax request) when not logged in - shouldn't work"""
         num = Resource.objects.count()
         
-        self.assertGet('resource.drop', status=403)
+        self.assertGet('resource.drop', status=302, follow=False)
         self.assertPost('resource.drop', data={
           'name': "New Name",
           'download': self.download,
@@ -663,7 +663,7 @@ class ResourceAnonTests(BaseCase):
         num = Resource.objects.count()
         data = {'download': "foo" * 100,}
         
-        self.assertGet('pastebin', status=403)
+        self.assertGet('pastebin', status=302, follow=False)
         self.assertPost('pastebin', data=data, status=403)
         self.assertEqual(Resource.objects.count(), num)
     
@@ -705,7 +705,7 @@ class ResourceAnonTests(BaseCase):
             "Create an unpublished resource")
 
         # check GET
-        response = self.assertGet('publish_resource', pk=resource.pk, status=403)
+        response = self.assertGet('publish_resource', pk=resource.pk, follow=False, status=302)
         
         # check POST
         response = self.assertPost('publish_resource', pk=resource.pk, status=403)
@@ -741,7 +741,7 @@ class ResourceAnonTests(BaseCase):
         desc = resource.description
         
         # check GET
-        response = self.assertGet('edit_resource', pk=resource.pk, status=403)
+        response = self.assertGet('edit_resource', pk=resource.pk, follow=False, status=302)
         
         # check POST
         response = self.assertPost('edit_resource', pk=resource.pk, data=self.data, status=403)
@@ -755,7 +755,7 @@ class ResourceAnonTests(BaseCase):
         resource = resources[0]
         
         # check GET
-        response = self.assertGet('delete_resource', pk=resource.pk, status=403)
+        response = self.assertGet('delete_resource', pk=resource.pk, follow=False, status=302)
         
         # check POST
         response = self.assertPost('delete_resource', pk=resource.pk, status=403)

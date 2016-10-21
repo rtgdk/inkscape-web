@@ -88,7 +88,7 @@ urlpatterns = patterns('',
       url(r'^move/(?P<source>\d+)/$', MoveResource(), name='resource.move'),
       url(r'^copy/$',            MoveResource(),      name='resource.copy'),
       url(r'^readme.txt$',       down_readme,         name='resource.readme'),
-      url(r'^(?P<like>[\+\-])$', like_resource,       name='resource.like'),
+      url(r'^(?P<like>[\+\-])$', VoteResource.as_view(), name='resource.like'),
       url(r'^(?P<fn>[^\/]+)/?$', DownloadResource(),  name='download_resource'),
     ),
     *resource_search(

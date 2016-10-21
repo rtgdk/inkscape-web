@@ -114,8 +114,24 @@
   background-color: transparent !important;
 }
 .voted {
+  border: 2px solid #8ccaff;
+  padding: 2px;
+}
+.voted .label {
+  background-color: #8ccaff;
+  border-radius: 0px;
+}
+.voted:hover .label,
+.winner:hover .label {
+  background-color: #eef;
+}
+.winner {
   border: 2px solid #ffd42a;
   padding: 2px;
+}
+.winner .label {
+  background-color: #ffd42a;
+  border-radius: 0px;
 }
 .galleryitem .minitabs {
   width: 147px;
@@ -127,7 +143,7 @@
 .galleryitem:hover .minitabs {
   visibility: visible;
 }
-.galleryitem p.blank {
+.galleryitem .minitabs .blank {
   width: 50px;
   text-align: center;
   margin-left: -2px;
@@ -138,15 +154,21 @@
   padding: 2px 0px;
   background-color: #EEF;
 }
-.galleryitem .minitabs img {
+.galleryitem .minitabs img,
+.galleryitem .minitabs .blank {
   position: relative;
   right: -4px;
   float: left;
 }
 .galleryitem .minitabs > img:last-child,
-.galleryitem .minitabs > a:last-child img {
+.galleryitem .minitabs > a:last-child img,
+.galleryitem .minitabs .blank:last-child {
   float: right;
   left: -4px;
+}
+.galleryitem .minitabs a:hover {
+  text-decoration: none;
+  font-weight: bold;
 }
 
 div#category_desc {

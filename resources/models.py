@@ -30,7 +30,6 @@ import sys
 import os
 
 from django.db.models import *
-from django.utils.text import slugify
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth.models import Group
@@ -101,7 +100,8 @@ class License(Model):
 
 
 class Category(Model):
-    name   = CharField(max_length=64)
+    name   = CharField(max_length=128)
+    slug   = SlugField(max_length=128)
     desc   = TextField(validators=[MaxLengthValidator(1024)], **null)
     symbol = FileField(_('Category Icon (svg:128x128)'), **upto('icon', 'category'))
     groups = ManyToManyField(Group, blank=True,
@@ -123,9 +123,13 @@ class Category(Model):
     def __str__(self):
         return self.name.encode('utf8')
 
+    def save(self, *kwargs):
+        set_slug(self)
+        super(Category, self).save(**kwargs)
+
     @property
     def value(self):
-        return slugify(self.name)
+        return self.slug
     
     @property
     def icon(self):
@@ -137,7 +141,7 @@ class Category(Model):
         return self.icon
 
     def get_absolute_url(self):
-        kw = {'category': self.value}
+        kw = {'category': self.slug}
         if hasattr(self, 'parent'):
             user = getattr(self.parent, "parent", None)
             if isinstance(user, get_user_model()):
@@ -738,7 +742,7 @@ class Gallery(Model):
     def get_absolute_url(self):
         if self.category:
             return reverse('resources', kwargs={
-                'category': slugify(self.category.name),
+                'category': self.category.slug,
                 'galleries': self.slug,
               })
         if self.group:

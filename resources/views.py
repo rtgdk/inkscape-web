@@ -79,7 +79,7 @@ class EditResource(OwnerUpdateMixin, UpdateView):
     title = _("Edit")
 
     def get_form_class(self):
-        category = getattr(self.object.category, 'id', 0)
+        category = getattr(self.object.category, 'slug', '')
         return FORMS.get(category, ResourceForm)
 
     def get_form_kwargs(self):
@@ -160,7 +160,7 @@ class PasteIn(UploadResource):
 
     def get_context_data(self, **kw):
         data = super(PasteIn, self).get_context_data(**kw)
-        data['object'] = Category.objects.get(pk=1)
+        data['object'] = Category.objects.get(slug='pastebin')
         data['object'].parent = self.request.user.resources.all()
 	data['object_list'] = None
 	return data
@@ -391,10 +391,7 @@ class ResourceList(CategoryListView):
             return Group.objects.get(team__slug=team).galleries.all()
         category = self.get_value('category')
         if category:
-            from .models import slugify
-            for c in self.get_categories():
-                if slugify(c.name) == category:
-                    return Gallery.objects.filter(category_id=c.pk)
+            return Gallery.objects.filter(category__slug=category)
         return None
 
     def get_context_data(self, **kwargs):

@@ -301,7 +301,7 @@ class ResourcePasteForm(ResourceBaseForm):
     def save(self, **kwargs):
         obj = super(ResourcePasteForm, self).save(**kwargs)
         if not obj.category and obj.id:
-            obj.category = Category.objects.get(pk=1)
+            obj.category = Category.objects.get(slug='pastebin')
             obj.owner = True
             obj.published = True
             obj.save()
@@ -326,7 +326,7 @@ class ResourceEditPasteForm(ResourcePasteForm):
     
 
 # This allows paste to have a different set of options
-FORMS = {1: ResourceEditPasteForm}
+FORMS = {'pastebin': ResourceEditPasteForm}
 
 class ResourceAddForm(ResourceBaseForm):
     class Meta:

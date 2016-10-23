@@ -122,7 +122,7 @@ class ResourceViewTests(BaseCase):
         
         response = self.assertGet('resource', pk=resource.pk)
         self.assertEqual(response.context['object'], resource)
-        self.assertContains(response, resource.filename())
+        self.assertNotContains(response, resource.filename())
         self.assertContains(response, resource.name)
         self.assertContains(response, resource.description())
         self.assertContains(response, str(self.user))
@@ -418,18 +418,12 @@ class UploadViewTests(BaseCase):
             "Create an unpublished resource for user %s" % self.user)
         resource = resources[0]
 
-        # check GET
-        # TODO: currently displays the detail page
-        response = self.assertGet('publish_resource', pk=resource.pk, status=200)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).published, False)
-        
         # check POST
-        # TODO: there's no link to this any more in galleries, replaced by 'move' icon
-        response = self.assertPost('publish_resource', pk=resource.pk, status=200)
+        response = self.assertGet('publish_resource', pk=resource.pk, status=200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
         
         # Make sure nothing weird will happen when published twice.
-        response = self.assertPost('publish_resource', pk=resource.pk, status=200)
+        response = self.assertGet('publish_resource', pk=resource.pk, status=200)
         self.assertEqual(Resource.objects.get(pk=resource.pk).published, True)
 
     def test_publish_another_persons_item(self):

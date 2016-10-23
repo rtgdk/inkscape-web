@@ -1,47 +1,54 @@
 {% extends 'resources/resource_base.html' %}
-{% load i18n static inkscape %}
+{% load i18n static inkscape timers %}
 
 {% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
 {% block "description" %}
   <div class="info">
     <div class="title">
-      {% if object.moderation and object.user != request.user %}
-        <div class="tog single" id="flag">
-          <a {% if object.moderation.i_flagged %}class="remove"{% else %}href="{{ object.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
-          <script>popUpLink('{% trans "Are you sure you want to report this resource?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
-        </div>
-      {% endif %}
-
-      <div class="tog" id="detailview"><a title="{% trans "Page views" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
+      {% if object.published %}
+        {% if object.moderation and object.user != request.user %}
+          <div class="tog single" id="flag">
+            <a {% if object.moderation.i_flagged %}class="remove"{% else %}href="{{ object.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
+            <script>popUpLink('{% trans "Are you sure you want to report this resource?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
+          </div>
+        {% endif %}
+        
+        <div class="tog" id="detailview"><a title="{% trans "Page views" %}">&nbsp;</a><p>{{ object.viewed }}</p></div>
       
-      {% if object.download %}
-        {% if object.mime.is_image %}
-          <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
-        {% elif object.mime.is_text %}
-          <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
+        {% if object.download %}
+          {% if object.mime.is_image %}
+            <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "Full size view" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
+          {% elif object.mime.is_text %}
+            <div class="tog" id="view"><a href="{% url "view_resource" object.id %}" title="{% trans "View full text" %}">&nbsp;</a><p>{{ object.fullview }}</p></div>
+          {% endif %}
+          {% if not object.mime.is_image or not object.license.nd and object.filename %}
+            <div class="tog" id="download"><a href="{% url "download_resource" object.id object.filename %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ object.downed }}</p></div>
+          {% endif %}
         {% endif %}
-        {% if not object.mime.is_image or not object.license.nd and object.filename %}
-          <div class="tog" id="download"><a href="{% url "download_resource" object.id object.filename %}" title="{% trans "Download" %}">&nbsp;</a><p>{{ object.downed }}</p></div>
-        {% endif %}
-      {% endif %}
 
-      {% if object.category.start_contest %}
-        <div class="tog" id="vote"><a
-        {% if not request.user.id or request.user == object.user %}
-          title="{% trans "Votes" %}" class="disabled"
-        {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Vote for this!" %}"
-                         {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Withdraw my Vote" %}" class="remove"{% endif %}
-          >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+        {% if object.gallery.contest_submit %}
+          {% if object.gallery.contest_voting|totalseconds > 0 %}
+            <div class="tog" id="vote">
+              <a {% if not request.user.id or request.user == object.user or object.gallery.contest_finish|totalseconds > 0 %}title="{% trans "Votes" %}" class="disabled" {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Vote for this!" %}" {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Withdraw my Vote" %}" class="remove" {% endif %}>&nbsp;</a>
+              {% if object.gallery.contest_finish|totalseconds > 0 %}
+                <p>{{ object.votes.count }}</p>
+              {% else %}
+                <p>⌛</p>
+              {% endif %}
+            </div>
+          {% endif %}
+        {% else %}
+          <div class="tog" id="fav"><a
+            {% if not request.user.id or request.user == object.user %}
+              title="{% trans "Favorites" %}" class="disabled"
+            {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Mark as a Favorite" %}"
+                            {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
+              >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+        {% endif %}
       {% else %}
-        <div class="tog" id="fav"><a
-          {% if not request.user.id or request.user == object.user %}
-            title="{% trans "Favorites" %}" class="disabled"
-          {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Mark as a Favorite" %}"
-                          {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Remove from Favorites" %}" class="remove"{% endif %}
-            >&nbsp;</a><p>{{ object.votes.count }}</p></div>
+        <a class="btn btn-danger" style="float: right;" href="{% url "publish_resource" object.pk %}">Not Published</a>
       {% endif %}
-
       <h2 class="truncate">{{ object.name }}</h2>
       <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a></div>
 

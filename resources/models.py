@@ -528,10 +528,8 @@ class Resource(Model):
     @property
     def next(self):
         """Get the next item in the gallery which needs information"""
-        try:
-            return self.gallery.items.new().exclude(pk=self.id)[0]
-        except IndexError:
-            return None
+        return Resource.objects.filter(category__isnull=True, user_id=self.user.pk)\
+                    .exclude(pk=self.pk).latest('created')
 
     @property
     def gallery(self):

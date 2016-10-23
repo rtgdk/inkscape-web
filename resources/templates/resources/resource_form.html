@@ -5,6 +5,11 @@
  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
+  {% if object and not object.category and object.next %}
+    <!--Item was drag and drop uploaded, so redirect to the next item edit screen-->
+    <input type="hidden" name="next" value="{% url "edit_resource" object.next.pk %}"/>
+  {% endif %}
+
   {% if form.download %}
   <div class="image upload">
     <div id="upload">{{ form.download|placeholder:_("Paste your text here") }}</div>
@@ -46,20 +51,18 @@
       <div class="error">{{ form.tags.errors.as_text }}</div>
     {% endif %}
     {{ form.tags|placeholder:_("Add your tags here, separated by comma") }}
-    {% if item.next %}
-      <button id="moreInfo" class="start unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
-      <button id="moreInfo" class="end unique" type="submit" name="next" value="1">{% trans "Next" %}</button>
+
+    {% if object.published %}
+      <button type="submit" name="published" value="1" class="btn btn-default">{% trans "Save" %}</button>
+      <button type="submit" name="published" value="" class="btn btn-danger">{% trans "Unpublish" %}</button>
     {% else %}
-      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
+      <button type="submit" name="published" value="1" class="btn btn-default">{% trans "Publish" %}</button>
+      <button type="submit" name="published" value="" class="btn btn-default">{% trans "Save Only" %}</button>
     {% endif %}
     </form>
-    {% if item %}
-      <form action="{% url "delete_resource" item.id %}" onsubmit='return popUp("{% trans "Delete" %}","{% trans "Are you sure you want to delete?" %}","{% url "delete_resource" item.id %}","{% trans "Cancel" %}","{% trans "Confirm Delete" %}");'>
-        <button id="deleteSide" class="end" type="submit" style="float: left;">{% trans "Delete" %}</button>
-      </form>
-    {% endif %}
+
     <form method="get" action="{{ cancel }}">
-      <button id="moreInfo" class="start{% if not item %} end{% endif %}" type="submit" name="cancel" value="1">{% trans "Cancel" %}</button>
+      <button type="submit" name="cancel" value="1" class="btn btn-default">{% trans "Cancel" %}</button>
     </form>
   </div>
 

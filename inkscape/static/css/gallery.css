@@ -102,34 +102,34 @@
   border: 2px solid white;
   background-color: transparent;
 }
-.empty a.link > img {
+.galleryitem.empty a.link > img {
   opacity: 0.5;
 }
-.unpublished {
+.galleryitem.unpublished {
   border: 2px solid #e58 !important;
   background-color: #fee;
   padding: 2px;
 }
-.unpublished p a {
+.galleryitem.unpublished p a {
   background-color: transparent !important;
 }
-.voted {
+.galleryitem.voted {
   border: 2px solid #8ccaff;
   padding: 2px;
 }
-.voted .label {
+.galleryitem.voted .label {
   background-color: #8ccaff;
   border-radius: 0px;
 }
-.voted:hover .label,
-.winner:hover .label {
+.galleryitem.voted:hover .label,
+.galleryitem.winner:hover .label {
   background-color: #eef;
 }
-.winner {
+.galleryitem.winner {
   border: 2px solid #ffd42a;
   padding: 2px;
 }
-.winner .label {
+.galleryitem.winner .label {
   background-color: #ffd42a;
   border-radius: 0px;
 }

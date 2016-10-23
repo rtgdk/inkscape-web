@@ -17,7 +17,7 @@
     </div>
   {% endif %}
 
-  <div class="item{% if form %} edit{% endif %}">
+  <div class="item{% if form %} edit{% endif %}{% if object and not object.published %} unpublished{% endif %}">
     {% if form and not form.media_type %}
       <div class="image uploader">
         <label for="id_download" style="display: none;">

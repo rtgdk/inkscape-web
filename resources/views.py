@@ -88,14 +88,19 @@ class EditResource(OwnerUpdateMixin, UpdateView):
             kw['gallery'] = self.object.gallery
         return kw
 
+    def get_success_url(self):
+        return self.request.POST.get('next', self.object.get_absolute_url())
+
+
 class PublishResource(OwnerUpdateMixin, DetailView):
     model = Resource
     title = _("Publish")
 
-    def post(self, request, *args, **kwargs):
+    def get(self, request, *args, **kwargs):
         item = self.get_object()
         item.published = True
         item.save()
+        messages.info(self.request, _('Resource now Published'))
         return redirect(item.get_absolute_url())
 
 

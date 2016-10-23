@@ -168,15 +168,7 @@
 .empty a.link > img {
   opacity: 0.5;
 }
-.unpublished {
-  border: 2px solid #e58 !important;
-  background-color: #fee;
-  padding: 2px;
-}
-.unpublished p a {
-  background-color: transparent !important;
-}
-.voted {
+.item.voted {
   border: 2px solid #ffd42a;
   padding: 2px;
 }

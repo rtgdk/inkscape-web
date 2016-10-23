@@ -123,7 +123,7 @@ class Category(Model):
     def __str__(self):
         return self.name.encode('utf8')
 
-    def save(self, *kwargs):
+    def save(self, **kwargs):
         set_slug(self)
         super(Category, self).save(**kwargs)
 

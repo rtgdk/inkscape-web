@@ -199,8 +199,10 @@ class ResourceBaseForm(ModelForm):
                     raise ValidationError(_("Not enough space to upload this file."))
                 if download.size not in sizes:
                     if download.size > sizes:
-                        raise ValidationError(_("Upload is too big for %s category (Max size %s)") % (str(category), sizes.to_max()))
-                    raise ValidationError(_("Upload is too small for %s category (Min size %s)") % (str(category), sizes.to_min()))
+                        raise ValidationError(_("Upload is too big for %(cat_name)s category (Max size %(file_size)s)") % \
+                                             {"cat_name": str(category), "file_size": sizes.to_max()})
+                    raise ValidationError(_("Upload is too small for %(cat_name)s category (Min size %(file_size)s)") % \
+                                             {"cat_name": str(category), "file_size": sizes.to_max()})
 
         if download is None and 'link' in self._meta.fields:
             link = self.cleaned_data.get('link')
@@ -211,8 +213,8 @@ class ResourceBaseForm(ModelForm):
 
         if hasattr(download, 'content_type'):
             if download.content_type not in types:
-                err = _("Only %s files allowed in %s category (found %s)") 
-                raise ValidationError(err % (types, str(category), download.content_type))
+                err = _("Only %(file_type)s files allowed in %(cat_name)s category (found %(mime_type)s)") 
+                raise ValidationError(err % {"file_type": types, "cat_name": str(category), "mime_type": download.content_type})
             if media_x or media_y:
                 self.clean_media_size(category, download, media_x, media_y)
         return download

@@ -393,6 +393,13 @@ div.toc,
 
 
   /* Homepage */
+  #banners > div > div {
+    margin: 0;
+  }
+  #banners > div > div > p.text {
+    font-size: 16px;
+  }
+
   #shield .tabs:not(.expanded) {
     font-size: 0;
   }

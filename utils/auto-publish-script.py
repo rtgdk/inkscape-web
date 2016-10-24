@@ -11,7 +11,7 @@ from datetime import timedelta
 
 import time
 
-resources = Resource.objects.filter(created__lt=now()-timedelta(days=14), published=False)
+resources = Resource.objects.filter(created__lt=now()-timedelta(days=14), published=False).exclude(download='')
 
 for user in set([res.user for res in resources]):
     rec = resources.filter(user_id=user.pk)

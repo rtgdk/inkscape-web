@@ -198,11 +198,10 @@ class ResourceBaseForm(ModelForm):
                 if download.size > space:
                     raise ValidationError(_("Not enough space to upload this file."))
                 if download.size not in sizes:
+                    prop = {"cat_name": str(category), "max": sizes.to_max(), "min": sizes.to_min()}
                     if download.size > sizes:
-                        raise ValidationError(_("Upload is too big for %(cat_name)s category (Max size %(file_size)s)") % \
-                                             {"cat_name": str(category), "file_size": sizes.to_max()})
-                    raise ValidationError(_("Upload is too small for %(cat_name)s category (Min size %(file_size)s)") % \
-                                             {"cat_name": str(category), "file_size": sizes.to_max()})
+                        raise ValidationError(_("Upload is too big for %(cat_name)s category (Max size %(max)s)") % prop)
+                    raise ValidationError(_("Upload is too small for %(cat_name)s category (Min size %(min)s)") % prop)
 
         if download is None and 'link' in self._meta.fields:
             link = self.cleaned_data.get('link')

@@ -25,7 +25,11 @@
     {% empty %}
       <div class="galleryitem">
         <div class="link"><img src="{% static "images/none.svg" %}"/></div>
-        <p>{% trans "Nothing Yet" %}</p>
+        {% if object.contest_submit %}
+          <p>{% trans "No Submissions Yet" %}</p>
+        {% else %}
+          <p>{% trans "No Resources Yet" %}</p>
+        {% endif %}
       </div>
     {% endfor %}
   </div>

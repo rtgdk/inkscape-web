@@ -128,6 +128,10 @@ class Category(Model):
         super(Category, self).save(**kwargs)
 
     @property
+    def parent(self):
+        return getattr(self, '_parent', Resource.objects.all())
+
+    @property
     def value(self):
         return self.slug
     
@@ -219,10 +223,7 @@ class ResourceManager(Manager):
 
     def subscriptions(self):
         """Returns a queryset of users who get alerts for new resources"""
-        subs = Resource.subscriptions
-        if 'user' in self.core_filters:
-            subs.target = self.core_filters['user']
-        return subs.all()
+        return Resource.subscriptions(self.core_filters.get('user', None)).all()
 
     def downloads(self):
         return self.get_queryset().aggregate(Sum('downed')).values()[0]
@@ -344,7 +345,7 @@ class Resource(Model):
     def parent(self):
         if self.is_pasted:
             cat = self.category
-            cat.parent = self.user.resources.all()
+            cat._parent = self.user.resources.all()
             return cat
         galleries = self.galleries.all()
         if galleries:

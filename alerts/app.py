@@ -58,8 +58,9 @@ class AlertsConfig(AppConfig):
         slug = "%s.%s" % (app,
             re.sub('(?!^)([A-Z]+)', r'_\1', cls.__name__).lower())
         try:
-            cls(slug) # Singleton
+            cls(slug, is_test=IS_TEST) # Singleton
         except Exception as err:
             if any(cmd in sys.argv for cmd in ['runserver', 'shell']):
                 sys.stderr.write("Err in alert: %s\n%s\n" % (slug, str(err)))
+            raise
 

@@ -97,17 +97,16 @@ class WebsiteUrlTest(MultipleFailureTestCase):
         self.assertListEqual(zip(*tester), zip(*result))
 
     def assertCacheKeyResponse(self, response, cache_keys, **kw):
-        keys = list(response.cache_keys)
+        keys = list(getattr(response, 'cache_keys', []))
         try:
             self.assertListEqual(cache_keys, keys)
         except Exception as err:
-            print "Cache keys: %s != %s" % (str(cache_keys), str(keys)) 
             if False and raw_input("\n\nAre the keys [%s] correct for %s? [Y/N]: " % (", ".join(keys), kw.get('url', 'unknown'))) == 'Y':
                 while cache_keys:
                     cache_keys.pop()
                 cache_keys += keys
                 return
-            #raise
+            raise
 
     def assertContext(self, response, url):
         """Test context for the right objects"""

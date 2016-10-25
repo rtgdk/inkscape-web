@@ -39,21 +39,6 @@ import re
 
 ALL_ALERTS = {}
 
-class ManagerDescriptor(object):
-    """This descriptor is a class and object property as needed"""
-    def __init__(self, manager=None, **kwargs):
-        self.kwargs = kwargs
-        self.manager = manager
-
-    def __get__(self, obj, klass=None):
-        """Get a normal manager, but add in an extra attributes"""
-        manager = self.manager()
-        manager.target = obj
-        for key, value in self.kwargs.items():
-            setattr(manager, key, value)
-        return manager
-
-
 class BaseAlert(object):
     """None model parent class for your alert signals"""
     # We really don't want to allow anyone to subscribe to
@@ -89,9 +74,10 @@ class BaseAlert(object):
     # Target is the attribute on the instance which subscriptions are bound
     target_field = None
 
-    def __init__(self, slug, **kwargs):
+    def __init__(self, slug, is_test=False, **kwargs):
         from alerts.models import AlertType
         self.slug = slug
+        self.is_test = is_test
 
         # Check the setup of this alert class
         if not self.sender:
@@ -108,10 +94,10 @@ class BaseAlert(object):
             raise KeyError("Alert can not be registered twice: %s" % slug)
         ALL_ALERTS[slug] = self
 
-        try:
+        if not self.is_test:
             # Create an AlertType object which mirrors this class
-            (self.alert_type, created) = AlertType.objects.get_or_create(
-              slug=slug,
+            (self._alert_type, _) = AlertType.objects.get_or_create(
+              slug=self.slug,
               values={
                 'enabled': True,
                 'private': self.private,
@@ -119,21 +105,43 @@ class BaseAlert(object):
                 'default_hide' : self.default_hide,
                 'default_email' : self.default_email,
               })
-        except Exception as error:
-            raise type(error)("Couldn't setup Alert: %s" % str(error))
-        else:
-            self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
+            self._late_init()
 
-        # Set reverse lookup, the related name defaults to 'alerts'
+        setattr(self.sender, self.related_name, self.reverse_lookup_alerts)
+        setattr(self.sender, self.related_sub, self.reverse_lookup_subs)
+
+    @property
+    def alert_type(self):
+        """For tests we have to load alert_type object's late (to cope with loaddata fixture issues)"""
+        if not hasattr(self, '_alert_type') and self.is_test:
+            # This will fail is the test doesn't include a fixture with all the right
+            # alert types available. It depends on the test to populate the database.
+            from alerts.models import AlertType
+            self._alert_type = AlertType.objects.get(slug=self.slug)
+            self._late_init()
+        return self._alert_type
+
+    def _late_init(self):
+        """Some initialisation can't happen until alert_type exists"""
+        self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
+
+    def reverse_lookup_alerts(self, obj=None):
+        """Return reverse lookup, the related name defaults to 'alerts'"""
         from alerts.models import UserAlert, UserAlertManager
-        man = ManagerDescriptor(UserAlertManager, alert_type=self.alert_type, model=UserAlert)
-        setattr(self.sender, self.related_name, man)
+        manager = UserAlertManager()
+        manager.model = UserAlert
+        manager.target = obj
+        manager.alert_type = self.alert_type
+        return manager
 
-        # Reverse lookup for number of subscriptions to this object
+    def reverse_lookup_subs(self, obj=None):
+        """Return reverse lookup for number of subscriptions to this object"""
         from alerts.models import AlertSubscription, AlertSubscriptionManager
-        man = ManagerDescriptor(AlertSubscriptionManager,
-                alert_type=self.alert_type, model=AlertSubscription)
-        setattr(self.sender, self.related_sub, man)
+        manager = AlertSubscriptionManager()
+        manager.model = AlertSubscription
+        manager.target = obj
+        manager.alert_type = self.alert_type
+        return manager
 
     def call(self, sender, signal=None, **kwargs):
         """Connect this method to the post_save signal and it will

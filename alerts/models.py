@@ -42,6 +42,9 @@ from collections import defaultdict
 null = {'null': True, 'blank': True}
 
 class AlertTypeManager(Manager):
+    def get_by_natural_key(self, slug):
+        return self.get(slug=slug)
+
     def get_or_create(self, values=None, **kwargs):
         """Allow the AlertType to be updated with code values
            (should only be run on new code load or server restart)"""
@@ -63,7 +66,7 @@ class AlertType(Model):
       ('T', 'System to Translator'),
     )
 
-    slug     = CharField(_("URL Slug"),         max_length=32)
+    slug     = CharField(_("URL Slug"), max_length=32, unique=True)
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 
     created  = DateTimeField(_("Created Date"), auto_now_add=now)
@@ -78,11 +81,11 @@ class AlertType(Model):
 
     objects = AlertTypeManager()
 
-    def __init__(self, *args, **kwargs):
-        super(AlertType, self).__init__(*args, **kwargs)
+    @property
+    def _alerter(self):
         # Late import to stop loop import
         from alerts.base import ALL_ALERTS
-        self._alerter = ALL_ALERTS.get(self.slug, None)
+        return ALL_ALERTS[self.slug]
 
     def __getattr__(self, name):
         if hasattr(self._alerter, name):

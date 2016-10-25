@@ -166,7 +166,7 @@ class PasteIn(UploadResource):
     def get_context_data(self, **kw):
         data = super(PasteIn, self).get_context_data(**kw)
         data['object'] = Category.objects.get(slug='pastebin')
-        data['object'].parent = self.request.user.resources.all()
+        data['object']._parent = self.request.user.resources.all()
 	data['object_list'] = None
 	return data
 
@@ -420,10 +420,13 @@ class ResourceList(CategoryListView):
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()
-            if 'galleries' not in data or not getattr(data['galleries'], 'category', None):
+            if not ('galleries' in data and getattr(data['galleries'], 'category') \
+                      and not data['username'] and not data['team']):
                 if 'object' in data:
                     # Set parent manually, since categories don't naturally have parents.
-                    data['category'].parent = data['object']
+                    data['category']._parent = data['object']
+                else:
+                    data['category']._parent = data['object_list']
                 data['object'] = data['category']
 
             # Remove media type side bar if category isn't filterable.

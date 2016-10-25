@@ -138,11 +138,7 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     def get_context_data(self, **kwargs):
         data = super(Unsubscribe, self).get_context_data(**kwargs)
         self.breadcrumb_root = self.request.user
-        if 'slug' not in self.kwargs:
-            data['alert'] = AlertType.objects.get(pk=self.kwargs.pop('pk'))
-        else:
-            data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
-
+        data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
         data['object'] = data['alert']
         data['delete'] = True
         if 'pk' in self.kwargs:
@@ -204,9 +200,13 @@ class SettingsList(NeverCacheMixin, UserRequiredMixin, ListView):
 
 class SentMessages(NeverCacheMixin, UserRequiredMixin, ListView):
     model = Message
+    title = _('Outbox')
 
     def get_queryset(self):
         return self.request.user.sent_messages.all()
+
+    def get_parent(self):
+        return self.request.user
 
 
 class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
@@ -225,6 +225,8 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
     def get_reply_to(self):
         if 'pk' in self.kwargs:
             # If we ever want to restrict who can reply, do it here first.
+            self.model.objects.get(pk=self.kwargs['pk'])
+            self.model.objects.get(pk=self.kwargs['pk'], recipient=self.request.user)
             return get_object_or_404(self.model, pk=self.kwargs['pk'], recipient=self.request.user)
 
     def get_initial(self):
@@ -245,7 +247,8 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
         data = super(CreateMessage, self).get_context_data(**data)
         data['reply_to'] = self.get_reply_to()
         data['recipient'] = self.recipient
-        data['object'] = self.recipient
+        data['object_list'] = Message.objects.all()
+        data['object_list'].parent = self.recipient
 
         data['title'] = _("Send New Message")
         if data['reply_to']:

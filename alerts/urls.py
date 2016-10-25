@@ -55,6 +55,5 @@ urlpatterns = patterns('',
       url(r'^(?P<pk>\d+)/$',         Unsubscribe.as_view(), name='alert.unsubscribe'),
     ),
   ),
-  url(r'^unsubscribe/(?P<pk>\d+)/$', Unsubscribe.as_view(), name='alert.unsubscribe'),
 )
 

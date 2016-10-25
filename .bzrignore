@@ -13,3 +13,4 @@ data/
 locale
 logs
 .coverage
+.autotest.conf

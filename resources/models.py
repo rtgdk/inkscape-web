@@ -223,7 +223,10 @@ class ResourceManager(Manager):
 
     def subscriptions(self):
         """Returns a queryset of users who get alerts for new resources"""
-        return Resource.subscriptions(self.core_filters.get('user', None)).all()
+        subs = Resource.subscriptions
+        if 'user' in self.core_filters:
+            subs.target = self.core_filters['user']
+        return subs.all()
 
     def downloads(self):
         return self.get_queryset().aggregate(Sum('downed')).values()[0]

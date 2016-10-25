@@ -117,7 +117,7 @@ class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
             data['title'] = _('Subscribe to %(object_name)s') % data
         else:
             data['alert_name'] = data['alert'].name
-            data['title'] = _('Subscribe to All')
+            data['title'] = _('Subscribe to All %(alert_name)s') % data
         return data
 
     def post(self, request, **kwargs):

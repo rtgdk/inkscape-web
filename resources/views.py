@@ -475,10 +475,12 @@ class ResourceFeed(CategoryFeed, ResourceList):
 
     def items(self):
         for item in CategoryFeed.items(self):
-            if self.query:
-                yield item.object
-            else:
-                yield item
+            if item is not None:
+                if self.query:
+                    if item.object is not None:
+                        yield item.object
+                else:
+                    yield item
 
     def item_title(self, item):
         return item.name

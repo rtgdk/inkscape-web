@@ -33,16 +33,18 @@ class BasicTests(ExtraTestCase):
 
     def test_links(self):
         """Messages have alert manager has AlertBase has AlertType"""
-        self.assertEqual(type(Message.alerts), UserAlertManager)
-        self.assertEqual(type(Message.alerts.alert_type), AlertType)
-        self.assertEqual(type(Message.alerts.alert_type._alerter), MessageAlert)
-        self.assertEqual(Message.alerts.alert_type.sender, Message)
+        alerts = Message.alerts
+        self.assertEqual(type(alerts), UserAlertManager)
+        self.assertEqual(type(alerts.alert_type), AlertType)
+        self.assertEqual(type(alerts.alert_type._alerter), MessageAlert)
+        self.assertEqual(alerts.alert_type.sender, Message)
 
     def test_object_link(self):
         """Objects have working manager"""
         message = Message.objects.create(recipient_id=1, sender_id=1)
-        self.assertEqual(type(message.alerts), UserAlertManager)
-        self.assertEqual(type(message.alerts.target), Message)
+        alerts = message.alerts
+        self.assertEqual(type(alerts), UserAlertManager)
+        self.assertEqual(type(alerts.target), Message)
 
     def test_user_link(self):
         """Users have a list of alerts"""
@@ -67,7 +69,13 @@ class AlertUserTests(ExtraTestCase):
         user = User.objects.get(pk=2)
         self.assertEqual(user.alerts.count(), 3)
 
+    def assertMessageCount(self, cls, obj):
+        """Test class based and object based lookups"""
+        self.assertEqual(Message.subscriptions.count(), cls)
+        self.assertEqual(Message.objects.get(pk=1).subscriptions.count(), obj)
+
     def test_subscribe_class(self):
+        self.assertMessageCount(0, 0)
         response = self.assertGet('alert.subscribe', slug=self.alert_type)
         self.assertContains(response, "Subscribe to All Personal Message")
 
@@ -81,10 +89,11 @@ class AlertUserTests(ExtraTestCase):
         self.assertEqual(sub.alert.slug, self.alert_type)
         self.assertEqual(sub.user.username, 'tester')
         self.assertEqual(sub.target, None)
-
-        self.assertEqual(Message.objects.get(pk=1).subscriptions.count(), 0)
+        self.assertMessageCount(1, 0)
 
     def test_subscribe_item(self):
+        self.assertMessageCount(0, 0)
+
         response = self.assertGet('alert.subscribe', slug=self.alert_type, pk=1)
         self.assertContains(response, "Subscribe to Each message themselves for testing")
 
@@ -99,7 +108,7 @@ class AlertUserTests(ExtraTestCase):
         self.assertEqual(subs.get().user.username, 'tester')
         self.assertEqual(subs.get().target, 1)
 
-        self.assertEqual(Message.subscriptions.count(), 0)
+        self.assertMessageCount(0, 1)
 
     def test_subdcribe_item_removed(self):
         pass

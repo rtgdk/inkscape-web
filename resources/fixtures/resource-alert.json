@@ -1,0 +1,15 @@
+[
+{
+  "fields": {
+    "category": "S",
+    "group": null,
+    "created": "2016-01-31T23:03:12Z",
+    "enabled": true,
+    "private": false,
+    "default_email": false,
+    "slug": "resources.resource_alert",
+    "default_hide": false
+  },
+  "model": "alerts.alerttype"
+}
+]

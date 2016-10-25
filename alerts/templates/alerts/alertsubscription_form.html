@@ -1,14 +1,6 @@
 {% extends "modal.html" %}
 {% load i18n %}
 
-    {% block title %}
-      {% if object %}
-        {% blocktrans %}Subscribe to {{ object }}{% endblocktrans %}
-      {% else %}
-        {% blocktrans with alert.name as alert_name %}Subscribe to All {{ alert_name }}{% endblocktrans %}
-      {% endif %}
-    {% endblock %}
-
 {% block "dialog-body" %}
   {% url "alert.settings" as alertsettings_url %}
   {% if alert.default_email %}

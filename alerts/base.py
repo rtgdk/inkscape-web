@@ -24,7 +24,7 @@ __all__ = ['BaseAlert', 'EditedAlert', 'CreatedAlert']
 
 from django.conf import settings
 from django.dispatch import receiver
-from django.db.models import Q, signals as django_signals
+from django.db.models import Model, Q, signals as django_signals
 from django.core.mail.message import EmailMultiAlternatives
 from django.contrib.auth.models import Group
 from django.contrib.auth import get_user_model
@@ -38,6 +38,25 @@ import sys
 import re
 
 ALL_ALERTS = {}
+
+class Lookup(object):
+    """This descriptor is a class and object property, this is so
+       we can do things like:
+
+       Message.subscriptions.all()
+       msgobj.subscriptions.all()
+    """
+    def __init__(self, base, model):
+        self.base = base
+        self.model = model
+
+    def __get__(self, obj, klass=None):
+        """Get a normal manager, but add in an extra attributes"""
+        manager = type(self.model.objects)()
+        manager.target = obj
+        manager.model = self.model
+        manager.alert_type = self.base.alert_type
+        return manager
 
 class BaseAlert(object):
     """None model parent class for your alert signals"""
@@ -74,8 +93,18 @@ class BaseAlert(object):
     # Target is the attribute on the instance which subscriptions are bound
     target_field = None
 
+    def __new__(cls, slug, *args, **kw):
+        # Global registration so this is a singleton.
+        if slug not in ALL_ALERTS:
+            ALL_ALERTS[slug] = super(BaseAlert, cls).__new__(cls, slug, *args, **kw)
+            #raise KeyError("Alert can not be registered twice: %s" % slug)
+        return ALL_ALERTS[slug]
+
     def __init__(self, slug, is_test=False, **kwargs):
-        from alerts.models import AlertType
+        if hasattr(self, 'slug'):
+            # Already initialised (just passed in from __new__)
+            return;
+
         self.slug = slug
         self.is_test = is_test
 
@@ -89,12 +118,8 @@ class BaseAlert(object):
 
         super(BaseAlert, self).__init__(**kwargs)
 
-        # Global registration so this is a singleton.
-        if slug in ALL_ALERTS:
-            raise KeyError("Alert can not be registered twice: %s" % slug)
-        ALL_ALERTS[slug] = self
-
         if not self.is_test:
+            from alerts.models import AlertType
             # Create an AlertType object which mirrors this class
             (self._alert_type, _) = AlertType.objects.get_or_create(
               slug=self.slug,
@@ -105,10 +130,17 @@ class BaseAlert(object):
                 'default_hide' : self.default_hide,
                 'default_email' : self.default_email,
               })
-            self._late_init()
 
-        setattr(self.sender, self.related_name, self.reverse_lookup_alerts)
-        setattr(self.sender, self.related_sub, self.reverse_lookup_subs)
+        def look_up(fn):
+            def _inner(cls, obj=None):
+                if obj is None and isinstance(cls, Model):
+                    obj = cls
+                return fn(obj)
+
+        from alerts.models import UserAlert, AlertSubscription
+        setattr(self.sender, self.related_name, Lookup(self, UserAlert))
+        setattr(self.sender, self.related_sub, Lookup(self, AlertSubscription))
+        self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
 
     @property
     def alert_type(self):
@@ -118,30 +150,7 @@ class BaseAlert(object):
             # alert types available. It depends on the test to populate the database.
             from alerts.models import AlertType
             self._alert_type = AlertType.objects.get(slug=self.slug)
-            self._late_init()
         return self._alert_type
-
-    def _late_init(self):
-        """Some initialisation can't happen until alert_type exists"""
-        self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
-
-    def reverse_lookup_alerts(self, obj=None):
-        """Return reverse lookup, the related name defaults to 'alerts'"""
-        from alerts.models import UserAlert, UserAlertManager
-        manager = UserAlertManager()
-        manager.model = UserAlert
-        manager.target = obj
-        manager.alert_type = self.alert_type
-        return manager
-
-    def reverse_lookup_subs(self, obj=None):
-        """Return reverse lookup for number of subscriptions to this object"""
-        from alerts.models import AlertSubscription, AlertSubscriptionManager
-        manager = AlertSubscriptionManager()
-        manager.model = AlertSubscription
-        manager.target = obj
-        manager.alert_type = self.alert_type
-        return manager
 
     def call(self, sender, signal=None, **kwargs):
         """Connect this method to the post_save signal and it will

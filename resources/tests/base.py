@@ -31,7 +31,7 @@ from autotest.base import HaystackTestCase
 from resources.models import Resource
 
 class BaseCase(HaystackTestCase):
-    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests']
+    fixtures = ['test-auth', 'licenses', 'categories', 'quota', 'resource-tests', 'resource-alert']
 
     def setUp(self):
         "Creates a dictionary containing a default post request for resources"

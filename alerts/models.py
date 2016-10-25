@@ -384,9 +384,7 @@ class SubscriptionQuerySet(QuerySet):
             return bool(self.filter(target=target.pk).count())
         return bool(self.filter(Q(target=target.pk) | Q(target__isnull=True)).count())
 
-class AlertSubscriptionManager(Manager):
-    _queryset_class = SubscriptionQuerySet
-
+class AlertSubscriptionManager(Manager.from_queryset(SubscriptionQuerySet)):
     def get_queryset(self):
         queryset = super(AlertSubscriptionManager, self).get_queryset()
 
@@ -406,7 +404,7 @@ class AlertSubscription(Model):
     user   = ForeignKey(settings.AUTH_USER_MODEL, related_name='alert_subscriptions')
     target = PositiveIntegerField(_("Object ID"), **null)
 
-    objects = SubscriptionQuerySet.as_manager()
+    objects = AlertSubscriptionManager()
 
     def object(self):
         return self.alert.get_object(pk=self.target)

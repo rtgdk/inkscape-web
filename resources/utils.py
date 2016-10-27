@@ -97,6 +97,10 @@ def cached(f):
         return getattr(self, _cname)
     return _inner
 
+# The server is older than your desktop machine, so we add some extra to the mimetypes
+mimetypes.add_type('application/x-msi', 'msi')
+
+
 class MimeType(object):
     tr = {
       'application': {
@@ -117,10 +121,10 @@ class MimeType(object):
       'richtext': 'rtf',
     }
 
-    def __init__(self, mime='text/plain', filename=None):
+    def __init__(self, mime='application/unknown', filename=None):
         if filename:
             mime = mimetypes.guess_type(filename, True)[0] or mime
-        (self.major, self.minor) = mime.split('/')
+        (self.major, self.minor) = mime.split('/', 1)
 
     def __str__(self):
         return self.major + "/" + self.minor

@@ -99,6 +99,7 @@ def cached(f):
 
 # The server is older than your desktop machine, so we add some extra to the mimetypes
 mimetypes.add_type('application/x-msi', 'msi')
+mimetypes.add_type('application/x-7z-compressed', '7z')
 
 
 class MimeType(object):

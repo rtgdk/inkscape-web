@@ -85,7 +85,7 @@ class AlertType(Model):
     def _alerter(self):
         # Late import to stop loop import
         from alerts.base import ALL_ALERTS
-        return ALL_ALERTS[self.slug]
+        return ALL_ALERTS[self.slug].connect_signals()
 
     def __getattr__(self, name):
         if hasattr(self._alerter, name):

@@ -107,6 +107,7 @@ class BaseAlert(object):
 
         self.slug = slug
         self.is_test = is_test
+        self.connected = False
 
         # Check the setup of this alert class
         if not self.sender:
@@ -140,7 +141,13 @@ class BaseAlert(object):
         from alerts.models import UserAlert, AlertSubscription
         setattr(self.sender, self.related_name, Lookup(self, UserAlert))
         setattr(self.sender, self.related_sub, Lookup(self, AlertSubscription))
-        self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
+
+    def connect_signals(self):
+        """Attempts to start the signals late"""
+        if not self.connected:
+            self.signal.connect(self.call, sender=self.sender, dispatch_uid=self.slug)
+            self.connected = True
+        return self
 
     @property
     def alert_type(self):

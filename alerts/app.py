@@ -38,10 +38,6 @@ class AlertsConfig(AppConfig):
     name = 'alerts'
 
     def ready(self):
-        post_migrate.connect(self.get_ready, sender=self)
-        self.get_ready()
-
-    def get_ready(self, *args, **kwargs):
         for app_config in apps.app_configs.values():
             app = app_config.module
             if module_has_submodule(app, ALERT_MODULE_NAME):

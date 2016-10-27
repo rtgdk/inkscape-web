@@ -420,7 +420,7 @@ class ResourceList(CategoryListView):
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()
-            if not ('galleries' in data and getattr(data['galleries'], 'category') \
+            if not ('galleries' in data and getattr(data['galleries'], 'category', None) \
                       and not data['username'] and not data['team']):
                 if 'object' in data:
                     # Set parent manually, since categories don't naturally have parents.

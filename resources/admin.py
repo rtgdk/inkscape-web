@@ -20,6 +20,7 @@
 
 from django.template.defaultfilters import filesizeformat
 from django.utils.translation import ugettext_lazy as _
+from django.utils.safestring import mark_safe
 from django.contrib.admin import *
 
 from ajax_select import make_ajax_field
@@ -49,11 +50,12 @@ class ResourceForm(ModelForm):
         help_text=_('Resource has been checked by this user'))
 
 class ResourceAdmin(ModelAdmin):
-    list_display = ('name', 'user', 'category', 'gallery')
+    list_display = ('name', 'user', 'category', 'gallery_location')
     list_filter = ('published', 'category')
     search_fields = ('name', 'user__username', 'galleries__name')
     readonly_fields = ('slug','liked','viewed','downed','fullview')
     form = ResourceForm
+
 
 site.register(Resource, ResourceAdmin)
 site.register(ResourceMirror)
@@ -85,7 +87,7 @@ class GalleryForm(ModelForm):
         help_text=_('Select Group\'s Owner'))
 
 class GalleryAdmin(ModelAdmin):
-    readonly_fields = ('items', 'slug')
+    readonly_fields = ('slug')
     list_display = ('name', 'user', 'group', 'status', 'item_count')
     list_filter = ('group', 'status')
     search_fields = ('name', 'user')

@@ -52,9 +52,11 @@
     {% endif %}
     {{ form.tags|placeholder:_("Add your tags here, separated by comma") }}
 
-    {% if object.published %}
+    {% if object.published or not form.published %}
       <button type="submit" name="published" value="1" class="btn btn-default">{% trans "Save" %}</button>
-      <button type="submit" name="published" value="" class="btn btn-danger">{% trans "Unpublish" %}</button>
+      {% if form.published %}
+        <button type="submit" name="published" value="" class="btn btn-danger">{% trans "Unpublish" %}</button>
+      {% endif %}
     {% else %}
       <button type="submit" name="published" value="1" class="btn btn-default">{% trans "Publish" %}</button>
       <button type="submit" name="published" value="" class="btn btn-default">{% trans "Save Only" %}</button>

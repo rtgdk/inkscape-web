@@ -23,6 +23,7 @@ from django.utils.text import slugify
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.base import RedirectView
 from django.views.generic import ListView, DetailView
+from django.shortcuts import get_object_or_404
 from django.conf import settings
 
 from .models import Platform, Release, ReleasePlatform, CACHE, Q
@@ -181,7 +182,7 @@ class PlatformView(DetailView):
         data = super(PlatformView, self).get_context_data(**kwargs)
         obj = self.object
 
-        data['release'] = Release.objects.get(version=self.kwargs['version'])
+        data['release'] = get_object_or_404(Release, version=self.kwargs['version'])
         data['platforms'] = data['release'].platforms.for_level(obj.codename)
         data['platform'] = data['object']
 
@@ -200,7 +201,8 @@ class ReleasePlatformView(DetailView):
     model = ReleasePlatform
 
     def get_object(self):
-        return self.model.objects.get(
+        return get_object_or_404(self.model,
             release__version=self.kwargs['version'],
             platform__codename=self.kwargs['platform']
-        )
+          )
+

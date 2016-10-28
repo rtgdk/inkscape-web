@@ -24,6 +24,7 @@ from django.http import Http404
 from django.utils import translation
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import *
+from django.shortcuts import get_object_or_404
 
 from django_comments.models import Comment
 from .forms import NewTopicForm
@@ -44,7 +45,8 @@ class ForumDetail(UserRequired, DetailView):
 
 class TopicDetail(UserRequired, DetailView):
     """A single topic view"""
-    model = ForumTopic
+    def get_queryset(self):
+        return ForumTopic.objects.filter(forum__slug=self.kwargs['forum'])
 
 class AddTopic(UserRequired, FormView):
     """
@@ -56,7 +58,7 @@ class AddTopic(UserRequired, FormView):
     form_class = NewTopicForm
 
     def get_parent(self):
-        return Forum.objects.get(slug=self.kwargs['slug'])
+        return get_object_or_404(Forum, slug=self.kwargs['slug'])
 
     def get_form_kwargs(self):
         kw = super(type(self), self).get_form_kwargs()

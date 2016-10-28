@@ -109,10 +109,14 @@ class Subscribe(NeverCacheMixin, UserRequiredMixin, CreateView):
     def get_context_data(self, **kwargs):
         data = super(Subscribe, self).get_context_data(**kwargs)
         self.breadcrumb_root = self.request.user
-        data['alert'] = AlertType.objects.get(slug=self.kwargs['slug'])
+        data['alert'] = get_object_or_404(AlertType, slug=self.kwargs['slug'])
         data['object'] = data['alert']
         if 'pk' in self.kwargs:
-            subscription = data['alert'].get_object(pk=self.kwargs['pk'])
+            try:
+                subscription = data['alert'].get_object(pk=self.kwargs['pk'])
+            except data['alert'].sender.DoesNotExist:
+                raise Http404("Alert subscription doesn't exist")
+
             data['object_name'] = data['alert'].get_object_name(subscription)
             data['title'] = _('Subscribe to %(object_name)s') % data
         else:
@@ -152,13 +156,13 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
     
     def get_object(self):
         if 'slug' in self.kwargs:
-            alert = AlertType.objects.get(slug=self.kwargs['slug'])
+            alert = get_object_or_404(AlertType, slug=self.kwargs['slug'])
             kw = dict(user=self.request.user)
             if 'pk' in self.kwargs:
                 kw['target'] = self.kwargs['pk']
             else:
                 kw['target__isnull'] = True
-            return alert.subscriptions.get(**kw)
+            return get_object_or_404(alert.subscriptions, **kw)
         return super(Unsubscribe, self).get_object()
 
 
@@ -225,8 +229,6 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
     def get_reply_to(self):
         if 'pk' in self.kwargs:
             # If we ever want to restrict who can reply, do it here first.
-            self.model.objects.get(pk=self.kwargs['pk'])
-            self.model.objects.get(pk=self.kwargs['pk'], recipient=self.request.user)
             return get_object_or_404(self.model, pk=self.kwargs['pk'], recipient=self.request.user)
 
     def get_initial(self):

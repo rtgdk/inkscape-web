@@ -45,11 +45,13 @@ owner_patterns = [
     url_tree(r'^(?P<galleries>[^\/]+)/', *resource_search(rl=GalleryView)),
   ),
   url_tree(r'^/resources/', *resource_search()),
+]
+user_patterns = [
   # Try a utf-8 url, see if it breaks web browsers.
   url(r'^/★(?P<slug>[^\/]+)$'.decode('utf-8'), ViewResource(), name='resource'),
 ]
 # Add to the username user profile and teamname
-USER_URLS.url_patterns.extend(owner_patterns)
+USER_URLS.url_patterns.extend(owner_patterns + user_patterns)
 TEAM_URLS.url_patterns.extend(owner_patterns)
 
 urlpatterns = patterns('',

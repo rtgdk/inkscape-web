@@ -1234,34 +1234,6 @@
     }, 
     "url": "resource?pk"
   }, 
-  "resource?slug+team": {
-    "breadcrumbs": [
-      [
-        "/en/*testteam", 
-        "Test Team"
-      ], 
-      [
-        "/en/*testteam/galleries/", 
-        "Galleries"
-      ], 
-      [
-        "/en/*testteam/galleries/team-gallery/", 
-        "Team Gallery"
-      ], 
-      [
-        "/en/~admin/%E2%98%85team-resource", 
-        "Team Resource"
-      ]
-    ], 
-    "cache_keys": [
-      "cache:Resource-2"
-    ], 
-    "kwargs": {
-      "slug": "team-resource", 
-      "team": "testteam"
-    }, 
-    "url": "resource?slug+team"
-  }, 
   "resource?username+slug": [
     {
       "breadcrumbs": [

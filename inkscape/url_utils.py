@@ -22,7 +22,10 @@ These are important url debugging and iter tools (introspective)
 """
 
 import types
+import random
 import logging
+
+from string import ascii_uppercase, ascii_lowercase, digits
 
 logger = logging.getLogger('main')
 logger.setLevel(logging.INFO)
@@ -108,6 +111,38 @@ class Url(object):
             # Construct the pattern without any
             return '/' + self.full_pattern.lstrip('^').rstrip('$')
         return None
+
+    def test_404_urls(self, *args, **kw):
+        """Attempt to generate a test url, but replace kwargs to generate a 404"""
+        if args and kw:
+            raise KeyError("You can not use args and kwargs in urls at the same time.")
+        if args:
+            args = list(args)
+            for x, arg in enumerate(args):
+                # Randomly replace one argument in the args each time
+                rep = [random_change(arg)]
+                yield self.test_url(*(args[:x] + rep + args[x+1:]))
+        elif kw:
+            for key, arg in kw.items():
+                r_kw = kw.copy()
+                r_kw[key] = random_change(arg, key=key)
+                yield self.test_url(*args, **r_kw)
+
+
+def random_change(data, key=None):
+    """Change the variable into a random variation (slug or pk usually)"""
+    if key == 'year':
+        return random.randint(int(data) + 10, int(data) + 100)
+    if key in ['month', 'day']:
+        return '00'
+    if isinstance(data, (unicode, str)) and data.isdigit():
+        data = int(data)
+    if isinstance(data, int):
+        return random.randint((data+10) * 10, (data+10) * 100)
+    chars = ascii_uppercase + ascii_lowercase + digits + '_-'
+    if data == data.lower():
+        chars = chars[26:]
+    return ''.join(random.choice(chars) for _ in range(len(data)))
 
 
 class UrlModule(Url):

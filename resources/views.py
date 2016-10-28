@@ -29,6 +29,7 @@ from sendfile import sendfile
 from datetime import timedelta
 
 from django.http import JsonResponse
+from django.http import Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
@@ -384,16 +385,12 @@ class ResourceList(CategoryListView):
         return Category.objects.all()
 
     def get_galleries(self):
-        username = self.get_value('username')
-        if username:
-            try:
-                return User.objects.get(username=username)\
-                    .galleries.filter(group__isnull=True)
-            except User.DoesNotExist:
-                return None
+        if 'username' in self.kwargs:
+            user = get_object_or_404(User, username=self.kwargs['username'])
+            return user.galleries.filter(group__isnull=True)
         team = self.get_value('team')
         if team:
-            return Group.objects.get(team__slug=team).galleries.all()
+            return get_object_or_404(Group, team__slug=team).galleries.all()
         category = self.get_value('category')
         if category:
             return Gallery.objects.filter(category__slug=category)
@@ -401,22 +398,24 @@ class ResourceList(CategoryListView):
 
     def get_context_data(self, **kwargs):
         data = super(ResourceList, self).get_context_data(**kwargs)
+        for key in self.kwargs:
+            if data.get(key, None) is None:
+                raise Http404("Item %s not found" % key)
 
         if 'team' in data and data['team']:
             # Our options are not yet returning the correct item
-            data['team'] = Group.objects.get(team__slug=data['team'])
+            data['team'] = get_object_or_404(Group, team__slug=data['team'])
             data['team_member'] = self.request.user in data['team'].user_set.all()
             data['object_list'].instance = data['team']
-        elif data['username']:
+        elif 'username' in self.kwargs:
+            if 'username' not in data or not data['username']:
+                raise Http404("User not found")
             data['object_list'].instance = data['username']
         
-        if 'galleries' in data and data['galleries']:
+        if 'galleries' in data:
             # our options are not yet returning the correct item
-            try:
-                data['galleries'] = Gallery.objects.get(slug=data['galleries'])
-                data['object'] = data['galleries']
-            except Gallery.DoesNotExist:
-                data['galleries'] = None
+            data['galleries'] = get_object_or_404(Gallery, slug=data['galleries'])
+            data['object'] = data['galleries']
 
         if 'category' in data:
             data['tag_categories'] = data['category'].tags.all()

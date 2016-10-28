@@ -24,6 +24,7 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.shortcuts import get_object_or_404
 
 from .models import Gallery, Model, Group, Q
 
@@ -44,10 +45,10 @@ class OwnerViewMixin(object):
     def get_context_data(self, **kwargs):
         data = super(OwnerViewMixin, self).get_context_data(**kwargs)
         if self.user:
-            data['user'] = get_user_model().objects.get(username=self.user)
+            data['user'] = get_object_or_404(get_user_model(), username=self.user)
             data['object_list'].instance = data['user']
         elif hasattr(self, 'team') and self.team:
-            data['group'] = Group.objects.get(team__slug=self.team)
+            data['group'] = get_object_or_404(Group, team__slug=self.team)
             data['object_list'].instance = data['group']
         return data
 
@@ -78,17 +79,15 @@ class OwnerUpdateMixin(object):
             if not request.user.is_authenticated() and request.method == 'GET':
                 return redirect_to_login(request.build_absolute_uri())
             raise PermissionDenied()
-        try:
-            self.gallery = Gallery.objects.get(
-                Q(pk=kwargs['gallery_id']) & \
-               ( Q(user=request.user)
-                 | Q(group__in=request.user.groups.all())
-                 | (Q(category__isnull=False) & ~Q(category=0))
-               ))
-        except Gallery.DoesNotExist:
-            raise PermissionDenied()
-        except KeyError:
-            pass
+
+        if 'gallery_id' in kwargs:
+            self.gallery = get_object_or_404(Gallery, pk=kwargs['gallery_id'])
+            group_ids = request.user.groups.values_list('pk', flat=True)
+            if not self.gallery.category_id and \
+              self.gallery.user_id != request.user.pk and \
+              self.gallery.group_id not in group_ids:
+                raise PermissionDenied()
+
         return super(OwnerUpdateMixin, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):

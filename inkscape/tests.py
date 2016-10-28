@@ -127,6 +127,7 @@ class WebsiteUrlTest(MultipleFailureTestCase):
         2) Test the URL's breadcrumbs and links
         3) Test the response has object or object_list as expected (standard)
         4) Test objects have get_absolute_url which links correctly
+        5) Test each url with random variables for correct 404 errors
 
         These are all done in one test to keep looping down.
 
@@ -197,6 +198,10 @@ class WebsiteUrlTest(MultipleFailureTestCase):
             if datum.setdefault('cache_keys', []) is not None:
                 datum['url'] = url.slug
                 self.assertCacheKeyResponse(response, **datum)
+
+            for url_404 in url.test_404_urls(*args, **kw):
+                # Test each permitation with a random argument for 404
+                self.assertGet(url_404, status=404)
 
             self.assertContext(response, url)
         except KeyError as err:

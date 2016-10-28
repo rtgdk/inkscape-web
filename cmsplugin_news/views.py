@@ -24,6 +24,8 @@ News views (non-staff views)
 from django.views.generic import ListView, DetailView, DateDetailView, \
         YearArchiveView, MonthArchiveView, DayArchiveView
 
+from django.shortcuts import get_object_or_404
+
 from .models import News
 from .mixins import PublishedNewsMixin, NeverCacheMixin
 from .settings import ARCHIVE_PAGE_SIZE
@@ -39,7 +41,7 @@ class DetailNews(PublishedNewsMixin, DetailView):
         try:
             return qs.get(pk=self.kwargs['pk'])
         except News.DoesNotExist:
-            obj = News.objects.get(pk=self.kwargs['pk'])
+            obj = get_object_or_404(News, pk=self.kwargs['pk'])
             try:
                 return obj.translations.get(language=self.get_language())
             except News.DoesNotExist:

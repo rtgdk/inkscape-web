@@ -50,7 +50,7 @@ class ResourceForm(ModelForm):
         help_text=_('Resource has been checked by this user'))
 
 class ResourceAdmin(ModelAdmin):
-    list_display = ('name', 'user', 'category', 'gallery_location')
+    list_display = ('name', 'user', 'category', 'gallery')
     list_filter = ('published', 'category')
     search_fields = ('name', 'user__username', 'galleries__name')
     readonly_fields = ('slug','liked','viewed','downed','fullview')

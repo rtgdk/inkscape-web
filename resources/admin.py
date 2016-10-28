@@ -87,7 +87,7 @@ class GalleryForm(ModelForm):
         help_text=_('Select Group\'s Owner'))
 
 class GalleryAdmin(ModelAdmin):
-    readonly_fields = ('slug')
+    readonly_fields = ('items', 'slug',)
     list_display = ('name', 'user', 'group', 'status', 'item_count')
     list_filter = ('group', 'status')
     search_fields = ('name', 'user')

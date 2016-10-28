@@ -27,7 +27,7 @@
           {% if item == object.winner %}
           <span class="blank" title="{% trans "Winner of the Contest" %}">{% trans "Win" %}</span>
           {% else %}
-            <span class="blank" title="{% trans "Not the Winner" %}">{% trans "Not" %}</span>
+            <span class="blank">-</span>
           {% endif %}
         {% endif %}
       {% elif item.user == request.user %}

@@ -2,10 +2,10 @@
 
   {% if object.contest_submit and object.category %}
   <div id="sidecategory">
-    {% if object.contest_submit|totalseconds < 0 %}
+    {% if object.is_pending %}
       <h2>{% trans "Opens in" %} {{ object.contest_voting|timeuntil }}</h2>
       <a class="btn-disabled" title="{% trans "This contest is not open yet, please come back soon." %}">{% trans "Submit Now!" %}</a>
-    {% elif object.contest_voting|totalseconds < 0 %}
+    {% elif object.is_submitting %}
       <h2>{% trans "Open for" %} {{ object.contest_voting|timeuntil }}</h2>
       {% if not request.user.is_authenticated %}
         <a href="{% url "auth_login" %}?next={% url "resource.upload" object.pk %}"
@@ -14,10 +14,13 @@
         <a href="{% url "resource.upload" object.pk %}"
           class="btn btn-primary" title="{% trans "This contest is open, click here to submit your file." %}">{% trans "Submit Now!" %}</a>
       {% endif %}
-    {% elif object.contest_finish|totalseconds < 0 %}
+    {% elif object.is_voting %}
       <h2>{% trans "Voting for" %} {{ object.contest_finish|timeuntil }}</h2>
       <a class="btn-disabled btn-danger" title="{% trans "This contest is voting, press the star inside the item you wish to vote for." %}">{% trans "Voting Open" %}</a>
-    {% else %}
+    {% elif object.is_counting %}
+      <h2>{% trans "Voting closed" %}</h2>
+      <a class="btn-disabled btn-default">{% trans "Voting Closed" %}</a>
+    {% elif object.is_finished %}
       <h2>Finished {{ object.contest_finish|timesince }} ago</h2>
       <a class="btn-disabled" title="{% trans "This contest is finished." %}">{% trans "Contest Finished" %}</a>
     {% endif %}

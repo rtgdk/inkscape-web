@@ -52,19 +52,30 @@ class ContestTests(BaseCase):
             self.gallery.items.add(item)
             item.votes.refresh()
 
-    def getContest(self, stage=0):
+    def getContest(self, stage=0, automatic_win=True):
         """Return the gallery in a specific contest 'stage'
         
+           -1 - Not a contest
             0 - Not yet started
             1 - Submissions open
             2 - Voting Open
-            3 - Contest Finished
+            3 - Contest Counting (null if automatic win)
+            4 - Contest Finished
         """
-        times = [(now() + timedelta(days=1)).date()] * 3
-        times += [(now() - timedelta(days=1)).date()] * 3
-        self.gallery.contest_submit = times[stage + 2]
-        self.gallery.contest_voting = times[stage + 1]
+        if stage == -1:
+            times = [None] * 4
+        else:
+            times = [(now() + timedelta(days=1)).date()] * 4
+            times += [(now() - timedelta(days=1)).date()] * 4
+        self.gallery.contest_submit = times[stage + 3]
+        self.gallery.contest_voting = times[stage + 2]
         self.gallery.contest_finish = times[stage + 0]
+
+        if not automatic_win:
+            self.gallery.contest_count = times[stage + 1]
+        else:
+            self.gallery.contest_count = None
+
         self.gallery.save()
         return self.gallery
 
@@ -73,6 +84,32 @@ class ContestTests(BaseCase):
         self.assertEqual(gallery.get_absolute_url(), '/en/gallery/=artwork/contest-soon/')
         get = self.assertGet(gallery, status=200)
         self.assertContains(get, 'Contest')
+
+    def test_statuses(self):
+        """Each time status displays correctly on the page"""
+        for x, (pend, submit, vote, count, finish) in enumerate([
+               (None, None,  None,  None,  None),
+               (True,  False, False, False, False),
+               (False, True,  False, False, False),
+               (False, False, True,  False, False),
+               (False, False, False, True,  False),
+               (False, False, False, False, True),
+              ]):
+            gallery = self.getContest(x - 1, automatic_win=False)
+            self.assertEqual(gallery.is_contest, x > 0)
+            self.assertEqual(gallery.is_pending, pend)
+            self.assertEqual(gallery.is_submitting, submit)
+            self.assertEqual(gallery.is_voting, vote)
+            self.assertEqual(gallery.is_counting, count)
+            self.assertEqual(gallery.is_finished, finish)
+
+            gallery = self.getContest(x - 1, automatic_win=True)
+            self.assertEqual(gallery.is_contest, x > 0)
+            self.assertEqual(gallery.is_pending, pend)
+            self.assertEqual(gallery.is_submitting, submit)
+            self.assertEqual(gallery.is_voting, vote or count)
+            self.assertEqual(gallery.is_counting, None)
+            self.assertEqual(gallery.is_finished, finish)
 
     def test_voting(self):
         """Voting only during voting season and only one per user"""
@@ -95,15 +132,21 @@ class ContestTests(BaseCase):
             if other != item:
                 self.assertEqual(other.liked, 0)
 
-    def test_winner(self):
+    def test_automatic_winner(self):
         """Test that the right winner is selected"""
-        after = self.getContest(3)
+        after = self.getContest(4, automatic_win=True)
         biggest = None
         for item in self.gallery.items.all():
             item.liked = item.pk * 20
             item.save()
-            if not biggest or item.liked > biggest:
-                biggest = item.liked
-        self.assertEqual(after.winner.liked, after.winner.pk * 20)
-        self.assertEqual(after.winner.liked, biggest)
+            if not biggest or item.liked > biggest.liked:
+                biggest = item
+        self.assertEqual(after.winners.count(), 1)
+        self.assertEqual(after.winners[0], biggest)
+        self.assertEqual(after.winners[0].extra_css, 'winner')
+
+    def test_manual_winner(self):
+        """Test that no winner is selected automatically"""
+        after = self.getContest(4, automatic_win=False)
+        self.assertEqual(after.winners.count(), 0)
 

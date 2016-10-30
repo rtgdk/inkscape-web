@@ -15,6 +15,7 @@
     <img id="photo" src="{{ object.thumbnail_url }}"/>
     <h1 id="name">{{ object.name }}</h1>
     <p id="bio">{% if object.desc %}{{ object.desc|safe }}{% endif %}</p>
+    {% if object.is_finished %}{% for winner in object.winners %}<!-- Winner {{ winner }}-->{% endfor %}{% endif %}
   </div>
 
   <div class="wrapper">

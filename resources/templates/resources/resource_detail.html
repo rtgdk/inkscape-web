@@ -28,13 +28,13 @@
         {% endif %}
 
         {% if object.gallery.contest_submit %}
-          {% if object.gallery.contest_voting|totalseconds > 0 %}
+          {% if object.is_voting or object.is_counting or object.is_finished %}
             <div class="tog" id="vote">
-              <a {% if not request.user.id or request.user == object.user or object.gallery.contest_finish|totalseconds > 0 %}title="{% trans "Votes" %}" class="disabled" {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Vote for this!" %}" {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Withdraw my Vote" %}" class="remove" {% endif %}>&nbsp;</a>
-              {% if object.gallery.contest_finish|totalseconds > 0 %}
+              <a {% if not request.user.id or request.user == object.user or object.gallery.is_finished %}title="{% trans "Votes" %}" class="disabled" {% elif not object.voted %}href="{% url "resource.like" object.id "+" %}" title="{% trans "Vote for this!" %}" {% else %}href="{% url "resource.like" object.id "-" %}" title="{% trans "Withdraw my Vote" %}" class="remove" {% endif %}>&nbsp;</a>
+              {% if object.is_finished %}
                 <p>{{ object.votes.count }}</p>
               {% else %}
-                <p>⌛</p>
+                <p title="{% trans "Voting in progress" %}">⌛</p>
               {% endif %}
             </div>
           {% endif %}

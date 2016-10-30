@@ -3,31 +3,27 @@
 {% if item.is_visible %}
   {% track_object item %}
 
-  <div class="galleryitem{% if not item.published %} unpublished{% endif %}{% if object.contest_finish|totalseconds > 0 and object.winner == item %} winner{% elif object.contest_voting|totalseconds > 0 and item.voted %} voted{% endif %}" 
+  <div class="galleryitem{% if not item.published %} unpublished{% endif %} {{ item.extra_css }}{% if object.is_voting and item.voted %} voted{% endif %}" 
     title="{{ item.summary_string }}">
     <a class="link" href="{{ item.get_absolute_url }}">
       <img src="{{ item.thumbnail_url }}"/>
     </a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <p class="minitabs">
-      {% if request.user.is_authenticated and object.contest_submit %}
-        {% if object.user == request.user or object.contest_finish|totalseconds > 0 %}
+      {% if request.user.is_authenticated and object.is_contest %}
+        {% if object.user == request.user or object.is_finished %}
           {# if object is a gallery, then it's owner can see the contest results #}
           <span class="blank">{{ item.liked }}</span>
+        {% elif object.is_voting %}
+          <span class="blank" title="{% trans "Voting in progress." %}">⌛</span>
         {% else %}
-          <span class="blank" title="{% trans "No voting yet." %}">⌛</span>
+          <span class="blank" title="{% trans "No voting yet." %}">-</span>
         {% endif %}
-        {% if object.user != request.user and object.contest_voting|totalseconds > 0 and object.contest_finish|totalseconds < 0 %}
+        {% if object.user != request.user and object.is_voting %}
           {% if item.voted %}
-          <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path }}" class="blank">★</a>
+          <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path }}" class="blank" title="{% trans "Remove vote" %}">★</a>
           {% else %}
-          <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path }}" class="blank">☆</a>
-          {% endif %}
-        {% else %}
-          {% if item == object.winner %}
-          <span class="blank" title="{% trans "Winner of the Contest" %}">{% trans "Win" %}</span>
-          {% else %}
-            <span class="blank">-</span>
+          <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path }}" class="blank" title="{% trans "Vote for this" %}">☆</a>
           {% endif %}
         {% endif %}
       {% elif item.user == request.user %}

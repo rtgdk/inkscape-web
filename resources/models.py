@@ -285,6 +285,15 @@ class Resource(Model):
     ENDORSE_SIGN = 5
     ENDORSE_AUTH = 10
 
+    CONTEST_WINNER = 1
+    CONTEST_RUNNER_UP = 2
+    EXTRA_CHOICES = (
+      (None, _('No extra status')),
+      (CONTEST_WINNER, _('Contest Winner')),
+      (CONTEST_RUNNER_UP, _('Contest Runner Up')),
+    )
+    EXTRA_CSS = ['', 'winner', 'runnerup']
+
     user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='resources', default=get_user)
     name      = CharField(max_length=64)
     slug      = SlugField(max_length=70)
@@ -307,6 +316,9 @@ class Resource(Model):
     media_type = CharField(_('File Type'), max_length=128, **null)
     media_x    = IntegerField(**null)
     media_y    = IntegerField(**null)
+
+    extra_status = PositiveSmallIntegerField(choices=EXTRA_CHOICES, **null)
+    extra_css = property(lambda self: self.EXTRA_CSS[self.extra_status])
 
     # ======== ITEMS FROM RESOURCEFILE =========== #
     download   = FileField(_('Consumable File'), **upto('file', blank=True))
@@ -703,7 +715,16 @@ class Gallery(Model):
 
     contest_submit = DateField(help_text=_('Start a contest in this gallery on this date (UTC).'), **null)
     contest_voting = DateField(help_text=_('Finish the submissions and start voting (UTC).'), **null)
+    contest_count  = DateField(help_text=_('Voting is finished, but the votes are being counted.'), **null)
     contest_finish = DateField(help_text=_('Finish the contest, voting closed, winner announced (UTC).'), **null)
+
+    _is_generic = lambda self, a, b: a and a <= now().date() < b
+    is_contest    = property(lambda self: bool(self.contest_submit))
+    is_pending    = property(lambda self: self.contest_submit and self.contest_submit > now().date())
+    is_submitting = property(lambda self: self._is_generic(self.contest_submit, self.contest_voting))
+    is_voting     = property(lambda self: self._is_generic(self.contest_voting, (self.contest_count or self.contest_finish)))
+    is_counting   = property(lambda self: self._is_generic(self.contest_count, self.contest_finish))
+    is_finished   = property(lambda self: self.contest_finish and self.contest_finish <= now().date())
 
     objects = GalleryQuerySet.as_manager()
 
@@ -727,15 +748,6 @@ class Gallery(Model):
     def votes(self):
         """Returns a queryset of Votes for this category"""
         return Vote.objects.filter(resource__galleries=self.pk)
-
-    @property
-    def winner(self):
-        """Return the resource with the most votes"""
-        if not self.contest_finish or self.contest_finish > now().date():
-            return None
-        if not hasattr(self, '_winner'):
-            self._winner = self.items.latest('liked')
-        return self._winner
 
     def save(self, *args, **kwargs):
         set_slug(self)
@@ -761,6 +773,18 @@ class Gallery(Model):
               'galleries': self.slug,
             })
         return reverse('resources', kwargs={'gallery_id': self.pk})
+
+    @property
+    def winners(self):
+        """Return the resource with the most votes"""
+        if self.is_contest and self.is_finished:
+            if self.contest_count is None:
+                item = self.items.latest('liked')
+                item.extra_status = Resource.CONTEST_WINNER
+                item.save()
+                self.contest_count = self.contest_finish
+            return self.items.filter(extra_status=Resource.CONTEST_WINNER)
+        return None
 
     @property
     def value(self):

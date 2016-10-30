@@ -457,6 +457,21 @@ class GalleryView(ResourceList):
     def get_template_names(self):
         return ['resources/resourcegallery_specific.html']
 
+    @property
+    def order(self):
+        return self.orders[0][0]
+
+    @property
+    def orders(self):
+        """Restrict ordering when doing a contest"""
+        gallery = get_object_or_404(Gallery, slug=self.kwargs['galleries'])
+        if gallery.is_contest:
+            if gallery.is_voting or gallery.is_submitting:
+                return (('-created', _('Created Date')),)
+            else:
+                return (('-liked', _('Most Votes')),)
+        return super(GalleryView, self).orders
+
 
 class ResourcePick(ResourceList):
     def get_template_names(self):

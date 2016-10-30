@@ -121,16 +121,12 @@
   background-color: #8ccaff;
   border-radius: 0px;
 }
-.galleryitem.voted:hover .label,
-.galleryitem.winner:hover .label {
-  background-color: #eef;
-}
-.galleryitem.winner {
-  border: 2px solid #ffd42a;
+.galleryitem.notvoted {
+  border: 2px solid #cce;
   padding: 2px;
 }
-.galleryitem.winner .label {
-  background-color: #ffd42a;
+.galleryitem.notvoted .label {
+  background-color: #cce;
   border-radius: 0px;
 }
 .galleryitem .minitabs {
@@ -143,6 +139,30 @@
 .galleryitem:hover .minitabs {
   visibility: visible;
 }
+.galleryitem.winner .minitabs,
+.galleryitem.runnerup .minitabs {
+  visibility: visible;
+}
+.galleryitem span.ribbon {
+  visibility: visible;
+  position: relative;
+  top: -9px;
+  left: -7px;
+}
+.galleryitem span.ribbon p {
+  position: absolute;
+  top: -27px;
+  width: 165px;
+  text-align: center;
+  color: white;
+  font-weight: bold;
+}
+.winner svg.ribbon path.part_a { fill:#e1b000; }
+.winner svg.ribbon path.part_b { fill:#fbc400; }
+.winner svg.ribbon path.part_c { fill:#a97610; }
+.runnerup svg.ribbon path.part_a { fill:#7e7e7e; }
+.runnerup svg.ribbon path.part_b { fill:#a9a9a9; }
+.runnerup svg.ribbon path.part_c { fill:#494949; }
 .galleryitem .minitabs .blank {
   width: 50px;
   text-align: center;
@@ -154,6 +174,21 @@
   padding: 2px 0px;
   background-color: #EEF;
 }
+.galleryitem .blank .votebox {
+  background-color: white;
+  height: 15px;
+  width: 15px;
+  display: inline-block;
+  border: solid 2px #cce;
+  border-radius: 8px;
+  font-size: 24px;
+  line-height: 12px;
+  color: #8ccaff;
+}
+.galleryitem .blank .votebox.add { color: white; }
+.galleryitem .blank .votebox.add:hover { color: #8ccaff; }
+.galleryitem .blank .votebox.remove { color: #8ccaff; }
+.galleryitem .blank .votebox.remove:hover { color: red; }
 .galleryitem .minitabs img,
 .galleryitem .minitabs .blank {
   position: relative;

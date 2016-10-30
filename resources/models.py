@@ -289,8 +289,8 @@ class Resource(Model):
     CONTEST_RUNNER_UP = 2
     EXTRA_CHOICES = (
       (None, _('No extra status')),
-      (CONTEST_WINNER, _('Contest Winner')),
-      (CONTEST_RUNNER_UP, _('Contest Runner Up')),
+      (CONTEST_WINNER, _('Winner')),
+      (CONTEST_RUNNER_UP, _('Runner Up')),
     )
     EXTRA_CSS = ['', 'winner', 'runnerup']
 

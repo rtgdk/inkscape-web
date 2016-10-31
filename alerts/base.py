@@ -34,8 +34,6 @@ from alerts.template_tools import has_template, render_template, render_directly
 
 from signal import SIGUSR1
 import os
-import sys
-import re
 
 ALL_ALERTS = {}
 
@@ -131,6 +129,7 @@ class BaseAlert(object):
                 'default_hide' : self.default_hide,
                 'default_email' : self.default_email,
               })
+            self.connect_signals()
 
         def look_up(fn):
             def _inner(cls, obj=None):
@@ -159,6 +158,14 @@ class BaseAlert(object):
             self._alert_type = AlertType.objects.get(slug=self.slug)
         return self._alert_type
 
+    def get_alert_users(self, instance):
+        """Returns a user of a list of users to send emails to"""
+        return getattr(instance, self.alert_user, None)
+
+    def get_alert_groups(self, instance):
+        """Returns a group or a list of groups to send emails to"""
+        return getattr(instance, self.alert_group, None)
+
     def call(self, sender, signal=None, **kwargs):
         """Connect this method to the post_save signal and it will
            create an alert when the sender edits any object."""
@@ -167,8 +174,8 @@ class BaseAlert(object):
                  return self.alert_type.send_to(recipient, **kwargs)
 
         instance = kwargs['instance']
-        send_to(getattr(instance, self.alert_user, None), get_user_model())
-        send_to(getattr(instance, self.alert_group, None), Group)
+        send_to(self.get_alert_users(instance), get_user_model())
+        send_to(self.get_alert_groups(instance), Group)
 
         if not self.private:
             target = instance

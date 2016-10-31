@@ -20,15 +20,13 @@
 """
 Resource alerts
 """
-
 from django.utils.translation import ugettext_lazy as _
-
-from django.db.models import signals
 from django.dispatch import Signal
 
-from alerts.base import EditedAlert
+from alerts.base import EditedAlert, CreatedAlert
 from alerts.models import AlertType
 
+from forums.models import Comment
 from .models import Resource
 
 post_publish = Signal(providing_args=["instance"])
@@ -47,5 +45,25 @@ class ResourceAlert(EditedAlert):
 
     # We subscribe to the user of the instance, not the instance.
     target_field = 'user'
+
+
+class CommentAlert(CreatedAlert):
+    name     = _("Comment on Resource")
+    desc     = _("A new comment on one of your resources")
+    category = AlertType.CATEGORY_USER_TO_USER
+    sender   = Comment
+    private  = True
+
+    subject       = "{% trans 'New comment:' %} {{ instance }}"
+    email_subject = "{% trans 'New comment:' %} {{ instance }}"
+    object_name   = "{% trans 'Comment on Resource' %}"
+    default_email = True
+
+    def get_alert_users(self, instance):
+        """Returns the user that owns the resource"""
+        obj = instance.content_object
+        if isinstance(obj, Resource):
+            if instance.user_id != obj.user_id:
+                return obj.user
 
 

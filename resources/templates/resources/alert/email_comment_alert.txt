@@ -1,0 +1,9 @@
+{% load i18n %}
+{% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
+ 
+{% blocktrans with sender=instance.user %}{{ sender }} just commented the following on your upload to inkscape.org:{% endblocktrans %}
+
+"{{ instance.comment }}"
+-------------------------------------
+{% trans "Link" %}: {{ site }}{{ instance.content_object.get_absolute_url }}
+

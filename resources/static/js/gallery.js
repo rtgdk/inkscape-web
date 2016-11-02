@@ -202,6 +202,12 @@ function registerDropZone(drop_id, gallery_id, post_url, media_url, keep) {
     var drop    = document.getElementById(drop_id);
     var gallery = document.getElementById(gallery_id);
 
+    var btn = drop.parentElement;
+    if($(btn).hasClass('btn')) {
+      addEventHandler(btn, 'dragenter', function() { $(this).addClass('dragging'); });
+      //addEventHandler(btn, 'dragleave', function() { $(this).removeClass('dragging'); });
+    }
+
     // Tells the browser that we *can* drop on this target
     addEventHandler(drop, 'dragover', cancel);
     addEventHandler(drop, 'dragenter', cancel);

@@ -25,6 +25,20 @@
       <a class="btn-disabled" title="{% trans "This contest is finished." %}">{% trans "Contest Finished" %}</a>
     {% endif %}
   </div>
+  {% elif upload_url %}
+    <div id="sidecategory">
+      <a class="btn btn-primary" href="{{ upload_url }}">
+        <div id="drop" class="link">
+          <img src="{% static "images/upload_cloud.svg" %}"/>
+        </div>
+        {% trans "Submit Resource" %}</a>
+      <script>
+        registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{% static "" %}'); 
+      </script>
+      {% if object.user == request.user %}
+      <a class="btn btn-default" href="{% url "gallery.edit" object.pk %}">{% trans "Edit Gallery" %}</a>
+      {% endif %}
+    </div>
   {% endif %}
 
   <h2>

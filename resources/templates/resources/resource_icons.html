@@ -3,23 +3,6 @@
 {% autopaginate object_list limit as resources %}
 
   <div id="gallery">
-    {% if upload_url and not object.contest_submit %}
-      <div class="galleryitem">
-        <div id="drop" class="link">
-          <a href="{{ upload_url }}"><img src="{% static "images/add.svg" %}"/></a>
-        </div>
-        <p><a href="{{ upload_url }}">{% trans "Submit Resource" %}</a></p>
-        <script>
-          registerDropZone('drop', 'gallery', '{{ upload_drop }}', '{% static "" %}'); 
-        </script>
-      </div>
-    {% elif team_member %}
-      <div class="galleryitem">
-        <div><a class="link"><img src="{% static "images/no.svg" %}"/></a></div>
-        <p class="label"><a>{% trans "Select Gallery to Upload" %}</a></p>
-      </div>
-    {% endif %}
-
     {% for item in resources %}
       {% include "resources/resource_item.html" %}
     {% empty %}

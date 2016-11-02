@@ -214,3 +214,18 @@ div#category_desc {
   padding: 1em;
   background-color: #eee;
 }
+
+.btn.dragging #drop {
+  border: 1px solid rgba(0,0,0, 0.25);
+  background-color: white;
+}
+.btn #drop img {
+  display: none;
+}
+.btn.dragging #drop img {
+  border: dashed 1px rgba(0,0,0,0.25);
+  padding: 5px;
+  margin: 19px 5px 14px;
+  display: inline-block;
+}
+

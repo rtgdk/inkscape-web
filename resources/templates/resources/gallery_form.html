@@ -1,28 +1,6 @@
-{% extends 'resources/resource_base.html' %}
+{% extends 'modal.html' %}
 {% load i18n %}
 
-{% block content %}
-
-<h1>{% block title %}{% trans "Edit InkSpace" %}{% endblock %}</h1>
-
- <form method="post">
-  {% csrf_token %}
-
-  <div id="errors">
-    {{ form.non_field_errors }}
-  </div>
-
-  <table>
-    <tr><th scope="col">{% trans "Name" %}:</th><td>{{ form.name }}</td></tr>
-    {% if request.user.groups.count > 0 %}
-    <tr><th scope="col">{% trans "Group" %}:</th><td>{{ form.group }}</td></tr>
-    <tr><td colspan="2">{% trans "If you set the group, any member of this group can add items to this InkSpace." %}</td></tr>
-    {% endif %}
-  </table>  
-
-  <div class="buttonbar">
-      <button id="moreInfo" class="start end unique" type="submit" name="save" value="1">{% trans "Save" %}</button>
-  </div>
- </form>
+{% block "form-buttons" %}
+  <button id="moreInfo" class="btn btn-primary" type="submit" name="save" value="1">{% trans "Save" %}</button>
 {% endblock %}
-

@@ -52,11 +52,13 @@ TOO_LARGE = [
 class GalleryForm(ModelForm):
     class Meta:
         model = Gallery
-        fields = ['name','group']
+        fields = ['name', 'group', 'category']
 
     def __init__(self, *args, **kwargs):
         ModelForm.__init__(self, *args, **kwargs)
         self.fields['group'].queryset = get_user().groups.all()
+        qs = self.fields['category'].queryset
+        self.fields['category'].queryset = qs.filter(selectable=True)
 
 
 class GalleryMoveForm(ModelForm):

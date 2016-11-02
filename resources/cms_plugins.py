@@ -38,6 +38,7 @@ class GalleryForm(ModelForm):
 
     
 class CMSCategoryPlugin(CMSPluginBase):
+    cache = False # Plugin cache breaks pagination
     model = CategoryPlugin
     name  = _('InkSpace Category')
     cache = settings.ENABLE_CACHING

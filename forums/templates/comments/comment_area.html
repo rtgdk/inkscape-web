@@ -1,11 +1,11 @@
-{% load i18n comments sekizai_tags static %}
+{% load i18n cached_comments sekizai_tags static %}
 
 {% addtoblock "css" %}<link rel="stylesheet" type="text/css" href="{% static "css/comments.css" %}" media="all" />{% endaddtoblock %}
 
 
 <div id="comments">
 
-  {% get_comment_list for comment_subject as comment_list %}
+  {% get_cached_comment_list for comment_subject as comment_list %}
   {% include "comments/new_list.html" %}
   
   {% if user.is_authenticated %}

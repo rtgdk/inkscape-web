@@ -388,7 +388,8 @@
       ]
     ], 
     "cache_keys": [
-      "cache:ForumTopic-1"
+      "cache:ForumTopic-1", 
+      "cache:create:Comment?content_type=83&object_pk=1"
     ], 
     "kwargs": {
       "forum": "hacking", 
@@ -893,7 +894,8 @@
       ]
     ], 
     "cache_keys": [
-      "cache:Resource-3"
+      "cache:Resource-3", 
+      "cache:create:Comment?content_type=52&object_pk=3"
     ], 
     "kwargs": {
       "pk": "3"
@@ -1227,6 +1229,7 @@
       ]
     ], 
     "cache_keys": [
+      "cache:create:Comment?content_type=52&object_pk=1", 
       "cache:Resource-1"
     ], 
     "kwargs": {
@@ -1255,6 +1258,7 @@
         ]
       ], 
       "cache_keys": [
+        "cache:create:Comment?content_type=52&object_pk=1", 
         "cache:Resource-1"
       ], 
       "kwargs": {
@@ -1279,6 +1283,7 @@
         ]
       ], 
       "cache_keys": [
+        "cache:create:Comment?content_type=52&object_pk=4", 
         "cache:Resource-4"
       ], 
       "kwargs": {

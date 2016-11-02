@@ -148,6 +148,13 @@ class BaseAlert(object):
             self.connected = True
         return self
 
+    def disconnect_signals(self):
+        """Disconnects the alert signal, useful for tests"""
+        if self.connected:
+            self.signal.disconnect(self.call, sender=self.sender, dispatch_uid=self.slug)
+            self.connected = False
+        return self
+
     @property
     def alert_type(self):
         """For tests we have to load alert_type object's late (to cope with loaddata fixture issues)"""

@@ -176,6 +176,10 @@ class TrackCacheMiddleware(BaseMiddleware):
 
         response.cache_keys = set()
         response.cache_tracks = []
+
+        # Late templatetag renders might add some cache tracking
+        request.cache_tracks = response.cache_tracks
+
         for key, value in context_items(response.context_data):
             if isinstance(value, Model):
                 # Track this one item being used in the context data

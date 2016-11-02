@@ -240,7 +240,8 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
             initial['subject'] = rto.subject
             if not rto.reply_to:
                 initial['subject'] = "Re: " + initial['subject']
-        initial['reply_to'] = self.kwargs.get('pk')
+        if 'pk' in self.kwargs:
+            initial['reply_to'] = self.kwargs['pk']
         initial['recipient'] = self.recipient.pk
         return initial
 

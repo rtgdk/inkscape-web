@@ -23,14 +23,24 @@ Forms for the alert system
 
 from django.forms import *
 from django.utils.translation import ugettext_lazy as _
+from django.contrib.auth import get_user_model
 
 from .models import Message
 
 class MessageForm(ModelForm):
-    reply_to = IntegerField(widget=HiddenInput)
+    reply_to = IntegerField(widget=HiddenInput, required=False)
     recipient = IntegerField(widget=HiddenInput)
 
     class Meta:
         model = Message
-        fields = ('subject','body','recipient','reply_to')
+        fields = ('subject','body', 'recipient', 'reply_to')
+
+    def clean_recipient(self):
+        pk = self.cleaned_data['recipient']
+        return get_user_model().objects.get(pk=pk)
+
+    def clean_reply_to(self):
+        pk = self.cleaned_data['reply_to']
+        if pk:
+            return Message.objects.get(pk=pk)
 

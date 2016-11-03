@@ -221,6 +221,7 @@ class CreateMessage(NeverCacheMixin, UserRequiredMixin, CreateView):
         obj = form.save(commit=False)
         obj.sender = self.request.user
         obj.save()
+        messages.info(self.request, _('Message Sent to %s') % str(obj.recipient))
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):

@@ -18,7 +18,8 @@ class FilterSelect(Select):
         self.filter_by = filter_by
         self.filters = defaultdict(list)
         for (pk, m2m_pk) in list(qs.values_list('pk', m2m_field)):
-            self.filters[pk].append(int(m2m_pk))
+            if m2m_pk is not None:
+                self.filters[pk].append(int(m2m_pk))
 
         super(FilterSelect, self).__init__(replace.attrs, replace.choices)
 

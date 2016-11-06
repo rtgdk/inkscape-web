@@ -40,7 +40,7 @@ class CategoryAdmin(ModelAdmin):
     def restricted_to_groups(self, obj):
         return ", ".join(obj.groups.values_list('name', flat=True))
 
-site.register(License, CategoryAdmin)
+site.register(License)
 site.register(Category, CategoryAdmin)
 
 class ResourceForm(ModelForm):

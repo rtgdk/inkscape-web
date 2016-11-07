@@ -307,7 +307,7 @@ div.toc ol, #toc.right ol {
   text-decoration: none;
 }
 #logo h1 {
-  font-family: LinuxLibertineORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
+  font-family: LinuxLibertineDisplayORegular, "Trebuchet MS", Ubuntu, "Liberation Sans", FreeSans, sans-serif;
   margin: 0 0 0 64px;
   padding: 0;
   border: 0;

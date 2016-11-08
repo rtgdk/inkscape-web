@@ -38,8 +38,9 @@
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-.text-muted {
+.modal-dialog .text-muted {
   color: #999;
+  display: block;
 }
 small, .small {
   font-size: 85%;

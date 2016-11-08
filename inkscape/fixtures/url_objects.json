@@ -1818,53 +1818,45 @@
 },
 {
   "fields": {
-    "category": "U",
     "group": null,
     "created": "2016-07-06T06:30:44.976Z",
     "enabled": true,
-    "private": true,
     "default_email": true,
     "slug": "alerts.message_alert",
-    "default_hide": false
+    "default_irc": false
   },
   "model": "alerts.alerttype"
 },
  {
    "fields": {
-    "category": "S",
     "group": null,
     "created": "2016-07-06T06:30:44.811Z",
     "enabled": true,
-    "private": false,
     "default_email": false,
     "slug": "cmsdiff.page_published_alert",
-    "default_hide": false
+    "default_irc": false
   },
   "model": "alerts.alerttype"
 },
 {
   "fields": {
-    "category": "S",
     "group": null,
     "created": "2016-07-06T06:30:44.909Z",
     "enabled": true,
-    "private": false,
     "default_email": false,
     "slug": "resources.resource_alert",
-    "default_hide": false
+    "default_irc": false
   },
   "model": "alerts.alerttype"
 },
 {
   "fields": {
-    "category": "U",
     "group": null,
     "created": "2016-07-06T06:37:43.957Z",
     "enabled": true,
-    "private": true,
     "default_email": true,
     "slug": "alerts.test_message_alert",
-    "default_hide": false
+    "default_irc": false
   },
   "model": "alerts.alerttype"
 },

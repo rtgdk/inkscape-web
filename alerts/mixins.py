@@ -43,6 +43,9 @@ class UserRequiredMixin(object):
             raise PermissionDenied()
         return super(UserRequiredMixin, self).dispatch(request, *args, **kwargs)
 
+class UserMixin(UserRequiredMixin):
+    get_object = lambda self: self.request.user
+
 class OwnerRequiredMixin(UserRequiredMixin):
     user_field = 'user'
 
@@ -55,3 +58,4 @@ class OwnerRequiredMixin(UserRequiredMixin):
         kw = {self.user_field: user}
         return qs.exclude(**kw).count() == 0
         
+

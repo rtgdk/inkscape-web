@@ -21,24 +21,26 @@
 from django.utils.translation import ugettext_lazy as _
 
 from alerts.base import CreatedAlert
-from alerts.models import AlertType, Message
+from alerts.models import Message
 
 class MessageAlert(CreatedAlert):
     """Shows overloading of alert signal to process replies as read"""
-    alert_user = 'recipient'
-
-    category = AlertType.CATEGORY_USER_TO_USER
-    sender   = Message
     name     = _('Personal Message')
     desc     = _('Another user has sent you a personal message.')
+    info     = _("When another user on the website sends you a message directly, this is called a <strong>Personal Message</strong>. By default these messages are emailed to you.")
+    alert_user = 'recipient'
+    sender   = Message
 
     subject       = "{{ instance.subject }}"
     email_subject = "Message from User: {{ instance.subject }}"
     object_name   = "User's personal messages: {{ object }}"
 
-    private       = True
-    default_hide  = False
     default_email = True
+    default_irc = False
+
+    subscribe_all = False
+    subscribe_any = False
+    subscribe_own = True
 
     def call(self, sender, instance, **kwargs):
         """Marks the message we're replying to as viewed"""

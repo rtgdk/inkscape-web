@@ -27,15 +27,14 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.template import RequestContext
 from django.core.urlresolvers import reverse
-from django.views.generic import ListView, DeleteView, CreateView, \
+from django.views.generic import ListView, DeleteView, CreateView, UpdateView,\
         TemplateView, View
 from django.views.generic.detail import SingleObjectMixin
 from django.contrib.auth import get_user_model
 
-from .forms import MessageForm
-from .mixins import NeverCacheMixin, UserRequiredMixin, OwnerRequiredMixin
-from .models import UserAlert, Message, \
-    UserAlertSetting, AlertType, AlertSubscription
+from .forms import MessageForm, SettingsFormSet
+from .mixins import NeverCacheMixin, UserRequiredMixin, UserMixin, OwnerRequiredMixin
+from .models import UserAlert, Message, UserAlertSetting, AlertType, AlertSubscription
 
 class AlertsJson(NeverCacheMixin, UserRequiredMixin, View):
     def get(self, request):
@@ -166,40 +165,18 @@ class Unsubscribe(NeverCacheMixin, OwnerRequiredMixin, DeleteView):
         return super(Unsubscribe, self).get_object()
 
 
-class SettingsList(NeverCacheMixin, UserRequiredMixin, ListView):
+class SettingsList(NeverCacheMixin, UserMixin, UpdateView):
     title = _('Your Alert Settings')
-    model = AlertSubscription
-
-    def get_queryset(self, **kwargs):
-        return super(SettingsList, self).get_queryset(**kwargs).filter(user=self.request.user)
-
-    def post(self, *args, **kwargs):
-        data = self.request.POST
-        # This proceedure is because settings are not saved unless
-        # the user has changed something from the default.
-        for item in UserAlertSetting.objects.get_all(self.request.user):
-            changed = False
-            for setting in ('email', 'hide'):
-                value = bool(data.get("setting_%d_%s" % (item.alert.pk, setting), False))
-                if getattr(item, setting) != value:
-                    setattr(item, setting, value)
-                    changed = True
-            if changed:
-                item.save()
-        return redirect('alert.settings')
+    form_class = SettingsFormSet
+    template_name = 'alerts/alertsettings.html'
 
     def get_context_data(self, **data):
         data = super(SettingsList, self).get_context_data(**data)
-        if not self.request.user.email:
-            messages.warning(self.request,
-              _("You haven't told us your mail address yet! If you would like"
-              " to receive emails from inkscape.org, enter an email address"
-              " <a href='%(url)s'>in your profile</a>.") % \
-                {'url': reverse('edit_profile')}, extra_tags='safe')
-        data['object'] = self.request.user
-        data['settings'] = UserAlertSetting.objects.get_all(self.request.user)
-        data['view'] = self
+        data['formset'] = data.pop('form')
         return data
+
+    def get_success_url(self):
+        return reverse('alert.settings')
 
 
 class SentMessages(NeverCacheMixin, UserRequiredMixin, ListView):

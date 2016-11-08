@@ -41,6 +41,14 @@ from collections import defaultdict
 
 null = {'null': True, 'blank': True}
 
+BATCH_MODES = (
+  (None, _("Instant")),
+  ("D",  _("Daily")),
+  ("W",  _("Weekly")),
+  ("M",  _("Monthly")),
+)
+
+
 class AlertTypeManager(Manager):
     def get_by_natural_key(self, slug):
         return self.get(slug=slug)
@@ -55,29 +63,19 @@ class AlertTypeManager(Manager):
             self.filter(pk=obj.pk).update(**values)
         return (obj, created)
 
+
 class AlertType(Model):
     """All Possible messages that users can receive, acts as a template"""
-    CATEGORIES = (
-      ('?', 'Unknown'),
-      ('U', 'User to User'),
-      ('S', 'System to User'),
-      ('A', 'Admin to User'),
-      ('P', 'User to Admin'),
-      ('T', 'System to Translator'),
-    )
-
     slug     = CharField(_("URL Slug"), max_length=32, unique=True)
     group    = ForeignKey(Group, verbose_name=_("Limit to Group"), **null)
 
     created  = DateTimeField(_("Created Date"), auto_now_add=now)
-
-    category = CharField(_("Category"), max_length=1, choices=CATEGORIES, default='?')
     enabled  = BooleanField(default=False)
-    private  = BooleanField(default=False)
 
     # These get copied into UserAlertSettings for this alert
-    default_hide  = BooleanField(default=False)
     default_email = BooleanField(default=False)
+    default_irc   = BooleanField(default=False)
+    default_batch = CharField(max_length=1, choices=BATCH_MODES, blank=True, null=True)
 
     objects = AlertTypeManager()
 
@@ -163,41 +161,70 @@ class AlertType(Model):
             return "Orphan (%s)" % self.slug
 
 
-for (m, name) in AlertType.CATEGORIES:
-    name = 'CATEGORY_'+name.replace(' ', '_').upper()
-    setattr(AlertType, name, m)
+class SettingsQuerySet(QuerySet):
+    def get(self, **kw):
+        hint = self._hints.get('instance', None)
+        user = kw.get('user', hint)
+        alert = kw.get('alert', hint)
 
-
-class SettingsManager(Manager):
-    def get(self, **kwargs):
-        """Will return an empty setting for this user using defaults"""
         try:
-            return Manager.get(self, **kwargs)
+            return super(SettingsQuerySet, self).get(**kw)
         except self.model.DoesNotExist:
-            if 'alert' in kwargs and 'user' in kwargs and len(kwargs) == 2:
-                kwargs['hide'] = kwargs['alert'].default_hide
-                kwargs['email'] = kwargs['alert'].default_email
-                return self.model(**kwargs)
-            raise
+            if not isinstance(user, get_user_model()) \
+              or not isinstance(alert, AlertType):
+                raise
 
-    def get_all(self, user):
-        ret = []
-        for alert_type in AlertType.objects.filter(enabled=True):
-            if alert_type._alerter:
-                ret.append(self.get(user=user, alert=alert_type))
-        return ret
+        # Create a blank, not-saved model containing the default settings.
+        return self.model(
+            user_id=user.pk,
+            alert_id=alert.pk,
+            owner=alert.subscribe_own,
+            email=alert.default_email,
+            irc=alert.default_irc,
+            batch=alert.default_batch,
+          )
+
+    def for_user(self, user):
+        """Return the settings for a specific user"""
+        alert = self._hints.get('instance', None)
+        return self.get(user=user, alert=alert)
+
 
 
 class UserAlertSetting(Model):
     user    = ForeignKey(settings.AUTH_USER_MODEL, related_name='alert_settings')
     alert   = ForeignKey(AlertType, related_name='settings')
-    hide    = BooleanField(_("Hide Alerts"), default=True)
-    email   = BooleanField(_("Send Email Alert"), default=False)
+    owner   = BooleanField(_("Subscribe to Self"), default=True,
+        help_text=_("Send the alert if it relates directly to me or my group."))
+
+    email   = BooleanField(_("Send Email Alert"), default=False,
+        help_text=_("Send the alert to the account email address."))
+    irc     = BooleanField(_("Send IRC Alert"), default=False,
+        help_text=_("If online, this alert will be sent to my irc nickname."))
+    batch   = CharField(_("Batch Alerts"), max_length=1,
+        choices=BATCH_MODES, blank=True, null=True, 
+        help_text=_("Save all alerts and send as one email, only effects email alerts."))
     
-    objects = SettingsManager()
+    objects = SettingsQuerySet.as_manager()
 
     def __str__(self):
-        return "User Alert Setting"
+        return str(self.alert)
+
+    @property
+    def subscriptions(self):
+        """Returns related subscriptions based on the user and alert"""
+        return self.alert.subscriptions.filter(user_id=self.user_id)
+
+    def save(self, **kw):
+        """Do not save default settings if never saved before"""
+        if not self.pk \
+          and self.owner == self.alert.subscribe_own \
+          and self.email == self.alert.default_email \
+          and self.irc == self.alert.default_irc \
+          and self.batch == self.alert.default_batch:
+            return
+        super(UserAlertSetting, self).save(**kw)
+
 
 class UserAlertQuerySet(QuerySet):
     def serialise(self):
@@ -287,7 +314,7 @@ class UserAlert(Model):
             self.save()
 
     def is_hidden(self):
-        return self.viewed or self.deleted or self.config.hide
+        return self.viewed or self.deleted
 
     @property
     def config(self):
@@ -384,6 +411,7 @@ class SubscriptionQuerySet(QuerySet):
             return bool(self.filter(target=target.pk).count())
         return bool(self.filter(Q(target=target.pk) | Q(target__isnull=True)).count())
 
+
 class AlertSubscriptionManager(Manager.from_queryset(SubscriptionQuerySet)):
     def get_queryset(self):
         queryset = super(AlertSubscriptionManager, self).get_queryset()
@@ -447,4 +475,6 @@ class Message(Model):
 
     def __str__(self):
         return "Message from %s" % unicode(self.sender)
+
+
 

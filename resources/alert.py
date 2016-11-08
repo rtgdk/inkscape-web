@@ -24,9 +24,8 @@ from django.utils.translation import ugettext_lazy as _
 from django.dispatch import Signal
 
 from alerts.base import EditedAlert, CreatedAlert
-from alerts.models import AlertType
-
 from forums.models import Comment
+
 from .models import Resource
 
 post_publish = Signal(providing_args=["instance"])
@@ -34,7 +33,7 @@ post_publish = Signal(providing_args=["instance"])
 class ResourceAlert(EditedAlert):
     name     = _("New Gallery Resource")
     desc     = _("An alert is sent when the target user submits a resource.")
-    category = AlertType.CATEGORY_SYSTEM_TO_USER
+    info     = _("When a user submits a gallery resource, you can get a message if you are subscribed to that user.")
     sender   = Resource
 
     subject       = "{% trans 'New submission:' %} {{ instance }}"
@@ -43,6 +42,10 @@ class ResourceAlert(EditedAlert):
     default_email = False
     signal        = post_publish
 
+    subscribe_all = True
+    subscribe_any = True
+    subscribe_own = False
+
     # We subscribe to the user of the instance, not the instance.
     target_field = 'user'
 
@@ -50,14 +53,17 @@ class ResourceAlert(EditedAlert):
 class CommentAlert(CreatedAlert):
     name     = _("Comment on Resource")
     desc     = _("A new comment on one of your resources")
-    category = AlertType.CATEGORY_USER_TO_USER
+    info     = _("When a user comments on one of your gallery uploads, you will recieve this alert message.")
     sender   = Comment
-    private  = True
 
     subject       = "{% trans 'New comment:' %} {{ instance }}"
     email_subject = "{% trans 'New comment:' %} {{ instance }}"
     object_name   = "{% trans 'Comment on Resource' %}"
     default_email = True
+
+    subscribe_all = False
+    subscribe_any = True
+    subscribe_own = True
 
     def get_alert_users(self, instance):
         """Returns the user that owns the resource"""

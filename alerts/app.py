@@ -33,6 +33,7 @@ from alerts.base import BaseAlert
 
 ALERT_MODULE_NAME = 'alert'
 IS_TEST = 'test' in sys.argv or 'autotest' in sys.argv
+IS_MIGRATE = 'migrate' in sys.argv or 'makemigrations' in sys.argv
 
 class AlertsConfig(AppConfig):
     name = 'alerts'
@@ -54,7 +55,7 @@ class AlertsConfig(AppConfig):
         slug = "%s.%s" % (app,
             re.sub('(?!^)([A-Z]+)', r'_\1', cls.__name__).lower())
         try:
-            cls(slug, is_test=IS_TEST) # Singleton
+            cls(slug, is_test=IS_TEST, is_migrate=IS_MIGRATE) # Singleton
         except Exception as err:
             if any(cmd in sys.argv for cmd in ['runserver', 'shell']):
                 sys.stderr.write("Err in alert: %s\n%s\n" % (slug, str(err)))

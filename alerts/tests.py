@@ -137,9 +137,6 @@ class AlertUserTests(ExtraTestCase):
     def test_view_alert(self):
         pass
 
-    def test_hide_alert(self):
-        pass
-
     def test_delete_alert(self):
         pass
 

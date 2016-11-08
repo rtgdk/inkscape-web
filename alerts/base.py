@@ -58,17 +58,18 @@ class Lookup(object):
 
 class BaseAlert(object):
     """None model parent class for your alert signals"""
-    # We really don't want to allow anyone to subscribe to
-    # all private messages, so we add a flag to ensure them.
-    private       = False
+    # Control how subscriptions will work.
+    subscribe_all = True
+    subscribe_any = True
+    subscribe_own = True # Related users and groups
 
     # These defaults control how messages should be displayed or
     # Send via email to the user's email address.
-    default_hide  = False
     default_email = True
+    default_irc   = False
+    default_batch = None  # Instant
 
     signal   = django_signals.post_save
-    category = '?'
     sender   = None
 
     # What lookup should be attached to the sender model;
@@ -98,13 +99,14 @@ class BaseAlert(object):
             #raise KeyError("Alert can not be registered twice: %s" % slug)
         return ALL_ALERTS[slug]
 
-    def __init__(self, slug, is_test=False, **kwargs):
+    def __init__(self, slug, is_test=False, is_migrate=False, **kwargs):
         if hasattr(self, 'slug'):
             # Already initialised (just passed in from __new__)
             return;
 
         self.slug = slug
         self.is_test = is_test
+        self.is_migrate = is_migrate
         self.connected = False
 
         # Check the setup of this alert class
@@ -119,16 +121,16 @@ class BaseAlert(object):
 
         if not self.is_test:
             from alerts.models import AlertType
-            # Create an AlertType object which mirrors this class
-            (self._alert_type, _) = AlertType.objects.get_or_create(
-              slug=self.slug,
-              values={
-                'enabled': True,
-                'private': self.private,
-                'category': self.category,
-                'default_hide' : self.default_hide,
-                'default_email' : self.default_email,
-              })
+            if not self.is_migrate:
+                # Create an AlertType object which mirrors this class
+                (self._alert_type, _) = AlertType.objects.get_or_create(
+                  slug=self.slug,
+                  values={
+                    'enabled': True,
+                    'default_email' : self.default_email,
+                    'default_irc': self.default_irc,
+                    'default_batch': self.default_batch,
+                  })
             self.connect_signals()
 
         def look_up(fn):
@@ -158,7 +160,7 @@ class BaseAlert(object):
     @property
     def alert_type(self):
         """For tests we have to load alert_type object's late (to cope with loaddata fixture issues)"""
-        if not hasattr(self, '_alert_type') and self.is_test:
+        if not hasattr(self, '_alert_type'):
             # This will fail is the test doesn't include a fixture with all the right
             # alert types available. It depends on the test to populate the database.
             from alerts.models import AlertType
@@ -181,17 +183,23 @@ class BaseAlert(object):
                  return self.alert_type.send_to(recipient, **kwargs)
 
         instance = kwargs['instance']
-        send_to(self.get_alert_users(instance), get_user_model())
-        send_to(self.get_alert_groups(instance), Group)
 
-        if not self.private:
+        if self.subscribe_own:
+            send_to(self.get_alert_users(instance), get_user_model())
+            send_to(self.get_alert_groups(instance), Group)
+
+        if self.subscribe_all:
+            for sub in self.alert_type.subscriptions.filter(target__isnull=True):
+                send_to(sub.user)
+
+        if self.subscribe_any:
             target = instance
             if self.target_field:
                 target = getattr(instance, self.target_field)
 
-            q = Q(target__isnull=True) | Q(target=target.pk)
-            for sub in self.alert_type.subscriptions.filter(q):
+            for sub in self.alert_type.subscriptions.filter(target=target.pk):
                 send_to(sub.user)
+
         # TODO: send_to returns a list of users sent to, but we don't log much here.
         return True
 
@@ -222,6 +230,10 @@ class BaseAlert(object):
     @property
     def desc(self):
         raise NotImplementedError("Desc is a required property for alerts.")
+
+    @property
+    def info(self):
+        raise NotImplementedError("Info is a required property for alerts.")
 
     def get_object(self, **fields):
         """Returns object matching field using Alert's target object type"""

@@ -27,13 +27,12 @@ from cms.models import Page
 from django.utils.translation import get_language
 
 from alerts.base import BaseAlert
-from alerts.models import AlertType
 from cmsdiff.signals import post_revision
 
 class PagePublishedAlert(BaseAlert):
     name     = _("Website Page Published")
     desc     = _("A page on the website has been published after editing.")
-    category = AlertType.CATEGORY_SYSTEM_TO_USER
+    info     = _("When a webste editor or translator edits one of the content pages, a message is sent to all subscribers. You can be subscribed to one page or all pages ont he website.")
     sender   = Page
 
     subject       = "{% trans 'Published:' %} {{ instance }}"
@@ -41,6 +40,10 @@ class PagePublishedAlert(BaseAlert):
     object_name   = "when the '{{ object }}' page is published"
     default_email = False
     signal        = post_revision
+
+    subscribe_all = True
+    subscribe_any = True
+    subscribe_own = False
 
     def call(self, *args, **kwargs):
         kwargs['language'] = get_language()

@@ -16,7 +16,7 @@
       {{ field.label_tag }}
     {% endif %}
     {% if field|is_checkbox %}
-      <div class="onoffswitch{% if field.field.opposite %} opposite{% endif %}">
+    <div class="onoffswitch{% if field.field.opposite %} opposite{% endif %}{% if field.field.delete %} delete{% endif %}{% if field.field.disabled %} disabled{% endif %}">
         {{ field }}
         <label class="onoffswitch-label" for="{{ field.auto_id }}">
           <span class="onoffswitch-inner"></span>

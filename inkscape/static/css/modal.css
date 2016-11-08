@@ -41,6 +41,10 @@
 .modal-dialog .text-muted {
   color: #999;
   display: block;
+  margin-top: 2px;
+}
+.text-muted strong {
+  color: #a33;
 }
 small, .small {
   font-size: 85%;
@@ -282,6 +286,9 @@ label.tab.selected {
   -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
   float: right;
 }
+.onoffswitch.delete {
+  width: 92px;
+}
 /*.onoffswitch-checkbox {*/
 .onoffswitch > input {
   display: none;
@@ -308,17 +315,24 @@ label.tab.selected {
   padding-left: 10px;
   text-align: left;
 }
+.delete .onoffswitch-inner:before {
+  content: "DELETE";
+  background-color: #d9534f; color: #FFFFFF;
+}
 .onoffswitch-inner:after {
   content: "OFF";
   background-color: #EEEEEE; color: #999999;
   padding-right: 10px;
   text-align: right;
 }
+.delete .onoffswitch-inner:after {
+  content: "KEEP";
+}
 .onoffswitch-switch {
   display: block; width: 18px; margin: 3px;
   background: #FFFFFF;
   position: absolute; top: 0; bottom: 0;
-  right: 44px;
+  right: calc(100% - 26px);
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-radius: 12px;
   transition: all 0.3s ease-in 0s; 
@@ -330,4 +344,10 @@ label.tab.selected {
 .onoffswitch:not(.opposite) > input:checked + .onoffswitch-label .onoffswitch-switch,
 .onoffswitch.opposite > input:not(:checked) + .onoffswitch-label .onoffswitch-switch {
   right: 0px; 
+}
+.onoffswitch input:disabled + .onoffswitch-label .onoffswitch-inner:after {
+  color: #ddd;
+}
+.onoffswitch input:disabled + .onoffswitch-label .onoffswitch-switch {
+  background-color: #eee;
 }

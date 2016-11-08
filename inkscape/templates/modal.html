@@ -46,12 +46,14 @@
                   {% for form in formset %}
                     <label class="tab" for="tab{{ forloop.counter }}">{{ form.label }}</label>
                   {% endfor %}
+                  {% block "extra-tabs" %}{% endblock %}
                 </div>
                 {% for fieldset in formset %}
                   <div class="fields" id="tab{{ forloop.counter }}">
                     {% if fieldset.description %}<p class="description">{{ fieldset.description|safe }}</p>{% endif %}
                     {% include "modal-fields.html" %}
                   </div>
+                  {% block "extra-tab-fields" %}{% endblock %}
                 {% endfor %}
               {% else %}
                 {% with form as fieldset %}

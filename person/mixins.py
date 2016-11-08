@@ -33,11 +33,8 @@ class LoginRequiredMixin(object):
         return super(LoginRequiredMixin, self).dispatch(request, *args, **kw)
 
 class UserMixin(LoginRequiredMixin):
-    """
-    Returns the logged in user as the get_object focus
-    """
-    def get_object(self):
-        return self.request.user
+    """Returns the logged in user as the get_object focus"""
+    get_object = lambda self: self.request.user
 
 class NeverCacheMixin(object):
     """

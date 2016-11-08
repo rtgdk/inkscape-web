@@ -1,19 +1,37 @@
 {% load i18n static extras %}
 
-{% for field in fieldset %}
-  {% if field.help_text %}
-    <div class="tooltip floating-tip"> 
-      <img class="help" src="{% static "images/icons/help.svg" %}" alt="?"/>
-      <span><span class="ttarrow"></span>{{ field.help_text|safe }}</span>
-    </div>
-  {% endif %}
-  <div class="form-group">
-    {% if field.errors %}{{ field.errors }}{% endif %}
-    {{ field.label_tag }}
-    {% if forloop.first %}
-      {{ field|placeholder:field.label|autofocus }}
+{% for field in fieldset.hidden_fields %}
+  {{ field }}
+{% endfor %}
+
+{% for field in fieldset.visible_fields|default:fieldset %}
+  <div class="form-group{% if field.errors %} has-error{% endif %}">
+    {% if field.errors %}
+    <span class="text-danger">
+      {% for error in field.errors %}
+        <br />{{ field.label_tag }} {{ error }}
+      {% endfor %}
+    </span>
     {% else %}
-      {{ field|placeholder:field.label }}
+      {{ field.label_tag }}
+    {% endif %}
+    {% if field|is_checkbox %}
+      <div class="onoffswitch{% if field.field.opposite %} opposite{% endif %}">
+        {{ field }}
+        <label class="onoffswitch-label" for="{{ field.auto_id }}">
+          <span class="onoffswitch-inner"></span>
+          <span class="onoffswitch-switch"></span>
+        </label>
+      </div>
+    {% else %}
+      {% if forloop.first %}
+        {{ field|placeholder:field.label|formfield|autofocus }}
+      {% else %}
+        {{ field|placeholder:field.label|formfield }}
+      {% endif %}
+    {% endif %}
+    {% if field.help_text %}
+      <small class="form-text text-muted">{{ field.help_text|safe }}</small>
     {% endif %}
   </div>
 {% endfor %}

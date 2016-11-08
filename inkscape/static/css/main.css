@@ -1280,8 +1280,8 @@ div.tooltip {
 .btn-primary {
   color: #ffffff;
   text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
-  background-color: #006dcc;
-  background-image: linear-gradient(to bottom, #0088cc, #0044cc);
+  background-color: #34A7C1;
+  background-image: linear-gradient(to bottom, #34A7C1, #0088cc);
   background-repeat: repeat-x;
   border-color: rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.1) rgba(0, 0, 0, 0.25);
 }
@@ -1299,7 +1299,7 @@ div.tooltip {
 .btn-primary.active,
 .open > .dropdown-toggle.btn-primary {
   color: #fff;
-  background-color: #0060b0;
+  background-color: #34A7C1;
   border-color: rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.3) rgba(0, 0, 0, 0.6);
 }
 .btn-primary::-moz-focus-inner {

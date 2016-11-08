@@ -78,21 +78,33 @@ def percent(x, y):
     return '{:.0%}'.format(float(x) / float(y))
 
 @register.filter("placeholder")
-def add_placeholder(form, text=None):
+def add_placeholder(bound_field, text=None):
     if text == None:
         raise ValueError("Placeholder requires text content for widget.")
-    form.field.widget.attrs.update({ "placeholder": text })
-    return form
+    bound_field.field.widget.attrs.update({ "placeholder": text })
+    return bound_field
 
 @register.filter("autofocus")
-def add_autofocus(form):
-    form.field.widget.attrs.update({ "autofocus": "autofocus" })
-    return form
+def add_autofocus(bound_field):
+    bound_field.field.widget.attrs.update({ "autofocus": "autofocus" })
+    return bound_field
 
 @register.filter("tabindex")
-def add_tabindex(form, number):
-    form.field.widget.attrs.update({ "tabindex": number })
-    return form
+def add_tabindex(bound_field, number):
+    bound_field.field.widget.attrs.update({ "tabindex": number })
+    return bound_field
+
+@register.filter("formfield")
+def add_form_control(bound_field):
+    cls = ['form-control']
+    if bound_field.errors:
+        cls.append("form-control-danger")
+    bound_field.field.widget.attrs.update({"class": ' '.join(cls)})
+    return bound_field
+
+@register.filter("is_checkbox")
+def is_checkbox_field(bound_field):
+    return type(bound_field.field.widget).__name__ == 'CheckboxInput'
 
 @register.filter("root_nudge")
 def root_nudge(root, page):

@@ -40,6 +40,19 @@
                     {% include "modal-fields.html" %}
                   </div>
                 {% endfor %}
+              {% elif formset %}
+                {{ formset.management_form }}
+                <div class="tabs">
+                  {% for form in formset %}
+                    <label class="tab" for="tab{{ forloop.counter }}">{{ form.label }}</label>
+                  {% endfor %}
+                </div>
+                {% for fieldset in formset %}
+                  <div class="fields" id="tab{{ forloop.counter }}">
+                    {% if fieldset.description %}<p class="description">{{ fieldset.description|safe }}</p>{% endif %}
+                    {% include "modal-fields.html" %}
+                  </div>
+                {% endfor %}
               {% else %}
                 {% with form as fieldset %}
                   {% include "modal-fields.html" %}

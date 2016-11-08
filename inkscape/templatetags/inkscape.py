@@ -59,7 +59,6 @@ def add_filter(value, arg=1):
     """Add a number to another, default is incriment by 1"""
     return int(value) + arg
 
-
 @register.simple_tag(takes_context=True)
 def track_object(context, obj):
     """This object, when changed, should invalidate this request"""

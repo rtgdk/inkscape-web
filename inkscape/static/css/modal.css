@@ -15,18 +15,18 @@
 }
 .modal.fade .modal-dialog {
   -webkit-transition: -webkit-transform .3s ease-out;
-       -o-transition:      -o-transform .3s ease-out;
-          transition:         transform .3s ease-out;
+     -o-transition:    -o-transform .3s ease-out;
+      transition:     transform .3s ease-out;
   -webkit-transform: translate(0, -25%);
-      -ms-transform: translate(0, -25%);
-       -o-transform: translate(0, -25%);
-          transform: translate(0, -25%);
+    -ms-transform: translate(0, -25%);
+     -o-transform: translate(0, -25%);
+      transform: translate(0, -25%);
 }
 .modal.in .modal-dialog {
   -webkit-transform: translate(0, 0);
-      -ms-transform: translate(0, 0);
-       -o-transform: translate(0, 0);
-          transform: translate(0, 0);
+    -ms-transform: translate(0, 0);
+     -o-transform: translate(0, 0);
+      transform: translate(0, 0);
 }
 .modal-open .modal {
   overflow-x: hidden;
@@ -38,11 +38,17 @@
   margin: 10px;
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
+.text-muted {
+  color: #999;
+}
+small, .small {
+  font-size: 85%;
+}
 .modal-content {
   position: relative;
   background-color: #fff;
   -webkit-background-clip: padding-box;
-          background-clip: padding-box;
+      background-clip: padding-box;
   border-radius: 6px;
   outline: 0;
 }
@@ -102,19 +108,19 @@
 }
 @media (min-width: 768px) {
   .modal-dialog {
-    margin: 0px auto;
+  margin: 0px auto;
   }
   .modal-dialog form {
-    max-width: 500px;
-    margin: 10px auto 4px;
+  max-width: 500px;
+  margin: 10px auto 4px;
   }
   .modal-sm {
-    width: 300px;
+  width: 300px;
   }
 }
 @media (min-width: 992px) {
   .modal-lg {
-    width: 900px;
+  width: 900px;
   }
 }
 /* Extra bootstrap form styles */
@@ -158,8 +164,14 @@
   appearance: none;
   background: url(../images/down-arrow.png) 96% no-repeat #fff;
 }
-.modal-dialog .form-group > label {
+.modal-dialog.simple .form-group > label {
   display: none;
+}
+.modal-dialog .form-group > label {
+  display: inline-block;
+  margin-bottom: 5px;
+  font-weight: 700;
+  box-sizing: border-box;
 }
 .modal-dialog .form-group > input + label {
   display: inline;
@@ -182,7 +194,7 @@
 @font-face {
   font-family:'FontAwesome';
   src:url('../fonts/fontawesome-webfont.woff2?v=4.5.0') format('woff2'),
-      url('../fonts/fontawesome-webfont.ttf?v=4.5.0') format('truetype');
+    url('../fonts/fontawesome-webfont.ttf?v=4.5.0') format('truetype');
   font-weight:normal;
   font-style:normal
 }
@@ -261,4 +273,60 @@ label.tab.selected {
 }
 .fields {
   margin-top: 40px;
+}
+
+/* on-off checkbox */
+.onoffswitch {
+  position: relative; width: 72px;
+  -webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+  float: right;
+}
+/*.onoffswitch-checkbox {*/
+.onoffswitch > input {
+  display: none;
+}
+.onoffswitch-label {
+  display: block; overflow: hidden; cursor: pointer;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.25);
+}
+.onoffswitch-inner {
+  display: block; width: 200%; margin-left: -100%;
+  transition: margin 0.3s ease-in 0s;
+}
+.onoffswitch-inner:before,
+.onoffswitch-inner:after {
+  display: block; float: left; width: 50%; height: 24px; padding: 0; line-height: 24px;
+  font-size: 14px; color: white;
+  box-sizing: border-box;
+}
+.onoffswitch-inner:before {
+  content: "ON";
+  background-color: #34A7C1; color: #FFFFFF;
+  padding-left: 10px;
+  text-align: left;
+}
+.onoffswitch-inner:after {
+  content: "OFF";
+  background-color: #EEEEEE; color: #999999;
+  padding-right: 10px;
+  text-align: right;
+}
+.onoffswitch-switch {
+  display: block; width: 18px; margin: 3px;
+  background: #FFFFFF;
+  position: absolute; top: 0; bottom: 0;
+  right: 44px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 12px;
+  transition: all 0.3s ease-in 0s; 
+}
+.onoffswitch:not(.opposite) > input:checked + .onoffswitch-label .onoffswitch-inner,
+.onoffswitch.opposite > input:not(:checked) + .onoffswitch-label .onoffswitch-inner {
+  margin-left: 0;
+}
+.onoffswitch:not(.opposite) > input:checked + .onoffswitch-label .onoffswitch-switch,
+.onoffswitch.opposite > input:not(:checked) + .onoffswitch-label .onoffswitch-switch {
+  right: 0px; 
 }

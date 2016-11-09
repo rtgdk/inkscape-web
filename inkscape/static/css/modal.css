@@ -273,7 +273,8 @@ label.tab {
   margin: 2px 0px;
 }
 label.tab.selected {
-  background-color: #e5e5e5;
+  background-color: #34A7C1;
+  color: white;
   border: #ccc solid 1px;
 }
 .fields {

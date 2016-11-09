@@ -271,6 +271,7 @@ label.tab {
   padding: 6px 12px;
   display: inline-block;
   margin: 2px 0px;
+  cursor: pointer;
 }
 label.tab.selected {
   background-color: #34A7C1;

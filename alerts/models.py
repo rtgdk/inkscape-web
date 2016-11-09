@@ -208,7 +208,7 @@ class UserAlertSetting(Model):
     objects = SettingsQuerySet.as_manager()
 
     def __str__(self):
-        return str(self.alert)
+        return unicode(self.alert)
 
     @property
     def subscriptions(self):
@@ -438,7 +438,8 @@ class AlertSubscription(Model):
         return self.alert.get_object(pk=self.target)
 
     def __str__(self):
-        return "%s Subscription to %s" % (str(self.user), str(self.alert))
+        return "%s Subscription to %s" % (
+                unicode(self.user), unicode(self.alert))
 
 
 # -------- Start Example App -------- #

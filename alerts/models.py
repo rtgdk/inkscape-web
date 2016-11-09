@@ -203,7 +203,7 @@ class UserAlertSetting(Model):
         help_text=_("If online, this alert will be sent to my irc nickname."))
     batch   = CharField(_("Batch Alerts"), max_length=1,
         choices=BATCH_MODES, blank=True, null=True, 
-        help_text=_("Save all alerts and send as one email, only effects email alerts."))
+        help_text=_("Save all alerts and send as one email, only affects email alerts."))
     
     objects = SettingsQuerySet.as_manager()
 

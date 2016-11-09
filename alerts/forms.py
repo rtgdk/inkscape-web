@@ -72,7 +72,7 @@ class SettingsBaseFormSet(BaseModelFormSet):
 
 class SettingsForm(ModelForm):
     suball = BooleanField(required=False, label=_("Subscribe to All"),
-        help_text=_("<strong>Warning!</strong> this can result in a lot of messages."))
+        help_text=_("<strong>Warning!</strong> This can result in a lot of messages."))
     em_msg = _("<strong>Warning!</strong> You haven't told us your mail addres"
                "s yet! If you would like to receive emails from inkscape.org, "
                "enter an email address <a href='%(url)s'>in your profile</a>.")

@@ -53,7 +53,7 @@ class ResourceAlert(EditedAlert):
 class CommentAlert(CreatedAlert):
     name     = _("Comment on Resource")
     desc     = _("A new comment on one of your resources")
-    info     = _("When a user comments on one of your gallery uploads, you will recieve this alert message.")
+    info     = _("When a user comments on one of your gallery uploads, you will receive this alert message.")
     sender   = Comment
 
     subject       = "{% trans 'New comment:' %} {{ instance }}"

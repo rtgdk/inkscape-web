@@ -121,8 +121,6 @@ class ResourceBaseForm(ModelForm):
             self.fields.pop('mirror', None)
         if not self.user.gpg_key:
             self.fields.pop('signature', None)
-        if not self.instance or self.instance.mime().is_image():
-            self.fields.pop('thumbnail', None)
 
         for field in ('download', 'thumbnail', 'signature'):
             if field in self.fields and self.fields[field].widget is ClearableFileInput:
@@ -249,6 +247,10 @@ class ResourceBaseForm(ModelForm):
         if self.gallery is not None:
             self.gallery.items.add(obj)
             TrackCacheMiddleware.invalidate(self.gallery)
+
+        if not obj.thumbnail.name and obj.download.name:
+            if obj.file.mime.is_raster():
+                obj.thumbnail.save(obj.download.name, obj.download)
         return obj
 
     @property

@@ -124,8 +124,8 @@ class SettingsForm(ModelForm):
     @property
     def label(self):
         if not self.instance.pk:
-            return str(self.instance) + "*"
-        return str(self.instance)
+            return unicode(self.instance) + "*"
+        return unicode(self.instance)
 
     @property
     def description(self):

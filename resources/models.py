@@ -305,7 +305,7 @@ class Resource(Model):
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
     published = BooleanField(default=False)
 
-    thumbnail = ResizedImageField(_('Thumbnail'), 780, 600, 190, 190, **upto('thumb'))
+    thumbnail = ResizedImageField(_('Thumbnail'), 780, 600, **upto('thumb'))
 
     link      = URLField(_('External Link'), **null)
     liked     = PositiveIntegerField(default=0)

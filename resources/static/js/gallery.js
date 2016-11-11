@@ -127,6 +127,10 @@ function setupImageFullscreen() {
       if(isFullscreen && $(this).find('img').height() < window.innerHeight) {
         container.addClass('horizontal');
       }
+      var url = $('img', this).data('fullview');
+      if(url) {
+        $('img', this).attr('href', url);
+      }
       return false;
     })
     .one('click', function() {

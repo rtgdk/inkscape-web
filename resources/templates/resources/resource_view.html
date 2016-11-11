@@ -17,7 +17,7 @@
         </div>
       {% else %}
         <div class="image only">
-          <a href="{% url "view_resource" object.id %}"><img src="{{ object.thumbnail.url|default:object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.thumbnail_url }}" data-fullview="{{ object.download.url }}"></a>
+          <a href="{% url "view_resource" object.id %}"><img src="{{ object.thumbnail_url|default:object.download.url }}" alt="{% trans "Image" %}" data-icon="{{ object.thumbnail_url }}" data-fullview="{{ object.download.url }}"></a>
         </div>
       {% endif %}
     {% elif object.mime.is_text %}

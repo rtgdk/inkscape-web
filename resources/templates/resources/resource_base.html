@@ -32,13 +32,13 @@
             <p>{% trans "Choose a file..." %}</p>
           {% endif %}
         </label>
-        <label for="id_thumbnail" style="display: none;">
-          {% if object.thumbnail and object.is_resource %}
-            <img src="{{ object.thumbnail.url }}" alt="{% trans "Click to change" %}">
-            <p>{% trans "Replace thumbnail:" %} {{ object.thumbname }}</p>
+        <label for="id_rendering" style="display: none;">
+          {% if object.rendering and object.is_resource %}
+            <img src="{{ object.rendering.url }}" alt="{% trans "Click to change" %}">
+            <p>{% trans "Replace visible image:" %} {{ object.rendering_name }}</p>
           {% else %}
             <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
-            <p>{% trans "Choose thumbnail..." %}</p>
+            <p>{% trans "Choose visible image..." %}</p>
           {% endif %}
         </label>
       </div>

@@ -122,7 +122,7 @@ class ResourceBaseForm(ModelForm):
         if not self.user.gpg_key:
             self.fields.pop('signature', None)
 
-        for field in ('download', 'thumbnail', 'signature'):
+        for field in ('download', 'rendering', 'signature'):
             if field in self.fields and self.fields[field].widget is ClearableFileInput:
                 self.fields[field].widget = FileInput()
 
@@ -248,15 +248,23 @@ class ResourceBaseForm(ModelForm):
             self.gallery.items.add(obj)
             TrackCacheMiddleware.invalidate(self.gallery)
 
-        if not obj.thumbnail.name and obj.download.name:
+        # Turn the download into a rendering for website display
+        if not obj.rendering.name and obj.download.name:
             if obj.file.mime.is_raster():
-                obj.thumbnail.save(obj.download.name, obj.download)
+                obj.rendering.save(obj.download.name, obj.download)
+            elif obj.file.mime.is_image(): # i.e. svg
+                pass # XXX inkscape server rendering goes here
+
+        # Turn the rendering into a thumbnail for gallery display
+        if not obj.thumbnail.name and obj.rendering.name:
+            obj.thumbnail.save(obj.rendering.name, obj.rendering)
+
         return obj
 
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc', 'tags', 'download', 'thumbnail', 'published']:
+            if field.name in ['name', 'desc', 'tags', 'download', 'rendering', 'published']:
                 continue
             yield field
 
@@ -267,7 +275,7 @@ class ResourceForm(ResourceBaseForm):
     class Meta:
         model = Resource
         fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner',
-                  'thumbnail', 'signature', 'published', 'mirror', 'download']
+                  'rendering', 'signature', 'published', 'mirror', 'download']
         required = ['name', 'category', 'license', 'owner']
 
 

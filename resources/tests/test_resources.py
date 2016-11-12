@@ -300,23 +300,23 @@ class UploadViewTests(BaseCase):
             data = self.data
             name = 'x' * x + '.svg'
             data['download'] = self.open('file5.svg', name=name)
-            data['thumbnail'] = self.open('preview5.png', name=name)
+            data['rendering'] = self.open('preview5.png', name=name)
             res = self.assertPost('resource.upload', data=data, status=200)
 
             out = res.context_data['object'].download.name
             self.assertLess(len(out), 101)
             self.assertEqual(out[:-12], 'resources/file/' + ('x' * 73))
 
-            out = res.context_data['object'].thumbnail.name
+            out = res.context_data['object'].rendering.name
             self.assertLess(len(out), 101)
-            self.assertEqual(out[:-12], 'resources/thumb/' + ('x' * 72))
+            self.assertEqual(out[:-12], 'resources/render/' + ('x' * 71))
 
         name = 'x' * 97 + '.svg'
         data['download'] = self.open('file5.svg', name=name)
-        data['thumbnail'] = self.open('preview5.png', name=name)
+        data['rendering'] = self.open('preview5.png', name=name)
         self.assertPost('resource.upload', data=data, form_errors={
             'download': "Ensure this filename has at most 100 characters (it has 101).",
-            'thumbnail': "Ensure this filename has at most 100 characters (it has 101)."
+            'rendering': "Ensure this filename has at most 100 characters (it has 101)."
         })
 
     def test_submit_gallery_item(self):

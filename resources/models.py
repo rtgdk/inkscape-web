@@ -305,7 +305,8 @@ class Resource(Model):
     edited    = DateTimeField(**null) # End of copyright, last file-edit/updated.
     published = BooleanField(default=False)
 
-    thumbnail = ResizedImageField(_('Thumbnail'), 780, 600, **upto('thumb'))
+    thumbnail = ResizedImageField(_('Thumbnail'), 190, 190, **upto('thumb'))
+    rendering = ResizedImageField(_('Rendering'), 780, 600, **upto('render'))
 
     link      = URLField(_('External Link'), **null)
     liked     = PositiveIntegerField(default=0)
@@ -429,8 +430,8 @@ class Resource(Model):
     def filename(self):
         return os.path.basename(self.download.name)
 
-    def thumbname(self):
-        return os.path.basename(self.thumbnail.name)
+    def rendering_name(self):
+        return os.path.basename(self.rendering.name)
 
     @property
     def file(self):
@@ -461,7 +462,7 @@ class Resource(Model):
         return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
 
     def thumbnail_url(self):
-        """Returns a 150px thumbnail either from the thumbnail,
+        """Returns a 190px thumbnail either from the thumbnail,
            the image itself or the mimetype icon"""
         if not self.thumbnail and self.mime().is_image():
             if self.download and os.path.exists(self.download.path) \
@@ -478,6 +479,13 @@ class Resource(Model):
                 icon = "video" if self.is_video else "link"
             return self.mime().static(icon)
         return self.mime().icon()
+
+    def rendering_url(self):
+        if self.rendering:
+            return self.rendering.url
+        if self.download and self.mime().is_image():
+            return self.download.url
+        return self.icon_url()
 
     def as_lines(self):
         """Returns the contents as text"""

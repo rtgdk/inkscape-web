@@ -461,15 +461,26 @@ class Resource(Model):
             return self.ENDORSE_SIGN
         return self.verified and self.ENDORSE_HASH or self.ENDORSE_NONE
 
+    def rendering_url(self):
+        if self.rendering:
+            return self.rendering.url
+        if self.download and self.mime().is_image():
+            return self.download.url
+        if self.thumbnail and os.path.exists(self.thumbnail.path):
+            return self.thumbnail.url
+        return self.icon_url()
+
     def thumbnail_url(self):
         """Returns a 190px thumbnail either from the thumbnail,
            the image itself or the mimetype icon"""
-        if not self.thumbnail and self.mime().is_image():
-            if self.download and os.path.exists(self.download.path) \
-              and self.download.size < settings.MAX_PREVIEW_SIZE:
-                return self.download.url
         if self.thumbnail and os.path.exists(self.thumbnail.path):
             return self.thumbnail.url
+        if self.rendering and os.path.exists(self.rendering.path):
+            return self.rendering.url
+        if self.download and self.mime().is_image() \
+              and os.path.exists(self.download.path) \
+              and self.download.size < settings.MAX_PREVIEW_SIZE:
+                return self.download.url
         return self.icon_url()
 
     def icon_url(self):
@@ -479,13 +490,6 @@ class Resource(Model):
                 icon = "video" if self.is_video else "link"
             return self.mime().static(icon)
         return self.mime().icon()
-
-    def rendering_url(self):
-        if self.rendering:
-            return self.rendering.url
-        if self.download and self.mime().is_image():
-            return self.download.url
-        return self.icon_url()
 
     def as_lines(self):
         """Returns the contents as text"""

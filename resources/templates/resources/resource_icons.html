@@ -1,7 +1,4 @@
-{% load i18n pagination_tags static %}
-
-{% autopaginate object_list limit as resources %}
-
+{% load i18n static %}
   <div id="gallery">
     {% for item in resources %}
       {% include "resources/resource_item.html" %}
@@ -16,6 +13,3 @@
       </div>
     {% endfor %}
   </div>
-
-{% paginate %}
-

@@ -445,6 +445,7 @@ class ResourceList(CategoryListView):
             data['upload_url'] = reverse("resource.upload", kwargs=k)
             data['upload_drop'] = reverse("resource.drop", kwargs=k)
 
+        data['limit'] = getattr(self, 'limit', 20)
         return data
 
 
@@ -465,11 +466,17 @@ class GalleryView(ResourceList):
     def orders(self):
         """Restrict ordering when doing a contest"""
         gallery = get_object_or_404(Gallery, slug=self.kwargs['galleries'])
+        self.limit = 20
         if gallery.is_contest:
-            if gallery.is_voting or gallery.is_submitting:
+            if gallery.is_submitting:
                 return (('-created', _('Created Date')),)
-            else:
-                return (('-liked', _('Most Votes')),)
+            elif gallery.is_voting:
+                self.limit = 0
+                return (('?', _('Random Order')),)
+            return (
+              ('-liked', _('Most Votes')),
+              ('-created', _('Created Date')),
+            )
         return super(GalleryView, self).orders
 
 

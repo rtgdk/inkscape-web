@@ -60,7 +60,7 @@
       <h2>{% trans "Order By" %}</h2>
       <ul>
         {% for order in orders %}
-            {% if order.active %}
+            {% if order.active and order.id != '?' %}
               <li><a href="{{ order.url }}"><label>{{ order.name }}</label><span>{% if order.down %}&#9660;{% else %}&#9650;{% endif %}</span></a></li>
             {% else %}
               <li><a href="{{ order.url }}">{{ order.name }}</a></li>

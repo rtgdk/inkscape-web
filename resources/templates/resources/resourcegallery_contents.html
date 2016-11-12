@@ -1,5 +1,14 @@
+{% load i18n pagination_tags %}
+
 <div id="left-column">
-  {% include "resources/resource_icons.html" with limit=20 %}
+  {% if limit > 0 %}
+    {% autopaginate object_list limit as resources %}
+      {% include "resources/resource_icons.html" %}
+    {% paginate %}
+  {% else %}
+    {% include "resources/resource_icons.html" with resources=object_list %}
+    <div class="pagination"><span class="disabled">{% trans "Pages Disabled" %}</span></div>
+  {% endif %}
 </div>
 <div id="right-sidebar">
   {% include "resources/resource_leftbar.html" %}

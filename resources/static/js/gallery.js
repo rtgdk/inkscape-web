@@ -129,7 +129,7 @@ function setupImageFullscreen() {
       }
       var url = $('img', this).data('fullview');
       if(url) {
-        $('img', this).attr('href', url);
+        $('img', this).attr('src', url);
       }
       return false;
     })

@@ -203,6 +203,10 @@ class ResourceQuerySet(QuerySet):
     def parent(self):
         return self._hints.get('instance', getattr(self, 'instance', None))
 
+    @property
+    def votes(self):
+        return self.aggregate(Sum('liked'))['liked__sum']
+
     def get_absolute_url(self):
         obj = self.parent
         if isinstance(obj, get_user_model()):

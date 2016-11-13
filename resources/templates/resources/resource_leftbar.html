@@ -17,6 +17,7 @@
     {% elif object.is_voting %}
       <h2>{% trans "Voting for" %} {{ object.contest_count|default:object.contest_finish|timeuntil }}</h2>
       <a class="btn-disabled btn-danger" title="{% trans "This contest is voting, press the check mark inside the item you wish to vote for." %}">{% trans "Voting Open" %}</a>
+      <small>{{ object_list.votes }} {% trans "votes so far." %}</small>
     {% elif object.is_counting %}
       <h2>{% trans "Voting closed" %}</h2>
       <a class="btn-disabled btn-default">{% trans "Voting Closed" %}</a>

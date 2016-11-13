@@ -26,12 +26,15 @@
           </span>
           {% endif %}
         {% endif %}
-        {% if object.user != request.user and object.is_voting %}
+        {% if object.is_voting %}
           {% if item.voted %}
           <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path }}" class="blank" title="{% trans "Remove vote" %}"><span class="votebox remove">●</span></a>
           {% else %}
           <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path }}" class="blank" title="{% trans "Vote for this" %}"><span class="votebox add">●</span></a>
           {% endif %}
+        {% endif %}
+        {% if item.user == request.user %}
+          <span class="blank">{{ item.liked }}</span>
         {% endif %}
       {% elif item.user == request.user %}
         {% if gallery %}

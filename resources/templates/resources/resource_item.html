@@ -33,10 +33,10 @@
           <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path|urlencode }}" class="blank" title="{% trans "Vote for this" %}"><span class="votebox add">●</span></a>
           {% endif %}
         {% endif %}
-        {% if item.user == request.user %}
+        {% if object.user == request.user %}
           <span class="blank">{{ item.liked }}</span>
         {% endif %}
-      {% elif item.user == request.user %}
+      {% elif not object.is_contest and item.user == request.user %}
         {% if gallery %}
           <a href="{% url "resource.move" item.pk gallery.pk %}">
             <img src="{% static "mime/banner/move.svg" %}" title="{% trans "Move to Gallery" %}">

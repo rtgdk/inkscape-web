@@ -50,6 +50,8 @@ class CMSCategoryPlugin(CMSPluginBase):
             'object_list': items.order_by('-edited'),
             'limit'      : instance.limit,
         })
+        # The two templates take different variable names
+        context['resources'] = context['object_list']
         return context
 
 

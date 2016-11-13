@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n humanize extras static %}
+{% load user_session i18n humanize extras static pagination_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
@@ -154,11 +154,8 @@
   <h2>{% trans "Recent Uploads" %}</h2>
   
   {% if object.resources.latest %}
-    {% with 4 as limit %}
-      {% with object.resources.latest as object_list %}
-        {% include "resources/resource_icons.html" %}
-      {% endwith %}
-    {% endwith %}
+    {% autopaginate object.resources.latest 4 as resources %}
+    {% include "resources/resource_icons.html" %}
   {% else %}
     {% if not object == request.user %}
       <div class="galleryitem nothing">
@@ -177,11 +174,8 @@
 
   <h2>{% trans "Favorite Artworks" %}</h2>
   {% if object.favorites.items.count > 0 %}
-    {% with 4 as limit %}
-      {% with object.favorites.items as object_list %}
-        {% include "resources/resource_icons.html" %}
-      {% endwith %}
-    {% endwith %}
+    {% autopaginate object.favorites.items 4 as resources %}
+    {% include "resources/resource_icons.html" %}
   {% else %}
     {% if not object == request.user %}
       <div class="galleryitem nothing">

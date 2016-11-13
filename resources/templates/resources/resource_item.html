@@ -28,9 +28,9 @@
         {% endif %}
         {% if object.is_voting %}
           {% if item.voted %}
-          <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path }}" class="blank" title="{% trans "Remove vote" %}"><span class="votebox remove">●</span></a>
+          <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path|urlencode }}" class="blank" title="{% trans "Remove vote" %}"><span class="votebox remove">●</span></a>
           {% else %}
-          <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path }}" class="blank" title="{% trans "Vote for this" %}"><span class="votebox add">●</span></a>
+          <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path|urlencode }}" class="blank" title="{% trans "Vote for this" %}"><span class="votebox add">●</span></a>
           {% endif %}
         {% endif %}
         {% if item.user == request.user %}

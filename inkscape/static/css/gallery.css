@@ -10,6 +10,9 @@
   margin: 5px 0px 25px 0px;
   border: 2px solid transparent;
 }
+.galleryitem.unavailable {
+  opacity: 0.5;
+}
 .galleryitem:hover {
   border: 2px solid #cce;
   background-color: #eef;
@@ -131,16 +134,16 @@
 }
 .galleryitem .minitabs {
   width: 147px;
-  visibility: hidden;
   position: absolute;
   text-align: right;
   margin-top: 2px;
 }
-.galleryitem:hover .minitabs {
-  visibility: visible;
+.galleryitem .minitabs > img,
+.galleryitem .minitabs > a {
+  visibility: hidden;
 }
-.galleryitem.winner .minitabs,
-.galleryitem.runnerup .minitabs {
+.galleryitem:hover .minitabs > img,
+.galleryitem:hover .minitabs > a {
   visibility: visible;
 }
 .galleryitem span.ribbon {
@@ -148,6 +151,9 @@
   position: relative;
   top: -9px;
   left: -7px;
+}
+.galleryitem:hover span.ribbon {
+  display: none;
 }
 .galleryitem span.ribbon p {
   position: absolute;
@@ -157,12 +163,12 @@
   color: white;
   font-weight: bold;
 }
+svg.ribbon path.part_a { fill:#7e7e7e; }
+svg.ribbon path.part_b { fill:#a9a9a9; }
+svg.ribbon path.part_c { fill:#494949; }
 .winner svg.ribbon path.part_a { fill:#e1b000; }
 .winner svg.ribbon path.part_b { fill:#fbc400; }
 .winner svg.ribbon path.part_c { fill:#a97610; }
-.runnerup svg.ribbon path.part_a { fill:#7e7e7e; }
-.runnerup svg.ribbon path.part_b { fill:#a9a9a9; }
-.runnerup svg.ribbon path.part_c { fill:#494949; }
 .galleryitem .minitabs .blank {
   width: 50px;
   text-align: center;

@@ -291,12 +291,14 @@ class Resource(Model):
 
     CONTEST_WINNER = 1
     CONTEST_RUNNER_UP = 2
+    CONTEST_CONSIDER = 3
     EXTRA_CHOICES = (
       (None, _('No extra status')),
       (CONTEST_WINNER, _('Winner')),
       (CONTEST_RUNNER_UP, _('Runner Up')),
+      (CONTEST_CONSIDER, _('Next Round')),
     )
-    EXTRA_CSS = ['', 'winner', 'runnerup']
+    EXTRA_CSS = ['', 'ribbon winner', 'ribbon runnerup', 'ribbon consider']
 
     user      = ForeignKey(settings.AUTH_USER_MODEL, related_name='resources', default=get_user)
     name      = CharField(max_length=64)

@@ -10,28 +10,24 @@
     </a>
     <p class="label"><a href="{{ item.get_absolute_url }}">{{ item.name|truncatechars:40 }}</a></p>
     <div class="minitabs">
-      {% if request.user.is_authenticated and object.is_contest %}
-        {% if object.user == request.user or object.is_finished %}
-          {% if item.extra_status %}
-          <span class="ribbon">
-            <!--Embeded svg for winners ribbon-->
-            <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 143 32" width="165px" class="ribbon">
-              <path d="M 0.14741698,0.13216094 7.2421615,10.369414 0.17432678,20.606667 l 29.07792822,0 0,-20.47450606 z" class="part_a"/>
-              <path d="M 143.27174,0.13216094 136.177,10.369414 l 7.06783,10.237253 -29.07793,0 0,-20.47450606 z" class="part_a"/>
-              <path transform="matrix(0.93750006,0,0,0.93750006,0,-1.7881394e-6)" d="M 13.585938 3.9785156 L 13.597656 25.966797 L 139.13867 25.966797 L 139.15039 3.9785156 L 121.70703 3.9785156 L 121.70703 5.4941406 L 30.976562 5.4941406 L 30.976562 3.9785156 L 13.585938 3.9785156 z " class="part_b"/>
-              <path d="M 29.30664,0.31768317 C 28.699584,1.1262492 26.275492,1.8157987 20.507965,1.7022714 11.936629,1.533418 10.540919,5.2821943 16.378693,5.173591 l 13.083637,0 0.0035,-5.26258753 c -0.01196,0.1318696 -0.09418,0.3168426 -0.159163,0.4066797 z" class="part_c"/>
-              <path d="m 114.11252,0.31768317 c 0.60705,0.80856603 3.03115,1.49811553 8.79867,1.38458823 8.57134,-0.1688534 9.96705,3.5799229 4.12927,3.4713196 l -13.08363,0 -0.004,-5.26258753 c 0.012,0.1318696 0.0942,0.3168426 0.15916,0.4066797 z" class="part_c"/>
-            </svg>
-            <p>{{ item.get_extra_status_display }}</p>
-          </span>
-          {% endif %}
-        {% endif %}
-        {% if object.is_voting %}
-          {% if item.voted %}
+      {% if item.extra_status %}
+      <span class="ribbon">
+        <!--Embeded svg for winners ribbon-->
+        <svg xmlns="http://www.w3.org/2000/svg" version="1.1" viewBox="0 0 143 32" width="165px" class="ribbon">
+          <path d="M 0.14741698,0.13216094 7.2421615,10.369414 0.17432678,20.606667 l 29.07792822,0 0,-20.47450606 z" class="part_a"/>
+          <path d="M 143.27174,0.13216094 136.177,10.369414 l 7.06783,10.237253 -29.07793,0 0,-20.47450606 z" class="part_a"/>
+          <path transform="matrix(0.93750006,0,0,0.93750006,0,-1.7881394e-6)" d="M 13.585938 3.9785156 L 13.597656 25.966797 L 139.13867 25.966797 L 139.15039 3.9785156 L 121.70703 3.9785156 L 121.70703 5.4941406 L 30.976562 5.4941406 L 30.976562 3.9785156 L 13.585938 3.9785156 z " class="part_b"/>
+          <path d="M 29.30664,0.31768317 C 28.699584,1.1262492 26.275492,1.8157987 20.507965,1.7022714 11.936629,1.533418 10.540919,5.2821943 16.378693,5.173591 l 13.083637,0 0.0035,-5.26258753 c -0.01196,0.1318696 -0.09418,0.3168426 -0.159163,0.4066797 z" class="part_c"/>
+          <path d="m 114.11252,0.31768317 c 0.60705,0.80856603 3.03115,1.49811553 8.79867,1.38458823 8.57134,-0.1688534 9.96705,3.5799229 4.12927,3.4713196 l -13.08363,0 -0.004,-5.26258753 c 0.012,0.1318696 0.0942,0.3168426 0.15916,0.4066797 z" class="part_c"/>
+        </svg>
+        <p>{{ item.get_extra_status_display }}</p>
+      </span>
+      {% endif %}
+      {% if request.user.is_authenticated and object.is_contest and object.is_voting %}
+        {% if item.voted %}
           <a href="{% url "resource.like" item.pk "-" %}?next={{ request.path|urlencode }}" class="blank" title="{% trans "Remove vote" %}"><span class="votebox remove">●</span></a>
-          {% else %}
+        {% else %}
           <a href="{% url "resource.like" item.pk "+" %}?next={{ request.path|urlencode }}" class="blank" title="{% trans "Vote for this" %}"><span class="votebox add">●</span></a>
-          {% endif %}
         {% endif %}
         {% if object.user == request.user %}
           <span class="blank">{{ item.liked }}</span>
@@ -49,12 +45,10 @@
         <a href="{% url "edit_resource" item.pk %}">
           <img src="{% static "mime/banner/edit.svg" %}" title="{% trans "Edit Resource" %}">
         </a>
-      {% else %}
-        {% if item.published %}
-          <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
-          {% if item.license and item.license.banner %}
-            <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
-          {% endif %}
+      {% elif item.published %}
+        <img src="{{ item.mime.banner }}" title="{{ item.mime.subtype }}">
+        {% if item.license and item.license.banner %}
+          <img src="{{ item.license.banner.url }}" title="{{ item.license }}">
         {% endif %}
       {% endif %}
     </div>

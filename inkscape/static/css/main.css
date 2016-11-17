@@ -1450,6 +1450,7 @@ ul.ellipses-hidden li.hide {
 /* Tag Cloud */
 .cloud > span > a {
   color: #444;
+  white-space: nowrap;
 }
 .cloud > span > a:hover {
   text-decoration: none;

@@ -416,7 +416,7 @@ class Resource(Model):
         # mark as edited for link-only resources when they are added 
         # or when link changes
         if not self.download and ((self._state.adding and self.link) or \
-        (not self._state.adding and self._old_link != self.link)):
+        (not self._state.adding and hasattr(self, '_old_link') and self._old_link != self.link)):
             self.edited = now()
 
         signal = False

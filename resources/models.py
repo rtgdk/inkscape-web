@@ -395,13 +395,10 @@ class Resource(Model):
                 # Save the old download file in a revision
                 ResourceRevision.from_resource(self)
 
-            # It's a raster image file, so regenerate the thumbnail
-            if self.mime().is_raster():
-                self.thumbnail.save(self.download.name, self.download, save=False)
-
             self.verified = False
             self.edited = now()
             delattr(self, '_mime')
+
             try:
                 self.media_type = str(self.file.mime)
                 (self.media_x, self.media_y) = self.file.media_coords

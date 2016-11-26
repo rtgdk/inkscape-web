@@ -34,7 +34,7 @@ function setupUpload() {
   if($('#upload textarea').length > 0) {
     return;
   }
-  $('#upload, #thumbnail').addClass('hidden');
+  $('#upload, #rendering').addClass('hidden');
 
   $('.uploader label').show();
   $('.uploader label img').error(function(e) {

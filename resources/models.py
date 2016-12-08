@@ -397,7 +397,8 @@ class Resource(Model):
 
             self.verified = False
             self.edited = now()
-            delattr(self, '_mime')
+            if hasattr(self, '_mime'):
+                delattr(self, '_mime')
 
             try:
                 self.media_type = str(self.file.mime)

@@ -32,7 +32,7 @@ class DeliverableInline(TabularInline):
     model = Deliverable
 
 class UpdateInline(StackedInline):
-    model = ProjectUpdate
+    model = Report
     extra = 1
     readonly_fields = ('creator',)
 

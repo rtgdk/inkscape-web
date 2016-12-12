@@ -61,11 +61,11 @@ class Project(Model):
     LOGO   = os.path.join(settings.STATIC_URL, 'images', 'project_logo.png')
     BANNER = os.path.join(settings.STATIC_URL, 'images', 'project_banner.png')
 
-    sort   = IntegerField(_('Difficulty'), choices=DIFFICULTIES, default=2)
-    title  = CharField(_('Title'), max_length=100)
-    pitch  = CharField(_('Short Summary'), max_length=255, **null)
-    slug   = SlugField(unique=True)
-    desc   = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
+    difficulty  = IntegerField(_('Difficulty'), choices=DIFFICULTIES, default=2)
+    title       = CharField(_('Title'), max_length=100)
+    pitch       = CharField(_('Short Summary'), max_length=255, **null)
+    slug        = SlugField(unique=True)
+    description = TextField(_('Description'), validators=[MaxLengthValidator(50192)], **null)
 
     banner   = ResizedImageField(_("Banner (920x120)"), max_height=120, max_width=920,
                                                         min_height=90, min_width=600,
@@ -182,8 +182,8 @@ class Deliverable(Model):
 
 class Task(Model):
     """A task or sub-task of a deliverable stage"""
-    delive = ForeignKey(Deliverable, related_name='tasks')
-    name   = CharField(_('Task'), max_length=255)
+    deliverable = ForeignKey(Deliverable, related_name='tasks')
+    name        = CharField(_('Task'), max_length=255)
 
     targeted = DateField(**null)
     finished = DateField(**null)
@@ -196,32 +196,32 @@ class Task(Model):
 
 
 class Criteria(Model):
-    content  = CharField(_('Criteria'), max_length=255)
-    detail   = TextField(validators=[MaxLengthValidator(4096)], **null)
+    name        = CharField(_('Criteria'), max_length=255)
+    description = TextField(validators=[MaxLengthValidator(4096)], **null)
 
     def __str__(self):
-        return self.content
+        return self.name
 
 
-class ProjectUpdate(Model):
+class Report(Model):
     """A project should always have at least one update with its primary description"""
 
-    project  = ForeignKey(Project, related_name='updates')
-    describe = TextField(_("Description"), validators=[MaxLengthValidator(12288)])
-    image    = ResizedImageField(_("Image"), max_height=400, max_width=400,
+    project     = ForeignKey(Project, related_name='updates')
+    description = TextField(_("Description"), validators=[MaxLengthValidator(12288)])
+    image       = ResizedImageField(_("Image"), max_height=400, max_width=400,
                      upload_to=os.path.join('project', 'update', '%Y'), **null)
 
-    creator  = ForeignKey(settings.AUTH_USER_MODEL, default=get_user)
-    created  = DateTimeField(auto_now_add=True, db_index=True)
-    edited   = DateTimeField(auto_now=True)
+    creator     = ForeignKey(settings.AUTH_USER_MODEL, default=get_user)
+    created     = DateTimeField(auto_now_add=True, db_index=True)
+    edited      = DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.describe
+        return self.description
 
 class RelatedFile(Model):
     """Allows to add files to Project Update reports"""
 
-    for_update = ForeignKey(ProjectUpdate, related_name='related_files')
+    for_update = ForeignKey(Report, related_name='related_files')
     updatefile = FileField(_("Related File"), upload_to=os.path.join('project', 'related_files'))
 
     def __str__(self):

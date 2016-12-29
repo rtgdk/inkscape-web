@@ -22,7 +22,7 @@
       <h2>{% trans "Voting closed" %}</h2>
       <a class="btn-disabled btn-default">{% trans "Voting Closed" %}</a>
     {% elif object.is_finished %}
-      <h2>{% blocktrans %}Finished {{ object.contest_finish|timesince }} ago{% endblocktrans %}</h2>
+      <h2>{% blocktrans with time=object.contest_finish|timesince %}Finished {{ time }} ago{% endblocktrans %}</h2>
       <a class="btn-disabled" title="{% trans "This contest is finished." %}">{% trans "Contest Finished" %}</a>
     {% endif %}
   </div>

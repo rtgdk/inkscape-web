@@ -26,7 +26,7 @@ from django.views.generic import ListView
 from django.db.models import Q
 
 from pile.views import DetailView, CategoryListView, CreateView, UpdateView, breadcrumbs
-from .models import Project, ProjectUpdate
+from .models import Project, Report
 
 class ProjectList(CategoryListView):
     model = Project
@@ -97,7 +97,7 @@ class NewProject(CreateView):
         return reverse('projects')
   
 class UpdateProject(CreateView):
-    model = ProjectUpdate
+    model = Report
     fields = ('describe', 'image')
     
     def get_project(self):

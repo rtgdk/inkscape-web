@@ -97,13 +97,13 @@ class Release(Model):
                                                      db_index=True)
     background = ResizedImageField(**upload_to('background', 960, 360))
 
-    manager = ForeignKey(User, related_name='releases',
+    manager = ForeignKey(User, verbose_name=_("Manager"), related_name='releases',
         help_text=_("Looks after the release schedule and release meetings."), **null)
-    reviewer = ForeignKey(User, related_name='rev_releases',
+    reviewer = ForeignKey(User, verbose_name=_("Reviewer"), related_name='rev_releases',
         help_text=_("Reviewers help to make sure the release is working."), **null)
-    bug_manager = ForeignKey(User, related_name='bug_releases',
+    bug_manager = ForeignKey(User, verbose_name=_("Bug Manager"), related_name='bug_releases',
         help_text=_("Manages critical bugs and decides what needs fixing."), **null)
-    translation_manager = ForeignKey(User, related_name='tr_releases',
+    translation_manager = ForeignKey(User, verbose_name=_("Translation Manager"), related_name='tr_releases',
         help_text=_("Translation managers look after all translations for the release."),
         **null)
 

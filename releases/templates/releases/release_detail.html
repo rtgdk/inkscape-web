@@ -42,7 +42,7 @@
       <ul>
         {% for label, help_text, person in object.responsible_people %}
           {% if person %}
-            <li><label title="{{ help_text }}">{{ label }}:
+            <li><label title="{{ help_text }}">{{ label }}: 
               <a href="{{ person.get_absolute_url }}">{{ person }}</a>
             </label></li>
           {% endif %}

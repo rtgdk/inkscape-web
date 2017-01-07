@@ -72,6 +72,14 @@ function setupUpload() {
     }
   });
 
+  $('#id_owner').change(function() {
+    if($(this).val() == 'False') {
+      $('#owner_name_set').show();
+    } else {
+      $('#owner_name_set').hide();
+    }
+  }).change();
+
   $('select[data-filter_by]').each(function() {
     var target = $(this);
     var filters = [];

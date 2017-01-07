@@ -332,6 +332,7 @@ class Resource(Model):
 
     license    = ForeignKey(License, verbose_name=_("License"), **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
+    owner_name = CharField(_('Owner\'s Name'), max_length=128, **null)
 
     signature  = FileField(_('Signature/Checksum'), **upto('sigs'))
     verified   = BooleanField(default=False)
@@ -860,6 +861,10 @@ class Views(Model):
     """Record the view of an item"""
     resource = ForeignKey(Resource, related_name='views')
     session  = CharField(max_length=40)
+
+#    class Meta:
+#        # This should be enabled, but will require a data migration
+#        unique_together = ('resource', 'session')
 
     def save(self, **kwargs):
         ret = super(Views, self).save(**kwargs)

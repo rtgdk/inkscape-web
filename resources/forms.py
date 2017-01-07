@@ -231,6 +231,16 @@ class ResourceBaseForm(ModelForm):
         elif x < media_x or y < media_y:
             raise ValidationError(small % (str(category), media_x.to_min(), media_y.to_min()))
 
+    def clean_owner_name(self):
+        """Check owner name is set when we are not the owner and not set otherwise"""
+        owner = self.cleaned_data['owner']
+        name = self.cleaned_data['owner_name']
+        if owner and name:
+            raise ValidationError(_("Owner's Name should only be specified when you are NOT the owner."))
+        elif not owner and not name:
+            raise ValidationError(_("Owner's Name needs to be used when you are NOT the owner."))
+        return name
+
     def clean_tags(self):
         """Make sure all tags are lowercase"""
         ret = self.cleaned_data['tags']
@@ -274,7 +284,7 @@ class ResourceForm(ResourceBaseForm):
 
     class Meta:
         model = Resource
-        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner',
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner', 'owner_name',
                   'rendering', 'signature', 'published', 'mirror', 'download']
         required = ['name', 'category', 'license', 'owner']
 

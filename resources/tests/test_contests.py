@@ -143,7 +143,7 @@ class ContestTests(BaseCase):
                 biggest = item
         self.assertEqual(after.winners.count(), 1)
         self.assertEqual(after.winners[0], biggest)
-        self.assertEqual(after.winners[0].extra_css, 'winner')
+        self.assertEqual(after.winners[0].extra_css, 'ribbon winner')
 
     def test_manual_winner(self):
         """Test that no winner is selected automatically"""

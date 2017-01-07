@@ -1,7 +1,7 @@
 {% extends 'resources/resource_base.html' %}
 {% load i18n static inkscape timers %}
 
-{% block headerdesc %}{{ object.name}} {% trans "by" %} {{ object.user }}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
+{% block headerdesc %}{{ object.name}} {% trans "by" %} {% if object.owner %}{{ object.user }}{% else %}{{ object.owner_name|default:"Unknown author" }}{% endif %}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
 {% block "description" %}
   <div class="info">
@@ -52,7 +52,7 @@
         <a class="btn btn-danger" style="float: right;" href="{% url "publish_resource" object.pk %}">Not Published</a>
       {% endif %}
       <h2 class="truncate">{{ object.name }}</h2>
-      <div class="by">{% trans "by" %} <a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a></div>
+      <div class="by">{% trans "by" %} {% if object.owner %}<a href="{{ object.user.get_absolute_url }}">{{ object.user }}</a>{% else %}{{ object.owner_name|default:"Unknown author" }}{% endif %}</div>
 
     </div>
 

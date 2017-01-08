@@ -40,6 +40,7 @@ LANGUAGES = (
     ('pt-br', 'Brazilian Portuguese'),
     ('cs', 'Czech'),
     ('ru', 'Russian'),
+    ('sk', 'Slovak'),
     ('ja', 'Japanese'),
     ('zh', 'Simplified Chinese'),
     ('zh-hant', 'Traditional Chinese'),

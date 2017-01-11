@@ -23,6 +23,7 @@ Forms for the gallery system
 from cStringIO import StringIO
 
 from django.forms import *
+from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
 from django.utils.text import slugify
@@ -40,7 +41,7 @@ from cms.utils.permissions import get_current_user as get_user
 from inkscape.middleware import TrackCacheMiddleware
 
 __all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
-           'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm')
+           'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm', 'ResourceLinkForm')
 
 TOO_SMALL = [
     "Image is too small for %s category (Minimum %sx%s)",
@@ -104,6 +105,7 @@ class GalleryMoveForm(ModelForm):
 
 
 class ResourceBaseForm(ModelForm):
+    auto_fields = ['name', 'desc', 'tags', 'download', 'rendering', 'published']
     tags = TagsChoiceField(Tag.objects.all(), required=False)
 
     def __init__(self, *args, **kwargs):
@@ -274,7 +276,7 @@ class ResourceBaseForm(ModelForm):
     @property
     def auto(self):
         for field in list(self):
-            if field.name in ['name', 'desc', 'tags', 'download', 'rendering', 'published']:
+            if field.name in self.auto_fields:
                 continue
             yield field
 
@@ -284,8 +286,21 @@ class ResourceForm(ResourceBaseForm):
 
     class Meta:
         model = Resource
-        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'owner', 'owner_name',
-                  'rendering', 'signature', 'published', 'mirror', 'download']
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license',
+                  'owner', 'owner_name', 'rendering', 'signature', 'published',
+                  'mirror', 'download']
+        required = ['name', 'category', 'license', 'owner']
+
+
+class ResourceLinkForm(ResourceBaseForm):
+    auto_fields = ['name', 'desc', 'tags', 'link', 'rendering']
+    youtube_key = getattr(settings, 'YOUTUBE_API_KEY', 'NO_KEY')
+    link_mode = True
+
+    class Meta:
+        model = Resource
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license',
+                  'owner', 'owner_name', 'rendering']
         required = ['name', 'category', 'license', 'owner']
 
 

@@ -30,6 +30,17 @@ $(document).ready(function() {
   setupImageFullscreen();
 });
 
+function checkLink() {
+  // Check the link for details and fill in information as needed.
+  var url = $('#id_link').val();
+
+  if(url.indexOf('youtube') >= 0) {
+    // Youtube Video detection here
+  } else {
+    // Other URL here.
+  }
+}
+
 function setupUpload() {
   if($('#upload textarea').length > 0) {
     return;

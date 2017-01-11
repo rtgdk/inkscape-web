@@ -6,6 +6,7 @@
 {% endblock %}
 
 {% block "js" %}{{ block.super }}
+  <meta name="youtube-key" content="{{ form.youtube_key }}"/>
   <script type="text/javascript" src="{% static "js/resource.js" %}"></script>
   <script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
 {% endblock %}
@@ -18,9 +19,11 @@
   {% endif %}
 
   <div class="item{% if form %} edit{% endif %}{% if object and not object.published %} unpublished{% endif %}">
-    {% if form and not form.media_type %}
+    {% if form %}
       <div class="image uploader">
-        <label for="id_download" style="display: none;">
+
+        {% if form.download %}
+        <label for="id_download">
           {% if object.mime.is_image %}
             <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
             <p>{% trans "Replace image:" %} {{ object.filename }}</p>
@@ -32,17 +35,28 @@
             <p>{% trans "Choose a file..." %}</p>
           {% endif %}
         </label>
-        <label for="id_rendering" style="display: none;">
-          {% if object.rendering and object.is_resource %}
-            <img src="{{ object.rendering.url }}" alt="{% trans "Click to change" %}">
-            <p>{% trans "Replace visible image:" %} {{ object.rendering_name }}</p>
-          {% else %}
-            <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
-            <p>{% trans "Choose visible image..." %}</p>
-          {% endif %}
-        </label>
+        {% endif %}
+        {% if form.link_mode %}
+          <label for="id_rendering">
+            <img src="{% static "images/link.svg" %}" alt="{% trans "Click to add screenshot or preview." %}"/>
+            <p>{{ form.link.label }}</p>
+          </label>
+          <br/>{{ form.link|placeholder:_("Paste your URL here") }}
+        {% elif form.rendering %}
+          <label for="id_rendering">
+            {% if object.rendering and object.is_resource %}
+              <img src="{{ object.rendering.url }}" alt="{% trans "Click to change" %}">
+              <p>{% trans "Replace visible image:" %} {{ object.rendering_name }}</p>
+            {% else %}
+              <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
+              <p>{% trans "Choose visible image..." %}</p>
+            {% endif %}
+          </label>
+        {% endif %}
       </div>
-    {% elif not form %}
+    {% endif %}
+
+    {% if not form %}
       {% include "resources/resource_view.html" %}
     {% endif %}
 

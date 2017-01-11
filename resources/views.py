@@ -160,6 +160,11 @@ class DropResource(UploadResource):
         return self.render_to_response(context)
 
 
+class LinkToResource(UploadResource):
+    form_class = ResourceLinkForm
+    title = _("Link to Video or Resource")
+
+
 class PasteIn(UploadResource):
     form_class = ResourcePasteForm
     title = _("New PasteBin")

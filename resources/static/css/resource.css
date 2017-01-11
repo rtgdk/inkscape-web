@@ -205,13 +205,16 @@
 }
 .edit .image label {
   color: #efefef;
-  border-radius: 5px;
   display: inline-block;
   padding: 20px;
+  border-radius: 5px;
   cursor: pointer;
 }
 .edit .image label:hover {
   background-color: #333;
+}
+.edit .image input {
+  width: 100%;
 }
 .edit .text {
   overflow: hidden;

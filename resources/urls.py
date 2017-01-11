@@ -72,6 +72,7 @@ urlpatterns = patterns('',
     url(r'^paste/$',       PasteIn(),        name='pastebin'),
     url(r'^upload/$',      UploadResource(), name='resource.upload'),
     url(r'^upload/go/$',   DropResource(),   name='resource.drop'),
+    url(r'^link/$',        LinkToResource(), name='resource.link'),
 
     url_tree(r'^(?P<gallery_id>\d+)/',
       # We should move these to galleries/
@@ -79,6 +80,7 @@ urlpatterns = patterns('',
       url(r'^edit/$',      EditGallery(),    name='gallery.edit'),
       url(r'^upload/$',    UploadResource(), name='resource.upload'),
       url(r'^upload/go/$', DropResource(),   name='resource.drop'),
+      url(r'^link/$',      LinkToResource(), name='resource.link'),
     ),
 
     url_tree(r'^item/(?P<pk>\d+)/',

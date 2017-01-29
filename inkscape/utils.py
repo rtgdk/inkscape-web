@@ -28,11 +28,14 @@ from django.db.models.expressions import Col
 
 from django.template.context import Context
 
-def generate_list(f):
-    """Decorator to return a list from a generator"""
-    def _inner(*args, **kw):
-        return list(f(*args, **kw))
-    return _inner
+def IterObject(t=list):
+    """Create an object from a generator function, default is list"""
+    def _outer(f):
+        def _inner(*args, **kwargs):
+            return t(f(*args, **kwargs))
+        return _inner
+    return _outer
+
 
 def context_items(context):
     """Unpack a django context, equiv of dict.items()"""

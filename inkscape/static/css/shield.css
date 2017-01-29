@@ -13,6 +13,7 @@
   background-color: #000000;
   background-image: url("../images/banner.svg");
   background-repeat: no-repeat;
+  background-position-x: center;
   border-bottom: 1px solid #000000;
   display: block;
   height: 320px;
@@ -35,13 +36,11 @@
 }
 
 #banners > div > p {
-  bottom: 68px;
-  clear: both;
-  display: block;
+  position: absolute;
+  bottom: 72px;
+  right: 20px;
   font-size: 12px;
   line-height: 0;
-  padding: 3px 0px 2px;
-  position: absolute;
 }
 
 #banners > div > div {

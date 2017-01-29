@@ -235,7 +235,7 @@ class ResourceBaseForm(ModelForm):
 
     def clean_owner_name(self):
         """Check owner name is set when we are not the owner and not set otherwise"""
-        owner = self.cleaned_data['owner']
+        owner = self.cleaned_data.get('owner', None)
         name = self.cleaned_data['owner_name']
         if owner and name:
             raise ValidationError(_("Owner's Name should only be specified when you are NOT the owner."))

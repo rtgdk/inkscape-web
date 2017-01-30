@@ -45,12 +45,10 @@ django-pile==0.7.6
 django-contrib-comments==1.6.2
 django-autotest-command==1.5.3
 django-markdown-deux==1.0.5
-#djangocms-rosetta==1.0
--e git://github.com/doctormo/django-cms-rosetta.git#egg=cmsrosetta
 
 # Django-CMS Plugins
 django_sekizai==0.9.0
-django-cms==3.2.0
+django-cms==3.4.2
 
 djangocms-file==0.2.1
 djangocms-link==1.7.1

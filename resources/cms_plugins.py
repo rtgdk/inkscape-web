@@ -43,6 +43,9 @@ class CMSCategoryPlugin(CMSPluginBase):
     name  = _('InkSpace Category')
     cache = settings.ENABLE_CACHING
 
+    def get_render_template(self):
+        return None
+
     def render(self, context, instance, placeholder):
         items = instance.source.items.filter(published=True)
         context.update({

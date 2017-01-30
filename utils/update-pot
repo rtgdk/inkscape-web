@@ -5,15 +5,15 @@ mkdir -p $DIR
 cd $DIR
 
 if [ ! -e 'website' ]; then
-    bzr branch lp:inkscape-web/translations website
-    cd website
+    git clone https://gitlab.com/inkscape/inkscape-web-i18n.git website
+    cd website/
 else
-    cd website
-    bzr pull
-    # data/revision.log relative path
-    bzr log -n0 > ../../translators.log
+    cd website/
+    git pull
 fi
 
+# data/revision.log relative path, pretty printing human readable / unix time
+git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > ../../translators.log
 cd ../../../
 ./utils/manage compilemessages
 

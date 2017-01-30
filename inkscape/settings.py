@@ -60,7 +60,6 @@ STATIC_URL = '/static/'
 EXTRA_APPS = []
 
 SESSION_COOKIE_AGE = 1209600 # Two weeks
-SESSION_CLIENT = 'person.tests'
 ENABLE_CACHING = False
 ENABLE_DEBUG_TOOLBAR = False
 ENABLE_DESIGN_TOOLBAR = False
@@ -121,7 +120,7 @@ MIDDLEWARE_CLASSES = (
     'inkscape.middleware.CachedRedirects',
     'inkscape.middleware.AutoBreadcrumbMiddleware',
     'inkscape.models.UserOnErrorMiddleware',
-    'user_sessions.middleware.SessionMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -162,9 +161,9 @@ INSTALLED_APPS = (
     'person', # Goes next
     'django.contrib.sites',
     'django.contrib.auth',
-    'user_sessions',
     'registration',
     'social.apps.django_app.default',
+    'django.contrib.sessions',
     'django.contrib.contenttypes',
     'django.contrib.messages',
     'django.contrib.admin',
@@ -202,7 +201,6 @@ INSTALLED_APPS = (
 )
 
 COMMENTS_APP = 'forums'
-SESSION_ENGINE = 'user_sessions.backends.db'
 
 MODERATED_MODELS = (
     ('person.user', _('Website User')),

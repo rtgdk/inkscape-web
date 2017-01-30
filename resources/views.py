@@ -195,10 +195,6 @@ class ViewResource(DetailView):
         ret = super(ViewResource, self).get(request, *args, **kwargs)
         if self.object.is_new:
             return redirect("edit_resource", self.object.pk)
-        if request.user != self.object.user:
-            if self.object.set_viewed(request.session) is None:
-                request.session['test'] = 'True'
-                self.object.set_viewed(request.session)
         return ret
 
 

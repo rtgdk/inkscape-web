@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load user_session i18n humanize extras static pagination_tags %}
+{% load i18n humanize extras static pagination_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
@@ -123,16 +123,16 @@
     {% endif %}
   </ul>
 
-  {% if object == request.user %}
+  {% if object == request.user and 0 %}
     <h2 title="{% trans "Sessions are stored only as long as you are logged in and the IP address is not recorded permanently."%}">{% trans "Sessions" %}</h2>
     <ul id="sessions">
     {% for session in object.sessions %}
       <li title="{{ session.ip }} / {{ session.last_activity|ago }}">
         <a{% if session.session_key == request.COOKIES.sessionid %} class="active"{% endif %}>
-          <label>{{ session.ip|location }}</label>
+          <label>{ session.ip|location }</label>
           <span>
-            <span class="OS {{ session.user_agent|device_id }} {{ session.user_agent|device_id:True }}" title="{{ session.user_agent|device }}">&nbsp;</span>
-            <span class="BR {{ session.user_agent|browser_id }}" title="{{ session.user_agent|browser }}">&nbsp;</span>
+            <span class="OS { session.user_agent|device_id } { session.user_agent|device_id:True }" title="{ session.user_agent|device }">&nbsp;</span>
+            <span class="BR { session.user_agent|browser_id }" title="{ session.user_agent|browser }">&nbsp;</span>
           </span>
         </a>
       </li>

@@ -2,6 +2,7 @@ apache
 local_settings.py
 *.mo
 *.pyc
+*.swp
 *~
 .gitignore
 .git

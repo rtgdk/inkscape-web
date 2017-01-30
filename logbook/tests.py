@@ -97,6 +97,7 @@ class BasicAnalysisTests(BaseCase):
     """Test a single request to the database"""
     def setUp(self):
         """Parse a log file in fixtures, analyse and compare to result"""
+        super(BasicAnalysisTests, self).setUp()
         process_results(parse_logs(self.get_log('basic')))
 
     def test_metric_creations(self):
@@ -118,8 +119,8 @@ class BasicAnalysisTests(BaseCase):
         """There should only be two periods"""
         self.assertObjects(LogPeriod,
             ['period', 'date', 'request__path'],
-            (0, '2016-01-05', None),
             (0, '2016-01-05', WIND),
+            (0, '2016-01-05', None),
         )
 
     def test_values(self):
@@ -131,16 +132,16 @@ class BasicAnalysisTests(BaseCase):
             ('browser', '2016-01-05', None, '47', 1, None),
               ('count', '2016-01-05', None, WIND, 1, None),
             ('country', '2016-01-05', None, 'jp', 1, None),
-              ('delay', '2016-01-05', None, None, 1, 239),
               ('delay', '2016-01-05', WIND, None, 1, 239),
+              ('delay', '2016-01-05', None, None, 1, 239),
                ('lang', '2016-01-05', None, 'en', 1, None),
-               ('link', '2016-01-05', None, WIND, 1, None),
                ('link', '2016-01-05', WIND, WIND, 1, None),
+               ('link', '2016-01-05', None, WIND, 1, None),
                  ('os', '2016-01-05', None, '10', 1, None),
-               ('size', '2016-01-05', None, None, 1, 3391),
                ('size', '2016-01-05', WIND, None, 1, 3391),
-             ('status', '2016-01-05', None, '200', 1, None),
+               ('size', '2016-01-05', None, None, 1, 3391),
              ('status', '2016-01-05', WIND, '200', 1, None),
+             ('status', '2016-01-05', None, '200', 1, None),
         )
 
 
@@ -148,6 +149,7 @@ class MultiAnalysisTests(BaseCase):
     """Test a many requests to the database"""
     def setUp(self):
         """Parse a log file in fixtures, analyse and compare to result"""
+        super(MultiAnalysisTests, self).setUp()
         process_results(parse_logs(self.get_log('multi')))
 
     def test_metric_creations(self):
@@ -162,20 +164,20 @@ class MultiAnalysisTests(BaseCase):
         """There should only be two periods"""
         self.assertObjects(LogPeriod,
             ['period', 'date', 'request__path'],
-            (0, '2016-01-05', None),
             (0, '2016-01-05', ''),
             (0, '2016-01-05', LINX),
             (0, '2016-01-05', WIND),
-            (0, '2016-01-06', None),
+            (0, '2016-01-05', None),
             (0, '2016-01-06', WIND),
-            (0, '2016-01-07', None),
+            (0, '2016-01-06', None),
             (0, '2016-01-07', WIND),
-            (2, '2016-01-03', None),
+            (0, '2016-01-07', None),
             (2, '2016-01-03', WIND),
-            (3, '2016-01-01', None),
+            (2, '2016-01-03', None),
             (3, '2016-01-01', WIND),
-            (4, '2016-01-01', None),
+            (3, '2016-01-01', None),
             (4, '2016-01-01', WIND),
+            (4, '2016-01-01', None),
         )
 
     def test_request_periods(self):
@@ -212,20 +214,20 @@ class MultiAnalysisTests(BaseCase):
         self.assertObjects(LogValue.objects.filter(metric__name='size'),
             ['metric__name', 'period__date', 'period__request__path',
                 'period__period', 'count', 'low', 'high', 'avg'],
-            ('size', '2016-01-05', None, 0, 12, 1102, 8932, 3329),
             ('size', '2016-01-05', '', 0, 2, 1391, 1391, 1391),
             ('size', '2016-01-05', LINX, 0, 4, 1391, 8901, 4235),
             ('size', '2016-01-05', WIND, 0, 6, 1102, 8932, 3370),
-            ('size', '2016-01-06', None, 0, 1, 1103, 1103, 1103),
+            ('size', '2016-01-05', None, 0, 12, 1102, 8932, 3329),
             ('size', '2016-01-06', WIND, 0, 1, 1103, 1103, 1103),
-            ('size', '2016-01-07', None, 0, 1, 1104, 1104, 1104),
+            ('size', '2016-01-06', None, 0, 1, 1103, 1103, 1103),
             ('size', '2016-01-07', WIND, 0, 1, 1104, 1104, 1104),
-            ('size', '2016-01-03', None, 2, 14, 1102, 8932, 395),
+            ('size', '2016-01-07', None, 0, 1, 1104, 1104, 1104),
             ('size', '2016-01-03', WIND, 2, 8, 1102, 8932, 697),
-            ('size', '2016-01-01', None, 3, 14, 1102, 8932, 395),
+            ('size', '2016-01-03', None, 2, 14, 1102, 8932, 395),
             ('size', '2016-01-01', WIND, 3, 8, 1102, 8932, 697),
-            ('size', '2016-01-01', None, 4, 14, 1102, 8932, 395),
+            ('size', '2016-01-01', None, 3, 14, 1102, 8932, 395),
             ('size', '2016-01-01', WIND, 4, 8, 1102, 8932, 697),
+            ('size', '2016-01-01', None, 4, 14, 1102, 8932, 395),
         )
 
 class ParsingTests(BaseCase):
@@ -290,12 +292,12 @@ class ParsingTests(BaseCase):
             ('Samsung Internet', u'3.4'),
             ('Bot', 'Apache-HttpClient'),
             ('Bot', 'Baiduspider'),
+            ('Bot', 'bingbot'),
             ('Bot', 'Googlebot'),
             ('Bot', 'Googlebot-Image'),
             ('Bot', 'Python Requests'),
             ('Bot', 'Sogou web spider'),
             ('Bot', 'ZEEFscraper'),
-            ('Bot', 'bingbot'),
         )
 
     def test_long_log(self):
@@ -385,6 +387,7 @@ class ParsingTests(BaseCase):
 
 class DataReportTests(BaseCase):
     def setUp(self):
+        super(DataReportTests, self).setUp()
         process_results(parse_logs(self.get_log('reportable')))
         self.metric = LogMetric.objects.get(name='browser')
 

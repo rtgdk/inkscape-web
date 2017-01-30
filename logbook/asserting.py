@@ -28,9 +28,13 @@ Base testing functions
 import sys
 import os
 
+from unittest.case import SkipTest
+
+from django.db import connection
 from django.db.models import Model
 from django.test import TestCase, override_settings
 
+from logbook.orderedset import OrderedSet
 from logbook.parser import parse_logs
 
 ROOT_DIR = os.path.dirname(__file__)
@@ -42,6 +46,12 @@ ROOT_DIR = os.path.dirname(__file__)
 class BaseCase(TestCase):
     dirname = os.path.join(os.path.dirname(__file__), 'fixtures', 'logs')
     fixtures = []
+
+    def setUp(self):
+        """Skip tests if we aren't using postgresql"""
+        super(BaseCase, self).setUp()
+        if 'sqlite' in connection.vendor:
+            raise SkipTest("Sqlite orders None values differently")
 
     def get_log(self, src):
         """Returns a log file at a known location"""
@@ -77,7 +87,7 @@ class BaseCase(TestCase):
             elif len(a) == len(b):
                 return []
             msg = ''
-            for diff in set(a) ^ set(b):
+            for diff in OrderedSet(a) ^ OrderedSet(b):
                 msg += " %s %s\n" % ('+-'[diff in a], str(diff))
             return msg
 

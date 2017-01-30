@@ -21,13 +21,29 @@
 Base plugin class
 """
 
+import re
 import logging
 
 from os.path import dirname, abspath, join
+from dateutil.parser import parse
+from collections import defaultdict
 
 from forums.models import Forum
 
+# A dictionary of names -> email addresses
+EMAIL_ADDRESSES = defaultdict(set)
 FIXTURE_DIR = abspath(join(dirname(__file__), '..', 'fixtures'))
+
+def _parse_address(email):
+    name = ''
+    for (start, end) in (('<','>'), ('[mailto:', ']')):
+        if email and start in email:
+            (name, email) = email.split(start, 1)
+            email = email.split(end, 1)[0]
+    if email and '@' not in email:
+        return (email, None)
+    return (name.strip(), email.strip())
+
 
 class BasePlugin(object):
     test_conf = {}
@@ -88,11 +104,11 @@ class MessageBase(dict):
         """Returns original message and all replies"""
         return [self] + self.get_replies()
 
-    #def get_message_id(self):
-    #    return self.get('Message-ID', None)
+    def get_message_id(self):
+        return self.get('Message-ID', None)
 
-    #def get_reply_id(self):
-    #    return self.get('In-Reply-To', self.get('References', None))
+    def get_reply_id(self):
+        return self.get('In-Reply-To', self.get('References', None))
 
     def get_created(self):
         """Attempt to parse a string as a date"""
@@ -101,17 +117,19 @@ class MessageBase(dict):
             date = parse(date)
         return date
 
-    #def get_data(self):
-    #    return {}
+    def get_data(self):
+        return {}
 
-    #def get_body(self):
-    #    return self['body'].strip()
+    def get_body(self):
+        return self['body'].strip()
 
     def get_from(self):
         """Returns a tuple of name and email in from address"""
+        global EMAIL_ADDRESSES
+
         for items in ('To', 'CC', 'From'):
             #add_addresses(items)
-            for email in self.get(item, '').split(','):
+            for email in self.get(items, '').split(','):
                 (name, email) = _parse_address(email)
                 if name and email:
                     EMAIL_ADDRESSES[name.lower()].add(email.lower())
@@ -139,8 +157,8 @@ class MessageBase(dict):
             return objects.get()
         return None
 
-    #def get_userurl(self):
-    #    return ''
+    def get_userurl(self):
+        return ''
 
     def get_subject(self):
         subject = self['subject']

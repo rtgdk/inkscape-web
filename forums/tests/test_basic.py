@@ -210,13 +210,13 @@ class ObjectTopicTests(BaseCase):
     def test_header_template(self):
         """Topic shows custom topic header"""
         get = self.assertGet('forums:topic',
-                forum='general', slug='topic_one', status=200)
+                forum='art', slug='topic_one', status=200)
         self.assertContains(get, 'HEADER<<Test Object Two>>END')
 
     def test_all_comments(self):
         """List of all comments in the topic"""
         get = self.assertGet('forums:topic',
-                forum='general', slug='topic_one', status=200)
+                forum='art', slug='topic_one', status=200)
         self.assertContains(get, 'Who Don IT')
 
     def test_comments_on_topic(self):
@@ -230,6 +230,6 @@ class ObjectTopicTests(BaseCase):
           site_id=1,
         )
         get = self.assertGet('forums:topic',
-                forum='general', slug='topic_one', status=200)
+                forum='art', slug='topic_one', status=200)
         self.assertNotContains(get, 'Guess What')
 

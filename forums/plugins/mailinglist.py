@@ -41,15 +41,6 @@ from forums.plugins.base import BasePlugin, MessageBase, FIXTURE_DIR
 
 # A dictionary of names -> email addresses
 EMAIL_ADDRESSES = defaultdict(set)
-def _parse_address(email):
-    name = ''
-    for (start, end) in (('<','>'), ('[mailto:', ']')):
-        if email and start in email:
-            (name, email) = email.split(start, 1)
-            email = email.split(end, 1)[0]
-    if email and '@' not in email:
-        return (email, None)
-    return (name.strip(), email.strip())
 
 class MailingList(object):
     def __init__(self, mbox_path, test=False):

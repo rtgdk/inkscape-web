@@ -1095,6 +1095,8 @@
       "url": "resource.copy?pk"
     }
   ], 
+  "resource.link": {}, 
+  "resource.link?gallery_id": {}, 
   "resource.move?pk+source": [
     {
       "breadcrumbs": [

@@ -82,7 +82,7 @@ class ContestTests(BaseCase):
     def test_gallery_page(self):
         gallery = self.getContest()
         self.assertEqual(gallery.get_absolute_url(), '/en/gallery/=artwork/contest-soon/')
-        get = self.assertGet(gallery, status=200)
+        get = self.assertGet(gallery.get_absolute_url(), status=200)
         self.assertContains(get, 'Contest')
 
     def test_statuses(self):

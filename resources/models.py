@@ -531,15 +531,6 @@ class Resource(Model):
             self.save()
         return str(self.created.year)
 
-    # for counting detail views
-    def set_viewed(self, session):
-        if session.session_key is not None:
-            # We check for session key because it might not exist if this
-            # was called from the first view or cookies are blocked.
-            (view, is_new) = self.views.get_or_create(session=session.session_key)
-            return is_new
-        return None
-
     def is_visible(self):
         return get_user().pk == self.user_id or self.published and self.is_available()
 
@@ -855,22 +846,6 @@ class Vote(Model):
     voter    = ForeignKey(settings.AUTH_USER_MODEL, related_name='favorites')
 
     objects = VoteManager()
-
-
-class Views(Model):
-    """Record the view of an item"""
-    resource = ForeignKey(Resource, related_name='views')
-    session  = CharField(max_length=40)
-
-#    class Meta:
-#        # This should be enabled, but will require a data migration
-#        unique_together = ('resource', 'session')
-
-    def save(self, **kwargs):
-        ret = super(Views, self).save(**kwargs)
-        self.resource.viewed = self.resource.views.count()
-        self.resource.save()
-        return ret
 
 
 class Quota(Model):

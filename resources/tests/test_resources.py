@@ -147,11 +147,15 @@ class ResourceViewTests(BaseCase):
         self.assertContains(response, resource.description())
         self.assertContains(response, str(resource.user) )
         self.assertContains(response, resource.license.value)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
+
+        # Number of views is now calculated by logs XXX
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 0)
         
         # number of views should only be incremented once per user session
         response = self.assertGet('resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 1)
+
+        # Number of views is now calculated by logs XXX
+        self.assertEqual(Resource.objects.get(pk=resource.pk).viewed, 0)
 
     def test_view_someone_elses_unpublished_item_detail(self):
         """Testing item detail view for someone elses non-public resource: 
@@ -189,11 +193,15 @@ class ResourceViewTests(BaseCase):
         
         response = self.assertGet('view_resource', pk=resource.pk, follow=False, status=302)
         self.assertEqual(response.url, 'http://testserver' + resource.download.url)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
+
+        # Number of fullviews is now calculated by logs XXX
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
         
         # The full view counter is untracked so every request will increment the counter
         response = self.assertGet('view_resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
+
+        # Number of fullviews is now calculated by logs XXX
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
         
     def test_view_own_unpublished_resource_full_screen(self):
         """Check that we can look at our unpublished resource in full screen mode,
@@ -241,14 +249,15 @@ class ResourceViewTests(BaseCase):
         self.assertEqual(response.url, 'http://testserver/dl/test/' + filename)
 
         resource = Resource.objects.get(pk=resource.pk)
-        self.assertEqual(resource.downed, 1)
+        # Downloads don't cause increases in downloaded counter.
+        self.assertEqual(resource.downed, 0)
 
-        #try again, counter should increment again
         response = self.assertGet('download_resource', pk=resource.pk,
                        fn=resource.filename(), follow=False)
 
         resource = Resource.objects.get(pk=resource.pk)
-        self.assertEqual(resource.downed, 2)
+        # Counter should remain zero until logs are processed
+        self.assertEqual(resource.downed, 0)
         
     def test_download_non_existent_file(self):
         resources = Resource.objects.filter(published=True, downed=0)
@@ -626,11 +635,15 @@ class ResourceAnonTests(BaseCase):
         
         response = self.assertGet('view_resource', pk=resource.pk, follow=False, status=302)
         self.assertEqual(response.url, 'http://testserver' + resource.download.url)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 1)
+
+        # Full screen views are not recorded on request XXX but in logging.
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
         
         # all full views are counted (like downloads)
         response = self.assertGet('view_resource', pk=resource.pk)
-        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 2)
+
+        # Full screen views are not recorded on request XXX but in logging.
+        self.assertEqual(Resource.objects.get(pk=resource.pk).fullview, 0)
 
     def test_submit_item_anon(self):
         """Test if we can upload a file when we're not logged in,
@@ -718,13 +731,17 @@ class ResourceAnonTests(BaseCase):
         self.assertEqual(response.url, 'http://testserver/dl/test/' + filename)
 
         resource = Resource.objects.get(pk=resource.pk)
-        self.assertEqual(resource.downed, 1)
+
+        # Downloads aren't counted on request, but in logs XXX
+        self.assertEqual(resource.downed, 0)
         
         # every download should increment the counter
         response = self.assertGet('download_resource', pk=resource.pk,
                        fn=resource.filename(), follow=False)
         resource = Resource.objects.get(pk=resource.pk)
-        self.assertEqual(resource.downed, 2)
+
+        # Downloads aren't counted on request, but in logs XXX
+        self.assertEqual(resource.downed, 0)
 
     def test_edit_item_anon(self):
         """Test that we can't edit any items when we are logged out"""

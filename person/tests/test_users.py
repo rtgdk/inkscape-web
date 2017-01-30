@@ -23,6 +23,7 @@ Test team functions
 from autotest.base import ExtraTestCase
 
 from ..models import User
+from django.contrib.sessions.models import Session
 
 class UserTests(ExtraTestCase):
     fixtures = ('test-auth',)
@@ -31,19 +32,19 @@ class UserTests(ExtraTestCase):
     def test_13_user_sessions_removed(self):
         """Sessions are removed when user is deactivated"""
         admin = User.objects.get(username='admin')
-        self.assertEqual(admin.session_set.count(), 1)
+        self.assertEqual(Session.objects.all().count(), 1)
         response = self.assertGet('admin:index', status=200, follow=False)
 
         admin.first_name = 'Nothing'
         admin.save()
 
-        self.assertEqual(admin.session_set.count(), 1)
+        self.assertEqual(Session.objects.all().count(), 1)
         response = self.assertGet('admin:index', status=200, follow=False)
 
         admin.is_active = False
         admin.save()
 
-        self.assertEqual(admin.session_set.count(), 0)
+        self.assertEqual(Session.objects.all().count(), 0)
         response = self.assertGet('admin:index', status=302, follow=False)
 
 

@@ -277,19 +277,11 @@ class DownloadResource(ViewResource):
         if fn is None:
             if item.mime().is_text():
                 return super(DownloadResource, self).get(request, *args, **kwargs)
-            item.fullview += 1
-            item.save()
             return redirect(item.download.url)
 
         if fn not in ['download', item.filename()]:
             messages.warning(request, _('Can not find file \'%s\', please retry download.' % fn))
             return redirect(item.get_absolute_url())
-
-        # Otherwise the user intends to download the file and we record it as
-        # such before passing the download path to nginx for delivery using a
-        # content despatch to force the browser into saving-as.
-        item.downed += 1
-        item.save()
 
         # If the item is mirrored, then we need to select a good mirror to use
         if item.mirror:

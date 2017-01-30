@@ -1735,14 +1735,6 @@
 },
 {
   "fields": {
-    "session": "556p6okcsgc9r6dqkhitcbbixtgqwc5u",
-    "resource": 2
-  },
-  "model": "resources.views",
-  "pk": 1
-},
-{
-  "fields": {
     "group": null,
     "size": 104300000
   },
@@ -1827,8 +1819,8 @@
   },
   "model": "alerts.alerttype"
 },
- {
-   "fields": {
+{
+  "fields": {
     "group": null,
     "created": "2016-07-06T06:30:44.811Z",
     "enabled": true,
@@ -2021,102 +2013,6 @@
   },
   "model": "person.team",
   "pk": 3
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-09T23:49:57.914Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-23T23:49:57.904Z",
-    "session_data": "MGI0NTVkMjY5OWEwNGIyNjljMGNiOTI0NWY2M2VjZGIwNDM1OTBiODqAAn1xAShVDmNtc19hZG1pbl9zaXRlSwFVFGNtc190b29sYmFyX2Rpc2FibGVkiVUNX2F1dGhfdXNlcl9pZFgBAAAAMVUZd2l6YXJkX3dpemFyZF9jcmVhdGVfdmlld31xAihVCnN0ZXBfZmlsZXN9VQRzdGVwWAEAAAAwVQpleHRyYV9kYXRhfVUJc3RlcF9kYXRhfXVVEl9hdXRoX3VzZXJfYmFja2VuZFUpZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmRVCGNtc19lZGl0iVUPX2F1dGhfdXNlcl9oYXNoVSgxZGI1NmU5OWY1MDBiNGNjOWQ1M2JlNjkzMjdmMmMwNjQwZjIwMzljdS4=",
-    "user": 1
-  },
-  "model": "user_sessions.session",
-  "pk": "1f9na6x4ejohoef6chnzfij4htm8f1au"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-14T20:30:51.286Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-28T20:30:51.285Z",
-    "session_data": "ZjI1YzkzZmY2OWZkNzFhODBlMjkwNTg3NTIyMzFmOGQ4MTY2Mzk2NDqAAn1xAS4=",
-    "user": null
-  },
-  "model": "user_sessions.session",
-  "pk": "1qd41w651wvwxusdp6dzaiqusksx6xys"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-07T17:47:39.349Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-21T17:47:39.345Z",
-    "session_data": "YzI5NjUxYmE4MjRjYWY1NmUyMTE3MTAzMWJiNDcxOTU5N2M4OTU0MTqAAn1xAShVD19hdXRoX3VzZXJfaGFzaHECVShiMGQ4YWU1ZjczNThlNWM1YWVmM2M1ZTQwMjYzOThhZjVhMjU0MWYzVRJfYXV0aF91c2VyX2JhY2tlbmRxA1UpZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmRxBFUNX2F1dGhfdXNlcl9pZHEFWAEAAAAydS4=",
-    "user": 2
-  },
-  "model": "user_sessions.session",
-  "pk": "556p6okcsgc9r6dqkhitcbbixtgqwc5u"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-07T15:52:51.594Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-21T15:52:51.589Z",
-    "session_data": "YzI5NjUxYmE4MjRjYWY1NmUyMTE3MTAzMWJiNDcxOTU5N2M4OTU0MTqAAn1xAShVD19hdXRoX3VzZXJfaGFzaHECVShiMGQ4YWU1ZjczNThlNWM1YWVmM2M1ZTQwMjYzOThhZjVhMjU0MWYzVRJfYXV0aF91c2VyX2JhY2tlbmRxA1UpZGphbmdvLmNvbnRyaWIuYXV0aC5iYWNrZW5kcy5Nb2RlbEJhY2tlbmRxBFUNX2F1dGhfdXNlcl9pZHEFWAEAAAAydS4=",
-    "user": 2
-  },
-  "model": "user_sessions.session",
-  "pk": "65tqtmjnedyeibd232e05444jbf8ojf5"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-16T05:53:11.810Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-30T05:53:11.809Z",
-    "session_data": "YTk5OGZkMGJjMTNkOWM4MWY5YjQ3NTkzZDQwMDM2ODg1M2YyNGRhYTqAAn1xAShVD19hdXRoX3VzZXJfaGFzaFUoMWRiNTZlOTlmNTAwYjRjYzlkNTNiZTY5MzI3ZjJjMDY0MGYyMDM5Y1USX2F1dGhfdXNlcl9iYWNrZW5kVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZFUNX2F1dGhfdXNlcl9pZFgBAAAAMXUu",
-    "user": 1
-  },
-  "model": "user_sessions.session",
-  "pk": "90g92tk6gdbs38053abt00vh4w5yu251"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-14T20:31:36.365Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-28T20:31:36.363Z",
-    "session_data": "OWNjOTIwNmI2MDgzZDllMGJkNGZlZTg5Y2JjMjAxMTc2ZjYzOGQ4OTqAAn1xAShVDmNtc19sb2dfbGF0ZXN0cQJLLlUPX2F1dGhfdXNlcl9oYXNoVSgxZGI1NmU5OWY1MDBiNGNjOWQ1M2JlNjkzMjdmMmMwNjQwZjIwMzljVQ1fYXV0aF91c2VyX2lkWAEAAAAxVRJfYXV0aF91c2VyX2JhY2tlbmRVKWRqYW5nby5jb250cmliLmF1dGguYmFja2VuZHMuTW9kZWxCYWNrZW5kdS4=",
-    "user": 1
-  },
-  "model": "user_sessions.session",
-  "pk": "gh0dwaao4e9t132tuk9sqfmj4y2sig0f"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-12T17:11:43.896Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-07-26T17:11:43.895Z",
-    "session_data": "YTk5OGZkMGJjMTNkOWM4MWY5YjQ3NTkzZDQwMDM2ODg1M2YyNGRhYTqAAn1xAShVD19hdXRoX3VzZXJfaGFzaFUoMWRiNTZlOTlmNTAwYjRjYzlkNTNiZTY5MzI3ZjJjMDY0MGYyMDM5Y1USX2F1dGhfdXNlcl9iYWNrZW5kVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZFUNX2F1dGhfdXNlcl9pZFgBAAAAMXUu",
-    "user": 1
-  },
-  "model": "user_sessions.session",
-  "pk": "no7b0s3xmuvbhimwsaevjd7yauo2bcqc"
-},
-{
-  "fields": {
-    "ip": "127.0.0.1",
-    "last_activity": "2016-07-19T16:11:27.516Z",
-    "user_agent": "Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0",
-    "expire_date": "2016-08-02T16:11:27.515Z",
-    "session_data": "NzQwZmMzODY0MDZhNmE3OGYwZDM2Yjg2ZDc1MDg2MWNiYjY4NmEwMDqAAn1xAShVDmNtc19sb2dfbGF0ZXN0SzNVD19hdXRoX3VzZXJfaGFzaFUoMWRiNTZlOTlmNTAwYjRjYzlkNTNiZTY5MzI3ZjJjMDY0MGYyMDM5Y1UNX2F1dGhfdXNlcl9pZFgBAAAAMVUSX2F1dGhfdXNlcl9iYWNrZW5kVSlkamFuZ28uY29udHJpYi5hdXRoLmJhY2tlbmRzLk1vZGVsQmFja2VuZHUu",
-    "user": 1
-  },
-  "model": "user_sessions.session",
-  "pk": "q6je90jrhxsf4gdkf4lb84wls48288ok"
 },
 {
   "fields": {

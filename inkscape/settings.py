@@ -187,6 +187,7 @@ INSTALLED_APPS = (
     'cmsplugin_search',
     'cmsplugin_news',
     'cmsplugin_image',
+    'cmsdiff',
     'cmstabs',
     'docs',
     'resources',

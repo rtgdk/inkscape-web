@@ -26,11 +26,12 @@ from django.db.models.signals import m2m_changed, post_save
 from django.dispatch import receiver
 
 from django.utils import timezone
+from django.utils.text import slugify
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _, get_language
 from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
-from django.utils.text import slugify
+from django.contrib.sessions.models import Session
 
 from django.contrib.auth.models import Group, AbstractUser
 from pile.fields import ResizedImageField, AutoOneToOneField
@@ -114,9 +115,6 @@ class User(AbstractUser):
             return '/'
         return reverse('view_profile', kwargs={'username':self.username})
 
-    def sessions(self):
-        return self.session_set.filter(expire_date__gt=timezone.now())
-  
     def is_moderator(self):
         return self.has_perm("comments.can_moderate")
 
@@ -140,8 +138,11 @@ class User(AbstractUser):
 @receiver(post_save, sender=User)
 def is_active_check(sender, instance, **kwargs):
     """Delete every session when active is False"""
+    from django.contrib.auth import SESSION_KEY
     if not instance.is_active:
-        instance.session_set.all().delete()
+        for session in Session.objects.all():
+            if int(session.get_decoded()[SESSION_KEY]) == instance.pk:
+                session.delete()
 
 
 def group_breadcrumb_name(self):

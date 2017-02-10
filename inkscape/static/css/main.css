@@ -811,7 +811,7 @@ p#final-footer #dev-stamp:hover {
   padding: 0 20px 0 0;
 }
 .page #left-column > h2:first-child {
-  margin-top: 12px;
+  margin-top: 24px;
 }
 
 #right-sidebar {
@@ -853,9 +853,6 @@ p#final-footer #dev-stamp:hover {
 #right-sidebar h2 :visited {
   color: #333333;
   font-size: 16px;
-}
-#right-sidebar > h2:first-child {
-  margin-top: 18px;
 }
 #right-sidebar hr {
   margin: 30px 0;

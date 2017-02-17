@@ -1,7 +1,7 @@
 #
 # Copyright 2015, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -85,7 +85,7 @@ class ReleaseQuerySet(QuerySet):
 class Release(Model):
     """A release of inkscape"""
     parent = ForeignKey('self', related_name='children', **null)
-    version = CharField(_('Version'), max_length=8, db_index=True, unique=True)
+    version = CharField(_('Version'), max_length=16, db_index=True, unique=True)
     codename = CharField(_('Codename'), max_length=32, db_index=True, **null)
 
     release_notes = TextField(_('Release notes'), **null)
@@ -168,7 +168,7 @@ class Platform(Model):
     name       = CharField(_('Name'), max_length=64)
     desc       = CharField(_('Description'), max_length=255)
     parent     = ForeignKey('self', related_name='children', verbose_name=_("Parent Platform"), **null)
-    manager    = ForeignKey(User, verbose_name=_("Platform Manager"), **null) 
+    manager    = ForeignKey(User, verbose_name=_("Platform Manager"), **null)
     codename   = CharField(max_length=255, **null)
     order      = PositiveIntegerField(default=0)
 
@@ -214,7 +214,7 @@ class Platform(Model):
             _to.append(self.parent)
             self.parent.ancestors(_to)
         return _to
-      
+
     def descendants(self, _from=None):
         _from = _from or []
         for child in self.children.all():
@@ -305,4 +305,3 @@ class ReleasePlatform(Model):
 
     def breadcrumb_name(self):
         return self.platform.name
-

@@ -3,7 +3,7 @@
 #
 # Copyright 2013, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -40,9 +40,9 @@ fi
 
 ./utils/update-pot
 
-if [ -e '.bzr' ]; then
-    bzr revno > ./data/revision
-    bzr log -r119.. -n0 > ./data/revision.log
+if [ -e '.git' ]; then
+    git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
+    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log # I'm not sure why we need to prune history
 fi
 
 echo "Updating inkscape-docs log"
@@ -65,10 +65,9 @@ else
   else
     echo "No updates needed."
   fi
-fi 
+fi
 
 $MANAGE collectstatic --noinput
 echo ""
 echo "Copied static files from pythonenv to local static"
 echo ""
-

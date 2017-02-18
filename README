@@ -1,19 +1,27 @@
 These instructions are subject to change, please email doctormo@gmail.com if
 you are having issues getting a local instance working.
 
+Getting the Website Code
+
+ Option A:
+    $ git clone https://gitlab.com/inkscape/inkscape-web.git
+ Option B (better):
+    Create an ssh key if you don't have one yet, and upload your public ssh key to gitlab
+    (instructions: https://docs.gitlab.com/ee/gitlab-basics/create-your-ssh-keys.html), then:
+    $ git clone git@gitlab.com:inkscape/inkscape-web.git
+
 Running the website locally:
 
- 1) ./utils/init
- 2) ./utils/manage runserver
- 3) Load up http://localhost:8000/
- 4) Log in with admin / 123456
+ 1) $ ./utils/init
+ 2) $ ./utils/manage runserver
+ 3) Open http://localhost:8000/ in your web browser (recommendation: Firefox or Chrome)
+ 4) Log in with username "admin" and password "123456"
 
-Updating the Website:
+Updating the Website Code:
 
- 1) bzr pull
+ 1) git pull
  2) ./utils/update
 
 Updating the CMS Content:
 
  1) ./utils/refresh-cms
-

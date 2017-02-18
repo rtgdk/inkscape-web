@@ -1,7 +1,7 @@
 #
 # Copyright 2016, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -34,7 +34,7 @@ class AuthorRecord(OrderedDict):
             with open(log_file, 'r') as fhl:
                 for block in fhl.read().split('-' * 50):
                     self.add_bzr_block(block)
-                    
+
     def add_git_log(self, log_file):
         if isfile(log_file):
             with open(log_file, 'r') as fhl:
@@ -69,7 +69,7 @@ class AuthorRecord(OrderedDict):
             author['start'] = date[0]
         if date[0] > author['end']:
             author['end'] = date[0]
-            
+
     def add_git_block(self, blk):
         """Turn a pretty-printed git log into a dict"""
         dat = dict(l.strip().split(':', 1) for l in blk.split('\n') if ':' in l)
@@ -94,7 +94,7 @@ class AuthorRecord(OrderedDict):
             author['start'] = date
         if date > author['end']:
             author['end'] = date
-        
+
 
 CODERS = AuthorRecord()
 TRANSLATORS = AuthorRecord()
@@ -102,16 +102,11 @@ DOCUMENTORS = AuthorRecord()
 
 PATH = settings.PROJECT_PATH
 
-# for bzr, needs to be removed:
-CODERS.add_bzr_log(join(PATH, 'data', 'revision.log'))
-#TRANSLATORS.add_bzr_log(join(PATH, 'data', 'translators.log'))
+CODERS.add_git_log(join(PATH, 'data', 'revision.log'))
 DOCUMENTORS.add_bzr_log(join(PATH, 'data', 'documentation.log'))
-
-# for git:
 TRANSLATORS.add_git_log(join(PATH, 'data', 'translators.log'))
 
 # XXX
 # The translators are often obscured in the bzr log, so we want to
 # add po file credits too, this is a TODO item to improve credit to
 # translators.
-

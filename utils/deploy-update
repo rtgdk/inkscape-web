@@ -3,7 +3,7 @@
 #
 # Copyright 2013, Martin Owens <doctormo@gmail.com>
 #
-# This file is part of the software inkscape-web, consisting of custom 
+# This file is part of the software inkscape-web, consisting of custom
 # code for the Inkscape project's django-based website.
 #
 # inkscape-web is free software: you can redistribute it and/or modify
@@ -67,14 +67,15 @@ PIP="./pythonenv/bin/pip"
 
 cd $SOURCE
 
-bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
+git fetch origin master
+git reset --hard origin/master # or some other branch, maybe?
 if [ -d $TARGET ]; then
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
     rsync -rtuv $TEST data/ $TARGET/data
-    bzr revno > $TARGET/data/revision
-    bzr log -r119.. -n0 > $TARGET/data/revision.log
+    git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
+    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log # I'm not sure why we needed to prune history
   fi
 fi
 
@@ -85,4 +86,3 @@ cd $TARGET
 ./utils/manage clear_fastly_cache
 
 touch ./data/wsgi.conf
-

@@ -141,7 +141,8 @@ def is_active_check(sender, instance, **kwargs):
     from django.contrib.auth import SESSION_KEY
     if not instance.is_active:
         for session in Session.objects.all():
-            if int(session.get_decoded()[SESSION_KEY]) == instance.pk:
+            # There is google-oauth sessions which aren't cleared here
+            if int(session.get_decoded().get(SESSION_KEY), -1) == instance.pk:
                 session.delete()
 
 

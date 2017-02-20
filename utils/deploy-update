@@ -67,8 +67,8 @@ PIP="./pythonenv/bin/pip"
 
 cd $SOURCE
 
-git fetch origin master
-git reset --hard origin/master # or some other branch, maybe?
+# Instead the git branch is considered to be set up correctly
+git pull
 if [ -d $TARGET ]; then
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"

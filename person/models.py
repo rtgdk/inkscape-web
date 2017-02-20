@@ -142,8 +142,12 @@ def is_active_check(sender, instance, **kwargs):
     if not instance.is_active:
         for session in Session.objects.all():
             # There is google-oauth sessions which aren't cleared here
-            if int(session.get_decoded().get(SESSION_KEY), -1) == instance.pk:
-                session.delete()
+            try:
+                if int(session.get_decoded().get(SESSION_KEY), -1) == instance.pk:
+                    session.delete()
+            except Exception:
+                pass
+
 
 
 def group_breadcrumb_name(self):

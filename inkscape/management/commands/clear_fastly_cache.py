@@ -26,6 +26,10 @@ import sys
 import time
 import fastly
 
+# Because python2.7 broke SSL for many computers.
+import ssl
+ssl._create_default_https_context = ssl._create_unverified_context
+
 from django.conf import settings
 from django.core.management.base import NoArgsCommand
 from django.templatetags.static import static

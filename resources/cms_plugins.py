@@ -43,7 +43,7 @@ class CMSCategoryPlugin(CMSPluginBase):
     name  = _('InkSpace Category')
     cache = settings.ENABLE_CACHING
 
-    def get_render_template(self):
+    def get_render_template(self, context=None, instance=None, placeholder=None):
         return None
 
     def render(self, context, instance, placeholder):

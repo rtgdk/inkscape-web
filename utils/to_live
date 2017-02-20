@@ -1,0 +1,14 @@
+#!/bin/bash
+#
+# Deploys the current branch to live. Currently assumes target is always master
+#
+
+set -e
+
+git checkout live
+git merge master
+git push
+git checkout master
+
+echo "DONE"
+

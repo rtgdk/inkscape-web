@@ -73,7 +73,7 @@ cd $SOURCE
 # Pull from repo to update, or create local repo, if there isn't one
 if [ -d $SOURCE/.git ]; then
   git pull origin $BRANCH
-  if [[ $? == 0 ] -a [-f "$TARGET"]]; then
+  if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
     rsync -rtuv $TEST data/ $TARGET/data
@@ -84,12 +84,10 @@ else
   echo "Cloning repository!"
   git clone $REPO .
   git checkout $BRANCH
-  if [-f "$TARGET"]
-    rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
-    rsync -rtuv $TEST data/ $TARGET/data
-    git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
-    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log
-  fi
+  rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
+  rsync -rtuv $TEST data/ $TARGET/data
+  git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
+  git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log
 fi
 
 cd $TARGET

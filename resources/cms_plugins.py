@@ -44,7 +44,7 @@ class CMSCategoryPlugin(CMSPluginBase):
     cache = settings.ENABLE_CACHING
 
     def get_render_template(self, context=None, instance=None, placeholder=None):
-        return None
+        return "resources/resource_%s.html" % instance.display
 
     def render(self, context, instance, placeholder):
         items = instance.source.items.filter(published=True)

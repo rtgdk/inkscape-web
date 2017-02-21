@@ -869,22 +869,9 @@ class GalleryPlugin(CMSPlugin):
     source   = ForeignKey(Gallery)
     display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
 
-    @property
-    def render_template(self):
-        if self.display not in ('icons', 'rows'):
-            self.display = 'icons'
-            self.save()
-        return "resources/resource_%s.html" % self.display
 
 class CategoryPlugin(CMSPlugin):
     limit    = PositiveIntegerField(_('Number of items per page'))
     source   = ForeignKey(Category)
     display  = CharField(_("Display Style"), max_length=32, choices=DISPLAYS, **null)
-
-    @property
-    def render_template(self):
-        if self.display not in ('icons', 'rows'):
-            self.display = 'icons'
-            self.save()
-        return "resources/resource_%s.html" % self.display
 

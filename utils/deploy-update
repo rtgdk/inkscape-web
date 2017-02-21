@@ -37,7 +37,7 @@ if [ "$(id -u)" != "0" ]; then
 fi
 
 TEST=$@ #"--dry-run"
-SOURCE="/tmp/code"
+# SOURCE="/tmp/code" - no longer needed, right?
 source "data/deployment"
 
 if [ ! -d "$TARGET" ]; then
@@ -52,11 +52,13 @@ if [ ! -f "$EX" ]; then
     echo "! Excludes file not set, deployment will delete all data every time!"
     echo "!"
     echo "!!!!!!!!!"
+    # should this stop the script?
 fi
 
 if [ ! -d "$SOURCE" ]; then
     SOURCE="./"
     exit 1
+    # should this rather just stop the script instead of setting the variable now?
 fi
 
 SETTINGS="inkscape/settings.py"
@@ -67,16 +69,24 @@ PIP="./pythonenv/bin/pip"
 
 cd $SOURCE
 
-# Instead the git branch is considered to be set up correctly
-git pull
-if [ -d $TARGET ]; then
+# Pull from repo to update, or create local repo, if there isn't one
+if [ -d $SOURCE/.git ]; then
+  git pull origin $BRANCH
   if [[ $? == 0 ]]; then
     echo "New revisions found, updating!"
     rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
     rsync -rtuv $TEST data/ $TARGET/data
     git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
-    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log # I'm not sure why we needed to prune history
+    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log
   fi
+else
+  echo "Cloning repository!"
+  git clone $REPO .
+  git checkout $BRANCH
+  rsync -rtuv $TEST --delete --exclude-from="$EX" . $TARGET
+  rsync -rtuv $TEST data/ $TARGET/data
+  git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
+  git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log
 fi
 
 cd $TARGET

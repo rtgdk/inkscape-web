@@ -49,7 +49,7 @@ django_sekizai==0.9.0
 django-cms==3.4.2
 
 djangocms-file==0.2.1
-djangocms-link==1.7.1
+djangocms-link==2.1.0
 djangocms-text-ckeditor>=3.4.0
 
 cmsplugin-filery==1.0.1

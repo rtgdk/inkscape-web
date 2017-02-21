@@ -28,8 +28,7 @@ import os
 from sendfile import sendfile
 from datetime import timedelta
 
-from django.http import JsonResponse
-from django.http import Http404
+from django.http import JsonResponse, Http404
 from django.shortcuts import get_object_or_404, render_to_response, redirect
 from django.utils.translation import ugettext_lazy as _
 from django.utils.timezone import now
@@ -516,4 +515,8 @@ class ResourceFeed(CategoryFeed, ResourceList):
 
     def item_updateddate(self, item):
         return item.edited
+
+class ResourceJson(ResourceList):
+    def render_to_response(self, context, **kwargs):
+        return JsonResponse(context, encoder=ResourceJSONEncoder)
 

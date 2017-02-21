@@ -33,9 +33,11 @@ def resource_search(*args, **kw):
       url(r'^$',               kw.get('rl', ResourceList)(), name='resources'),
       url(r'^pick/$',          kw.get('rp', ResourcePick)(), name='resources_pick'),
       url(r'^rss/$',           kw.get('rf', ResourceFeed)(), name='resources_rss'),
+      url(r'^json/$',          kw.get('rj', ResourceJson)(), name='resources_json'),
       url_tree(r'^=(?P<category>[^\/]+)/',
         url(r'^$',             kw.get('rl', ResourceList)(), name='resources'),
         url(r'^rss/$',         kw.get('rf', ResourceFeed)(), name='resources_rss'),
+        url(r'^json/$',        kw.get('rj', ResourceJson)(), name='resources_json'),
         *args)
     ]
 
@@ -98,6 +100,7 @@ urlpatterns = patterns('',
     *resource_search(
         url(r'^(?P<galleries>[^\/]+)/',     GalleryView(),  name='resources'),
         url(r'^(?P<galleries>[^\/]+)/rss/', ResourceFeed(), name='resources_rss'),
+        url(r'^(?P<galleries>[^\/]+)/json/', ResourceJson(), name='resources_json'),
     )
   ),
 )

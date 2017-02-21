@@ -24,9 +24,10 @@ from django.contrib.auth import get_user_model
 from django.contrib.auth.views import redirect_to_login
 from django.core.exceptions import PermissionDenied
 from django.core.urlresolvers import reverse
+from django.core.serializers.json import DjangoJSONEncoder
 from django.shortcuts import get_object_or_404
 
-from .models import Gallery, Model, Group, Q
+from .models import Resource, Gallery, Model, Group, Q, QuerySet
 
 class NotAllowed(KeyError):
     def __init__(self, msg):
@@ -133,3 +134,31 @@ class OwnerDeleteMixin(OwnerUpdateMixin):
 
     def backup_url(self):
         return reverse('my_profile')
+
+
+class ResourceJSONEncoder(DjangoJSONEncoder):
+    """Turn resource objects into serializable objects for json"""
+    def default(self, obj):
+        if isinstance(obj, QuerySet):
+            return [self.default(item) for item in obj]
+        if isinstance(obj, Resource):
+            return {
+                'name': obj.name,
+                'user': unicode(obj.user),
+                'desc': obj.desc,
+                'link': obj.link,
+                'created': obj.created,
+                'edited': obj.edited,
+                'verified': obj.verified,
+                'download': obj.download.url if obj.download else None,
+                'thumbnail': obj.thumbnail.url if obj.thumbnail else None,
+                'rendering': obj.rendering.url if obj.rendering else None,
+                'signature': obj.signature.url if obj.signature else None,
+                'license': obj.license.code if obj.license else None,
+                'extra_status': obj.get_extra_status_display(),
+            }
+        try:
+            return DjangoJSONEncoder.default(self, obj)
+        except TypeError:
+            return None
+

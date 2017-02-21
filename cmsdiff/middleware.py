@@ -31,7 +31,6 @@ from reversion.revisions import revision_context_manager as manager
 from cms.utils import get_language_from_request as get_lang
 from cms.toolbar.items import Menu
 from cms.constants import LEFT
-from cmsdiff.app import DRAFT_ID
 
 class CommentMiddleware(object):
     """Adds a comment to the current draft revision if possible."""
@@ -40,11 +39,6 @@ class CommentMiddleware(object):
         if request.method == 'POST' and self.comment:
             manager.start()
 
-    def process_response(self, request, response):
-        if getattr(self, 'comment', None):
-            manager.set_comment(DRAFT_ID + request.POST['revision_comment'])
-            manager.end()
-        return response
 
 class ObjectToolbarMiddleware(object):
     """Adds an Objects menu item for quick admin access to current context"""

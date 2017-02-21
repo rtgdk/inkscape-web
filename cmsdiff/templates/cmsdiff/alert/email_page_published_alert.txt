@@ -5,18 +5,6 @@
 {% blocktrans with web_page=instance %}The page '{{ web_page }}' was changed:{% endblocktrans %}
 
 {% trans "Link:" %} {{ site }}{{ instance.get_absolute_url }}
-{% trans "Published by:" %} {{ revision.user }}
+{% trans "Published by:" %} {{ instance.changed_by }}
 {% trans "Language:" %} {{ language }}
-{% trans "Summary:" %} {{ revision.comment }}
 
-
-{% trans "Overview of changes" %}:
-
-{{ revision.diff.stub_text }}
-
-{% if revision %}
-    {% url "cms.diff" revision.pk as the_url %}
-    {% blocktrans %}You can find the full diff at {{ site }}{{ the_url }}{% endblocktrans %}
-{% else %}
-    {% trans "No full diff available (possible error)." %}
-{% endif %}

@@ -27,7 +27,8 @@ from cms.models import Page
 from django.utils.translation import get_language
 
 from alerts.base import BaseAlert
-from cmsdiff.signals import post_revision
+
+from cms.signals import post_publish
 
 class PagePublishedAlert(BaseAlert):
     name     = _("Website Page Published")
@@ -39,13 +40,14 @@ class PagePublishedAlert(BaseAlert):
     email_subject = "{% trans 'Published:' %} {{ instance }}"
     object_name   = "when the '{{ object }}' page is published"
     default_email = False
-    signal        = post_revision
+    signal        = post_publish
 
     subscribe_all = True
     subscribe_any = True
     subscribe_own = False
 
     def call(self, *args, **kwargs):
-        kwargs['language'] = get_language()
+        if 'language' not in kwargs:
+            kwargs['language'] = get_language()
         super(PagePublishedAlert, self).call(*args, **kwargs)
 

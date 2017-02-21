@@ -46,7 +46,7 @@ if [ -e '.git' ]; then
 fi
 
 echo "Updating inkscape-docs log"
-bzr log lp:inkscape-docs -n0 > ./data/documentation.log
+#bzr log lp:inkscape-docs -n0 > ./data/documentation.log
 
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."

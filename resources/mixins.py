@@ -18,6 +18,9 @@
 # along with inkscape-web.  If not, see <http://www.gnu.org/licenses/>.
 #
 
+import os
+from urllib import basejoin
+
 from django.conf import settings
 
 from django.contrib.auth import get_user_model
@@ -138,6 +141,18 @@ class OwnerDeleteMixin(OwnerUpdateMixin):
 
 class ResourceJSONEncoder(DjangoJSONEncoder):
     """Turn resource objects into serializable objects for json"""
+    @property
+    def domain(self):
+        if not hasattr(self, '_domain'):
+            from django.contrib.sites.models import Site
+            self._domain = Site.objects.get().domain
+        return self._domain
+
+    def url(self, file_obj):
+        if file_obj:
+            base = os.path.join(settings.MEDIA_URL, file_obj.url.lstrip('/'))
+            return basejoin('http://' + self.domain, base)
+
     def default(self, obj):
         if isinstance(obj, QuerySet):
             return [self.default(item) for item in obj]
@@ -150,10 +165,10 @@ class ResourceJSONEncoder(DjangoJSONEncoder):
                 'created': obj.created,
                 'edited': obj.edited,
                 'verified': obj.verified,
-                'download': obj.download.url if obj.download else None,
-                'thumbnail': obj.thumbnail.url if obj.thumbnail else None,
-                'rendering': obj.rendering.url if obj.rendering else None,
-                'signature': obj.signature.url if obj.signature else None,
+                'download': self.url(obj.download),
+                'thumbnail': self.url(obj.thumbnail),
+                'rendering': self.url(obj.rendering),
+                'signature': self.url(obj.signature),
                 'license': obj.license.code if obj.license else None,
                 'extra_status': obj.get_extra_status_display(),
             }

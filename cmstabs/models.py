@@ -39,6 +39,8 @@ from pile.fields import ResizedImageField
 
 from resources.models import License
 
+from .cms_toolbar import *
+
 null = dict(null=True, blank=True)
 
 class TabCategory(Model):

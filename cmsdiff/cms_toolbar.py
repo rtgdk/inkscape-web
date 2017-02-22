@@ -40,26 +40,3 @@ class SubscribeToolbar(CMSToolbar):
             menu.add_link_item(_('Subscribe to all pages'), url=alert.subscribe_url())
         else:
             menu.add_link_item(_('Unsubscribe from all pages'), url=alert.unsubscribe_url())
-
-@toolbar_pool.register
-class RemoveUndoAndHistory(CMSToolbar):
-    """
-    Temporary fix to make it impossible for non-admin staff to use 
-    the buggy Undo and History functionality (revert to live seems to work okay)
-    """
-
-    def post_template_populate(self):
-        
-        if not self.request.user.is_superuser:
-            from cms.toolbar.items import AjaxItem, ModalItem
-            
-            current_history_menu = self.toolbar.get_menu('history')
-        
-            if current_history_menu != None:
-                for entry in current_history_menu.find_items(AjaxItem):
-                    if entry.item.name in ['Undo', 'Redo']:
-                        current_history_menu.remove_item(entry.item)
-                for entry in current_history_menu.find_items(ModalItem):
-                    if entry.item.name == 'View history...':
-                        current_history_menu.remove_item(entry.item)
-        return

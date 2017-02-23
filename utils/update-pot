@@ -7,12 +7,13 @@ cd $DIR
 if [ ! -e 'website' ]; then
     git clone https://gitlab.com/inkscape/inkscape-web-i18n.git website
     cd website/
+    git checkout live
 else
     cd website/
     git fetch
+    git checkout live
+    git reset --hard origin/live
 fi
-
-git checkout live
 
 # data/revision.log relative path, pretty printing human readable / unix time
 git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > ../../translators.log

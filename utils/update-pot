@@ -9,8 +9,10 @@ if [ ! -e 'website' ]; then
     cd website/
 else
     cd website/
-    git pull
+    git fetch
 fi
+
+git checkout live
 
 # data/revision.log relative path, pretty printing human readable / unix time
 git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > ../../translators.log

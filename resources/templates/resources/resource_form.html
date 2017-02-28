@@ -2,7 +2,7 @@
 {% load i18n extras static %}
 
 {% block "description" %}
- <form method="post" enctype="multipart/form-data">
+ <form name="myForm" method="post" enctype="multipart/form-data" onsubmit="return validateForm()">
   {% csrf_token %}
 
   {% if object and not object.category and object.next %}
@@ -73,5 +73,56 @@
   </div>
 
   </div>
+  <script>
+  function validateForm() {
+  	var name = document.forms["myForm"]["name"].value;
+  	var desc = document.forms["myForm"]["desc"].value;
+  	var link = document.forms["myForm"]["link"].value;
+  	var category = document.forms["myForm"]["category"].value;
+  	var license = document.forms["myForm"]["license"].value;
+  	var owner = document.forms["myForm"]["owner"].value;
+  	var ownername = document.forms["myForm"]["owner_name"].value;
+	if (name==null || name=="")
+	{
+	alert("Please Fill the Resource Name");
+	return false;
+	}
+	if (desc==null || desc=="")
+	{
+	alert("Please Fill the Description");
+	return false;
+	}
+	if (link==null || link=="")
+	{
+	alert("Please Fill the Link");
+	return false;
+	}
+	if (category=="")
+	{
+	alert("Please Fill the category");
+	return false;
+	}
+	if (license=="")
+	{
+	alert("Please Fill the License");
+	return false;
+	}
+	if (owner=="")
+	{
+	alert("Please Fill the Permission");
+	return false;
+	}
+	if (owner=="False")
+	{
+		if(ownername=="" || ownername==null){
+			alert("Please Fill the Owner's Name");
+			return false;
+		}
+	}
+	
+}
+	
+
+</script>
 {% endblock %}
 

@@ -1,4 +1,5 @@
-
+// Rohit Lodha <rohit.lodhartg@gmail.com>
+//This file makes use of the jquery.validate.js to validate the upload form of resources before submitting.
 $(document).ready(function() {
 		console.log("here");
 		$("#myForm").validate({

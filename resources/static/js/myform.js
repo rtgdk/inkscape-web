@@ -25,7 +25,7 @@ $(document).ready(function() {
 		link: "Please Fill the Link",
 		category:"Please Fill the category",
 		license : "Please Fill the License",
-		owner : "Please Fill the Permission",
+		owner : "You must either be the owner or have permission to post this",
 		owner_name : "Please Fill the Owner's Name"
 	}
 });

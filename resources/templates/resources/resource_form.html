@@ -2,7 +2,7 @@
 {% load i18n extras static %}
 
 {% block "description" %}
- <form method="post" enctype="multipart/form-data">
+  <form method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
   {% csrf_token %}
   {% if form.link_mode %}
     <div id="linker">

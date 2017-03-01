@@ -4,6 +4,11 @@
 {% block "description" %}
  <form method="post" enctype="multipart/form-data">
   {% csrf_token %}
+  {% if form.link_mode %}
+    <div id="linker">
+      {{ form.link|placeholder:_("Paste your URL here") }}
+    </div>
+  {% endif %}
 
   {% if object and not object.category and object.next %}
     <!--Item was drag and drop uploaded, so redirect to the next item edit screen-->
@@ -67,9 +72,9 @@
       <button type="submit" name="cancel" value="1" class="btn btn-default">{% trans "Cancel" %}</button>
     </form>
 
-    <!--% if form.link_mode %}
+    <!--{% if form.link_mode %}
       <button type="button" class="btn btn-warning" onclick="checkLink();">{% trans "Get Link Info" %}</button>
-    {% endif %}-->
+      {% endif %}-->
   </div>
 
   </div>

@@ -299,9 +299,16 @@ class ResourceLinkForm(ResourceBaseForm):
 
     class Meta:
         model = Resource
-        fields = ['name', 'desc', 'tags', 'link', 'category', 'license',
-                  'owner', 'owner_name', 'rendering']
-        required = ['name', 'category', 'license', 'owner']
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'rendering']
+        required = ['name', 'category', 'license']
+
+    def save(self, **kwargs):
+        obj = super(ResourceLinkForm, self).save(**kwargs)
+        if obj.pk:
+            obj.owner = True
+            obj.published = True
+            obj.save()
+        return obj
 
 
 class ResourcePasteForm(ResourceBaseForm):

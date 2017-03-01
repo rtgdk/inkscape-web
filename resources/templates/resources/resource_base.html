@@ -20,7 +20,7 @@
 
   <div class="item{% if form %} edit{% endif %}{% if object and not object.published %} unpublished{% endif %}">
     {% if form %}
-      <div class="image uploader">
+      <div class="image {% if form.link_mode %}linker{% else %}uploader{% endif %}">
 
         {% if form.download %}
         <label for="id_download">
@@ -41,7 +41,6 @@
             <img src="{% static "images/link.svg" %}" alt="{% trans "Click to add screenshot or preview." %}"/>
             <p>{{ form.link.label }}</p>
           </label>
-          <br/>{{ form.link|placeholder:_("Paste your URL here") }}
         {% elif form.rendering %}
           <label for="id_rendering">
             {% if object.rendering and object.is_resource %}

@@ -362,6 +362,21 @@ div.tog a.remove:hover {
   z-index: -5;
 }
 
+#linker {
+  display: flex;
+  background-color: #1a1a1a;
+  padding: 2px 8px 20px;
+}
+#linker input {
+  width: 100%;
+}
+.linker {
+  padding-bottom: 0px !important;
+}
+.linker #id_rendering {
+  padding-bottom: 0px !important;
+}
+
 /* SVG Special handling */
 
 svg .webhover {

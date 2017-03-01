@@ -2,7 +2,7 @@
 {% load i18n extras static %}
 
 {% block "description" %}
- <form method="post" enctype="multipart/form-data">
+ <form name="myForm" id="myForm" method="post" enctype="multipart/form-data">
   {% csrf_token %}
 
   {% if object and not object.category and object.next %}
@@ -67,7 +67,9 @@
       <button type="submit" name="cancel" value="1" class="btn btn-default">{% trans "Cancel" %}</button>
     </form>
 
-    <!--% if form.link_mode %}
+
+    <!--{% if form.link_mode %}
+
       <button type="button" class="btn btn-warning" onclick="checkLink();">{% trans "Get Link Info" %}</button>
     {% endif %}-->
   </div>

@@ -33,7 +33,7 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from .models import *
 from .validators import Range, CsvList
 from .utils import FileEx, MimeType, ALL_TEXT_TYPES
-from .fields import FilterSelect, DisabledSelect, TagsChoiceField
+from .fields import FilterSelect, DisabledSelect, CategorySelect, TagsChoiceField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
@@ -137,6 +137,8 @@ class ResourceBaseForm(ModelForm):
                 f.queryset = f.queryset.filter(Q(selectable=True) & \
                     (Q(groups__isnull=True) | Q(groups__in=self.user.groups.all()))
                 )
+                f.widget = CategorySelect(f.widget.attrs, f.widget.choices)
+                f.choices = [(o, unicode(o)) for o in f.queryset]
 
         if 'license' in self.fields:
             f = self.fields['license']

@@ -52,7 +52,20 @@ class DisabledSelect(Select):
                    '<input type="hidden" name="%s" value="%s">' % (self.name, value)
         return ''
 
+class CategorySelect(Select):
+    """Provide extra data for validating a resource within the option"""
+    def render_option(self, selected_choices, obj, label):
+        label = force_text(label)
+        value = force_text(obj or '')
+        html = ' selected="selected"' if value in selected_choices else ''
+        if obj and not isinstance(obj, (int, str, unicode)):
+            for field in ('media_x', 'media_y', 'types', 'size'):
+                f_value = getattr(obj, 'acceptable_' + field)
+                if f_value not in (None, ''):
+                    html += ' data-%s="%s"' % (field, str(f_value))
+            value = force_text(obj.pk)
 
+        return '<option value="%s"%s>%s</option>' % (value, html, label)
 
 class SelectTags(SelectMultiple):
     SCRIPT = """

@@ -17,6 +17,9 @@ $(document).ready(function() {
 		download: {
 			filesize: $("#myForm").attr('data-quota')
 		},
+		rendering: {
+			filesize: $("#myForm").attr('data-quota')
+		},
 		category : "required",
 		license : "required",
 		owner : "required",
@@ -30,7 +33,8 @@ $(document).ready(function() {
 		name: "Please Fill the resource name",
 		desc: "Please Fill the Description",
 		link: "Please Fill the Link",
-		download : "You are exceeding the upload limit",
+		download : "You are exceeding the upload limit: " + $("#myForm").attr('data-quota'),
+		rendering : "You are exceeding the upload limit: " + $("#myForm").attr('data-quota'),
 		category:"Please Fill the category",
 		license : "Please Fill the License",
 		owner : "You must either be the owner or have permission to post this",

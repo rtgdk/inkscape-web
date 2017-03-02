@@ -2,7 +2,7 @@
 {% load i18n extras static %}
 
 {% block "description" %}
- <form name="myForm" id="myForm" method="post" enctype="multipart/form-data">
+ <form name="myForm" id="myForm" method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
   {% csrf_token %}
 
   {% if object and not object.category and object.next %}

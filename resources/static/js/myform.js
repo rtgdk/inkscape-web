@@ -1,5 +1,9 @@
 // Rohit Lodha <rohit.lodhartg@gmail.com>
 //This file makes use of the jquery.validate.js to validate the upload form of resources before submitting.
+$.validator.addMethod('filesize', function (value, element, param) {
+    return this.optional(element) || (element.files[0].size <= param)
+}, 'File size must be less than {0}');
+
 $(document).ready(function() {
 		$("#myForm").validate({
 		
@@ -9,6 +13,9 @@ $(document).ready(function() {
 		link: {
 			required: true,
 			url: true
+		},
+		download: {
+			filesize: $("#myForm").attr('data-quota')
 		},
 		category : "required",
 		license : "required",
@@ -23,6 +30,7 @@ $(document).ready(function() {
 		name: "Please Fill the resource name",
 		desc: "Please Fill the Description",
 		link: "Please Fill the Link",
+		download : "You are exceeding the upload limit",
 		category:"Please Fill the category",
 		license : "Please Fill the License",
 		owner : "You must either be the owner or have permission to post this",

@@ -40,6 +40,7 @@ from django.conf import settings
 from person.models import Team
 
 from pile.fields import ResizedImageField
+from .storage import resource_storage
 from .slugify import set_slug
 from .utils import *
 
@@ -328,7 +329,8 @@ class Resource(Model):
     extra_css = property(lambda self: self.EXTRA_CSS[self.extra_status])
 
     # ======== ITEMS FROM RESOURCEFILE =========== #
-    download   = FileField(_('Consumable File'), **upto('file', blank=True))
+    download   = FileField(_('Consumable File'), storage=resource_storage,
+            **upto('file', blank=True))
 
     license    = ForeignKey(License, verbose_name=_("License"), **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)

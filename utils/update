@@ -22,7 +22,7 @@
 
 PIP="./pythonenv/bin/pip"
 MANAGE="./utils/manage"
-REQUIRES="./utils/requirements.txt"
+REQUIRES="./requirements.txt"
 
 if [ ! -e $PIP ]; then
     echo "Installing new PIP..."

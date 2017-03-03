@@ -21,9 +21,10 @@ class CsvList(list):
 
 
 class Range(list):
+    UNITS = 'KMGT'
     scales = [
-        dict((c, 10 ** (x * 3)) for (x, c) in enumerate(' KMGT')),
-        dict((c, 2 ** (x * 10)) for (x, c) in enumerate(' KMGT')),
+        dict((c, 10 ** (x * 3)) for (x, c) in enumerate(' '+UNITS)),
+        dict((c, 2 ** (x * 10)) for (x, c) in enumerate(' '+UNITS)),
     ]
 
     def __init__(self, value, other=None):
@@ -40,13 +41,13 @@ class Range(list):
         value = str(value).upper()
         scale = self.scales['B' in value]
         value = value.replace('B', '').strip()
-        if value[-1] in ['K', 'M', 'G', 'T']:
+        if value[-1] in self.UNITS:
             return int(value[:-1]) * scale[value[-1]]
         return int(value)
 
     def _descale(self, value):
         """Scale the value back and append unit if exactly divisible"""
-        for char in 'TGMK':
+        for char in self.UNITS[::-1]:
             for (is_bytes, scale) in enumerate(self.scales):
                 extra = 'B' if is_bytes else ''
                 if value % scale[char] == 0:

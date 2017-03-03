@@ -13,6 +13,8 @@ from django.forms.widgets import Select, SelectMultiple
 
 from django.core.urlresolvers import reverse
 
+from .validators import Range
+
 class FilterSelect(Select):
     def __init__(self, qs, m2m_field, filter_by, replace):
         self.filter_by = filter_by
@@ -59,10 +61,18 @@ class CategorySelect(Select):
         value = force_text(obj or '')
         html = ' selected="selected"' if value in selected_choices else ''
         if obj and not isinstance(obj, (int, str, unicode)):
-            for field in ('media_x', 'media_y', 'types', 'size'):
+            # CSV list of types, treat as string
+            if obj.acceptable_types:
+                html += ' data-types="%s"' % obj.acceptable_types
+
+            for field in ('media_x', 'media_y', 'size'):
                 f_value = getattr(obj, 'acceptable_' + field)
                 if f_value not in (None, ''):
-                    html += ' data-%s="%s"' % (field, str(f_value))
+                    scale = 1024 if field == 'size' else 1
+                    for method in (min, max):
+                        # Add both min and max for every range field
+                        html += ' data-%s-%s="%d"' % (field,
+                            method.__name__, method(Range(f_value)) / scale)
             value = force_text(obj.pk)
 
         return '<option value="%s"%s>%s</option>' % (value, html, label)

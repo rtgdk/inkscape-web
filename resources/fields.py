@@ -59,7 +59,7 @@ class CategorySelect(Select):
     def render_option(self, selected_choices, obj, label):
         label = force_text(label)
         value = force_text(obj or '')
-        html = ' selected="selected"' if value in selected_choices else ''
+        html = ''
         if obj and not isinstance(obj, (int, str, unicode)):
             # CSV list of types, treat as string
             if obj.acceptable_types:
@@ -75,6 +75,7 @@ class CategorySelect(Select):
                             method.__name__, method(Range(f_value)) / scale)
             value = force_text(obj.pk)
 
+        html += ' selected="selected"' if value in selected_choices else ''
         return '<option value="%s"%s>%s</option>' % (value, html, label)
 
 class SelectTags(SelectMultiple):

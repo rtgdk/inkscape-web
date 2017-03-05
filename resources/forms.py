@@ -108,6 +108,9 @@ class ResourceBaseForm(ModelForm):
     auto_fields = ['name', 'desc', 'tags', 'download', 'rendering', 'published']
     tags = TagsChoiceField(Tag.objects.all(), required=False)
 
+    class Media:
+        js = ('js/jquery.validate.js', 'js/additional.validate.js', 'js/resource.validate.js')
+
     def __init__(self, *args, **kwargs):
         self.gallery = kwargs.pop('gallery', None)
         ModelForm.__init__(self, *args, **kwargs)

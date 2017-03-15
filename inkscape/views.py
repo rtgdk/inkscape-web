@@ -53,13 +53,16 @@ class ContactUs(FormView):
     success_url = reverse_lazy('contact.ok')
 
     def get_initial(self):
+        ret = {'subject': self.request.GET.get('subject', "Website Feedback")}
         if self.request.user.is_authenticated():
-            return {'email': self.request.user.email}
-        return {}
+            ret['email'] = self.request.user.email
+        return ret
 
     def form_valid(self, form):
         recipients = ["%s <%s>" % (a,b) for (a,b) in settings.ADMINS]
-        send_mail("Website Feedback", form.cleaned_data['comment'],
+        send_mail(
+            form.cleaned_data['subject'],
+            form.cleaned_data['comment'],
             self.get_sender(form.cleaned_data['email']), recipients)
         return super(ContactUs, self).form_valid(form) 
 

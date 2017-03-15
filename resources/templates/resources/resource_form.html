@@ -2,33 +2,56 @@
 {% load i18n extras static %}
 
 {% block "description" %}
- <form name="resourceForm" id="resourceForm" method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
-  {% csrf_token %}
-  {% if form.link_mode %}
-    <div id="linker">
-      {{ form.link|placeholder:_("Paste your URL here") }}
+  <form name="resourceForm" id="resourceForm" method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
+    {% csrf_token %}
+
+    <div class="image {% if form.link_mode %}linker{% else %}uploader{% endif %}">
+      {% if form.download %}
+        <label for="id_download">
+          {% if object.mime.is_image %}
+            <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
+            <p>{% trans "Replace image:" %} {{ object.filename }}</p>
+          {% elif object and object.download %}
+            <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
+            <p>{% trans "Replace file:" %} {{ object.filename }}</p>
+          {% else %}
+            <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
+            <p>{% trans "Choose a file..." %}</p>
+          {% endif %}
+        </label>
+        {{ form.download|placeholder:_("Paste your text here") }}
+        {% if form.download.errors %}
+          <div class="errors">{{ form.download.errors }}</div>
+        {% endif %}
+      {% endif %}
+
+      {% if form.link_mode %}
+	<label for="id_rendering">
+	  <img src="{% static "images/link.svg" %}" alt="{% trans "Click to add screenshot or preview." %}"/>
+	  <p>{{ form.link.label }}</p>
+	</label>
+        <div id="linker">{{ form.link|placeholder:_("Paste your URL here") }}</div>
+      {% elif form.rendering %}
+	<label for="id_rendering">
+	  {% if object.rendering and object.is_resource %}
+	    <img src="{{ object.rendering.url }}" alt="{% trans "Click to change" %}">
+	    <p>{% trans "Replace visible image:" %} {{ object.rendering_name }}</p>
+	  {% else %}
+	    <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
+	    <p>{% trans "Choose visible image..." %}</p>
+	  {% endif %}
+	</label>
+        {{ form.rendering }}
+	{% if form.rendering.errors %}
+	  <div class="errors">{{ form.rendering.errors }}</div>
+	{% endif %}
+      {% endif %}
     </div>
-  {% endif %}
 
   {% if object and not object.category and object.next %}
     <!--Item was drag and drop uploaded, so redirect to the next item edit screen-->
     <input type="hidden" name="next" value="{% url "edit_resource" object.next.pk %}"/>
   {% endif %}
-
-  <div class="image upload">
-    {% if form.download %}
-      <div id="upload">{{ form.download|placeholder:_("Paste your text here") }}</div>
-      {% if form.download.errors %}
-        <div class="errors">{{ form.download.errors }}</div>
-      {% endif %}
-    {% endif %}
-    {% if form.rendering %}
-      <div id="rendering">{{ form.rendering }}</div>
-      {% if form.rendering.errors %}
-        <div class="errors">{{ form.rendering.errors }}</div>
-      {% endif %}
-    {% endif %}
-  </div>
 
   <div class="info">
     <h2>{{ form.name|placeholder:_("Resource Name") }}

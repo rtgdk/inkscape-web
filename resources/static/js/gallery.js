@@ -42,11 +42,9 @@ function checkLink() {
 }
 
 function setupUpload() {
-  if($('#upload textarea').length > 0) {
+  if($('.uploader textarea').length > 0) {
     return;
   }
-  $('#upload, #rendering').addClass('hidden');
-
   $('.uploader label').show();
   $('.uploader label img').error(function(e) {
       if($(this).data('static')) {
@@ -56,7 +54,7 @@ function setupUpload() {
       }
   });
 
-  $('.upload input').on('change', function() {
+  $('.uploader input').on('change', function() {
     if (this.files && this.files[0]) {
       var label = $('label[for="'+$(this).attr('id')+'"]');
       var file = this.files[0];

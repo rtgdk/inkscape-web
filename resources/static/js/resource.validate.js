@@ -54,24 +54,25 @@ $(document).ready(function() {
 			var mediay_min = e.options[e.selectedIndex].dataset.media_yMin; 
 			var mediay_max = e.options[e.selectedIndex].dataset.media_yMax; 
 		    img = new Image();
-		    img.onload = function() {
-		    	if (mediax_min> this.width || this.width > mediax_max){
-		        	alert("Image Width Not in range of allowed range for " + cat + ". Allowed width " + mediax_min + "-" + mediax_max +" pixels");
-		        	return;
-		        	}
-		        else if (mediay_min> this.width || this.width > mediay_max){
-		        	alert("Image Width Not in range of allowed range for " + cat + ". Allowed width " + mediay_min + "-" + mediay_max +" pixels");
-		        	return;
-		        	}
-		        else if (file.size>sizeMax*1024) {
-				alert("Image size above the maximum size allowed for " + cat + " Allowed size : " + sizeMin + "-" +sizeMax +"KB");
-				return;
-				}
-				else if (file.size<sizeMin*1024) {
-					alert("Image size below the minimum size allowed for " + cat + " Allowed size : " + sizeMin + "-" +sizeMax +"KB");
-					return;
-				}
-		    };
+                    img.onload = function() {
+                        msg = null;
+                        if (mediax_min > this.width || this.width > mediax_max){
+                            msg = "Image Width Not in range of allowed range for " + cat + ". Allowed width " + mediax_min + "-" + mediax_max +" pixels";
+                        }
+                        else if (mediay_min > this.height || this.height > mediay_max){
+                            msg = "Image Width Not in range of allowed range for " + cat + ". Allowed width " + mediay_min + "-" + mediay_max +" pixels";
+                        }
+                        else if (file.size>sizeMax*1024) {
+                            msg = "Image size above the maximum size allowed for " + cat + " Allowed size : " + sizeMin + "-" +sizeMax +"KB";
+                        }
+                        else if (file.size<sizeMin*1024) {
+                            msg = "Image size below the minimum size allowed for " + cat + " Allowed size : " + sizeMin + "-" +sizeMax +"KB";
+                        }
+                        if(msg != null) {
+                            // Set the message to the download_id input so it can be used int he validator
+                            $("#download_id").data("invalid-msg", msg)
+                        }
+                    };
 		    img.onerror = function() {
 		        alert( "not a valid file: " + file.type);
 		        return;

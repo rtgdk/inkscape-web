@@ -89,7 +89,11 @@ $.validator.addMethod('category_type', function (value, element, param) {
 
 $(document).ready(function() {
   $("input[type='file']").change(save_file_details);
-  var link_mode = $('#linker').length > 0;
+  var link_mode = $('.linker').length > 0;
+  var paste_mode = $('.paster').length > 0;
+  // TODO: paste_mode uses area size min and max to set
+  // how large the text must be in lines x words. We should
+  // validate that.
 
   $("#resourceForm").validate({
     ignore: "", // validate invisible inputs
@@ -102,10 +106,10 @@ $(document).ready(function() {
       },
       download: {
         required: !link_mode,
-        quota: $("#resourceForm").data('quota'),
-        category_size: '#id_category',
-        category_area: '#id_category',
-        category_type: '#id_category',
+        quota: !paste_mode && $("#resourceForm").data('quota'),
+        category_size: !paste_mode && '#id_category',
+        category_area: !paste_mode && '#id_category',
+        category_type: !paste_mode && '#id_category',
       },
       rendering: {
         quota: $("#resourceForm").data('quota'),

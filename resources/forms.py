@@ -319,8 +319,9 @@ class ResourceLinkForm(ResourceBaseForm):
 
 
 class ResourcePasteForm(ResourceBaseForm):
-    media_type     = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
-    download       = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+    download   = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+    paste_mode = True
 
     def __init__(self, data=None, *args, **kwargs):
         # These are shown items values, for default values see save()

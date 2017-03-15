@@ -5,20 +5,22 @@
   <form name="resourceForm" id="resourceForm" method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
     {% csrf_token %}
 
-    <div class="image {% if form.link_mode %}linker{% else %}uploader{% endif %}">
+    <div class="image {% if form.link_mode %}linker{% elif form.paste_mode %}paster{% else %}uploader{% endif %}">
       {% if form.download %}
-        <label for="id_download">
-          {% if object.mime.is_image %}
-            <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace image:" %} {{ object.filename }}</p>
-          {% elif object and object.download %}
-            <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace file:" %} {{ object.filename }}</p>
-          {% else %}
-            <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
-            <p>{% trans "Choose a file..." %}</p>
-          {% endif %}
-        </label>
+        {% if not form.paste_mode %}
+          <label for="id_download">
+            {% if object.mime.is_image %}
+              <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
+              <p>{% trans "Replace image:" %} {{ object.filename }}</p>
+            {% elif object and object.download %}
+              <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
+              <p>{% trans "Replace file:" %} {{ object.filename }}</p>
+            {% else %}
+              <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
+              <p>{% trans "Choose a file..." %}</p>
+            {% endif %}
+          </label>
+        {% endif %}
         {{ form.download|placeholder:_("Paste your text here") }}
         {% if form.download.errors %}
           <div class="errors">{{ form.download.errors }}</div>

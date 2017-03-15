@@ -251,6 +251,10 @@
 .uploader input[type="file"] {
   display: none;
 }
+.paster textarea {
+  width: 100%;
+  min-height: 500px;
+}
 
 #item-footer {
   background-color: #f8f8f8;

@@ -44,8 +44,8 @@ fi
 
 if [ ! -d "$DOC_SOURCE" ]; then
     echo "Can't find docs in $DOC_SOURCE, Downloading..."
-    cd /tmp
-    #bzr branch lp:inkscape-docs-export-website
+    cd `dirname $DOC_SOURCE`
+    git clone https://gitlab.com/inkscape/inkscape-docs-export-website.git &> /dev/null
     export FORCE=1
 fi
 
@@ -57,12 +57,12 @@ fi
 cd "$DOC_SOURCE"
 
 if [ -d $DOC_TARGET ]; then
-  #bzr pull --overwrite | grep Now\ on\ revision &> /dev/null
+  git pull &> /dev/null
   if [[ $? == 0 || $FORCE == 1 ]]; then
     echo "New revisions found, updating!"
     echo "Sending docs to ${DOC_TARGET}..."
     rsync -ua $TEST --exclude='.bzr/' --delete . $DOC_TARGET
-    #bzr revno > $DOC_TARGET/revision
+    git log -1 --date=local --format="%cd (%h)" > $DOC_TARGET/revision
   else
     echo "Docs alrady up to date!"
   fi

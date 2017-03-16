@@ -40,8 +40,9 @@ from cms.utils.permissions import get_current_user as get_user
 
 from inkscape.middleware import TrackCacheMiddleware
 
-__all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
-           'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm', 'ResourceLinkForm')
+__all__ = ('GalleryForm', 'GalleryMoveForm', 'ResourceForm',
+        'ResourceEditPasteForm', 'ResourcePasteForm', 'ResourceAddForm',
+        'MirrorAddForm', 'ResourceLinkForm')
 
 TOO_SMALL = [
     "Image is too small for %s category (Minimum %sx%s)",
@@ -128,8 +129,9 @@ class ResourceBaseForm(ModelForm):
             self.fields.pop('signature', None)
 
         for field in ('download', 'rendering', 'signature'):
-            if field in self.fields and self.fields[field].widget is ClearableFileInput:
-                self.fields[field].widget = FileInput()
+            if field in self.fields:
+                if isinstance(self.fields[field].widget, ClearableFileInput):
+                    self.fields[field].widget = FileInput()
 
         if 'category' in self.fields:
             f = self.fields['category']
@@ -377,9 +379,6 @@ class ResourceEditPasteForm(ResourcePasteForm):
 
         super(ResourcePasteForm, self).__init__(data, *args, **kwargs)
     
-
-# This allows paste to have a different set of options
-FORMS = {'pastebin': ResourceEditPasteForm}
 
 class ResourceAddForm(ResourceBaseForm):
     class Meta:

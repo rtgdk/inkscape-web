@@ -99,7 +99,6 @@ $(document).ready(function() {
     ignore: "", // validate invisible inputs
     rules:{
       name: "required",
-      desc: "required",
       link: {
         required: link_mode,
         url: true
@@ -128,8 +127,6 @@ $(document).ready(function() {
       name: "Please Fill the resource name",
       desc: "Please Fill the Description",
       link: "Please Fill the Link",
-      //download : "You are exceeding the upload limit: " + $("#resourceForm").attr('data-quota'),
-      //rendering : "You are exceeding the upload limit: " + $("#resourceForm").attr('data-quota'),
       category:"Please Fill the category",
       license : "Please Fill the License",
       owner : "You must either be the owner or have permission to post this",

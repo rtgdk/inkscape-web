@@ -10,16 +10,16 @@
     var validator_msgs = {
       quota: "{% trans "File size ({0}) must be less than your remaining quota: {1}" %}",
       is_image: "{% trans "This file must be an image." %}",
-      category_size: "{% trans "This categories requires files to between {0} and {1}" %}",
+      category_size: "{% trans "This category requires a file size between {0} and {1}." %}",
       category_area: "{% trans "This category requires images to be {0}-{1} wide and {2}-{3} high." %}",
-      category_type: "{% trans "This category requires file to be one of these types: {0}" %}",
-      name: "{% trans "Please Fill the resource name" %}",
-      desc: "{% trans "Please Fill the Description" %}",
-      link: "{% trans "Please Fill the Link" %}",
-      category:"{% trans "Please Fill the category" %}",
-      license : "{% trans "Please Fill the License" %}",
-      owner : "{% trans "You must either be the owner or have permission to post this" %}",
-      owner_name : "{% trans "Please Fill the Owner's Name" %}"
+      category_type: "{% trans "This category requires files to be one of these types: {0}." %}",
+      name: "{% trans "Please enter the resource's title." %}",
+      desc: "{% trans "Please enter a description." %}",
+      link: "{% trans "Please enter a URL." %}",
+      category:"{% trans "Please select a category." %}",
+      license : "{% trans "Please select a license." %}",
+      owner : "{% trans "You must either be the owner or have permission to post this." %}",
+      owner_name : "{% trans "Please enter the resource owner's name." %}"
     }
   </script>
   {{ block.super }}

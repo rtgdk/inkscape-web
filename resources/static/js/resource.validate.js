@@ -41,12 +41,12 @@ $.validator.addMethod('quota', function (value, element, param) {
 }, function(param, element) {
   var quota = humanFileSize(param);
   var size = humanFileSize($(element).data('size'));
-  return $.validator.format('File size ({0}) must be less than your remaining quota: {1}', size, quota);
+  return $.validator.format(validator_msgs['quota'], size, quota);
 });
 
 $.validator.addMethod('is_image', function (value, element, param) {
   return this.optional(element) || $(element).data('isimage');
-}, 'This file must be an image.');
+}, validator_msgs['is_image']);
 
 $.validator.addMethod('category_size', function (value, element, param) {
     var cat = $(param).find(":selected");
@@ -55,7 +55,7 @@ $.validator.addMethod('category_size', function (value, element, param) {
 }, function (param, element) {
     var cat = $(param).find(":selected");
     var quota = humanFileSize($("#resourceForm").data('quota'));
-    return $.validator.format("This categories requires files to between {0} and {1}",
+    return $.validator.format(validator_msgs['category_size'],
         humanFileSize(cat.data('size-min'), 1024, '0B'),
         humanFileSize(cat.data('size-max'), 1024, quota)
     );
@@ -70,7 +70,7 @@ $.validator.addMethod('category_area', function (value, element, param) {
     return this.optional(element) || in_range;
 }, function(param, element) {
     var cat = $(param).find(":selected");
-    return $.validator.format('This category requires images to be {0}-{1} wide and {2}-{3} high.',
+    return $.validator.format(validator_msgs['category_area'],
         cat.data('media_x-min') || 0,
         cat.data('media_x-max') || 'Any',
         cat.data('media_y-min') || 0,
@@ -84,7 +84,7 @@ $.validator.addMethod('category_type', function (value, element, param) {
     return this.optional(element) || is_type;
 }, function(param, element) {
     var types = $(param).find(":selected").data('types');
-    return 'This category requires file to be one of these types: ' + types
+    return $.validator.format(validator_msgs['category_type'], types)
 }); 
 
 $(document).ready(function() {
@@ -123,15 +123,7 @@ $(document).ready(function() {
         }
       }
     },
-    messages:{
-      name: "Please Fill the resource name",
-      desc: "Please Fill the Description",
-      link: "Please Fill the Link",
-      category:"Please Fill the category",
-      license : "Please Fill the License",
-      owner : "You must either be the owner or have permission to post this",
-      owner_name : "Please Fill the Owner's Name"
-    }
+    messages: validator_msgs,
   });
 });
 

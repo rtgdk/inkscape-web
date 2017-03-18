@@ -103,7 +103,7 @@ DOCUMENTORS = AuthorRecord()
 PATH = settings.PROJECT_PATH
 
 CODERS.add_git_log(join(PATH, 'data', 'revision.log'))
-DOCUMENTORS.add_bzr_log(join(PATH, 'data', 'documentation.log'))
+DOCUMENTORS.add_git_log(join(PATH, 'data', 'documentation.log'))
 TRANSLATORS.add_git_log(join(PATH, 'data', 'translators.log'))
 
 # XXX

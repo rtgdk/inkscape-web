@@ -63,6 +63,7 @@ if [ -d $DOC_TARGET ]; then
     echo "Sending docs to ${DOC_TARGET}..."
     rsync -ua $TEST --exclude='.bzr/' --delete . $DOC_TARGET
     git log -1 --date=local --format="%cd (%h)" > $DOC_TARGET/revision
+    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/documentation.log
   else
     echo "Docs alrady up to date!"
   fi

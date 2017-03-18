@@ -38,16 +38,6 @@ if [ $REQUIRES -nt $PIP ]; then
     touch $PIP
 fi
 
-./utils/update-pot
-
-if [ -e '.git' ]; then
-    git log -1 --date=local --format="%cd (%h)" > $TARGET/data/revision
-    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > $TARGET/data/revision.log # I'm not sure why we need to prune history
-fi
-
-echo "Updating inkscape-docs log"
-#bzr log lp:inkscape-docs -n0 > ./data/documentation.log
-
 if [ "inkscape/settings.py" -nt ./data/updated.last ]; then
     echo "Updating Django..."
     echo " * migrate"
@@ -66,6 +56,18 @@ else
     echo "No updates needed."
   fi
 fi
+
+echo "Retrieving translations..."
+./utils/update-pot
+
+echo "Updating inkscape-web log..."
+if [ -e '.git' ]; then
+    git log -1 --date=local --format="%cd (%h)" > ./data/revision
+    git log --format="------------------%n%nAUTHOR:%aN%nTIME:%at%nEMAIL:%aE%n%h : %s%n%aD%n" > ./data/revision.log
+fi
+
+echo "Retrieving inkscape-docs..."
+./utils/deploy-docs
 
 $MANAGE collectstatic --noinput
 echo ""

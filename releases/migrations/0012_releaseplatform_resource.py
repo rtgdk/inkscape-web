@@ -15,6 +15,6 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='releaseplatform',
             name='resource',
-            field=models.ForeignKey(blank=True, to='resources.Resource', null=True),
+            field=models.ForeignKey(blank=True, to='resources.Resource', related_name='releases', null=True),
         ),
     ]

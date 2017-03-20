@@ -274,7 +274,7 @@ class ReleasePlatform(Model):
     release = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')
     platform = ForeignKey(Platform, verbose_name=_("Release Platform"), related_name='releases')
     download = URLField(_('Download Link'), **null)
-    resource = ForeignKey("resources.Resource", **null)
+    resource = ForeignKey("resources.Resource", related_name='releases', **null)
     howto = URLField(_('Instructions Link'), **null)
     info = TextField(_('Release Platform Information'), **null)
 

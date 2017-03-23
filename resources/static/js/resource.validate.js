@@ -91,6 +91,7 @@ $(document).ready(function() {
   $("input[type='file']").change(save_file_details);
   var link_mode = $('.linker').length > 0;
   var paste_mode = $('.paster').length > 0;
+  var file_already = $('label[for="id_download"]').data('filename');
   // TODO: paste_mode uses area size min and max to set
   // how large the text must be in lines x words. We should
   // validate that.
@@ -104,7 +105,7 @@ $(document).ready(function() {
         url: true
       },
       download: {
-        required: !link_mode,
+        required: !link_mode && !file_already,
         quota: !paste_mode && $("#resourceForm").data('quota'),
         category_size: !paste_mode && '#id_category',
         category_area: !paste_mode && '#id_category',

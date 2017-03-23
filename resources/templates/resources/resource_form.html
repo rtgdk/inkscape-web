@@ -8,7 +8,7 @@
     <div class="image {% if form.link_mode %}linker{% elif form.paste_mode %}paster{% else %}uploader{% endif %}">
       {% if form.download %}
         {% if not form.paste_mode %}
-          <label for="id_download">
+          <label for="id_download" {% if object.download %}data-filename="{{ object.filename }}"{% endif %}>
             {% if object.mime.is_image %}
               <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
               <p>{% trans "Replace image:" %} {{ object.filename }}</p>

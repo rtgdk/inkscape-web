@@ -14,7 +14,7 @@
         <a class="button" href="{% url "alert.settings" %}" title="{% trans "Manage alert settings" %}">&#9881;</a>
       </div>
     {% if object_list.count > 0 %}
-      <form class="runner" action="{% url "alert.delete" %}">
+      <form class="runner delete-all" action="{% url "alert.delete" %}">
         <button class="button" id="{{ object.pk }}" title="{% trans "Delete all alerts" %}">X</button>
       </form>
     {% endif %}

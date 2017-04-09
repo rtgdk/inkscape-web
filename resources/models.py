@@ -81,7 +81,7 @@ class License(Model):
     filterable = BooleanField(default=True,
         help_text=_("This license can be used as a filter in gallery indexes."))
 
-    replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
+    replaced = ForeignKey("License", verbose_name=_('Replaced by'), on_delete=SET_NULL, **null)
 
     class Meta:
         db_table = 'resource_license'
@@ -332,7 +332,7 @@ class Resource(Model):
     download   = FileField(_('Consumable File'), storage=resource_storage,
             **upto('file', blank=True))
 
-    license    = ForeignKey(License, verbose_name=_("License"), **null)
+    license    = ForeignKey(License, verbose_name=_("License"), on_delete=SET_NULL, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
     owner_name = CharField(_('Owner\'s Name'), max_length=128, **null)
 

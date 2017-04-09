@@ -128,11 +128,11 @@ function furnishShieldTabs() {
     .mouseout(function() {
       if(this.sb_timer) clearTimeout(this.sb_timer);
     })
-    .click(function() {
+    /*.click(function() {
       if($(this).hasClass('current')) $("#shield .tabs").toggleClass('expanded');
       selectBanner($(this));
       return false;
-    });
+    })*/;
   currentTab = $("#shield > .tabs li.current");
 }
 

@@ -53,7 +53,7 @@ class ObjectQuery(QuerySet):
     @property
     def models(self):
         """Returns a list of models with useful meta data"""
-        pks = self.values_list('content_type', flat=True).distinct()
+        pks = FlagObject.objects.values_list('content_type', flat=True).distinct()
         for ct in ContentType.objects.filter(pk__in=pks):
             model = ct.model_class()
             yield {

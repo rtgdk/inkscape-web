@@ -1,5 +1,6 @@
 {% load i18n static %}
 
+  {% if object.object_owner and object.obj %}
 <!-- picture   -->
     <div class="resourcepic">
       <div class="aligner">
@@ -29,3 +30,4 @@
        <dt>{% trans "All Uploads" %}</dt><dd><a href="{% url "resources" username=object.object_owner.username %}">{% trans "View" %}
       </dl>
     </div>
+  {% endif %}

@@ -71,7 +71,8 @@ class FlagObject(Model):
     The implicated object is a record of this object
     """
     object_owner = ForeignKey(settings.AUTH_USER_MODEL,
-            verbose_name=_('Owning User'), related_name="flagged")
+            verbose_name=_('Owning User'), related_name="flagged",
+            on_delete=SET_NULL, **null)
 
     content_type = ForeignKey(ContentType)
     object_id = PositiveIntegerField(**null)

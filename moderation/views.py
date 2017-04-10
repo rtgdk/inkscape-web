@@ -64,9 +64,10 @@ class DeleteObject(ModeratorRequired, FunctionView):
         (vote, created) = self.flag(weight=6)
         flag = vote.target
         if flag.weight > 9:
-            flag.obj.delete()
             flag.resolution = False
             flag.save()
+            # Delete object after so message can be sent to deleted users.
+            flag.obj.delete()
             return ('error', 'deleted')
         return ('info', 'counted')
 

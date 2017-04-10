@@ -1,0 +1,12 @@
+{% load i18n %}
+{% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
+ 
+{% with instance.user as username %} 
+{% blocktrans %}A new moderation flag has been raised. {{ instance }} might need to be removed from the site and your vote is needed to remove it.{% endblocktrans %}
+
+-------------------------------------
+{% trans "Owner" %}: {{ instance.object_owner }}
+{% trans "Notes" %}: {{ instance.notes }}
+{% endwith %}
+
+{% blocktrans with upload=instance %}Visit "{{ site }}/moderation/"{% endblocktrans %}

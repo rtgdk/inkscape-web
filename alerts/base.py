@@ -220,8 +220,6 @@ class BaseAlert(object):
         n = "%s/alert/%s.html" % tuple(self.slug.split('.', 1))
         if has_template(n):
             return n
-        import sys
-        sys.stderr.write("Couldn't find: %s\n" % str(n))
         return "alerts/type_default.html"
 
     @property
@@ -229,8 +227,6 @@ class BaseAlert(object):
         n = "%s/alert/email_%s.txt" % tuple(self.slug.split('.', 1))
         if has_template(n):
             return n
-        import sys
-        sys.stderr.write("Couldn't find: %s\n" % str(n))
         return "alerts/email_default.txt"
 
     @property

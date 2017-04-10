@@ -46,7 +46,7 @@
           {% endif %}
         </div>
 	<div class="bar">
-          <div class="delete_votes" title="{% trans "Number of people who want to retain this object." %}">{{ object.delete_votes|default:"0" }}</div>
+          <div class="delete_votes" title="{% trans "Number of people who want to delete this object." %}">{{ object.delete_votes|default:"0" }}</div>
 	  {% if object.resolution == None %}
             <a class="delete" title="{% trans "Vote to Delete" %}" href="{% url "moderation:delete" model.app model.model object.object_id %}" >{% trans "Delete" %}</a>
             <script>popUpLink('{% trans "Are you sure you want to delete this object?" %}', '{% trans "Cancel" %}', '{% trans "Delete" %}', "{{ request.url }}");</script>
@@ -56,7 +56,7 @@
 	    <a class="approve" title="{% trans "Vote to Retain" %}" href='{% url "moderation:approve" model.app model.model object.object_id %}'>{% trans "Retain" %}</a>
 	    <script>popUpLink('{% trans "Are you sure you want to retain this object?" %}', '{% trans "Cancel" %}', '{% trans "Retain" %}', '{{ request.url }}');</script>
 	  {% endif %}
-          <div class="approve_votes" title="{% trans "Number of people who want to delete this object." %}">{{ object.approve_votes|default:"0" }}</div>
+          <div class="approve_votes" title="{% trans "Number of people who want to retain this object." %}">{{ object.approve_votes|default:"0" }}</div>
 	</div>
       </div>
     {% endfor %}

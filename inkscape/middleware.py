@@ -36,7 +36,7 @@ from django.utils.cache import get_cache_key
 
 import logging
 
-from .utils import BaseMiddleware, QuerySetWrapper, IterObject, context_items
+from .utils import BaseMiddleware, QuerySetWrapper, to, context_items
 
 #
 # Models which are suppressed do not invalidate their caches when they
@@ -270,7 +270,7 @@ class AutoBreadcrumbMiddleware(BaseMiddleware):
             return list(data['breadcrumbs'])[-1][-1]
         return None
 
-    @IterObject(list)
+    @to(list)
     def get_breadcrumbs(self, data):
         """Return breadcrumbs only called if no breadcrumbs in context"""
         title = self.get(data, 'title')

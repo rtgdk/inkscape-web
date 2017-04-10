@@ -26,6 +26,7 @@ from django.utils.translation import ugettext_lazy as _
 from django.contrib.auth import get_user_model
 from django.core.urlresolvers import reverse
 
+from inkscape.utils import to
 from .models import Message, AlertType, AlertSubscription, UserAlertSetting
 
 class MessageForm(ModelForm):
@@ -49,19 +50,21 @@ class MessageForm(ModelForm):
 class SettingsBaseFormSet(BaseModelFormSet):
     def __init__(self, instance, *args, **kw):
         self.user = instance
-        self.base = list(AlertType.objects.all().order_by('slug'))
-        self.alts = [alert.settings.for_user(self.user) for alert in self.base]
         super(SettingsBaseFormSet, self).__init__(*args, **kw)
 
+    @to(list)
     def get_queryset(self):
-        # Return a fixed list of alert_settings (not a queryset)
-        return self.alts
+        """Return a fixed list of alert_settings (not a queryset)"""
+        for alert in AlertType.objects.all().order_by('slug'):
+            if not alert.permission or self.user.has_perm(alert.permission):
+                if alert.show_settings:
+                    yield alert.settings.for_user(self.user)
 
     def _construct_form(self, i, **kwargs):
         # Link POST forms to their alert_types, so override when is_bound.
         if self.is_bound and i < self.initial_form_count():
             alert_id = self.data["%s-%s" % (self.add_prefix(i), 'alert')]
-            for obj in self.alts:
+            for obj in self.get_queryset():
                 if str(obj.alert_id) == str(alert_id):
                     kwargs['instance'] = obj
             # Note use of parent's parent construct_form call here.

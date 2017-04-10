@@ -34,7 +34,7 @@ class UserFlag(UserRequired, FunctionView):
 
     def function(self):
         (flag, created) = self.flag(weight=1)
-        if created:
+        if not created:
             return ('warning', 'warning')
         return ('success', 'created')
 

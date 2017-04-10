@@ -1,5 +1,5 @@
 #
-# Copyright 2014, Martin Owens <doctormo@gmail.com>
+# Copyright 2017, Martin Owens <doctormo@gmail.com>
 #
 # This file is part of the software inkscape-web, consisting of custom 
 # code for the Inkscape project's django-based website.
@@ -23,162 +23,124 @@ Moderation is achieved using a generic flagging model and some further
  healthy community atmosphere.
 """
 
-#
-# Note about implementation: We would have used GenericForeignKey
-#  but the support for back references and aggregations in django 1.6.5
-#  was so bad that it just didn't work.
-#
-
+null = dict(blank=True, null=True)
 from django.db.models import *
-from django.db.utils import OperationalError
+from django.apps import apps
 
-from django.template import loader
+from django.contrib.contenttypes.fields import GenericForeignKey
 from django.contrib.contenttypes.models import ContentType
-from django.core.urlresolvers import reverse
 from django.core.validators import MaxLengthValidator
 
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.timezone import now
-from django.utils.text import slugify
 
-# Thread-safe current user middleware getter.
-from cms.utils.permissions import get_current_user as get_user
+class ObjectQuery(QuerySet):
+    """Manage how flagged objects are dealt with."""
+    @staticmethod
+    def get_template(ct):
+        """Get the moderation item template if available"""
+        from django.template import loader
 
-MODERATED = getattr(settings, 'MODERATED_MODELS', [])
-MODERATED_SELECTIONS = []
-MODERATED_INDEX = {}
-
-# We're going to start with fixed flag types
-FLAG_TYPES = (
-    (1,   _('Removal Suggestion')),
-    (5,   _('Moderator Approval')),
-    (10,  _('Moderator Deletion')),
-)
-
-class TargetManager(Manager):
-    def get_queryset(self):
-        # This requires django 1.9.5.
-        return Manager.get_queryset(self).annotate(count=Count('target'), status=Max('flag')).order_by('-flagged')
-
-    def recent(self):
-        return self.get_queryset().filter(status=1)[:5]
-
-    def get_status(self):
-        return (self.get_queryset().values_list('status', flat=True) or [0])[0]
-
-    def is_flagged(self):
-        return self.get_status() == 1
-
-    def is_approved(self):
-        return self.get_status() == 5
-
-    def is_deleted(self):
-        return self.get_status() == 10
-
-    def i_flagged(self):
-        user = get_user()
-        if user.is_authenticated():
-            return self.exists(flagger=user.pk)
-        return False
-
-    def exists(self, **kwargs):
+        path = "%s/%s_moderation.html" % (ct.app_label, ct.model)
         try:
-            return bool(self.get(**kwargs))
-        except self.model.DoesNotExist:
-            return False
+            if loader.get_template(path):
+                return path
+        except:
+            pass
 
-    def flag_url(self):
-        obj = getattr(self, 'instance', None)
-        if obj:
-            return self.model.get_url('moderation:flag', pk=obj.pk)
-        return self.model.get_url('moderation:flagged')
+    @property
+    def models(self):
+        """Returns a list of models with useful meta data"""
+        pks = self.values_list('content_type', flat=True).distinct()
+        for ct in ContentType.objects.filter(pk__in=pks):
+            model = ct.model_class()
+            yield {
+              'app': ct.app_label,
+              'model': ct.model,
+              'label': model.__name__,
+              'objects': self.filter(content_type=ct),
+              'template': self.get_template(ct),
+            }
+            
 
-    def latest_url(self):
-        return self.model.get_url('moderation:latest')
+@python_2_unicode_compatible
+class FlagObject(Model):
+    """
+    The implicated object is a record of this object
+    """
+    object_owner = ForeignKey(settings.AUTH_USER_MODEL,
+            verbose_name=_('Owning User'), related_name="flagged")
 
-    def flag(self, flag=1):
-        return self.get_or_create(target=getattr(self, 'instance', None), flag=flag)
+    content_type = ForeignKey(ContentType)
+    object_id = PositiveIntegerField(**null)
+    updated = DateTimeField(auto_now=True)
+    resolution = NullBooleanField(default=None, choices=(
+        (None, _('Pending Moderator Action')),
+        (True, _('Object is Retained')),
+        (False, _('Object is Deleted')),
+    ))
+
+    obj = GenericForeignKey('content_type', 'object_id')
+    objects = ObjectQuery.as_manager()
+
+    def __str__(self):
+        return "Flagged object: %s" % str(self.obj)
+
+    @property
+    def delete_votes(self):
+        return self.votes.filter(weight__gt=1).count()
+
+    @property
+    def approve_votes(self):
+        return self.votes.filter(weight__lt=0).count()
+
+    @property
+    def flag_votes(self):
+        return self.votes.filter(weight=1).count()
+
+    @property
+    def weight(self):
+        return self.votes.all().aggregate(w=Sum('weight'))['w']
 
 
 class FlagManager(Manager):
-    def get_absolute_url(self):
-        return self.model.get_url('moderation:latest')
-    
-    def breadcrumb_name(self):
-        return self.model.__name__
-
-    def get_or_create(self, *args, **kwargs):
-        if self.model is Flag:
-            return get_flag_cls(**kwargs).objects.get_or_create(*args, **kwargs)
-        return Manager.get_or_create(self, *args, **kwargs)
-
-
-@python_2_unicode_compatible
-class FlagCategory(Model):
-    name = CharField(max_length=128)
-    flag = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
-
-    def __str__(self):
-        return self.name
-
-
-@python_2_unicode_compatible
-class Flag(Model):
     """
-    Records a flag on any object. A flag could be:
-
-        * A "removal suggestion" -- where a user suggests a comment for (potential) removal.
-        * A "moderator deletion" -- used when a moderator deletes a comment.
-
-    You can (ab)use this model to add other flags, if needed. However, by
-    design users are only allowed to flag a comment with a given flag once;
-    if you want rating look elsewhere.
+    Manage when users flag items and what to do about it.
     """
-    flagger    = ForeignKey(settings.AUTH_USER_MODEL, default=get_user,
-                     verbose_name=_('Flagging User'), related_name="flagged")
-    implicated = ForeignKey(settings.AUTH_USER_MODEL, verbose_name=_('Implicated User'),
-                           related_name="flags_against", null=True, blank=True)
-    category   = ForeignKey(FlagCategory, related_name="flags", null=True, blank=True)
-    accusation = TextField(validators=[MaxLengthValidator(1024)], null=True, blank=True)
-    flagged    = DateTimeField(_('Date Flagged'), default=now, db_index=True)
-    flag       = IntegerField(_('Flag Type'), choices=FLAG_TYPES, default=1)
-    target     = None
+    def flag(self, user, obj, weight=1, notes=""):
+        """Create a new flag for this object"""
+        kw = dict(
+          object_id=obj.pk,
+          content_type=ContentType.objects.get_for_model(obj),
+          defaults={'object_owner': self.get_owner(obj)},
+        )
+        obj_flag, _ = FlagObject.objects.get_or_create(**kw)
 
-    class Meta:
-        get_latest_by = 'flagged'
+        kw = dict(
+          moderator=user,
+          target=obj_flag,
+          defaults={'weight': weight, 'notes': notes},
+        )
+        flag, created = self.get_or_create(**kw)
 
-    @classmethod
-    def target_ct(cls):
-        return ContentType.objects.get_by_natural_key(*cls.t_model.split('.'))
+        if not created and flag.weight != weight or not flag.notes and notes:
+            flag.weight = weight
+            flag.notes = notes
+            flag.save()
+        return flag, created
 
-    @classmethod
-    def get_url(cls, name, **kwargs):
-        kw = dict(zip(('app', 'name'), cls.target_ct().natural_key()))
-        kw.update(kwargs)
-        return reverse(name, kwargs=kw)
+    @staticmethod
+    def get_owner(obj):
+        """Get the field we think the user is in"""
+        klass = type(obj)
+        if hasattr(klass, 'owner_field'):
+            return getattr(obj, getattr(klass, 'owner_field'))
 
-    def __str__(self):
-        return "%s of %s by %s" % (self.flag, str(self.target), str(self.flagger))
-
-    def _get_unique_checks(self, exclude=False):
-        """Because of the cross-model relationship, we must add unique checks"""
-        (a,b) = super(Flag, self)._get_unique_checks(exclude=exclude)
-        return [(type(self), ['target', 'flagger', 'flag'])], b
-
-    def hide_url(self):
-        return self.get_url('moderation:hide', pk=self.pk)
-
-    def approve_url(self):
-        return self.get_url('moderation:approve', pk=self.pk)
-
-    @property
-    def target_user(self):
-        klass = get_model(*self.target_ct().natural_key())
-        auth_klass = get_model(*settings.AUTH_USER_MODEL.split('.',1))
+        auth_klass = apps.get_model(*settings.AUTH_USER_MODEL.split('.',1))
         if klass is auth_klass:
-            return '-self'
+            return obj
         ret = []
         for field in klass._meta.fields:
             try:
@@ -187,61 +149,33 @@ class Flag(Model):
             except AttributeError:
                 pass
         if len(ret) > 1:
-            if hasattr(klass, 'owner_field'):
-                return getattr(klass, 'owner_field')
-            else:
-                raise AttributeError("More than one user field in moderated model, please specify which is the owner.")
-        return ret and ret[0].name or None
-
-    def save(self, *args, **kwargs):
-        # Add owner object when specified by the target class
-        if self.target_user == '-self':
-            self.implicated = self.target
-        elif self.target_user:
-            self.implicated = getattr(self.target, self.target_user)
-        return super(Flag, self).save(*args, **kwargs)
+            raise AttributeError("More than one user field in moderated model.")
+        elif len(ret) == 0:
+            raise AttributeError("No user field in moderated model")
+        return getattr(obj, ret[0].name)
 
 
-def template_ok(t):
-    try:
-        return loader.get_template(t) and t
-    except Exception:
-        return None
+@python_2_unicode_compatible
+class FlagVote(Model):
+    """
+    Flag votes are used to calculate how likely an object will be deleted
+    automatically by the system. When the weight reaches the threshold.
+    """
+    created = DateTimeField(_('Date Flagged'), default=now, db_index=True)
+    moderator = ForeignKey(settings.AUTH_USER_MODEL, related_name="flags")
 
-def get_flag_cls(target='', **kwargs):
-    return globals().get(target+'Flag', Flag)
+    target = ForeignKey(FlagObject, related_name="votes")
+    weight = IntegerField(default=1)
+    notes = TextField(validators=[MaxLengthValidator(1024)], **null)
 
-def create_flag_model(klass):
-    """Create a brand new Model for each Flag type, using Flag as a base class
-       these are NOT upgradable (NO schema migrations)."""
-    # Set up a dictionary to simulate declarations within a class
-    name = klass.split('.')[-1]
-    attrs = {
-      '__module__': __name__,
-      't_model'   : klass,
-      'target'    : ForeignKey(klass, related_name='moderation', db_index=True),
-      'template'  : template_ok('moderation/items/%s.html' % name.lower()),
-      'targets'   : TargetManager(),
-      'objects'   : FlagManager(),
-    }
+    objects = FlagManager()
 
-    local_name = name.title() + 'Flag'
-    return (local_name, type(local_name, (Flag,), attrs))
+    class Meta:
+        get_latest_by = 'created'
+        permissions = (
+            ("can_moderate", "User can moderate flagged content."),
+        )
 
-class FlagSection(object):
-    def __init__(self, label, cls):
-        self.label   = label
-        self.klass   = cls
-        self.objects = cls.objects
-        self.targets = cls.targets
-        self.template = cls.template
-
-    def __unicode__(self):
-        return self.label
-
-for (app_model, label) in MODERATED:
-    (local_name, new_cls) = create_flag_model(app_model)
-    locals()[local_name] = new_cls
-    MODERATED_SELECTIONS.append( FlagSection(label, new_cls) )
-    MODERATED_INDEX[app_model] = new_cls
+    def __str__(self):
+        return "%s of %s by %s" % (self.weight, str(self.target), str(self.moderator))
 

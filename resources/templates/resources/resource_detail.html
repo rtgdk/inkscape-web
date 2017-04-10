@@ -1,5 +1,5 @@
 {% extends 'resources/resource_base.html' %}
-{% load i18n static inkscape timers %}
+{% load i18n static inkscape timers moderator %}
 
 {% block headerdesc %}{{ object.name}} {% trans "by" %} {% if object.owner %}{{ object.user }}{% else %}{{ object.owner_name|default:"Unknown author" }}{% endif %}{% if object.description %}: {{ object.description }}{% endif %}{% endblock %}
 
@@ -7,9 +7,9 @@
   <div class="info">
     <div class="title">
       {% if object.published %}
-        {% if object.moderation and object.user != request.user %}
+        {% if object.user != request.user %}
           <div class="tog single" id="flag">
-            <a {% if object.moderation.i_flagged %}class="remove"{% else %}href="{{ object.moderation.flag_url }}"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
+            <a href="{% flag_url %}" {% if object|is_flagged:request.user %}class="remove"{% endif %} title="{% trans "Flag Resource to Moderators" %}">&nbsp;</a>
             <script>popUpLink('{% trans "Are you sure you want to report this resource?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
           </div>
         {% endif %}

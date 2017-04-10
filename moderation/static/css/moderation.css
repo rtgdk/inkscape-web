@@ -17,6 +17,7 @@
   width: 100%;
   text-align: left;
   border-radius: 8px 8px 0 0;
+  background-color: #eee;
 }
 
 .moderation .details {
@@ -26,11 +27,13 @@
   border-radius: 8px 8px 0 0;
 }
 .moderation .details div,
-.moderation .mfooter div {
+.moderation .bar > div,
+.moderation .bar > a {
   display: inline-block;
 }
 
-.moderation .details .index {
+.moderation .details .index,
+.moderation .bar .index {
   float: right;
   border-left: 1px solid #ddd;
   padding-left: 8px;
@@ -39,8 +42,65 @@
   line-height: 28px;
 }
 
-.moderation .details .title {
+.moderation .details .title,
+.moderation .bar .title {
   padding: 4px 8px;
+}
+
+.moderation .bar a,
+.moderation .bar div {
+  padding: 1px;
+  float: right;
+  color: white;
+  cursor: pointer;
+  margin-bottom: -13px;
+}
+.moderation .bar div.approve_votes {
+  background-color: white;
+  color: #0c8f0c;
+  margin-left: 10px;
+  padding: 1px 6px 1px 8px;
+  border-radius: 6px 0px 0px 6px;
+  border-width: 1px 0px 1px 1px;
+  border-color: #0c8f0c;
+  border-style: solid;
+}
+.moderation .bar div.delete_votes {
+  background-color: white;
+  color: #9c0000;
+  margin-right: 10px;
+  padding: 1px 8px 1px 6px;
+  border-radius: 0px 6px 6px 0px;
+  border-width: 1px 1px 1px 0px;
+  border-color: #9c0000;
+  border-style: solid;
+}
+.moderation .bar div.weight {
+  color: #444;
+  background-color: white;
+  border-top: 1px #888 solid;
+  border-bottom: 1px #888 solid;
+  padding: 1px 6px;
+}
+.moderation .bar a.delete {
+  border: 1px solid #9c0000;
+  background-color: #ef4343;
+  padding: 1px 8px;
+}
+.moderation .bar a.delete:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #9c0000;
+}
+.moderation .bar a.approve {
+  border: 1px solid #0c8f0c;
+  background-color: #5ac95a;
+  padding: 1px 8px;
+}
+.moderation .bar a.approve:hover {
+  text-decoration: none;
+  background-color: white;
+  color: #0c8f0c;
 }
 
 .moderation .details .title div {
@@ -62,8 +122,8 @@
 }
 
 .moderation .details .flag,
-.moderation.hidden .details .flag,
-.moderation.hidden .details .flag.flagged,
+.moderation.deleted .details .flag,
+.moderation.deleted .details .flag.flagged,
 .moderation.approved .details .flag,
 .moderation.approved .details .flag.flagged {
   float: right;
@@ -105,7 +165,7 @@
   min-height: 4em;
 }
 
-.moderation.hidden .details {
+.moderation.deleted .details {
   color: #777;
   background-color: #ccc;
 }
@@ -114,69 +174,30 @@
   background-color: #cae1cf;
 }
 
-.moderation.hidden a {
+.moderation.deleted a {
   color: #333;
 }
 
-.moderation.hidden .body {
+.moderation.deleted .body {
   background-color: #eee;
   color: #777;
 }
 
-/* Comments only */
-
-.moderation .text {
-  padding-bottom: 5px;
-}
-
-/* CSS for footer and form */
-
-.moderation .mfooter .buttonbar {
-  width: 100%;
-  height: auto;
-  padding: 0px;
-}
-
-.moderation .mfooter .buttonbar input,
-.moderation .mfooter .buttonbar .button,
-.moderations .button {
-  float: right;
-  margin: 4px 8px;
-  vertical-align: middle;
-  padding: 0 6px;
-}
-
-.moderation .mfooter .buttonbar button {
-  float: left;
-  margin: 4px 8px;
+.resourcepic img {
+  max-width: 230px;
+  height: 200px;
+  display: inline-block;
+  margin: auto;
   vertical-align: middle;
 }
 
-.moderation #id_comment,
-.moderation .body #message {
-  width: 99%;
+.warning {
+  color: black;
+  border: 2px solid #9c0000;
+  background-color: #ef4343;
+  border-radius: 8px;
+  padding: 10px;
 }
-
-.moderation .mfooter {
-  background-color: #F8F8F8;
-  color: #666;
-  border-top: 1px solid #ddd;
-  text-align: left;
-}
-
-.moderation .mfooter label.forcheckbox {
-  float: left;
-  margin: 0 6px;
-}
-
-.moderation #id_honeypot {
-    display: none;
-}
-
-.moderation #hidecomment {
-  border: 1px solid #ddd;
-  border-radius: 7px;
-  padding: 12px;
-  min-height: 30em;
-  background-color: #eee;
+.warning a {
+  color: white;
 }

@@ -1,0 +1,31 @@
+{% load i18n static %}
+
+<!-- picture   -->
+    <div class="resourcepic">
+      <div class="aligner">
+        <a href="{{profile_url}}"><img src="{% if object.obj.photo %}{{ object.obj.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
+        <a class="button" href="{{ object.obj.get_absolute_url }}">{% trans "Visit profile" %}</a>
+      </div>
+    </div>
+      
+<!--description / link -->
+    <div class="resourcedesc">
+      {% if object.obj.bio %}{{ object.obj.bio|truncatewords:60|urlize|linebreaks }}{% else %}{{ object.obj.username }} {% trans "hasn't written anything about themselves yet." %}{% endif %}
+    </div>
+
+<!-- information -->
+    <div class="resourceinfo">
+      <dl> 
+      <dt>{% trans "Name" %}</dt>
+        <dd>{% if object.obj.first_name %}
+          {{ object.obj.first_name }} {{ object.obj.last_name }}
+        {% else %}
+          {{ object.obj.username }}
+        {% endif %}
+        </dd>
+       <dt>{% trans "Last Seen" %}</dt>
+         <dd>{% if object.obj.last_seen %}{{ object.obj.last_seen|timesince }}{% else %}{% trans "Never" %}{% endif %}</dd>
+       <dt>{% trans "Joined On" %}</dt><dd>{{ object.obj.date_joined|timesince }}</dd>
+       <dt>{% trans "All Uploads" %}</dt><dd><a href="{% url "resources" username=object.object_owner.username %}">{% trans "View" %}
+      </dl>
+    </div>

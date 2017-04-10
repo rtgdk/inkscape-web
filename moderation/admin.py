@@ -21,8 +21,28 @@
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.admin import *
 
-from .models import *
+from ajax_select import make_ajax_field
+from ajax_select.admin import AjaxSelectAdmin
+from django.forms import ModelForm
 
-site.register(ResourceFlag)
-site.register(FlagCategory)
+from .models import FlagObject, FlagVote
+
+class VoteForm(ModelForm):
+    moderator = make_ajax_field(FlagVote, 'moderator', 'user', \
+        help_text=_('Flagger or Moderator'))
+
+class VoteInline(TabularInline):
+    form = VoteForm
+    model = FlagVote
+    extra = 1 
+
+class FlagForm(ModelForm):
+    object_owner = make_ajax_field(FlagObject, 'object_owner', 'user')
+
+class FlagAdmin(AjaxSelectAdmin):
+    list_filter = ('resolution',)
+    inlines = (VoteInline,)
+    form = FlagForm
+
+site.register(FlagObject, FlagAdmin)
 

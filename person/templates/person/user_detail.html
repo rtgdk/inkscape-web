@@ -1,5 +1,5 @@
 {% extends 'person/base.html' %}
-{% load i18n humanize extras static pagination_tags %}
+{% load i18n humanize extras static moderator pagination_tags %}
 
 {% block title %}{% trans "User Profile" %} | {{ object.name }}{% endblock %} 
 
@@ -7,11 +7,11 @@
   <img id="photo" src="{% if object.photo %}{{ object.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/>
 
   <div class="socialicons">
-    {% if object.moderation and request.user != object %}
-      {% if object.moderation.i_flagged %}
+    {% if request.user != object and request.user.is_authenticated %}
+      {% if object|is_flagged:request.user %}
         <img src="{% static "images/social/flag.svg" %}" title="{% trans "You have flagged this user." %}"/>
       {% else %}
-        <a href="{{ object.moderation.flag_url }}" title="{% trans "Flag User to Moderators" %}"><img src="{% static "images/social/flag.svg" %}"/></a>
+        <a href="{% flag_url object %}" title="{% trans "Flag User to Moderators" %}"><img src="{% static "images/social/flag.svg" %}"/></a>
         <script>popUpLink('{% trans "Are you sure you want to report this user?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "{{ object.get_absolute_url }}");</script>
       {% endif %}
       {% if object.from_friends.i_added %}

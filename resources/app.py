@@ -33,6 +33,17 @@ class ResourceConfig(AppConfig):
         from .models import Tag
         Tag.objects.filter(resources__isnull=True, category__isnull=True).delete()
 
+    @staticmethod
+    def remove_file(instance, **kw):
+        for field in ('download', 'signature', 'checked_sig', 'thumbnail', 'rendering'):
+            fn = getattr(instance, field)
+            try:
+                getattr(instance, field).delete(save=False)
+            except Exception as err:
+                sys.stderr.write("IOError: %s\n" % str(err))
+
     def ready(self):
         from .models import Resource
         signals.post_delete.connect(self.clean_tags, sender=Resource)
+        signals.pre_delete.connect(self.remove_file, sender=Resource)
+

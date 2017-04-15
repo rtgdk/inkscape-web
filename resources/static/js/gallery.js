@@ -33,12 +33,49 @@ $(document).ready(function() {
 function checkLink() {
   // Check the link for details and fill in information as needed.
   var url = $('#id_link').val();
-
   if(url.indexOf('youtube') >= 0) {
-    // Youtube Video detection here
-  } else {
-    // Other URL here.
-  }
+		$("#video-data-1").empty();
+		var matches = url.match(/^https:\/\/www\.youtube\.com\/.*[?&]v=([^&]+)/i) || url.match(/^https:\/\/youtu\.be\/([^?]+)/i) || url.match(/^http:\/\/www\.youtube\.com\/.*[?&]v=([^&]+)/i) || url.match(/^http:\/\/youtu\.be\/([^?]+)/i);
+		if (matches) {
+			url = matches[1];
+		}
+		console.log(url);
+		if (url.match(/^[a-z0-9_-]{11}$/i) == null) {
+			$("<p style='color: #F00;'>Unable to parse Video ID/URL.</p>").appendTo("#video-data-1");
+			return;
+		}
+		$.getJSON("https://www.googleapis.com/youtube/v3/videos", {
+			key: $('meta[name=description]').attr('content'),
+			part: "snippet,status",
+			id: url
+		}, function(data) {
+		if (data.items.length === 0) {
+			$("<p style='color: #F00;'>Video not found.</p>").appendTo("#video-data-1");
+			return;
+		}
+		$("<img>", {
+			src: data.items[0].snippet.thumbnails.medium.url,
+			width: data.items[0].snippet.thumbnails.medium.width,
+			height: data.items[0].snippet.thumbnails.medium.height
+		}).appendTo("#video-data-1");
+			$("<h2></h2>").text(data.items[0].snippet.title).appendTo("#video-data-1");
+			$("<h3></h3>").text("License:"+data.items[0].status.license).appendTo("#video-data-1");
+			$("<h3></h3>").text("Tags:"+data.items[0].snippet.tags[0]+","+data.items[0].snippet.tags[1]+","+data.items[0].snippet.tags[2]).appendTo("#video-data-1");
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+		});
+	}
+	else{
+	var query = 'select * from html where url="' + url + '" and xpath="html"';
+  var url = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent(query);
+	console.log(url);
+  $.get(url, function(data) {
+    var html = $(data).find('html');
+    console.log(html);
+    $("<h3></h3>").text("Title:" + html.find('title').text() || 'no title found').appendTo("#video-data-1");
+    $("<h3></h3>").text("Description:" + html.find('meta[name=description]').attr('content') || 'no description found').appendTo("#video-data-1");
+  });
+	}
 }
 
 function setupUpload() {

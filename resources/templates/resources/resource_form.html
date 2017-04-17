@@ -2,6 +2,7 @@
 {% load i18n extras static %}
 
 {% block "description" %}
+	<meta name="youtube-key" content="{{ form.youtube_key }}"/>
   <form name="resourceForm" id="resourceForm" method="post" enctype="multipart/form-data" data-quota="{{ form.get_space }}">
     {% csrf_token %}
 
@@ -97,11 +98,11 @@
       <button type="submit" name="cancel" value="1" class="btn btn-default">{% trans "Cancel" %}</button>
     </form>
 
-    <!--{% if form.link_mode %}
+    {% if form.link_mode %}
       <button type="button" class="btn btn-warning" onclick="checkLink();">{% trans "Get Link Info" %}</button>
-      {% endif %}-->
+      {% endif %}
   </div>
-
+	<div id="video-data-1"></div>
   </div>
 {% endblock %}
 

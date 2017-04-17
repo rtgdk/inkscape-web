@@ -203,7 +203,7 @@
   background-color: transparent;
   display: inline-block;
 }
-.edit .image label {
+.edit .image label:not(.error) {
   color: #efefef;
   display: inline-block;
   padding: 20px;
@@ -225,11 +225,6 @@
   width: 780px;
   height: 540px;
 }
-.item .upload {
-  border-radius: 0px;
-  background-image: none;
-  padding: 0px;
-}
 .item .padding {
   padding: 5px;
 }
@@ -239,23 +234,6 @@
   border: 2px dashed #333;
   padding: 90px 0px 95px;
   margin-top: 10px;
-}
-#upload {
-  padding: 10px;
-  background-color: #1a1a1a;
-}
-#upload textarea {
-  width: 90%;
-  min-height: 350px;
-}
-#upload {
-  color: transparent;
-}
-#upload input {
-  color: white;
-}
-#upload a {
-  display: none;
 }
 .errors {
   background-color: white;
@@ -269,6 +247,13 @@
 
 .license img {
   padding: 8px;
+}
+.uploader input[type="file"] {
+  display: none;
+}
+.paster textarea {
+  width: 100%;
+  min-height: 500px;
 }
 
 #item-footer {
@@ -360,6 +345,32 @@ div.tog a.remove:hover {
   overflow: hidden;
   position: absolute;
   z-index: -5;
+}
+
+#linker {
+  display: flex;
+  background-color: #1a1a1a;
+  padding: 2px 8px 20px;
+}
+#linker input {
+  width: 100%;
+}
+.linker {
+  padding-bottom: 0px !important;
+}
+.linker #id_rendering {
+  padding-bottom: 0px !important;
+}
+
+label.error {
+  background-color: #ff4444;
+  display: block;
+  border: 1px solid #CC0000;
+  border-radius: 7px;
+  color: white;
+  margin: 0px 6px 0px 6px;
+  padding: 0px 4px 0px;
+  line-height: 125%;
 }
 
 /* SVG Special handling */

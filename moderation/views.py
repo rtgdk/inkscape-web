@@ -26,61 +26,65 @@ from django.views.generic import TemplateView, ListView
 from .models import *
 from .mixins import *
 
-class FlagObject(UserRequired, FunctionView):
+class UserFlag(UserRequired, FunctionView):
     title = _("Flag Object")
-    template_name = 'moderation/flag.html'
     confirm = _('Flagging Canceled')
     created = _('Moderators have been notified of the issue you have reported.')
     warning = _('You have already flagged this item for attention.')
-    flag = 1
+
+    def function(self):
+        (flag, created) = self.flag(weight=1)
+        if not created:
+            return ('warning', 'warning')
+        return ('success', 'created')
 
 
-class Moderation(ModeratorRequired, TemplateView):
+class Moderation(ModeratorRequired, ListView):
     title = _("Moderators' Area")
-    template_name = 'moderation/flag_list.html'
+    model = FlagObject
 
-    def get_context_data(self, **data):
-        data = super(Moderation, self).get_context_data(**data)
-        data['categories'] = MODERATED_SELECTIONS
-        return data
-
-
-class ModerateFlagged(ModerateMixin, ModeratorRequired, ListView):
-    title = _("Moderate Flagged Items")
-    template_name = 'moderation/flag_flagged.html'
-    
     def get_queryset(self):
-        """get all non-hidden, flagged, unapproved comments and reverse
-           order them by number of flags"""
-        return self.flag_class().objects.all()
+        return FlagObject.objects.filter(
+            Q(resolution__isnull=True) | Q(updated__gt=now() - timedelta(days=7))
+        )
 
 
-class ModerateLatest(ModerateMixin, ModeratorRequired, ListView):
+class ModerateLatest(ModeratorRequired, ListView):
     title = _("Moderate Latest Items")
-    template_name = 'moderation/flag_latest.html'
-    
-    def get_queryset(self):
-        """get all comments from the last 30 days, including hidden ones"""
-        try:
-            return self.get_model().objects.latest()[:30]
-        except AssertionError:
-            return self.get_model().objects.order_by('id')[:30]
+    model = FlagObject
 
 
-class HideComment(ModeratorRequired, FunctionView):
-    title = _("Hide Comment")
-    template_name = 'moderation/flag.html'
+class DeleteObject(ModeratorRequired, FunctionView):
+    title = _("Delete Object")
     confirm = _('Hiding Canceled')
-    created = _('Item has been hidden!')
-    warning = _('Item was already hidden.')
-    flag = 10
+    counted = _('Your vote to delete has been counted.')
+    deleted = _('Your vote resulted in the item being deleted.')
+
+    def function(self, *args):
+        (vote, created) = self.flag(weight=6)
+        flag = vote.target
+        if flag.weight > 9:
+            flag.resolution = False
+            flag.save()
+            # Delete object after so message can be sent to deleted users.
+            flag.obj.delete()
+            return ('error', 'deleted')
+        return ('info', 'counted')
 
 
-class ApproveComment(ModeratorRequired, FunctionView):
-    title = _("Approve Comment")
-    template_name = 'moderation/flag.html'
+class ApproveObject(ModeratorRequired, FunctionView):
+    title = _("Approve Object")
     confirm = _('Approve Canceled')
-    created = _('Item has been Approved.')
-    warning = _('Item has already been approved.')
-    flag = 5
+    counted = _('Your vote to approve has been counted.')
+    retained = _('Your vote resulted in the item being retained.')
+    weight = -10
+
+    def function(self, *args):
+        (flag, created) = self.flag(weight=-10)
+        flag = vote.target
+        if flag.weight < -8:
+            flag.resolution = True
+            flag.save()
+            return ('success', 'retained')
+        return ('info', 'counted')
 

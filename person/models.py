@@ -116,7 +116,7 @@ class User(AbstractUser):
         return reverse('view_profile', kwargs={'username':self.username})
 
     def is_moderator(self):
-        return self.has_perm("comments.can_moderate")
+        return self.has_perm("moderation.can_moderate")
 
     def visited_by(self, by_user):
         if by_user != self:

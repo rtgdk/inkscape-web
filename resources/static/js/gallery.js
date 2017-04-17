@@ -33,20 +33,51 @@ $(document).ready(function() {
 function checkLink() {
   // Check the link for details and fill in information as needed.
   var url = $('#id_link').val();
-
   if(url.indexOf('youtube') >= 0) {
-    // Youtube Video detection here
-  } else {
-    // Other URL here.
-  }
+		$("#video-data-1").empty();
+		var matches = url.match(/^https:\/\/www\.youtube\.com\/.*[?&]v=([^&]+)/i) || url.match(/^https:\/\/youtu\.be\/([^?]+)/i) || url.match(/^http:\/\/www\.youtube\.com\/.*[?&]v=([^&]+)/i) || url.match(/^http:\/\/youtu\.be\/([^?]+)/i);
+		if (matches) {
+			url = matches[1];
+		}
+		console.log(url);
+		if (url.match(/^[a-z0-9_-]{11}$/i) == null) {
+			$("<p style='color: #F00;'>Unable to parse Video ID/URL.</p>").appendTo("#video-data-1");
+			return;
+		}
+		$.getJSON("https://www.googleapis.com/youtube/v3/videos", {
+			key: $('meta[name=description]').attr('content'),
+			part: "snippet,status",
+			id: url
+		}, function(data) {
+		if (data.items.length === 0) {
+			$("<p style='color: #F00;'>Video not found.</p>").appendTo("#video-data-1");
+			return;
+		}
+			$("#id_name").val(data.items[0].snippet.title);
+			$("#id_desc").val(data.items[0].snippet.description);
+			//$("#license_set").val("License:"+data.items[0].status.license).appendTo("#video-data-1");
+			//$("select[multiple=mutliple]").val(data.items[0].snippet.tags[2])
+		}).fail(function(jqXHR, textStatus, errorThrown) {
+			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
+		});
+	}
+	else{
+	var query = 'select * from html where url="' + url + '" and xpath="html"';
+  var url = 'https://query.yahooapis.com/v1/public/yql?q=' + encodeURIComponent(query);
+	console.log(url);
+  $.get(url, function(data) {
+    var html = $(data).find('html');
+    console.log(html);
+    $("<h3></h3>").text("Title:" + html.find('title').text() || 'no title found').appendTo("#video-data-1");
+    $("<h3></h3>").text("Description:" + html.find('meta[name=description]').attr('content') || 'no description found').appendTo("#video-data-1");
+  });
+	}
 }
 
 function setupUpload() {
-  if($('#upload textarea').length > 0) {
+  if($('.uploader textarea').length > 0) {
     return;
   }
-  $('#upload, #rendering').addClass('hidden');
-
   $('.uploader label').show();
   $('.uploader label img').error(function(e) {
       if($(this).data('static')) {
@@ -56,7 +87,7 @@ function setupUpload() {
       }
   });
 
-  $('.upload input').on('change', function() {
+  $('.uploader input').on('change', function() {
     if (this.files && this.files[0]) {
       var label = $('label[for="'+$(this).attr('id')+'"]');
       var file = this.files[0];

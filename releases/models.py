@@ -274,6 +274,7 @@ class ReleasePlatform(Model):
     release = ForeignKey(Release, verbose_name=_("Release"), related_name='platforms')
     platform = ForeignKey(Platform, verbose_name=_("Release Platform"), related_name='releases')
     download = URLField(_('Download Link'), **null)
+    resource = ForeignKey("resources.Resource", related_name='releases', **null)
     howto = URLField(_('Instructions Link'), **null)
     info = TextField(_('Release Platform Information'), **null)
 
@@ -296,6 +297,15 @@ class ReleasePlatform(Model):
             'version': self.release.version,
             'platform': self.platform.codename,
         })
+
+    def get_resource_url(self):
+        """Returns the download url or the resources download url"""
+        if self.resource:
+            return reverse('download_resource', kwargs={
+                'pk': self.resource_id,
+                'fn': self.resource.filename(),
+            })
+        return self.download
 
     @property
     def parent(self):

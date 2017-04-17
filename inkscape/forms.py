@@ -23,6 +23,7 @@ from django.forms import *
 
 class FeedbackForm(Form):
     email = EmailField(label=_("Contact Email"), required=True)
+    subject = CharField(widget=HiddenInput, required=True)
     comment = CharField(
         widget=Textarea(attrs={
             'placeholder': _('Your comments or questions...')

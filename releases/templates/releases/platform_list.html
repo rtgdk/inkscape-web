@@ -9,10 +9,10 @@
   {% for rp in object.platforms.all %}
     <tr class="{% cycle "odd" "even" %}">
       <td>{{ rp.platform }}</td>
-      <td>{{ rp.created }}</td>
+      <td>{{ rp.resource.created|default:rp.created }}</td>
       <td>
-        {% if rp.download %}
-          <a href="{{ rp.download }}">{% trans "Download" %}</a>
+        {% if rp.download or rp.resource %}
+          <a href="{{ rp.get_resource_url }}">{% trans "Download" %}</a>
           {% if rp.howto %} | {% endif %}
         {% endif %}
         {% if rp.howto %}

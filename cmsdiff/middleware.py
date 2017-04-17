@@ -27,17 +27,9 @@ from django.core.urlresolvers import NoReverseMatch, reverse
 from django.utils.translation import ugettext_lazy as _
 from django.contrib.contenttypes.models import ContentType
 
-from reversion.revisions import revision_context_manager as manager
 from cms.utils import get_language_from_request as get_lang
 from cms.toolbar.items import Menu
 from cms.constants import LEFT
-
-class CommentMiddleware(object):
-    """Adds a comment to the current draft revision if possible."""
-    def process_request(self, request):
-        self.comment = request.POST.get('revision_comment', None)
-        if request.method == 'POST' and self.comment:
-            manager.start()
 
 
 class ObjectToolbarMiddleware(object):

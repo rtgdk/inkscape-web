@@ -22,44 +22,39 @@ Basic mixin classes for moderators
 """
 
 from django.contrib import messages
+from django.contrib.contenttypes.models import ContentType
 from django.contrib.auth.decorators import login_required, permission_required
 from django.utils.translation import ugettext_lazy as _
 from django.utils.decorators import method_decorator
 from django.core.urlresolvers import reverse
 from django.shortcuts import get_object_or_404, redirect
+from django.views.generic import DetailView
 
-from pile.views import DetailView
-from .models import ContentType, MODERATED_INDEX
+from .models import FlagVote
 
-class ModerateMixin(object):
-    def get_parent(self):
-        return (reverse('moderation:index'), _("Moderation"))
-
-    def get_model(self):
-        ct = ContentType.objects.get_by_natural_key(self.kwargs['app'], self.kwargs['name'])
-        return ct.model_class()
-
-    def flag_class(self):
-        return MODERATED_INDEX[self.kwargs['app'] + '.' + self.kwargs['name']]
-
-class FunctionView(ModerateMixin, DetailView):
+class FunctionView(DetailView):
     """Access to moderator objects from urls makes things easier"""
+    template_name = 'moderation/flag.html'
+
     def get_object(self):
         return get_object_or_404(self.get_model(), pk=self.kwargs['pk'])
 
+    def get_model(self):
+        keys = self.kwargs['app'], self.kwargs['name']
+        return ContentType.objects.get_by_natural_key(*keys).model_class()
+
     def post(self, request, *args, **kwargs):
-        ret = self.function() if request.POST.get('confirm', False) else None
-        if not ret:
+        confirm = request.POST.get('confirm', False)
+        if not confirm:
             messages.error(request, self.confirm)
-        elif isinstance(ret, tuple) and not ret[-1]:
-            messages.warning(request, self.warning)
         else:
-            messages.success(request, self.created)
+            typ, msg = self.function()
+            getattr(messages, typ)(request, getattr(self, msg))
         return redirect(self.next_url())
 
-    def function(self):
-        obj = self.get_object()
-        return obj.moderation.flag(self.flag)
+    def flag(self, weight=1):
+        return FlagVote.objects.flag(self.request.user, self.get_object(),
+                 notes=self.request.POST.get('notes', None), weight=weight)
 
     def next_url(self, **data):
         return self.request.POST.get('next', self.request.META.get('HTTP_REFERER', '/')) or '/'
@@ -76,7 +71,6 @@ class ModeratorRequired(object):
     @method_decorator(permission_required("moderation.can_moderate", raise_exception=True))
     def dispatch(self, request, *args, **kwargs):
         return super(ModeratorRequired, self).dispatch(request, *args, **kwargs)
-
 
 class UserRequired(object):
     """Only allow a logged in user for flagging"""

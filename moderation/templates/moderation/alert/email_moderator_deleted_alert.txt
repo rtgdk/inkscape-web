@@ -1,0 +1,8 @@
+{% load i18n %}
+{% blocktrans with recipient=alert.user %}Dear {{ recipient }},{% endblocktrans %}
+ 
+{% blocktrans with sender=instance.user %}Moderators have removed the following: {{ instance }} because of a breach in the code of conduct or website use policy.{% endblocktrans %}
+
+-------------------------------------
+{% trans "Link" %}: {{ site }}
+

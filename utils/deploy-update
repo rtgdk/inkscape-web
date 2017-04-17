@@ -60,7 +60,7 @@ if [ ! -d "$SOURCE" ]; then
 fi
 
 SETTINGS="inkscape/settings.py"
-REQUIRES="utils/requirements.txt"
+REQUIRES="requirements.txt"
 
 PYTHON="./pythonenv/bin/python"
 PIP="./pythonenv/bin/pip"

@@ -7,7 +7,6 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('moderation', '0003_auto_20160524_1609'),
         ('resources', '0018_auto_20160524_1551'),
     ]
 

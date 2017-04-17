@@ -1,0 +1,65 @@
+{% extends "moderation/base.html" %}
+{% load i18n static inkscape %}
+
+{% block content %}
+  <h1>{% trans "Welcome to the Moderators' Area!" %}</h1>
+  <div class="warning">{% trans "Before you start out on your mission to make the Inkscape Website a friendly place, please review our <a href='/community/coc/'>Community Code of Conduct</a>." %}</div>
+  <p>Each of the flagged items below has been flagged by a user, or number of users. The count of how many users flagged the item can be seen in the top right next to the flag icon. You can then choose one of two possible options "Delete" will put your vote towards deleting the item, adding 6 votes on the scale. When the scale reaches 10, the item is automatically deleted. Alternatively you can vote to retain the object, this removes 10 votes from the scale. When it reaches -9 the item is automatically retained. All resolved items are listed for 1 week after they have been deleted or retained, but the object itself is always deleted immediately.</p>
+
+  {% for model in object_list.models %}
+    <h2><a href="{% url "moderation:latest" model.app model.model %}">{{ model.label }}</h2>
+
+    {% for object in model.objects %}
+      <div class="moderation {% if object.resolution == True %}approved{% elif object.resolution == False %}deleted{% else %}undecided{% endif %}">
+        <div class="details">
+	  <div class="title">
+	    {% url 'view_profile' object.object_owner.username as profile_url %}
+	    <a href="{{ profile_url }}"><img class="userphoto" src="{% if object.object_owner.photo %}{{ object.object_owner.photo.url }}{% else %}{% static "images/photo.png" %}{% endif %}"/></a>
+	    <div>
+	      {% blocktrans trimmed with object.object_owner.name as user_name %}
+		<a href="{{ profile_url }}">{{ user_name }}</a>
+	      {% endblocktrans %}
+	    </div>
+	  </div>
+          <div class="index">
+            <div class="moderationstatus">
+              {% if object.resolution == True %}
+                {% trans "retained" %}
+              {% elif object.resolution == False %}
+                {% trans "deleted" %}
+              {% else %}
+                {% trans "undecided" %}
+              {% endif %}
+            </div>
+            <div class="index">
+              {{ object.updated|timetag }}
+            </div>
+          </div>
+          <div class="flagcount">{{ object.flag_votes|default:"1" }}</div>
+          <div title='{% trans "Flags" %}' class="flag flagged"></div>
+        </div>
+        <div class="body">
+          {% if model.template %}
+            {% include model.template %}
+          {% else %}
+            {{ object }}
+          {% endif %}
+        </div>
+	<div class="bar">
+          <div class="delete_votes" title="{% trans "Number of people who want to delete this object." %}">{{ object.delete_votes|default:"0" }}</div>
+	  {% if object.resolution == None %}
+            <a class="delete" title="{% trans "Vote to Delete" %}" href="{% url "moderation:delete" model.app model.model object.object_id %}" >{% trans "Delete" %}</a>
+            <script>popUpLink('{% trans "Are you sure you want to delete this object?" %}', '{% trans "Cancel" %}', '{% trans "Delete" %}', "{{ request.url }}");</script>
+	  {% endif %}
+          <div class="weight" title="{% trans "when this reaches +10, the item is deleted, when it reaches -9 it is retained." %}">{{ object.weight|default:"1" }}</div>
+	  {% if object.resolution == None %}
+	    <a class="approve" title="{% trans "Vote to Retain" %}" href='{% url "moderation:approve" model.app model.model object.object_id %}'>{% trans "Retain" %}</a>
+	    <script>popUpLink('{% trans "Are you sure you want to retain this object?" %}', '{% trans "Cancel" %}', '{% trans "Retain" %}', '{{ request.url }}');</script>
+	  {% endif %}
+          <div class="approve_votes" title="{% trans "Number of people who want to retain this object." %}">{{ object.approve_votes|default:"0" }}</div>
+	</div>
+      </div>
+    {% endfor %}
+  {% endfor %}
+{% endblock %}
+

@@ -1,7 +1,7 @@
 //
 // Copyright 2015, Martin Owens <doctormo@gmail.com>
 //
-// This file is part of the software inkscape-web, consisting of custom 
+// This file is part of the software inkscape-web, consisting of custom
 // code for the Inkscape project's django-based website.
 //
 // inkscape-web is free software: you can redistribute it and/or modify
@@ -29,6 +29,11 @@ function update_screen() {
 $(document).ready(function() {
   update_screen();
   $('.runner').submit(function() {
+    if($(this).hasClass("delete-all")) {
+        if(!confirm("Delete all Messages")){
+            return false;
+        }
+    }
     $.getJSON($(this).attr("action"), function(data) {
       if(data['view'] != undefined) {
         $.each(data['view'], function (key, item) {

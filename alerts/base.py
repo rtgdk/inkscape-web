@@ -89,6 +89,12 @@ class BaseAlert(object):
     # Should we load only on test suite run.
     test_only = False
 
+    # Should settings be disabled and the defaults for all
+    show_settings = True
+
+    # Is there a permission requirement to see this setting
+    permission = None
+
     # Target is the attribute on the instance which subscriptions are bound
     target_field = None
 

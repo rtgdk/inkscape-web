@@ -53,14 +53,10 @@ function checkLink() {
 			$("<p style='color: #F00;'>Video not found.</p>").appendTo("#video-data-1");
 			return;
 		}
-		$("<img>", {
-			src: data.items[0].snippet.thumbnails.medium.url,
-			width: data.items[0].snippet.thumbnails.medium.width,
-			height: data.items[0].snippet.thumbnails.medium.height
-		}).appendTo("#video-data-1");
-			$("<h2></h2>").text(data.items[0].snippet.title).appendTo("#video-data-1");
-			$("<h3></h3>").text("License:"+data.items[0].status.license).appendTo("#video-data-1");
-			$("<h3></h3>").text("Tags:"+data.items[0].snippet.tags[0]+","+data.items[0].snippet.tags[1]+","+data.items[0].snippet.tags[2]).appendTo("#video-data-1");
+			$("#id_name").val(data.items[0].snippet.title);
+			$("#id_desc").val(data.items[0].snippet.description);
+			//$("#license_set").val("License:"+data.items[0].status.license).appendTo("#video-data-1");
+			//$("select[multiple=mutliple]").val(data.items[0].snippet.tags[2])
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
 		});

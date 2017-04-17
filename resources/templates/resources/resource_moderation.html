@@ -1,0 +1,6 @@
+{% load i18n static %}
+  {% if object.obj %}
+    {% with object.obj as object %}
+      {% include "resources/resource_info.html" %}
+    {% endwith %}
+  {% endif %}

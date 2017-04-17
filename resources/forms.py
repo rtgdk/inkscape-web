@@ -33,15 +33,16 @@ from django.core.files.uploadedfile import InMemoryUploadedFile
 from .models import *
 from .validators import Range, CsvList
 from .utils import FileEx, MimeType, ALL_TEXT_TYPES
-from .fields import FilterSelect, DisabledSelect, TagsChoiceField
+from .fields import FilterSelect, DisabledSelect, CategorySelect, TagsChoiceField
 
 # Thread-safe current user middleware getter.
 from cms.utils.permissions import get_current_user as get_user
 
 from inkscape.middleware import TrackCacheMiddleware
 
-__all__ = ('FORMS', 'GalleryForm', 'GalleryMoveForm', 'ResourceForm',
-           'ResourcePasteForm', 'ResourceAddForm', 'MirrorAddForm', 'ResourceLinkForm')
+__all__ = ('GalleryForm', 'GalleryMoveForm', 'ResourceForm',
+        'ResourceEditPasteForm', 'ResourcePasteForm', 'ResourceAddForm',
+        'MirrorAddForm', 'ResourceLinkForm')
 
 TOO_SMALL = [
     "Image is too small for %s category (Minimum %sx%s)",
@@ -108,6 +109,9 @@ class ResourceBaseForm(ModelForm):
     auto_fields = ['name', 'desc', 'tags', 'download', 'rendering', 'published']
     tags = TagsChoiceField(Tag.objects.all(), required=False)
 
+    class Media:
+        js = ('js/jquery.validate.js', 'js/additional.validate.js', 'js/resource.validate.js')
+
     def __init__(self, *args, **kwargs):
         self.gallery = kwargs.pop('gallery', None)
         ModelForm.__init__(self, *args, **kwargs)
@@ -125,8 +129,9 @@ class ResourceBaseForm(ModelForm):
             self.fields.pop('signature', None)
 
         for field in ('download', 'rendering', 'signature'):
-            if field in self.fields and self.fields[field].widget is ClearableFileInput:
-                self.fields[field].widget = FileInput()
+            if field in self.fields:
+                if isinstance(self.fields[field].widget, ClearableFileInput):
+                    self.fields[field].widget = FileInput()
 
         if 'category' in self.fields:
             f = self.fields['category']
@@ -137,6 +142,8 @@ class ResourceBaseForm(ModelForm):
                 f.queryset = f.queryset.filter(Q(selectable=True) & \
                     (Q(groups__isnull=True) | Q(groups__in=self.user.groups.all()))
                 )
+                f.widget = CategorySelect(f.widget.attrs, f.widget.choices)
+                f.choices = [(o, unicode(o)) for o in f.queryset]
 
         if 'license' in self.fields:
             f = self.fields['license']
@@ -185,6 +192,9 @@ class ResourceBaseForm(ModelForm):
             self.instance.edited = now()
         return ret
 
+    def get_space(self):
+        return self.user.quota() - self.user.resources.disk_usage()
+
     def clean_download(self):
         download = self.cleaned_data['download']
         category = self.cleaned_data.get('category', None)
@@ -195,9 +205,8 @@ class ResourceBaseForm(ModelForm):
 
         # Don't check the size of existing uploads or not-saved items
         if not self.instance or self.instance.download != download:
-            space = self.user.quota() - self.user.resources.disk_usage()
             if download:
-                if download.size > space:
+                if download.size > self.get_space():
                     raise ValidationError(_("Not enough space to upload this file."))
                 if download.size not in sizes:
                     prop = {"cat_name": str(category), "max": sizes.to_max(), "min": sizes.to_min()}
@@ -299,14 +308,22 @@ class ResourceLinkForm(ResourceBaseForm):
 
     class Meta:
         model = Resource
-        fields = ['name', 'desc', 'tags', 'link', 'category', 'license',
-                  'owner', 'owner_name', 'rendering']
-        required = ['name', 'category', 'license', 'owner']
+        fields = ['name', 'desc', 'tags', 'link', 'category', 'license', 'rendering']
+        required = ['name', 'category', 'license']
+
+    def save(self, **kwargs):
+        obj = super(ResourceLinkForm, self).save(**kwargs)
+        if obj.pk:
+            obj.owner = True
+            obj.published = True
+            obj.save()
+        return obj
 
 
 class ResourcePasteForm(ResourceBaseForm):
-    media_type     = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
-    download       = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+    media_type = ChoiceField(label=_('Text Format'), choices=ALL_TEXT_TYPES)
+    download   = CharField(label=_('Pasted Text'), widget=Textarea, required=False)
+    paste_mode = True
 
     def __init__(self, data=None, *args, **kwargs):
         # These are shown items values, for default values see save()
@@ -362,9 +379,6 @@ class ResourceEditPasteForm(ResourcePasteForm):
 
         super(ResourcePasteForm, self).__init__(data, *args, **kwargs)
     
-
-# This allows paste to have a different set of options
-FORMS = {'pastebin': ResourceEditPasteForm}
 
 class ResourceAddForm(ResourceBaseForm):
     class Meta:

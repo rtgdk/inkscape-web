@@ -40,6 +40,7 @@ from django.conf import settings
 from person.models import Team
 
 from pile.fields import ResizedImageField
+from .storage import resource_storage
 from .slugify import set_slug
 from .utils import *
 
@@ -80,7 +81,7 @@ class License(Model):
     filterable = BooleanField(default=True,
         help_text=_("This license can be used as a filter in gallery indexes."))
 
-    replaced = ForeignKey("License", verbose_name=_('Replaced by'), **null)
+    replaced = ForeignKey("License", verbose_name=_('Replaced by'), on_delete=SET_NULL, **null)
 
     class Meta:
         db_table = 'resource_license'
@@ -328,9 +329,10 @@ class Resource(Model):
     extra_css = property(lambda self: self.EXTRA_CSS[self.extra_status])
 
     # ======== ITEMS FROM RESOURCEFILE =========== #
-    download   = FileField(_('Consumable File'), **upto('file', blank=True))
+    download   = FileField(_('Consumable File'), storage=resource_storage,
+            **upto('file', blank=True))
 
-    license    = ForeignKey(License, verbose_name=_("License"), **null)
+    license    = ForeignKey(License, verbose_name=_("License"), on_delete=SET_NULL, **null)
     owner      = BooleanField(_('Permission'), choices=OWNS, default=True)
     owner_name = CharField(_('Owner\'s Name'), max_length=128, **null)
 

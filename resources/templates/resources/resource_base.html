@@ -5,12 +5,27 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/resource.css" %}"/>
 {% endblock %}
 
-{% block "js" %}{{ block.super }}
+{% block "js" %}
+  <script type="text/javascript">
+    var validator_msgs = {
+      quota: "{% trans "File size ({0}) must be less than your remaining quota: {1}" %}",
+      is_image: "{% trans "This file must be an image." %}",
+      category_size: "{% trans "This category requires a file size between {0} and {1}." %}",
+      category_area: "{% trans "This category requires images to be {0}-{1} wide and {2}-{3} high." %}",
+      category_type: "{% trans "This category requires files to be one of these types: {0}." %}",
+      name: "{% trans "Please enter the resource's title." %}",
+      desc: "{% trans "Please enter a description." %}",
+      link: "{% trans "Please enter a URL." %}",
+      category:"{% trans "Please select a category." %}",
+      license : "{% trans "Please select a license." %}",
+      owner : "{% trans "You must either be the owner or have permission to post this." %}",
+      owner_name : "{% trans "Please enter the resource owner's name." %}"
+    }
+  </script>
+  {{ block.super }}
   <meta name="youtube-key" content="{{ form.youtube_key }}"/>
   <script type="text/javascript" src="{% static "js/resource.js" %}"></script>
   <script type="text/javascript" src="{% static "js/gallery.js" %}"></script>
-  <script type="text/javascript" src="{% static "js/jquery.validate.js" %}"></script>
-  <script type="text/javascript" src="{% static "js/myform.js" %}"></script>
 {% endblock %}
 
 {% block content %}
@@ -21,43 +36,6 @@
   {% endif %}
 
   <div class="item{% if form %} edit{% endif %}{% if object and not object.published %} unpublished{% endif %}">
-    {% if form %}
-      <div class="image uploader">
-
-        {% if form.download %}
-        <label for="id_download">
-          {% if object.mime.is_image %}
-            <img src="{{ object.thumbnail_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace image:" %} {{ object.filename }}</p>
-          {% elif object and object.download %}
-            <img src="{{ object.icon_url }}" data-static="{% static "" %}"/>
-            <p>{% trans "Replace file:" %} {{ object.filename }}</p>
-          {% else %}
-            <img src="{% static "images/upload.svg" %}" data-static="{% static "" %}"/>
-            <p>{% trans "Choose a file..." %}</p>
-          {% endif %}
-        </label>
-        {% endif %}
-        {% if form.link_mode %}
-          <label for="id_rendering">
-            <img src="{% static "images/link.svg" %}" alt="{% trans "Click to add screenshot or preview." %}"/>
-            <p>{{ form.link.label }}</p>
-          </label>
-          <br/>{{ form.link|placeholder:_("Paste your URL here") }}
-        {% elif form.rendering %}
-          <label for="id_rendering">
-            {% if object.rendering and object.is_resource %}
-              <img src="{{ object.rendering.url }}" alt="{% trans "Click to change" %}">
-              <p>{% trans "Replace visible image:" %} {{ object.rendering_name }}</p>
-            {% else %}
-              <img src="{% static "images/upload.svg" %}" alt="{% trans "Click to select file" %}">
-              <p>{% trans "Choose visible image..." %}</p>
-            {% endif %}
-          </label>
-        {% endif %}
-      </div>
-    {% endif %}
-
     {% if not form %}
       {% include "resources/resource_view.html" %}
     {% endif %}

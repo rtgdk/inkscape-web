@@ -74,6 +74,10 @@ class AuthorRecord(OrderedDict):
         """Turn a pretty-printed git log into a dict"""
         dat = dict(l.strip().split(':', 1) for l in blk.split('\n') if ':' in l)
 
+        # Deal with older data
+        if dat and 'committer' in dat:
+            return
+
         if not dat or 'Launchpad' in dat['AUTHOR']:
             return
 
@@ -103,7 +107,7 @@ DOCUMENTORS = AuthorRecord()
 PATH = settings.PROJECT_PATH
 
 CODERS.add_git_log(join(PATH, 'data', 'revision.log'))
-DOCUMENTORS.add_bzr_log(join(PATH, 'data', 'documentation.log'))
+DOCUMENTORS.add_git_log(join(PATH, 'data', 'documentation.log'))
 TRANSLATORS.add_git_log(join(PATH, 'data', 'translators.log'))
 
 # XXX

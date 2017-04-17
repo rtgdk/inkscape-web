@@ -1586,6 +1586,17 @@
     }, 
     "url": "resources?username+galleries"
   }, 
+  "resources_json": {}, 
+  "resources_json?category": {}, 
+  "resources_json?category+galleries": {}, 
+  "resources_json?category+galleries+team": {}, 
+  "resources_json?category+team": {}, 
+  "resources_json?galleries+team": {}, 
+  "resources_json?team": {}, 
+  "resources_json?username": {}, 
+  "resources_json?username+category": {}, 
+  "resources_json?username+category+galleries": {}, 
+  "resources_json?username+galleries": {}, 
   "skip": [
     "auth_login", 
     "auth_logout", 

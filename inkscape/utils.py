@@ -28,7 +28,7 @@ from django.db.models.expressions import Col
 
 from django.template.context import Context
 
-def IterObject(t=list):
+def to(t=list):
     """Create an object from a generator function, default is list"""
     def _outer(f):
         def _inner(*args, **kwargs):

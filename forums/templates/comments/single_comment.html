@@ -1,4 +1,4 @@
-{% load i18n comments static inkscape %}
+{% load i18n comments static inkscape moderator %}
 
 <div class="comment">
   <a name="c{{ comment.id }}"></a>
@@ -18,11 +18,11 @@
     </div>   
     <div class="index"><a href="{% get_comment_permalink comment %}">#{{ comment_counter }}</a></div>
     
-    {% if comment.moderation and request.user.is_authenticated %}
-      {% if comment.moderation.i_flagged %}
+    {% if request.user.is_authenticated %}
+      {% if comment|is_flagged:request.user %}
         <div title="{% trans "You have reported this comment" %}" class="flag flagged"></div>
       {% else %}
-        <a title="{% trans "Report Comment" %}" class="flag" href="{{ comment.moderation.flag_url }}"></a>
+        <a title="{% trans "Report Comment" %}" class="flag" href="{% flag_url comment %}"></a>
         <script>popUpLink('{% trans "Are you sure you want to report this comment?" %}', '{% trans "Cancel" %}', '{% trans "Report" %}', "");</script> 
       {% endif %}
     {% endif %}

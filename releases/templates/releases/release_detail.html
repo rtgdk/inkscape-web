@@ -7,7 +7,9 @@
   <link rel="stylesheet" type="text/css" href="{% static "css/shield.css" %}"/>
   <link rel="stylesheet" type="text/css" href="{% static "css/releases.css" %}"/>
 {% endblock %}
-
+{% block "js" %}
+	<script type="text/javascript" src="{% static "js/release.js" %}"></script>
+{% endblock %}
 {% block supercontent %}
 
 <div id="shield" class="download">

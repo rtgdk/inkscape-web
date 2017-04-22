@@ -55,7 +55,7 @@ function checkLink() {
 		}
 			$("#id_name").val(data.items[0].snippet.title);
 			$("#id_desc").val(data.items[0].snippet.description);
-			$("#id_category").val("6");
+			$("#id_category").val("5");
 			$("#id_license").val("14");
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");

@@ -55,8 +55,8 @@ function checkLink() {
 		}
 			$("#id_name").val(data.items[0].snippet.title);
 			$("#id_desc").val(data.items[0].snippet.description);
-			//$("#license_set").val("License:"+data.items[0].status.license).appendTo("#video-data-1");
-			//$("select[multiple=mutliple]").val(data.items[0].snippet.tags[2])
+			$("#id_category").val("6");
+			$("#id_license").val("14");
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
 		});

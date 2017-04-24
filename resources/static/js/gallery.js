@@ -55,8 +55,12 @@ function checkLink() {
 		}
 			$("#id_name").val(data.items[0].snippet.title);
 			$("#id_desc").val(data.items[0].snippet.description);
-			//$("#license_set").val("License:"+data.items[0].status.license).appendTo("#video-data-1");
-			//$("select[multiple=mutliple]").val(data.items[0].snippet.tags[2])
+			$('[name=category] option').filter(function() { 
+					return ($(this).text() == 'Tutorial'); //To select tutorial
+			}).prop('selected', true); 
+			$('[name=license] option').filter(function() { 
+					return ($(this).text() == 'All Rights Reserved ((C))'); //To select All Rights Reserved ((C))
+			}).prop('selected', true);
 		}).fail(function(jqXHR, textStatus, errorThrown) {
 			$("<p style='color: #F00;'></p>").text(jqXHR.responseText || errorThrown).appendTo("#video-data-1");
 		});
